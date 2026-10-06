@@ -1,0 +1,24 @@
+-- The Alchemist's shop (20001), as the package ships it in
+-- quest/_unused/dragon_soul/: shop 13 of world.shop, Dragon Tongs (100100,
+-- 100 000 Yang), which take a worn stone out of the Alchemy slots with a tenth
+-- more of the chance the table gives it - a stone taken out bare breaks one
+-- time in two at the lowest class and leaves a shard - and Tongs of Time
+-- (100200, 1 000 000 Yang), which turn a stone that is not worn into a Dragon
+-- Heart holding a share of its time, or into nothing (DragonSoul.cpp,
+-- PullOut and ExtractDragonHeart).
+--
+-- What we changed: the option is offered only while the world has the Alchemy
+-- on (the event flag m2_dragon_soul_off, see dragon_soul.quest) and to a
+-- character the Alchemist has qualified (dragon_soul.qualified). The package
+-- asked "with ds.is_qualified()", which a Lua condition takes as true for the
+-- 0 of an unqualified character as much as for the 1 - and this engine answers
+-- 1 for everybody anyway (ENABLE_NO_DSS_QUALIFICATION). The define lines are
+-- written out, because the image's qc does not read define.
+quest dragon_soul_shop begin
+	state start begin
+		when 20001.chat.gameforge.dragon_soul._100_npcChat with game.get_event_flag("m2_dragon_soul_off") == 0 and pc.getf("dragon_soul", "qualified") == 1 begin
+			say (gameforge.dragon_soul._110_say)
+			npc.open_shop(13)
+		end
+	end
+end

@@ -1,0 +1,21 @@
+-- Extra drops of the Metin stones and the bosses, the world's choice
+-- (Jeremus-Sama, 1 October: "Metin and boss drop settings ... quantity and
+-- quality depends on metin level and boss difficulty"). Two event flags are
+-- the percent a person's kill rolls at: m2_extra_ds_drop for the Dragon Stone
+-- Alchemy's material (a Metin stone's shards, a boss's Cor Draconis) and
+-- m2_extra_coupon_drop for a Kupon SM by the victim's level and rank. The
+-- migrator writes both from .env (M2_EXTRA_DS_DROP, M2_EXTRA_COUPON_DROP; 0,
+-- the default, is the world as it was) and the classic panel sets them live.
+--
+-- What drops and for whom is m2_difficulty.lua's (m2_world_drops), a plain
+-- Lua file the quest libraries load, where the rules are told and tested
+-- (tests/quest_world_settings_test.sh). The kill handler asks the two flags
+-- first: with both at 0 a kill costs two flag lookups and nothing else, and
+-- a bot's kill goes no further either (pc.is_playerbot inside).
+quest world_drops begin
+	state start begin
+		when kill with game.get_event_flag("m2_extra_ds_drop") > 0 or game.get_event_flag("m2_extra_coupon_drop") > 0 begin
+			m2_world_drops_kill()
+		end
+	end
+end

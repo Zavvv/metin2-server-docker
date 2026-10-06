@@ -1,0 +1,98 @@
+quest item_trash begin
+    state start begin
+        function t(pl, en)
+            if pc.getf("playerbot_lang", "en") == 1 then return en end
+            return pl
+        end
+        function fingerprint()
+            local values = {item.get_vnum(), item.get_count(), item.get_socket(0), item.get_socket(1), item.get_socket(2)}
+            local attr = item.get_attr0()
+            for i = 1, 14 do table.insert(values, attr[i]) end
+            -- qc prints large numeric literals with six significant digits.
+            -- These exact six-digit primes survive compiled quest output.
+            local high = 0
+            local low = 0
+            for i = 1, table.getn(values) do
+                high = math.mod(math.mod(high * 31 + values[i], 999983) + 999983, 999983)
+                low = math.mod(math.mod(low * 37 + values[i], 999979) + 999979, 999979)
+            end
+            return high * 1000000 + low
+        end
+        when login begin
+            cmdchat("ItemTrashReady " .. q.getcurrentquestindex())
+        end
+        when button begin
+            if pc.is_dead() or pc.is_busy() then cmdchat("ItemTrashFailed") return end
+            -- Snapshot IDs before input yields. A move while the prompt is in
+            -- flight must not substitute a different item in the same cell.
+            local before = {}
+            for cell = 0, 224 do
+                if item.select_cell(cell) and item.can_trash() then
+                    before[cell] = {item.get_id(), item_trash.fingerprint()}
+                end
+            end
+            cmdchat("ItemTrashInput")
+            local request = input()
+            if pc.is_dead() or pc.is_busy() then
+                syschat(item_trash.t("Zamknij handel, sklep i magazyn przed uzyciem kosza.", "Close trade, shop and storage before using the trash."))
+                cmdchat("ItemTrashFailed")
+                return
+            end
+            if string.len(request) > 60 then cmdchat("ItemTrashFailed") return end
+            local slots = {}
+            local ids = {}
+            local counts = {}
+            local names = {}
+            local sockets = {}
+            local attributes = {}
+            local seen = {}
+            for token in string.gfind(request, "%S+") do
+                local _, _, cell, vnum, count, checksum = string.find(token, "^(%d+):(%d+):(%d+):(%d+)$")
+                local slot = tonumber(cell)
+                if slot == nil or slot < 0 or slot >= 225 or slot != math.floor(slot) or seen[slot] then cmdchat("ItemTrashFailed") return end
+                if not item.select_cell(slot) or not item.can_trash() or before[slot] == nil or
+                    item.get_id() != before[slot][1] or item.get_vnum() != tonumber(vnum) or item.get_count() != tonumber(count) or
+                    item_trash.fingerprint() != tonumber(checksum) or item_trash.fingerprint() != before[slot][2] then
+                    cmdchat("ItemTrashFailed") return
+                end
+                seen[slot] = true
+                table.insert(slots, slot)
+                table.insert(ids, item.get_id())
+                table.insert(counts, item.get_count())
+                table.insert(names, item.get_name())
+                table.insert(sockets, {item.get_socket(0), item.get_socket(1), item.get_socket(2)})
+                table.insert(attributes, item.get_attr0())
+            end
+            if table.getn(slots) == 0 then cmdchat("ItemTrashFailed") return end
+            for i = 1, table.getn(slots) do
+                if not item.select_cell(slots[i]) or not item.can_trash() or item.get_id() != ids[i] or item.get_count() != counts[i] then
+                    syschat(item_trash.t("Przedmiot zostal przeniesiony lub zmieniony. Nic nie usunieto.", "The item was moved or changed. Nothing was deleted."))
+                    cmdchat("ItemTrashFailed")
+                return
+                end
+                for j = 1, 3 do
+                    if item.get_socket(j-1) != sockets[i][j] then
+                        syschat(item_trash.t("Przedmiot zostal zmieniony. Nic nie usunieto.", "The item changed. Nothing was deleted."))
+                        cmdchat("ItemTrashFailed")
+                return
+                    end
+                end
+                local current = item.get_attr0()
+                for j = 1, 14 do
+                    if current[j] != attributes[i][j] then
+                        syschat(item_trash.t("Przedmiot zostal zmieniony. Nic nie usunieto.", "The item changed. Nothing was deleted."))
+                        cmdchat("ItemTrashFailed")
+                return
+                    end
+                end
+            end
+            -- Validation above and deletion share one non-yielding server turn.
+            for i = 1, table.getn(slots) do
+                item.select_cell(slots[i])
+                item.remove()
+            end
+            cmdchat("ItemTrashDone " .. table.getn(slots))
+            syschat(string.format(item_trash.t("Kosz: usunieto %d pozycji.", "Trash: deleted %d entries."), table.getn(slots)))
+        end
+    end
+end

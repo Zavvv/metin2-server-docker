@@ -1,0 +1,53 @@
+-- The world's Dragon Stone Alchemy switch, told to a person's client (Hiob,
+-- 1 October: "da sie to tez z ekwipunku wypierdolic? bo dziwnie to wyglada
+-- jak jest alchemia a w grze jej nie ma").
+--
+-- The switch is the event flag m2_dragon_soul_off (M2_DRAGON_SOUL in .env,
+-- the launcher's difficulty window; the classic panel's card sets it live):
+-- every handler of dragon_soul, dragon_soul_refine and dragon_soul_shop asks
+-- it, and so does the bots' pass. The Alchemy's window, though, is the
+-- client's own - the button in the bag and the O key open it whatever the
+-- world says. So the client is told at every entry into the game, a login or
+-- a warp: "DragonSoulSwitch 1" while the Alchemy is on, "DragonSoulSwitch 0"
+-- while it is off (client-root/dragonsoulswitch.py hides the button, lets O
+-- and the button open nothing and closes the window). A login handler runs
+-- only once the character is in the game (input_db.cpp's QuestLoad waits for
+-- PHASE_GAME), so the command never meets a client still loading. A timer of
+-- the person's own looks at the switch every few seconds and says it again
+-- when it moved, so a change the panel makes live reaches a client in the
+-- game. The same timer is dragon_soul.quest's: a timer runs the handlers of
+-- every quest that has one for its name, and there it takes the Alchemist's
+-- letter and arrow back when the switch goes off (watch_switch). At a login
+-- or a warp nothing is left to take: the letter handlers ask the switch
+-- before they send anything, and the engine drops a quest's arrows at a
+-- logout.
+--
+-- A client that does not know the command writes it to its syserr.txt and
+-- keeps the button, as before. A bot has no client: nothing here runs for it.
+quest dragon_soul_switch begin
+	state start begin
+		-- Tell the client what the switch says: always at an entry into the
+		-- game, where the client starts from nothing, and from the timer only
+		-- when it moved since. "told" is what this person's client last heard,
+		-- 2 for on and 1 for off, so 0 - never told - differs from both.
+		function tell(always)
+			local on = 1
+			if game.get_event_flag("m2_dragon_soul_off") ~= 0 then
+				on = 0
+			end
+			if always or pc.getqf("told") ~= on + 1 then
+				pc.setqf("told", on + 1)
+				cmdchat("DragonSoulSwitch " .. on)
+			end
+		end
+
+		when login with not pc.is_playerbot() begin
+			dragon_soul_switch.tell(true)
+			loop_timer("dragon_soul_switch_look", 5)
+		end
+
+		when dragon_soul_switch_look.timer begin
+			dragon_soul_switch.tell(false)
+		end
+	end
+end

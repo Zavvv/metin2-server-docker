@@ -1,0 +1,22 @@
+quest remote_storekeeper begin
+    state start begin
+        function t(pl, en)
+            if pc.getf("playerbot_lang", "en") == 1 then return en end
+            return pl
+        end
+        when login begin
+            cmdchat("RemoteStorekeeperReady " .. q.getcurrentquestindex())
+        end
+        when button begin
+            if pc.is_dead() or pc.is_busy() then
+                syschat(remote_storekeeper.t("Najpierw zamknij inne okno.", "Close the other window first."))
+                return
+            end
+            if pc.in_dungeon() or pc.get_war_map() != 0 then
+                syschat(remote_storekeeper.t("Nie mozna otworzyc magazynu w lochu ani podczas wojny.", "Storage cannot be opened in a dungeon or during a war."))
+                return
+            end
+            game.open_safebox()
+        end
+    end
+end

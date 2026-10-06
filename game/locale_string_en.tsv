@@ -1,0 +1,883 @@
+# The English of the engine's own lines (LC_TEXT), for a player whose client
+# reads English - rendered by tools/generate_engine_english.py, DO NOT EDIT,
+# re-run it. A key of this world's locale/poland/locale_string.txt, whose value
+# is the package's Polish, is given English from one of two sources, named in
+# the line's last column:
+#   gameforge  Gameforge's English from r40250's locale/english tables, where
+#              Gameforge's line has this key as its English and this world's
+#              Polish as its Polish;
+#   source     the key itself, where it is prose: the English sentence the
+#              game's own source code says in that place (martysama0134's, who
+#              put English where the Korean was) - no translation of ours.
+# Either only with the Polish's printf conversions. A key not here - an
+# identifier such as REFINE_BONUS_USE_LEVEL_ERROR, or a line refused - is said
+# in Polish (data/engine_texts_untranslated.tsv).
+#
+# poland/locale_string.txt  sha256 11aad8a8396dbc4a
+# english/locale_string.txt  sha256 bf853c67dfadb711
+# english/locale_string_pl.txt  sha256 93fd619b63cb478d
+#
+# 1016 keys in this world, 861 in English (729 Gameforge's, 132 the source's own), 155 left in Polish (format_differs 3, identifier_key 152)
+#
+# FNV-1a of the Polish<TAB>key<TAB>English<TAB>source, the texts escaped (\\ \t \n \r)
+a09af30f	Everyone will be teleported into the city shortly.	Everyone will be teleported into the city shortly.	gameforge
+b36155b5	This item does not exist.	This item does not exist.	gameforge
+405d1557	The box suddenly exploded! You have lost Hit Points (HP).	The box suddenly exploded! You have lost Hit Points (HP).	gameforge
+912a2dc7	If you inhale the green smoke that is coming out of the box, the poison will spread through your body!	If you inhale the green smoke that is coming out of the box, the poison will spread through your body!	gameforge
+f178436c	You have received %s, %d units.	You have received %s, %d units.	gameforge
+6f0f078c	The box contains %s.	The box contains %s.	gameforge
+7f404243	This key does not seem to fit the lock.	This key does not seem to fit the lock.	gameforge
+ca3115e6	You have not received anything.	You have not received anything.	gameforge
+7f7d468a	You do not have enough Yang to use this item.	You do not have enough Yang to use this item.	gameforge
+5cfddc53	You have lowered your Skill Level.	You have lowered your Skill Level.	gameforge
+b2c6d644	You cannot lower your Skill Level.	You cannot lower your Skill Level.	gameforge
+e24884a8	This effect is already activated.	This effect is already activated.	gameforge
+b949c454	This item can only be used in an Internet cafe.	This item can only be used in an Internet cafe.	gameforge
+c9da8b8b	That is over the limit.	That is over the limit.	gameforge
+3dd9b60e	Unfortunately you don't have enough space in your inventory.	Unfortunately you don't have enough space in your inventory.	gameforge
+7f8859a6	Used Moon Cake or Seed.	Used Moon Cake or Seed.	gameforge
+bdd9bdef	You cannot wear a Wedding Ring if you are not married.	You cannot wear a Wedding Ring if you are not married.	gameforge
+47c85423	You cannot use the Event Detector from this position.	You cannot use the Event Detector from this position.	gameforge
+74dbff14	This item cannot be absorbed.	This item cannot be absorbed.	gameforge
+b9af7c91	The Event Detector vanished in a mysterious light.	The Event Detector vanished in a mysterious light.	gameforge
+a0169e44	The Event Detector has vanished.	The Event Detector has vanished.	gameforge
+acf0fc42	The Compass for Metin Stones does not work in dungeons.	The Compass for Metin Stones does not work in dungeons.	gameforge
+23877dba	The Compass for Metin Stones has vanished in the mysterious light.	The Compass for Metin Stones has vanished in the mysterious light.	gameforge
+539c2687	Receive: %s - %d	Receive: %s - %d	gameforge
+9c47cc3d	The Compass for Metin Stones has vanished.	The Compass for Metin Stones has vanished.	gameforge
+f5716abf	You find a simple Piece of Stone in the Clam.	You find a simple Piece of Stone in the Clam.	gameforge
+67e6a9e3	The Clam has vanished.	The Clam has vanished.	gameforge
+f6c4b8cb	There is a White Pearl inside the Clam.	There is a White Pearl inside the Clam.	gameforge
+44570c84	There is a Blue Pearl inside the Clam.	There is a Blue Pearl inside the Clam.	gameforge
+26dd6a04	There is a Blood-Red Pearl inside the Clam.	There is a Blood-Red Pearl inside the Clam.	gameforge
+44ebcda4	It isn't easy to understand this book.	It isn't easy to understand this book.	gameforge
+d1afbd74	This book will not help you.	This book will not help you.	gameforge
+7dc1797c	You need to have a minimum level of 30 to understand this book.	You need to have a minimum level of 30 to understand this book.	gameforge
+7cd0c3f1	You need a minimum level of 50 to understand this book.	You need a minimum level of 50 to understand this book.	gameforge
+14cd35dd	You need a minimum level of %d to understand this book.	You need a minimum level of %d to understand this book.	source
+670e42b3	You can't train any more Combos.	You can't train any more Combos.	gameforge
+e8ac1ecd	%s has captured the flag of %s!	%s has captured the flag of %s!	gameforge
+1c7234e5	You already understand this language.	You already understand this language.	gameforge
+d4c869ef	You have to improve your Level to read this Book.	You have to improve your Level to read this Book.	gameforge
+522bd4c8	The book is too hard for practising.	The book is too hard for practising.	gameforge
+8c21a7d0	You cannot train with this Book any more.	You cannot train with this Book any more.	gameforge
+0e5f2e22	Taxes are set to %d%%.	Taxes are set to %d%%.	gameforge
+ed86562d	You need a minimum level of 50 to get riding training.	You need a minimum level of 50 to get riding training.	gameforge
+00f64c16	You have escaped the evil ghost curse with the help of an Exorcism Scroll.	You have escaped the evil ghost curse with the help of an Exorcism Scroll.	gameforge
+34f78acf	You cannot read any more Riding Guides.	You cannot read any more Riding Guides.	gameforge
+a880dec0	You read the Horse Riding Manual and received a Riding Point.	You read the Horse Riding Manual and received a Riding Point.	gameforge
+d9acd9f1	You can use this point to improve your riding skill!	You can use this point to improve your riding skill!	gameforge
+ee664336	The guild %s's flag has been stolen by player %s.	The guild %s's flag has been stolen by player %s.	gameforge
+6a13e7e7	You did not understand the riding guide.	You did not understand the riding guide.	gameforge
+c7cfa253	Your mind is clear. You can concentrate really well now.	Your mind is clear. You can concentrate really well now.	gameforge
+ba164034	Your rank has increased by %d points.	Your rank has increased by %d points.	gameforge
+38c28216	You cannot dye or bleach your current hairstyle.	You cannot dye or bleach your current hairstyle.	source
+f30c8ba9	You need to have reached level %d to be able to dye your hair again.	You need to have reached level %d to be able to dye your hair again.	gameforge
+16102d5f	This item can only be opened by the another gender.	This item can only be opened by the another gender.	gameforge
+42a67e31	You cannot use this from your current position.	You cannot use this from your current position.	gameforge
+46170ea4	You are ready to warp, so you cannot use the Scroll of the Location.	You are ready to warp, so you cannot use the Scroll of the Location.	gameforge
+758d8fe0	You are being brought back to the place of origin.	You are being brought back to the place of origin.	gameforge
+9e65da68	%s%s cannot be used in a dungeon.	%s%s cannot be used in a dungeon.	gameforge
+9dec600f	[Quest] You have already received your reward.	[Quest] You have already received your reward.	gameforge
+b40eb21c	the	the	gameforge
+773364f6	There aren't any Soul Stones available for extraction.	There aren't any Soul Stones available for extraction.	source
+6e3d54ef	There aren't any Pieces of Broken Stone available for removal.	There aren't any Pieces of Broken Stone available for removal.	source
+0cdaeca2	You cannot change the upgrade of this item.	You cannot change the upgrade of this item.	gameforge
+2d1beec4	There is no upgrade that you can change.	There is no upgrade that you can change.	gameforge
+85af4782	You can only do this %d minutes after an upgrade. (%d minutes left)	You can only do this %d minutes after an upgrade. (%d minutes left)	gameforge
+9331dd3f	You have changed the upgrade.	You have changed the upgrade.	gameforge
+05d061e9	Upgrade successfully added.	Upgrade successfully added.	gameforge
+7777d20f	No upgrade added.	No upgrade added.	gameforge
+4fd1bfce	You must use the Blessing Marble in order to add another bonus to this item.	You must use the Blessing Marble in order to add another bonus to this item.	gameforge
+69fb4bfb	You cannot use this on war map.	You cannot use this on war map.	source
+0bff4934	You cannot summon horse here.	You cannot summon horse here.	source
+2ad7a0fd	You cannot use this in the duel arena.	You cannot use this in the duel arena.	gameforge
+fcb6758e	This item can no longer be improved. The maximum number of bonuses has been reached.	This item can no longer be improved. The maximum number of bonuses has been reached.	gameforge
+3c446b65	You can only use the Blessing Marble with an item which already has 4 bonuses.	You can only use the Blessing Marble with an item which already has 4 bonuses.	gameforge
+502a67ab	Socket successfully added.	Socket successfully added.	gameforge
+4b4b5ae8	No socket added.	No socket added.	gameforge
+3ec9c5f5	No additional sockets could be added to this item.	No additional sockets could be added to this item.	gameforge
+6b0b6cf0	You cannot add a socket to this item.	You cannot add a socket to this item.	gameforge
+a4260b34	Arming successful.	Arming successful.	gameforge
+9e318710	Arming has failed.	Arming has failed.	gameforge
+b02c1e36	You have to add a socket first. Use a diamond in order to do this.	You have to add a socket first. Use a diamond in order to do this.	gameforge
+46b7f64f	There are no sockets for gemstones in this item.	There are no sockets for gemstones in this item.	gameforge
+a96a8ae1	You can do this when you wear an Emotion Mask.	You can do this when you wear an Emotion Mask.	gameforge
+1f61341a	You have to add a socket if you want to use a Diamond.	You have to add a socket if you want to use a Diamond.	gameforge
+9b23fdbb	No more gems can be added to this item.	No more gems can be added to this item.	gameforge
+a0e1e03d	These items cannot be used together.	These items cannot be used together.	gameforge
+307134d5	You cannot change the Bait whilst fishing.	You cannot change the Bait whilst fishing.	gameforge
+b8b35504	You are exchanging the current Bait for %s.	You are exchanging the current Bait for %s.	gameforge
+77381559	You attached %s to the hook as bait.	You attached %s to the hook as bait.	gameforge
+4801db11	You are missing some ingredients to make the potion.	You are missing some ingredients to make the potion.	gameforge
+e238cc72	You do not have enough material (%s).	You do not have enough material (%s).	gameforge
+3e227e0e	You do not have enough empty bottles.	You do not have enough empty bottles.	gameforge
+23e64617	The potion production has failed.	The potion production has failed.	gameforge
+dd3cb204	Only women can do this.	Only women can do this.	gameforge
+56236ce5	You cannot attach several stones of the same type.	You cannot attach several stones of the same type.	gameforge
+24a21b1e	This Spirit Stone cannot be attached to this type of item.	This Spirit Stone cannot be attached to this type of item.	gameforge
+41b00f40	You cannot attach this Spirit Stone to a weapon.	You cannot attach this Spirit Stone to a weapon.	gameforge
+0e6162c3	You have attached the Spirit Stone successfully.	You have attached the Spirit Stone successfully.	gameforge
+cf803543	The Spirit Stone broke while being attached.	The Spirit Stone broke while being attached.	gameforge
+1da0bc82	No slot free.	No slot free.	gameforge
+3f8242e7	This function is not available right now.	This function is not available right now.	source
+3b4e78b4	You cannot teleport your partner currently.	You cannot teleport your partner currently.	source
+7c309a65	You cannot save position here.	You cannot save position here.	source
+adff6a6c	You cannot use this item here.	You cannot use this item here.	source
+c9ca97aa	You cannot use a Scroll of the Location whilst taking part in a kingdom battle.	You cannot use a Scroll of the Location whilst taking part in a kingdom battle.	gameforge
+a4195688	After opening the Storeroom you cannot use a Scroll of the Location for %d seconds.	After opening the Storeroom you cannot use a Scroll of the Location for %d seconds.	gameforge
+aee579fc	You cannot use a Scroll of the Location while another window is open.	You cannot use a Scroll of the Location while another window is open.	gameforge
+18d90ee9	This person does not exist.	This person does not exist.	gameforge
+49925d70	After a trade, you cannot use a scroll for another %d seconds.	After a trade, you cannot use a scroll for another %d seconds.	gameforge
+a4195688	After opening a storeroom you cannot use a Scroll of the Location for another %d seconds.	After opening a storeroom you cannot use a Scroll of the Location for another %d seconds.	gameforge
+7564dc1a	You cannot use the Scroll of the Location because the distance is too small.	You cannot use the Scroll of the Location because the distance is too small.	gameforge
+eea37950	After a trade you cannot use a Scroll of the Location for %d seconds.	After a trade you cannot use a Scroll of the Location for %d seconds.	gameforge
+420f478d	You cannot open the Storeroom if another window is already open.	You cannot open the Storeroom if another window is already open.	gameforge
+43de791b	You cannot drop this item.	You cannot drop this item.	gameforge
+e4aeeddc	The dropped item will vanish in %d minutes.	The dropped item will vanish in %d minutes.	source
+5d41d6e7	%s received	%s received	gameforge
+1dfa263c	%s %d received	%s %d received	source
+47222386	%s received (Horse Inventory)	%s received (Horse Inventory)	source
+004e9bb3	%s %d received (Horse Inventory)	%s %d received (Horse Inventory)	source
+8aa5fab4	Owner has too many items in his inventory.	Owner has too many items in his inventory.	source
+a8b13c22	You have too many items in your inventory.	You have too many items in your inventory.	gameforge
+909a8d32	%s receives %s.	%s receives %s.	gameforge
+f0ccd091	You are too near.	You are too near.	gameforge
+1281e9cc	Item Trade: %s, %s	Item Trade: %s, %s	gameforge
+86839325	You cannot change the equipped item while you are transformed.	You cannot change the equipped item while you are transformed.	gameforge
+8438eb9e	You have to stand still to equip the item.	You have to stand still to equip the item.	gameforge
+999025d8	Monkey Herbs cannot be fed to living horses. It is used to revive dead horses.	Monkey Herbs cannot be fed to living horses. It is used to revive dead horses.	gameforge
+40120cb8	You cannot feed a dead Horse.	You cannot feed a dead Horse.	gameforge
+4a206984	You fed the Horse with Herbs.	You fed the Horse with Herbs.	gameforge
+45f5296c	You have fed the Horse.	You have fed the Horse.	gameforge
+6f1263ab	Your level is too low to wear this Hairstyle.	Your level is too low to wear this Hairstyle.	gameforge
+6bd788f5	You already have this Hairstyle.	You already have this Hairstyle.	gameforge
+562598f7	You have already transformed.	You have already transformed.	gameforge
+227f2083	You are too far away.	You are too far away.	gameforge
+bee8793b	That's the wrong trading item.	That's the wrong trading item.	gameforge
+b2aff223	You cannot transform into a monster who has a higher level than you.	You cannot transform into a monster who has a higher level than you.	gameforge
+3568bba1	Your level is too low to equip this item.	Your level is too low to equip this item.	gameforge
+c4af512b	You are not strong enough to equip yourself with this item.	You are not strong enough to equip yourself with this item.	gameforge
+f1dc35d2	Your intelligence is too low to equip yourself with this item.	Your intelligence is too low to equip yourself with this item.	gameforge
+fcfcdc40	Your dexterity is too low to equip yourself with this item.	Your dexterity is too low to equip yourself with this item.	gameforge
+0371d746	Your vitality is too low to equip yourself with this item.	Your vitality is too low to equip yourself with this item.	gameforge
+42bbfcc6	You cannot use this item because you are not married.	You cannot use this item because you are not married.	gameforge
+983a9407	You cannot equip this item twice.	You cannot equip this item twice.	gameforge
+b7905351	Time left until the removal of the socket of %s: %d	Time left until the removal of the socket of %s: %d	gameforge
+4b92b668	This action can only be done with another gender.	This action can only be done with another gender.	gameforge
+8b55b89a	A gem socketed in the %s has vanished.	A gem socketed in the %s has vanished.	gameforge
+8005d896	[Guild] This guild name is invalid.	[Guild] This guild name is invalid.	gameforge
+93a8058d	[Guild] This guild name is already taken.	[Guild] This guild name is already taken.	gameforge
+d40549a6	[Guild] You cannot found a guild.	[Guild] You cannot found a guild.	gameforge
+076e0e5e	The guild %s has declared war on %s!	The guild %s has declared war on %s!	gameforge
+8d45777f	[Guild] %s has refused the Guild war.	[Guild] %s has refused the Guild war.	gameforge
+174eb60e	<Guild> The player is busy.	<Guild> The player is busy.	source
+b2753cea	The guild war between %s and %s will start in a few seconds!	The guild war between %s and %s will start in a few seconds!	gameforge
+0d433b93	The guild war between %s and %s has begun!	The guild war between %s and %s has begun!	gameforge
+54ab5b6b	The guild war between %s and %s has ended in a draw.	The guild war between %s and %s has ended in a draw.	gameforge
+26ac5735	%s has won the guild war against %s.	%s has won the guild war against %s.	gameforge
+007ce44e	You need your fellow player's approval for this.	You need your fellow player's approval for this.	gameforge
+b3b0a39d	[Guild] The guild war has been cancelled.	[Guild] The guild war has been cancelled.	gameforge
+b10731d5	The guild war between %s and %s has been cancelled.	The guild war between %s and %s has been cancelled.	gameforge
+028a3609	Close	Close	gameforge
+a4f6cdf7	Action cancelled. You have entered a battle.	Action cancelled. You have entered a battle.	gameforge
+53590541	Someone has logged into your account. You will be disconnected from the server.	Someone has logged into your account. You will be disconnected from the server.	gameforge
+4fbec6cc	A mysterious light appears from the tree.	A mysterious light appears from the tree.	gameforge
+f7159b58	%d Playtime added to your account. (Payment number %d)	%d Playtime added to your account. (Payment number %d)	gameforge
+19ebf2fb	You can participate in the guild battle in viewer mode.	You can participate in the guild battle in viewer mode.	gameforge
+e5f533b9	While choosing a character, an icon appears.	While choosing a character, an icon appears.	gameforge
+625dfd37	There are no opponents.	There are no opponents.	gameforge
+20402a05	The battle with %s has begun!	The battle with %s has begun!	gameforge
+8532c205	If no enemy can be found, the guild war will be ended automatically.	If no enemy can be found, the guild war will be ended automatically.	gameforge
+c6665a7e	Because the guild war finished early, the result will judged as a draw.	Because the guild war finished early, the result will judged as a draw.	gameforge
+d9386506	The energy is reflected because of the Emperors Blessing.	The energy is reflected because of the Emperors Blessing.	gameforge
+d3c59975	After %d seconds you can use the Emperors Blessing.	After %d seconds you can use the Emperors Blessing.	gameforge
+0f202ddf	Not enough tax income : %d.	Not enough tax income : %d.	gameforge
+a93b6149	[TEST_ONLY]Tax : %d	[TEST_ONLY]Tax : %d	gameforge
+c6001b06	Transformation error.	Transformation error.	gameforge
+6553fe72	You learned the transmutation completely.	You learned the transmutation completely.	gameforge
+86b478dc	Please call your Horse first.	Please call your Horse first.	gameforge
+28c5153e	You have sent your horse away.	You have sent your horse away.	gameforge
+a0b6540b	%s challenged you to a battle!	%s challenged you to a battle!	gameforge
+289ab6fd	You have to get off your Horse.	You have to get off your Horse.	gameforge
+cee3b913	You cannot feed your Horse whilst sitting on it.	You cannot feed your Horse whilst sitting on it.	gameforge
+5a0f48cd	You have fed the Horse with %s%s.	You have fed the Horse with %s%s.	gameforge
+33af84ac	You need %s.	You need %s.	gameforge
+cf41a835	%d seconds until Exit.	%d seconds until Exit.	gameforge
+40d91249	The game will be closed in %d seconds.	The game will be closed in %d seconds.	gameforge
+a277b791	Your logout has been cancelled.	Your logout has been cancelled.	gameforge
+c0ef82e9	Back to login window. Please wait.	Back to login window. Please wait.	gameforge
+4571bec5	You have been disconnected from the server. Please wait.	You have been disconnected from the server. Please wait.	gameforge
+8d0078ed	You have challenged %s to a battle.	You have challenged %s to a battle.	gameforge
+716b82b8	You are changing character. Please wait.	You are changing character. Please wait.	gameforge
+30973976	A new start is not possible at the moment. Please wait %d seconds.	A new start is not possible at the moment. Please wait %d seconds.	gameforge
+30973976	You cannot restart yet. Please wait another %d seconds.	You cannot restart yet. Please wait another %d seconds.	gameforge
+d2740855	You cannot restart in the city yet. Wait another %d seconds.	You cannot restart in the city yet. Wait another %d seconds.	gameforge
+bcd6be31	The waiting time has expired. You will be revived in the city.	The waiting time has expired. You will be revived in the city.	gameforge
+68197d55	You cannot change your status while you are transformed.	You cannot change your status while you are transformed.	gameforge
+e2100fad	You cannot learn while you are transformed.	You cannot learn while you are transformed.	source
+249a77b0	This player is currently fighting.	This player is currently fighting.	gameforge
+5e65ac63	[Guild] It does not belong to the guild.	[Guild] It does not belong to the guild.	gameforge
+6d087168	[Guild] You do not have the authority to change the level of the guild skills.	[Guild] You do not have the authority to change the level of the guild skills.	gameforge
+5ff2b25e	Your choice is incorrect.	Your choice is incorrect.	gameforge
+796e166c	[Storeroom] You have entered an incorrect password.	[Storeroom] You have entered an incorrect password.	gameforge
+079ae79d	[Storeroom] The Storeroom is already open.	[Storeroom] The Storeroom is already open.	gameforge
+bf309b45	[Storeroom] You have to wait 10 seconds before you can open the Storeroom again.	[Storeroom] You have to wait 10 seconds before you can open the Storeroom again.	gameforge
+ae0cd10f	[Storeroom] You are too far away to open the storeroom.	[Storeroom] You are too far away to open the storeroom.	gameforge
+26165609	[Group] The server cannot execute this group request.	[Group] The server cannot execute this group request.	gameforge
+5e06b398	[Group] You cannot leave a group while you are in a dungeon.	[Group] You cannot leave a group while you are in a dungeon.	gameforge
+841d1a6a	[Group] You have left the group.	[Group] You have left the group.	gameforge
+5128d85e	[Guild] Your guild is already participating in another war.	[Guild] Your guild is already participating in another war.	gameforge
+ae2c434d	[Guild] No one is entitled to a guild war.	[Guild] No one is entitled to a guild war.	gameforge
+5fc089ca	[Guild] No guild with this name exists.	[Guild] No guild with this name exists.	gameforge
+ec9191a9	There already is a candidacy.	There already is a candidacy.	gameforge
+9562d05c	[Guild] This guild is already participating in a war.	[Guild] This guild is already participating in a war.	gameforge
+b087a463	[Guild] Not enough Yang to participate in a guild war.	[Guild] Not enough Yang to participate in a guild war.	gameforge
+0ba15df7	[Guild] The guild does not have enough Yang to participate in a guild war.	[Guild] The guild does not have enough Yang to participate in a guild war.	gameforge
+44983751	[Guild] This Guild is already scheduled for another war.	[Guild] This Guild is already scheduled for another war.	gameforge
+93d80fec	[Guild] This guild is already participating in another war.	[Guild] This guild is already participating in another war.	gameforge
+2e505e03	[Guild] A minimum of %d players are needed to participate in a guild war.	[Guild] A minimum of %d players are needed to participate in a guild war.	gameforge
+0c514984	[Guild] The guild does not have enough points to participate in a guild war.	[Guild] The guild does not have enough points to participate in a guild war.	gameforge
+2c129e4c	[Guild] The guild does not have enough members to participate in a guild war.	[Guild] The guild does not have enough members to participate in a guild war.	gameforge
+7cd35260	Your level has to be higher than 20 to register a cell phone number.	Your level has to be higher than 20 to register a cell phone number.	gameforge
+9bf8d474	You do not have the emperor qualification.	You do not have the emperor qualification.	gameforge
+82ed8cea	%s declined the invitation.	%s declined the invitation.	gameforge
+3b532208	You cannot accept the invitation because you are already in the group.	You cannot accept the invitation because you are already in the group.	gameforge
+741c4b6b	Only the emperor can use this.	Only the emperor can use this.	gameforge
+b400e9da	Cooldown time for approximately %d seconds	Cooldown time for approximately %d seconds	gameforge
+5673a5d3	Lack of Taxes. Current Capital : %u Missing Capital : %u	Lack of Taxes. Current Capital : %u Missing Capital : %u	gameforge
+cc4d4f0d	Command: warpto <character name>	Command: warpto <character name>	gameforge
+0cd209f0	You cannot be warped to an unknown player.	You cannot be warped to an unknown player.	gameforge
+584131b9	Adding player %d into the channel. (Present channel %d)	Adding player %d into the channel. (Present channel %d)	gameforge
+8d33583d	Warp to player %s.	Warp to player %s.	gameforge
+e703b5f1	You cannot call unknown players.	You cannot call unknown players.	gameforge
+90a88dfb	[Guild] There are no experience points for hunting during a guild war.	[Guild] There are no experience points for hunting during a guild war.	gameforge
+cc1535a0	When the Blessing of the Emperor is used %s the HP and SP are restored again.	When the Blessing of the Emperor is used %s the HP and SP are restored again.	gameforge
+8144203c	My information about the emperor	My information about the emperor	gameforge
+42752f11	[%sMonarch] : %s Yang owned %lld	[%sMonarch] : %s Yang owned %lld	gameforge
+fe0843ca	[%sMonarch] : %s	[%sMonarch] : %s	gameforge
+d814c04f	Information about the emperor	Information about the emperor	gameforge
+ed5e15e7	Only an emperor can use this.	Only an emperor can use this.	gameforge
+9404fe6c	Choose a number between 1 and 50.	Choose a number between 1 and 50.	gameforge
+4d308c68	The Monster cannot be called. Check the Mob Number.	The Monster cannot be called. Check the Mob Number.	gameforge
+c5994231	Hit Points +%d	Hit Points +%d	gameforge
+8c1644dd	Spell Points +%d	Spell Points +%d	gameforge
+07344eac	The Emperor Blessing is activated.	The Emperor Blessing is activated.	gameforge
+d705a214	Endurance +%d	Endurance +%d	gameforge
+e5d474d8	Intelligence +%d	Intelligence +%d	gameforge
+206d6d0d	Strength +%d	Strength +%d	gameforge
+7dae761d	Dexterity +%d	Dexterity +%d	gameforge
+f4f482f3	Attack Speed +%d	Attack Speed +%d	gameforge
+b22a9147	Movement Speed %d	Movement Speed %d	gameforge
+25b92ab1	Cooldown Time -%d	Cooldown Time -%d	gameforge
+dc0b02a9	Energy Recovery +%d	Energy Recovery +%d	gameforge
+e1593f95	Spell Point Recovery +%d	Spell Point Recovery +%d	gameforge
+5931d3fd	Poison Attack %d	Poison Attack %d	gameforge
+114d9d3a	Star +%d	Star +%d	gameforge
+bb43ce3c	Speed Reduction +%d	Speed Reduction +%d	gameforge
+1ec33e5b	Critical Attack with a chance of %d%%	Critical Attack with a chance of %d%%	gameforge
+636693c3	Chance of a Speared Attack of %d%%	Chance of a Speared Attack of %d%%	gameforge
+9592da54	Player's Attack Power against Monsters +%d%%	Player's Attack Power against Monsters +%d%%	gameforge
+3f3e47e0	Horse's Attack Power against Monsters +%d%%	Horse's Attack Power against Monsters +%d%%	gameforge
+fff154f5	Attack Boost against Wonggui + %d%%	Attack Boost against Wonggui + %d%%	gameforge
+ca577c84	Attack Boost against Milgyo + %d%%	Attack Boost against Milgyo + %d%%	gameforge
+e0f29d77	Attack boost against zombies + %d%%	Attack boost against zombies + %d%%	gameforge
+88a5b8e6	Attack boost against devils + %d%%	Attack boost against devils + %d%%	gameforge
+dbe35f81	Due to Emperor Sa-Za-Hu, the player %s will receive an attack power increase of 10 %% for 3 minutes in this area.	Due to Emperor Sa-Za-Hu, the player %s will receive an attack power increase of 10 %% for 3 minutes in this area.	gameforge
+9d0ff2f1	Absorbing of Energy %d%% while attacking.	Absorbing of Energy %d%% while attacking.	gameforge
+307cd54f	Absorption of Spell Points (SP) %d%% while attacking.	Absorption of Spell Points (SP) %d%% while attacking.	gameforge
+6f640aac	With a chance of %d%% Spell Points (SP) will be taken from the enemy.	With a chance of %d%% Spell Points (SP) will be taken from the enemy.	gameforge
+4108401f	Absorbing of Spell Points (SP) with a chance of %d%%	Absorbing of Spell Points (SP) with a chance of %d%%	gameforge
+3e931d50	%d%% Chance of blocking a close-combat attack	%d%% Chance of blocking a close-combat attack	gameforge
+73f0f3ed	%d%% Chance of blocking a long range attack	%d%% Chance of blocking a long range attack	gameforge
+88b7f5dd	One-Handed Sword defence %d%%	One-Handed Sword defence %d%%	gameforge
+bf4096fc	Two-Handed Sword Defence %d%%	Two-Handed Sword Defence %d%%	gameforge
+561e6b03	Bell Defence %d%%	Bell Defence %d%%	gameforge
+c5ad2be6	By the Emperor Geum-Gang-Gwon the player %s gets 10 %% more armour for 3 minutes.	By the Emperor Geum-Gang-Gwon the player %s gets 10 %% more armour for 3 minutes.	gameforge
+fc8c70d7	Fan Defence %d%%	Fan Defence %d%%	gameforge
+79128992	Distant Attack Resistance %d%%	Distant Attack Resistance %d%%	gameforge
+71bfecc7	Fire Resistance %d%%	Fire Resistance %d%%	gameforge
+e88f478d	Lightning Resistance %d%%	Lightning Resistance %d%%	gameforge
+8244dfa6	Magic Resistance %d%%	Magic Resistance %d%%	gameforge
+cd6652a1	Wind Resistance %d%%	Wind Resistance %d%%	gameforge
+b8c86f69	Reflect Direct Hit: %d%%	Reflect Direct Hit: %d%%	gameforge
+efb45389	Reflect Curse: %d%%	Reflect Curse: %d%%	gameforge
+7e1a2e90	Poison Resistance %d%%	Poison Resistance %d%%	gameforge
+89fb179d	Spell Points (SP) will be increased by %d%% if you win.	Spell Points (SP) will be increased by %d%% if you win.	gameforge
+971a156f	The event is already running. (Flag: %d)	The event is already running. (Flag: %d)	gameforge
+75239f24	Experience increases by %d%% if you win against an opponent.	Experience increases by %d%% if you win against an opponent.	gameforge
+57f252e5	Increase of Yang up to %d%% if you win.	Increase of Yang up to %d%% if you win.	gameforge
+91ef8c07	Increase of captured Items up to %d%% if you win.	Increase of captured Items up to %d%% if you win.	gameforge
+92d16200	Power increase of up to %d%% after taking the potion.	Power increase of up to %d%% after taking the potion.	gameforge
+e3fa23eb	%d%% Chance of filling up Hit Points after a victory.	%d%% Chance of filling up Hit Points after a victory.	gameforge
+b52993ec	No Dizziness %d%%	No Dizziness %d%%	gameforge
+8f7f0a60	No Slowing Down %d%%	No Slowing Down %d%%	gameforge
+d5c1e2f6	No falling down %d%%	No falling down %d%%	gameforge
+097eac89	Attack Power + %d	Attack Power + %d	gameforge
+2c5bdb22	Armour + %d	Armour + %d	gameforge
+1f5c720a	OX quiz script could not be loaded.	OX quiz script could not be loaded.	gameforge
+ae082a46	Magical Attack + %d	Magical Attack + %d	gameforge
+c42fd97c	Magical Defence + %d	Magical Defence + %d	gameforge
+896ca0a4	Maximum Endurance + %d	Maximum Endurance + %d	gameforge
+ddde1a1e	Strong against Warriors + %d%%	Strong against Warriors + %d%%	gameforge
+2f6230c6	Strong against Ninjas + %d%%	Strong against Ninjas + %d%%	gameforge
+ab1f86f7	Strong against Sura + %d%%	Strong against Sura + %d%%	gameforge
+65d3c3e6	Strong against Shamans + %d%%	Strong against Shamans + %d%%	gameforge
+da426983	Strength against monsters + %d%%	Strength against monsters + %d%%	gameforge
+0b62f896	Attack + %d%%	Attack + %d%%	gameforge
+d31c5660	Defence + %d%%	Defence + %d%%	gameforge
+ca3d15f0	OX quiz script has loaded.	OX quiz script has loaded.	gameforge
+8f68911c	Experience %d%%	Experience %d%%	gameforge
+3eef5f74	Maximum Energy +%d%%	Maximum Energy +%d%%	gameforge
+e1802f63	Skill Damage %d%%	Skill Damage %d%%	gameforge
+1c02a034	Hit Damage %d%%	Hit Damage %d%%	gameforge
+ce27cbdf	Resistance against Skill Damage %d%%	Resistance against Skill Damage %d%%	gameforge
+a1f91aed	Resistance against Hits %d%%	Resistance against Hits %d%%	gameforge
+9663a553	%d%% Resistance against Warrior Attacks	%d%% Resistance against Warrior Attacks	gameforge
+3f2e668c	Welcome to Metin2.	Welcome to Metin2.	gameforge
+50728718	%d%% Resistance against Ninja Attacks	%d%% Resistance against Ninja Attacks	gameforge
+fe9c32cd	%d%% Resistance against Sura Attacks	%d%% Resistance against Sura Attacks	gameforge
+de9d3aab	%d%% Resistance against Shaman Attacks	%d%% Resistance against Shaman Attacks	gameforge
+c5e31a88	(Procedure: %d y- %d m - %d d)	(Procedure: %d y- %d m - %d d)	gameforge
+fd9fa7c8	Your chat is blocked.	Your chat is blocked.	gameforge
+e4e3208e	You need a higher level to be able to call.	You need a higher level to be able to call.	gameforge
+4962d17f	You need a minimum level of %d to be able to call.	You need a minimum level of %d to be able to call.	gameforge
+921fcc1c	You are not in this Group.	You are not in this Group.	gameforge
+cd1a2f1e	You did not join this Guild.	You did not join this Guild.	gameforge
+ce42f06a	The player has rejected your request to add him to your friend list.	The player has rejected your request to add him to your friend list.	gameforge
+a3b61471	OX Event has started.	OX Event has started.	gameforge
+0132fa0c	[Friends] You cannot add a GM to your list.	[Friends] You cannot add a GM to your list.	gameforge
+4be99dd6	%s is not online.	%s is not online.	gameforge
+56b03020	After a trade, you have to wait %d seconds before you can open a shop.	After a trade, you have to wait %d seconds before you can open a shop.	gameforge
+0dde1995	You can trade again in %d seconds.	You can trade again in %d seconds.	gameforge
+86cedc3d	You have more than 2 Billion Yang. You cannot trade.	You have more than 2 Billion Yang. You cannot trade.	gameforge
+daf16021	You cannot open a private shop while another window is open.	You cannot open a private shop while another window is open.	gameforge
+200124bf	The player has more than 2 Billion Yang. You cannot trade with him.	The player has more than 2 Billion Yang. You cannot trade with him.	gameforge
+9f4152fe	[Storeroom] No movement possible.	[Storeroom] No movement possible.	gameforge
+733ab2f2	[Storeroom] The item cannot be stored.	[Storeroom] The item cannot be stored.	gameforge
+692f376b	[Group] The player who invited you is not online.	[Group] The player who invited you is not online.	gameforge
+2c8a78d3	Uriel allowed to enter.	Uriel allowed to enter.	gameforge
+4df0787f	[Group] Only the group leader can change this.	[Group] Only the group leader can change this.	gameforge
+7a90cc4f	[Group] The target is not a member of your group.	[Group] The target is not a member of your group.	gameforge
+e66a53ff	[Group] You cannot kick out a player while you are in a dungeon.	[Group] You cannot kick out a player while you are in a dungeon.	gameforge
+c7ca8c05	[Group] You have been out kicked of the group.	[Group] You have been out kicked of the group.	gameforge
+6768b3d1	[Group] You cannot kick out group members.	[Group] You cannot kick out group members.	gameforge
+f7ec2486	[Guild] After disbanding a guild, you cannot create a new one for %d days.	[Guild] After disbanding a guild, you cannot create a new one for %d days.	gameforge
+3e4ec7e6	[Guild] After leaving a guild, you cannot create a new one for %d days.	[Guild] After leaving a guild, you cannot create a new one for %d days.	gameforge
+ddad1338	This guild name is invalid.	This guild name is invalid.	gameforge
+163bf840	We request the participation of a lot of players.	We request the participation of a lot of players.	gameforge
+7913ada9	[Guild] [%s] guild has been created.	[Guild] [%s] guild has been created.	gameforge
+6898cced	[Guild] Creation of the guild has failed.	[Guild] Creation of the guild has failed.	gameforge
+c3cb63de	[Group] Only the group leader can use group skills.	[Group] Only the group leader can use group skills.	gameforge
+d3ea9d8b	[Group] The target has not been found.	[Group] The target has not been found.	gameforge
+4c8987f1	[Guild] That is not the correct amount of Yang.	[Guild] That is not the correct amount of Yang.	gameforge
+49aa9c0b	[Guild] You do not have enough Yang.	[Guild] You do not have enough Yang.	gameforge
+2c5699b6	[Guild] The person you were searching for cannot be found.	[Guild] The person you were searching for cannot be found.	gameforge
+61947d3c	[Guild] This person is not in the same guild.	[Guild] This person is not in the same guild.	gameforge
+83109163	[Guild] You do not have the authority to kick out guild members.	[Guild] You do not have the authority to kick out guild members.	gameforge
+d93bdf21	[Guild] The guild member %s has been kicked out of the Guild.	[Guild] The guild member %s has been kicked out of the Guild.	gameforge
+ec222095	OX The Event has not ended yet. An error has occurred. (flag: %d)	OX The Event has not ended yet. An error has occurred. (flag: %d)	gameforge
+c6575105	[Guild] You have kicked a guild member out.	[Guild] You have kicked a guild member out.	gameforge
+fa34f765	[Guild] You do not have the authority to change your rank name.	[Guild] You do not have the authority to change your rank name.	gameforge
+32ed0be2	[Guild] The guild leader's rights cannot be changed.	[Guild] The guild leader's rights cannot be changed.	gameforge
+bd5b3ac4	[Guild] This rank name is invalid.	[Guild] This rank name is invalid.	gameforge
+1e4a480e	[Guild] You do not have the authority to change your position.	[Guild] You do not have the authority to change your position.	gameforge
+9b4eb5a0	[Guild] The rights of the guild leader cannot be changed.	[Guild] The rights of the guild leader cannot be changed.	gameforge
+802c8104	[Guild] %u experience points used.	[Guild] %u experience points used.	gameforge
+ad388eac	[Guild] Experience usage has failed.	[Guild] Experience usage has failed.	gameforge
+cee15e7b	[Guild] Insufficient Yang in the guild treasury.	[Guild] Insufficient Yang in the guild treasury.	gameforge
+ab7a774e	[Guild] Dragon ghost was not restored.	[Guild] Dragon ghost was not restored.	gameforge
+87a82f04	The OX Event will be restarted shortly.	The OX Event will be restarted shortly.	gameforge
+ecd004a4	[Guild] You do not have the authority to make an announcement.	[Guild] You do not have the authority to make an announcement.	gameforge
+4c395785	[Guild] You do not have the authority to change the position.	[Guild] You do not have the authority to change the position.	gameforge
+1ff8602b	[Guild] The guild leader's position cannot be changed.	[Guild] The guild leader's position cannot be changed.	gameforge
+d63caf5b	[Guild] You cannot make yourself guild leader.	[Guild] You cannot make yourself guild leader.	gameforge
+8921cb7e	[Guild] You do not have the authority to choose the guild leader.	[Guild] You do not have the authority to choose the guild leader.	gameforge
+712d0a7d	[Guild] You cannot choose any more guild leaders.	[Guild] You cannot choose any more guild leaders.	gameforge
+edcfc939	You cannot trade this item.	You cannot trade this item.	gameforge
+538989d5	Illegal software has been detected. The game is being shut down.	Illegal software has been detected. The game is being shut down.	gameforge
+86cedc3d	You have more than 2 Billion Yang with you. You cannot trade.	You have more than 2 Billion Yang with you. You cannot trade.	gameforge
+04c65388	Invalid Yang.	Invalid Yang.	gameforge
+6f019c6b	The present event is limited to one area.	The present event is limited to one area.	gameforge
+ba30ffaa	Start Item Roulette.	Start Item Roulette.	gameforge
+beb75e07	Start Yang Roulette.	Start Yang Roulette.	gameforge
+07af46bb	The player is online. Please use whisper to chat.	The player is online. Please use whisper to chat.	gameforge
+c4f63e7b	The cell phone number is not registered.	The cell phone number is not registered.	gameforge
+f3ee48b8	You need to be at least on level 20 to be able to send text messages.	You need to be at least on level 20 to be able to send text messages.	gameforge
+efdd387c	You need 2000 DT to send a text message.	You need 2000 DT to send a text message.	gameforge
+ee32652f	Your text message has been sent.	Your text message has been sent.	gameforge
+e1ca7c40	%s of the Guild %s raised up to %d%% !	%s of the Guild %s raised up to %d%% !	gameforge
+89eb1dec	%s of the Guild %s normal again.	%s of the Guild %s normal again.	gameforge
+8d8ded16	%s: %s has increased by %d%%!	%s: %s has increased by %d%%!	gameforge
+fad55044	%s 's %s normal again.	%s 's %s normal again.	gameforge
+b88538c4	Your mining points have reached their maximum. (%d)	Your mining points have reached their maximum. (%d)	gameforge
+853698d9	Your mining points have reached their maximum level.	Your mining points have reached their maximum level.	gameforge
+d3fe7637	You can get lumberjack Deokbae to upgrade your Pickaxe.	You can get lumberjack Deokbae to upgrade your Pickaxe.	gameforge
+5c612904	Your Mining Points have increased! (%d/%d)	Your Mining Points have increased! (%d/%d)	gameforge
+5f795a91	You cannot mine without a Pick.	You cannot mine without a Pick.	gameforge
+048ef12c	Nothing to mine here.	Nothing to mine here.	gameforge
+5ec85802	The mining has been successful.	The mining has been successful.	gameforge
+b6520004	The mining has failed.	The mining has failed.	gameforge
+9f014e25	[Friends] You have added %s as a friend.	[Friends] You have added %s as a friend.	gameforge
+2d3f4bca	The player will be teleported into the city shortly.	The player will be teleported into the city shortly.	gameforge
+a69bc94e	[Friends] You have deleted %s from the list.	[Friends] You have deleted %s from the list.	gameforge
+3872977d	A critical server error has occurred. The server will restart automatically.	A critical server error has occurred. The server will restart automatically.	gameforge
+49bb2a8b	You will be disconnected automatically in 10 seconds.	You will be disconnected automatically in 10 seconds.	gameforge
+c7211a25	You can connect again after 5 minutes.	You can connect again after 5 minutes.	gameforge
+6e64c21d	(%s) guild has been created. [Temporary]	(%s) guild has been created. [Temporary]	gameforge
+24ad26c0	This guild is at war.	This guild is at war.	gameforge
+cc24533b	%s: This guild does not exist.	%s: This guild does not exist.	gameforge
+341f0cd6	A guild with this name or number does not exist.	A guild with this name or number does not exist.	gameforge
+2c4f19d6	The building does not exist.	The building does not exist.	gameforge
+4183e753	This type of building can only be erected once.	This type of building can only be erected once.	gameforge
+3b6c0950	Close the OX event card first. (Flag: %d)	Close the OX event card first. (Flag: %d)	gameforge
+168a1fc1	The Main Building has to be erected first.	The Main Building has to be erected first.	gameforge
+4a92f9da	Building failed because of incorrect pricing.	Building failed because of incorrect pricing.	gameforge
+8ae26c8e	Your guild does not have enough Yang to erect this building.	Your guild does not have enough Yang to erect this building.	gameforge
+33be22f4	You do not have enough resources to build a building.	You do not have enough resources to build a building.	gameforge
+246e23fa	You cannot erect a building at this place.	You cannot erect a building at this place.	gameforge
+cce3ee86	This character does not exist.	This character does not exist.	gameforge
+c0147a48	Duel has not been successfully cancelled.	Duel has not been successfully cancelled.	gameforge
+f4891d57	Duel cancelled successfully.	Duel cancelled successfully.	gameforge
+6fdfee0d	The duel has been successfully started.	The duel has been successfully started.	gameforge
+a151b267	There is a problem with initiating the duel.	There is a problem with initiating the duel.	gameforge
+dcf79c40	No errors occurred.	No errors occurred.	gameforge
+a26f818f	There are no combatants.	There are no combatants.	gameforge
+a8454965	No status points left.	No status points left.	gameforge
+e61c8735	Remaining status points are too low.	Remaining status points are too low.	gameforge
+fb4d2e5c	You entered an incorrect value.	You entered an incorrect value.	gameforge
+8b159b2a	Suborder or the Order is incorrect.	Suborder or the Order is incorrect.	gameforge
+996a386c	Broken contract between player %d and player %d.	Broken contract between player %d and player %d.	gameforge
+7d199e21	Turn the Roulette for %d Yang.	Turn the Roulette for %d Yang.	gameforge
+3703e92a	The Item log placed into the syslog.	The Item log placed into the syslog.	gameforge
+b25d8019	Information for the Kingdoms	Information for the Kingdoms	gameforge
+ed79e248	Choose the Map Information of the Holy Land %d Entrance %d %d %d	Choose the Map Information of the Holy Land %d Entrance %d %d %d	gameforge
+de2ee12b	An error has occurred.	An error has occurred.	gameforge
+c63a8a10	An error has occurred. code %s	An error has occurred. code %s	source
+63b8f019	%s killcount %d mobkillcount %d bosskillcount %d Number Holy Land %d	%s killcount %d mobkillcount %d bosskillcount %d Number Holy Land %d	gameforge
+a51dbdbd	Information about the status of the kingdom battle	Information about the status of the kingdom battle	gameforge
+5bdbcebd	Your request is loading. Please wait.	Your request is loading. Please wait.	gameforge
+61f727d5	You cannot open a Storeroom while another window is open.	You cannot open a Storeroom while another window is open.	gameforge
+1348c396	[Storeroom] Storeroom password has been changed.	[Storeroom] Storeroom password has been changed.	gameforge
+b5952787	[Storeroom] You have entered the wrong password.	[Storeroom] You have entered the wrong password.	gameforge
+f3f794e7	Your playing time is going to run out in %d minutes.	Your playing time is going to run out in %d minutes.	gameforge
+78bbfd30	Regularly voted.	Regularly voted.	gameforge
+0cfc4ae1	Already voted.	Already voted.	gameforge
+8fe2420a	%s player already in the vote.	%s player already in the vote.	gameforge
+875c7321	OX Event is over. No errors occurred. (Flag: %d)	OX Event is over. No errors occurred. (Flag: %d)	gameforge
+5317491e	Cannot run for office.	Cannot run for office.	gameforge
+71c99862	%s still has %u Yang available.	%s still has %u Yang available.	gameforge
+c6606489	%s still has %d Yang available.	%s still has %d Yang available.	gameforge
+2b96d76e	You do not have enough Yang.	You do not have enough Yang.	gameforge
+6363c1ed	Item price has changed.	Item price has changed.	source
+541fd92f	%s is deleted as an Emperor Candidate.	%s is deleted as an Emperor Candidate.	gameforge
+864fa256	%s is not a candidate for the emperor elections.	%s is not a candidate for the emperor elections.	gameforge
+b7afe051	%s has been nominated as emperor.	%s has been nominated as emperor.	gameforge
+e87daf08	%s cannot be nominated as emperor.	%s cannot be nominated as emperor.	gameforge
+c137f46c	The %s Emperor gets driven out.	The %s Emperor gets driven out.	gameforge
+e7cadf9f	The %s Emperor cannot be driven out.	The %s Emperor cannot be driven out.	gameforge
+0debe1d5	OX Event is not accepting any more participants.	OX Event is not accepting any more participants.	gameforge
+0526629c	Shinsoo Kingdom	Shinsoo Kingdom	gameforge
+2737f1ee	Chunjo Kingdom	Chunjo Kingdom	gameforge
+999dc9e5	Jinno Kingdom	Jinno Kingdom	gameforge
+17b9ff16	Your fishing points have increased! (%d/%d)	Your fishing points have increased! (%d/%d)	gameforge
+4214316e	You have reached the maximum number of fishing points.	You have reached the maximum number of fishing points.	gameforge
+55b5b980	Go to the Fisherman and get your Fishing Pole upgraded!	Go to the Fisherman and get your Fishing Pole upgraded!	gameforge
+608237ba	You lost your bait to the fish.	You lost your bait to the fish.	gameforge
+5e68c75d	You have caught a fish! (%s)	You have caught a fish! (%s)	gameforge
+ae3ad6eb	The length of the captured fish is %.2fcm.	The length of the captured fish is %.2fcm.	gameforge
+4ac343a1	Fishing Event 'Great Zander'	Fishing Event 'Great Zander'	gameforge
+8c6449e4	OX The other event participants are being noted down.	OX The other event participants are being noted down.	gameforge
+420045e8	Fishing Event 'Carp'	Fishing Event 'Carp'	gameforge
+04f01bea	%s: %d	%s: %d	gameforge
+f835a5e0	You have caught %d of %d .	You have caught %d of %d .	gameforge
+5a7cac3c	The fish vanished in the depths of the water.	The fish vanished in the depths of the water.	gameforge
+9f315c22	There is a Clam inside the Fish.	There is a Clam inside the Fish.	gameforge
+ef061a33	There is a Worm inside the Fish.	There is a Worm inside the Fish.	gameforge
+0651d804	You are roasting %s over the fire.	You are roasting %s over the fire.	gameforge
+a86c6dda	You cannot trade because you are carrying more than 2 billion Yang.	You cannot trade because you are carrying more than 2 billion Yang.	gameforge
+413c8154	You can't give your shop an invalid name.	You can't give your shop an invalid name.	gameforge
+c15f6405	You can't sell Item-Shop items in a private shop.	You can't sell Item-Shop items in a private shop.	gameforge
+074018f4	OX The other event participants have not been noted down.	OX The other event participants have not been noted down.	gameforge
+ba6ba28c	Mining is finished.	Mining is finished.	source
+d8bb6b5c	You need a Pickaxe in order to extract ore!	You need a Pickaxe in order to extract ore!	gameforge
+577f2f64	Please choose a Fishing Pole.	Please choose a Fishing Pole.	gameforge
+bade997e	Place the Bait on the Hook first.	Place the Bait on the Hook first.	gameforge
+0c96e845	You can't go fishing without a fishing pole!	You can't go fishing without a fishing pole!	gameforge
+06b18236	[Group] You cannot make a request because the group leader is not online.	[Group] You cannot make a request because the group leader is not online.	gameforge
+9babd704	[Group] You cannot form a group with players from another kingdom.	[Group] You cannot form a group with players from another kingdom.	gameforge
+a7a51f67	[Group] You cannot invite players while you are in a dungeon.	[Group] You cannot invite players while you are in a dungeon.	gameforge
+5c2981de	[Group] You cannot invite a player while you are in observer mode.	[Group] You cannot invite a player while you are in observer mode.	gameforge
+c861b7e2	[Group] Only players with a level difference of -30 to +30 can be invited.	[Group] Only players with a level difference of -30 to +30 can be invited.	gameforge
+84df24b6	Number of other participants : %d	Number of other participants : %d	gameforge
+dd1f2764	[Group] You cannot invite this player, as their level is too low.	[Group] You cannot invite this player, as their level is too low.	gameforge
+82c862f4	[Group] You cannot invite this player, as their level is too high.	[Group] You cannot invite this player, as their level is too high.	gameforge
+8ca0dd29	[Group] You cannot invite any more players into your group.	[Group] You cannot invite any more players into your group.	gameforge
+781e93a4	You want to join %s's group.	You want to join %s's group.	gameforge
+131497d3	This player is not in this group.	This player is not in this group.	gameforge
+94bba6cb	[Group] You cannot join this group because it is already full.	[Group] You cannot join this group because it is already full.	gameforge
+b732242c	[Group] You do not have the right to invite someone.	[Group] You do not have the right to invite someone.	gameforge
+aa424996	[Group] %s has declined your group invitation.	[Group] %s has declined your group invitation.	gameforge
+c615daed	[Group] %s is already in the group.	[Group] %s is already in the group.	gameforge
+aa042c75	[Group] You cannot accept an invitation into a dungeon.	[Group] You cannot accept an invitation into a dungeon.	gameforge
+05a1a2ee	OX Event is finishing.	OX Event is finishing.	gameforge
+c9764f61	[Group] You cannot accept the invitation.	[Group] You cannot accept the invitation.	gameforge
+03a2dc66	[Group] %s has declined your invitation.	[Group] %s has declined your invitation.	gameforge
+40b5af1c	[Group] %s has joined your group.	[Group] %s has joined your group.	gameforge
+b99c7c77	[Group] %s has joined your Group.	[Group] %s has joined your Group.	gameforge
+72132590	You can't use a private shop now.	You can't use a private shop now.	gameforge
+b4805a7c	This player is already trading with another player.	This player is already trading with another player.	gameforge
+4b288bff	Metin2 Confirmation Number: %s	Metin2 Confirmation Number: %s	gameforge
+569253d8	Your Confirmation Number is not correct. Please try again.	Your Confirmation Number is not correct. Please try again.	gameforge
+fbb1876a	The mobile phone number is registered.	The mobile phone number is registered.	gameforge
+d1ab9024	You cannot teleport to the player.	You cannot teleport to the player.	gameforge
+fdc376c3	OX The prize has been awarded. ID: %d Quantity: %d	OX The prize has been awarded. ID: %d Quantity: %d	gameforge
+5b6a6eee	This player is not online.	This player is not online.	gameforge
+38be71c4	The player is playing on channel %d. (You are on channel %d.)	The player is playing on channel %d. (You are on channel %d.)	gameforge
+45b3b974	After opening the Storeroom, you cannot go anywhere else for %d seconds.	After opening the Storeroom, you cannot go anywhere else for %d seconds.	gameforge
+e5040e10	You cannot go elsewhere for a period of time after the trade.	You cannot go elsewhere for a period of time after the trade.	gameforge
+d34b6738	After trading you cannot go elsewhere for %d seconds.	After trading you cannot go elsewhere for %d seconds.	gameforge
+af967ed5	The duel has finished, because your combatant vanished.	The duel has finished, because your combatant vanished.	gameforge
+45c49f26	There is no limit for Potions.	There is no limit for Potions.	gameforge
+3587ce40	You can use up to %d potions.	You can use up to %d potions.	gameforge
+61610362	The fight will start in 10 seconds.	The fight will start in 10 seconds.	gameforge
+d1e5b3b6	The duel has begun.	The duel has begun.	gameforge
+501b0925	TRUE	TRUE	gameforge
+00dc1099	The duel is being finished because there is a problem in the duel arena.	The duel is being finished because there is a problem in the duel arena.	gameforge
+b9901ebc	The duel has finished because of a timeout.	The duel has finished because of a timeout.	gameforge
+a93e656e	In 10 seconds you will be teleported into the city.	In 10 seconds you will be teleported into the city.	gameforge
+9ea75a47	The duel has been stopped because there is a problem in the arena.	The duel has been stopped because there is a problem in the arena.	gameforge
+d7937cd1	Your combatant has got some problems. The duel is being cancelled.	Your combatant has got some problems. The duel is being cancelled.	gameforge
+f5219d63	The duel is being cancelled as there is a problem with the combatant.	The duel is being cancelled as there is a problem with the combatant.	gameforge
+0ca27599	%s has won the duel.	%s has won the duel.	gameforge
+1a8b59a4	%s has won.	%s has won.	gameforge
+e26a5714	You will be teleported into the city in 10 seconds.	You will be teleported into the city in 10 seconds.	gameforge
+b22a1dfd	The next round will begin in 10 seconds.	The next round will begin in 10 seconds.	gameforge
+ee597878	FALSE	FALSE	gameforge
+5ae5e50b	The combatants have been separated. The duel has been stopped.	The combatants have been separated. The duel has been stopped.	gameforge
+baa3ac99	The quota of the Item Drop is at the moment plus %d%%	The quota of the Item Drop is at the moment plus %d%%	gameforge
+eb4d5b76	The quota of the Yang Drop is at the moment plus %d%%	The quota of the Yang Drop is at the moment plus %d%%	gameforge
+ef56cf7e	The drop rate for Yang rain is currently %d%% higher.	The drop rate for Yang rain is currently %d%% higher.	gameforge
+0d7878ff	The experience bonus is currently an additional %d%%.	The experience bonus is currently an additional %d%%.	gameforge
+956d835e	You do not have the correct client version. Please install the normal patch.	You do not have the correct client version. Please install the normal patch.	gameforge
+92095c53	You cannot trade in the shop while another window is open.	You cannot trade in the shop while another window is open.	gameforge
+3e704526	You are too far away from the shop to buy something.	You are too far away from the shop to buy something.	gameforge
+ab7f90f2	You are too far away from the shop to sell something.	You are too far away from the shop to sell something.	gameforge
+49c00456	Total number of the Quiz: %d	Total number of the Quiz: %d	gameforge
+a5106ce8	You cannot ride a Horse while you are transformed.	You cannot ride a Horse while you are transformed.	gameforge
+34933335	You cannot ride while you are wearing a Wedding Dress or a Tuxedo.	You cannot ride while you are wearing a Wedding Dress or a Tuxedo.	gameforge
+882e276e	You do not have a Horse.	You do not have a Horse.	gameforge
+71887717	Your Horse is dead.	Your Horse is dead.	gameforge
+d79a4edc	Your Horse's endurance is too low.	Your Horse's endurance is too low.	gameforge
+81fe2036	Calling the Horse has failed.	Calling the Horse has failed.	gameforge
+3c526407	's Horse	's Horse	source
+566694c6	The wedding is finishing soon.	The wedding is finishing soon.	gameforge
+0033cd19	Will be left automatically.	Will be left automatically.	gameforge
+f72f2c2a	The war is already over.	The war is already over.	gameforge
+01d82efb	The result will follow in 10 seconds.	The result will follow in 10 seconds.	gameforge
+19b49be3	You cannot trade while observing.	You cannot trade while observing.	gameforge
+9b09a319	If the window is open, you cannot trade with others.	If the window is open, you cannot trade with others.	gameforge
+6c4a247e	The other person is currently busy so you cannot trade right now.	The other person is currently busy so you cannot trade right now.	gameforge
+1b072f58	The other person has cancelled the trade.	The other person has cancelled the trade.	gameforge
+62e36f60	Not enough Yang or not enough space in the inventory.	Not enough Yang or not enough space in the inventory.	gameforge
+83f20b7b	The other person does not have enough Yang or does not have any space left in their inventory.	The other person does not have enough Yang or does not have any space left in their inventory.	gameforge
+d406725c	The other person has no space left in their inventory.	The other person has no space left in their inventory.	gameforge
+bba8e617	The trade with %s has been successful.	The trade with %s has been successful.	gameforge
+bf1e44d3	You did not lose any Experience because of the Blessing of the Dragon God.	You did not lose any Experience because of the Blessing of the Dragon God.	gameforge
+39c31704	Current score: Shinsoo %d, Chunjo %d, Jinno %d	Current score: Shinsoo %d, Chunjo %d, Jinno %d	gameforge
+29fa8acd	The correct answer is:	The correct answer is:	gameforge
+8203f534	%s deadcount %d Empire %d killcount %d(Purpose %d) killmobcount %d, RegenFlag %d	%s deadcount %d Empire %d killcount %d(Purpose %d) killmobcount %d, RegenFlag %d	gameforge
+cb12c958	The devil of the hallowed place: [ENTER][ENTER]	The devil of the hallowed place: [ENTER][ENTER]	gameforge
+32f902a5	, you don't have any right to be here! The members of your kingdom will leave this hallowed ground in 10 seconds.	, you don't have any right to be here! The members of your kingdom will leave this hallowed ground in 10 seconds.	gameforge
+eb0b0c33	%s has been defeated and drops out of the Kingdom Battle.	%s has been defeated and drops out of the Kingdom Battle.	gameforge
+6b46d68f	Number of Monsters in the Kingdom Battle:	Number of Monsters in the Kingdom Battle:	gameforge
+8dca9d0b	If you defeat the Guard of the Holy Place, you will become the owner of it.	If you defeat the Guard of the Holy Place, you will become the owner of it.	gameforge
+5665e663	You did not drop any Item(s) as you are protected by the Dragon God.	You did not drop any Item(s) as you are protected by the Dragon God.	gameforge
+274787ae	Additional Stabbing Weapon Damage %d	Additional Stabbing Weapon Damage %d	gameforge
+6f4d51a0	%s block! (%d%%)	%s block! (%d%%)	gameforge
+ce3fb967	%s avoid! (%d%%)	%s avoid! (%d%%)	gameforge
+2441a363	Yes (O)	Yes (O)	gameforge
+11207cf9	%s[%d]'s Attack Position: %d %d	%s[%d]'s Attack Position: %d %d	gameforge
+b24faf12	Please enter the Order in full length.	Please enter the Order in full length.	gameforge
+c11d5a09	You cannot do this whilst sitting on a Horse.	You cannot do this whilst sitting on a Horse.	gameforge
+16d238cb	You cannot do that while you are lying on the ground.	You cannot do that while you are lying on the ground.	gameforge
+32697ced	In my Dreams? What?	In my Dreams? What?	gameforge
+138742af	Get up first.	Get up first.	gameforge
+4b3bf36e	This command does not exist.	This command does not exist.	gameforge
+1fc161ac	[Group] This group has been disbanded.	[Group] This group has been disbanded.	gameforge
+e2417fc1	[Group] You cannot call the target.	[Group] You cannot call the target.	gameforge
+6f74a9ad	[Group] You cannot call group members over to your current position.	[Group] You cannot call group members over to your current position.	gameforge
+f94cb58c	No (X)	No (X)	gameforge
+87319232	Your group works well together, and group members near the group leader will receive an experience bonus.	Your group works well together, and group members near the group leader will receive an experience bonus.	gameforge
+04fed051	Leader	Leader	gameforge
+a5842e10	Member	Member	gameforge
+5a37c511	[Guild] Provided Experience is larger then left Experience.	[Guild] Provided Experience is larger then left Experience.	gameforge
+13d3fb4b	[Guild] This message cannot be deleted.	[Guild] This message cannot be deleted.	gameforge
+c82ddd47	[Guild] Not enough Dragon Ghost. (%d, %d)	[Guild] Not enough Dragon Ghost. (%d, %d)	gameforge
+ae67300c	[Guild] You cannot use the guild skills yet.	[Guild] You cannot use the guild skills yet.	gameforge
+51f5fae5	[Guild] %d skill has been applied (%d, %d) to %u.	[Guild] %d skill has been applied (%d, %d) to %u.	gameforge
+3756b233	[Guild] This player is on channel %d. (Current channel: %d)	[Guild] This player is on channel %d. (Current channel: %d)	gameforge
+cc1aabb3	[Guild] This player is not online.	[Guild] This player is not online.	gameforge
+20633a3d	In 5 sec. everyone who gave an incorrect answer will be removed.	In 5 sec. everyone who gave an incorrect answer will be removed.	gameforge
+8bbc627a	[Guild] This guild skill can only be used during war.	[Guild] This guild skill can only be used during war.	gameforge
+9e5c4753	[Guild] %u Dragon ghost points have been restored.	[Guild] %u Dragon ghost points have been restored.	gameforge
+f7005f97	[Guild] Only the guild leader can withdraw Yang.	[Guild] Only the guild leader can withdraw Yang.	gameforge
+52c466d2	[Guild] The player has declined the guild invitation.	[Guild] The player has declined the guild invitation.	gameforge
+0ebc99a0	[Guild] You do not have the authority to invite someone to join the guild.	[Guild] You do not have the authority to invite someone to join the guild.	gameforge
+c1326d59	[Guild] You cannot invite players from another kingdom into the guild.	[Guild] You cannot invite players from another kingdom into the guild.	gameforge
+cb82c952	[Guild] This player can be invited again after %d day(s).	[Guild] This player can be invited again after %d day(s).	gameforge
+a4909fae	[Guild] After the rearrangement you can invite members again after %d days.	[Guild] After the rearrangement you can invite members again after %d days.	gameforge
+b939e464	[Guild] This person is already a member of another Guild.	[Guild] This person is already a member of another Guild.	gameforge
+aca48db8	[Guild] The maximum guild capacity has been reached.	[Guild] The maximum guild capacity has been reached.	gameforge
+768f1681	Ready for the next question?	Ready for the next question?	gameforge
+d577a34b	You cannot train this skill.	You cannot train this skill.	gameforge
+a49e7290	You cannot train this skill up to Grand Master level.	You cannot train this skill up to Grand Master level.	gameforge
+94afc0e6	You already are a Master of this skill. You cannot train this skill any further.	You already are a Master of this skill. You cannot train this skill any further.	gameforge
+0f037122	Your Skill is not high enough to become a Grand Master.	Your Skill is not high enough to become a Grand Master.	gameforge
+b11cdc75	That did not work. Damn!	That did not work. Damn!	gameforge
+f623f01a	Training has failed. Please try again later.	Training has failed. Please try again later.	gameforge
+691baf9e	My body is full of energy!	My body is full of energy!	gameforge
+51bb204d	The training seems to be working already...	The training seems to be working already...	gameforge
+02f69d0c	You successfully finished your training with the book.	You successfully finished your training with the book.	gameforge
+23f7fde9	You cannot read this due to your lack of experience.	You cannot read this due to your lack of experience.	gameforge
+3a8c7857	Question.	Question.	gameforge
+1bfde0c5	You cannot train this skill with a Book.	You cannot train this skill with a Book.	gameforge
+fdece878	This skill's level is not high enough to be trained with a Book.	This skill's level is not high enough to be trained with a Book.	gameforge
+1d63419d	I'm making progress, but I still haven't understood everything.	I'm making progress, but I still haven't understood everything.	gameforge
+e5adadf6	These instructions are difficult to understand. I have to carry on studying.	These instructions are difficult to understand. I have to carry on studying.	gameforge
+abbc857b	I understand this chapter. But I've got to carry on working hard.	I understand this chapter. But I've got to carry on working hard.	gameforge
+02f69d0c	You have successfully finished your training with the Book.	You have successfully finished your training with the Book.	gameforge
+756427a9	Teleportation has failed.	Teleportation has failed.	gameforge
+7646b489	No Horse here. Ask the Stable Boy.	No Horse here. Ask the Stable Boy.	gameforge
+5054d15e	Please use an item to call a Horse.	Please use an item to call a Horse.	gameforge
+57f2f7ae	%s FP-Consumption: %d	%s FP-Consumption: %d	gameforge
+21403576	If it's correct, then go to O. If it's wrong, go to X.	If it's correct, then go to O. If it's wrong, go to X.	gameforge
+2b325970	I am burning inside, but it is calming down my body. My Chi has to stabilise.	I am burning inside, but it is calming down my body. My Chi has to stabilise.	gameforge
+88d82cfc	A little slow, but steady... Without stopping!	A little slow, but steady... Without stopping!	gameforge
+ca91186b	Yes, that feels great. My body is full of Chi.	Yes, that feels great. My body is full of Chi.	gameforge
+3da86a2a	I have read it! Now the Chi will spread through my body.	I have read it! Now the Chi will spread through my body.	gameforge
+cb02105d	The training is completed.	The training is completed.	gameforge
+b539b1b7	I am on the last page of the book. The training is nearly finished!	I am on the last page of the book. The training is nearly finished!	gameforge
+448f9db0	Nearly finished! Just a little bit more to go!	Nearly finished! Just a little bit more to go!	gameforge
+a9157f1b	Eureka! I have nearly finished reading it!	Eureka! I have nearly finished reading it!	gameforge
+b045efa4	Only a few more pages and then I'll have read everything.	Only a few more pages and then I'll have read everything.	gameforge
+7f47bf4a	I feel refreshed.	I feel refreshed.	gameforge
+1b524bf9	Correct!	Correct!	gameforge
+48c809d2	Now I understand it!	Now I understand it!	gameforge
+029d4f77	Okay I have to stay concentrated!	Okay I have to stay concentrated!	gameforge
+a78e450d	I keep reading the same line over and over again.	I keep reading the same line over and over again.	gameforge
+cdc453c6	I do not want to learn any more.	I do not want to learn any more.	gameforge
+bdc1d92b	It is a lot more complicated and more difficult to understand than I thought.	It is a lot more complicated and more difficult to understand than I thought.	gameforge
+a5ffd4f3	It's hard for me to concentrate. I should take a break.	It's hard for me to concentrate. I should take a break.	gameforge
+5b698363	Your chat has been blocked by a GM.	Your chat has been blocked by a GM.	source
+9aa87544	Your chat block has been lifted.	Your chat block has been lifted.	gameforge
+1cded1fe	The Build window is already open.	The Build window is already open.	gameforge
+072ae5ec	You cannot build something while another trade/storeroom window is open.	You cannot build something while another trade/storeroom window is open.	gameforge
+bbba9b1f	No further improvements possible.	No further improvements possible.	gameforge
+bf9a8932	The build window is not open.	The build window is not open.	gameforge
+7f1e725a	You do not have the right material.	You do not have the right material.	gameforge
+5e432777	[Guild] Please try again later.	[Guild] Please try again later.	gameforge
+aad4f65e	You have to read %d more skill books to improve this skill.	You have to read %d more skill books to improve this skill.	gameforge
+2b991821	You are only able to use this function while you are at the castle.	You are only able to use this function while you are at the castle.	gameforge
+336a35f0	TEST: The Gold Bar has been paid back to your kingdom's safe.	TEST: The Gold Bar has been paid back to your kingdom's safe.	gameforge
+c36c5df9	TEST: In your kingdom's safe there are: %d	TEST: In your kingdom's safe there are: %d	gameforge
+acbd2d7f	TEST: You cannot pay the Gold Bar back into your kingdom's safe.	TEST: You cannot pay the Gold Bar back into your kingdom's safe.	gameforge
+db7d2a70	[Guild] The guild has reached %d points.	[Guild] The guild has reached %d points.	gameforge
+fa66b738	This item cannot be improved.	This item cannot be improved.	gameforge
+5b295aae	The free weapon improvements can only be used on weapons up to level 20.	The free weapon improvements can only be used on weapons up to level 20.	gameforge
+382de93c	You cannot use this item because you do not fulfil all the requirements.	You cannot use this item because you do not fulfil all the requirements.	gameforge
+75ed320a	You are not able to use that item because you do not have the right gender.	You are not able to use that item because you do not have the right gender.	gameforge
+9a94c58e	Use: transfer <name>	Use: transfer <name>	gameforge
+d9965b28	This function can only be used by the emperor.	This function can only be used by the emperor.	gameforge
+7ece9d96	You cannot recruit players from another kingdom.	You cannot recruit players from another kingdom.	gameforge
+4d522fb3	The player %s is on channel %d at the moment. (Your channel: %d)	The player %s is on channel %d at the moment. (Your channel: %d)	gameforge
+cf71b307	You have recruited %s players.	You have recruited %s players.	gameforge
+44f0ae79	There is no user with this name.	There is no user with this name.	gameforge
+190b714d	You cannot recruit yourself.	You cannot recruit yourself.	gameforge
+87a26765	Your level is too low to use this item.	Your level is too low to use this item.	gameforge
+de223429	You cannot upgrade anything while another window is open.	You cannot upgrade anything while another window is open.	gameforge
+0115da91	The emperor of %s has changed to %s.	The emperor of %s has changed to %s.	gameforge
+2b525e94	There are %s wars to inflame the bonfires.	There are %s wars to inflame the bonfires.	gameforge
+1e380768	%s has successfully defended.	%s has successfully defended.	gameforge
+41aaa07a	30 minutes from now on the player %s can get a reward because he destroyed the bonfire.	30 minutes from now on the player %s can get a reward because he destroyed the bonfire.	gameforge
+5395d2ea	30 minutes are over. The bonfires have disappeared.	30 minutes are over. The bonfires have disappeared.	gameforge
+171b3339	A bonfire was inflamed at %s to warn because of a battle.	A bonfire was inflamed at %s to warn because of a battle.	gameforge
+51e6c526	%s has destroyed the bonfire.	%s has destroyed the bonfire.	gameforge
+492c87b3	%s lost the war as they have not been able to defend the castle.	%s lost the war as they have not been able to defend the castle.	gameforge
+51e6c526	%s has destroyed all the bonfires.	%s has destroyed all the bonfires.	gameforge
+9d273b58	You can only open the shop if you take off your armour.	You can only open the shop if you take off your armour.	gameforge
+4e255cd0	%d hours %d minutes %d seconds left on your chat block	%d hours %d minutes %d seconds left on your chat block	gameforge
+54b284ca	%d hours %d seconds left on your chat block	%d hours %d seconds left on your chat block	gameforge
+33382ab0	%d minutes %d seconds left on your chat block	%d minutes %d seconds left on your chat block	gameforge
+6d53ec7f	Yang rain drop rate	Yang rain drop rate	gameforge
+22b6b72d	Not the right material for an upgrade.	Not the right material for an upgrade.	gameforge
+233fab22	All kingdoms	All kingdoms	gameforge
+73e9f987	Item drop rate in percent	Item drop rate in percent	gameforge
+7d34374e	Yang drop rate in percent	Yang drop rate in percent	gameforge
+089a47d8	Experience percentage	Experience percentage	gameforge
+d977df32	%d seconds left on your chat block	%d seconds left on your chat block	gameforge
+64b77fb0	You cannot express emotions whilst riding a horse.	You cannot express emotions whilst riding a horse.	gameforge
+78e458dd	You cannot use emotions with a player who is riding on a Horse.	You cannot use emotions with a player who is riding on a Horse.	gameforge
+f84267d5	[Guild] The enemy's guild leader is offline.	[Guild] The enemy's guild leader is offline.	gameforge
+3a163ccd	[Guild] This guild is taking part in a battle at the moment.	[Guild] This guild is taking part in a battle at the moment.	gameforge
+a480466b	You're already riding. Get off first.	You're already riding. Get off first.	gameforge
+949eaf0a	You cannot upgrade items with this Scroll.	You cannot upgrade items with this Scroll.	gameforge
+4f2ce0aa	You can only be rewarded once for the Demon Tower Quest.	You can only be rewarded once for the Demon Tower Quest.	gameforge
+0bb6c000	Dragon Stone has been removed.	Dragon Stone has been removed.	gameforge
+7eefa042	You cannot move the item within the refinement window.	You cannot move the item within the refinement window.	gameforge
+caff3802	Dragon Stone remaining duration has been extracted.	Dragon Stone remaining duration has been extracted.	gameforge
+b22d5802	Remaining duration extraction failed.	Remaining duration extraction failed.	gameforge
+27e52cd0	Removal of Dragon Stone failed. But you have received the following: %s	Removal of Dragon Stone failed. But you have received the following: %s	gameforge
+ac6dd864	Removal of Dragon Stone failed.	Removal of Dragon Stone failed.	gameforge
+334eb0c9	This item is not required for improving the clarity level.	This item is not required for improving the clarity level.	gameforge
+bf8bd0fe	This item cannot be advanced this way.	This item cannot be advanced this way.	gameforge
+5967694c	Improvement of the clarity level successful.	Improvement of the clarity level successful.	gameforge
+a2a230f6	Refinement up one class failed.	Refinement up one class failed.	gameforge
+db8e6f9f	This item is not required for refinement.	This item is not required for refinement.	gameforge
+23f54956	Refinement up one class was successful.	Refinement up one class was successful.	gameforge
+9fc280b0	Improvement of the clarity level failed.	Improvement of the clarity level failed.	gameforge
+07008d77	You do not own the materials required to strengthen the Dragon Stone.	You do not own the materials required to strengthen the Dragon Stone.	gameforge
+ff765d6f	This Dragon Stone cannot be used for strengthening.	This Dragon Stone cannot be used for strengthening.	gameforge
+1272a219	Strengthening was successful.	Strengthening was successful.	gameforge
+b704aa25	Strengthening failed.	Strengthening failed.	gameforge
+cfd4854a	You are already carrying a Dragon Stone of this type.	You are already carrying a Dragon Stone of this type.	gameforge
+ae9b38b0	The Dragon Stone cannot be removed.	The Dragon Stone cannot be removed.	gameforge
+c464ddf3	You have already equipped this kind of Dragon Stone.	You have already equipped this kind of Dragon Stone.	gameforge
+fcfb40af	Before you open the Cor Draconis, you have to complete the Dragon Stone quest and activate the Dragon Stone Alchemy.	Before you open the Cor Draconis, you have to complete the Dragon Stone quest and activate the Dragon Stone Alchemy.	gameforge
+992ed023	You can only discard the belt when there are no longer any items in its inventory.	You can only discard the belt when there are no longer any items in its inventory.	gameforge
+09e4c537	You can combine the Blessing Scroll with the Magic Iron Ore.	You can combine the Blessing Scroll with the Magic Iron Ore.	gameforge
+6f2c34ee	You cannot equip this item in your belt inventory.	You cannot equip this item in your belt inventory.	gameforge
+4a397e22	[1106-??]No puedes unir esto.	[1106-??]No puedes unir esto.	gameforge
+f409f60d	You have invested %d Yang.	You have invested %d Yang.	gameforge
+ff516bd3	There is no Stone available to take out.	There is no Stone available to take out.	gameforge
+34645587	You cannot store this location.	You cannot store this location.	gameforge
+5e3b9985	You cannot save location placed in opposite kingdom.	You cannot save location placed in opposite kingdom.	source
+c395a8e5	There isn't enough space in your inventory.	There isn't enough space in your inventory.	gameforge
+e43f79f1	You cannot teleport to a safe position in a foreign Kingdom.	You cannot teleport to a safe position in a foreign Kingdom.	gameforge
+c97f2bd4	You don't have enough HP.	You don't have enough HP.	gameforge
+ec99502c	You don't have enough Spell Points (SP) to use this.	You don't have enough Spell Points (SP) to use this.	gameforge
+956a5759	You'll reach your destination in %d seconds.	You'll reach your destination in %d seconds.	gameforge
+321daa51	You can only use a Moon Cake every 5 seconds.	You can only use a Moon Cake every 5 seconds.	gameforge
+acfb4add	You cannot use this item in a duel.	You cannot use this item in a duel.	gameforge
+29e2ea9b	You have won %d Yang.	You have won %d Yang.	gameforge
+c879065c	You cannot build a campfire here.	You cannot build a campfire here.	gameforge
+8bfc6709	You cannot build a campfire under water.	You cannot build a campfire under water.	gameforge
+d8189125	Closed. You should look for the key.	Closed. You should look for the key.	gameforge
+23d2bf85	This item cannot be opened with a key.	This item cannot be opened with a key.	gameforge
+5a021c10	That's the right key.	That's the right key.	gameforge
+795c0773	You have received %d Yang.	You have received %d Yang.	gameforge
+c9af058d	A mysterious light comes out of the box.	A mysterious light comes out of the box.	gameforge
+b486e4a4	You have received %d experience points.	You have received %d experience points.	gameforge
+f34b3943	Look what came out of the box!	Look what came out of the box!	gameforge
+471339e2	[Guild] The guild level is too low.	[Guild] The guild level is too low.	gameforge
+62781b54	If you inhale the red smoke coming out of the box, your speed will increase!	If you inhale the red smoke coming out of the box, your speed will increase!	gameforge
+bf9493dd	You cannot add more bonus.	You cannot add more bonus.	source
+8a5e2b56	New bonus added successfully.	New bonus added successfully.	source
+ddede1f9	You cannot change the bonuses.	You cannot change the bonuses.	source
+0b2c4198	%s needed.	%s needed.	source
+1ec3a11f	OX-Question: 	OX-Question: 	gameforge
+bfca709c	Dropped Yang will disappear after %d seconds.	Dropped Yang will disappear after %d seconds.	source
+ebac0509	Moving channel has been interrupted.	Moving channel has been interrupted.	source
+690bfc59	You cannot change channel.	You cannot change channel.	source
+9fb6aa7d	Currently, you cannot switch to that channel.	Currently, you cannot switch to that channel.	source
+347805b6	Please wait a moment. Changing channel...	Please wait a moment. Changing channel...	source
+27d666a6	%d seconds till channel change.	%d seconds till channel change.	source
+992518ec	You cannot sell equiped items.	You cannot sell equiped items.	source
+a9986c9f	You cannot sell locked items.	You cannot sell locked items.	source
+8587e8a4	You cannot fish here.	You cannot fish here.	source
+31324940	You cannot sell items you have equipped.	You cannot sell items you have equipped.	source
+4e559644	%s[%d]s Attack Position: %d %d	%s[%d]s Attack Position: %d %d	source
+8cc15270	You cannot ride while falling.	You cannot ride while falling.	source
+7b851e6a	Charged for %d seconds	Charged for %d seconds	source
+b01fe1cf	+3 spirit stones can not be upgraded by this item.	+3 spirit stones can not be upgraded by this item.	source
+9ca56d76	You cannot open a warehouse in this area.	You cannot open a warehouse in this area.	source
+e7a806fc	Not available.	Not available.	source
+34470b0a	The item will disappear in %d minutes.	The item will disappear in %d minutes.	source
+9a680157	You cannot wear Tuxido on a horse.	You cannot wear Tuxido on a horse.	source
+36e15886	This item cannot be used on accesories.	This item cannot be used on accesories.	source
+c7245ce6	You cannot read books while transformed.	You cannot read books while transformed.	source
+dad0a8c4	No metin stone to take out.	No metin stone to take out.	source
+177a8d3f	Your rank cannot raise any more.	Your rank cannot raise any more.	source
+452d4147	You can only drop gold once in every 10 seconds.	You can only drop gold once in every 10 seconds.	source
+68ceb671	You can only drop item once in every %d seconds.	You can only drop item once in every %d seconds.	source
+03ca4106	You cannot use it now.	You cannot use it now.	source
+efc2e25c	The spirit stone can not be advanced by this item.	The spirit stone can not be advanced by this item.	source
+f2d3763c	You cannot upgrade this item.	You cannot upgrade this item.	source
+2ca0d040	This item can only be used on weapons or armor up to level 40.	This item can only be used on weapons or armor up to level 40.	source
+16454b16	Test server time limit passed	Test server time limit passed	source
+9c649021	Your inventory is full.	Your inventory is full.	source
+739be77e	%s rolled dice and got %d. (%d-%d)	%s rolled dice and got %d. (%d-%d)	source
+23189d62	You rolled dice and got %d. (%d-%d)	You rolled dice and got %d. (%d-%d)	source
+59797db5	Lack of Taxes. Current Capital : %u Needed Capital : %u	Lack of Taxes. Current Capital : %u Needed Capital : %u	source
+bc9dcfb3	You can use this skill only in your land.	You can use this skill only in your land.	source
+ceeee380	Failed to craft.	Failed to craft.	source
+d776ffef	You managed to defeat the dragon in %d seconds!	You managed to defeat the dragon in %d seconds!	source
+41fb6c9c	<Guild> The Guild is at war.	<Guild> The Guild is at war.	source
+bc6b5c6c	<Guild> %d Skills used (%d, %d) to %u	<Guild> %d Skills used (%d, %d) to %u	source
+9e5c4753	<Guild> %u Dragon ghost restored.	<Guild> %u Dragon ghost restored.	source
+19d9e2b2	<Guild> The Guild has already reached maximum level.	<Guild> The Guild has already reached maximum level.	source
+9090f914	<Guild> During a guild war, you cannot kick out other guild members.	<Guild> During a guild war, you cannot kick out other guild members.	source
+8da4f831	<Storage> Cannot move items in safebox.	<Storage> Cannot move items in safebox.	source
+fd88288d	Time remaining %d seconds.	Time remaining %d seconds.	source
+2c9947c2	The recipient cannot receive friend invitation.	The recipient cannot receive friend invitation.	source
+fe5c3b2d	%s is connected on %d channel. (current channel:%d)	%s is connected on %d channel. (current channel:%d)	source
+6b74bbc2	%s is near you.	%s is near you.	source
+075601b5	Summon request has been sent.	Summon request has been sent.	source
+787b3000	You cannot sell items you are already equipped.	You cannot sell items you are already equipped.	source
+618504ad	Items you are using cannot be sold in your personal shop.	Items you are using cannot be sold in your personal shop.	source
+715aedbb	The Dragon Soul Stone box is not activated.	The Dragon Soul Stone box is not activated.	source
+37abff8d	The detector was activated, but no spirit stones were detected.	The detector was activated, but no spirit stones were detected.	source
+447b7d44	Cannot charge.	Cannot charge.	source
+bd866f6d	You cannot summon to that area.	You cannot summon to that area.	source
+83da1e00	<Guild> New membership is currently restricted.	<Guild> New membership is currently restricted.	source
+17e4c161	There may be forced battles on this map.	There may be forced battles on this map.	source
+8bd99ec7	If you do not agree to these terms	If you do not agree to these terms	source
+9b3320a3	Please return to your original state and original location.	Please return to your original state and original location.	source
+809c7e7c	<Party> The party cannot be disbanded because there are party members inside the dungeon.	<Party> The party cannot be disbanded because there are party members inside the dungeon.	source
+b7cb48f1	You cannot move to that area.	You cannot move to that area.	source
+cc913734	The server will be closed in 10 minutes due to the maintenance.	The server will be closed in 10 minutes due to the maintenance.	source
+64ed839d	You cannot use this item if you're using quests	You cannot use this item if you're using quests	source
+e2293f35	You cannot perform this operation right now.	You cannot perform this operation right now.	source
+02d0c950	You need a minimum level of %d to buy this item.	You need a minimum level of %d to buy this item.	source
+ebc59d2e	You need certain items to buy this item.	You need certain items to buy this item.	source
+337fb859	Not enough inventory space.	Not enough inventory space.	source
+3d45d5fa	[Guild] You cannot use guild skills outside the guild war arena.	[Guild] You cannot use guild skills outside the guild war arena.	source
+1292f9e1	The war between %s and %s will start after %d minutes!	The war between %s and %s will start after %d minutes!	source
+266b78e2	Your group consists of each class, which you will recieve an experience bonus.	Your group consists of each class, which you will recieve an experience bonus.	source
+2b1290b6	You need room for atleast 3 slot item to open the box.	You need room for atleast 3 slot item to open the box.	source
+f79c8734	You cannot pickup this item if you're using quests	You cannot pickup this item if you're using quests	source
+d480a7d2	You cannot pickup item while busy.	You cannot pickup item while busy.	source
+031d421f	You can't advance this skill further. Use Skill Reset Scroll or Band of Oblivion.	You can't advance this skill further. Use Skill Reset Scroll or Band of Oblivion.	source
+41e96e35	You have to wait few seconds before changing channel.	You have to wait few seconds before changing channel.	source
+19e742bb	You cannot warp to this person.	You cannot warp to this person.	source
+00e5f393	The shop was recently edited by the owner. Please wait a while.	The shop was recently edited by the owner. Please wait a while.	source
+f245c8f3	You have to wait %d minutes to use this option again.	You have to wait %d minutes to use this option again.	source
+0a37cfe7	You have to wait a while after combat before using this option.	You have to wait a while after combat before using this option.	source
+1ffe307e	You have successfully freed yourself.	You have successfully freed yourself.	source
+c192e569	You are not stuck.	You are not stuck.	source
+55e51c85	Searching was stopped. Found above %d shops with specified item.	Searching was stopped. Found above %d shops with specified item.	source
+478f82db	Searching ended. Found %d shops.	Searching ended. Found %d shops.	source
+f56e41fe	Wait %s before using the scroll again.	Wait %s before using the scroll again.	source
+a5f54f35	You are already friends with %s.	You are already friends with %s.	source
+027bad39	<Party> The party leader is inside a dungeon.	<Party> The party leader is inside a dungeon.	source
+f4d42672	<Party> The party can't invite people if members are inside a dungeon.	<Party> The party can't invite people if members are inside a dungeon.	source
+92b33bf9	You cannot change PvP mode on war.	You cannot change PvP mode on war.	source
+7acebf62	Remaining time: %.2f	Remaining time: %.2f	source
+0d0e059b	Remaining time: %.1f	Remaining time: %.1f	source
+35720435	Wedding is still ongoing!	Wedding is still ongoing!	source
+defe9215	One of the wedding quests is not ready to leave the wedding.	One of the wedding quests is not ready to leave the wedding.	source
+6f7e4a91	Please wait a moment. Leaving the map.	Please wait a moment. Leaving the map.	source
+17e79654	Exit map was interrupted.	Exit map was interrupted.	source
+96fbc811	%d seconds till map exit.	%d seconds till map exit.	source
+cf6d0d3c	You have to wait few seconds before exiting the map.	You have to wait few seconds before exiting the map.	source
+e6319170	You cannot do that on special channel.	You cannot do that on special channel.	source
+862f69e1	You must wear a wedding dress to equip a bouquet.	You must wear a wedding dress to equip a bouquet.	source
+424e202b	You must unequip bouquet first.	You must unequip bouquet first.	source
+1cd4ae19	Summon your horse to get access to horse inventory.	Summon your horse to get access to horse inventory.	source
+ad24c3a7	You cannot add items from horse inventory to normal shop.	You cannot add items from horse inventory to normal shop.	source
+380e698e	Affects are not loaded yet!	Affects are not loaded yet!	source
+c91032fc	This feature is temporarily unavailable.	This feature is temporarily unavailable.	source
+beb07a78	The shop is not in edit mode.	The shop is not in edit mode.	source
+48ea3814	The shop is in edit mode.	The shop is in edit mode.	source
+ce0332ac	The shop is open.	The shop is open.	source
+fb3adee4	Item price edited successfully.	Item price edited successfully.	source

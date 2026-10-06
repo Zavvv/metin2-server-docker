@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Equipment development' if ui_language == 'en' else 'Rozwój ekwipunku' }}{% endblock %}
+{% block content %}
+{% set en = ui_language == 'en' %}
+<h1>{{ 'Equipment development' if en else 'Rozwój ekwipunku' }}</h1>
+<p>{{ 'Current snapshots from all running cores. No profile or pace settings.' if en else 'Bieżące migawki ze wszystkich rdzeni. Profile i tempo rozwoju boty wybierają samodzielnie.' }}</p>
+<p>{{ data.count }} {{ 'bots in fresh snapshots' if en else 'botów w świeżych migawkach' }}</p>
+<div class="grid"><section class="card"><h2>{{ 'Ambition profiles' if en else 'Profile ambicji' }}</h2>
+{% set names = ['Cautious','Normal','Ambitious','Risk taker'] if en else ['Ostrożny','Zwykły','Ambitny','Ryzykant'] %}
+{% for n in names %}<p>{{ n }}: <strong>{{ data.profiles[loop.index0] }}</strong></p>{% endfor %}</section>
+<section class="card"><h2>{{ 'Development states' if en else 'Stany rozwoju' }}</h2>
+{% set states = {'NO_PROJECT':'Brak projektu','SAVING':'Zbiera na krok','MATERIAL_MISSING':'Brak materiału','OFFER_UNREACHABLE':'Oferta niedostępna','RISK_BLOCKED':'Blokada ryzyka','WAITING_READY':'Czeka na gotowy','TRAVELLING':'W drodze','AT_SMITH':'U kowala'} %}
+{% for state, count in data.states.items() %}<p>{{ state if en else states[state] }}: <strong>{{ count }}</strong></p>{% endfor %}</section></div>
+<section class="card"><h2>{{ 'Mean equipment grade' if en else 'Średni poziom ulepszenia' }}</h2>
+<table><thead><tr><th>{{ 'Level' if en else 'Poziom' }}</th><th>{{ 'Bots' if en else 'Boty' }}</th><th>{{ 'Weapon' if en else 'Broń' }}</th><th>{{ 'Armour' if en else 'Zbroja' }}</th></tr></thead>
+<tbody>{% for g in data.groups %}<tr><td>{{ g.level }}</td><td>{{ g.count }}</td><td>{{ g.weapon if g.weapon is not none else '—' }}</td><td>{{ g.body if g.body is not none else '—' }}</td></tr>{% endfor %}</tbody></table></section>
+<section class="card"><h2>{{ 'Most frequent missing materials' if en else 'Najczęściej brakujące materiały' }}</h2>
+{% for vnum, count, name in missing %}<p>{{ name }}: {{ count }}</p>{% else %}<p>—</p>{% endfor %}</section>
+<section class="card"><h2>{{ 'Bot shops' if en else 'Sklepy botów' }}</h2>
+<p>{{ 'Refresh listing prices, preserving items and their layout. Purchases by bots pause during processing.' if en else 'Przelicz ceny ofert, zachowując przedmioty i ich układ. Zakupy botów są wstrzymane na czas przeliczania.' }}</p>
+<form method="post" action="{{ url_for('development_shop_reset') }}"><input type="hidden" name="update_csrf" value="{{ csrf }}"><button type="submit">{{ 'Refresh bot shop prices' if en else 'Zresetuj ceny sklepów botów' }}</button></form>
+<p>{{ reset.done }} / {{ reset.total }} · {{ {'waiting':('Waiting for the server' if en else 'Oczekuje na serwer'),'running':('In progress' if en else 'W trakcie'),'complete':('Complete' if en else 'Zakończono'),'error':('Stopped after an error; original goods retained' if en else 'Zatrzymano po błędzie; przedmioty zachowane')}[reset.state] }}</p></section>
+<section class="card"><h2>{{ 'Economy and weapon settings' if en else 'Ustawienia gospodarki i broni' }}</h2>
+<form method="post" action="{{ url_for('development_settings') }}"><input type="hidden" name="update_csrf" value="{{ csrf }}">
+<label>{{ 'Daily Yang growth goal (0–3%)' if en else 'Docelowy wzrost yang na dobę (0–3%)' }} <input type="number" name="goal" min="0" max="3" value="{{ development_settings.goal }}" required></label>
+<label>{{ 'Weapon type preference (0–15%)' if en else 'Preferencja typu broni (0–15%)' }} <input type="number" name="preference" min="0" max="15" value="{{ development_settings.preference }}" required></label>
+<button type="submit">{{ 'Apply' if en else 'Zastosuj' }}</button></form>
+<p>{{ 'The shop tax is 20% plus a controller surcharge of 0–5 percentage points. Profiles and development pace remain automatic.' if en else 'Opłata sklepów wynosi 20% oraz dopłatę kontrolera 0–5 punktów procentowych. Profile i tempo rozwoju pozostają automatyczne.' }}</p></section>
+<section class="card"><h2>{{ 'Yang in the world' if en else 'Yang w świecie' }}</h2>
+{% if history %}<canvas id="yang-history"></canvas><p>{{ 'Bot shop tax' if en else 'Opłata sklepów botów' }}: {{ 20 + history[-1].surcharge }}% · {{ 'Exchange limit' if en else 'Limit Kantoru' }}: {{ 60 * history[-1].exchange_pct // 100 }}/h</p>
+<script>new Chart(document.getElementById('yang-history'),{type:'line',data:{labels:{{ history|map(attribute='label')|list|tojson }},datasets:[{label:'Yang',data:{{ history|map(attribute='total_yang')|list|tojson }},borderColor:'#dfbc63'}]},options:{responsive:true}});</script>
+{% else %}<p>{{ 'Waiting for the first hourly census. The controller needs 24 hours of samples.' if en else 'Oczekiwanie na pierwszy pomiar godzinowy. Kontroler potrzebuje pomiarów z 24 godzin.' }}</p>{% endif %}
+{% for s in sinks %}<p>{{ s.kind }}: {{ s.amount }}</p>{% endfor %}</section>
+{% endblock %}

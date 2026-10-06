@@ -1,0 +1,336 @@
+-- The package's OX quiz (quest/events/oxevent.quest of the share), compiled
+-- here under its own name so its object files land over the stock ones: the
+-- same six handlers in the same order - Uriel's (20011) option, the three GM
+-- options at the Nameless Flowers (20358) on map 113, the login and the
+-- logout - so every stock file is replaced and none is left behind.
+--
+-- What changed (Malina, 29 September):
+--   * the level window starts at fifteen with no ceiling, the dialog's first
+--     choice; the package's brackets follow it, the last one open-ended;
+--   * the GM's limit goes up to 1000 where it stopped at 200, and "full"
+--     is the people who came and the bots in together at or past it - the
+--     package asked for exactly the limit (==), so a count that passed it
+--     let everybody in. The bots' count is ox_map_bot_count, which the core
+--     running the quiz writes (playerbot_ox_event.h); a quarter of the
+--     limit stays for people;
+--   * both counts are reset when the quiz opens, not only when it ends: a
+--     quiz cut short by a restart left the next one full before it began;
+--   * a registration closed while Uriel's window stood open lets nobody in,
+--     and Uriel on another channel than the GM's names the quiz's channel
+--     instead of warping a person onto an arena where nothing is asked;
+--   * every line is in the reader's language (playerbot_lang.quest), and a
+--     notice to everybody goes out as two halves behind the marks each core
+--     hands a player its own by (playerbot_language.h).
+-- The questions are the image's oxquiz.lua (Polish, each with its English
+-- twin); the arena's own notices are the engine's (OXEvent.cpp, and
+-- playerbotify's apply_ox_event for the reader's language).
+quest oxevent_manager begin
+    state start begin
+        function t(pl, en)
+            if pc.getf("playerbot_lang", "en") == 1 then
+                return en
+            end
+            return pl
+        end
+
+        -- A notice to everybody, each reader its own half: the Polish behind
+        -- the byte 1, the English behind the byte 2.
+        function notice_both(pl, en)
+            notice_all(string.char(1) .. pl)
+            notice_all(string.char(2) .. en)
+        end
+
+        function reset_counts()
+            game.set_event_flag("ox_map_login_counter", 0)
+            game.set_event_flag("ox_map_bot_count", 0)
+        end
+
+        function cleanup_event()
+            oxevent.end_event()
+            oxevent_manager.reset_counts()
+        end
+
+        -- People who came and bots who came, against the GM's limit (0: none).
+        function is_full()
+            local max = game.get_event_flag("ox_map_player_max")
+            if max <= 0 then
+                return false
+            end
+            local came = game.get_event_flag("ox_map_login_counter") + game.get_event_flag("ox_map_bot_count")
+            return came >= max
+        end
+
+        -- The brackets: fifteen and up first, then the package's own, the
+        -- last one open to the world's maximum (250 is the engine's ceiling).
+        function enter_level(choice, which)
+            local lv_range = {}
+            lv_range[1] = {15, 250}
+            lv_range[2] = {15, 39}
+            lv_range[3] = {40, 64}
+            lv_range[4] = {65, 84}
+            lv_range[5] = {85, 99}
+            lv_range[6] = {100, 250}
+            return lv_range[choice][which]
+        end
+
+        -- The window the GM chose; a flag nobody wrote is fifteen and up.
+        function level_window()
+            local lo = game.get_event_flag("ox_map_level_min")
+            local hi = game.get_event_flag("ox_map_level_max")
+            if lo <= 0 then
+                lo = 15
+            end
+            if hi <= 0 then
+                hi = 250
+            end
+            return lo, hi
+        end
+
+        function level_text_in(lo, hi, en)
+            if hi >= 250 then
+                if en then
+                    return string.format("level %d and up", lo)
+                end
+                return string.format("od %d poziomu wzwyz", lo)
+            end
+            if en then
+                return string.format("levels %d - %d", lo, hi)
+            end
+            return string.format("poziomy %d - %d", lo, hi)
+        end
+
+        function level_text(lo, hi)
+            return oxevent_manager.level_text_in(lo, hi, pc.getf("playerbot_lang", "en") == 1)
+        end
+
+        when login or enter begin
+            if pc.get_map_index() == 113 and not pc.is_playerbot() then
+                local counter = game.get_event_flag("ox_map_login_counter")
+                game.set_event_flag("ox_map_login_counter", counter + 1)
+            end
+        end
+
+        when logout begin
+            if pc.get_map_index() == 113 then
+                if is_test_server() then
+                    pc.setqf("ox_end_cooldown_time", get_time() + 20 * 3)
+                else
+                    pc.setqf("ox_end_cooldown_time", get_time() + 60 * 15)
+                end
+            end
+        end
+
+        when 20011.chat.oxevent_manager.t("Konkurs OX", "OX Quiz") begin
+            say_title("Uriel:")
+            say(oxevent_manager.t("Hej, ty! Tak, ty - wygladasz na bystra osobe.", "Hey, you! Yes, you - you look like a clever one."))
+            say(oxevent_manager.t("Jest konkurs, ktory nazywa sie Konkurs OX.", "There is a contest called the OX Quiz."))
+            say(oxevent_manager.t("Mozesz w nim pokazac, co wiesz, a jezeli", "You can show what you know in it, and if you"))
+            say(oxevent_manager.t("wygrasz, otrzymasz niezla nagrode.", "win, you get a fine reward."))
+            wait()
+
+            local status = game.get_event_flag("oxevent_status")
+            if status == 0 then
+                say_title("Uriel:")
+                say(oxevent_manager.t("Kiedy konkurs sie zacznie, pozwole ci wziac", "When the quiz starts, I will let you take"))
+                say(oxevent_manager.t("w nim udzial. Czas rozpoczecia nie jest jeszcze", "part. The start is not set yet. I will let"))
+                say(oxevent_manager.t("ustalony - dam ci znac, wiec badz gotowy.", "you know, so be ready."))
+            elseif status == 1 then
+                local lo, hi = oxevent_manager.level_window()
+                say_title("Uriel:")
+                say(oxevent_manager.t("Konkurs wlasnie przyjmuje uczestnikow.", "The quiz is taking participants now."))
+                say(oxevent_manager.t("Dla kogo: ", "Open to: ") .. oxevent_manager.level_text(lo, hi) .. ".")
+                say(oxevent_manager.t("Chcesz dolaczyc?", "Do you want to join?"))
+                local s = select(oxevent_manager.t("Wejdz", "Enter"), oxevent_manager.t("Anuluj", "Cancel"))
+                if s ~= 1 then
+                    return
+                end
+
+                say_title("Uriel:")
+                say(oxevent_manager.t("Okej - wiec zaczynajmy.", "Okay - let us begin."))
+                wait()
+
+                if game.get_event_flag("oxevent_status") ~= 1 then
+                    say_title("Uriel:")
+                    say(oxevent_manager.t("Zapisy wlasnie sie skonczyly. Nastepnym", "Registration has just closed. Next time,"))
+                    say(oxevent_manager.t("razem badz szybszy!", "be quicker!"))
+                    return
+                end
+                -- The quiz's state is a flag every channel reads, its questions
+                -- are asked on the arena of the GM's channel alone: another
+                -- channel's arena would be one nobody asks anything on.
+                local quiz_channel = game.get_event_flag("ox_map_channel")
+                if quiz_channel > 0 and quiz_channel ~= get_channel_id() then
+                    say_title("Uriel:")
+                    say(string.format(oxevent_manager.t("Konkurs odbywa sie na CH%d - zmien kanal,", "The quiz runs on CH%d - change channel"), quiz_channel))
+                    say(oxevent_manager.t("aby wziac w nim udzial.", "to take part."))
+                    return
+                end
+                if pc.get_level() < lo or pc.get_level() > hi then
+                    say_title("Uriel:")
+                    say(oxevent_manager.t("Do konkursu moga teraz wejsc tylko postacie:", "Only characters of these levels may enter now:"))
+                    say_reward(oxevent_manager.level_text(lo, hi) .. ".")
+                    return
+                end
+                if get_time() < pc.getqf("ox_end_cooldown_time") then
+                    say_title("Uriel:")
+                    say(oxevent_manager.t("To nie jest odpowiedni czas na wejscie.", "This is not the right time to enter."))
+                    return
+                end
+                if oxevent_manager.is_full() then
+                    say_title("Uriel:")
+                    say(oxevent_manager.t("Arena konkursu jest pelna. Nikt nie moze", "The quiz arena is full. Nobody else can"))
+                    say(oxevent_manager.t("juz wejsc.", "enter now."))
+                    return
+                end
+                -- Onto the entry point itself: the engine registers an
+                -- attender only there (COXEventManager::Enter).
+                pc.warp(896500, 24600)
+            else
+                say_title("Uriel:")
+                say(oxevent_manager.t("Konkurs juz trwa - tym razem nie mozesz wziac", "The quiz has already begun - you cannot take"))
+                say(oxevent_manager.t("w nim udzialu. Nastepny wystartuje juz", "part this time. The next one starts soon,"))
+                say(oxevent_manager.t("niedlugo, a ja dam ci znac.", "and I will let you know."))
+            end
+        end
+
+        when 20358.chat.oxevent_manager.t("Konkurs OX: Start", "OX Quiz: Start") with pc.get_gm_level() == 5 begin
+            local stat = oxevent.get_status()
+
+            if stat == 0 then
+                say(oxevent_manager.t("Ktore poziomy moga wziac udzial w konkursie?", "Which levels may take part in the quiz?"))
+                local choice = select(
+                    "1> " .. oxevent_manager.level_text(oxevent_manager.enter_level(1, 1), oxevent_manager.enter_level(1, 2)),
+                    "2> " .. oxevent_manager.level_text(oxevent_manager.enter_level(2, 1), oxevent_manager.enter_level(2, 2)),
+                    "3> " .. oxevent_manager.level_text(oxevent_manager.enter_level(3, 1), oxevent_manager.enter_level(3, 2)),
+                    "4> " .. oxevent_manager.level_text(oxevent_manager.enter_level(4, 1), oxevent_manager.enter_level(4, 2)),
+                    "5> " .. oxevent_manager.level_text(oxevent_manager.enter_level(5, 1), oxevent_manager.enter_level(5, 2)),
+                    "6> " .. oxevent_manager.level_text(oxevent_manager.enter_level(6, 1), oxevent_manager.enter_level(6, 2)),
+                    oxevent_manager.t("Anuluj", "Cancel"))
+                if choice < 1 or choice > 6 then
+                    return
+                end
+                local lo = oxevent_manager.enter_level(choice, 1)
+                local hi = oxevent_manager.enter_level(choice, 2)
+
+                say(oxevent_manager.t("Ilu uczestnikow moze wziac udzial? Wpisz", "How many participants may take part? Enter"))
+                say(oxevent_manager.t("liczbe od 1 do 1000. Boty licza sie do niej,", "a number from 1 to 1000. Bots count towards"))
+                say(oxevent_manager.t("a co najmniej czwarta czesc miejsc zostaje", "it, and at least a quarter of the places"))
+                say(oxevent_manager.t("dla graczy.", "stays for players."))
+                local amount_choice = input_number(oxevent_manager.t("Liczba uczestnikow:", "Number of participants:"))
+                if amount_choice > 1000 or amount_choice <= 0 then
+                    say(oxevent_manager.t("Podales nieprawidlowa liczbe.", "That is not a valid number."))
+                    say(oxevent_manager.t("Dozwolone: 1 - 1000.", "Allowed: 1 - 1000."))
+                    return
+                end
+
+                say(oxevent_manager.t("Konkurs OX: Start", "OX Quiz: Start"))
+                say(oxevent_manager.t("Po wybraniu tej opcji Konkurs OX zostanie", "Choosing this starts the OX Quiz."))
+                say(oxevent_manager.t("uruchomiony. Wybrane ustawienia:", "The settings chosen:"))
+                say(oxevent_manager.t("Poziomy: ", "Levels: ") .. oxevent_manager.level_text(lo, hi))
+                say(oxevent_manager.t("Liczba uczestnikow: ", "Participants: ") .. amount_choice)
+
+                local s = select(oxevent_manager.t("Start", "Start"), oxevent_manager.t("Anuluj", "Cancel"))
+                if s == 1 then
+                    -- The window, the limit and both counts before the quiz
+                    -- opens: the core's bots read them the moment it is open.
+                    game.set_event_flag("ox_map_level_min", lo)
+                    game.set_event_flag("ox_map_level_max", hi)
+                    game.set_event_flag("ox_map_player_max", amount_choice)
+                    game.set_event_flag("ox_map_channel", get_channel_id())
+                    oxevent_manager.reset_counts()
+                    local v = oxevent.open()
+
+                    if v == 1 then
+                        say(oxevent_manager.t("Konkurs OX zostal rozpoczety.", "The OX Quiz has started."))
+                        oxevent_manager.notice_both(
+                            "Rozpoczal sie Konkurs OX (" .. oxevent_manager.level_text_in(lo, hi, false) .. ")!",
+                            "The OX Quiz has begun (" .. oxevent_manager.level_text_in(lo, hi, true) .. ")!")
+                        oxevent_manager.notice_both(
+                            string.format("Porozmawiaj z Urielem w pierwszej wiosce na CH%d, a przeniesie cie na arene.", get_channel_id()),
+                            string.format("Talk to Uriel in the first village on CH%d and he takes you to the arena.", get_channel_id()))
+                    else
+                        say(oxevent_manager.t("Konkurs OX nie mogl zostac uruchomiony!", "The OX Quiz could not be started!"))
+                        say_reward(oxevent_manager.t("Blad podczas ladowania pytan (oxquiz.lua).", "Error loading the questions (oxquiz.lua)."))
+                    end
+                end
+            elseif stat == 1 then
+                say(oxevent_manager.t("Konkurs OX: rejestracja otwarta.", "OX Quiz: registration open."))
+                say(string.format(oxevent_manager.t("Uczestnikow do tej pory: %d (w tym botow: %d).", "Participants so far: %d (bots among them: %d)."),
+                    oxevent.get_attender(), game.get_event_flag("ox_map_bot_count")))
+
+                local s = select(oxevent_manager.t("Zamknij rejestracje", "Close registration"), oxevent_manager.t("Anuluj", "Cancel"))
+                if s == 1 then
+                    oxevent.close()
+                    say(oxevent_manager.t("Nowe rejestracje sa niemozliwe. Teraz mozesz", "No new registrations. You can ask the"))
+                    say(oxevent_manager.t("zadawac pytania.", "questions now."))
+                end
+            elseif stat == 2 then
+                say(oxevent_manager.t("Konkurs OX: rejestracja zakonczona.", "OX Quiz: registration closed."))
+                say(string.format(oxevent_manager.t("W grze zostalo: %d.", "Still in the running: %d."), oxevent.get_attender()))
+
+                local s = select(
+                    oxevent_manager.t("Zadaj pytanie", "Ask a question"),
+                    oxevent_manager.t("Restart konkursu", "Restart the quiz"),
+                    oxevent_manager.t("Zakoncz konkurs", "End the quiz"),
+                    oxevent_manager.t("Anuluj", "Cancel")
+                    )
+
+                if s == 1 then
+                    local v = oxevent.quiz(1, 30)
+
+                    if v == 0 then
+                        say(oxevent_manager.t("Nie ma juz pytan albo konkurs nie jest", "There are no questions left, or the quiz is"))
+                        say(oxevent_manager.t("uruchomiony.", "not running."))
+                    elseif v == 1 then
+                        say(oxevent_manager.t("Pytanie zostalo zadane.", "The question has been asked."))
+                    else
+                        say(oxevent_manager.t("Blad! Pytanie nie zostalo zadane.", "Error! The question was not asked."))
+                    end
+                elseif s == 2 then
+                    oxevent_manager.cleanup_event()
+                    say(oxevent_manager.t("Konkurs OX zostanie uruchomiony od nowa.", "The OX Quiz will start over."))
+                    oxevent_manager.notice_both(
+                        "Za chwile kolejna runda Konkursu OX. Uczestnicy ostatniej rundy wracaja do miasta.",
+                        "Another round of the OX Quiz soon. The players of the last one return to town.")
+                elseif s == 3 then
+                    oxevent_manager.cleanup_event()
+                    say(oxevent_manager.t("Konkurs OX: zamkniety.", "OX Quiz: closed."))
+                    oxevent_manager.notice_both(
+                        "Konkurs OX dobiegl konca. Wszyscy uczestnicy wracaja do miasta.",
+                        "The OX Quiz is over. All participants return to town.")
+                end
+            elseif stat == 3 then
+                say(oxevent_manager.t("Konkurs OX: pytanie wlasnie trwa...", "OX Quiz: a question is running..."))
+                say_reward(oxevent_manager.t("Prosze chwilke poczekac.", "Please wait a moment."))
+            else
+                say(oxevent_manager.t("Konkurs OX: nie do uzycia.", "OX Quiz: not available."))
+            end
+        end
+
+        when 20358.chat.oxevent_manager.t("Konkurs OX: Anuluj", "OX Quiz: Cancel") with pc.get_gm_level() == 5 begin
+            say(oxevent_manager.t("Konkurs OX: anulowanie.", "OX Quiz: cancel."))
+            say(oxevent_manager.t("Moga wystapic nieoczekiwane problemy!", "Unexpected problems may occur!"))
+            say(oxevent_manager.t("Kontynuowac?", "Continue?"))
+
+            local s = select(oxevent_manager.t("Tak, anuluj konkurs.", "Yes, cancel the quiz."), oxevent_manager.t("Anuluj", "Cancel"))
+
+            if s == 1 then
+                oxevent.end_event_force()
+                oxevent_manager.reset_counts()
+                say(oxevent_manager.t("Konkurs OX zostal anulowany.", "The OX Quiz has been cancelled."))
+            end
+        end
+
+        when 20358.chat.oxevent_manager.t("Konkurs OX: Nagroda", "OX Quiz: Reward") with pc.get_gm_level() == 5 begin
+            say(oxevent_manager.t("Konkurs OX: nagroda. Kazdy, kto jest jeszcze", "OX Quiz: reward. Everybody still in the"))
+            say(oxevent_manager.t("w grze, otrzyma nagrode. Podaj numer przedmiotu:", "running gets a reward. Enter the item number:"))
+            local item_vnum = input()
+            say(oxevent_manager.t("Podaj ilosc:", "Enter the amount:"))
+            local item_count = input()
+
+            oxevent.give_item(item_vnum, item_count)
+
+            say(string.format(oxevent_manager.t("Nagrode otrzymalo uczestnikow: %d.", "Participants who got the reward: %d."), oxevent.get_attender()))
+        end
+    end
+end

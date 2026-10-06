@@ -1,0 +1,23 @@
+-- The Dragon Stone Alchemy's refine window at the Alchemist (20001), as the
+-- package ships it in quest/_unused/dragon_soul/: an option that opens the
+-- engine's window, where two stones of one kind and class are a draw for the
+-- next class, two of one kind, class and clarity a draw for the next clarity,
+-- and a stone with a Dragon Bean (100300-100500) a draw for one more point of
+-- strength (DragonSoul.cpp; the odds and fees are the share's
+-- dragon_soul_table.txt as port/shareify.py edits it).
+--
+-- What we changed: the option is offered only while the world has the Alchemy
+-- on (the event flag m2_dragon_soul_off, see dragon_soul.quest) and to a
+-- character the Alchemist has qualified - the first hand-in's mark,
+-- dragon_soul.qualified. The package asked ds.is_qualified(), which this
+-- engine answers 1 for everybody (ENABLE_NO_DSS_QUALIFICATION); and the
+-- define line is written out, because the image's qc does not read define.
+quest dragon_soul_refine begin
+	state start begin
+		when 20001.chat.gameforge.dragon_soul_refine._010_npcChat with game.get_event_flag("m2_dragon_soul_off") == 0 and pc.getf("dragon_soul", "qualified") == 1 begin
+			say_title(mob_name(20001))
+			say (gameforge.dragon_soul_refine._020_say)
+			ds.open_refine_window()
+		end
+	end
+end

@@ -1,0 +1,38 @@
+-- Karta Wedkarska (27620) is what CHARACTER::fishing() wants worn, and the
+-- package sells it in exactly one place: the Fisherman's special shop,
+-- world.shop_special 9009 - 25 000 yang and five Materialy Rzemieslnicze
+-- (30378, the storekeeper's material exchange), once in twenty-two hours, and
+-- from level thirty since apply.sh lowered the package's fifty to the rod's
+-- own thirty (Tieru, 17 September); the check below says the same number so
+-- the dialog does not refuse what the shop sells. Nothing in the package
+-- opens that shop: special_shop.quest answers 20406, 9006 and the three
+-- guards, and no quest names 9009, so no
+-- player could ever buy a pass ("gdzie mozna zdobyc fishing pass?" - "Nie da
+-- sie", Greess and SIZOWSKI, 17 September). This is the Fisherman's button for
+-- it. The engine keeps the shop's own limits; fishing still wants the
+-- Fisherman's introduction (fishing_onboarding) finished. Bots never come
+-- through here - they buy theirs in the AI (EnsurePlayerBotFishingPass).
+-- Polish or English as the player's client asked (playerbot_lang.quest). The
+-- English says "fishing pass" and not the English locale pack's "Fishing
+-- Book": every client names an item from the one gamedata item_proto, the
+-- package's Polish, so that name is one nobody sees.
+quest fishing_pass_shop begin
+    state start begin
+        function t(pl, en)
+            if pc.getf("playerbot_lang", "en") == 1 then
+                return en
+            end
+            return pl
+        end
+
+        when 9009.chat.fishing_pass_shop.t("Karta Wedkarska", "Fishing pass") begin
+            if pc.get_level() < 30 then
+                npc_name()
+                say(fishing_pass_shop.t("Karte Wedkarska sprzedaje od 30 poziomu.", "I sell the fishing pass from level 30."))
+                return
+            end
+            setskin(NOWINDOW)
+            pc.open_special_shop(9009)
+        end
+    end
+end

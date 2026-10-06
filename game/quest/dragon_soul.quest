@@ -1,0 +1,269 @@
+-- The Dragon Stone Alchemy (Alchemia Smoczych Kamieni), as the package ships
+-- it in quest/_unused/dragon_soul/ and never compiled: Gameforge's quest, the
+-- code unchanged but for what is listed below. At level thirty a letter sends
+-- a player to the Alchemist (20001, in each kingdom's first village). His
+-- first talk starts the collection: every kill drops a Dragon Stone Shard
+-- (30270, owned by the killer for five minutes) at the percent of the event
+-- flag ds_drop - questlib's drop_gamble_with_flag reads 1 to 100 and takes
+-- anything else for 10, and the migrator writes 10 unless a game master set
+-- another - while the bag holds fewer than ten. Ten shards to him are the
+-- first Cor Draconis (50255) and the Power of the Dragon Eye: nine more boxes
+-- that day, one for every ten shards picked up, and ten a day after that,
+-- renewed at the Alchemist once a day. The box holds one Dragon Stone of the
+-- six kinds (special_item_group.starter.txt, port/shareify.py), the stone goes
+-- into the Alchemy window of the bag, and dragon_soul_refine.quest and
+-- dragon_soul_shop.quest are the Alchemist's other two options.
+--
+-- What we changed:
+--  * every handler asks the world's switch, the event flag m2_dragon_soul_off
+--    (M2_DRAGON_SOUL in .env, the launcher's difficulty window, which the
+--    migrator applies when it changed since the last start; the classic
+--    panel's card sets it live). Off, no letter, no shard, no hand-in and no
+--    renewal; what a character already holds - its stones and boxes, its
+--    state here - is left as it is, for the day the switch is on again, and
+--    a person's client hides the Alchemy (dragon_soul_switch.quest);
+--  * the first letter is a person's: a bot never talks to the Alchemist
+--    through a dialog, and the letter's arrow on him is a target event the
+--    engine would keep running for every bot of thirty for as long as it
+--    plays. A bot the AI has taken on (playerbot_dragon_soul.h writes this
+--    quest's state and flags) gets the shards from the kill handlers below
+--    like anybody else;
+--  * the first hand-in marks the character (dragon_soul.qualified), which is
+--    what the refine window and the Alchemist's shop ask for. The package
+--    asked ds.is_qualified(), and this engine is built with
+--    ENABLE_NO_DSS_QUALIFICATION (common/CommonDefines.h, and the client's
+--    Locale_inc.h the same), which answers 1 for everybody - the Alchemy
+--    window opens for every character and the Cor Draconis asks nothing;
+--  * the package's define lines are written out, because the image's qc does
+--    not read define: the shard 30270, the Alchemist 20001, the box 50255, ten
+--    shards, level thirty and the flag "ds_drop";
+--  * the Cor Draconis a day are the world's choice (Kuszaa and the operator,
+--    1 October): a new day's talk gives m2_ds_eyes_per_day() eyes
+--    (m2_difficulty.lua: the event flag m2_ds_eyes_per_day, 1 to 100, the
+--    package's ten for anything else) and the hand-in one fewer, where the
+--    package wrote 10 and 9. The bots' talks read the same flag
+--    (playerbot_dragon_soul_rules.h, EyesPerDay);
+--  * the hand-in's text is formatted with the eyes it gives - Gameforge's
+--    "Pozostale %d zrobisz sam" / "the remaining %d" reached a player as a
+--    bare %d - and a new day's text, which names Gameforge's ten, is followed
+--    by a line of ours with the world's count when that is not ten;
+--  * the switch moved while a person is in the game (the classic panel sets
+--    it live; Hiob, 1 October): off, the letter and the arrow on the
+--    Alchemist are taken back at once. dragon_soul_switch.quest's timer,
+--    every few seconds for a person and never for a bot, runs a handler of
+--    its name in each state of this quest that sends a letter - a timer runs
+--    the handlers of every quest that has one for its name - and that
+--    handler acts once a move (watch_switch). A login needs none of it: the
+--    letter handlers ask the switch before they send anything, and the
+--    engine drops a quest's arrows at a logout.
+--
+-- The texts are the package's gameforge.dragon_soul keys; a reader of English
+-- reads Gameforge's English of them (quest_texts_en.lua, quest_language.lua).
+quest dragon_soul begin
+	state start begin
+		-- A line of ours in the reader's language (playerbot_lang.quest).
+		function t(pl, en)
+			if pc.getf("playerbot_lang", "en") == 1 then
+				return en
+			end
+			return pl
+		end
+
+		-- A new day's talk, after Gameforge's text: the world's count where
+		-- that text's ten is not it.
+		function say_day_count(eyes)
+			if eyes ~= 10 then
+				say(string.format(dragon_soul.t("Na tym swiecie moge ci dac moc na %d Cor Draconis dziennie.",
+						"In this world I can give you the power for %d Cor Draconis a day."), eyes))
+			end
+		end
+
+		-- The world's switch as this quest last saw it for the person
+		-- ("switch_off", 1 off), looked at from dragon_soul_switch.quest's
+		-- timer: when it has moved to off, the letter and the arrow on the
+		-- Alchemist go (clear_letter is the package's q.done); when it has
+		-- moved back on, the letter comes with the next login, as it always
+		-- did. Once a move, so nothing is sent while the switch stands still.
+		function watch_switch()
+			local off = 0
+			if game.get_event_flag("m2_dragon_soul_off") ~= 0 then
+				off = 1
+			end
+			if pc.getqf("switch_off") == off then
+				return
+			end
+			pc.setqf("switch_off", off)
+			if off == 1 then
+				target.delete("__TARGET__")
+				clear_letter()
+			end
+		end
+
+		when dragon_soul_switch_look.timer begin
+			dragon_soul.watch_switch()
+		end
+
+		when levelup or letter with pc.level >= 30 and game.get_event_flag("m2_dragon_soul_off") == 0 and not pc.is_playerbot() begin
+			send_letter(gameforge.dragon_soul._1010_sendLetter)
+			local v = find_npc_by_vnum(20001)
+
+			if 0 != v then
+				target.vid("__TARGET__", v, mob_name(20001))
+			end
+		end
+		when info or button with game.get_event_flag("m2_dragon_soul_off") == 0 begin
+			say(gameforge.dragon_soul._1020_say)
+		end
+
+		when 20001.chat.gameforge.dragon_soul._1030_npcChat with pc.level >= 30 and game.get_event_flag("m2_dragon_soul_off") == 0 begin
+			target.delete("__TARGET__")
+
+			say_title(mob_name(20001))
+			say(gameforge.dragon_soul._1040_say)
+			set_state(state_learning)
+		end
+	end
+	state state_learning begin
+		when letter with game.get_event_flag("m2_dragon_soul_off") == 0 begin
+			send_letter(gameforge.dragon_soul._1050_sendLetter)
+		end
+		when dragon_soul_switch_look.timer begin
+			dragon_soul.watch_switch()
+		end
+		when info or button with game.get_event_flag("m2_dragon_soul_off") == 0 begin
+			say(gameforge.dragon_soul._1060_say)
+		end
+		when kill with game.get_event_flag("m2_dragon_soul_off") == 0 begin
+			if npc.is_pc() then
+				return
+			end
+
+			if pc.count_item(30270) < 10 then
+				if drop_gamble_with_flag("ds_drop") then
+					game.drop_item_with_ownership(30270, 1, 300)
+				end
+			end
+		end
+		when 20001.chat.gameforge.dragon_soul._1050_sendLetter with game.get_event_flag("m2_dragon_soul_off") == 0 begin
+			say_title(mob_name(20001))
+			if pc.count_item(30270) >= 10 then
+				local eyes = m2_ds_eyes_per_day() - 1
+				say(string.format(gameforge.dragon_soul._1070_say, eyes))
+				pc.remove_item(30270, 10)
+				ds.give_qualification()
+				pc.setf("dragon_soul", "qualified", 1)
+				char_log(pc.get_player_id(), 'DS_QUALIFICATION', 'SUCCESS')
+				pc.give_item2(50255)
+				local today = math.floor(get_global_time() / 86400)
+				pc.setf("dragon_soul", "eye_timestamp", today)
+				pc.setf("dragon_soul", "eye_left", eyes)
+				set_state(state_farming)
+			else
+				say(gameforge.dragon_soul._1080_say)
+			end
+		end
+	end
+	state state_farming begin
+		when letter with game.get_event_flag("m2_dragon_soul_off") == 0 begin
+			send_letter(gameforge.dragon_soul._1090_sendLetter)
+		end
+		when dragon_soul_switch_look.timer begin
+			dragon_soul.watch_switch()
+		end
+		when info or button with game.get_event_flag("m2_dragon_soul_off") == 0 begin
+			say(string.format(gameforge.dragon_soul._1100_say, pc.getf("dragon_soul", "eye_left")))
+		end
+		when kill with game.get_event_flag("m2_dragon_soul_off") == 0 begin
+			if npc.is_pc() then
+				return
+			end
+
+			if drop_gamble_with_flag("ds_drop") then
+				local eye_left = pc.getf("dragon_soul", "eye_left")
+				local haved_gemstone_number = pc.count_item(30270)
+
+				if eye_left > haved_gemstone_number / 10 then
+					game.drop_item_with_ownership(30270, 1, 300)
+				end
+			end
+		end
+		when 30270.pick with game.get_event_flag("m2_dragon_soul_off") == 0 begin
+			local eye_left = pc.getf("dragon_soul", "eye_left")
+			if eye_left <= 0 then
+				return
+			end
+
+			if pc.count_item(30270) >= 10 then
+				pc.setf("dragon_soul", "eye_left", eye_left - 1)
+				pc.remove_item(30270, 10)
+				pc.give_item2(50255)
+				if 1 == eye_left then
+					notice_multiline(gameforge.dragon_soul._1110_notice, notice)
+					set_state(state_closed_season)
+				end
+			end
+		end
+		when 20001.chat.gameforge.dragon_soul._1120_npcChat with game.get_event_flag("m2_dragon_soul_off") == 0 begin
+			say_title(mob_name(20001))
+			local today = math.floor(get_global_time() / 86400)
+			if today == pc.getf("dragon_soul", "eye_timestamp") then
+				say(gameforge.dragon_soul._1130_say)
+			else
+				local eyes = m2_ds_eyes_per_day()
+				say(gameforge.dragon_soul._1140_say)
+				dragon_soul.say_day_count(eyes)
+				pc.setf("dragon_soul", "eye_timestamp", today)
+				pc.setf("dragon_soul", "eye_left", eyes)
+			end
+		end
+	end
+	state state_closed_season begin
+		when letter with game.get_event_flag("m2_dragon_soul_off") == 0 begin
+			send_letter(gameforge.dragon_soul._1150_sendLetter)
+		end
+		when dragon_soul_switch_look.timer begin
+			dragon_soul.watch_switch()
+		end
+		when info or button with game.get_event_flag("m2_dragon_soul_off") == 0 begin
+			say(gameforge.dragon_soul._1160_say)
+			local today = math.floor(get_global_time() / 86400)
+			if today == pc.getf("dragon_soul", "eye_timestamp") then
+				say(gameforge.dragon_soul._1170_say)
+			else
+				say(gameforge.dragon_soul._1180_say)
+			end
+		end
+
+		when 20001.chat.gameforge.dragon_soul._1090_sendLetter with game.get_event_flag("m2_dragon_soul_off") == 0 begin
+			say_title(mob_name(20001))
+			local today = math.floor(get_global_time() / 86400)
+			if today == pc.getf("dragon_soul", "eye_timestamp") then
+				say(gameforge.dragon_soul._1130_say)
+			else
+				local eyes = m2_ds_eyes_per_day()
+				say(gameforge.dragon_soul._1140_say)
+				dragon_soul.say_day_count(eyes)
+				pc.setf("dragon_soul", "eye_timestamp", today)
+				pc.setf("dragon_soul", "eye_left", eyes)
+				set_state(state_farming)
+			end
+		end
+	end
+	-- Gameforge's older states, kept as the package has them: they only move
+	-- a character of those versions on, and nobody on this world is in one.
+	state state_1 begin
+		when login with game.get_event_flag("m2_dragon_soul_off") == 0 begin
+			set_state(state_learning)
+		end
+	end
+	state state_2 begin
+		when login with game.get_event_flag("m2_dragon_soul_off") == 0 begin
+			set_state(state_learning)
+		end
+	end
+	state state_3 begin
+		when login with game.get_event_flag("m2_dragon_soul_off") == 0 begin
+			set_state(state_closed_season)
+		end
+	end
+end

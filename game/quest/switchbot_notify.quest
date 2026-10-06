@@ -1,0 +1,49 @@
+quest switchbot_notify begin
+    state start begin
+        function t(pl, en)
+            if pc.getf("playerbot_lang", "en") == 1 then return en end
+            return pl
+        end
+        when login begin
+            cmdchat("SwitchbotNotifyReady " .. q.getcurrentquestindex())
+        end
+        when button begin
+            cmdchat("SwitchbotNotifyInput")
+            local identity = input()
+            cmdchat("SwitchbotNotifyInput")
+            local goals = input()
+            cmdchat("SwitchbotNotifyEnd")
+            if string.len(identity) > 60 or string.len(goals) > 60 then return end
+            local parts = {}
+            for token in string.gfind(identity, "%S+") do table.insert(parts, tonumber(token)) end
+            if table.getn(parts) != 2 and table.getn(parts) != 3 then return end
+            local slot = parts[1]
+            local vnum = parts[2]
+            local attempts = parts[3]
+            if attempts != nil and (attempts < 0 or attempts > 1000 or attempts != math.floor(attempts)) then return end
+            if slot == nil or vnum == nil or slot < 0 or slot >= 225 or slot != math.floor(slot) then return end
+            if not item.select_cell(slot) or not item.can_trash() or item.get_vnum() != vnum then return end
+            local attrs = item.get_attr0()
+            local wanted = {}
+            for token in string.gfind(goals, "%S+") do table.insert(wanted, tonumber(token)) end
+            local count = table.getn(wanted)
+            if count < 2 or count > 10 or math.mod(count, 2) != 0 then return end
+            for i = 1, count, 2 do
+                local found = false
+                for j = 1, 9, 2 do
+                    if attrs[j] == wanted[i] and attrs[j+1] >= wanted[i+1] then found = true end
+                end
+                if not found then return end
+            end
+            local link = string.format("item:%x:0:%x:%x:%x", vnum, item.get_socket(0), item.get_socket(1), item.get_socket(2))
+            for i = 1, 13, 2 do
+                if attrs[i] != 0 then link = link .. string.format(":%x:%d", attrs[i], attrs[i+1]) end
+            end
+            link = "|cffffc700|H" .. link .. "|h[" .. item.get_name() .. "]|h|r"
+            local message = switchbot_notify.t("Zakonczono losowanie przedmiotu.", "Item rerolling finished.")
+            if attempts != nil then message = message .. string.format(switchbot_notify.t(" Zuzyto zmianek: %d.", " Reroll scrolls used: %d."), attempts) end
+            pc.send_whisper(message, "Switchbot", false)
+            pc.send_whisper(link, "Switchbot", false)
+        end
+    end
+end

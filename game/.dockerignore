@@ -1,0 +1,49 @@
+# The protected image's build context: exactly what its Dockerfile copies
+# (make-protected-context.py writes this list from it). A server folder that
+# was an ordinary installation before its update to the protected version
+# keeps the old tree beside it - src/ with the engine and its externals, the
+# container's scripts in bin/, the share additions at the top - because an
+# update never deletes a file; none of it is sent to the builder.
+*
+!bin/db
+!bin/game
+!bin/qc
+!mark-default
+!quest
+!quest/m2_biologist.lua
+!quest/m2_difficulty.lua
+!quest/quest_language.lua
+!quest/quest_texts_en.lua
+!scripts
+!share-add/cube.seon_pyeong.txt
+!share-add/locale_string_en.tsv
+!share-add/mob_drop_item.m3.append.txt
+!share-add/oxquiz.lua
+!share-add/playerbot_live_chat_*.tsv
+!share-add/playerbot_names_en.tsv
+!share-add/special_item_group.moonlight.txt
+!share-add/special_item_group.starter.txt
+!share-add/special_spawns.baroness.txt
+!share/CMD
+!share/data
+!share/locale
+!share/locale/poland/quest/quest_functions
+!special_item_group.moonlight.custom*.txt
+
+# Never an object file, whatever a folder above holds.
+**/*.o
+**/*.a
+**/.obj/
+**/__pycache__/
+**/.git/
+**/*.pyc
+**/*.pyo
+**/*.bak
+**/*.orig
+**/*.rej
+**/*.pdb
+**/*.marty_backup
+**/*.code-workspace
+**/*~
+**/.env*
+!**/.env.example
