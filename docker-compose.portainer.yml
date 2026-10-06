@@ -1,0 +1,30 @@
+# Portainer overlay for a non-administrator endpoint.
+#
+# The base stack uses bind mounts for package assets, host telemetry and its
+# optional host updater. Portainer deliberately blocks those mounts for
+# non-admin users. This overlay bakes the MariaDB assets into an image and
+# disables the two host-dependent optional services.
+
+services:
+  mariadb:
+    build:
+      context: ./mariadb
+      dockerfile: Dockerfile
+    image: metin2/mariadb:11.8
+    volumes: !reset
+      - db-data:/var/lib/mysql
+
+  playerbot-migrate:
+    image: metin2/mariadb:11.8
+    volumes: !reset
+      - rates-spool:/opt/m2spool
+
+  seban-collector:
+    profiles: ["host-metrics"]
+    volumes: !reset
+      - game-var:/opt/metin2/var:ro
+
+  updater:
+    profiles: ["portainer-disabled"]
+    volumes: !reset
+      - update-spool:/opt/m2update
