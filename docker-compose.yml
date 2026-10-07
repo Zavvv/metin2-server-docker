@@ -20,7 +20,10 @@ services:
   mariadb:
     # 11.8 and not 10.11: the package's dumps were made by 11.8 and three of
     # their tables use utf8mb3_uca1400_ai_ci, a collation older servers refuse.
-    image: mariadb:11.8
+    build:
+      context: ./mariadb
+      dockerfile: Dockerfile
+    image: metin2/mariadb:11.8
     container_name: "${M2_CONTAINER_PREFIX:-metin2}-db"
     restart: unless-stopped
     stop_grace_period: 60s
@@ -34,11 +37,6 @@ services:
 
     volumes:
       - db-data:/var/lib/mysql
-      - ./mariadb/conf.d:/etc/mysql/conf.d:ro
-      - ./mariadb/initdb.d:/docker-entrypoint-initdb.d:ro
-      # initdb runs gm_characters.sql from here, the same file apply.sh
-      # runs on every start; one copy, two readers.
-      - ./mariadb/playerbot:/opt/playerbot:ro
 
     ports:
       - "127.0.0.1:${M2_DB_PUBLISH_PORT:-3306}:3306"
@@ -60,7 +58,8 @@ services:
   # never rewrites an existing bot's progress.
   # ---------------------------------------------------------------------------
   playerbot-migrate:
-    image: mariadb:11.8
+    image: metin2/mariadb:11.8
+    pull_policy: never
     container_name: "${M2_CONTAINER_PREFIX:-metin2}-playerbot-migrate"
     restart: "no"
 
@@ -150,7 +149,6 @@ services:
     entrypoint: ["/bin/sh", "/opt/playerbot/apply.sh"]
 
     volumes:
-      - ./mariadb/playerbot:/opt/playerbot:ro
       # The spool, for two files: whether a world about to be made keeps its
       # bots at the door until the operator lets them in - the migrator is the
       # only step that runs before the cores and knows the world is fresh -
@@ -161,8 +159,6 @@ services:
     read_only: true
     tmpfs:
       - /tmp
-    cap_drop:
-      - ALL
     security_opt:
       - no-new-privileges:true
 
@@ -598,9 +594,6 @@ services:
       - seban-panel
     environment: *seban-env
     volumes:
-      # The host's load, or on Docker Desktop the VM's - what there is.
-      - /proc:/host/proc:ro
-      - /:/hostfs:ro
       - game-var:/opt/metin2/var:ro
     networks: [backend]
 
@@ -614,56 +607,6 @@ services:
       - seban-panel
     environment: *seban-env
     networks: [backend]
-
-  updater:
-    build:
-      context: ./updater
-      dockerfile: Dockerfile
-    image: metin2/updater:latest
-    container_name: "${M2_CONTAINER_PREFIX:-metin2}-updater"
-    profiles: ["update"]
-    restart: unless-stopped
-    init: true
-    # The 2.x line updates from the package zip the manifest names - the same
-    # zip the Windows launcher installs - and not from a git checkout of the
-    # repository: the repository's root VERSION is the 1.x line's, and the 1.x
-    # updater staged that line over a 2.x server ("checkout z main melduje
-    # 1.33.3", rates stuck, no stalls - l0st3k, 12 September).
-    # linux-port/tools/update.sh in watch mode reads the request the panel
-    # writes and answers in the same update.status the panel reads.
-    entrypoint: ["/bin/sh", "${M2_UPDATE_STACK_DIR:-/opt/metin2}/linux-port/tools/update.sh"]
-    command: ["watch"]
-
-    environment:
-      M2_UPDATE_SPOOL: "/opt/m2update"
-      # Where the installed stack is -- the directory holding this file.
-      # On this line the "stack dir" is the server folder itself: the one
-      # with VERSION, CHANGELOG.md and linux-port/ in it.
-      M2_UPDATE_STACK_DIR: "${M2_UPDATE_STACK_DIR:-/opt/metin2}"
-      # Where install.sh put the source cache and the git checkout inside it.
-      M2_UPDATE_CACHE_DIR: "${M2_UPDATE_CACHE_DIR:-/var/cache/m2src}"
-      M2_UPDATE_REPO_DIR: "${M2_UPDATE_REPO_DIR:-/var/cache/m2src/repo}"
-      M2_UPDATE_BRANCH: "${M2_UPDATE_BRANCH:-main}"
-      TZ: "${M2_TZ:-UTC}"
-
-    volumes:
-      # The request/response directory shared with the panel. This is the whole
-      # of the interface between them: the panel can leave a file here and can
-      # read what this writes back. It cannot reach anything else in here.
-      - update-spool:/opt/m2update
-
-      # The host's Docker daemon. This is the dangerous mount in this file, and
-      # it is confined to this service on purpose. Read UPDATING.md.
-      - /var/run/docker.sock:/var/run/docker.sock
-
-      # Same path inside as outside -- see above.
-      - "${M2_UPDATE_STACK_DIR:-/opt/metin2}:${M2_UPDATE_STACK_DIR:-/opt/metin2}"
-      - "${M2_UPDATE_CACHE_DIR:-/var/cache/m2src}:${M2_UPDATE_CACHE_DIR:-/var/cache/m2src}"
-
-    # Not on `backend': it has no business talking to the database or the game,
-    # and the only network it needs is the one out to the project's repository.
-    # Compose gives it the default network, which is created only when this
-    # service is actually started.
 
 # =============================================================================
 

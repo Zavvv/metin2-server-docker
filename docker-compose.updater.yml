@@ -1,0 +1,32 @@
+# Optional, privileged updater. Run only by a Docker host administrator:
+# docker compose -f docker-compose.yml -f docker-compose.updater.yml --profile update up -d updater
+
+services:
+  updater:
+    build:
+      context: ./updater
+      dockerfile: Dockerfile
+    image: metin2/updater:latest
+    container_name: "${M2_CONTAINER_PREFIX:-metin2}-updater"
+    profiles: ["update"]
+    restart: unless-stopped
+    init: true
+    entrypoint: ["/bin/sh", "${M2_UPDATE_STACK_DIR:-/opt/metin2}/linux-port/tools/update.sh"]
+    command: ["watch"]
+
+    environment:
+      M2_UPDATE_SPOOL: "/opt/m2update"
+      M2_UPDATE_STACK_DIR: "${M2_UPDATE_STACK_DIR:-/opt/metin2}"
+      M2_UPDATE_CACHE_DIR: "${M2_UPDATE_CACHE_DIR:-/var/cache/m2src}"
+      M2_UPDATE_REPO_DIR: "${M2_UPDATE_REPO_DIR:-/var/cache/m2src/repo}"
+      M2_UPDATE_BRANCH: "${M2_UPDATE_BRANCH:-main}"
+      TZ: "${M2_TZ:-UTC}"
+
+    volumes:
+      - update-spool:/opt/m2update
+      - /var/run/docker.sock:/var/run/docker.sock
+      - "${M2_UPDATE_STACK_DIR:-/opt/metin2}:${M2_UPDATE_STACK_DIR:-/opt/metin2}"
+      - "${M2_UPDATE_CACHE_DIR:-/var/cache/m2src}:${M2_UPDATE_CACHE_DIR:-/var/cache/m2src}"
+
+volumes:
+  update-spool:
