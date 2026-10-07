@@ -15,12 +15,16 @@ for database in account common world player log hotbackup; do
   dump="$workdir/$database.sql"
   test -f "$dump"
   echo "Restoring $database..."
-  mariadb --protocol=TCP \
-    --host="$M2_DB_HOST" \
-    --port="${M2_DB_PORT:-3306}" \
-    --user="$M2_DB_USER" \
-    --password="$M2_DB_PASSWORD" \
-    "$database" < "$dump"
+  # Local dumps can include views with DEFINER=root@localhost. The standard
+  # database user cannot create an object on behalf of root, so remove only
+  # that clause and make the restored views belong to the configured user.
+  sed -E 's/DEFINER=`[^`]+`@`[^`]+`[[:space:]]*//g' "$dump" | \
+    mariadb --protocol=TCP \
+      --host="$M2_DB_HOST" \
+      --port="${M2_DB_PORT:-3306}" \
+      --user="$M2_DB_USER" \
+      --password="$M2_DB_PASSWORD" \
+      "$database"
 done
 
 echo "Restore completed successfully."
