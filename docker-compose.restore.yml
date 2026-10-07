@@ -1,0 +1,22 @@
+# One-shot restore of the local backup included in restore/db-backup.zip.
+# Deploy this as a separate Portainer Stack only after stopping the running
+# Metin2 game services. It joins the main stack's existing backend network.
+
+services:
+  db-restore:
+    build:
+      context: ./restore
+      dockerfile: Dockerfile
+    image: metin2/db-restore:local-backup
+    container_name: metin2-db-restore
+    restart: "no"
+    environment:
+      M2_DB_HOST: metin2-db
+      M2_DB_PORT: "3306"
+      M2_DB_USER: "${M2_DB_USER:-metin2}"
+      M2_DB_PASSWORD: "${M2_DB_PASSWORD:?set M2_DB_PASSWORD}"
+    networks: [metin2_backend]
+
+networks:
+  metin2_backend:
+    external: true
