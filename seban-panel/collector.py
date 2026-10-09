@@ -8,6 +8,9 @@ import pymysql
 
 INTERVAL = int(os.environ.get("SEBAN_COLLECTOR_INTERVAL", "300"))
 CHANNEL_VAR_ROOT = Path(os.environ.get("PLAYERBOTS_VAR_ROOT", "/opt/metin2/var"))
+# The GUI launcher writes this file on every Playerbots update. /hostfs is
+# read-only, so the collector only publishes the value to panel settings.
+SEBAN_M2_ROOT = os.environ.get("SEBAN_M2_ROOT", "/opt/metin2-mt2009/mt2009-r41023-base")
 
 
 def discovered_channels():
@@ -35,6 +38,20 @@ def status_paths():
 
 def connect():
     return pymysql.connect(host=os.environ.get("DB_HOST", "mariadb"), port=int(os.environ.get("DB_PORT", "3306")), user=os.environ["DB_USER"], password=os.environ["DB_PASSWORD"], charset="utf8mb4", autocommit=True)
+
+
+def publish_playerbots_version(cur):
+    """Publish the actual launcher package version for the web panel."""
+    try:
+        version = (Path("/hostfs") / SEBAN_M2_ROOT.lstrip("/") / "VERSION").read_text(encoding="utf-8", errors="replace").strip()
+    except OSError:
+        return
+    if not re.fullmatch(r"v?[0-9]+(?:\.[0-9]+)+", version, re.I):
+        return
+    cur.execute(
+        "INSERT INTO player.web_seban_settings (name,value) VALUES ('playerbots_version',%s) ON DUPLICATE KEY UPDATE value=VALUES(value)",
+        (version.lstrip("vV"),),
+    )
 
 
 def decode_cp1250(value):
@@ -241,8 +258,15 @@ def init(cur):
       updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       ) ENGINE=InnoDB""")
     cur.execute("""INSERT IGNORE INTO player.web_seban_settings (name,value) VALUES
-      ('panel_name','Metin2 Singleplayer'),('stuck_minutes','5'),('theme','empire'),('monitor_mode','vps'),
+      ('panel_name','Metin2 Singleplayer'),('stuck_minutes','5'),('theme','laka'),('monitor_mode','vps'),
       ('setup_complete','1'),('auth_enabled','0'),('auth_password_hash','')""")
+    # One-time switch to the Laka i Złoto theme (panel 1.114.0): every install that updates to
+    # this version starts in the new theme once; the marker keeps a later manual choice of an
+    # older theme (empire/ocean/ember/forest) untouched by every update after that.
+    cur.execute("SELECT value FROM player.web_seban_settings WHERE name='theme_laka_default'")
+    if cur.fetchone() is None:
+        cur.execute("UPDATE player.web_seban_settings SET value='laka' WHERE name='theme'")
+        cur.execute("INSERT IGNORE INTO player.web_seban_settings (name,value) VALUES ('theme_laka_default','1')")
     # One-time branding migration for deployments created before the public-ready build.
     cur.execute("UPDATE player.web_seban_settings SET value='Metin2 Singleplayer' WHERE name='panel_name' AND value='Mt2009'")
     # Single-player suite: no setup wizard, no passphrase - one player at their
@@ -399,7 +423,13 @@ def live_positions():
             if time.time() - path.stat().st_mtime > 25:
                 continue
             for n, _status in parse_status_rows(path.read_text(encoding="cp1250", errors="replace")):
-                result[n["pid"]] = (n.get("map", 0), n.get("x", 0), n.get("y", 0), channel)
+                # A dungeon instance (the Demon Tower's floors are 660000,
+                # 660001...) shares its base map's coordinates, so its
+                # positions count and heat on the base map.
+                index = n.get("map", 0)
+                if index >= 10000:
+                    index //= 10000
+                result[n["pid"]] = (index, n.get("x", 0), n.get("y", 0), channel)
         except (OSError, ValueError):
             continue
     return result
@@ -419,6 +449,7 @@ def collect(con, previous):
     disk_percent = round(100 * disk_used / disk_total, 1) if disk_total else 0
     with con.cursor() as cur:
         init(cur)
+        publish_playerbots_version(cur)
         cur.execute("""INSERT INTO player.web_seban_system_snapshot
           (captured_at,cpu_percent,ram_percent,ram_used_mb,ram_total_mb,disk_percent,disk_used_mb,disk_total_mb)
           VALUES (%s,%s,%s,%s,%s,%s,%s,%s)

@@ -61,3 +61,259 @@ Group	playerbot_m3_cursed_white_tiger_level30
 	2	5110	1	20	10
 	3	13020	1	20	10
 }
+# The Green Dragon Bean (100300) from every Metin stone of level 50 and up at 0.3%
+# (Iwakura's Patch 12, point 3; rendered by linux-port-mt2009/port/shareify.py,
+# mt2009 only). A drop group of its own for each stone: the reader merges it
+# into the stone's own, whose lines stay as the package wrote them.
+Group	playerbot_green_bean_8010
+{
+	Mob	8010
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8011
+{
+	Mob	8011
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8012
+{
+	Mob	8012
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8013
+{
+	Mob	8013
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8014
+{
+	Mob	8014
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8015
+{
+	Mob	8015
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8016
+{
+	Mob	8016
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8017
+{
+	Mob	8017
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8018
+{
+	Mob	8018
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8019
+{
+	Mob	8019
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8024
+{
+	Mob	8024
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8025
+{
+	Mob	8025
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8026
+{
+	Mob	8026
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8027
+{
+	Mob	8027
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8031
+{
+	Mob	8031
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8032
+{
+	Mob	8032
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8033
+{
+	Mob	8033
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8034
+{
+	Mob	8034
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8035
+{
+	Mob	8035
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8036
+{
+	Mob	8036
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8037
+{
+	Mob	8037
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8038
+{
+	Mob	8038
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8039
+{
+	Mob	8039
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8040
+{
+	Mob	8040
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8045
+{
+	Mob	8045
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8046
+{
+	Mob	8046
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8047
+{
+	Mob	8047
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8048
+{
+	Mob	8048
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8049
+{
+	Mob	8049
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8050
+{
+	Mob	8050
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8051
+{
+	Mob	8051
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8052
+{
+	Mob	8052
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8053
+{
+	Mob	8053
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8054
+{
+	Mob	8054
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8055
+{
+	Mob	8055
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8056
+{
+	Mob	8056
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8057
+{
+	Mob	8057
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8110
+{
+	Mob	8110
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8111
+{
+	Mob	8111
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8112
+{
+	Mob	8112
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8113
+{
+	Mob	8113
+	Type	drop
+	1	100300	1	1.2
+}
+Group	playerbot_green_bean_8114
+{
+	Mob	8114
+	Type	drop
+	1	100300	1	1.2
+}

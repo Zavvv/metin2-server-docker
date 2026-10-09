@@ -1,3 +1,167 @@
+## 2026-10-09 · 1.114.1 · Metiny osobno od bossów w respawnach
+
+- Strona Respawny ma osobne ustawienia dla Metinów, bossów i zwykłych potworów, zarówno dla tempa odrodzenia, jak i liczebności (Patch 12 Iwakury, punkt 2). Metin to kamień Metin, boss to potwór o randze bossa.
+- Kolejka gry dostaje teraz trzy liczby, „metin,boss,mob”, w REGEN i REGEN_COUNT. Rdzeń czyta je z flag `fastMetinSpawn` i `m2_metin_count` obok dotychczasowych `fastBossSpawn` i `m2_boss_count`. web_admin.quest gry z Patchem 12 nadal rozumie też dawną postać „boss,mob”.
+- Świat, w którym migrator Playerbots nie rozdzielił jeszcze ustawień, pokazuje dla Metinów wartość bossów. Podsumowanie respawnów na mapie świata wymienia Metiny i bossów osobno.
+
+![via Tieru](https://img.shields.io/badge/via-Tieru-f2c34d)
+
+## 2026-10-09 · 1.114.0 · Laka i Złoto: nowy panel
+
+- Nowy motyw jest domyślny. Nowe instalacje startują w „Laka i Złoto”, a istniejące przełączają się na niego jeden raz, przy pierwszym starcie tej wersji. Kto potem wybierze w Ustawieniach panelu dawną kolorystykę (Cesarstwo, Ocean, Ember, Forest), ten ją zachowa przy kolejnych aktualizacjach.
+- Nawigacja. Własne konturowe ikony sekcji zamiast przedmiotów z gry. Nowy podział: Świat (Przegląd, Planer eventów, Sezon), Postacie, Gospodarka, Kronika, Serwer (m.in. Aktywność map, Respawny), Administracja (m.in. Baza przedmiotów). Wyszukiwarka Ctrl+K, a na telefonie lupa.
+- Przegląd świata. Tabela najważniejszych liczb (boty, konta, yang, poziomy, raty z eventem lub najbliższym planowanym eventem, wersje). Obciążenie VPS z wykresem CPU/RAM z 24 godzin, szczytem CPU, średnim RAM i wolnym dyskiem. Boty według map dla wszystkich map z podziałem na królestwa. Lista rankingów, Kronika świata i pasek „Źródła danych” z czasami odpowiedzi endpointów.
+- Kronika świata. Ikona przedmiotu, którego dotyczy wpis (ulepszony, znaleziony lub sprzedany), księga dla umiejętności M1–M10, Kamień Duchowy dla G1–P, własne ikony dla bossów. Nowe wpisy: awans lidera rankingu poziomu oraz rekordowa sprzedaż na straganie (najwyższa cena za sztukę danego przedmiotu, od 1 mln Yang).
+- Planer eventów. Tygodniowy kalendarz z dzisiejszym dniem, linią „teraz” i kolorowymi blokami eventów (trwające świecą, wyłączone są kreskowane). Do tego statusy z ikonami, karty szybkiego startu i historia jako lista. Formularze i zapis harmonogramu bez zmian.
+- Karta postaci. Akcje administracyjne jako równe karty z ikonami i przyciskami na jednej wysokości, usuwanie postaci jako osobny czerwony pasek. Tooltipy ekwipunku znów pojawiają się przy kursorze. Oryginalne okna gry bez zmian.
+- Cały panel. Jeden wygląd filtrów i paginacji (złote chipsy), przełączników, suwaków, list rozwijanych, pól wyszukiwania, nagłówków paneli, powiadomień, komunikatów i wykresów. Nowe ekrany logowania i błędu. Animacje przejść między stronami.
+
+![via Claude by Seban](https://img.shields.io/badge/via-Claude%20by%20Seban-D97757)
+## 2026-10-08 · 1.113.6 · Motyw „Laka i Złoto”
+
+- Nowa opcja w Ustawieniach panelu → Kolorystyka: „Laka i Złoto (nowy układ)”. Pozostałe motywy wyglądają bez zmian, a powrót to jedno kliknięcie.
+- Nowa nawigacja: 6 sekcji z ikonami przedmiotów z gry (Świat, Postacie, Gospodarka, Kronika, Serwer, Administracja), zakładki podstron w górnej belce, wyszukiwarka stron i graczy pod Ctrl+K, licznik botów online, a na telefonie dolny pasek z arkuszem „Więcej”.
+- Przegląd świata: liczby w jednym pasku, mapa na żywo w ozdobnej ramce z nakładką HUD (celowniki, linie skanowania, radar). Rozmiary i proporcje map są takie same jak dotąd.
+- Wszystkie strony dostały wspólny wygląd tabel, formularzy, przycisków i zakładek. Strony szczegółów pokazują swoją nazwę w górnej belce. Oryginalne okna gry na karcie postaci są nietknięte.
+- Animacje wejścia i wyjścia przy przechodzeniu między stronami (wyłączone przy systemowym „ogranicz ruch”).
+
+![via Claude by Seban](https://img.shields.io/badge/via-Claude%20by%20Seban-D97757)
+## 2026-10-08 · 1.113.5 · Tooltipy podglądu sklepu
+
+- Podgląd sklepu wrócił do własnej obsługi tooltipów. Wspólny skrypt ekwipunku nie przechwytuje już slotów sklepu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-08 · 1.113.4 · Przestrzeń na tooltip ekwipunku
+
+- Metinowa siatka ekwipunku w `/player/` została obniżona wewnątrz panelu. Nad nią jest stałe miejsce na tooltipy, więc nie zachodzą już na nagłówek „Zawartość ekwipunku”.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-08 · 1.113.3 · Pewny pomiar tooltipu
+
+- Tooltip ekwipunku jest najpierw niewidocznie renderowany i mierzony, zanim wybierze stronę kursora. Wysokie opisy nie są już błędnie pozycjonowane nad kursorem przy górnej krawędzi ekranu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-08 · 1.113.2 · Tooltipy i obecność 24/7
+
+- Tooltip przedmiotu mierzy teraz własną wysokość przy kursorem: gdy nie mieści się nad nim, otwiera się pod nim i pozostaje w granicach ekranu. Standardowe bonusy są szersze oraz nie łamią się bez potrzeby na dwie linie.
+- Po wyłączeniu opcji „Boty grają jak żywi ludzie” wykres obecności na `/player/` pokazuje ciągłe 24/7. Historyczne przerwy z czasu, gdy sesje były włączone, nie zaniżają już bieżącego wskazania.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-08 · 1.113.1 · English: ranking +9
+
+- Filtry kategorii oraz sortowanie rankingu **Przedmiot +9** są przetłumaczone w angielskim interfejsie.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-08 · 1.113.0 · Kategorie rankingu +9
+
+- Ranking **Przedmiot +9** otrzymał filtry: broń, zbroje, hełmy, tarcze, bransolety, buty, naszyjniki i kolczyki.
+- Wyniki można sortować według poziomu przedmiotu albo poziomu postaci. Wybrany filtr pozostaje przy przechodzeniu między stronami oraz przy widoku samych graczy.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-08 · 1.112.9 · Świeży stan dashboardu
+
+- Odpowiedź z danymi dashboardu nie jest już zapisywana przez przeglądarkę. Po aktualizacji przez GUI launcher kafelek Playerbots od razu dostaje numer z bieżącego statusu serwera.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-08 · 1.112.8 · Rzeczywista wersja paczki Playerbots
+
+- Dashboard dostaje numer z głównego pliku VERSION paczki Playerbots — dokładnie tego samego źródła, którego używa panel Tieru. Kolektor publikuje go do statusu panelu, więc aktualizacja przez GUI launcher odświeża numer niezależnie od nadpisywanego pliku Compose.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-07 · 1.112.7 · Wersja Playerbots z launchera
+
+- Plik .env aktualizowany przez launcher jest nadrzędnym źródłem wersji Playerbots. Dashboard nie może już wybrać starszej lub wyższej wartości zapamiętanej w środowisku kontenera.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-07 · 1.112.6 · Synchronizacja Playerbots i regulator sesji
+
+- Dashboard odczytuje wersję Playerbots także bezpośrednio z pliku .env aktualizowanego przez launcher. Numer przestaje zależeć od zmiennej środowiskowej zapamiętanej podczas tworzenia kontenera.
+- Zarządzanie botami otrzymało regulator **Godziny gry na dobę** dla eksperymentalnego trybu „Boty grają jak żywi ludzie”. Wartość 0 zachowuje standardowe sesje 3–6 godzin i odpoczynek 3–9 godzin; zakres 1–24 ustawia docelowy czas gry na dobę.
+- Nawigacja Seban Panelu zawiera odnośnik **Edytor bazy danych**, prowadzący do zabezpieczonego edytora /editsql panelu Tieru.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-07 · 1.112.5 · Synchronizacja aktualizacji operatora
+
+- Zsynchronizowano najnowsze aktualizacje z gałęzi głównej panelu: boty na piętrach instancji Wieży Demonów są widoczne na mapie świata, a karta gracza otrzymała akcje operatora do odblokowania i przywrócenia blokady EXP.
+- Zlecenia EXPUNLOCK i EXPLOCK działają przez kolejkę silnika, uwzględniają stan not_allowed oraz nie zmieniają danych postaci bez odpowiedzi rdzenia.
+- Zachowano nowsze funkcje wdrożonej gałęzi: wyszukiwanie posiadaczy przedmiotów, wykres sesji botów i statystyki odpoczynku.
+- Poprawiono format wcześniejszego wpisu changelogu, w którym znaki nowej linii były zapisane dosłownie.
+
+### Zmiany Tieru włączone do 1.112.5
+
+- **Boty na piętrach Wieży Demonów:** instancje 660000, 660001 i kolejne są teraz liczone jako mapa bazowa 66. Boty w środku lochu są widoczne na obrazku Wieży, uwzględniane w natężeniu map i mapie cieplnej, przy zachowaniu współrzędnych mapy bazowej.
+- **Sterowanie EXP przez operatora:** karta bota na Playerbots 2.x ma akcję odblokowania EXP oraz przywrócenia blokady osobowości. Polecenia EXPUNLOCK i EXPLOCK trafiają do web_admin_queue, zastępują starsze zlecenie tego samego bota i czekają do ośmiu sekund na odpowiedź silnika.
+- Akcja nie jest dostępna dla towarzyszy gracza oraz nie pojawia się na r40250. Status botów nadal działa ze starszym plikiem playerbot_status.tsv, w którym nie ma jeszcze kolumn exp_block i exp_unlock.
+- Kolejka rozpoznaje dodatkowy końcowy stan **not_allowed**, a stan nastroju rozróżnia zwykłą blokadę poziomu od odblokowania wymuszonego przez operatora.
+
+![via Codex, Claude & Tieru](https://img.shields.io/badge/via-Codex%2C%20Claude%20%26%20Tieru-8B5CF6)
+
+## 2026-10-07 · 1.112.4 · Wycofanie powiadomienia o nieudanym ulepszeniu
+
+- Usunięto eksperymentalne okno porażki ulepszania wraz z losowymi komunikatami i dźwiękiem z klienta gry.
+- Zdarzenia `REMOVE (REFINE FAIL)` nie tworzą już globalnych powiadomień panelu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+## 2026-10-07 · 1.112.2 · Ekran diagnostyczny błędów
+
+- Każdy błąd HTTP panelu korzysta teraz ze spójnego ekranu diagnostycznego zamiast domyślnej strony Flask.
+- Nieobsłużony wyjątek otrzymuje identyfikator zdarzenia, traceback na ekranie i wpis PANEL_INCIDENT w logu panelu.
+- Widok błędu działa bez normalnego layoutu oraz bez odczytu ustawień z MariaDB.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-07 · 1.112.1 · Poprawka skrytek w wyszukiwaniu „kto ma najwięcej”
+
+- Skrytki (`SAFEBOX`) w `player.item` mają ID konta w kolumnie właściciela, a nie ID postaci. Wyszukiwanie przypisywało je więc błędnym graczom (np. pid bez postaci). Teraz skrytka trafia do postaci o najwyższym poziomie na tym koncie.
+- Konto bez postaci pokazuje się po loginie, bez linku do profilu.
+
+![via Claude](https://img.shields.io/badge/via-Claude-D97757)
+
+## 2026-10-07 · 1.112.0 · Gospodarka sięga do graczy, sesje botów na wykresie
+
+Ta wersja łączy trzy rzeczy: operator może zobaczyć, kto trzyma dany przedmiot, karta gracza pokazuje, kiedy bot grał, a dashboard zaczyna liczyć boty odpoczywające w ramach harmonogramu „boty grają jak ludzie”.
+
+### /economy/item — kto ma najwięcej przedmiotu
+
+- Przycisk „Wyświetl graczy z największą ilością” uruchamia wyszukiwanie tylko na żądanie. Nic nie liczy się w tle. Wynik to top 10 graczy z ilością sztuk.
+- Pasek postępu pokazuje etapy: przeszukiwanie ekwipunków, magazynów i sklepów, a potem zestawianie wyników. Każdy wiersz ma czas wykonania.
+- Dla każdego gracza widać poziom, portret klasy, flagę królestwa i znacznik „bot”. Nick prowadzi do karty `/player/`.
+- Ilość rozbija się na trzy miejsca: ekwipunek (także pas smoków), magazyn i sklep offline. Pokazują się tylko miejsca, w których przedmiot faktycznie leży.
+- Wyniki wygasają po 10 minutach. Ponowne kliknięcie w trakcie trwającego wyszukiwania dołącza do niego zamiast uruchamiać drugie.
+- Interfejs działa w polskim i angielskim, zgodnie z językiem panelu. Kolory pochodzą z motywu.
+
+### /economy/item — księgi umiejętności
+
+- Księgi (vnum 50300) rozróżniane są po `socket0`, czyli po konkretnej umiejętności. Wynik wyszukiwania prowadzi do statystyk tej jednej księgi, np. „Aura Miecza”, a nie do sumy wszystkich ksiąg.
+- Strona przedmiotu pokazuje ilość w obiegu z godziną odczytu oraz historię z ostatnich 14 dni dla tej księgi.
+
+### /player — wykres sesji bota
+
+- Obok pasków PŻ, PM i EXP pojawił się wykres online/offline z ostatnich 24 godzin, w kwadransach co 5 minut.
+- Znaczniki co 3 godziny i legenda ułatwiają odczyt. Kolor pochodzi z motywu.
+- Wykres pokazuje się tylko przy botach z zapisanymi migawkami. Włącznik „Wykres sesji bota” jest w zarządzaniu panelem funkcjami.
+
+### /dashboard — odpoczywające boty
+
+- Karta „Botów w grze” ma nową komórkę „Odpoczywa (offline)”. Liczba pochodzi z pliku `playerbot_life.tsv`, który zapisuje rdzeń co 10 minut.
+- Dopóki rdzeń nie zapisuje pliku, komórka pokazuje „—”. Wartość nie jest odświeżana w tle, więc po zmianie trzeba przeładować stronę.
+
+### Wersja Playerbots
+
+- Konfiguracja Compose (`M2_PLAYERBOTS_VERSION`) została ustawiona na 2.2.74, zgodnie z zainstalowanym serwerem. Dashboard pokazuje tę samą wersję, którą działa gra.
+
+![via Claude](https://img.shields.io/badge/via-Claude-D97757)
+
 ## 2026-10-04 · 1.111.1 · UI z gry przejmuje webpanel!
 
 To największa dotychczasowa przebudowa karty postaci oraz kolejny duży etap rozwoju dashboardu, sezonów i rankingów. Webpanel korzysta teraz z języka wizualnego klienta Metin2, zachowując dane na żywo, responsywność i obsługę języka polskiego oraz angielskiego.
@@ -25,7 +189,7 @@ To największa dotychczasowa przebudowa karty postaci oraz kolejny duży etap ro
 - Widget „Boty na mapach” ponownie pokazuje kompletną listę. Naprawiono położenie obok wykresu, przewijanie i wyrównanie kart.
 - Dolne widgety korzystają ze wspólnej pamięci podręcznej i ładują ostatni kompletny zestaw natychmiast. Mapa nadal odświeża pozycje niezależnie co 1,5 sekundy.
 - Tracker wersji panelu nie porównuje już lokalnej wersji z wydaniem na GitHubie.
-- Wykrywanie wersji Playerbots uwzględnia ręczne aktualizacje. Panel wybiera najnowszy poprawny numer z konfiguracji Compose i statusu aktualizatora; ujednolicono raportowanie zainstalowanej wersji 2.2.69.
+- Wykrywanie wersji Playerbots uwzględnia ręczne aktualizacje. Panel wybiera najnowszy poprawny numer z konfiguracji Compose i statusu aktualizatora; ujednolicono raportowanie zainstalowanej wersji.
 - Ulepszenia +9 wróciły do Wiadomości ze świata i /world-feed/. Panel scala log.log z log.refinelog, dzięki czemu pokazuje +9 oraz rzeczywistą metodę: kowal, gildia albo zwój wraz z ikoną.
 
 ### /season/ — rankingi według osiągnięcia
@@ -49,7 +213,9 @@ To największa dotychczasowa przebudowa karty postaci oraz kolejny duży etap ro
 
 ### Zaplecze i zgodność
 
-- Panel korzysta z danych Playerbots 2.2.69: playerbot_status.tsv, player.item, player.item_proto, player.ikashop_offlineshop, log.ikarusshop_log, log.refinelog, log.log i player.player_special_flag.
+- Panel został sprawdzony przez zespół Playerbots na świecie testowym z wersją 2.2.70: zweryfikowano 57 stron bez wykrytych regresji.
+- Kolejka wydawania przedmiotów rozpoznaje wszystkie stany końcowe Playerbots 2.2.70: full, qty_too_big, player_offline, no_skill, has_item i partial. Panel kończy oczekiwanie także przy odmowie lub częściowej realizacji, zamiast pozostawiać operację jako oczekującą.
+- Panel korzysta z danych Playerbots 2.2.70: playerbot_status.tsv, player.item, player.item_proto, player.ikashop_offlineshop, log.ikarusshop_log, log.refinelog, log.log i player.player_special_flag.
 - Okna przedmiotów pozostają tylko do odczytu poza istniejącymi, jawnie opisanymi akcjami, takimi jak teleport do sklepu.
 - Zachowano zgodność z polską i angielską wersją panelu oraz aktualizacją Playerbots wykonywaną automatycznie lub ręcznie.
 
@@ -59,6 +225,8 @@ To największa dotychczasowa przebudowa karty postaci oraz kolejny duży etap ro
 
 - Tooltip aktywnego przedmiotu z wyposażenia oraz dolnej siatki inventory jest renderowany ponad ikonami Alchemii, juków, depozytu i sklepu.
 - Podnoszony jest tylko aktywny slot z tooltipem, dzięki czemu tło equipmentu nie zasłania już przycisków interfejsu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
 
 ## 2026-10-03 · 1.109.12 · Tooltipy nad przyciskami ekwipunku
 

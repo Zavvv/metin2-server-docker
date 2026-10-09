@@ -439,6 +439,10 @@ db_retry -e "UPDATE world.item_proto SET limitvalue0 = 30 WHERE type = 13 AND li
 # PROTO_FROM_DB reads world.item_proto at boot; preserve custom limits.
 # The client needs the same gamedata/item_proto edit (port/protoify.py).
 db_retry -e "UPDATE world.item_proto SET limitvalue0 = 30 WHERE vnum = 70138 AND type = 3 AND subtype = 10 AND limittype0 = 1 AND limitvalue0 = 50 AND limittype1 = 0 AND limitvalue1 = 0;"
+# The ItemShop has its own purchase gate, independent of the use limit.
+# Lower its stock fifty only when this world actually has the approved
+# level-thirty cape; preserve custom shop and proto limits.
+db_retry -e "UPDATE common.itemshop_items SET minLevel = 30 WHERE vnum = 70138 AND minLevel = 50 AND EXISTS (SELECT 1 FROM world.item_proto WHERE vnum = 70138 AND type = 3 AND subtype = 10 AND limittype0 = 1 AND limitvalue0 = 30 AND limittype1 = 0 AND limitvalue1 = 0);"
 # And the pass the rod needs. Karta Wedkarska (27620), which CHARACTER::fishing()
 # wants worn, is sold in one place, the Fisherman's special shop (9009, opened
 # by fishing_pass_shop.quest), and the package asks level fifty for it - so a
@@ -523,8 +527,9 @@ db_retry -e "UPDATE world.skill_proto SET szPointPoly = '-(1.5*atk + (2.8*atk + 
 # answered by autohunt_time.quest and antiexp_ring.quest; and the shop's
 # first page gains them with the Teleport Ring (70058), which is never used
 # up. ASCII names: db() speaks latin1 into the cp1250 columns. A line the
-# operator changed by hand is kept (INSERT IGNORE). Idempotent.
-db_retry -e "UPDATE world.item_proto SET locale_name = 'Auto Lowy (8h)', flag = flag | 4, antiflag = 74112 WHERE vnum = 31073 AND locale_name <> 'Auto Lowy (8h)'; UPDATE world.item_proto SET locale_name = 'Pierscien Anty-Exp', flag = 0, antiflag = 41344 WHERE vnum = 40002 AND locale_name <> 'Pierscien Anty-Exp'; INSERT IGNORE INTO common.itemshop_items (\`index\`, vnum, count, price, currency, minLevel) VALUES (6, 31073, 1, 29, 'DRAGON_COIN', 0), (7, 40002, 1, 99, 'DRAGON_COIN', 0), (8, 70058, 1, 149, 'DRAGON_COIN', 30);" || echo "[playerbot-migrate] WARNING: could not add the ItemShop's Auto Lowy ticket and rings" >&2
+# operator changed by hand is kept (INSERT IGNORE), and one deleted in the
+# database editor stays deleted (common.m2_itemshop_removed). Idempotent.
+db_retry -e "UPDATE world.item_proto SET locale_name = 'Auto Lowy (8h)', flag = flag | 4, antiflag = 74112 WHERE vnum = 31073 AND locale_name <> 'Auto Lowy (8h)'; UPDATE world.item_proto SET locale_name = 'Pierscien Anty-Exp', flag = 0, antiflag = 41344 WHERE vnum = 40002 AND locale_name <> 'Pierscien Anty-Exp'; CREATE TABLE IF NOT EXISTS common.m2_itemshop_removed (\`index\` INT NOT NULL PRIMARY KEY, removed_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB; INSERT IGNORE INTO common.itemshop_items (\`index\`, vnum, count, price, currency, minLevel) SELECT s.i, s.v, s.c, s.p, s.cur, s.lv FROM (SELECT 6 AS i, 31073 AS v, 1 AS c, 29 AS p, 'DRAGON_COIN' AS cur, 0 AS lv UNION ALL SELECT 7, 40002, 1, 99, 'DRAGON_COIN', 0 UNION ALL SELECT 8, 70058, 1, 149, 'DRAGON_COIN', 30) AS s WHERE s.i NOT IN (SELECT \`index\` FROM common.m2_itemshop_removed);" || echo "[playerbot-migrate] WARNING: could not add the ItemShop's Auto Lowy ticket and rings" >&2
 # Maska Sabaha left the world with the Hwang curse (playerbotify
 # apply_hwang_curse_removed, the share step of the game Dockerfile): the shop
 # that sold one sells it no more. The db core reads the shops at boot, so this
@@ -809,8 +814,21 @@ db_retry -e "UPDATE world.item_proto SET flag = flag | 4 WHERE vnum = 70031 AND 
 # second village sells the three for yang too), and the Love Bird's Feather
 # with the six harmony and love jewels that work on love points (xXxDaronxXx,
 # 27 September). From level 25, the wedding's own level. A line the operator
-# changed by hand is kept (INSERT IGNORE). Idempotent.
-db_retry -e "INSERT IGNORE INTO common.itemshop_items (\`index\`, vnum, count, price, currency, minLevel) VALUES (201, 70301, 1, 19, 'DRAGON_COIN', 25), (202, 11901, 1, 49, 'DRAGON_COIN', 25), (203, 11903, 1, 49, 'DRAGON_COIN', 25), (204, 50201, 1, 9, 'DRAGON_COIN', 25), (205, 71068, 1, 29, 'DRAGON_COIN', 25), (206, 71069, 1, 39, 'DRAGON_COIN', 25), (207, 71070, 1, 39, 'DRAGON_COIN', 25), (208, 71071, 1, 39, 'DRAGON_COIN', 25), (209, 71072, 1, 39, 'DRAGON_COIN', 25), (210, 71073, 1, 39, 'DRAGON_COIN', 25), (211, 71074, 1, 39, 'DRAGON_COIN', 25);" || echo "[playerbot-migrate] WARNING: could not fill the ItemShop's marriage page" >&2
+# changed by hand is kept (INSERT IGNORE), and one deleted in the database
+# editor stays deleted (common.m2_itemshop_removed). Idempotent.
+db_retry -e "CREATE TABLE IF NOT EXISTS common.m2_itemshop_removed (\`index\` INT NOT NULL PRIMARY KEY, removed_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB; INSERT IGNORE INTO common.itemshop_items (\`index\`, vnum, count, price, currency, minLevel) SELECT s.i, s.v, s.c, s.p, s.cur, s.lv FROM (SELECT 201 AS i, 70301 AS v, 1 AS c, 19 AS p, 'DRAGON_COIN' AS cur, 25 AS lv UNION ALL SELECT 202, 11901, 1, 49, 'DRAGON_COIN', 25 UNION ALL SELECT 203, 11903, 1, 49, 'DRAGON_COIN', 25 UNION ALL SELECT 204, 50201, 1, 9, 'DRAGON_COIN', 25 UNION ALL SELECT 205, 71068, 1, 29, 'DRAGON_COIN', 25 UNION ALL SELECT 206, 71069, 1, 39, 'DRAGON_COIN', 25 UNION ALL SELECT 207, 71070, 1, 39, 'DRAGON_COIN', 25 UNION ALL SELECT 208, 71071, 1, 39, 'DRAGON_COIN', 25 UNION ALL SELECT 209, 71072, 1, 39, 'DRAGON_COIN', 25 UNION ALL SELECT 210, 71073, 1, 39, 'DRAGON_COIN', 25 UNION ALL SELECT 211, 71074, 1, 39, 'DRAGON_COIN', 25) AS s WHERE s.i NOT IN (SELECT \`index\` FROM common.m2_itemshop_removed);" || echo "[playerbot-migrate] WARNING: could not fill the ItemShop's marriage page" >&2
+# Twenty change stones (Zaczarowanie Przedmiotu, 71084) for 1035 Dragon
+# Coins - the four-pack's price a stone (608: four for 207) - on the
+# scrolls and books page (601-699): the line blasty's bonus switcher buys
+# ten at a time, 200 stones, when its player has switched the purchase on
+# and the bag holds fewer than 200 (client-root/uiswitchbot.py, 7 October).
+# The bots never buy it: a need for change stones is four at most
+# (playerbot_itemshop_rules.h). The price step below prices it like every
+# line. A line the operator changed by hand is kept (INSERT IGNORE), one
+# deleted in the database editor stays deleted (common.m2_itemshop_removed),
+# and the switcher buys nothing at an index that sells anything else.
+# Idempotent.
+db_retry -e "CREATE TABLE IF NOT EXISTS common.m2_itemshop_removed (\`index\` INT NOT NULL PRIMARY KEY, removed_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB; INSERT IGNORE INTO common.itemshop_items (\`index\`, vnum, count, price, currency, minLevel) SELECT s.i, s.v, s.c, s.p, s.cur, s.lv FROM (SELECT 617 AS i, 71084 AS v, 20 AS c, 1035 AS p, 'DRAGON_COIN' AS cur, 0 AS lv) AS s WHERE s.i NOT IN (SELECT \`index\` FROM common.m2_itemshop_removed);" || echo "[playerbot-migrate] WARNING: could not add the ItemShop's twenty change stones" >&2
 # BEGIN collector schema
 # The collector's warehouse (Magazyn kolekcjonera, playerbot_collector_rules.h):
 # a player's storage entry is the item's own row of player.item in the window
@@ -1370,6 +1388,22 @@ if [ "$unique70_bonus_env" != "$((unique70_bonus_off + 1))" ]; then
         echo "[playerbot-migrate] WARNING: could not write the Level-70 weapon sixth bonus flag; the cores keep the last one" >&2
     fi
 fi
+# A person's yang into the purse (1, patch 0010 as it always was) or on the
+# ground as in the original game (0); a bot's and a companion's go to the
+# purse either way (Nannato and Tieru, 7 October). The cores read
+# m2_yang_ground at every kill. Apply .env only when changed, so a live
+# panel choice survives a start.
+yang_ground=$(feature_off "${M2_YANG_TO_PURSE:-1}")
+yang_ground_env=$(db -N -e "SELECT lValue FROM player.quest WHERE dwPID = 0 AND szName = 'm2_yang_ground_env' LIMIT 1;" 2>/dev/null | tr -d ' \r')
+if [ "$yang_ground_env" != "$((yang_ground + 1))" ]; then
+    if db_retry -e "REPLACE INTO player.quest (dwPID, szName, szState, lValue) VALUES
+            (0, 'm2_yang_ground', '', $yang_ground),
+            (0, 'm2_yang_ground_env', '', $((yang_ground + 1)));"; then
+        echo "[playerbot-migrate] A person's yang: $([ "$yang_ground" = 1 ] && echo 'on the ground' || echo 'into the purse') (from .env)"
+    else
+        echo "[playerbot-migrate] WARNING: could not write the yang drop flag; the cores keep the last one" >&2
+    fi
+fi
 
 # The world's monster health (the operator, 30 September, for Frelik's
 # proposal): a percent of the max_hp of every monster, boss and Metin
@@ -1399,6 +1433,88 @@ elif db_retry -e "REPLACE INTO player.quest (dwPID, szName, szState, lValue) VAL
     echo "[playerbot-migrate] monster health: ${mobhp}% of max_hp for monsters, bosses and Metin stones (from .env)"
 else
     echo "[playerbot-migrate] WARNING: could not write the monster health flag; the cores keep the last one" >&2
+fi
+
+# Metins apart from bosses (Iwakura's Patch 12, point 2): the /rates page's
+# "Metiny i bossowie" respawn time (fastBossSpawn, and a map's own
+# fastBossSpawn<map>) and count (m2_boss_count) are the bosses' alone now, and
+# the Metin stones read fastMetinSpawn / fastMetinSpawn<map> and
+# m2_metin_count (playerbotify apply_regen_metin_split). Once, at the first
+# start after the update, every boss row is copied into its Metin row - a row
+# the operator already wrote is kept (INSERT IGNORE) - so the world respawns
+# as it did until the operator moves one of them; m2_regen_metin_split says
+# it is done. Nothing written means both stay as the game has them.
+regen_split=$(db -N -e "SELECT lValue FROM player.quest WHERE dwPID = 0 AND szName = 'm2_regen_metin_split' LIMIT 1;" 2>/dev/null | tr -d ' \r')
+if [ "$regen_split" != "1" ]; then
+    if db_retry -e "INSERT IGNORE INTO player.quest (dwPID, szName, szState, lValue)
+                SELECT 0, CONCAT('fastMetinSpawn', SUBSTRING(szName, 14)), szState, lValue FROM player.quest
+                 WHERE dwPID = 0 AND szName LIKE 'fastBossSpawn%';
+            INSERT IGNORE INTO player.quest (dwPID, szName, szState, lValue)
+                SELECT 0, 'm2_metin_count', szState, lValue FROM player.quest
+                 WHERE dwPID = 0 AND szName = 'm2_boss_count';
+            REPLACE INTO player.quest (dwPID, szName, szState, lValue) VALUES (0, 'm2_regen_metin_split', '', 1);"; then
+        echo "[playerbot-migrate] Metins and bosses: the respawn time and count of 'Metiny i bossowie' copied to the Metins' own rows"
+    else
+        echo "[playerbot-migrate] WARNING: could not copy the respawn settings to the Metins' rows; they respawn as the game has them until the panel sets them" >&2
+    fi
+fi
+
+# The world's chance of bonus lines on a dropped weapon or piece of armour
+# (Tysiek and the operator, 7 October): a percent of the game's own chance,
+# which the cores read at every such drop (m2_drop_bonus_pct; playerbotify
+# apply_drop_bonus_chance, the arithmetic in playerbot_drop_bonus_rules.h).
+# .env's M2_DROP_BONUS_PCT - default (100, the game as it was made) or a
+# percent from 10 to 1000 - is applied only when it changed since the last
+# start (m2_drop_bonus_pct_env holds what it said): the classic panel's card
+# sets the flag live (web_admin.quest DROP_BONUS), and a choice made there
+# outlives a restart until the launcher's is changed, the difficulty's rule.
+dropbonus=$(printf '%s' "${M2_DROP_BONUS_PCT:-100}" | tr 'A-Z' 'a-z' | tr -d ' \r%')
+case "$dropbonus" in
+    ''|0|default|normal) dropbonus=100 ;;
+    *[!0-9]*)
+        echo "[playerbot-migrate] WARNING: M2_DROP_BONUS_PCT=$dropbonus is not default or a percent; drops keep the game's chance of bonuses" >&2
+        dropbonus=100 ;;
+    *) dropbonus=$(printf '%s\n' "$dropbonus" | awk '{ p = int($1 + 0); if (p < 10) p = 10; if (p > 1000) p = 1000; printf "%d", p }') ;;
+esac
+dropbonus_env=$(db -N -e "SELECT lValue FROM player.quest WHERE dwPID = 0 AND szName = 'm2_drop_bonus_pct_env' LIMIT 1;" 2>/dev/null | tr -d ' \r')
+if [ "$dropbonus_env" = "$dropbonus" ]; then
+    echo "[playerbot-migrate] drop bonus chance: .env unchanged since the last start - the flag stays as the panel or the last start left it"
+elif db_retry -e "REPLACE INTO player.quest (dwPID, szName, szState, lValue) VALUES
+        (0, 'm2_drop_bonus_pct', '', $dropbonus),
+        (0, 'm2_drop_bonus_pct_env', '', $dropbonus);"; then
+    echo "[playerbot-migrate] drop bonus chance: ${dropbonus}% of the game's chance of bonus lines on dropped weapons and armour (from .env)"
+else
+    echo "[playerbot-migrate] WARNING: could not write the drop bonus flag; the cores keep the last one" >&2
+fi
+
+# How fast the world's characters move (RapLow and the operator, 8 October,
+# the bots too since the same evening): a percent of the game's own movement
+# speed, which the cores put on every player's character - a person's, a
+# bot's and a companion's - and on no monster (m2_move_speed_pct;
+# playerbotify apply_move_speed_percent, the arithmetic in
+# playerbot_move_speed_rules.h). .env's M2_MOVE_SPEED_PCT - default (100, the
+# game as it was made) or a percent from 50 to 200 - is applied only when it
+# changed since the last start (m2_move_speed_pct_env holds what it said):
+# the classic panel's card sets the flag live (web_admin.quest MOVE_SPEED),
+# and a choice made there outlives a restart until the launcher's is
+# changed, the difficulty's rule.
+movespeed=$(printf '%s' "${M2_MOVE_SPEED_PCT:-100}" | tr 'A-Z' 'a-z' | tr -d ' \r%')
+case "$movespeed" in
+    ''|0|default|normal) movespeed=100 ;;
+    *[!0-9]*)
+        echo "[playerbot-migrate] WARNING: M2_MOVE_SPEED_PCT=$movespeed is not default or a percent; players and bots keep the game's movement speed" >&2
+        movespeed=100 ;;
+    *) movespeed=$(printf '%s\n' "$movespeed" | awk '{ p = int($1 + 0); if (p == 0) p = 100; if (p < 50) p = 50; if (p > 200) p = 200; printf "%d", p }') ;;
+esac
+movespeed_env=$(db -N -e "SELECT lValue FROM player.quest WHERE dwPID = 0 AND szName = 'm2_move_speed_pct_env' LIMIT 1;" 2>/dev/null | tr -d ' \r')
+if [ "$movespeed_env" = "$movespeed" ]; then
+    echo "[playerbot-migrate] movement speed of players and bots: .env unchanged since the last start - the flag stays as the panel or the last start left it"
+elif db_retry -e "REPLACE INTO player.quest (dwPID, szName, szState, lValue) VALUES
+        (0, 'm2_move_speed_pct', '', $movespeed),
+        (0, 'm2_move_speed_pct_env', '', $movespeed);"; then
+    echo "[playerbot-migrate] movement speed of players and bots: ${movespeed}% of the game's (from .env)"
+else
+    echo "[playerbot-migrate] WARNING: could not write the movement speed flag; the cores keep the last one" >&2
 fi
 
 # The starter kit (the operator, 30 September, on Iwakura's proposal):
@@ -1454,6 +1570,51 @@ elif db_retry -e "REPLACE INTO player.quest (dwPID, szName, szState, lValue) VAL
 else
     echo "[playerbot-migrate] WARNING: could not write the Cor Draconis a day; the quest keeps the last count" >&2
 fi
+
+# The Alchemist's Time Elixirs (Kiciamol, 7 October): dragon_soul_shop.quest's
+# "Eliksiry Czasu" opens the special shop 20001, which sells the small, the
+# medium and the large (100000-100002) for three, five and eight raw Cor
+# Draconis (50255) and no yang - nothing else in this world sells or drops
+# one. The db core reads world.shop_special and shop_special_proto at boot,
+# so they are live at the next start. 20001 and 20101-20103 are free in the
+# package's dump; a row the operator changed or made under those numbers is
+# kept (INSERT IGNORE), and the shop lists only the rows that sell an
+# elixir. The small one's row charged nothing (value0 0, "Cannot charge"):
+# it charges a quarter of a stone's wear now, the medium half as the package
+# has it, and the large - the package's fixed 30000 seconds, less than the
+# medium's half of a day's wear - the whole of it (Kiciamol, 7 October: "Niech
+# (D) daje 100% S 50 a M 25"): USE_TIME_CHARGE_FIX becomes
+# USE_TIME_CHARGE_PER at 100. Only the package's values move, and the
+# client's table says the same (port/protoify.py). Idempotent.
+db_retry -e "INSERT IGNORE INTO world.shop_special_proto
+        (vnum, item_vnum, count, rare_pct, price_type, price, items, random_item_count, random_item_group,
+         limittype0, limitvalue0, limittype1, limitvalue1) VALUES
+        (20101, 100000, 1, 0, 'GOLD', 0, '50255,3', 0, 0, 'NONE', 0, 'NONE', 0),
+        (20102, 100001, 1, 0, 'GOLD', 0, '50255,5', 0, 0, 'NONE', 0, 'NONE', 0),
+        (20103, 100002, 1, 0, 'GOLD', 0, '50255,8', 0, 0, 'NONE', 0, 'NONE', 0);
+    INSERT IGNORE INTO world.shop_special (vnum, item_vnum)
+        SELECT 20001, vnum FROM world.shop_special_proto
+         WHERE vnum IN (20101, 20102, 20103) AND item_vnum IN (100000, 100001, 100002);
+    UPDATE world.item_proto SET value0 = 25 WHERE vnum = 100000 AND type = 3 AND subtype = 27 AND value0 = 0;
+    UPDATE world.item_proto SET subtype = 27, value0 = 100 WHERE vnum = 100002 AND type = 3 AND subtype = 28 AND value0 = 30000;" \
+    || echo "[playerbot-migrate] WARNING: could not give the Alchemist his Time Elixirs" >&2
+
+# Every grade of Dragon Stone wears a day (Kiciamol, 7 October). The package
+# gives a rough stone 24 hours of wear and a cut, rare, antique and legendary
+# one 12, 8, 6 and 4 (limit 0, LIMIT_TIMER_BASED_ON_WEAR), and an elixir
+# charges a stone only up to its own (CItem::GiveMoreTime_Per/_Fix ask
+# GetDuration), so a legendary stone held four hours at most. A stone made
+# from now on and a stone charged take the day; one already made keeps the
+# time it has until it is charged. Only the package's hours move, by the
+# grade in the vnum's thousands; an operator's own value stays. PROTO_FROM_DB:
+# the db core reads the rows at boot. Idempotent.
+db_retry -e "UPDATE world.item_proto SET limitvalue0 = 86400
+     WHERE type = 29 AND limittype0 = 9 AND (
+           (vnum % 10000 BETWEEN 1000 AND 1999 AND limitvalue0 = 43200)
+        OR (vnum % 10000 BETWEEN 2000 AND 2999 AND limitvalue0 = 28800)
+        OR (vnum % 10000 BETWEEN 3000 AND 3999 AND limitvalue0 = 21600)
+        OR (vnum % 10000 BETWEEN 4000 AND 4999 AND limitvalue0 = 14400));" \
+    || echo "[playerbot-migrate] WARNING: could not give the Dragon Stones a day of wear" >&2
 
 # Extra drops of the Metin stones and the bosses (Jeremus-Sama, 1 October:
 # "quantity and quality depends on metin level and boss difficulty"): .env's

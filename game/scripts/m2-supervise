@@ -255,6 +255,16 @@ command -v m2-gm >/dev/null 2>&1 && HAVE_GM=1
 HAVE_LANG=0
 command -v m2-lang >/dev/null 2>&1 && HAVE_LANG=1
 
+# The chest and drop groups the panel's editor wrote (m2-drop-tables): merged
+# in before every boot of the cores, which read the two files only then, and
+# taken out again if a core dies reading them.
+HAVE_DROPS=0
+command -v m2-drop-tables >/dev/null 2>&1 && HAVE_DROPS=1
+drop_tables_apply() {
+  [ "$HAVE_DROPS" = "1" ] || return 0
+  m2-drop-tables apply || log "the drop tables could not be prepared -- the image's own files stay"
+}
+
 lang_change() {
   local rc
   if ! m2-lang apply; then
@@ -266,6 +276,7 @@ lang_change() {
 
   log "language files replaced -- restarting the cores so the game reads them"
   stop_cores
+  drop_tables_apply
   boot_cores; rc=$?
   if [ "$rc" = "0" ]; then
     m2-lang publish
@@ -287,6 +298,7 @@ rates_change() {
 
   log "rates applied -- restarting the cores so the game reads them"
   stop_cores
+  drop_tables_apply
   boot_cores; rc=$?
   if [ "$rc" = "0" ]; then
     m2-rates publish            # -> whatever the apply concluded, normally ok
@@ -316,6 +328,10 @@ if [ "$HAVE_LANG" = "1" ]; then
   m2-lang poll || true
   m2-lang apply || log "the wanted language could not be applied -- see /var/log/m2lang.log"
 fi
+
+# The operator's chest and drop groups, for the same reason: the cores read
+# the two files while they boot and never again.
+drop_tables_apply
 
 boot_cores; boot_rc=$?
 [ "$boot_rc" != "2" ] || exit 1
@@ -408,6 +424,11 @@ while :; do
       shutdown_all
       exit 1
     fi
+
+    # A game core that died reading a chest or drop file this start had
+    # replaced gets the image's file back before it is started again: every
+    # core reads the same file, and the override would stop every boot.
+    [ "$HAVE_DROPS" = "1" ] && { m2-drop-tables fallback "${CORE_DIR[$name]}" || true; }
 
     log "restarting $name in ${M2_RESTART_BACKOFF}s"
     sleep "$M2_RESTART_BACKOFF"

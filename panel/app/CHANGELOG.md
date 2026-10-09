@@ -17,6 +17,269 @@ every version here.
 
 ---
 
+## 2.2.81 — 2026-10-09
+
+Serwer 2.2.81 i klient 2.0.88: zaktualizuj oba. Zawiera wszystko z 2.2.80.
+
+**📈 Gospodarka botów — Patch 11 Iwakury i Tyriona, część druga**
+- Spotkania i wymiany: boty umawiają się na czacie na kanał, mapę i miejsce, przychodzą tam i wymieniają się w oknie handlu - między sobą i z graczami.
+- Boty mają jasną kolejność zajęć: przetrwanie, rajd z drużyną, umówione spotkanie i pełny plecak idą przed resztą.
+- Barter: obie strony wyceniane jedną miarą, ochrona dobrych bonusów i limit dopłaty.
+- Nowe zachowania na rynku: łowcy okazji, prośby „Kupię”, ogłoszenia pisane jak przez graczy, drobne zakupy z impulsu i ulepszanie z ciekawości.
+- Eksperymentalnie, domyślnie wyłączone: drugi ekwipunek botów pod PvP oraz suwak realizmu sesji (boty, które czasem odchodzą na dłużej).
+
+**🛠️ Patch 12 Iwakury i Tyriona**
+- Nowa karta „Podgląd rynku” w panelu (wersja eksperymentalna): wszystkie oferty sklepów offline ze wszystkich królestw, kategorie, filtry, okazje cenowe i teleport do sklepu.
+- Respawn: Metiny i bossowie mają osobne ustawienia czasu i liczby w obu panelach; dotychczasowe wartości przechodzą do obu.
+- Zielona Smocza Fasola wypada z Metinów od 50 lvl i trafia na sklepy botów.
+- Boty trzymają najwyżej dwie tarcze jednego typu, a nadmiar sprzedają albo wystawiają.
+- Boty nie palą już noszonego ekwipunku: ulepszają go tylko ze Zwojem Błogosławieństwa albo kują drugą sztukę, a u kowala ulepszają też tarcze, hełmy, biżuterię i buty.
+- Pieczone ryby boty wymieniają na Zwoje Błogosławieństwa.
+- Cel Dnia losuje się co jakiś czas w trakcie gry, boty rzadziej piszą o swojej śmierci, a bot, który ciągle ginie na M3, schodzi na łatwiejszą mapę i najpierw odwiedza kowala.
+
+**🔧 Poprawki**
+- Boty nie palą u kowala przedmiotów z czterema bonusami - ulepszają je tylko ze Zwojem Błogosławieństwa (sosen).
+- Kowal w Wieży Demonów: boty z rajdu przynoszą przedmioty dla każdego z trzech kowali, a Towarzysz też ma swoją kolejkę (Frelik).
+- Towarzysz zbiera odłamki do Cor Draconis (Setnil) i na wojnie gildii walczy u boku właściciela; Towarzysz, którego właściciel nie gra, na wojnę nie idzie (xXxDaronxXx).
+- Komunikaty kowala i Wieży Demonów są po angielsku dla graczy w angielskiej wersji (danutzy1993).
+- Panel GM pod F9: lista Metinów i potworów otwiera się w widoku (Tatko Šmoula), a klasy postaci są poprawne (Kordyl13).
+- Ogłoszenia ryb ze sklepów botów znów pojawiają się na czacie.
+
+**🧰 Launcher i VPS**
+- Aktualizacja sprawdza wolne miejsce przed startem i sama usuwa stare obrazy Dockera oraz pamięć podręczną budowania - na VPS i na komputerze; świat zostaje nietknięty (Ziółek).
+
+**🖥️ Panel Sebana**
+- Panel Sebana 1.114.1 z nowym wyglądem „Łąka i Złoto”, nowymi rankingami i kartami botów - dziękujemy, Seban! Do tego osobne ustawienia respawnu Metinów i bossów.
+
+## 2.2.80 — 2026-10-08
+
+Serwer 2.2.80 i klient 2.0.87: zaktualizuj oba. Zawiera wszystko z 2.2.79.
+
+**⚙️ Świat**
+- Szybkość ruchu z okna poziomu trudności i panelu zmienia teraz tempo nie tylko graczy, ale też botów i Towarzysza, więc cały świat porusza się w jednym rytmie (pomysł RapLowa).
+
+**🛡️ Panel GM**
+- Nowy panel GM pod F9: gracz, własna postać, świat i eventy, przedmioty, konta, spawn, teleport, serwer i komendy GM, cztery rozmiary okna oraz przyciski „Informacja” i „Ban” w oknie celu. Panel przygotował Kiciamol - dziękujemy!
+
+**🤝 Towarzysz**
+- Po przywołaniu Towarzysza z listu nie znikają już pasek umiejętności, czat i minimapa (Jasny).
+
+**🧰 Launcher**
+- Launcher na komputerze grającym tylko na VPS pokazuje wersję serwera z VPS zamiast starej wersji plików lokalnych i nie proponuje zbędnej aktualizacji (Urtopy).
+- Zastosowanie ustawień na VPS nie kończy się już fałszywym błędem, gdy serwer po restarcie jeszcze chwilę uruchamia kanały (IRON).
+
+## 2.2.79 — 2026-10-08
+
+Serwer 2.2.79; klient bez zmian (2.0.86). Zawiera wszystko z 2.2.78.
+
+**📈 Gospodarka botów — poprawki Iwakury do Patcha 11**
+- Boty nie palą już u zwykłego kowala broni, którą walczą, ani noszonego ekwipunku: ulepszają je tylko z zapasową bronią w plecaku albo ze zwojem, a młode boty bez zapasu najwyżej do +4.
+- Dobre bonusy są lepiej chronione, także te przydatne w PvP, a kamienie dodania i zmiany idą najpierw na noszony ekwipunek. Bonowacz działa od 30 lvl i korzysta tylko z nadwyżki.
+- Dodania i zmianki mają cenę zależną od tego, ile ich jest na rynku, i trafiają tam po kilka sztuk. Wzmocnienie Przedmiotu kosztuje w cenniku 3 mln.
+- Indeks cen może zejść niżej, a na nowym świecie szybciej znajduje właściwą wartość.
+- Boty trzymają najwyżej dwa hełmy jednego typu i od razu sprzedają resztę; nadmiar ekwipunku nie czeka już na barter.
+- Boty trzymają zapas ulepszaczy na trzy kolejne plusy, Kantor zostawia im 15% yang, a dopłatę w barterze bot może pokryć z utargu swojego sklepu.
+- Nastrój: nowe boty zaczynają w dobrym albo zwykłym nastroju, nastrój poprawia się najwyżej raz na pół godziny, a bardzo dobry mija po 2-3 godzinach. Bot w drużynie nie zostaje Rybakiem.
+- Boty nie zużywają już kamieni dodania i zmiany na bronie w plecaku, których nie noszą: najpierw bonują własny ekwipunek, a przedmioty na sprzedaż dostają tylko nadwyżkę (sosen).
+
+**🏰 Wieża Demonów**
+- Kowal w Wieży ulepsza przedmioty botów dopiero od +4 (sosen).
+
+**🤝 Towarzysz**
+- „Łowienie” działa przy wodzie, przy której Towarzysz albo ty stoicie, także na moście; z własną wędką i robakami Towarzysz łowi od razu (Malina).
+
+**⚙️ Świat**
+- Nowa opcja: szybkość ruchu graczy (50-200%) w oknie trudności launchera i w panelu. Boty i Towarzysz poruszają się jak dotąd (RapLow).
+
+**🖥️ Panel**
+- Panel i edytor bazy danych pokazują przedmioty i potwory pod oficjalnymi angielskimi nazwami, gdy panel jest w innym języku niż polski, a wyszukiwarka znajduje je po obu nazwach (Blind).
+
+**🧰 Launcher**
+- Zgłoszenia błędów wysyłane z launchera znów zawierają logi botów (sosen).
+
+## 2.2.78 — 2026-10-08
+
+Serwer 2.2.78 i klient 2.0.86: zaktualizuj oba. Zawiera wszystko z 2.2.77.
+
+**📈 Gospodarka botów — Patch 11 Iwakury i Tyriona, część pierwsza**
+- Ceny ulepszaczy zależą od tego, ile ich leży na rynku, i zmieniają się płynniej, a boty nie stoją wszystkie na jednej cenie.
+- Wraca inflacja cen w nowej, łagodniejszej postaci; w panelu widać „Indeks cen”.
+- Kantor przyjmuje mieszane partie ulepszaczy bez dziennego limitu, także od biedniejszych botów.
+- Boty nie trzymają już stert ekwipunku w plecakach: nadmiar ulepszają, wystawiają albo sprzedają, a zapchane kategorie rynku (tanie księgi, bronie na 30 lvl, marchewki, instrukcje konne, pieczone ryby, mikstury) mają limity.
+- Boty dużo więcej ulepszają, część z nich jako Rzemieślnicy na sprzedaż; na rynku pojawia się ekwipunek +7, +8 i +9. Udział Rzemieślników ustawisz w panelu.
+- Bonowanie rusza od +6, a część botów bonuje przedmioty na sprzedaż.
+- Osobowości i nastrój: Perfekcjonista działa naprawdę, Rybak nie łowi w drużynie z graczem, nastrój spada wolniej, a Cel Dnia nie blokuje botów na godziny.
+- Czat botów: ogłoszenia pisane jak przez graczy, bot pamięta swoje ogłoszenie, odpowiada, na jakim jest kanale, i nie zdradza się odpowiedziami „z menu”.
+- Eksport statystyk dla Iwakury z nowymi danymi o sprzedaży, sklepach, Kantorze i ulepszaniu.
+
+**🏷️ Nazwy**
+- Nowe nazwy botów i gildii od Ediego obok list Iwakury - dla botów i gildii, które dopiero powstaną; istniejące zachowują swoje.
+
+**🤝 Towarzysz**
+- Nowy rozkaz „Łowienie”: Towarzysz idzie nad wodę i łowi, dopóki go nie zawołasz, a ryby trafiają do jego plecaka. Kiedy sam łowisz, Towarzysz staje obok i łowi razem z tobą (prodnathin).
+- „Najpierw dystans”: Towarzysz najpierw bije łuczników i magów, którzy atakują ciebie, jego albo grupę - na przykład tych, którzy wychodzą z Metina. Opcję wyłączysz w oknie Towarzysza.
+
+**🔧 Poprawki**
+- Prawy klik na ikonie przemiany kończy polimorfię (Buby, Remigiusz).
+- Panel klasyczny pokazuje misję Biologa, którą bot naprawdę robi, a misje odłożone na później wypisuje osobno (sosen).
+- Zmiana Bonusów: wybór powiadomienia (okno, PW albo oba), pytanie przed wczytaniem i usunięciem presetu oraz okna dopasowane do małego okna gry (blasty).
+- Ninja ze sztyletami kupuje na 30 poziom koziki zamiast Miecza Pełni Księżyca (Piciu713).
+- Podgląd postaci w panelu Sebana nie zawiesza już komputera przy wielu botach; to samo w panelu klasycznym (Jasny).
+
+## 2.2.77 — 2026-10-08
+
+Serwer 2.2.77 i klient 2.0.85: zaktualizuj oba. Zawiera wszystko z 2.2.76.
+
+**🧾 Dane przedmiotów w kliencie (Kordyl13)**
+- Zmiany przedmiotów i potworów z edytora bazy (np. bonusy, atak, ceny) trafiają teraz także do klienta gry. W launcherze: „Otwórz panel” → „Synchronizuj dane przedmiotów z klientem”. Po pierwszej synchronizacji launcher odświeża je sam przy GRAJ i po aktualizacji klienta.
+- Znajomy w COOP albo gracz na VPS: w panelu jest strona „Dane dla klienta gry” z paczką ZIP do wgrania w kliencie, z kopią oryginałów i możliwością przywrócenia.
+
+**🛒 Rynek**
+- Reset cen sklepów botów nie wstrzymuje już wszystkich zakupów na czas trwania, nie zaczyna się od nowa po restarcie serwera i nie zatrzymuje się przez jedną ofertę (Kordyl13, blasty).
+- Oferty z zakładki Smocze Znaki przestawione w edytorze na Smocze Monety nie znikają z ItemShopu (Nihil).
+
+**🔧 Poprawki**
+- Boty każdej rasy wybierają specjalizację niezależnie od płci, a panel klasyczny pokazuje płeć ninja i szamanów poprawnie (DeeJaz).
+- Edytor bazy otwiera się z launchera także przy świecie na VPS (FanFar, Kordyl13).
+- Aktualizacja przy grze na VPS nie myli już wersji plików launchera z wersją serwera (seban latino).
+
+## 2.2.76 — 2026-10-07
+
+Serwer 2.2.76 i klient 2.0.84: zaktualizuj oba, launcher pobierze też nowy plik gry. Zawiera wszystko z 2.2.75.
+
+**🐉 Alchemia (Kiciamol)**
+- Nowe okno Alchemii: stopnie kamieni na swoich miejscach, podświetlona aktywna talia i odliczanie czasu noszonego kamienia.
+- Alchemik sprzedaje Eliksiry Czasu za Cor Draconis; eliksiry ładują 25, 50 i 100% dnia, a każdy Smoczy Kamień zużywa się przez jeden dzień.
+- Grafika interfejsu jest wyraźniejsza, bo obrazki nie są już rozciągane.
+
+**🎲 Switcher bonusów (blasty)**
+- Rozbudowany switcher bonusów blastego z otwieraniem skrzynek i dzieleniem stosów, z zakładkami, żeby mieścił się na małym ekranie (na bazie okna Uxìĕ [DSO]).
+- W ItemShopie jest paczka 20 kamieni zmiany bonusu.
+
+**🌍 Świat i trudność**
+- Nowe ustawienie w trudności: szansa na bonusy w wydropionej broni i zbroi (Tysiek).
+- Gracz z gildii w wojnie z gildią botów dostaje pytanie, czy dołączyć do wojny (Derpsonkowy95).
+- Nowe ceny Perłowej Bransolety (Iwakura).
+
+**🛠️ Panel i edytor bazy**
+- Edytor bazy danych po angielsku, z wyborem języka u góry (Klimo).
+- Dodawanie i usuwanie przepisów wytwarzania w edytorze oraz podgląd, gdzie używany jest przepis ulepszenia (Edi).
+- Usuwanie przedmiotu z karty bota w panelu i z torby Towarzysza (sosen).
+- Edytor mówi, że ceny w sklepach NPC klient pokazuje ze swoich plików.
+- Reset cen sklepów botów działa w panelu bez hasła (Frelik).
+
+**🔧 Poprawki**
+- Postacie w Hwang (np. Szamanka w zbroi Sang-Hwang) nie podmieniają już sobie animacji (Piciu713, Edi).
+- Otwarcie ItemShopu z ofertą o zerowym przedmiocie nie wyłącza już serwera (Drip).
+- Boty nie idą na wojnę gildii z wędką w ręce (azzyl5021).
+- Okno masowej zmiany cen mówi, co trzeba najpierw wybrać (iceBeeg).
+- Auto Łowy mają pomoc pod „?”, a własny buff umiejętności zdejmiesz prawym kliknięciem ikony (Edi).
+- Poprawione angielskie teksty w oknach Uxìĕ [DSO].
+- Boty lepiej dobierają ekwipunek do walki z potworami (Tieru).
+
+**🚀 Launcher**
+- Hasło panelu jest w nagłówku okna, a edytor bazy w wyborze „Otwórz panel” (Nihil).
+- Launcher mierzy obciążenie serwera na VPS i ostrzega, gdy rdzeń nie nadąża z botami (blipu, xXxDaronxXx).
+- Zgłoszenie błędu zabiera log klienta także przy działającej grze, a chwilowy błąd Dockera przy starcie nie jest już zgłaszany jako awaria (blipu, Drip, Jasny).
+
+## 2.2.75 — 2026-10-07
+
+Serwer 2.2.75 i klient 2.0.83: zaktualizuj oba. Zawiera wszystko z 2.2.74.
+
+**🛠️ Edytor bazy danych (Lostek)**
+W panelu administratora jest nowy edytor danych gry. Lostek pracował nad nim ponad tydzień i jest gotowy do udostępnienia wszystkim. Przez przeglądarkę zmienisz m.in. przedmioty, potwory i bossów, drop specjalny, ulepszenia, bonusy, sklepy NPC, umiejętności, tabelę doświadczenia, wytwarzanie, nagrody questów, ItemShop i prawa GM. Każdy zapis pokazuje najpierw podgląd zmian, a każda zmiana trafia do historii, z której cofniesz ją jednym kliknięciem. Zawartość skrzynek i grup dropu zmienisz w osobnej karcie „Skrzynki i drop”, która sama wraca do poprzednich ustawień, gdyby serwer nie przyjął zmiany.
+
+**🤖 Boty żyją jeszcze bardziej (Patch 10 od Iwakury)**
+- Cel Dnia: część botów losuje cel na sesję (Metiny, poziom, yang, boss, ulepszenie…) z poziomem trudności; widać go nad głową na niebiesko, a sukces lub porażka zmienia ich nastrój.
+- Pierwszy na serwerze: kto pierwszy osiągnie kolejne progi poziomu, trafia do kroniki, a boty komentują to na czacie.
+- Handel na czacie: boty pytają innych o ceny rzadkich przedmiotów, przebijają się cenami przy sprzedaży i potrafią wymienić się przedmiotem – między sobą i z graczem, przez zwykłe okno wymiany.
+- Rynek materiałów: gdy światu brakuje jakiegoś ulepszacza, boty częściej wystawiają go z magazynu, a zalegające najtańsze materiały powoli schodzą z rynku (opcja testowa).
+- Panel: przycisk „Odblokuj exp” na stronie bota (prośba Iwakury) i eksport statystyk ekonomii.
+
+**🌍 Świat i trudność**
+- Nowy przełącznik w trudności: yang gracza wpada do ekwipunku albo na ziemię (Nannato). Boty zawsze zbierają go do sakiewki.
+- Ustawienia respawnów z panelu działają od razu po starcie serwera i od razu po zmianie (Adijhos).
+- Wojny gildii: gildia gracza może wyzwać gildię botów z innego królestwa, a gracze w gildiach prowadzonych przez boty biorą udział w wojnie.
+- Rajdy na Żółwia i lepsze przygotowanie botów do Wieży Demonów.
+- Klasyczny wygląd Domu Towarowego (Uxìĕ [DSO]).
+
+**🔧 Poprawki**
+- Teleport GM-a do bota w lochu (np. w Wieży Demonów) już nie wyrzuca (Tieru).
+- Śmierć w Grocie Wygnańców 2 i „Rozpocznij w mieście” stawia postać przy wyjściu z Groty (Tieru).
+- Kolczyki Miłości działają (Malina). Grinder w drużynie z graczem zdobywa poziomy (zhask9431).
+- Wiele poprawek angielskiego klienta: tytuł GM, pomoc pod H, opisy mikstur i umiejętności, przyciski Towarzysza, aktywacja Alchemii, komendy botów gildii, Płomień Ducha (Edi).
+- Opisy buffów szamana w innych językach (Tyrion), ikony ksiąg umiejętności i opcja śniegu Wł./Wył./Auto (zgłoszenia z launchera), dymek sklepu w podpowiedzi (blipu).
+- ItemShop nie sprzedaje niczego za prawdziwe pieniądze; z ekranu logowania zniknął przycisk „Facebook”.
+- Magazyn kolekcjonera po ponownym otwarciu (danutzy1993), ceny Tarczy Tytana (OCTODAN), wędkarz blokujący się u zbrojmistrza.
+- Mapa świata w panelu pokazuje boty na piętrach Wieży Demonów.
+- Launcher: „Zatrzymaj i zapisz” zapisuje świat przed wyłączeniem bazy, a zgłoszenie błędu zabiera informacje z klienta gry.
+
+## 2.2.74 — 2026-10-06
+
+Serwer 2.2.74, klient 2.0.82. Zawiera wszystko z 2.2.73.
+
+- Poprawiono zachowanie botów podczas rozwijania ekwipunku i ochronę wartościowych bonusów.
+- Uzupełnianie brakujących bonusów pozostaje dostępne.
+
+Zaktualizuj serwer przez launcher. Klient 2.0.82 pozostaje aktualny.
+
+## 2.2.73 — 2026-10-06
+
+Serwer 2.2.73 i klient 2.0.82: zaktualizuj oba. Zawiera wszystko z 2.2.72.
+
+- Usprawnienia współpracy, rozwoju i wyposażenia botów.
+- Poprawki rynku oraz wymiany towarów.
+- Nowe informacje i narzędzia kontroli w panelu.
+- Poprawki wyświetlania bonusów przedmiotów i aktualizacji launchera/VPS.
+
+## 2.2.72 — 2026-10-05
+
+Serwer 2.2.72 i klient 2.0.81: zaktualizuj oba. Zawiera wszystko z 2.2.71.
+
+- Poprawki stabilności klienta podczas zmiany map i obsługi interfejsu.
+- Usprawnienia Wieży Demonów i postępu zadań.
+- Wygodniejsze ulepszanie, poprawki ekwipunku i zapamiętywania ustawień Towarzysza.
+- Poprawki panelu, aktualizacji i tłumaczeń.
+
+## 2.2.71 — 2026-10-05
+
+Serwer 2.2.71 i klient 2.0.80: zaktualizuj oba. Zawiera wszystko z 2.2.70.
+
+- Nowe udogodnienia w grze i wygodniejsza obsługa ekwipunku.
+- Usprawnienia zachowania, rozmów i aktywności botów.
+- Poprawki Wiki, interfejsu, magazynu oraz aktualizacji klienta.
+- Poprawki stabilności i postępu zadań.
+
+## 2.2.70 — 2026-10-04
+
+Serwer 2.2.70 i klient 2.0.79: zaktualizuj oba. Zawiera wszystko z 2.2.69.
+
+- **Wiki w grze**: nowa Wikipedia Kiciamola dostępna z menu ESC oraz Pomocy,
+  z informacjami o przedmiotach, potworach, skrzyniach i ulepszaniu.
+- **Klient i gra**: poprawki Auto Łowów, mapy Czerwonego Lasu, nazw w innych
+  językach, linków do przedmiotów i podglądu wyposażenia. Księgi Dowodzenia
+  można układać po 200 sztuk. Peleryna Męstwa jest dostępna od 30 poziomu,
+  a dodatkowy bonus broni 70 poziomu można wyłączyć w ustawieniach świata.
+- **Boty i Towarzysz**: poprawki początku walki, blokowania szeptów i kamieni
+  w Wieży Demonów. Towarzysz grający samodzielnie wraca do świata także
+  wtedy, gdy jego właściciel się nie zalogował.
+- **Panele**: nowa strona główna od LOSTKA, panel Sebana 1.111.1 oraz
+  poprawki wyszukiwania przedmiotów.
+- **Launcher i VPS**: osobny przycisk Uruchom klienta, wygodniejsze stosowanie
+  ustawień na VPS oraz lepsze wskazówki przy problemach z Dockerem.
+  Poprawiona aktualizacja klienta umieszczonego razem z serwerem.
+- **Klient znajomego**: ostrzeżenie o wymaganej aktualizacji i osobny
+  Aktualizuj.bat do aktualizowania klienta.
+
+Dziękujemy twórcom i zgłaszającym: Kiciamol, LOSTEK, Seban, Colide, Edi,
+Nannato, Sosna, Kordyl13, MonsterMuuch, xXxDaronxXx, Uxìĕ [DSO], Piciu713,
+Tysiek, magicznytomasz, blasty i Nihil.
+
+Aktualizację serwera i klienta zaproponuje launcher przy starcie. Nowa Wiki
+wymaga również aktualnego pliku gry, który pobierze launcher lub Aktualizuj.bat.
+
+---
+
 ## 2.2.69 — 2026-10-04
 
 Serwer 2.2.69 i klient 2.0.78: zaktualizuj oba. Zawiera wszystko z 2.2.68.

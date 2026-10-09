@@ -8,6 +8,7 @@ import time
 import threading
 import re
 import uuid
+import traceback
 import zlib
 import gzip
 from logging.handlers import RotatingFileHandler
@@ -22,6 +23,7 @@ import pymysql
 import markdown
 from flask import Flask, abort, flash, g, jsonify, redirect, render_template, request, send_file, session, url_for
 from markupsafe import Markup, escape
+from werkzeug.exceptions import HTTPException
 from werkzeug.security import check_password_hash, generate_password_hash
 
 import translations
@@ -170,6 +172,9 @@ except OSError:
 UPDATE_WATCHER_MAX_AGE_SECONDS = 90
 PLAYERBOTS_RELEASE_URL = "https://api.github.com/repos/TieruYT/metin2-playerbots/releases/latest"
 PLAYERBOTS_RELEASE_CACHE_SECONDS = 900
+# Optional local version file for custom deployments. Standard deployments
+# receive the launcher-maintained package version through the collector.
+PLAYERBOTS_VERSION_FILE = os.environ.get("PLAYERBOTS_VERSION_FILE", "").strip()
 _playerbots_release_cache = {"checked_at": 0.0, "latest": None, "error": None}
 PANEL_VERSION_URL = "https://raw.githubusercontent.com/krajevsky/metin2-playerbots-advanced-webpanel/main/VERSION"
 SERVER_SETTINGS_READY_MAX_AGE_SECONDS = 20
@@ -178,13 +183,22 @@ GAME_HOST = os.environ.get("PLAYERBOTS_GAME_HOST", "metin2-game")
 GAME_LOGIN_PORT = int(os.environ.get("PLAYERBOTS_LOGIN_PORT", "11000"))
 GAME_WORLD_PORT = int(os.environ.get("PLAYERBOTS_WORLD_PORT", "13000"))
 RATE_NAMES = ("exp", "drop", "yang")
-REGEN_DELAY_FLAGS = {"boss": "fastBossSpawn", "mob": "fastMobSpawn"}
-REGEN_COUNT_FLAGS = {"boss": "m2_boss_count", "mob": "m2_mob_count"}
+# Metin stones apart from bosses since Iwakura's Patch 12, point 2: the core
+# reads fastMetinSpawn/m2_metin_count for a line that puts down a Metin stone
+# and fastBossSpawn/m2_boss_count for a boss. Playerbots' migrator copies the
+# old "Metiny i bossy" values into the Metin rows once; a world without the
+# row yet shows the bosses' value for the Metins (read_regen_settings).
+REGEN_DELAY_FLAGS = {"metin": "fastMetinSpawn", "boss": "fastBossSpawn", "mob": "fastMobSpawn"}
+REGEN_COUNT_FLAGS = {"metin": "m2_metin_count", "boss": "m2_boss_count", "mob": "m2_mob_count"}
+REGEN_METIN_FALLBACK = {"fastMetinSpawn": "fastBossSpawn", "m2_metin_count": "m2_boss_count"}
 REGEN_DELAY_MIN = 10
 REGEN_COUNT_CHOICES = (100, 150, 200, 250, 300, 400)
 QUEUE_FINAL_STATUSES = frozenset((
     "done", "bad_args", "failed", "unknown_cmd", "cancelled", "no_gm",
     "full", "qty_too_big", "player_offline", "no_skill", "has_item", "partial",
+    # Playerbots' answer to EXPUNLOCK/EXPLOCK for a character that is not a
+    # registered bot, or is a player's companion (playerbot_admin_grants.h).
+    "not_allowed",
 ))
 AI_WEIGHTS_FILE = RATES_SPOOL / "playerbot_weights.tsv"
 CHEST_SWITCH_FILE = RATES_SPOOL / "playerbot_chest_switch.tsv"
@@ -225,7 +239,7 @@ AI_WEIGHT_HINTS = {
 # These values share the live weight file with goal weights, but the core treats
 # them as switches or direct settings rather than 25–250% goal weights.
 AI_LIVE_DEFAULTS = {"CHAT": 1, "BOOKS": 1, "NIGHT": 1, "LIFE": 0, "WARS": 1, "TOWER": 1, "CATACOMB": 1, "ISHOP": 1,
-                     "SHOP_M2": 0, "PERSONA": 1, "SCRAP": 0, "REST": 100, "KINGDOMPVP": 0, "SCROLL_FROM": 1,
+                     "SHOP_M2": 0, "PERSONA": 1, "LIFE_HOURS": 0, "SCRAP": 0, "REST": 100, "KINGDOMPVP": 0, "SCROLL_FROM": 1,
                      "WAR_MINUTES": 30, "WAR_HOURS": 2, "CHEST": None, "CHEST_STONE": None}
 AI_SPECIAL_WEIGHT_KEYS = frozenset(AI_LIVE_DEFAULTS)
 BIOLOGIST_COMPLETE_STATE = 557528158
@@ -316,7 +330,7 @@ try:
 except OSError:
     PANEL_VERSION = os.environ.get("SEBAN_PANEL_VERSION", "dev")
 DEFAULT_SETTINGS = {
-    "panel_name": "Metin2 Singleplayer", "stuck_minutes": "5", "theme": "empire", "monitor_mode": "vps", "cursor": "custom",
+    "panel_name": "Metin2 Singleplayer", "stuck_minutes": "5", "theme": "laka", "monitor_mode": "vps", "cursor": "custom",
     # Existing installations without this key stay usable. Fresh installations
     # receive setup_complete=0 from the collector and enter the setup wizard.
     "setup_complete": "1", "auth_enabled": "0", "auth_password_hash": "", "allow_student_chest": "0", "allow_moonlight_chest": "0", "keep_demo_characters": "0", "update_seban_panel": "0",
@@ -366,7 +380,8 @@ BOT_PERSONAS = {0: "Grinder", 1: "Zdobywca", 2: "Handlarz", 3: "Hazardzista", 4:
                 15: "Młodszy Hazardzista", 16: "Starszy Hazardzista", 17: "Naczelny Hazardzista",
                 18: "Szalony Hazardzista"}
 BOT_MOODS = {0: "Słaby", 1: "Normalny", 2: "Bardzo dobry"}
-BOT_MOOD_LOCKS = {1: "euforia po ulepszeniu", 2: "kapitulacja (Anty-PK)"}
+BOT_MOOD_LOCKS = {1: "euforia po ulepszeniu", 2: "kapitulacja (Anty-PK)", 3: "ochrona po celu dnia",
+                  4: "cel dnia nieudany", 5: "spalenie +8/+9"}
 ITEM_TYPE_NAMES = (
     "ITEM_NONE", "ITEM_WEAPON", "ITEM_ARMOR", "ITEM_USE", "ITEM_AUTOUSE", "ITEM_MATERIAL", "ITEM_SPECIAL", "ITEM_TOOL", "ITEM_LOTTERY", "ITEM_ELK",
     "ITEM_METIN", "ITEM_CONTAINER", "ITEM_FISH", "ITEM_ROD", "ITEM_RESOURCE", "ITEM_CAMPFIRE", "ITEM_UNIQUE", "ITEM_SKILLBOOK", "ITEM_QUEST", "ITEM_POLYMORPH",
@@ -417,6 +432,7 @@ PANEL_FEATURES = {
     "student_chest": {"title": "Skrzynia startowa na żywo", "icon": "🎒", "scope": "Zarządzanie grą · skrzynia ucznia", "requirement": "Zmodyfikowany starter_chest.quest i tabela common.m2_switches.", "setup": "Zastosuj patch questa skrzyni startowej, skompiluj questy i ustaw M2_PLAYERBOT_DISABLE_STUDENT_CHEST zgodnie z wyborem dla botów."},
     "plus9_announcements": {"title": "Ogłoszenia ulepszeń +9", "icon": "📢", "scope": "Zarządzanie grą · rankingi", "requirement": "Komenda NOTICE w web_admin.quest oraz działający seban-collector.", "setup": "Wdróż do web_admin.quest obsługę NOTICE, skompiluj quest i uruchom usługę seban-collector."},
     "seban_updater": {"title": "Aktualizator Seban", "icon": "⬆", "scope": "Zarządzanie grą · aktualizacje", "requirement": "Usługa systemowa seban-updater i wspólny wolumen update-spool.", "setup": "Uruchom: sudo updater/install-seban-updater.sh /pełna/ścieżka/do/serwera [projekt-compose]. Następnie włącz funkcję tutaj."},
+    "bot_timeline": {"title": "Wykres sesji bota", "icon": "📈", "scope": "Zarządzanie panelem · wykres na /player/", "requirement": "Brak dodatkowych zależności: korzysta z migawek pozycji botów (co 5 minut).", "setup": "Włącz tutaj, aby na karcie bota w /player/ pojawił się wykres online/offline z ostatnich 24 godzin."},
 }
 ATTR_SKILL_DAMAGE = 121 if ENGINE_MT2009 else 71
 ATTR_AVG_DAMAGE = 122 if ENGINE_MT2009 else 72
@@ -505,50 +521,93 @@ except OSError:
 CRASHED_TABLE_ERRNOS = (144, 145, 1194, 1195)
 
 
+HTTP_ERROR_TITLES = {
+    400: "Nieprawidłowe żądanie",
+    401: "Wymagane logowanie",
+    403: "Brak dostępu",
+    404: "Nie znaleziono strony",
+    405: "Niedozwolona metoda",
+    500: "Błąd panelu",
+    502: "Usługa chwilowo niedostępna",
+    503: "Usługa chwilowo niedostępna",
+}
+
+
+def render_panel_error(status, title=None, message=None, error=None, hint=None):
+    """Render a diagnostic page which is safe even when the database is down.
+
+    Error pages cannot use ``base.html``: its context processor reads panel
+    settings from MariaDB and would turn a database outage into a second
+    exception.  This standalone login-style template receives the incident
+    traceback directly, while the same trace is persisted in panel.log.
+    """
+    status = int(status or 500)
+    incident_id = uuid.uuid4().hex[:12].upper()
+    path = request.path if request else "unknown"
+    title = title or HTTP_ERROR_TITLES.get(status, "Błąd panelu")
+    message = message or ("Panel nie mógł wykonać tego żądania."
+                          if status >= 500 else "To żądanie nie może zostać wykonane.")
+    if error is not None:
+        trace = "".join(traceback.format_exception(type(error), error, error.__traceback__)).strip()
+        app.logger.error("PANEL_INCIDENT id=%s status=%s path=%s\n%s", incident_id, status, path, trace)
+    else:
+        trace = "[%s] HTTP %s · %s" % (incident_id, status, path)
+        app.logger.warning("PANEL_INCIDENT id=%s status=%s path=%s", incident_id, status, path)
+    if request.path.startswith("/api/"):
+        return jsonify(ok=False, error="panel_error", status=status, incident_id=incident_id,
+                       message=message, log=trace), status
+    try:
+        style_revision = hashlib.sha256((Path(app.static_folder) / "style.css").read_bytes()).hexdigest()[:12]
+    except OSError:
+        style_revision = "0"
+    return render_template(
+        "error.html", status=status, title=title, message=message, hint=hint,
+        incident_id=incident_id, incident_log=trace,
+        panel_brand=os.environ.get("SEBAN_PANEL_BRAND", "Metin2 Singleplayer"), style_revision=style_revision,
+    ), status
+
+
 @app.errorhandler(pymysql.err.OperationalError)
 def handle_crashed_table(error):
     errno = error.args[0] if error.args else 0
     message = str(error.args[1]) if len(error.args) > 1 else str(error)
     if errno not in CRASHED_TABLE_ERRNOS:
-        # Nie nasza sprawa - niech Flask pokaze swoje 500 i zapisze slad.
-        raise error
+        return render_panel_error(500, error=error)
     table = ""
     match = re.search(r"Table '([^']+)'", message)
     if match:
         table = match.group(1).replace("./", "").replace("/", ".")
-    named = ("Tabela <code>%s</code>" % escape(table)) if table else "Jedna z tabel bazy"
-    body = """<!doctype html><html lang="pl"><head><meta charset="utf-8">
-<title>Uszkodzona tabela bazy</title>
-<style>body{font-family:system-ui,Segoe UI,Arial,sans-serif;max-width:52em;margin:3em auto;padding:0 1.5em;line-height:1.6;color:#222}
-h1{font-size:1.5em}code{background:#f2f2f2;padding:.15em .35em;border-radius:3px}
-pre{background:#f2f2f2;padding:1em;border-radius:5px;overflow-x:auto}
-.note{background:#fff8e1;border-left:4px solid #e0a800;padding:.8em 1em;margin:1.5em 0}</style>
-</head><body>
-<h1>Uszkodzona tabela bazy danych</h1>
-<p>%s jest oznaczona jako uszkodzona, wiec panel nie moze jej odczytac.
-Silnik gry uzywa tabel MyISAM, a te nie przezywaja nagłego zatrzymania -
-wystarczy zamkniecie Dockera w trakcie zapisu albo zanik zasilania.</p>
-<div class="note"><strong>Aktualizacja serwera tego nie naprawi.</strong>
-Uszkodzenie jest w danych na dysku, a nie w programie - nowa wersja czyta te
-same pliki.</div>
-<h2>Jak naprawic</h2>
-<p>Otworz PowerShell w folderze serwera, w podkatalogu <code>linux-port\\docker</code>
-(w launcherze przycisk FOLDER SERWERA), i uruchom:</p>
-<pre>docker compose exec mariadb mysqlcheck -uroot -p --auto-repair --databases log player account common</pre>
-<p>Zapyta o haslo - to <code>M2_DB_ROOT_PASSWORD</code> z pliku <code>.env</code>
-w tym samym folderze. Naprawa duzej tabeli logow potrafi potrwac kilka minut.</p>
-<h2>Jesli naprawa sie nie uda</h2>
-<p>Baza <code>log</code> to wylacznie historia: co kto podniosl, ulepszyl i
-powiedzial. Gra jej nie czyta i zadna postac, przedmiot ani bot od niej nie
-zaleza. Jesli <code>mysqlcheck</code> zglosi, ze nie da rady, mozna te tabele
-oproznic bez straty dla swiata:</p>
-<pre>docker compose exec mariadb mariadb -uroot -p -e "TRUNCATE log.log; TRUNCATE log.levellog; TRUNCATE log.shout_log;"</pre>
-<div class="note">Nie rob tego dla baz <code>player</code>, <code>account</code>
-ani <code>common</code> - tam sa postacie, konta i boty.</div>
-<p style="margin-top:2em;color:#666;font-size:.9em">Blad bazy: %s (%s)</p>
-</body></html>""" % (named, errno, escape(message))
-    return body, 500
+    named = f"Tabela {table}" if table else "Jedna z tabel bazy danych"
+    return render_panel_error(
+        500,
+        title="Uszkodzona tabela bazy danych",
+        message=f"{named} jest oznaczona jako uszkodzona, więc panel nie może jej odczytać.",
+        error=error,
+        hint=("W katalogu linux-port\\docker uruchom: "
+              "docker compose exec mariadb mysqlcheck -uroot -p --auto-repair "
+              "--databases log player account common"),
+    )
 
+
+@app.errorhandler(HTTPException)
+def handle_http_error(error):
+    """Give every HTTP failure the same branded diagnostic treatment."""
+    original = getattr(error, "original_exception", None)
+    if original is not None:
+        return render_panel_error(500, error=original)
+    return render_panel_error(
+        error.code or 500,
+        title=HTTP_ERROR_TITLES.get(error.code, error.name),
+        message=error.description,
+    )
+
+
+@app.errorhandler(Exception)
+def handle_unexpected_error(error):
+    """Last-resort protection against Flask's plain white 500 page."""
+    if isinstance(error, HTTPException):
+        return handle_http_error(error)
+    return render_panel_error(500, error=error)
 
 
 def db():
@@ -580,11 +639,19 @@ def read_regen_settings():
             for kind, flag in REGEN_DELAY_FLAGS.items():
                 cur.execute("SELECT lValue FROM player.quest WHERE dwPID=0 AND szName=%s LIMIT 1", (flag,))
                 row = cur.fetchone()
+                if not row and flag in REGEN_METIN_FALLBACK:
+                    cur.execute("SELECT lValue FROM player.quest WHERE dwPID=0 AND szName=%s LIMIT 1",
+                                (REGEN_METIN_FALLBACK[flag],))
+                    row = cur.fetchone()
                 if row and REGEN_DELAY_MIN <= int(row["lValue"]) < 100:
                     result["delay"][kind] = int(row["lValue"])
             for kind, flag in REGEN_COUNT_FLAGS.items():
                 cur.execute("SELECT lValue FROM player.quest WHERE dwPID=0 AND szName=%s LIMIT 1", (flag,))
                 row = cur.fetchone()
+                if not row and flag in REGEN_METIN_FALLBACK:
+                    cur.execute("SELECT lValue FROM player.quest WHERE dwPID=0 AND szName=%s LIMIT 1",
+                                (REGEN_METIN_FALLBACK[flag],))
+                    row = cur.fetchone()
                 if row and 100 < int(row["lValue"]) <= max(REGEN_COUNT_CHOICES):
                     result["count"][kind] = int(row["lValue"])
     except (KeyError, TypeError, ValueError, pymysql.MySQLError):
@@ -803,6 +870,47 @@ def panel_feature_enabled(name, current=None):
     return CUSTOM_PATCHES_ENABLED if value is None else value == "1"
 
 
+def bot_presence_timeline(pid, hours=24):
+    """Oś online/offline bota z migawek pozycji (zapis co 5 minut).
+
+    Bot jest online w danym 5-minutowym kwadransie, gdy jego pid ma migawkę
+    w tym kwadransie. Brak migawki = offline (odpoczywa albo nie zalogowany).
+    Zegar bierzemy z bazy, żeby nie rozjechać się z czasem zapisu migawek.
+    Zwraca None, gdy w oknie nie ma żadnej migawki (gracz albo bot bez danych).
+    """
+    try:
+        latest = one("SELECT MAX(captured_at) AS last FROM player.web_seban_bot_position_snapshot WHERE captured_at > NOW() - INTERVAL %s HOUR", (hours,)).get("last")
+        if not latest:
+            return None
+        seen = {row["captured_at"] for row in rows("SELECT captured_at FROM player.web_seban_bot_position_snapshot WHERE pid=%s AND captured_at > %s", (pid, latest - timedelta(hours=hours)))}
+    except pymysql.MySQLError:
+        return None
+    if not seen:
+        return None
+    step = timedelta(minutes=5)
+    start = latest - timedelta(hours=hours)
+    # LIFE=0 keeps bots in the world. Old snapshots still include earlier rest breaks.
+    continuous = not bool(read_ai_weights().get("LIFE"))
+    bits = []
+    ticks = []
+    cursor = start + step
+    while cursor <= latest:
+        # Znacznik co 3 pełne godziny zegara: ułatwia odczyt, o której był online.
+        if cursor.minute == 0 and cursor.hour % 3 == 0:
+            ticks.append({"pos": len(bits), "label": cursor.strftime("%H:%M")})
+        bits.append(True if continuous else cursor in seen)
+        cursor += step
+    # Sąsiednie kwadranse online łączymy w jeden odcinek: czytelniej niż setki słupków.
+    runs = []
+    for index, on in enumerate(bits):
+        if on and (runs and runs[-1][0] + runs[-1][1] == index):
+            runs[-1][1] += 1
+        elif on:
+            runs.append([index, 1])
+    return {"runs": runs, "ticks": ticks, "slots": len(bits), "start": start.strftime("%d.%m %H:%M"), "end": latest.strftime("%d.%m %H:%M"),
+            "online_minutes": sum(bits) * 5, "total_minutes": len(bits) * 5, "continuous": continuous}
+
+
 def panel_feature_states(current=None):
     current = current or settings()
     result = {}
@@ -832,7 +940,7 @@ def validate_display_settings(form):
     language = form.get("language", "pl")
     if not name:
         return None, "Nazwa panelu nie może być pusta."
-    if theme not in ("ocean", "ember", "forest", "empire") or monitor_mode not in ("vps", "docker"):
+    if theme not in ("ocean", "ember", "forest", "empire", "laka") or monitor_mode not in ("vps", "docker"):
         return None, "Nieprawidłowe ustawienia wyglądu lub monitoringu."
     if cursor_choice not in ("custom", "system"):
         return None, "Nieprawidłowy wybór kursora."
@@ -1310,6 +1418,91 @@ def _classify_refine_events(raw):
 NEWS_SYNC_INTERVAL = 300  # seconds -- see sync_news_events() docstring
 
 
+# World feed: record stall sales. Only a sale whose price per piece beats every earlier sale of the
+# same item, and is worth at least this much, makes the feed (operator's ask, 2026-10-08).
+SALE_RECORD_MIN_UNIT = 1_000_000
+_SALE_UNIT_SQL = ("CAST(SUBSTRING_INDEX(l.hint,' za ',-1) AS UNSIGNED) DIV "
+                  "GREATEST(1, CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(l.hint,' x',-1),' ',1) AS UNSIGNED))")
+
+
+def _record_sale_events(since):
+    """Stall sales after `since` that set a new per-item price record (player.web_seban_sale_record
+    keeps the best price per piece; seeded once from the whole PLAYERBOT_STALL_SOLD history)."""
+    rows("""CREATE TABLE IF NOT EXISTS player.web_seban_sale_record (
+      vnum INT UNSIGNED NOT NULL PRIMARY KEY, unit_price BIGINT UNSIGNED NOT NULL, sold_at DATETIME NOT NULL)""")
+    # never look further back than a day: a fresh install's cursor starts in 2020, and every
+    # sale before the window is history that only seeds the records
+    since = max(str(since), (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S"))
+    if not one("SELECT vnum FROM player.web_seban_sale_record LIMIT 1"):
+        rows(f"""INSERT IGNORE INTO player.web_seban_sale_record (vnum, unit_price, sold_at)
+          SELECT l.vnum, MAX({_SALE_UNIT_SQL}), MAX(l.time) FROM log.log l
+          WHERE l.how='PLAYERBOT_STALL_SOLD' AND l.time < %s GROUP BY l.vnum""", (since,))
+    sales = rows(f"""SELECT l.time, l.who, l.what, l.vnum, l.hint, {_SALE_UNIT_SQL} AS unit, p.name, p.job,
+        {EMPIRE_EXPR} AS empire
+      FROM log.log l JOIN player.player p ON p.id=l.who
+      LEFT JOIN player.player_index pi ON pi.id=p.account_id
+      LEFT JOIN account.account a ON a.id=p.account_id
+      WHERE l.how='PLAYERBOT_STALL_SOLD' AND l.time >= %s ORDER BY l.time LIMIT 20000""", (since,))
+    if not sales:
+        return []
+    vnums = sorted({int(s["vnum"]) for s in sales})
+    marks = ",".join(["%s"] * len(vnums))
+    best = {int(r["vnum"]): int(r["unit_price"]) for r in
+            rows(f"SELECT vnum, unit_price FROM player.web_seban_sale_record WHERE vnum IN ({marks})", vnums)}
+    events, changed = [], {}
+    for sale in sales:
+        vnum, unit = int(sale["vnum"]), int(sale["unit"] or 0)
+        previous = best.get(vnum)
+        if previous is not None and unit <= previous:
+            continue
+        best[vnum] = unit
+        changed[vnum] = (unit, sale["time"])
+        # the first sale ever of an item is not a record; cheap items never are
+        if previous is None or unit < SALE_RECORD_MIN_UNIT:
+            continue
+        match = SALE_HINT_RE.match(game_text(sale["hint"]))
+        qty, price = (int(match.group(2)), int(match.group(3))) if match else (1, unit)
+        item = _item_display_name(vnum, 0)
+        name = game_text(sale.get("name")) or f"pid {sale['who']}"
+        amount = f"{qty}× {item}" if qty > 1 else item
+        events.append({
+            "key": f"SALE:{sale['who']}:{sale['what']}:{sale['time']}", "time": sale["time"],
+            "message": f"Stragan {name} sprzedał {amount} za {price:,} Yang".replace(",", " "),
+            "kind": "sale", "actor": name, "method": f"rekord ceny (wcześniej {previous:,} za sztukę)".replace(",", " "),
+            "refine_tier": 0, "player_id": int(sale["who"] or 0), "job": int(sale.get("job") or 0),
+            "empire": int(sale.get("empire") or 0), "vnum": vnum, "socket0": 0,
+        })
+    if changed:
+        rows("""INSERT INTO player.web_seban_sale_record (vnum, unit_price, sold_at) VALUES """ +
+             ",".join(["(%s,%s,%s)"] * len(changed)) +
+             " ON DUPLICATE KEY UPDATE sold_at=IF(VALUES(unit_price)>unit_price,VALUES(sold_at),sold_at),"
+             " unit_price=GREATEST(unit_price,VALUES(unit_price))",
+             [v for vnum, (unit, at) in changed.items() for v in (vnum, unit, at)])
+    return events
+
+
+def _leader_level_events(since):
+    """Level-ups of the current #1 of the level ranking (operator's ask: only the top player).
+    log.levellog keeps one row per level (empty name, so the latest pid to reach it wins),
+    which is enough here: the leader is usually the only one at the top levels."""
+    leader = one("SELECT id, name, job FROM player.player WHERE " + ranking_scope_sql("") +
+                 " ORDER BY level DESC, exp DESC LIMIT 1")
+    if not leader:
+        return []
+    found = rows("""SELECT lv.level, lv.time, lv.pid, {empire} AS empire FROM log.levellog lv
+      JOIN player.player p ON p.id=lv.pid
+      LEFT JOIN player.player_index pi ON pi.id=p.account_id
+      LEFT JOIN account.account a ON a.id=p.account_id
+      WHERE lv.pid=%s AND lv.time >= %s ORDER BY lv.time""".format(empire=EMPIRE_EXPR), (leader["id"], since))
+    name = game_text(leader.get("name"))
+    return [{
+        "key": f"LEVEL:{row['pid']}:{row['level']}", "time": row["time"],
+        "message": f"{name} osiągnął poziom {row['level']}", "kind": "level", "actor": name,
+        "method": "lider rankingu poziomu", "refine_tier": 0, "player_id": int(row["pid"]),
+        "job": int(leader.get("job") or 0), "empire": int(row.get("empire") or 0), "vnum": 0, "socket0": 0,
+    } for row in found]
+
+
 def sync_news_events():
     """Keep web_seban_news_event (a small, time-indexed local cache) caught
     up with log.log, throttled to run the expensive underlying scan at most
@@ -1348,6 +1541,11 @@ def sync_news_events():
             events = _classify_news_events(_news_event_source_rows(since=since, scan_limit=2_000_000))
             events += _classify_refine_events(_refine_event_rows(since=since))
             events += _classify_refine9_events(_refine9_event_rows(since=since))
+            for source in (_record_sale_events, _leader_level_events):
+                try:
+                    events += source(since)
+                except pymysql.MySQLError:
+                    app.logger.exception("Feed wydarzeń: źródło %s nie zadziałało", source.__name__)
             if events:
                 cur.executemany("""INSERT IGNORE INTO player.web_seban_news_event
                   (event_key,time,kind,message,actor,player_id,job,empire,vnum,socket0,refine_tier,method)
@@ -1369,19 +1567,61 @@ def legendary_notice_enabled(destination, current=None):
     return current.get(f"legendary_notice_{destination}", "1") == "1"
 
 
+_ITEM_VNUM_BY_POLISH = None
+
+
+def item_vnum_by_polish_name(name):
+    """The item a Polish client name belongs to ("Ostrze Z Czerw. Stali+8"), from the same
+    item_names_en.json the translations use; the lowest vnum wins when several share a name."""
+    global _ITEM_VNUM_BY_POLISH
+    if _ITEM_VNUM_BY_POLISH is None:
+        table = {}
+        for vnum, names in translations._ITEM_NAMES_BY_VNUM.items():
+            try:
+                key, value = str(names[0]).strip().casefold(), int(vnum)
+            except (TypeError, ValueError, IndexError):
+                continue
+            if key and (key not in table or value < table[key]):
+                table[key] = value
+        _ITEM_VNUM_BY_POLISH = table
+    return _ITEM_VNUM_BY_POLISH.get((name or "").strip().casefold())
+
+
+def news_event_icon(kind, message, vnum):
+    """Icon for a world feed entry (laka dashboard chronicle): the upgraded / found / won item,
+    a skill book for M-levels and a Soul Stone for G1-P. None = the theme draws its own icon."""
+    message = message or ""
+    if kind == "skill":
+        rank = re.search(r" na (\S+)$", message)
+        grand = bool(rank and re.fullmatch(r"G\d+|P", rank.group(1)))
+        return url_for("static", filename="icons/50513.png" if grand else "icons/book_01.png")
+    if kind == "refine" and " ulepszył " in message:
+        target = item_vnum_by_polish_name(message.split(" ulepszył ", 1)[1])
+        return item_icon_url(target) if target else None
+    if kind == "find":
+        found = re.search(r" znalazł (.+?) podczas", message)
+        target = item_vnum_by_polish_name(found.group(1)) if found else None
+        return item_icon_url(target) if target else None
+    if kind in ("chest", "sale") and vnum:
+        return item_icon_url(vnum)
+    return None
+
+
 def news_feed_events():
     """Curate rare achievements for the dashboard's live ticker -- last 12h,
     newest 30, read from the fast local cache (see sync_news_events()).
-    Shape (string HH:MM `time`) matches what static/news-feed.js expects."""
+    Shape (string HH:MM `time`) matches what static/news-feed.js expects;
+    `icon` is extra, for the laka theme's chronicle."""
     sync_news_events()
     clauses = ["time >= NOW() - INTERVAL 12 HOUR", "kind <> 'chest'"]
     if not legendary_notice_enabled("ticker"):
         clauses.append("kind <> 'announcement'")
-    raw = rows(f"""SELECT event_key,time,kind,message,refine_tier,method FROM player.web_seban_news_event
+    raw = rows(f"""SELECT event_key,time,kind,message,refine_tier,method,vnum FROM player.web_seban_news_event
       WHERE {' AND '.join(clauses)} ORDER BY time DESC LIMIT 30""")
     return [{"key": r["event_key"], "time": r["time"].strftime("%H:%M"),
              "message": f"{r['message']} — {r['method']}" if r.get("method") else r["message"],
-             "kind": r["kind"], "refine_tier": r["refine_tier"]} for r in reversed(raw)]
+             "kind": r["kind"], "refine_tier": r["refine_tier"],
+             "icon": news_event_icon(r["kind"], r["message"], r.get("vnum"))} for r in reversed(raw)]
 
 
 def news_feed_day_label(when):
@@ -1434,7 +1674,35 @@ _LIVE_STATUS_INT_FIELDS = ("personality", "ambition", "role", "goal", "action", 
                             "map_index", "x", "y", "hp", "max_hp", "mp", "max_mp",
                             "st", "ht", "dx", "iq", "attack", "magic_attack", "defense",
                             "magic_defense", "attack_speed", "move_speed", "casting_speed", "evade",
-                            "persona", "mood", "mood_lock", "lock_level")
+                            "persona", "mood", "mood_lock", "lock_level",
+                            # AFFECT_EXP_BLOCK on the bot now, and the operator's
+                            # override of it (0/1, Playerbots 2.x from 7 October
+                            # 2026). Read by header like the rest, so a core that
+                            # writes neither column leaves both keys out.
+                            "exp_block", "exp_unlock")
+
+
+def life_schedule_census():
+    """Odpoczywające i wracające boty z pliku playerbot_life.tsv każdego rdzenia.
+
+    Rdzeń nadpisuje plik co 10 minut (harmonogram 'boty grają jak ludzie').
+    Zwraca None, gdy żaden rdzeń nie ma świeżego pliku (harmonogram wyłączony
+    albo rdzeń jeszcze nie ma tej wersji).
+    """
+    totals = {"resting": 0, "returning": 0, "online": 0, "cores": 0}
+    for _channel, path in channel_paths("playerbot_life.tsv"):
+        try:
+            if datetime.now().timestamp() - path.stat().st_mtime > 1500:
+                continue
+            lines = path.read_text(encoding="cp1250", errors="replace").splitlines()
+            online, resting, returning = (int(value) for value in lines[1].split("\t")[:3])
+        except (OSError, ValueError, IndexError):
+            continue
+        totals["online"] += online
+        totals["resting"] += resting
+        totals["returning"] += returning
+        totals["cores"] += 1
+    return totals if totals["cores"] else None
 
 
 def live_statuses():
@@ -1593,6 +1861,10 @@ def live_map_counts(channel=None):
         if channel is not None and entry.get("channel") != channel:
             continue
         index = entry["map_index"]
+        # A dungeon instance (the Demon Tower's floors are 660000, 660001...)
+        # is counted with its base map, which is the map a person picks.
+        if index >= 10000:
+            index //= 10000
         counts[index] = counts.get(index, 0) + 1
     return [{"map_index": index, "character_count": count} for index, count in sorted(counts.items(), key=lambda item: -item[1])]
 
@@ -1789,8 +2061,39 @@ def update_status():
     return result
 
 
+def playerbots_version_from_file():
+    """Read the launcher-maintained version from an optional mounted .env file."""
+    if not PLAYERBOTS_VERSION_FILE:
+        return ""
+    try:
+        raw = Path(PLAYERBOTS_VERSION_FILE).read_text(encoding="utf-8", errors="replace").strip()
+        # The official launcher writes a bare semantic version to the package's
+        # root VERSION file. Older/custom stacks may expose a dotenv file.
+        if version_key(raw):
+            return raw
+        for line in raw.splitlines():
+            key, separator, value = line.partition("=")
+            if separator and key.strip() in ("M2_PLAYERBOTS_VERSION", "PLAYERBOTS_VERSION"):
+                return value.strip().strip("'\"")
+    except OSError:
+        pass
+    return ""
+
+
+def collected_playerbots_version():
+    """Read the package VERSION published by the host-side collector."""
+    try:
+        value = str(one("SELECT value FROM player.web_seban_settings WHERE name=%s", ("playerbots_version",)).get("value", "")).strip()
+    except pymysql.MySQLError:
+        return ""
+    return value if version_key(value) else ""
+
+
 def installed_playerbots_version():
-    """Return the newest valid version reported by compose or the updater."""
+    """Prefer the launcher's package VERSION, then custom/update fallbacks."""
+    for launcher_version in (collected_playerbots_version(), playerbots_version_from_file()):
+        if version_key(launcher_version):
+            return launcher_version.lstrip("vV")
     current = update_status()
     candidates = []
     for value in (os.environ.get("PLAYERBOTS_VERSION"), current.get("version")):
@@ -2574,6 +2877,8 @@ def read_ai_weights():
                         values[key] = 0 if raw_value.lower() in ("0", "off", "no") else 1
                     elif key in ("SCRAP", "REST", "KINGDOMPVP"):
                         values[key] = max(0, min(100, int(raw_value)))
+                    elif key == "LIFE_HOURS":
+                        values[key] = max(0, min(24, int(raw_value)))
                     elif key == "SCROLL_FROM":
                         values[key] = max(1, min(9, int(raw_value)))
                     elif key == "WAR_MINUTES":
@@ -2620,8 +2925,11 @@ def write_ai_weights(values):
     content.append(f"CHAT\t{1 if values.get('CHAT', 1) else 0}")
     content.append(f"BOOKS\t{1 if values.get('BOOKS', 1) else 0}")
     content.append(f"NIGHT\t{1 if values.get('NIGHT', 1) else 0}")
-    content.append(f"LIFE\t{1 if values.get('LIFE', 0) else 0}")
-    content.append(f"WARS\t{1 if values.get('WARS', 1) else 0}")
+    content.append(f"LIFE	{1 if values.get('LIFE', 0) else 0}")
+    # Zero removes the key and leaves the core's standard session rhythm.
+    if values.get("LIFE_HOURS"):
+        content.append(f"LIFE_HOURS	{max(1, min(24, int(values['LIFE_HOURS'])))}")
+    content.append(f"WARS	{1 if values.get('WARS', 1) else 0}")
     content.append(f"TOWER\t{1 if values.get('TOWER', 1) else 0}")
     content.append(f"CATACOMB\t{1 if values.get('CATACOMB', 1) else 0}")
     content.append(f"ISHOP\t{1 if values.get('ISHOP', 1) else 0}")
@@ -3445,7 +3753,7 @@ def cached_dashboard_ranking(kind, limit=10, ttl=300):
     return data
 
 
-def bot_ranking(kind, sort_by="avg", people_only=False, weapon_type=None):
+def bot_ranking(kind, sort_by="avg", people_only=False, weapon_type=None, plus9_category="all"):
     base = ranking_scope_sql("p", people_only)
     # Fetches every matching row (up to a generous safety cap, not a
     # per-page one) -- /rankings paginates in Python instead of pushing
@@ -3681,10 +3989,12 @@ def bot_ranking(kind, sort_by="avg", people_only=False, weapon_type=None):
         # IKASHOP_OFFLINESHOP joins the same way -- its owner_id is the
         # listing character's own id (unlike SAFEBOX above), so a +9 an
         # operator put up for sale still counts for them.
+        category_sql = PLUS9_CATEGORIES.get(plus9_category, PLUS9_CATEGORIES["all"])[1]
+        plus9_order = "p.level DESC,i.vnum DESC,p.name" if sort_by == "level" else "i.vnum DESC,p.level DESC,p.name"
         return rows(f"""SELECT p.id,p.name,p.level,p.gold,i.vnum,COALESCE(ip.locale_name,CONCAT('VNUM ',i.vnum)) AS detail,
             CAST(i.window='IKASHOP_OFFLINESHOP' AS UNSIGNED) AS is_shop
             FROM player.item i JOIN player.player p ON p.id=i.owner_id LEFT JOIN player.item_proto ip ON ip.vnum=i.vnum
-            WHERE {base} AND i.window IN ('EQUIPMENT','INVENTORY','IKASHOP_OFFLINESHOP') AND ip.type IN (1,2) AND MOD(i.vnum,10)=9 ORDER BY i.vnum DESC,p.level DESC {limit_clause}""")
+            WHERE {base} AND i.window IN ('EQUIPMENT','INVENTORY','IKASHOP_OFFLINESHOP') AND {category_sql} AND MOD(i.vnum,10)=9 ORDER BY {plus9_order} {limit_clause}""")
     return rows(f"SELECT p.id,p.name,p.level,p.gold,p.level AS score,'Poziom' AS detail FROM player.player p WHERE {base} ORDER BY p.level DESC,p.exp DESC {limit_clause}")
 
 
@@ -3893,7 +4203,13 @@ def translate_response(response):
     # when English is selected, so a Polish response is exactly what Jinja
     # produced, byte for byte.
     if response.content_type and response.content_type.startswith("text/html"):
-        current_settings = settings()
+        try:
+            current_settings = settings()
+        except pymysql.MySQLError:
+            # An error page may be the only page that can still render while
+            # MariaDB is unavailable.  Do not turn that diagnostic response
+            # into another 500 merely to discover its display language.
+            return response
         if current_settings.get("ui_language", "pl") == "en":
             response.set_data(translations.translate_html(response.get_data(as_text=True), "en"))
     return response
@@ -4075,6 +4391,7 @@ def _dashboard_deferred_context():
     panel_release = panel_release_status()
     world_summary = {
         "bots": len(live_roster),
+        "life_resting": (life_schedule_census() or {}).get("resting"),
         "average_level": round(sum(int(bot.get("level") or 0) for bot in live_roster) / len(live_roster), 1) if live_roster else 0,
         "party_bots": sum(1 for bot in live_roster if bot.get("in_party")),
         "max_level": max((int(bot.get("level") or 0) for bot in live_roster), default=0),
@@ -4203,13 +4520,18 @@ def api_dashboard_deferred():
         # Serve stale data immediately while it is refreshed in the background.
         # These widgets are historical/server summaries; the live map retains
         # its separate 1.5-second endpoint and is never served from this cache.
-        return jsonify(ok=True, **cached["data"])
-    data = _dashboard_deferred_context()
-    try:
-        _write_dashboard_deferred_cache(data)
-    except pymysql.MySQLError:
-        app.logger.exception("Initial dashboard deferred cache write failed")
-    return jsonify(ok=True, **data)
+        response = jsonify(ok=True, **cached["data"])
+    else:
+        data = _dashboard_deferred_context()
+        try:
+            _write_dashboard_deferred_cache(data)
+        except pymysql.MySQLError:
+            app.logger.exception("Initial dashboard deferred cache write failed")
+        response = jsonify(ok=True, **data)
+    # A browser must not keep an old release number after the launcher updates
+    # the server. The server-side cache above is deliberate and short-lived.
+    response.headers["Cache-Control"] = "no-store, max-age=0"
+    return response
 @app.route("/players")
 @login_required
 def players():
@@ -4337,6 +4659,20 @@ SPECIAL_FLAG_RANKINGS = {
 # deliberately not offered as filter choices.
 WEAPON_SUBTYPES = {"sword": (0, "Miecz"), "dagger": (1, "Sztylet"), "bow": (2, "Łuk"),
                     "twohand": (3, "Broń dwuręczna"), "bell": (4, "Dzwon"), "fan": (5, "Wachlarz")}
+# /rankings?type=plus9&category=<key>. ITEM_ARMOR's subtypes are defined by
+# the game client: body, head, shield, wrist, feet, neck and ear respectively.
+# Keep SQL fragments here, rather than accepting a value from a request.
+PLUS9_CATEGORIES = {
+    "all": ("Wszystkie", "ip.type IN (1,2)"),
+    "weapon": ("Broń", "ip.type=1"),
+    "armor": ("Zbroje", "ip.type=2 AND ip.subtype=0"),
+    "helmet": ("Hełmy", "ip.type=2 AND ip.subtype=1"),
+    "shield": ("Tarcze", "ip.type=2 AND ip.subtype=2"),
+    "bracelet": ("Bransolety", "ip.type=2 AND ip.subtype=3"),
+    "shoes": ("Buty", "ip.type=2 AND ip.subtype=4"),
+    "necklace": ("Naszyjniki", "ip.type=2 AND ip.subtype=5"),
+    "earrings": ("Kolczyki", "ip.type=2 AND ip.subtype=6"),
+}
 
 
 def character_stat_summary(pid):
@@ -4588,6 +4924,9 @@ def bot_offline_shop(pid):
     # The native shop loader skips metadata without an integer Yang price.
     # Do the same before enrichment: a missing JSON key used to yield SQL
     # NULL, crashing the character's entire card while summing its shop.
+    # A few older IkarusShop rows found in imported databases also carry a
+    # malformed amount or prototype reference; a shop is optional profile
+    # data, so one such offer must never make /player/<pid> return a 500.
     valid_offers = []
     for offer in offers:
         try:
@@ -4597,10 +4936,31 @@ def bot_offline_shop(pid):
         price = metadata.get("yang") if isinstance(metadata, dict) else None
         if type(price) is not int or not 0 <= price <= 0x7FFFFFFFFFFFFFFF:
             continue
+        try:
+            offer["vnum"] = int(offer.get("vnum") or 0)
+            offer["count"] = max(1, int(offer.get("count") or 1))
+            offer["pos"] = int(offer.get("pos") or 0)
+        except (TypeError, ValueError):
+            app.logger.warning("Skipping malformed offline-shop offer for player %s: %r", pid, offer)
+            continue
         offer["price"] = price
         valid_offers.append(offer)
     offers = valid_offers
-    _enrich_items(offers)
+    try:
+        _enrich_items(offers)
+    except Exception:
+        # Enrichment contains lookups for stones, bonuses and client-only
+        # item variants.  Retry each entry independently so one legacy item
+        # cannot hide the rest of a player's shop.
+        app.logger.exception("Offline-shop enrichment failed for player %s; isolating offers", pid)
+        enriched_offers = []
+        for offer in offers:
+            try:
+                _enrich_items([offer])
+                enriched_offers.append(offer)
+            except Exception:
+                app.logger.exception("Skipping invalid offline-shop offer id=%s for player %s", offer.get("id"), pid)
+        offers = enriched_offers
     occupied = set()
     grid_offers, overflow_offers = [], []
     for offer in offers:
@@ -4628,8 +4988,31 @@ def bot_offline_shop(pid):
         # price is already the whole-stack listing price (confirmed live:
         # e.g. 40x Peleryna Meestwa for 3 250 000, not 3 250 000 each) --
         # multiplying by count again inflated the total for any stack >1.
-        "total_value": sum(o["price"] for o in offers),
+        "total_value": sum(int(o.get("price") or 0) for o in offers),
     }
+
+
+# The last lines of a core's syslog are read from its end. The file is one
+# for the core's whole run (hundreds of megabytes after an hour with a
+# thousand bots), and the character page polls this every 1.5 s: reading it
+# whole with readlines() put several of them into memory at once, and on a
+# 16 GB PC with 1200 bots the Docker VM stalled for three minutes and the
+# worker was killed (Jasny, report 2cc0d676, 8 October). 256 KB holds the
+# 800 lines asked for.
+SYSLOG_TAIL_BYTES = 256 * 1024
+
+
+def tail_lines(path, count, max_bytes=SYSLOG_TAIL_BYTES):
+    with open(path, "rb") as f:
+        f.seek(0, os.SEEK_END)
+        start = max(0, f.tell() - max_bytes)
+        f.seek(start)
+        data = f.read()
+    if start:
+        # The first line read is cut in the middle.
+        cut = data.find(b"\n")
+        data = data[cut + 1:] if cut >= 0 else b""
+    return data.decode("latin-1", "ignore").splitlines()[-count:]
 
 
 def bot_live_logs(name, limit=80):
@@ -4643,9 +5026,7 @@ def bot_live_logs(name, limit=80):
     matched = []
     for _channel, path in channel_paths("syslog"):
         try:
-            with open(path, "r", encoding="latin-1", errors="ignore") as f:
-                lines = f.readlines()
-            recent = lines[-800:] if len(lines) > 800 else lines
+            recent = tail_lines(path, 800)
             matched.extend(line.strip() for line in recent if name_re.search(line))
         except OSError:
             continue
@@ -5010,6 +5391,121 @@ def full_plus9_equipment_ids(player_ids):
     return {pid for pid, positions in slots.items() if positions == required}
 
 
+PLAYER_PROFILE_STAT_KEYS = (
+    "monsters", "bosses", "minibosses", "metins", "pvp_kills", "duel_wins",
+    "mining", "fishing", "deaths_total", "deaths_by_mob", "pvp_deaths",
+    "damage_max", "damage_max_horse", "damage_max_skill", "gold_earned",
+    "gold_from_shop_sale", "refine_success", "refine_burned",
+)
+
+
+def player_profile_component(pid, component, fallback, loader):
+    """Load optional /player data without sacrificing the entire profile.
+
+    Imported Playerbots databases can carry legacy rows that no longer fit a
+    newer schema or item definition.  The base character is still usable, so
+    the view intentionally degrades just that optional panel and records the
+    full traceback for an administrator to inspect.
+    """
+    try:
+        return loader()
+    except Exception:
+        app.logger.exception("Player profile component failed; pid=%s component=%s", pid, component)
+        return fallback() if callable(fallback) else fallback
+
+
+# A bot's EXP lock and the operator's override of it (Iwakura's request,
+# Playerbots 2.x, 7 October 2026) -- the same contract as the "Odblokuj exp"
+# card of Tieru's classic panel (files/admin_panel.py, bot_exp_view and
+# queue_bot_exp_override). The lock is the engine's AFFECT_EXP_BLOCK, which the
+# bots' cores put on a Grinder at its tier's level, a medal dropper in its
+# band, and so on; the override is the bot's quest flag playerbot.exp_unlocked,
+# which the core's lock pass honours over every personality rule. This panel
+# never writes either one. EXPUNLOCK/EXPLOCK go into web_admin_queue with the
+# status 'await', which only the bots' own cores read: web_admin.quest never
+# polls it and the item-grants worker counts 'pending' rows only, so a request
+# for a bot that is out of the game simply waits until the bot loads on
+# whichever core, and that core makes the change. One request a bot: a newer
+# one cancels whatever still waits. The core answers 'done' or 'not_allowed'
+# (not a registered bot, or a player's companion); a status starting with "w"
+# is a core applying it right now.
+AFFECT_EXP_BLOCK_MT2009 = 310
+EXP_OVERRIDE_COMMANDS = {"unlock": "EXPUNLOCK", "restore": "EXPLOCK"}
+EXP_OVERRIDE_WAIT = 8.0
+
+
+def bot_exp_lock_view(character, live):
+    """The EXP card of /player: whether the lock holds now (the live status
+    file for a bot in the game, its saved affect otherwise), the level its
+    personality holds it at, the operator's override, and a request still
+    waiting for the bot. None on r40250 and for any character but a bot."""
+    if not ENGINE_MT2009 or not character:
+        return None
+    pid = int(character["id"])
+    if not one("SELECT " + BOT_IS + " AS bot FROM player.player p WHERE p.id=%s", (pid,)).get("bot"):
+        return None
+    try:
+        companion = bool(one("SELECT 1 AS n FROM player.playerbot_sidekick WHERE sidekick_pid=%s LIMIT 1", (pid,)))
+    except pymysql.MySQLError:
+        # No companion table on this database: the core refuses one anyway.
+        companion = False
+    saved_blocked = bool(one("SELECT 1 AS n FROM player.affect WHERE dwPID=%s AND bType=%s LIMIT 1",
+                             (pid, AFFECT_EXP_BLOCK_MT2009)))
+    saved_unlocked, saved_lock = False, None
+    for flag in rows("SELECT szState, lValue FROM player.quest WHERE dwPID=%s AND szName='playerbot' "
+                     "AND szState IN ('exp_unlocked','persona_lock_lv')", (pid,)):
+        state, value = game_text(flag.get("szState")), int(flag.get("lValue") or 0)
+        if state == "exp_unlocked":
+            saved_unlocked = value > 0
+        elif value > 1:
+            # persona_lock_lv is saved as the level plus one; 1 means no lock.
+            saved_lock = value - 1
+    view = {"companion": companion, "online": live is not None, "pending": None}
+    if live is not None:
+        # A core from before the two columns says nothing of either.
+        view["blocked"] = bool(live["exp_block"]) if "exp_block" in live else saved_blocked
+        view["unlocked"] = bool(live["exp_unlock"]) if "exp_unlock" in live else saved_unlocked
+        view["lock_level"] = live.get("lock_level") or None
+    else:
+        view.update(blocked=saved_blocked, unlocked=saved_unlocked, lock_level=saved_lock)
+    last = one("SELECT cmd, status, created FROM player.web_admin_queue WHERE player_name=%s "
+               "AND cmd IN ('EXPUNLOCK','EXPLOCK') ORDER BY id DESC LIMIT 1", (character["name"],))
+    status = str(last.get("status") or "")
+    if last and (status in ("await", "pending") or status.startswith("w")):
+        created = last.get("created")
+        view["pending"] = {"kind": last["cmd"], "applying": status.startswith("w"),
+                           "since": created.strftime("%d.%m.%Y %H:%M") if isinstance(created, datetime) else "—"}
+    # What the operator asked for last is what the button follows.
+    view["wants_unlocked"] = view["pending"]["kind"] == "EXPUNLOCK" if view["pending"] else view["unlocked"]
+    return view
+
+
+def queue_bot_exp_override(name, command, wait=EXP_OVERRIDE_WAIT):
+    """Queue EXPUNLOCK or EXPLOCK for a bot as an 'await' row and wait for the
+    bot's core to answer: (status, queue id). The status is a word of
+    QUEUE_FINAL_STATUSES, 'await' while no core has taken the row (the bot is
+    out of the game and the row waits for it), or a "w..." stamp while a core
+    applies it. A timeout cancels nothing, unlike queue_player_admin_command:
+    the change is the same whenever the bot's core makes it."""
+    with db() as con, con.cursor() as cur:
+        cur.execute("UPDATE player.web_admin_queue SET status='cancelled' WHERE player_name=%s "
+                    "AND cmd IN ('EXPUNLOCK','EXPLOCK') AND status IN ('pending','await')", (name,))
+        cur.execute("INSERT INTO player.web_admin_queue (player_name,cmd,arg1,arg2,status) "
+                    "VALUES (%s,%s,'','','await')", (name, command))
+        queue_id = cur.lastrowid
+    status = "await"
+    deadline = time.time() + wait
+    while time.time() < deadline:
+        time.sleep(0.6)
+        result = one("SELECT status FROM player.web_admin_queue WHERE id=%s", (queue_id,))
+        if not result:
+            return "gone", queue_id
+        status = result.get("status") or ""
+        if status in QUEUE_FINAL_STATUSES:
+            return status, queue_id
+    return status, queue_id
+
+
 @app.route("/player/<int:pid>")
 @login_required
 def player(pid):
@@ -5029,7 +5525,12 @@ def player(pid):
         character["persona"] = BOT_PERSONAS.get(live.get("persona")) if live.get("persona") is not None else None
         character["mood"] = BOT_MOODS.get(live.get("mood")) if live.get("mood") is not None else None
         character["mood_lock"] = BOT_MOOD_LOCKS.get(live.get("mood_lock") or 0)
-        character["hold"] = f"blokada expa na {live['lock_level']} lvl" if live.get("persona") is not None and live.get("lock_level") else ""
+        if live.get("exp_unlock"):
+            # The operator's override (bot_exp_lock_view) is over whatever
+            # level the personality would hold the bot at.
+            character["hold"] = "exp odblokowany przez operatora"
+        else:
+            character["hold"] = f"blokada expa na {live['lock_level']} lvl" if live.get("persona") is not None and live.get("lock_level") else ""
     else:
         character.update({"personality": "Bot offline", "ambition": "—", "goal": "—", "action": "—"})
         character["channel_live"] = False
@@ -5089,9 +5590,11 @@ def player(pid):
     character["hp_percent"] = min(100, round(int(character.get("hp") or 0) * 100 / character["max_hp"], 1))
     character["mp_percent"] = min(100, round(int(character.get("mp") or 0) * 100 / character["max_mp"], 1))
     skill_raw = character.pop("skill_level", b"")
-    character["skills"] = parse_skills(skill_raw, character.get("job"), character.get("skill_group"))
-    character["horse_skills"] = parse_horse_skills(skill_raw)
-    character["passive_skills"] = parse_passive_skills(skill_raw)
+    character["skills"], character["horse_skills"], character["passive_skills"] = player_profile_component(
+        pid, "skills", lambda: ([], [], []),
+        lambda: (parse_skills(skill_raw, character.get("job"), character.get("skill_group")),
+                 parse_horse_skills(skill_raw), parse_passive_skills(skill_raw)),
+    )
     own_language = {1: 126, 2: 127, 3: 128}.get(int(character.get("empire") or 0))
     character["passive_skills"] = [skill for skill in character["passive_skills"]
                                    if skill["vnum"] != own_language]
@@ -5103,21 +5606,35 @@ def player(pid):
         "attack_speed": character.get("attack_speed", "—"), "move_speed": character.get("move_speed", "—"),
         "casting_speed": character.get("casting_speed", "—"), "evade": character.get("evade", "—"),
     }
-    equipment, inventory, safebox, horse_bag = load_character_items(pid, character["account_id"])
-    dragon_soul_inventory, dragon_soul_decks = load_dragon_soul_items(pid)
-    character["full_plus9_equipment"] = full_plus9_badges_enabled() and is_full_plus9_equipment(equipment)
-    gear_history = bot_gear_history(pid)
-    offline_shop = bot_offline_shop(pid)
-    character_stats = character_stat_summary(pid)
-    mission_progress = character_mission_progress(pid)
+    equipment, inventory, safebox, horse_bag = player_profile_component(
+        pid, "inventory", lambda: ({}, [], [], []),
+        lambda: load_character_items(pid, character["account_id"]),
+    )
+    dragon_soul_inventory, dragon_soul_decks = player_profile_component(
+        pid, "dragon_soul", lambda: ([], {0: {}, 1: {}}),
+        lambda: load_dragon_soul_items(pid),
+    )
+    character["full_plus9_equipment"] = player_profile_component(
+        pid, "plus9_badge", False,
+        lambda: full_plus9_badges_enabled() and is_full_plus9_equipment(equipment),
+    )
+    gear_history = player_profile_component(pid, "gear_history", list, lambda: bot_gear_history(pid))
+    offline_shop = player_profile_component(pid, "offline_shop", None, lambda: bot_offline_shop(pid))
+    character_stats = player_profile_component(
+        pid, "statistics", lambda: {key: 0 for key in PLAYER_PROFILE_STAT_KEYS},
+        lambda: character_stat_summary(pid),
+    )
+    mission_progress = player_profile_component(pid, "missions", list, lambda: character_mission_progress(pid))
+    exp_lock = player_profile_component(pid, "exp_lock", None, lambda: bot_exp_lock_view(character, live))
     gm_row = one("SELECT mAuthority FROM common.gmlist WHERE mName=%s LIMIT 1", (character["name"],))
     character["gm_rank"] = gm_row["mAuthority"] if gm_row else ""
-    return render_template("player.html", character=character, equipment=equipment, inventory=inventory, safebox=safebox,
+    presence = bot_presence_timeline(pid) if panel_feature_enabled("bot_timeline") else None
+    return render_template("player.html", presence=presence, character=character, equipment=equipment, inventory=inventory, safebox=safebox,
                             has_safebox=bool(safebox), horse_bag=horse_bag, has_horse_bag=bool(horse_bag),
                             dragon_soul_inventory=dragon_soul_inventory, dragon_soul_decks=dragon_soul_decks,
                             gear_history=gear_history, offline_shop=offline_shop, character_stats=character_stats,
                             mission_progress=mission_progress, gm_ranks=GM_RANK_OPTIONS,
-                            admin_warps=PLAYER_ADMIN_WARPS)
+                            admin_warps=PLAYER_ADMIN_WARPS, exp_lock=exp_lock)
 
 
 
@@ -5208,6 +5725,44 @@ def player_action_game(pid):
             flash(f"Nie udało się wykonać akcji ({status}). Postać musi być online, a web_admin.quest aktywny.", "error")
     except (TypeError, ValueError) as exc:
         flash(str(exc), "error")
+    return redirect(url_for("player", pid=pid))
+
+
+@app.post("/player/<int:pid>/action/exp-lock")
+@login_required
+def player_action_exp_lock(pid):
+    """The "Odblokuj exp" / "Przywróć blokadę" button of a bot's page (bot_exp_lock_view)."""
+    character = one("SELECT id,name FROM player.player WHERE id=%s", (pid,))
+    if not character:
+        abort(404)
+    command = EXP_OVERRIDE_COMMANDS.get(request.form.get("mode", ""))
+    if not ENGINE_MT2009:
+        flash("Blokadę exp botów ma tylko linia Playerbots 2.x (mt2009).", "error")
+        return redirect(url_for("player", pid=pid))
+    if not command:
+        flash("Nieobsługiwana akcja.", "error")
+        return redirect(url_for("player", pid=pid))
+    view = bot_exp_lock_view(character, live_statuses().get(pid))
+    not_allowed = ("Panel nie zmienia blokady exp tej postaci: to nie jest bot z rejestru "
+                   "albo to towarzysz gracza.")
+    if view is None or view["companion"]:
+        flash(not_allowed, "error")
+        return redirect(url_for("player", pid=pid))
+    name = character["name"]
+    status, _queue_id = queue_bot_exp_override(name, command)
+    if status == "done" and command == "EXPUNLOCK":
+        flash(f"{name}: exp odblokowany, bot zdobywa doświadczenie.", "success")
+    elif status == "done":
+        flash(f"{name}: blokada przywrócona, o blokadzie decyduje osobowość.", "success")
+    elif status == "await":
+        flash(f"{name} nie jest teraz w grze albo jego rdzeń jeszcze nie odpowiedział. Zmiana czeka "
+              f"i wykona ją rdzeń bota, gdy bot będzie w grze.", "success")
+    elif status.startswith("w"):
+        flash(f"Rdzeń bota {name} właśnie wykonuje zmianę. Odśwież stronę za chwilę.", "success")
+    elif status == "not_allowed":
+        flash(not_allowed, "error")
+    else:
+        flash(f"Nie udało się zmienić blokady exp ({status}).", "error")
     return redirect(url_for("player", pid=pid))
 
 
@@ -5519,11 +6074,136 @@ def economy():
 @app.route("/economy/item/<int:vnum>")
 @login_required
 def economy_item(vnum):
+    # socket0 wybiera konkretną księgę umiejętności (np. Aura) spośród wszystkich
+    # z vnum 50300. Bez parametru pokazujemy sumę po wszystkich, jak dotąd.
+    socket0 = request.args.get("socket0", type=int)
     item = one("SELECT vnum,COALESCE(locale_name,CONCAT('VNUM ',vnum)) AS item_name FROM player.item_proto WHERE vnum=%s", (vnum,)) or {"vnum": vnum, "item_name": f"VNUM {vnum}"}
-    item["item_name"] = game_text(item["item_name"])
-    history = rows("""SELECT DATE_FORMAT(captured_at, '%%m-%%d %%H:%%i') AS captured_at,amount
-      FROM player.web_seban_item_snapshot WHERE vnum=%s AND captured_at >= NOW() - INTERVAL 14 DAY ORDER BY captured_at""", (vnum,))
+    item["item_name"] = resolve_item_display_name(vnum, socket0 or 0, game_text(item["item_name"]))
+    item["socket0"] = socket0
+    where = "vnum=%s" + (" AND socket0=%s" if socket0 is not None else "")
+    params = (vnum, socket0) if socket0 is not None else (vnum,)
+    latest = one("SELECT MAX(captured_at) AS at FROM player.web_seban_item_snapshot WHERE " + where + " AND captured_at >= NOW() - INTERVAL 1 DAY", params).get("at")
+    in_circulation = None
+    if latest:
+        in_circulation = one("SELECT COALESCE(SUM(amount),0) AS total FROM player.web_seban_item_snapshot WHERE " + where + " AND captured_at=%s", params + (latest,)).get("total")
+    item["in_circulation"] = int(in_circulation) if in_circulation is not None else None
+    item["captured_at"] = latest.strftime("%m-%d %H:%M") if latest else None
+    history = rows("""SELECT DATE_FORMAT(captured_at, '%%m-%%d %%H:%%i') AS captured_at,SUM(amount) AS amount
+      FROM player.web_seban_item_snapshot WHERE """ + where + """ AND captured_at >= NOW() - INTERVAL 14 DAY GROUP BY captured_at ORDER BY captured_at""", params)
     return render_template("economy_item.html", item=item, history=history)
+
+
+# "Kto ma najwięcej" -- przeszukiwanie na żądanie operatora. Zapytanie po
+# całym player.item jest drogie, więc nic nie liczy się w tle: dopiero POST
+# z przycisku startuje zadanie w wątku, a przeglądarka odpytuje o postęp.
+# Wyniki trzymamy w pamięci przez 10 minut, potem znikają.
+HOLDER_JOBS = {}
+HOLDER_JOBS_LOCK = threading.Lock()
+HOLDER_JOB_TTL = 600
+
+
+def _holder_update(job_id, **fields):
+    with HOLDER_JOBS_LOCK:
+        if job_id in HOLDER_JOBS:
+            HOLDER_JOBS[job_id].update(fields)
+
+
+def _run_holder_job(job_id, vnum, socket0):
+    started = time.time()
+    socket_clause = " AND i.socket0=%s" if socket0 is not None else ""
+    socket_params = (socket0,) if socket0 is not None else ()
+    try:
+        # Każdy właściciel dzieli sztuki na trzy miejsca: ekwipunek (INVENTORY,
+        # EQUIPMENT, pas smoków), magazyn (SAFEBOX) i sklep offline (sprzedający).
+        _holder_update(job_id, stage="scan", progress=5)
+        # Uwaga: w SAFEBOX owner_id to ID KONTA, nie postaci. Skrytkę przypisujemy
+        # postaci o najwyższym poziomie na tym koncie; konto bez postaci zostaje
+        # pokazane po loginie, bez linku do profilu (klucz ujemny = ID konta).
+        char_places, safebox_accounts = {}, {}
+        for row in rows("""SELECT i.owner_id, CASE WHEN i.window='IKASHOP_OFFLINESHOP' THEN 'shop'
+                WHEN i.window='SAFEBOX' THEN 'safebox' ELSE 'inventory' END AS place, SUM(i.count) AS total
+            FROM player.item i WHERE i.vnum=%s""" + socket_clause + " GROUP BY i.owner_id, place", (vnum,) + socket_params):
+            if row["place"] == "safebox":
+                safebox_accounts[row["owner_id"]] = int(row["total"] or 0)
+            else:
+                entry = char_places.setdefault(row["owner_id"], {"inventory": 0, "safebox": 0, "shop": 0})
+                entry[row["place"]] += int(row["total"] or 0)
+        _holder_update(job_id, progress=70, stage="assemble")
+        rep_of = {}
+        if safebox_accounts:
+            placeholders = ",".join(["%s"] * len(safebox_accounts))
+            for row in rows(f"SELECT id, account_id FROM player.player WHERE account_id IN ({placeholders}) ORDER BY level DESC, id", list(safebox_accounts)):
+                rep_of.setdefault(row["account_id"], row["id"])
+        places = {pid: dict(parts) for pid, parts in char_places.items()}
+        for account_id, total in safebox_accounts.items():
+            key = rep_of.get(account_id, -account_id)
+            places.setdefault(key, {"inventory": 0, "safebox": 0, "shop": 0})["safebox"] += total
+        totals = {key: sum(parts.values()) for key, parts in places.items()}
+        top = sorted(((key, total) for key, total in totals.items() if total > 0), key=lambda entry: -entry[1])[:10]
+        char_ids = [key for key, _ in top if key > 0]
+        account_ids = [-key for key, _ in top if key < 0]
+        info_by_pid, login_by_account = {}, {}
+        if char_ids:
+            placeholders = ",".join(["%s"] * len(char_ids))
+            for row in rows(f"""SELECT p.id, p.name, p.level, p.job, {EMPIRE_EXPR} AS empire, a.login
+                FROM player.player p LEFT JOIN account.account a ON a.id=p.account_id
+                LEFT JOIN player.player_index pi ON pi.id=p.account_id WHERE p.id IN ({placeholders})""", char_ids):
+                info_by_pid[row["id"]] = row
+        if account_ids:
+            placeholders = ",".join(["%s"] * len(account_ids))
+            for row in rows(f"SELECT id, login FROM account.account WHERE id IN ({placeholders})", account_ids):
+                login_by_account[row["id"]] = row["login"]
+        result = []
+        for key, total in top:
+            if key > 0:
+                info = info_by_pid.get(key, {})
+                empire = int(info.get("empire") or 0)
+                job = int(info.get("job") or 0)
+                login = str(info.get("login") or "")
+                result.append({"pid": key, "name": game_text(info.get("name")) or f"pid {key}",
+                               "level": int(info.get("level") or 0), "portrait": class_profile(job)["portrait"],
+                               "flag": empire_info(empire)["flag"], "empire": empire,
+                               "is_bot": login.lower().startswith("playerbot_"),
+                               "count": total, "places": places[key], "exists": bool(info)})
+            else:
+                login = str(login_by_account.get(-key) or "")
+                result.append({"pid": 0, "name": login or f"konto {-key}", "level": 0, "portrait": "",
+                               "flag": "", "empire": 0, "is_bot": login.lower().startswith("playerbot_"),
+                               "count": total, "places": places[key], "exists": False})
+        _holder_update(job_id, state="done", progress=100, stage="done", rows=result,
+                       took=round(time.time() - started, 1))
+    except pymysql.MySQLError as exc:
+        _holder_update(job_id, state="error", stage="Błąd zapytania", error=str(exc)[:200])
+
+
+@app.post("/economy/item/<int:vnum>/holders")
+@login_required
+def economy_item_holders(vnum):
+    socket0 = request.values.get("socket0", type=int)
+    key = (vnum, socket0)
+    now = time.time()
+    with HOLDER_JOBS_LOCK:
+        for job_id, job in list(HOLDER_JOBS.items()):
+            if now - job["created"] > HOLDER_JOB_TTL:
+                del HOLDER_JOBS[job_id]
+        running = next((job_id for job_id, job in HOLDER_JOBS.items()
+                        if job["key"] == key and job["state"] == "running"), None)
+        if running:
+            return jsonify({"job_id": running})
+        job_id = uuid.uuid4().hex
+        HOLDER_JOBS[job_id] = {"key": key, "created": now, "state": "running", "stage": "start", "progress": 0, "rows": [], "error": None}
+    threading.Thread(target=_run_holder_job, args=(job_id, vnum, socket0), daemon=True).start()
+    return jsonify({"job_id": job_id})
+
+
+@app.get("/economy/holders/<job_id>")
+@login_required
+def economy_holders_status(job_id):
+    with HOLDER_JOBS_LOCK:
+        job = HOLDER_JOBS.get(job_id)
+        if not job:
+            return jsonify({"state": "expired"}), 404
+        return jsonify({key: job[key] for key in ("state", "stage", "progress", "rows", "error", "took") if key in job})
 
 
 def _shop_trend(current, previous):
@@ -6851,6 +7531,19 @@ def api_system_current():
     return {"ok": True, "system": one("SELECT * FROM player.web_seban_system_snapshot ORDER BY captured_at DESC LIMIT 1")}
 
 
+@app.route("/api/system-history")
+@login_required
+def api_system_history():
+    """Last 24h of the collector's VPS snapshots (the same rows /system charts), thinned to at most
+    ~120 points for the dashboard sparkline of the laka theme."""
+    samples = rows("""
+      SELECT DATE_FORMAT(captured_at, '%%H:%%i') AS label, cpu_percent, ram_percent, disk_percent
+      FROM player.web_seban_system_snapshot WHERE captured_at >= NOW() - INTERVAL 24 HOUR ORDER BY captured_at
+    """)
+    step = max(1, len(samples) // 120)
+    return {"ok": True, "samples": samples[::step]}
+
+
 @app.route("/rankings")
 @login_required
 def rankings():
@@ -6872,6 +7565,12 @@ def rankings():
     weapon30_sort = request.args.get("sort", "avg") if kind == "weapon30" else "avg"
     if weapon30_sort not in ("avg", "skill", "upgrade"):
         weapon30_sort = "avg"
+    plus9_category = request.args.get("category", "all") if kind == "plus9" else "all"
+    if plus9_category not in PLUS9_CATEGORIES:
+        plus9_category = "all"
+    plus9_sort = request.args.get("sort", "item") if kind == "plus9" else "item"
+    if plus9_sort not in ("item", "level"):
+        plus9_sort = "item"
     weapon_type = request.args.get("weapon_type") if kind == "weapon" else None
     if weapon_type not in WEAPON_SUBTYPES:
         weapon_type = None
@@ -6885,7 +7584,7 @@ def rankings():
     # so a person far down a ranking of bots is still found (blipu, 28.09).
     people_ranked = include_real_players_in_rankings()
     people_only = people_ranked and request.args.get("people") == "1"
-    all_ranking = bot_ranking(kind, weapon30_sort, people_only, weapon_type)
+    all_ranking = bot_ranking(kind, plus9_sort if kind == "plus9" else weapon30_sort, people_only, weapon_type, plus9_category)
     total = len(all_ranking)
     total_pages = max(1, -(-total // per_page))  # ceil division
     # "goto_page" (the jump-to-page box, 1-based, what the operator actually
@@ -6951,6 +7650,7 @@ def rankings():
             row["detail"] = game_text(row.get("detail"))
     return render_template("rankings.html", kinds=kinds, kind=kind, ranking=ranking, weapon30_sort=weapon30_sort,
                            weapon_type=weapon_type, weapon_subtypes=WEAPON_SUBTYPES,
+                           plus9_category=plus9_category, plus9_categories=PLUS9_CATEGORIES, plus9_sort=plus9_sort,
                            per_page=per_page, page=page, total_pages=total_pages, page_numbers=page_numbers,
                            people_ranked=people_ranked, people_only=people_only)
 
@@ -7173,7 +7873,9 @@ def respawns_delay():
         if any(not REGEN_DELAY_MIN <= value <= 100 for value in values.values()):
             raise ValueError(f"Szybkość odrodzenia musi mieścić się w zakresie {REGEN_DELAY_MIN}–100%.")
         persist_regen_settings("delay", values)
-        status, queue_id = queue_game_admin_command("REGEN", f"{0 if values['boss'] == 100 else values['boss']},{0 if values['mob'] == 100 else values['mob']}")
+        # "metin,boss,mob" - web_admin.quest's REGEN since Patch 12, point 2.
+        status, queue_id = queue_game_admin_command("REGEN", ",".join(
+            str(0 if values[key] == 100 else values[key]) for key in ("metin", "boss", "mob")))
         if status != "done":
             if status == "timeout": cancel_pending_admin_command(queue_id)
             raise RuntimeError("Ustawienie zapisano na następny start, ale rdzeń nie potwierdził zmiany na żywo.")
@@ -7194,7 +7896,7 @@ def respawns_count():
         if any(value not in REGEN_COUNT_CHOICES for value in values.values()):
             raise ValueError("Wybierz jeden z dostępnych mnożników liczby potworów.")
         persist_regen_settings("count", values)
-        status, queue_id = queue_game_admin_command("REGEN_COUNT", f"{values['boss']},{values['mob']}")
+        status, queue_id = queue_game_admin_command("REGEN_COUNT", f"{values['metin']},{values['boss']},{values['mob']}")
         if status != "done":
             if status == "timeout": cancel_pending_admin_command(queue_id)
             raise RuntimeError("Ustawienie zapisano na następny start, ale rdzeń nie potwierdził zmiany na żywo.")
@@ -7870,6 +8572,10 @@ def manage_behavior():
     for key, default in (("NIGHT", 1), ("LIFE", 0), ("WARS", 1), ("TOWER", 1), ("ISHOP", 1), ("SHOP_M2", 0), ("PERSONA", 1)):
         values[key] = values.get(key, default) if key not in request.form else (1 if "1" in request.form.getlist(key) else 0)
     try:
+        values["LIFE_HOURS"] = max(0, min(24, int(request.form.get("LIFE_HOURS", values.get("LIFE_HOURS", 0)))))
+    except (TypeError, ValueError):
+        values["LIFE_HOURS"] = values.get("LIFE_HOURS", 0)
+    try:
         values["SCRAP"] = max(0, min(100, int(request.form.get("SCRAP", values.get("SCRAP", 0)))))
     except (TypeError, ValueError):
         values["SCRAP"] = 0
@@ -8123,14 +8829,92 @@ install_item_grants(app, db, login_required, game_text)
 
 
 
+# Where the materials the bots miss actually are (Kordyl13 and Jasny,
+# 7 October): "missing" counts bots whose next refine step lacks a material,
+# while the same material may sit in other bots' bags and boxes as their own
+# anvil's reserve, never reaching a counter. One indexed query per page for
+# the totals by window, one for the five biggest holders of each. Names come
+# from item_proto through its cp1250 bytes: static/item_defs.json carries
+# mangled Polish and lacks several vnums.
+def _missing_material_stock(vnums):
+    vnums = [int(v) for v in vnums if int(v or 0) > 0]
+    if not vnums:
+        return {}
+    marks = ",".join(["%s"] * len(vnums))
+    stock = {v: {"name": "", "bags": 0, "boxes": 0, "counters": 0, "holders": []} for v in vnums}
+    for row in rows(f"SELECT vnum, HEX(locale_name) AS name_hex FROM player.item_proto WHERE vnum IN ({marks})", vnums):
+        stock[int(row["vnum"])]["name"] = cp1250_hex_text(row.get("name_hex"))
+    for row in rows(f"""SELECT vnum,
+            SUM(CASE WHEN `window`='INVENTORY' THEN `count` ELSE 0 END) AS bags,
+            SUM(CASE WHEN `window`='SAFEBOX' THEN `count` ELSE 0 END) AS boxes,
+            SUM(CASE WHEN `window`='IKASHOP_OFFLINESHOP' THEN `count` ELSE 0 END) AS counters
+          FROM player.item WHERE vnum IN ({marks}) GROUP BY vnum""", vnums):
+        entry = stock[int(row["vnum"])]
+        for key in ("bags", "boxes", "counters"):
+            entry[key] = int(row.get(key) or 0)
+    for row in rows(f"""SELECT vnum, name, is_bot, total, counters FROM (
+            SELECT i.vnum, p.name, MAX(a.login LIKE 'playerbot\\_%%') AS is_bot, SUM(i.`count`) AS total,
+                   SUM(CASE WHEN i.`window`='IKASHOP_OFFLINESHOP' THEN i.`count` ELSE 0 END) AS counters,
+                   ROW_NUMBER() OVER (PARTITION BY i.vnum ORDER BY SUM(i.`count`) DESC) AS place
+              FROM player.item i JOIN player.player p ON p.id = i.owner_id
+              LEFT JOIN account.account a ON a.id = p.account_id
+             WHERE i.vnum IN ({marks}) AND i.`window` IN ('INVENTORY','SAFEBOX','IKASHOP_OFFLINESHOP')
+             GROUP BY i.vnum, p.id, p.name) ranked
+          WHERE place <= 5 ORDER BY vnum, total DESC""", vnums):
+        stock[int(row["vnum"])]["holders"].append(
+            {"name": game_text(row.get("name")), "bot": bool(row.get("is_bot")), "total": int(row.get("total") or 0),
+             "counters": int(row.get("counters") or 0)})
+    return stock
+
+
 # Patch 9: compact read-only equipment and economy diagnostics.
 from development_read import read_development, read_reset
+
+# Iwakura's Patch 11, point 2: the price index the core works out every hour
+# (yang a head over the yang rate against 15 million, its square root, x0.85
+# to x2.50, at most 2% in six hours), as "Indeks cen: x1,23 (rosnie)" under
+# "Yang w swiecie": the newest row of any core's playerbot_price_index.tsv
+# (header #PB11I1: unix_ts, index_milli, trend, vnum, supply, modifier),
+# read from the file's end. None while no core has written one.
+PRICE_INDEX_TAIL_BYTES = 256 * 1024
+
+
+def read_price_index(paths):
+    best = None
+    for _channel, path in paths:
+        try:
+            with open(path, "rb") as stream:
+                if not stream.readline(256).startswith(b"#PB11I1"):
+                    continue
+                stream.seek(0, os.SEEK_END)
+                start = max(0, stream.tell() - PRICE_INDEX_TAIL_BYTES)
+                stream.seek(start)
+                lines = stream.read().decode("ascii", "replace").splitlines()
+        except OSError:
+            continue
+        for line in lines[1:] if start else lines:
+            fields = line.split("\t")
+            if line.startswith("#") or len(fields) < 3:
+                continue
+            try:
+                stamp, milli, trend = int(fields[0]), int(fields[1]), int(fields[2])
+            except ValueError:
+                continue
+            if milli > 0 and (best is None or stamp > best["stamp"]):
+                best = {"stamp": stamp, "index": milli / 1000.0, "trend": max(-1, min(1, trend))}
+    return best
 
 @app.get("/diagnostics/development")
 @login_required
 def development():
     data=read_development(channel_paths("playerbot_development.tsv"))
     missing=[(vnum,count,_decision_item_name(vnum)) for vnum,count in data["missing"]]
+    stock={}
+    try:
+        stock=_missing_material_stock([vnum for vnum,_count,_name in missing[:12]])
+        missing=[(vnum,count,stock.get(int(vnum),{}).get("name") or name) for vnum,count,name in missing]
+    except pymysql.MySQLError as exc:
+        app.logger.warning("development: material stock unavailable: %s", exc)
     request_id=""
     try:
         request_id=(RATES_SPOOL/"bot-shop-reset.tsv").read_text(encoding="ascii").split()[0]
@@ -8147,9 +8931,10 @@ def development():
                    "WHERE hour>=FLOOR(UNIX_TIMESTAMP()/3600)-168 GROUP BY kind")
     except pymysql.err.ProgrammingError:
         pass # A core predating Patch 9 has no controller tables.
-    return render_template("development.html",data=data,missing=missing,reset=reset,
+    return render_template("development.html",data=data,missing=missing,reset=reset,stock=stock,
                            history=history,sinks=sinks,csrf=update_csrf_token(),
-                           development_settings=read_development_settings())
+                           development_settings=read_development_settings(),
+                           price_index=read_price_index(channel_paths("playerbot_price_index.tsv")))
 
 def read_development_settings():
     flags=read_global_quest_flags(("m2_inflation_goal_pct","m2_inflation_goal_set",
@@ -8160,7 +8945,11 @@ def read_development_settings():
 @app.post("/manage/development-settings")
 @login_required
 def development_settings():
-    if settings().get("auth_enabled")!="1" or not session.get("seban_admin"):
+    # A panel without password protection is the single-player default, bound
+    # to the operator's own machine: its form token is the guard there, and
+    # with protection on only an admin login may change this (Frelik, 7 October:
+    # every click was a 403 on a default install).
+    if settings().get("auth_enabled")=="1" and not session.get("seban_admin"):
         abort(403)
     expected=session.get("seban_update_csrf","")
     if not expected or not hmac.compare_digest(request.form.get("update_csrf",""),expected):
@@ -8188,7 +8977,8 @@ def development_settings():
 @login_required
 def development_shop_reset():
     current=settings()
-    if current.get("auth_enabled")!="1" or not session.get("seban_admin"):
+    # As development_settings: the form token without protection, an admin with it.
+    if current.get("auth_enabled")=="1" and not session.get("seban_admin"):
         abort(403)
     expected=session.get("seban_update_csrf","")
     if not expected or not hmac.compare_digest(request.form.get("update_csrf",""),expected):

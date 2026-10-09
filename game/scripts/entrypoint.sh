@@ -212,6 +212,12 @@ command -v m2-rates >/dev/null 2>&1 && { m2-rates prepare || log "could not prep
 # account afterwards. Absent on an image built before this existed.
 command -v m2-lang >/dev/null 2>&1 \
   && { m2-lang prepare || log "could not prepare the language files (the language page will say so)"; }
+# And for the chest and drop groups the panel's editor writes: the image's own
+# two files kept beside them, handed to the service account (m2-supervise
+# merges the operator's groups in before every boot of the cores) and
+# published in the spool for the editor.
+command -v m2-drop-tables >/dev/null 2>&1 \
+  && { m2-drop-tables prepare || log "could not prepare the drop tables (the editor will say so)"; }
 
 # -----------------------------------------------------------------------------
 # 3. Resource limits.

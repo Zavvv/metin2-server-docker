@@ -1,0 +1,89 @@
+warning: in the working copy of '.env.example', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docker-compose.yml', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'game/Dockerfile', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'game/quest/deviltower_zone.quest', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'game/quest/dragon_soul_shop.quest', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'game/quest/web_admin.quest', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'game/scripts/entrypoint.sh', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'game/scripts/m2-client-version', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'game/scripts/m2-supervise', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'game/share-add/mob_drop_item.m3.append.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'game/share-add/playerbot_live_chat_en.tsv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'game/share-add/playerbot_live_chat_pl.tsv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mariadb/playerbot/apply.sh', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mariadb/playerbot/playerbot_names.sql', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'panel/Dockerfile', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'panel/app/admin_panel.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'panel/app/front_page.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/CHANGELOG.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/app.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/collector.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/static/dashboard-deferred.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/static/enhancements.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/static/live-widget.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/static/manage.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/static/player-profile.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/static/respawns.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/static/style.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/templates/base.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/templates/dashboard.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/templates/development.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/templates/economy.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/templates/economy_item.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/templates/events.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/templates/login.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/templates/manage.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/templates/manage_panel.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/templates/maps.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/templates/partials/world_feed_events.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/templates/player.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/templates/rankings.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/templates/respawns.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/templates/setup.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'seban-panel/translations.py', LF will be replaced by CRLF the next time Git touches it
+ .env.example                                       |    42 [32m+[m
+ docker-compose.yml                                 |    88 [32m+[m[31m-[m
+ game/Dockerfile                                    |     4 [32m+[m[31m-[m
+ game/bin/db                                        |   Bin [31m5515240[m -> [32m5515240[m bytes
+ game/bin/game                                      |   Bin [31m14818376[m -> [32m15982696[m bytes
+ game/quest/deviltower_zone.quest                   |     7 [32m+[m[31m-[m
+ game/quest/dragon_soul_shop.quest                  |    22 [32m+[m
+ game/quest/web_admin.quest                         |   168 [32m+[m[31m-[m
+ game/scripts/entrypoint.sh                         |     6 [32m+[m
+ game/scripts/m2-client-version                     |     2 [32m+[m[31m-[m
+ game/scripts/m2-supervise                          |    21 [32m+[m
+ game/share-add/mob_drop_item.m3.append.txt         |   256 [32m+[m
+ game/share-add/playerbot_live_chat_en.tsv          |   324 [32m+[m[31m-[m
+ game/share-add/playerbot_live_chat_pl.tsv          |   348 [32m+[m[31m-[m
+ mariadb/playerbot/apply.sh                         |   169 [32m+[m[31m-[m
+ mariadb/playerbot/playerbot_names.sql              | 18209 [32m++++++++++[m[31m---------[m
+ panel/Dockerfile                                   |    28 [32m+[m[31m-[m
+ panel/app/admin_panel.py                           |  5682 [32m+++++[m[31m-[m
+ panel/app/front_page.py                            |     5 [32m+[m[31m-[m
+ seban-panel/CHANGELOG.md                           |   172 [32m+[m[31m-[m
+ seban-panel/app.py                                 |   960 [32m+[m[31m-[m
+ seban-panel/collector.py                           |    35 [32m+[m[31m-[m
+ seban-panel/static/dashboard-deferred.js           |     1 [32m+[m
+ seban-panel/static/enhancements.css                |     1 [32m+[m
+ seban-panel/static/live-widget.js                  |     4 [32m+[m[31m-[m
+ seban-panel/static/manage.css                      |     5 [32m+[m
+ seban-panel/static/player-profile.css              |     8 [32m+[m
+ seban-panel/static/respawns.css                    |     2 [32m+[m[31m-[m
+ seban-panel/static/style.css                       |     4 [32m+[m
+ seban-panel/templates/base.html                    |    50 [32m+[m[31m-[m
+ seban-panel/templates/dashboard.html               |    11 [32m+[m[31m-[m
+ seban-panel/templates/development.html             |     7 [32m+[m[31m-[m
+ seban-panel/templates/economy.html                 |     2 [32m+[m[31m-[m
+ seban-panel/templates/economy_item.html            |   160 [32m+[m[31m-[m
+ seban-panel/templates/events.html                  |     2 [32m+[m
+ seban-panel/templates/login.html                   |     2 [32m+[m[31m-[m
+ seban-panel/templates/manage.html                  |    20 [32m+[m[31m-[m
+ seban-panel/templates/manage_panel.html            |     2 [32m+[m[31m-[m
+ seban-panel/templates/maps.html                    |     5 [32m+[m[31m-[m
+ .../templates/partials/world_feed_events.html      |     4 [32m+[m[31m-[m
+ seban-panel/templates/player.html                  |    94 [32m+[m[31m-[m
+ seban-panel/templates/rankings.html                |    12 [32m+[m[31m-[m
+ seban-panel/templates/respawns.html                |     8 [32m+[m[31m-[m
+ seban-panel/templates/setup.html                   |     2 [32m+[m[31m-[m
+ seban-panel/translations.py                        |    80 [32m+[m[31m-[m
+ 45 files changed, 17574 insertions(+), 9460 deletions(-)

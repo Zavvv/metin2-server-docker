@@ -81,7 +81,9 @@ RUN set -eux; \
     # and anti-experience ring (autohunt_time, antiexp_ring; 2.2.26).
     # pc.warp_channel for the panels' teleport to a bot on another channel
     # (web_admin; 2.2.37).
-    for fn in item.can_trash pc.send_whisper q.getcurrentquestindex game.open_safebox mysql_direct_query pc.equip_slot pc.unequip_slot item.set_attr item.get_max_stack item.use pc.open_special_shop affect.add_new affect.remove_new pc.is_playerbot affect.get_duration pc.has_affect pc.warp_channel m2_biologist.reward; do \
+    # pc.warp_to_pid for a GM's panel teleport onto the character itself, its
+    # dungeon instance included (web_admin; 7 October).
+    for fn in item.can_trash pc.send_whisper q.getcurrentquestindex game.open_safebox mysql_direct_query pc.equip_slot pc.unequip_slot item.set_attr item.get_max_stack item.use pc.open_special_shop affect.add_new affect.remove_new pc.is_playerbot affect.get_duration pc.has_affect pc.warp_channel pc.warp_to_pid m2_biologist.reward; do \
       grep -qx "$fn" /tmp/qc-work/quest_functions || echo "$fn" >> /tmp/qc-work/quest_functions; \
     done; \
     # pony_levelup is the package's own stable-keeper quest with the 18-hour

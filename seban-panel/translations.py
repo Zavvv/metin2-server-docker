@@ -90,6 +90,7 @@ EXACT = {
     "⌁ Diagnostyka": "⌁ Diagnostics",
     "Diagnostyka wędkowania": "Fishing diagnostics",
     "Logi panelu": "Panel logs",
+    "Rozwój ekwipunku": "Equipment development",
     "☷ Changelog": "☷ Changelog",
     "⚙ Zarządzanie": "⚙ Management",
     "Gra i serwer": "Game & server",
@@ -464,6 +465,8 @@ EXACT.update({
     "Grota Wygnańców V2": "Grotto of Exile V2",
     "⚔ Potwory": "⚔ Monsters",
     "🗿 Metiny i bossy": "🗿 Metins & bosses",
+    "🗿 Metiny": "🗿 Metins",
+    "👹 Bossowie": "👹 Bosses",
     "✦ Liczebność": "✦ Population",
     "Auto": "Auto",
     "Poprzedni ranking": "Previous ranking",
@@ -929,6 +932,11 @@ EXACT.update({
     "100% zachowuje czasy z plików Tieru. Niższa wartość skraca oczekiwanie, przy czym rdzeń nigdy nie zejdzie poniżej 3 sekund.":
         "100% keeps the times from Tieru's files. A lower value shortens the wait, though the core will never go below 3 seconds.",
     "🗿 Metiny i bossy": "🗿 Metins & bosses",
+    "🗿 Metiny": "🗿 Metins",
+    "👹 Bossowie": "👹 Bosses",
+    "🗿 Metiny · 👹 Bossowie": "🗿 Metins · 👹 Bosses",
+    "Osobno dla Metinów, bossów i zwykłych potworów. Metin to kamień Metin, boss to potwór o randze bossa.":
+        "Metins, bosses and regular monsters each have their own. A Metin is a Metin stone, a boss a monster of the boss rank.",
     "⚔ Zwykłe potwory": "⚔ Regular monsters",
     "Zastosuj tempo na żywo": "Apply pace live",
     "LICZEBNOŚĆ": "POPULATION",
@@ -1072,6 +1080,18 @@ EXACT.update({
     "Biolog": "Biologist",
     "Otwarte stragany": "Open stalls",
     "Przedmiot +9": "+9 item",
+    "Kategoria:": "Category:",
+    "Wszystkie": "All",
+    "Zbroje": "Armor",
+    "Hełmy": "Helmets",
+    "Tarcze": "Shields",
+    "Bransolety": "Bracelets",
+    "Buty": "Boots",
+    "Naszyjniki": "Necklaces",
+    "Kolczyki": "Earrings",
+    "Sortuj według:": "Sort by:",
+    "Poziom przedmiotu": "Item level",
+    "Poziom postaci": "Character level",
     "Bossy": "Bosses",
     "Pomyślne ulepszenia": "Successful refines",
     "Skuteczność ulepszeń": "Refine success rate",
@@ -1454,6 +1474,10 @@ EXACT.update({
     "Boty grają jak żywi ludzie": "Bots play like real people",
     "eksperymentalne": "experimental",
     "sesje 3–6 h, odpoczynek 3–9 h": "3–6h sessions, 3–9h rest",
+    "Godziny gry na dobę": "Hours of play per day",
+    "domyślnie": "default",
+    "0 = domyślne sesje": "0 = default sessions",
+    "Działa przy włączonych sesjach. 0 zachowuje standardowe sesje 3–6 h i odpoczynek 3–9 h; 1–24 ustawia docelową liczbę godzin gry bota na dobę.": "Works while sessions are enabled. 0 keeps the standard 3–6h sessions and 3–9h rests; 1–24 sets the bot's target daily playtime.",
     "Wojny gildii botów": "Bot guild wars",
     "losowane wojny gildii tego samego królestwa": "randomised wars between guilds of the same kingdom",
     "🗼 Wieża Demonów gildii botów": "🗼 Bot guild Demon Tower",
@@ -1481,11 +1505,14 @@ EXACT.update({
     "🕐 Odstęp między wojnami": "🕐 Interval between wars",
     "🚫 Wyłącz drop Szkatułek Blasku Księżyca": "🚫 Disable Moonlight Treasure Chest drops",
     "🎁 Szkatułki Blasku": "🎁 Moonlight Treasure Chests",
+    "Drop tylko podczas eventu szkatułek. ×1 to podstawa: 1% z potwora i 30% z Metina.": "Drops only during the chest event. ×1 is the standard: 1% from a monster and 30% from a Metin.",
+    "Maksimum (100%)": "Maximum (100%)",
+    "Mnożnik powyżej ×2 może zaburzyć gospodarkę świata.": "A multiplier above ×2 may disrupt the world economy.",
     "promile szansy, tylko w trakcie eventu szkatułek": "per-mille chance, only during the chest event",
     "z potwora": "from a monster",
     "z Metina": "from a Metin",
-    "Najedź na suwak, żeby zobaczyć, co dokładnie zmienia i jak szybko. Kowal, Księgi, Biolog i Misje polowania kończą się na 100, bo przy 100 boty już robią to przy każdej okazji — suwak może je tylko zrobić rzadszymi. Stragany: Handlarz, bot bez yang na mikstury, pełny plecak, dropper pod presją plecaka i cenne zapasy otwierają zawsze — suwak rusza resztę; na r40250 stojące stragany sprawdzają się do 5 min po zmianie, na 2.x stojący sklep offline po prostu nie jest odnawiany po 8 h. Status bota mówi, dlaczego stoi. Szybkie KU i szkatułki pochodzą z aktualizacji Tieru. Szkatułki: domyślnie 10‰ z potwora oraz 300‰ z Metina. Złomiarze wystawiają ulepszenia +0–+3 za 2× cenę NPC.":
-        "Hover over a slider to see exactly what it changes and how fast. Blacksmith, Books, Biologist and Hunting Missions cap at 100, because at 100 bots already do it at every opportunity — the slider can only make them rarer. Stalls: the Merchant, a bot with no yang for potions, a full bag, a dropper under bag pressure, and valuable stock always open up — the slider moves the rest; on r40250 standing stalls are checked up to 5 min after a change, on 2.x a standing offline shop simply isn't refreshed after 8h. The bot's status says why it's standing. Fast KU and chests come from Tieru's update. Chests: 10‰ from a monster and 300‰ from a Metin by default. Scrap dealers list +0–+3 refines at 2× the NPC price.",
+    "Najedź na suwak, żeby zobaczyć, co dokładnie zmienia i jak szybko. Kowal, Księgi, Biolog i Misje polowania kończą się na 100, bo przy 100 boty już robią to przy każdej okazji — suwak może je tylko zrobić rzadszymi. Stragany: Handlarz, bot bez yang na mikstury, pełny plecak, dropper pod presją plecaka i cenne zapasy otwierają zawsze — suwak rusza resztę; na r40250 stojące stragany sprawdzają się do 5 min po zmianie, na 2.x stojący sklep offline po prostu nie jest odnawiany po 8 h. Status bota mówi, dlaczego stoi. Szybkie KU i szkatułki pochodzą z aktualizacji Tieru. Szkatułki: domyślnie 1% z potwora oraz 30% z Metina. Złomiarze wystawiają ulepszenia +0–+3 za 2× cenę NPC.":
+        "Hover over a slider to see exactly what it changes and how fast. Blacksmith, Books, Biologist and Hunting Missions cap at 100, because at 100 bots already do it at every opportunity — the slider can only make them rarer. Stalls: the Merchant, a bot with no yang for potions, a full bag, a dropper under bag pressure, and valuable stock always open up — the slider moves the rest; on r40250 standing stalls are checked up to 5 min after a change, on 2.x a standing offline shop simply isn't refreshed after 8h. The bot's status says why it's standing. Fast KU and chests come from Tieru's update. Chests: 1% from a monster and 30% from a Metin by default. Scrap dealers list +0–+3 refines at 2× the NPC price.",
     "Zapisz zachowanie na żywo": "Save live behaviour",
     "📦 Polityka przedmiotów": "📦 Item policy",
     "Jedna reguła na linię:": "One rule per line:",
@@ -1738,6 +1765,8 @@ EXACT.update({
 # fragment, rather than needing one full-sentence regex per shape.
 # ---------------------------------------------------------------------------
 PATTERNS_RAW = [
+    (r'^Własne: ×', 'Custom: ×'),
+    (r'^×0 — Brak dropu$', '×0 — No drops'),
     (r'^Lv (\d+)$', 'Lv $1'),
     (r'^(\d+)% doświadczenia$', '$1% experience'),
 
@@ -2210,6 +2239,8 @@ PATTERNS_RAW += [
     (r'^Globalnie · (\d+)% czasu podstawowego$', 'Global · $1% of base time'),
     (r'Potwory (\d+)%', 'Monsters $1%'),
     (r'Metiny/bossy (\d+)%', 'Metins/bosses $1%'),
+    (r'Metiny (\d+)%', 'Metins $1%'),
+    (r'Bossowie (\d+)%', 'Bosses $1%'),
 ]
 
 # --- static/news-feed.js ---
@@ -2225,6 +2256,51 @@ EXACT.update({
     "Brak powiadomień.": "No notifications.",
     "Kliknij, żeby zobaczyć.": "Click to see.",
 })
+
+# --- player.html: a bot's EXP lock card and its flash messages
+# (bot_exp_lock_view / player_action_exp_lock in app.py, Playerbots 2.x) ---
+EXACT.update({
+    "⚡ Doświadczenie (EXP)": "⚡ Experience (EXP)",
+    "Towarzysz gracza: jego exp zależy od Pierścienia Anty-Exp właściciela i jego własnego limitu, nie od panelu.":
+        "A player's companion: its EXP follows its owner's Anti-Exp Ring and its own cap, not the panel.",
+    "🔒 Exp zablokowany: bot nie zdobywa doświadczenia": "🔒 EXP blocked: the bot gains no experience",
+    "✅ Exp leci: bot zdobywa doświadczenie": "✅ EXP flows: the bot gains experience",
+    "Bota nie ma w grze, stan z ostatniego zapisu postaci.": "The bot is not in the game; as its character was last saved.",
+    "🔓 Operator odblokował exp: osobowość nie blokuje tego bota.":
+        "🔓 Unlocked by the operator: its personality does not block this bot.",
+    "Bez zmiany operatora: o blokadzie decyduje osobowość.": "No operator override: its personality decides the lock.",
+    "Przywróć blokadę": "Restore the lock",
+    "🔓 Odblokuj exp": "🔓 Unlock EXP",
+    "„Odblokuj exp” pozwala botowi zdobywać doświadczenie, choć jego osobowość by go zatrzymała (Grinder na progu swojego tieru, dropper w swoim paśmie). „Przywróć blokadę” oddaje decyzję osobowości. Zmianę wykonuje rdzeń, na którym bot gra; bot poza grą dostanie ją, gdy wejdzie.":
+        "\"Unlock EXP\" lets the bot gain experience although its personality would hold it (a Grinder at its tier's lock, "
+        "a dropper in its band). \"Restore the lock\" hands the decision back to its personality. The core the bot plays on "
+        "makes the change; a bot out of the game gets it when it comes in.",
+    "Blokadę exp botów ma tylko linia Playerbots 2.x (mt2009).": "Only the Playerbots 2.x line (mt2009) has the bots' EXP lock.",
+    "Nieobsługiwana akcja.": "Unsupported action.",
+    "Panel nie zmienia blokady exp tej postaci: to nie jest bot z rejestru albo to towarzysz gracza.":
+        "The panel does not change this character's EXP lock: it is not a registered bot, or it is a player's companion.",
+})
+PATTERNS_RAW += [
+    (r'^Osobowość trzyma go na poziomie (\d+)\.$', 'Its personality holds it at level $1.'),
+    (r'^⏳ Odblokowanie czeka na wejście bota do gry \(zlecone (.+)\)\.$',
+     '⏳ The unlock waits for the bot to come into the game (asked $1).'),
+    (r'^⏳ Przywrócenie blokady czeka na wejście bota do gry \(zlecone (.+)\)\.$',
+     '⏳ Restoring the lock waits for the bot to come into the game (asked $1).'),
+    (r'^⏳ Rdzeń bota właśnie wykonuje zmianę \(zlecone (.+)\)\.$',
+     "⏳ The bot's core is making the change right now (asked $1)."),
+    (r'^(.+): exp odblokowany, bot zdobywa doświadczenie\.$', '$1: EXP unlocked, the bot gains experience.'),
+    (r'^(.+): blokada przywrócona, o blokadzie decyduje osobowość\.$', '$1: the lock is restored, its personality decides.'),
+    (r'^(.+) nie jest teraz w grze albo jego rdzeń jeszcze nie odpowiedział\. Zmiana czeka i wykona ją rdzeń bota, '
+     r'gdy bot będzie w grze\.$',
+     "$1 is not in the game now, or its core has not answered yet. The change waits, and the bot's core makes it "
+     "once the bot is in the game."),
+    (r'^Rdzeń bota (.+) właśnie wykonuje zmianę\. Odśwież stronę za chwilę\.$',
+     'The core of $1 is making the change right now. Reload the page in a moment.'),
+    (r'^Nie udało się zmienić blokady exp \((.+)\)\.$', 'Could not change the EXP lock ($1).'),
+    # The mood line's tail ("Normalny · blokada expa na 30 lvl").
+    (r'blokada expa na (\d+) lvl', 'EXP locked at level $1'),
+    (r'exp odblokowany przez operatora', 'EXP unlocked by the operator'),
+]
 
 
 def _compile_pattern(entry):

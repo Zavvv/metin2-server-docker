@@ -307,7 +307,7 @@ I_002	I	global	market_expensive	neutralny	{ulep} for {cena}? xd
 I_004	I	global	market_cheap	neutralny	{ulep} getting cheaper, whos selling so many?
 Y_004	Y	global	medal_locked	neutralny	blocking exp and farming medals
 Y_006	Y	global	medal_goal	neutralny	medals wont farm themselves
-Y_009	Y	global	trade_medal	neutralny	WTS horse medals x{ile}, pm
+Y_009	Y	global	trade_medal	neutralny	WTS horse medals x{ile}, {cena}/each, pm
 Y_013	Y	global	medal_goal	neutralny	monkeys are my second home
 Y_016	Y	global	medal_goal	neutralny	any good monkey spots?
 I_017	I	global	market_visit	neutralny	{ulep} for {cena}, worth it?
@@ -343,14 +343,14 @@ Y_003	Y	global	lfg_monkey_buff	neutralny	anyone for monkeys? farming medals, par
 Z_008	Z	global	lfg_m3	neutralny	anyone farming m3? pt?
 H_002	H	global	trade_average	radosc	sell {skrot}+{plus} {sr}avg {cena}
 H_004	H	global	trade_average	radosc	S> {skrot} +{plus} {sr}% offer {cena}
-H_009	H	global	trade_book_three	neutralny	selling {skill} sb x3 cheap
-H_010	H	global	trade_ebony	neutralny	S> ebonies +{plus} {bon}
-H_011	H	global	trade_bracelet	neutralny	S> bracelet {bon}, pm
-H_024	H	global	trade_rod	neutralny	S> rod +{plus}
-X_014	X	global	trade_fish	neutralny	S> fish x{ile}, cheap
-W_014	W	global	trade_moon	neutralny	S> moonlight chests x{ile} pm
+H_009	H	global	trade_book_three	neutralny	selling {skill} sb x3, {cena}/each, pm
+H_010	H	global	trade_ebony	neutralny	S> ebonies +{plus} {bon}, {cena}, pm
+H_011	H	global	trade_bracelet	neutralny	S> {skrot} +{plus} {bon}, {cena}, pm
+H_024	H	global	trade_rod	neutralny	S> {skrot} +{plus}, {cena}, pm
+X_014	X	global	trade_fish	neutralny	S> {skrot} x{ile}, {cena}/each, pm
+W_014	W	global	trade_moon	neutralny	S> moonlight chests x{ile}, {cena}/each pm
 H_052	H	global	trade_item	neutralny	S> {skrot} x{ile}, {cena}/each pm
-H_022	H	global	trade_need_material	neutralny	buying {ulep} x20, pm
+H_022	H	global	trade_need_material	neutralny	buying {ulep} x{ile} at {cena}/each, pm
 H_053	H	global	trade_need_material	neutralny	B> {ulep} x{ile}, up to {cena}/each pm
 N_045	N	global	loan_public_returned	neutralny	ok {nick} paid me back, sorry for the drama
 N_071	N	global	loan_ask	neutralny	can anyone lend {cena}? back tomorrow
@@ -362,12 +362,13 @@ J_005	J	global	lfg_tower	neutralny	who for DT? need a buff
 J_060	J	global	lfg_tower	neutralny	DT gathering at the entrance, who is coming?
 J_061	J	guild	tower_gather	neutralny	DT gathering on the ground floor by the stone
 J_062	J	guild	tower_stone	neutralny	breaking the stone, come
-H_005	H	global	trade_need_scroll	neutralny	B> blessing scrolls, paying {cena}/each
+H_005	H	global	trade_need_scroll	neutralny	B> blessing scrolls, paying {cena}/each, pm
 H_006	H	global	trade_need_gear	neutralny	buying {skrot} +{plus} up to {cena}
-H_007	H	global	trade_need_book	neutralny	WTB book {skill}
-H_008	H	global	trade_need_forget	neutralny	buying forgetting scrolls, who has any?
-H_013	H	global	trade_need_gear	neutralny	buying a bracelet with hp
-H_020	H	global	trade_need_scroll	neutralny	who sells cheap blessing scrolls?
+P11_BUY_K1	H	global	trade_need_gear	neutralny	WTB {skrot} +{plus}, paying {cena}, pm
+H_007	H	global	trade_need_book	neutralny	WTB {skill} book, {cena}, pm
+H_008	H	global	trade_need_forget	neutralny	WTB {item}, {cena}, pm
+H_013	H	global	trade_need_gear	neutralny	buying {skrot} +{plus} with hp, up to {cena}, pm
+H_020	H	global	trade_need_scroll	neutralny	buying blessing scrolls at {cena}/each, pm
 H_021	H	global	trade_need_gear	neutralny	offering {cena} for ebony +7
 W_015	W	global	trade_need_moon	neutralny	B> moonlight chests, paying {cena}/each
 Y_010	Y	global	trade_need_medal	neutralny	B> horse medals, paying {cena}/each
@@ -522,7 +523,7 @@ Z_005	Z	global	m3_drop	radosc	third {skrot} from m3, still low average damage
 L_050	L	global	reaction_success	radosc	true
 L_051	L	global	reaction_success	radosc	exactly
 M_033	M	global	topic_unknown	neutralny	google it xd
-I_007	I	global	trade_need_material	neutralny	list {ulep} if you have it, paying well
+I_007	I	global	trade_need_material	neutralny	b> {ulep} x{ile}, paying {cena}/each, pm
 H_030	H	whisper	trade_offer	neutralny	too expensive
 H_033	H	whisper	trade_offer	neutralny	can you go lower?
 H_035	H	whisper	trade_offer	neutralny	ill buy if you go down to {cena_mniej}
@@ -535,7 +536,7 @@ C_046	C	global	reaction_failure	smutek	blessing scrolls never help, telling you
 Y_012	Y	global	monkey_third_day	neutralny	third day in monkeys, not going anywhere else xd
 Y_014	Y	global	monkey_again	neutralny	monkeys again, im so tired of them
 Y_017	Y	global	medal_daily	neutralny	medals are dropping like crazy today
-S_002	S	global	trade_need_gear	neutralny	level 30, who sells a cheap rib?
+S_002	S	global	trade_need_gear	neutralny	level 30, buying {skrot} +{plus} up to {cena}, pm
 S_009	S	global	level	radosc	{lvl} and still no combat horse ;/
 J_034	J	global	lfg_reply	neutralny	i can, but im a few levels lower
 U_003	U	local	duel_invite	neutralny	who wants a duel? {lvl} {klasa}
@@ -646,7 +647,7 @@ H_017	H	global	review	neutralny	trading {skrot} for {skrot} plus yang
 H_018	H	global	trade_shop_cheap	neutralny	shop in m1 at the smith, cheap
 H_019	H	global	trade_material	neutralny	cheap materials in my m1 shop
 H_027	H	global	trade_repeat	neutralny	still available
-H_028	H	global	trade_top	neutralny	S> {skrot}+{plus} {sr}avg, server top, firm
+H_028	H	global	trade_top	neutralny	S> {skrot}+{plus} {sr}avg {cena}, server top, firm
 H_029	H	whisper	trade_offer	neutralny	how much?
 H_032	H	global	trade_public_interest	neutralny	ok pm
 H_034	H	global	trade_public_interest	neutralny	cheaper in shops xd
@@ -908,3 +909,294 @@ P8_GM_info_8	G	global	ogloszenie_gm	neutralny	got the info
 P8_GM_info_9	G	global	ogloszenie_gm	neutralny	thanks GM
 P8_GM_info_10	G	global	ogloszenie_gm	neutralny	understood
 P8_GM_info_11	G	global	ogloszenie_gm	neutralny	noted
+P10S2_Q01	M	global	trade_pytanie_o_cene	neutralny	how much should I sell this for? {link}
+P10S2_Q02	M	global	trade_pytanie_o_cene	neutralny	how much is this worth? {link}
+P10S2_Q03	M	global	trade_pytanie_o_cene	neutralny	what would you give for this? {link}
+P10S2_Q04	M	global	trade_pytanie_o_cene	neutralny	anyone know what {przedmiot} goes for?
+P10S2_Q05	M	global	trade_pytanie_o_cene	neutralny	whats {przedmiot} going for on the market now?
+P10S2_Q06	M	global	trade_pytanie_o_cene	neutralny	what should I list it at? {link}
+P10S2_Q07	M	global	trade_pytanie_o_cene	neutralny	{link} what could this be worth
+P10S2_Q08	M	global	review	neutralny	dropped something like this, how much? {link}
+P10S2_Q09	M	global	trade_pytanie_o_cene	neutralny	sell or keep? {link}
+P10S2_Q10	M	global	trade_pytanie_o_cene	neutralny	is this worth anything? {link}
+P10S2_Q11	M	global	trade_pytanie_o_cene	neutralny	whats the price for this? {link}
+P10S2_Q12	M	global	trade_pytanie_o_cene	neutralny	how much for {przedmiot} {sr} avg?
+P10S2_Q13	M	global	trade_pytanie_o_cene	neutralny	how much for {przedmiot} +{plus}?
+P10S2_Q14	M	global	trade_pytanie_o_cene	neutralny	no idea what to list {przedmiot} at, help xd
+P10S2_Q15	M	global	trade_pytanie_o_cene	neutralny	anyone know prices? {link}
+P10S2_Q16	M	global	trade_pytanie_o_cene	neutralny	what would you pay for {przedmiot}?
+P10S2_Q17	M	global	trade_pytanie_o_cene	neutralny	whats the max for this? {link}
+P10S2_Q18	M	global	trade_pytanie_o_cene	neutralny	is this good or trash? {link}
+P10S2_A01	M	global	trade_cena_odpowiedz	neutralny	{cena} easy
+P10S2_A02	M	global	trade_cena_odpowiedz	neutralny	you will get {cena}
+P10S2_A03	M	global	trade_cena_odpowiedz	neutralny	{cena} max
+P10S2_A04	M	global	trade_cena_odpowiedz	neutralny	list it at {cena}, it will sell
+P10S2_A05	M	global	trade_cena_odpowiedz	neutralny	{cena} or so
+P10S2_A06	M	global	trade_cena_odpowiedz	neutralny	id give {cena}
+P10S2_A07	M	global	trade_cena_sklepy	neutralny	seen them at {cena}
+P10S2_A08	M	global	trade_cena_widelki	neutralny	{cena} - {cena_wyzsza}
+P10S2_A09	M	global	trade_cena_sklepy	neutralny	shops have it at {cena}
+P10S2_A10	M	global	trade_cena_odpowiedz	neutralny	no more than {cena}
+P10S2_R01	M	global	trade_cena_zostaw_lepsze	neutralny	dont sell, its better than what you wear
+P10S2_R02	M	global	trade_cena_zostaw_top	neutralny	keep it, you wont buy one like that
+P10S2_R03	M	global	trade_cena_zostaw_top	podekscytowanie	thats top tier, dont sell it cheap
+P10S2_R04	M	global	trade_cena_zostaw_lepsze	neutralny	hold on to it
+P10S2_R05	M	global	trade_cena_zostaw_top	neutralny	hold on to it
+P10S2_R06	M	global	trade_cena_npc	ironia	npc it xd
+P10S2_R07	M	global	trade_cena_npc	neutralny	thats junk sorry
+P10S2_R08	M	global	trade_cena_npc	neutralny	nobody will buy that probably
+P10S2_R09	M	global	trade_cena_pokaz	neutralny	depends on the bonuses, show it
+P10S2_O01	M	global	trade_cena_oferta	neutralny	ill give {cena}
+P10S2_O02	M	global	trade_cena_oferta	neutralny	ill give {cena_nizsza}, pm
+P10S2_O03	M	global	trade_cena_oferta	neutralny	sell it to me? pm
+P10S2_J01	M	global	trade_cena_zart	ironia	a million bucks xd
+P10S2_J02	M	global	trade_cena_zart	ironia	priceless xd
+P10S2_J03	M	global	trade_cena_zart	ironia	for you 1 yang xd
+P10S2_K01	M	global	trade_cena_reakcja	radosc	ok thanks
+P10S2_K02	M	global	trade_cena_reakcja	neutralny	thanks, listing it
+P10S2_K03	M	global	trade_cena_reakcja_malo	smutek	only that much?
+P10S2_K04	M	global	trade_cena_reakcja_duzo	zdziwienie	really that much?
+P10S2_K05	M	global	trade_cena_reakcja_zostaw	neutralny	ok, im keeping it
+P10S2_K06	M	global	review	ironia	ok npc it is xd
+P10S2_K07	M	global	trade_cena_reakcja_pw	neutralny	{nick} pm
+P10S2_K08	M	global	trade_cena_reakcja	neutralny	ok listing it at {cena}
+P10S4_U01	H	global	trade_podciecie_szt	neutralny	WTS {przedmiot} {cena_nizsza}/pc, cheaper
+P10S4_U02	H	global	trade_podciecie	neutralny	i have {przedmiot} at {cena_nizsza}
+P10S4_U03	H	global	trade_podciecie	neutralny	mine is {cena_nizsza}
+P10S4_U04	H	global	trade_podciecie	neutralny	{przedmiot} {cena_nizsza}, dont overpay
+P10S4_U05	H	global	trade_podciecie	neutralny	cheaper at mine, {cena_nizsza}
+P10S4_U06	H	global	trade_podciecie	ironia	why {cena} when mine is {cena_nizsza} xd
+P10S4_U07	H	global	trade_podciecie	neutralny	{przedmiot} {cena_nizsza} pm, quick
+P10S4_U08	H	global	trade_podciecie	neutralny	got it cheaper: {cena_nizsza}
+P10S4_U09	H	global	trade_podciecie_najtaniej	neutralny	WTS {przedmiot} {cena_nizsza} - cheapest
+P10S4_F01	H	global	trade_podciecie_runda	neutralny	then mine {cena_nizsza}
+P10S4_F02	H	global	trade_podciecie_wyrownanie	neutralny	fine, mine too {cena_nizsza}
+P10S4_F03	H	global	trade_podciecie_docinka	zlosc	youre ruining the market
+P10S4_F04	H	global	trade_podciecie_docinka	ironia	ok take the customers xd
+P10S4_F05	H	global	trade_podciecie_znowu	zlosc	{nick} you again?
+P10S4_F06	H	global	trade_podciecie_docinka	ironia	soon you will sell it for free xd
+P10S4_F07	H	global	trade_podciecie_docinka	zlosc	hey dont undercut
+P10S4_F08	H	global	trade_podciecie_zmowa	neutralny	ok lets not undercut, both at {cena}
+P10S4_C01	H	global	trade_podciecie_komentarz	ironia	price war xd
+P10S4_C02	H	global	trade_podciecie_komentarz	ironia	popcorn
+P10S4_C03	H	global	trade_podciecie_komentarz	radosc	keep going, ill buy xd
+P10S4_C04	H	global	trade_podciecie_komentarz	ironia	a bit more and it will be free
+# Patch 10, 3.5-3.7: barter (playerbot_barter.h).
+P10B_AD_01	H	global	trade_barter	neutralny	will trade {przedmiot} for {zyczenie}
+P10B_AD_02	H	global	trade_barter	neutralny	swap {skrot} +{plus} for {zyczenie}, pm
+P10B_AD_03	H	global	trade_barter	neutralny	trade: giving {przedmiot}, looking for {zyczenie}
+P10B_AD_04	H	global	trade_barter_topup	neutralny	{przedmiot} for {zyczenie}? can add yang
+P10B_AD_05	H	global	trade_barter	neutralny	what will you give for {przedmiot}? trades only
+P10B_AD_06	H	global	trade_barter	neutralny	looking for {zyczenie}, will give {przedmiot}
+P10B_AD_07	H	global	trade_barter	neutralny	{przedmiot} for {zyczenie}, pm me
+P10B_AD_08	H	global	trade_barter	neutralny	anyone got {zyczenie}? i give {przedmiot}
+P10B_AD_09	H	global	trade_barter	neutralny	{przedmiot} up for trade, want {zyczenie}
+P10B_ASK_01	H	whisper	barter_ask	neutralny	show me
+P10B_ASK_02	H	whisper	barter_ask	neutralny	what bonuses?
+P10B_ASK_03	H	whisper	barter_ask	neutralny	link it
+P10B_SHOW_01	H	whisper	barter_show	neutralny	here: {przedmiot}
+P10B_SHOW_02	H	whisper	barter_show	neutralny	{przedmiot}, what have you got?
+P10B_SHOW_03	H	whisper	barter_show	neutralny	{przedmiot}, what do you offer?
+P10B_OFFER_01	H	whisper	barter_offer	neutralny	i give {przedmiot}
+P10B_OFFER_02	H	whisper	barter_offer	neutralny	got {przedmiot}, good?
+P10B_ACC_01	H	whisper	barter_accept	radosc	ok deal, where are you?
+P10B_ACC_02	H	whisper	barter_accept	radosc	alright, deal
+P10B_CNT_01	H	whisper	barter_counter	neutralny	add {doplata}?
+P10B_CNT_02	H	whisper	barter_counter	neutralny	only if you add {doplata}
+P10B_TOP_01	H	whisper	barter_topup_yes	neutralny	ok, i add {doplata}
+P10B_MAX_01	H	whisper	barter_topup_max	neutralny	i can add {doplata} max
+P10B_REF_01	H	whisper	barter_refuse	neutralny	sorry, too weak
+P10B_REF_02	H	whisper	barter_refuse	neutralny	i want {zyczenie} though
+P10B_GIVE_01	H	whisper	barter_give_up	neutralny	ok we wont agree xd
+P10B_PLACE_01	H	whisper	barter_place	neutralny	meet me at the blacksmith {mapa_gdzie}
+P10B_PLACE_02	H	whisper	barter_place	neutralny	come to the blacksmith {mapa_gdzie}
+P10B_WALK_01	H	whisper	barter_place_walk	neutralny	coming to you
+P10B_WALK_02	H	whisper	barter_place_walk	neutralny	on my way, wait
+P10B_WAIT_01	H	whisper	barter_place_wait	neutralny	im {mapa_gdzie}, come over
+P10B_COME_01	H	whisper	barter_coming	neutralny	coming, almost there
+P10B_HERE_01	H	whisper	barter_here	neutralny	here, open trade
+P10B_OK_01	H	whisper	barter_accept_window	neutralny	press accept
+P10B_WRONG_01	H	whisper	barter_wrong	zdziwienie	thats not what you said
+P10B_BONUS_01	H	whisper	barter_no_bonus	zdziwienie	where are the bonuses?
+P10B_TOPUP_01	H	whisper	barter_no_topup	zdziwienie	the yang is missing
+P10B_CHEAT_01	H	whisper	barter_cheat	zlosc	no scams, not trading with you
+P10B_DONE_01	H	whisper	barter_done	radosc	thanks, good deal :D
+P10B_STALE_01	H	whisper	barter_stale	neutralny	ok, never mind
+P10B_NOSHOW_01	H	whisper	barter_no_show	ironia	you never showed up xd
+P10B_NONE_01	H	whisper	barter_none	neutralny	got nothing to trade
+P10B_NONE_02	H	whisper	barter_none	neutralny	not trading that
+P10B_BUSY_01	H	whisper	barter_busy	neutralny	not now, already trading
+P11_BARTER_Y1	H	whisper	barter_yang	neutralny	too big a gap for a swap, yang only
+P11_BARTER_Y2	H	whisper	barter_yang	neutralny	won't swap like that, but yang works
+# Iwakura's Patch 10, section 1: the Daily Goal (playerbot_daily_goal.h).
+P10_CD_LVL_1	L	global	p10_goal_level	neutralny	goal for today: a level
+P10_CD_LVL_2	L	global	p10_goal_level	neutralny	goal today is a level up, off to grind
+P10_CD_LVL_3	L	global	p10_goal_level	radosc	leveling today, no mercy xd
+P10_CD_EXP_1	L	global	p10_goal_exp	neutralny	goal today: {ile}% exp
+P10_CD_EXP_2	L	global	p10_goal_exp	neutralny	need {ile}% exp today
+P10_CD_LV2_1	L	global	p10_goal_levels	radosc	goal today: 2 levels xd
+P10_CD_LV2_2	L	global	p10_goal_levels	neutralny	2 levels today or nothing
+P10_CD_PT_1	L	global	p10_goal_party	neutralny	party exp only today
+P10_CD_PT_2	L	global	p10_goal_party	neutralny	goal today is group exp, not going solo
+P10_CD_YANG_1	L	global	p10_goal_yang	neutralny	off farming yang, need {cena}
+P10_CD_YANG_2	L	global	p10_goal_yang	neutralny	goal today: {cena} clean profit
+P10_CD_MAT_1	L	global	p10_goal_material	neutralny	farming {ulep} today, {ile} of them
+P10_CD_MAT_2	L	global	p10_goal_material	neutralny	need {ile}x {ulep}, off to farm
+P10_CD_MET_1	L	global	p10_goal_metins	neutralny	only metins today
+P10_CD_MET_2	L	global	p10_goal_metins	neutralny	goal for today: {ile} metins
+P10_CD_BOSS_1	L	global	p10_goal_boss	neutralny	killing {boss} today
+P10_CD_BOSS_2	L	global	p10_goal_boss	neutralny	goal for today: {boss}
+P10_CD_MED_1	L	global	p10_goal_medals	neutralny	off to the monkeys, {ile} medals is the goal
+P10_CD_MED_2	L	global	p10_goal_medals	neutralny	farming medals today, {ile} of them
+P10_CD_REF_1	L	global	p10_goal_refine	neutralny	upgrading my {skrot} today
+P10_CD_REF_2	L	global	p10_goal_refine	neutralny	goal for today: +1 on my {skrot}
+P10_CD_BUY_1	L	global	p10_goal_buy	neutralny	buying something better for my gear today
+P10_CD_BUY_2	L	global	p10_goal_buy	neutralny	looking for better gear on the market today
+P10_CD_SELL_1	L	global	p10_goal_sell	neutralny	need to sell for {cena} today
+P10_CD_SELL_2	L	global	p10_goal_sell	neutralny	goal for today: {cena} from my shop
+P10_CD_BOOK_1	L	global	p10_goal_books	neutralny	reading books today, {ile} have to land
+P10_CD_BOOK_2	L	global	p10_goal_books	neutralny	goal: {ile} successful skill books today
+P10_CD_BUFF_1	L	global	p10_goal_buff	neutralny	buffing anyone i can today, {ile} people
+P10_CD_BUFF_2	L	global	p10_goal_buff	neutralny	goal for today: buff {ile} people
+P10_CD_HALF_1	L	global	p10_goal_half	radosc	half done
+P10_CD_HALF_2	L	global	p10_goal_half	radosc	goal half done
+P10_CD_SLOW_1	L	global	p10_goal_slow	smutek	going badly ;/
+P10_CD_SLOW_2	L	global	p10_goal_slow	smutek	not going well today
+P10_CD_FAIL_1	L	global	p10_goal_failed	smutek	nothing works for me today
+P10_CD_FAIL_2	L	global	p10_goal_failed	zlosc	goal failed -.-
+# Iwakura's Patch 10, section 5: the first on the server (playerbot_server_first.h).
+P10_FS_KID_1	S	global	p10_first_kid	podekscytowanie	FIRST {lvl} ON THE SERVER NOOBS
+P10_FS_KID_2	S	global	p10_first_kid	radosc	{lvl} DONE FIRST xD
+P10_FS_KID_3	S	global	p10_first_kid	podekscytowanie	{lvl} FIRST EZ
+P10_FS_KID_4	S	global	p10_first_kid	podekscytowanie	who got {lvl} first? ME!!!
+P10_FS_KID_5	S	global	p10_first_kid	radosc	{lvl} and nobody higher, sorry noobs xd
+P10_FS_KID_6	S	global	p10_first_kid	radosc	first {lvl} ez, keep chasing me xd
+P10_FS_KID_7	S	global	p10_first_kid	podekscytowanie	{lvl} FIRST, REMEMBER MY NAME
+P10_FS_KID_8	S	global	p10_first_kid	radosc	you all fell behind, first {lvl} is mine :P
+P10_FS_PLAIN_1	S	global	p10_first_plain	radosc	first {lvl} ez
+P10_FS_PLAIN_2	S	global	p10_first_plain	radosc	{lvl} first on the server :D
+P10_FS_PLAIN_3	S	global	p10_first_plain	radosc	yes! first {lvl}
+P10_FS_PLAIN_4	S	global	p10_first_plain	podekscytowanie	got {lvl} first, cant believe it xd
+P10_FS_PLAIN_5	S	global	p10_first_plain	radosc	first {lvl}, that was a grind
+P10_FS_PLAIN_6	S	global	review	radosc	{lvl} first, off to sleep happy xd
+P10_FS_PLAIN_7	S	global	p10_first_plain	zdziwienie	{lvl}, first on the server i think?
+P10_FS_PLAIN_8	S	global	review	radosc	first {lvl} :D time for a break
+P10_FS_CALM_1	S	global	p10_first_calm	radosc	{lvl} done, first i think :)
+P10_FS_CALM_2	S	global	p10_first_calm	radosc	{lvl} lvl :)
+P10_FS_CALM_3	S	global	p10_first_calm_party	radosc	first {lvl}, thanks to the party
+P10_FS_CALM_4	S	global	p10_first_calm_party	radosc	so {lvl} first, good job team
+P10_FS_REACT_1	S	global	p10_first_react	radosc	gz
+P10_FS_REACT_2	S	global	p10_first_react	radosc	grats :D
+P10_FS_REACT_3	S	global	p10_first_react	ironia	nolife xd
+P10_FS_REACT_4	S	global	p10_first_react	zdziwienie	how much do you play a day?
+P10_FS_REACT_5	S	global	p10_first_react	radosc	gg, im only {lvl2}
+P10_FS_REACT_6	S	global	p10_first_react	ironia	jelly
+P10_FS_REACT_7	S	global	p10_first_react	ironia	ok, im coming for you
+P10_FS_REACT_8	S	global	p10_first_react	radosc	respect
+P10_FS_REACT_9	S	global	p10_first_react	ironia	do you even sleep? xd
+P10_FS_REACT_10	S	global	p10_first_react	neutralny	ill catch up one day
+P10_FS_ENEMY_1	S	global	p10_first_react_enemy	zlosc	so what
+P10_FS_DISLIKE_1	S	global	p10_first_react_dislike	ironia	probably all party and buffs xd
+P10_FS_FRIEND_1	S	global	p10_first_react_friend	radosc	well done {nick} :D
+P10_FS_SECOND_1	S	global	p10_first_second	radosc	second {lvl}, so close xd
+P10_FS_SECOND_2	S	global	p10_first_second	neutralny	{lvl} as second, first next time
+P10_FS_THIRD_1	S	global	p10_first_third	radosc	third {lvl}, still counts :P
+P10_FS_BEATEN_1	S	global	p10_first_beaten	smutek	an hour behind {nick} ;/
+P10_FS_AFTER_1	S	global	p10_first_after_human	neutralny	second {lvl} right after {gracz}, still counts
+P10_FS_HUMAN_1	S	global	p10_first_human	radosc	gz {gracz} first {lvl}!
+P10_FS_HUMAN_2	S	global	p10_first_human	zdziwienie	{gracz} how did you do it so fast xd
+P10_FS_HUMAN_3	S	global	p10_first_human	ironia	{gracz} nolife xd gz
+P10_FS_HUMAN_4	S	global	p10_first_human	neutralny	{gracz} im coming for you
+P10_FS_CHRON_1	N	global	chronicle_first	neutralny	remember the first {lvl} on the server? {nick} xd
+P10_FS_CHRON_2	N	global	chronicle_first	neutralny	{nick} was once the highest here, and now?
+# Iwakura's Patch 11 (8 October): a question's object of its own kind (19A) and the mercenary's advert (8D).
+P11_BOSS_Q1	D	global	boss_down	neutralny	what does {boss} drop?
+P11_BOSS_Q2	D	global	boss_down	radosc	{boss} down, what does it drop?
+P11_METIN_Q1	D	global	metin_question	neutralny	what drops from the {metin}?
+P11_METIN_Q2	D	global	metin_question	neutralny	is the {metin} worth hitting?
+P11_MAP_Q1	D	global	map_question	neutralny	what do you hunt {mapa_gdzie}?
+P11_MAP_Q2	D	global	map_question	neutralny	hows the grind {mapa_gdzie}?
+P11_MERC_1	J	local	merc_advert	neutralny	giving pt {mapa_dokad}, {cena}/h, pm
+P11_MERC_2	J	local	merc_advert	neutralny	merc for hire, pt {mapa_dokad} for {cena}/h
+P11_MERC_3	J	local	merc_advert	neutralny	party for hire, {cena}/h, pm me
+P11_BARTER_Z1	H	global	trade_barter	neutralny	WTT {skrot} +{plus} for {zyczenie}, pm
+P11_TRADER_G1	H	global	trade_trader_gear	neutralny	selling {skrot}+{plus} {cena} pm
+P11_TRADER_G2	H	global	trade_trader_gear	neutralny	sellin {skrot} +{plus}, {cena}, pm
+P11_TRADER_G3	H	global	trade_trader_gear	neutralny	wts {skrot}+{plus} {cena} pm pm
+P11_TRADER_G4	H	global	trade_trader_gear	neutralny	{skrot} +{plus} for sale, {cena}
+P11_TRADER_G5	H	global	trade_trader_gear	neutralny	who wants {skrot}+{plus}? {cena}, pm
+P11_TRADER_G6	H	global	trade_trader_gear	radosc	selling {skrot}+{plus} for {cena}, a steal
+P11_TRADER_A1	H	global	trade_trader_average	neutralny	selling {skrot}+{plus} {sr}%avg {cena} pm
+P11_TRADER_A2	H	global	trade_trader_average	neutralny	wts {skrot}+{plus} {sr}avg, {cena}, pm
+P11_TRADER_A3	H	global	trade_trader_average	neutralny	sellin {skrot} +{plus} {sr} avg for {cena}
+P11_TRADER_S1	H	global	trade_trader_stack	neutralny	selling {ulep} x{ile}, {cena}/each pm
+P11_TRADER_S2	H	global	trade_trader_stack	neutralny	wts {ulep} x{ile} at {cena}/each
+P11_TRADER_S3	H	global	trade_trader_stack	neutralny	got {ulep} x{ile}, {cena} each, pm
+P11_TRADER_S4	H	global	trade_trader_stack	neutralny	shop: {ulep} x{ile} cheap, {cena}/each
+# Iwakura's Patch 11, point 16 (8 October): the meeting's lines.
+P11M_PLACE_1	H	whisper	meet_place	neutralny	ch{kanal}, {miejsce} {punkt}
+P11M_PLACE_2	H	whisper	meet_place	neutralny	lets meet on ch{kanal}, {miejsce} {punkt}
+P11M_PLACE_3	H	whisper	meet_place	neutralny	{miejsce} {punkt}, ch{kanal}, come over
+P11M_SPOT_1	H	whisper	meet_spot	neutralny	im close, coming over
+P11M_SPOT_2	H	whisper	meet_spot	neutralny	im nearby, be there in a sec
+P11M_FAR_1	H	whisper	meet_unreachable	neutralny	cant get there, meet in {miejsce} {punkt}?
+P11M_FAR_2	H	whisper	meet_unreachable	neutralny	i cant make it there, maybe {miejsce} {punkt}?
+P11M_HERE_1	H	whisper	meet_here	neutralny	here, where are you standing?
+P11M_HERE_2	H	whisper	meet_here	neutralny	im here
+P11M_HERE_3	H	whisper	meet_here	neutralny	here, where are you?
+P11M_SEE_1	H	whisper	meet_see	neutralny	i see you
+P11M_SEE_2	H	whisper	meet_see	neutralny	oh i see you, coming
+P11M_LATE_1	H	whisper	meet_late	neutralny	sorry, almost there
+P11M_LATE_2	H	whisper	meet_late	neutralny	coming, 2 min
+P11M_LATE_3	H	whisper	meet_late	neutralny	one more sec, on my way
+P11M_NUDGE_1	H	whisper	meet_nudge	neutralny	you there?
+P11M_NUDGE_2	H	whisper	meet_nudge	neutralny	hello?
+P11M_CANCEL_1	H	whisper	meet_cancel	neutralny	sorry, gotta go
+P11M_CANCEL_2	H	whisper	meet_cancel	neutralny	already got one elsewhere
+P11M_CANCEL_3	H	whisper	meet_cancel	neutralny	change of plans, sorry
+P11M_CANCEL_4	H	whisper	meet_cancel	neutralny	nvm
+P11M_NOSHOW_1	H	whisper	meet_no_show	neutralny	youre not here, leaving
+P11M_NOSHOW_2	H	whisper	meet_no_show	neutralny	nobody here, im off
+P11M_SILENT_1	H	whisper	meet_no_answer	neutralny	ok bye then
+P11M_SILENT_2	H	whisper	meet_no_answer	neutralny	ok, no answer, bye
+P11M_CH_1	H	whisper	meet_channel	neutralny	switching to ch{kanal}, one sec
+P11M_CH_2	H	whisper	meet_channel	neutralny	ok, coming to ch{kanal}
+P11M_OWNCH_1	H	whisper	meet_own_channel	neutralny	im on ch{kanal}, can you come over?
+P11M_OWNCH_2	H	whisper	meet_own_channel	neutralny	cant switch channel, come to ch{kanal}
+P11M_CHHERE_1	H	whisper	meet_channel_arrived	neutralny	im on ch{kanal} now, pm me
+P11M_CHHERE_2	H	whisper	meet_channel_arrived	neutralny	ok, im on ch{kanal}
+P11M_AGAIN_1	H	whisper	meet_cooldown	neutralny	we just tried that, maybe later
+P11M_DONE_1	H	whisper	barter_done	radosc	thanks, cya
+P11M_DONE_2	H	whisper	barter_done	radosc	thx
+P11M_DONE_3	H	whisper	barter_done	radosc	ty
+P11D_SQ_1	H	whisper	deal_sale_quote	neutralny	{przedmiot} for {cena}, ok?
+P11D_SQ_2	H	whisper	deal_sale_quote	neutralny	got {przedmiot} in my bag, {cena}
+P11D_SQ_3	H	whisper	deal_sale_quote	neutralny	i can give {przedmiot} for {cena}
+P11D_SC_1	H	whisper	deal_sale_counter	neutralny	can go down to {cena}
+P11D_SC_2	H	whisper	deal_sale_counter	neutralny	fine, {cena}, not lower
+P11D_SA_1	H	whisper	deal_sale_accept	radosc	ok, {cena}, where are you?
+P11D_SA_2	H	whisper	deal_sale_accept	radosc	alright, sold for {cena}
+P11D_SR_1	H	whisper	deal_sale_refuse	neutralny	sorry, too low
+P11D_SR_2	H	whisper	deal_sale_refuse	neutralny	wont sell for that, {cena} min
+P11D_BYE_1	H	whisper	deal_bye	neutralny	ok, never mind
+P11D_BYE_2	H	whisper	deal_bye	neutralny	np, cya
+P11D_KA_1	H	whisper	deal_skup_ask	neutralny	how many you got? paying {cena} each
+P11D_KA_2	H	whisper	deal_skup_ask	neutralny	{cena} each, how many?
+P11D_KO_1	H	whisper	deal_skup_offer	neutralny	got {ile}, selling at {cena} each
+P11D_KO_2	H	whisper	deal_skup_offer	neutralny	can give {ile} at {cena}
+P11D_KK_1	H	whisper	deal_skup_accept	radosc	ill take {ile}, {suma} total, where are you?
+P11D_KK_2	H	whisper	deal_skup_accept	radosc	ok, {ile} for {suma}
+P11D_KN_1	H	whisper	deal_skup_none	neutralny	dont need it anymore, sorry
+P11D_KN_2	H	whisper	deal_skup_none	neutralny	already got it, thanks
+P11D_WR_1	H	whisper	deal_wrong	zdziwienie	thats not what we agreed
+P11D_NY_1	H	whisper	deal_no_yang	zdziwienie	yang missing, it was {cena}
+P11D_CNT_1	H	whisper	deal_count	zdziwienie	it was {ile} pcs
+P11D_ROOM_1	H	whisper	deal_no_room	neutralny	sorry, no room in my bag
+P11P_CALL_1	U	global	pvp_duel_call	neutralny	anyone 1v1 m1?
+P11P_CALL_2	U	global	pvp_duel_call	neutralny	anyone 1v1 in m1? {lvl} {klasa}
+P11P_CALL_3	U	global	pvp_duel_call	neutralny	1v1 m1 anyone? bored
+P11P_CALL_4	U	global	pvp_duel_call	neutralny	who wants a duel m1? {klasa} {lvl}
+P11P_ANSWER_1	U	global	pvp_duel_answer	neutralny	{nick} me
+P11P_ANSWER_2	U	global	pvp_duel_answer	neutralny	{nick} sure, omw
+P11P_ANSWER_3	U	global	pvp_duel_answer	neutralny	i can 1v1
+P11P_ANSWER_4	U	global	pvp_duel_answer	neutralny	{nick} ill take it, coming

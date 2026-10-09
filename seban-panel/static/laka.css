@@ -1,0 +1,638 @@
+/* Motyw "Laka i Złoto" (settings.theme == 'laka').
+   base.html ustawia wtedy data-theme="empire" (złote style treści stron zostają) + data-skin="laka".
+   Ten plik: tokeny kolorów, nowa otoczka (szyna sekcji, górna belka z zakładkami, dolny pasek
+   na telefonie, Ctrl+K), ramki HUD i animacje przejść. Treść stron (w tym mapy na żywo i
+   oryginalne okna gry na karcie postaci) nie jest tu przestawiana. */
+body[data-skin="laka"]{
+  --bg:#0d0906; --panel:#17100a; --edge:#3a2815; --text:#f1e6cf; --muted:#a8957a; --blue2:#a8771c; --gold:#e8b93f;
+  --laka-ink:#0d0906; --laka-lacquer:#17100a; --laka-lacquer-2:#21170e; --laka-lacquer-3:#2c1f12;
+  --laka-bronze:#6e4c25; --laka-bronze-dim:#3a2815; --laka-gold:#e8b93f; --laka-gold-hi:#ffe08a; --laka-gold-deep:#a8771c;
+  --laka-parchment:#f1e6cf; --laka-dust:#a8957a; --laka-dust-2:#7a6a55; --laka-jade:#74cf8e; --laka-jade-bg:#16301f;
+  --laka-display:'Cinzel','Trajan Pro',Georgia,serif; --laka-body:'Alegreya Sans','Segoe UI',system-ui,sans-serif;
+  --laka-rail:248px; --laka-top:104px; --laka-gut:clamp(16px,2.2vw,32px);
+  background:var(--laka-ink);
+  background-image:radial-gradient(1200px 600px at 85% -10%,#3a240d55,transparent 60%),radial-gradient(900px 500px at -10% 110%,#2a160955,transparent 60%);
+  background-attachment:fixed;
+  font-family:var(--laka-body);
+}
+body[data-skin="laka"] h1,body[data-skin="laka"] h2{font-family:var(--laka-display)}
+
+/* ───── layout ───── */
+body[data-skin="laka"] main{margin:0 0 0 var(--laka-rail);max-width:none;padding:calc(var(--laka-top) + var(--laka-gut)) var(--laka-gut) 72px}
+/* duplicated page headings are hidden by laka-shell.js (it compares them with the top bar title);
+   the management pages' own Gra i serwer | Panel webowy switch repeats the top bar tabs */
+html body[data-skin="laka"] .manage-section-tabs{display:none!important}
+
+.laka-rail{position:fixed;inset:0 auto 0 0;width:var(--laka-rail);z-index:150;display:flex;flex-direction:column;background:linear-gradient(180deg,#140d07,#0f0a05);border-right:1px solid var(--laka-bronze-dim);box-shadow:inset -1px 0 0 #e8b93f10;overflow-y:auto;scrollbar-width:thin}
+.laka-brand{display:grid;gap:4px;padding:22px 20px 18px;border-bottom:1px solid var(--laka-bronze-dim);text-decoration:none}
+.laka-brand b{font:900 19px/1.1 var(--laka-display);letter-spacing:.04em;background:linear-gradient(180deg,var(--laka-gold-hi),var(--laka-gold) 55%,var(--laka-gold-deep));-webkit-background-clip:text;background-clip:text;color:transparent}
+.laka-brand span{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--laka-dust)}
+.laka-nav{display:grid;gap:2px;padding:12px 10px}
+.laka-sec{display:flex;align-items:center;gap:12px;padding:7px 10px;border-radius:6px;color:var(--laka-parchment);font-weight:500;text-decoration:none}
+.laka-sec:hover{background:var(--laka-lacquer-2);text-decoration:none}
+.laka-sec[aria-current="true"]{background:linear-gradient(90deg,#e8b93f22,transparent);color:var(--laka-gold-hi)}
+/* icon tile: lacquer square with a bronze edge; holds either a theme SVG icon or a game item icon */
+.laka-slot{flex:none;width:36px;height:36px;display:grid;place-items:center;border-radius:9px;border:1px solid var(--laka-bronze-dim);background:linear-gradient(160deg,#2a1d10,#130c06 70%);box-shadow:inset 0 1px 0 #ffe08a14,0 2px 6px #0007;color:#c9a86a;transition:color .2s,border-color .2s,box-shadow .2s}
+.laka-slot img{max-width:28px;max-height:28px;image-rendering:pixelated}
+.laka-slot svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+a:hover>.laka-slot,button:hover>.laka-slot{border-color:var(--laka-bronze);color:var(--laka-gold-hi)}
+[aria-current="true"]>.laka-slot{color:#1d1404;border-color:var(--laka-gold);background:linear-gradient(160deg,var(--laka-gold-hi),var(--laka-gold) 55%,var(--laka-gold-deep));box-shadow:0 0 0 1px #e8b93f55,0 0 14px #e8b93f66}
+[aria-current="true"]>.laka-slot svg{stroke-width:1.9}
+.laka-sheet h3 svg,.laka-palette li a svg{width:22px;height:22px;fill:none;stroke:var(--laka-gold);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.laka-sub{display:grid;margin:2px 0 8px 58px;border-left:1px solid var(--laka-bronze-dim)}
+.laka-sub a{padding:4px 12px;color:var(--laka-dust);font-size:13.5px;text-decoration:none}
+.laka-sub a:hover{color:var(--laka-parchment)}
+.laka-sub a[aria-current="page"]{color:var(--laka-gold-hi);box-shadow:inset 2px 0 0 var(--laka-gold);margin-left:-1px}
+.laka-rail-foot{margin-top:auto;padding:14px 20px 20px;border-top:1px solid var(--laka-bronze-dim);display:grid;gap:8px;font-size:13px}
+.laka-rail-foot a{color:var(--laka-dust)}
+.laka-quiet{background:none;border:1px solid var(--laka-bronze-dim);border-radius:6px;padding:6px 10px;cursor:pointer;color:var(--laka-dust);font:inherit;width:100%}
+.laka-quiet:hover{border-color:var(--laka-bronze);color:var(--laka-parchment)}
+
+.laka-top{position:fixed;top:0;left:var(--laka-rail);right:0;z-index:140;background:#0d0906e8;backdrop-filter:blur(8px);border-bottom:1px solid var(--laka-bronze-dim);padding-top:env(safe-area-inset-top,0px)}
+.laka-top::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--laka-gold) 50%,transparent);background-size:40% 100%;background-repeat:no-repeat;animation:laka-scan 5s ease-in-out infinite;opacity:.8}
+@keyframes laka-scan{0%{background-position:-40% 0}100%{background-position:140% 0}}
+.laka-top-row{display:flex;align-items:center;gap:14px;padding:12px calc(var(--laka-gut) + 56px) 10px var(--laka-gut)}
+.laka-crumbs{display:flex;align-items:baseline;gap:10px;min-width:0}
+.laka-crumbs h1{margin:0;font:700 clamp(19px,1.2vw + 12px,25px)/1.1 var(--laka-display);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--laka-parchment)}
+.laka-crumbs small{color:var(--laka-dust);font-size:13.5px;white-space:nowrap}
+.laka-tools{margin-left:auto;display:flex;align-items:center;gap:10px}
+.laka-search{display:flex;align-items:center;gap:10px;min-width:220px;padding:7px 10px 7px 12px;background:var(--laka-lacquer);border:1px solid var(--laka-bronze-dim);border-radius:6px;color:var(--laka-dust);cursor:pointer;font:inherit}
+.laka-search:hover{border-color:var(--laka-bronze)}
+.laka-search kbd{margin-left:auto;font:600 11px/1 var(--laka-body);padding:3px 6px;border:1px solid var(--laka-bronze-dim);border-radius:4px}
+.laka-live{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--laka-jade-bg);color:var(--laka-jade);font-weight:700;font-size:13.5px;white-space:nowrap}
+.laka-live i{width:8px;height:8px;border-radius:50%;background:var(--laka-jade);animation:laka-pulse 2s infinite}
+@keyframes laka-pulse{0%{box-shadow:0 0 0 0 #74cf8e88}70%,100%{box-shadow:0 0 0 7px #74cf8e00}}
+.laka-tabs{display:flex;gap:4px;padding:0 var(--laka-gut);overflow-x:auto;scrollbar-width:none}
+.laka-tabs::-webkit-scrollbar{display:none}
+.laka-tabs a{flex:none;padding:6px 12px 10px;color:var(--laka-dust);font-weight:500;border-bottom:2px solid transparent;white-space:nowrap;text-decoration:none}
+.laka-tabs a:hover{color:var(--laka-parchment);text-decoration:none}
+.laka-tabs a[aria-current="page"]{color:var(--laka-gold-hi);border-bottom-color:var(--laka-gold)}
+/* notifications bell (notifications-bell.js) stays fixed top-right, inside the bar */
+body[data-skin="laka"] .notif-bell-wrap{top:max(10px,env(safe-area-inset-top,0px));right:max(14px,var(--laka-gut))}
+body[data-skin="laka"] .notification{border:1px solid var(--laka-bronze-dim);background:var(--laka-lacquer);border-radius:6px;padding:9px 11px}
+.laka-bottombar{display:none}
+/* dashboard ticker is fixed to the old 220px sidebar edge */
+body[data-skin="laka"] .news-ticker{left:var(--laka-rail)}
+
+/* ───── surfaces: HUD corners on panels ───── */
+body[data-skin="laka"] .panel,body[data-skin="laka"] .live-shell,body[data-skin="laka"] .world-overview,body[data-skin="laka"] .cards{
+  --c:#e8b93f8c;
+  background-image:
+   linear-gradient(var(--c),var(--c)),linear-gradient(var(--c),var(--c)),linear-gradient(var(--c),var(--c)),linear-gradient(var(--c),var(--c)),
+   linear-gradient(var(--c),var(--c)),linear-gradient(var(--c),var(--c)),linear-gradient(var(--c),var(--c)),linear-gradient(var(--c),var(--c)),
+   linear-gradient(180deg,#1b130b,transparent 120px)!important;
+  background-size:14px 1px,1px 14px,14px 1px,1px 14px,14px 1px,1px 14px,14px 1px,1px 14px,100% 100%!important;
+  background-position:0 0,0 0,100% 0,100% 0,0 100%,0 100%,100% 100%,100% 100%,0 0!important;
+  background-repeat:no-repeat!important;
+  transition:border-color .3s,box-shadow .3s}
+body[data-skin="laka"] .panel:hover,body[data-skin="laka"] .live-shell:hover,body[data-skin="laka"] .cards:hover{--c:#ffe08a}
+body[data-skin="laka"] a{color:var(--laka-gold-hi)}
+/* empire styles "nav a" / "nav a[aria-current]" as gold pills; the laka navs draw their own state */
+/* "html body…nav.laka-x a[aria-current]" outranks empire's "body[data-theme] nav a[aria-current]" */
+html body[data-skin="laka"] nav.laka-tabs a,html body[data-skin="laka"] nav.laka-nav a,html body[data-skin="laka"] nav.laka-bottombar a{background:none!important;border-radius:0;box-shadow:none;font-weight:500}
+html body[data-skin="laka"] nav.laka-nav a.laka-sec{border-radius:6px}
+html body[data-skin="laka"] nav.laka-nav a.laka-sec:hover{background:var(--laka-lacquer-2)!important}
+html body[data-skin="laka"] nav.laka-nav a.laka-sec[aria-current="true"]{background:linear-gradient(90deg,#e8b93f22,transparent)!important;color:var(--laka-gold-hi)!important}
+html body[data-skin="laka"] nav.laka-tabs a,html body[data-skin="laka"] nav.laka-nav .laka-sub a{color:var(--laka-dust)!important}
+html body[data-skin="laka"] nav.laka-tabs a:hover,html body[data-skin="laka"] nav.laka-nav .laka-sub a:hover{color:var(--laka-parchment)!important}
+html body[data-skin="laka"] nav.laka-tabs a[aria-current="page"]{color:var(--laka-gold-hi)!important;border-bottom-color:var(--laka-gold)}
+html body[data-skin="laka"] nav.laka-nav .laka-sub a[aria-current="page"]{color:var(--laka-gold-hi)!important;box-shadow:inset 2px 0 0 var(--laka-gold)}
+html body[data-skin="laka"] nav.laka-bottombar a{color:var(--laka-dust)!important;font-weight:700}
+html body[data-skin="laka"] nav.laka-bottombar [aria-current="true"]{color:var(--laka-gold-hi)!important}
+body[data-skin="laka"] .laka-sec,body[data-skin="laka"] .laka-sheet a{color:var(--laka-parchment)}
+body[data-skin="laka"] :focus-visible{outline:2px solid var(--laka-gold);outline-offset:2px}
+
+/* ───── shared page components (every page) ─────
+   Element rules use :where() so they carry only the element's own weight: they act as base styles
+   and never beat the specific rules of the original game windows (player card, Dragon Soul, shop). */
+body[data-skin="laka"] main h1{font:700 clamp(24px,1.6vw + 14px,34px)/1.1 var(--laka-display);color:var(--laka-parchment)}
+body[data-skin="laka"] main .panel>h2:first-child,body[data-skin="laka"] main .panel>header h2{padding-bottom:12px;border-bottom:1px solid var(--laka-bronze-dim);margin-bottom:16px}
+body[data-skin="laka"] main h3{font-family:var(--laka-display);color:var(--laka-gold);letter-spacing:.02em}
+body[data-skin="laka"] .eyebrow{color:var(--laka-gold);letter-spacing:.16em;font-weight:700;font-size:12px}
+body[data-skin="laka"] .muted{color:var(--laka-dust)}
+body[data-skin="laka"] main .panel{border-color:var(--laka-bronze-dim)!important;border-radius:6px}
+/* tables */
+body[data-skin="laka"] main table:not(.tip-explain-t){font-variant-numeric:lining-nums tabular-nums}
+body[data-skin="laka"] main table:not(.tip-explain-t) th{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--laka-dust);font-weight:700;border-bottom:1px solid var(--laka-bronze-dim)}
+body[data-skin="laka"] main table:not(.tip-explain-t) td{border-bottom:1px solid #3a281555}
+body[data-skin="laka"] main table:not(.tip-explain-t) tbody tr:hover td{background:var(--laka-lacquer-2)}
+body[data-skin="laka"] main td a,body[data-skin="laka"] .back{color:var(--laka-gold-hi)}
+/* form fields */
+body[data-skin="laka"] input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=hidden]),body[data-skin="laka"] select,body[data-skin="laka"] textarea{background:#0b0704;border:1px solid var(--laka-bronze-dim);color:var(--laka-parchment);border-radius:6px;font-family:var(--laka-body)}
+body[data-skin="laka"] input:not([type=checkbox]):not([type=radio]):not([type=range]):focus,body[data-skin="laka"] select:focus,body[data-skin="laka"] textarea:focus{border-color:var(--laka-gold);outline:none;box-shadow:0 0 0 3px #e8b93f22}
+body[data-skin="laka"] input[type=checkbox],body[data-skin="laka"] input[type=radio],body[data-skin="laka"] input[type=range]{accent-color:var(--laka-gold)}
+body[data-skin="laka"] main label{color:var(--laka-dust)}
+/* buttons: ghost by default, gold for form submits, ember for destructive */
+:where(body[data-skin="laka"] main) button,:where(body[data-skin="laka"] main) .button{background:var(--laka-lacquer-2);color:var(--laka-parchment);border:1px solid var(--laka-bronze);border-radius:6px;font-weight:700;transition:filter .15s,border-color .15s}
+:where(body[data-skin="laka"] main form) button:where(:not([type=button])),:where(body[data-skin="laka"] main) .button{background:linear-gradient(180deg,#f3c955,#c99227);color:#1d1404;border-color:var(--laka-gold-deep);font-weight:800;box-shadow:inset 0 1px 0 #fff5,0 2px 0 #00000080}
+:where(body[data-skin="laka"] main) button:hover,:where(body[data-skin="laka"] main) .button:hover{filter:brightness(1.08);border-color:var(--laka-gold)}
+body[data-skin="laka"] main .secondary{background:var(--laka-lacquer-2);color:var(--laka-parchment);border:1px solid var(--laka-bronze);box-shadow:none}
+body[data-skin="laka"] main .danger,body[data-skin="laka"] main button.danger{background:var(--laka-ember-bg,#3a130c);color:#ffc4b6;border:1px solid #e5573b;box-shadow:none}
+body[data-skin="laka"] main button:disabled{opacity:.5;cursor:not-allowed;filter:none}
+/* tab strips used by rankings, messages and management sections */
+body[data-skin="laka"] .msg-tabs{display:flex;flex-wrap:wrap;gap:4px;border-bottom:1px solid var(--laka-bronze-dim)}
+html body[data-skin="laka"] .msg-tabs :is(a,button),html body[data-skin="laka"] .manage-section-tabs :is(a,button){background:none!important;border:0!important;border-bottom:2px solid transparent!important;border-radius:0!important;box-shadow:none!important;color:var(--laka-dust)!important;font-weight:600;padding:8px 12px}
+html body[data-skin="laka"] .msg-tabs :is(a,button):hover,html body[data-skin="laka"] .manage-section-tabs :is(a,button):hover{color:var(--laka-parchment)!important;filter:none}
+html body[data-skin="laka"] .msg-tabs :is(a,button).active,html body[data-skin="laka"] .manage-section-tabs :is(a,button).active,html body[data-skin="laka"] .manage-section-tabs [aria-selected="true"]{color:var(--laka-gold-hi)!important;border-bottom-color:var(--laka-gold)!important}
+/* channel filter on Aktywność map: wrap instead of pushing "Kanał 4" off a phone screen */
+body[data-skin="laka"] .channel-tabs{flex-wrap:wrap}
+/* misc */
+body[data-skin="laka"] main details>summary{cursor:pointer;color:var(--laka-parchment);font-weight:600}
+body[data-skin="laka"] main details>summary::marker{color:var(--laka-gold)}
+body[data-skin="laka"] .log-lines,body[data-skin="laka"] .live-log-box{background:#080503!important;border:1px solid var(--laka-bronze-dim)!important;border-radius:4px;color:#cdbb9c!important;font-family:ui-monospace,Consolas,monospace}
+body[data-skin="laka"] .table-wrap{overflow-x:auto}
+body[data-skin="laka"] main hr{border:0;border-top:1px solid var(--laka-bronze-dim)}
+
+/* ───── Przegląd świata (dashboard.html) ─────
+   Only colours and chrome. .world-map keeps every size/aspect rule from live-overrides.css
+   (M1 4:5 up to 416px, other maps 1:1 up to 520px), live-widget.js keeps its DOM. */
+html body[data-skin="laka"]{--live-surface:#17100a;--live-surface-strong:#110b06;--live-border:#3a2815;--live-line:#2c1f12;--live-accent:#e8b93f;--live-accent-text:#f1e6cf;--live-number:#ffe08a;--live-filter:#21170e}
+/* KPI cards → one ledger strip */
+html body[data-skin="laka"] .cards{gap:0;margin:0 0 var(--laka-gut);border:1px solid var(--laka-bronze-dim);border-radius:6px;background-color:var(--laka-lacquer)}
+html body[data-skin="laka"] .cards article{background:transparent!important;border:0!important;border-left:1px solid var(--laka-bronze-dim)!important;border-radius:0!important;box-shadow:none!important;padding:14px 18px;display:grid;gap:4px;align-content:start}
+html body[data-skin="laka"] .cards article:first-child{border-left:0!important}
+html body[data-skin="laka"] .cards article::after{display:none}
+html body[data-skin="laka"] .cards article>span{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--laka-dust)}
+html body[data-skin="laka"] .cards strong{font:800 clamp(20px,1.2vw + 12px,26px)/1.1 var(--laka-body);color:var(--laka-gold-hi);text-shadow:none;font-variant-numeric:lining-nums tabular-nums}
+html body[data-skin="laka"] .cards small{color:var(--laka-dust);font-size:13px}
+/* live map frame */
+html body[data-skin="laka"] .live-shell{border:1px solid var(--laka-bronze)!important;box-shadow:inset 0 0 0 3px var(--laka-lacquer),inset 0 0 0 4px #6e4c2555,0 18px 40px -20px #000}
+/* .live-shell is only position:relative from 1351px (live-overrides.css), so the corner gems live there too */
+@media (min-width:1351px){
+  html body[data-skin="laka"] .live-shell::before,html body[data-skin="laka"] .live-shell::after{content:"";position:absolute;top:-5px;left:18px;width:9px;height:9px;background:var(--laka-gold);transform:rotate(45deg);box-shadow:0 0 8px #e8b93f88;pointer-events:none}
+  html body[data-skin="laka"] .live-shell::after{left:auto;right:18px}
+}
+html body[data-skin="laka"] .live-shell header h2{font:700 20px/1.2 var(--laka-display);color:var(--laka-parchment)!important}
+html body[data-skin="laka"] .live-shell header .eyebrow{color:var(--laka-gold);letter-spacing:.16em}
+html body[data-skin="laka"] .live-badge{background:var(--laka-jade-bg)!important;color:var(--laka-jade)!important;border-color:transparent!important;border-radius:999px}
+html body[data-skin="laka"] .live-filters{background:#110b06!important;border:1px solid var(--laka-bronze-dim)!important;border-radius:6px}
+html body[data-skin="laka"] .level-filter button{background:var(--laka-lacquer-2)!important;color:var(--laka-parchment)!important;border:1px solid var(--laka-bronze-dim)!important;border-radius:999px!important}
+html body[data-skin="laka"] .level-filter{display:flex;flex-wrap:wrap;gap:6px}
+html body[data-skin="laka"] .level-filter button{white-space:nowrap;padding:5px 11px!important;min-width:0}
+html body[data-skin="laka"] .level-filter button:hover{border-color:var(--laka-bronze)!important}
+html body[data-skin="laka"] .level-filter button.active{background:var(--laka-gold)!important;border-color:var(--laka-gold)!important;color:#1d1404!important;font-weight:700}
+html body[data-skin="laka"] .live-filters select,html body[data-skin="laka"] .live-filters input{background:#0b0704!important;border:1px solid var(--laka-bronze-dim)!important;color:var(--laka-parchment)!important;border-radius:6px}
+html body[data-skin="laka"] .live-insights-toggle{background:var(--laka-lacquer-2)!important;border-color:var(--laka-bronze-dim)!important;color:var(--laka-parchment)!important}
+/* HUD over the map: corner brackets, scanlines and a slow radar sweep. Overlays only — no size change. */
+html body[data-skin="laka"] .world-map{border:1px solid var(--laka-bronze)!important;box-shadow:0 0 0 1px #000,0 0 40px -10px #e8b93f44}
+html body[data-skin="laka"] .world-map::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:
+   linear-gradient(var(--laka-gold),var(--laka-gold)) left 6px top 6px/18px 2px no-repeat,linear-gradient(var(--laka-gold),var(--laka-gold)) left 6px top 6px/2px 18px no-repeat,
+   linear-gradient(var(--laka-gold),var(--laka-gold)) right 6px top 6px/18px 2px no-repeat,linear-gradient(var(--laka-gold),var(--laka-gold)) right 6px top 6px/2px 18px no-repeat,
+   linear-gradient(var(--laka-gold),var(--laka-gold)) left 6px bottom 6px/18px 2px no-repeat,linear-gradient(var(--laka-gold),var(--laka-gold)) left 6px bottom 6px/2px 18px no-repeat,
+   linear-gradient(var(--laka-gold),var(--laka-gold)) right 6px bottom 6px/18px 2px no-repeat,linear-gradient(var(--laka-gold),var(--laka-gold)) right 6px bottom 6px/2px 18px no-repeat,
+   repeating-linear-gradient(0deg,#0000 0 2px,#00000014 2px 3px);
+  box-shadow:inset 0 0 60px #000a;opacity:.9}
+html body[data-skin="laka"] .world-map::before{display:block!important;content:"";position:absolute;inset:-30%;opacity:1;pointer-events:none;z-index:1;
+  background:conic-gradient(from 0deg,#e8b93f00 0deg,#e8b93f00 300deg,#e8b93f1c 350deg,#ffe08a38 360deg)!important;mix-blend-mode:screen;animation:laka-sweep 6s linear infinite}
+@keyframes laka-sweep{to{transform:rotate(1turn)}}
+html body[data-skin="laka"] .map-caption{z-index:3;background:#000b!important;border-color:var(--laka-bronze-dim)!important;color:var(--laka-gold-hi)!important}
+/* map sidebar */
+html body[data-skin="laka"] .live-sidebar{background:var(--laka-lacquer)!important;border-color:var(--laka-bronze-dim)!important}
+/* the sidebar is height-locked to the map (live-widget.js), so the stat block must not shrink */
+html body[data-skin="laka"] .mini-stats{flex:none;gap:0!important;border:1px solid var(--laka-bronze-dim);border-radius:6px}
+html body[data-skin="laka"] .mini-stats div{background:transparent!important;border:0!important;border-radius:0!important;text-align:center}
+html body[data-skin="laka"] .mini-stats div:nth-child(even){border-left:1px solid var(--laka-bronze-dim)!important}
+html body[data-skin="laka"] .mini-stats div:nth-child(n+3){border-top:1px solid var(--laka-bronze-dim)!important}
+html body[data-skin="laka"] .mini-stats b{color:var(--laka-gold-hi)!important;font-weight:800}
+html body[data-skin="laka"] .mini-stats span{color:var(--laka-dust)}
+html body[data-skin="laka"] .live-sidebar-tabs{gap:2px!important}
+html body[data-skin="laka"] .live-sidebar-tabs button{background:none!important;border:0!important;border-bottom:2px solid var(--laka-bronze-dim)!important;border-radius:0!important;color:var(--laka-dust)!important;font-weight:700}
+html body[data-skin="laka"] .live-sidebar-tabs button.active{color:var(--laka-gold-hi)!important;border-bottom-color:var(--laka-gold)!important}
+html body[data-skin="laka"] .live-ranking a{background:transparent!important;border:0!important;border-bottom:1px solid #3a281566!important;border-radius:4px}
+html body[data-skin="laka"] .live-ranking a:hover{background:var(--laka-lacquer-2)!important}
+/* server state column */
+html body[data-skin="laka"] .world-overview h3{font:700 16px/1.2 var(--laka-display);color:var(--laka-gold)}
+html body[data-skin="laka"] .world-summary-grid>div{background:transparent!important;border:0!important;border-bottom:1px solid #3a281566!important;border-radius:0!important}
+html body[data-skin="laka"] .world-summary-grid b{color:var(--laka-gold-hi)!important;font-variant-numeric:lining-nums tabular-nums}
+html body[data-skin="laka"] .dashboard-widgets .panel h2{font:700 18px/1.2 var(--laka-display)}
+/* laka-only dashboard blocks (templates/_laka_dashboard_*.html, static/laka-dashboard.js).
+   The old widgets and ticker stay in the DOM for dashboard-deferred.js / news-feed.js, just hidden. */
+html body[data-skin="laka"] .dashboard-widgets,html body[data-skin="laka"] .news-ticker,html body[data-skin="laka"] .panel-version{display:none!important}
+.laka-ledger{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));margin:0 0 10px;border:1px solid var(--laka-bronze-dim);border-radius:6px;background:var(--laka-lacquer);position:relative;
+  --c:#e8b93f8c;background-image:linear-gradient(var(--c),var(--c)),linear-gradient(var(--c),var(--c)),linear-gradient(var(--c),var(--c)),linear-gradient(var(--c),var(--c)),linear-gradient(180deg,#1b130b,transparent);
+  background-size:14px 1px,1px 14px,14px 1px,1px 14px,100% 100%;background-position:0 0,0 0,100% 100%,100% 100%,0 0;background-repeat:no-repeat}
+.laka-ledger>div{display:grid;gap:4px;align-content:start;padding:14px 16px;border-left:1px solid var(--laka-bronze-dim);min-width:0}
+.laka-ledger>div:first-child{border-left:0}
+.laka-ledger span{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--laka-dust)}
+.laka-ledger b{font:800 clamp(18px,1vw + 11px,24px)/1.15 var(--laka-body);color:var(--laka-gold-hi);font-variant-numeric:lining-nums tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.laka-ledger small{color:var(--laka-dust);font-size:12.5px}
+.laka-ledger small span{font-size:inherit;letter-spacing:0;text-transform:none}
+.laka-ledger .laka-src{font:600 11px ui-monospace,Consolas,monospace;color:var(--laka-dust-2)}
+.laka-event{color:#f0a030;font-weight:700}
+.laka-warn{color:#f0a030}
+.laka-latest{margin:0 0 var(--laka-gut);font-size:13.5px;color:var(--laka-dust)}
+.laka-latest .eyebrow{margin-right:6px}
+.laka-trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--laka-gut);margin:var(--laka-gut) 0}
+html body[data-skin="laka"] .laka-widget{margin:0;padding:0;overflow:hidden}
+.laka-widget>header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--laka-bronze-dim)}
+html body[data-skin="laka"] .laka-widget>header h2{margin:0;padding:0;border:0;font:700 17px/1.2 var(--laka-display)}
+.laka-widget>header small{display:block;font-size:12.5px}
+.laka-widget>:not(header){padding:16px 18px}
+.laka-meters{display:grid;gap:14px}
+.laka-meter>div:first-child{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:6px}
+.laka-meter b{color:var(--laka-gold-hi);font-variant-numeric:tabular-nums}
+.laka-meter small{display:block;margin-top:4px;color:var(--laka-dust-2);font-size:12px}
+.laka-bar{height:10px;border-radius:2px;background:#0b0704;border:1px solid var(--laka-bronze-dim);overflow:hidden}
+.laka-bar i{display:block;height:100%;transition:width .8s;background:repeating-linear-gradient(90deg,transparent 0 9px,#0006 9px 10px),linear-gradient(180deg,var(--laka-gold-hi),var(--laka-gold-deep))}
+.laka-bar.is-warm i{background:repeating-linear-gradient(90deg,transparent 0 9px,#0006 9px 10px),linear-gradient(180deg,#ffc56b,#b8650c)}
+.laka-bar.is-hot i{background:repeating-linear-gradient(90deg,transparent 0 9px,#0006 9px 10px),linear-gradient(180deg,#ff8a6a,#a3260f)}
+.laka-legend{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--laka-dust)}
+.laka-legend i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.laka-legend .e1,.laka-track .e1{background:#d9493a}.laka-legend .e2,.laka-track .e2{background:#e8c43f}.laka-legend .e3,.laka-track .e3{background:#4d8ff0}
+.laka-hbars{display:grid;gap:9px}
+.laka-hbar{display:grid;grid-template-columns:minmax(0,9.5em) minmax(0,1fr) 3.5ch;gap:10px;align-items:center;font-size:13px}
+.laka-hbar>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.laka-track{height:14px;border-radius:2px;background:#0b0704;overflow:hidden}
+.laka-track i{display:flex;height:100%;transition:width .8s}
+.laka-track b{display:block;height:100%}
+.laka-hbar em{font-style:normal;font-weight:800;text-align:right;color:var(--laka-gold-hi);font-variant-numeric:tabular-nums}
+.laka-carousel{display:flex;gap:6px}
+html body[data-skin="laka"] .laka-carousel button{width:30px;height:30px;padding:0;border-radius:50%;border:1px solid var(--laka-bronze);background:var(--laka-lacquer-2);color:var(--laka-gold-hi);font-weight:800;box-shadow:none}
+html body[data-skin="laka"] ol.laka-rank{list-style:none;margin:0;padding:8px 14px 12px;display:grid;gap:2px;counter-reset:r}
+.laka-rank li{display:grid;grid-template-columns:22px 28px minmax(0,1fr) auto;gap:10px;align-items:center;padding:5px 4px;border-bottom:1px solid #3a281555;counter-increment:r;font-size:13.5px}
+.laka-rank li.muted{display:block;border:0}
+.laka-rank li:not(.muted)::before{content:counter(r);font-weight:800;color:var(--laka-dust);text-align:right}
+.laka-rank li:first-child::before{color:var(--laka-gold)}
+.laka-rank img{width:28px;height:28px;border:1px solid var(--laka-bronze);border-radius:3px;image-rendering:pixelated}
+.laka-rank a{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--laka-parchment)}
+.laka-rank li.is-leader a,.laka-rank li:first-child a{color:var(--laka-gold-hi)}
+.laka-rank b{color:var(--laka-gold-hi);font-variant-numeric:tabular-nums;white-space:nowrap}
+.laka-person{color:#5d9cf5}
+html body[data-skin="laka"] .laka-chronicle{display:grid;grid-template-columns:auto minmax(0,1fr);padding:0;margin:0 0 var(--laka-gut)}
+.laka-chronicle-label{display:grid;align-content:center;gap:6px;padding:16px 20px;border-right:1px solid var(--laka-bronze-dim)}
+html body[data-skin="laka"] .laka-chronicle-label h2{margin:0;padding:0;border:0;font:700 18px/1.1 var(--laka-display)}
+.laka-chronicle-label a{font-size:13px}
+html body[data-skin="laka"] .laka-chronicle ol{list-style:none;margin:0;padding:6px 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.laka-chronicle li{display:flex;gap:12px;align-items:center;padding:8px 18px;font-size:13.5px;min-width:0}
+.laka-chronicle li.muted{grid-column:1/-1}
+.laka-chronicle li .laka-slot{width:38px;height:38px}
+.laka-chronicle li .laka-slot img{max-width:32px;max-height:32px}
+.laka-chronicle li .laka-slot.is-boss{color:#ff8a6a;border-color:#e5573b66;background:linear-gradient(160deg,#3a130c,#140806 70%)}
+.laka-chronicle li.is-boss span{color:#ffc4b6}
+.laka-chronicle li span b{color:var(--laka-parchment);font-weight:700}
+.laka-chronicle li span em{font-style:normal;font-weight:800;color:var(--laka-gold-hi)}
+.laka-chronicle li span small{display:block;margin-top:1px;font-size:12px;color:var(--laka-dust-2)}
+.laka-chronicle li.is-rare em{text-shadow:0 0 10px #e8b93f88}
+.laka-chronicle li span{min-width:0}
+.laka-chronicle li time{margin-left:auto;color:var(--laka-dust-2);font-weight:700;flex:none;font-variant-numeric:tabular-nums}
+.laka-chronicle li.is-rare span{color:var(--laka-gold-hi)}
+/* data sources strip (laka-shell.js), every page */
+.laka-telemetry{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;margin-left:var(--laka-rail);padding:10px var(--laka-gut) 14px;border-top:1px solid var(--laka-bronze-dim);background:#0b0805;font:600 11.5px/1.4 ui-monospace,Consolas,monospace;color:var(--laka-dust-2)}
+.laka-telemetry b{color:var(--laka-dust);font-weight:600;font-family:var(--laka-body);letter-spacing:.08em;text-transform:uppercase;font-size:11px}
+.laka-ep{display:inline-flex;gap:6px;align-items:center;white-space:nowrap}
+.laka-ep i{width:6px;height:6px;border-radius:50%;background:#74cf8e88}
+.laka-ep.is-hit i{background:#74cf8e;box-shadow:0 0 6px #74cf8e}
+.laka-ep.is-bad i{background:#e5573b}
+@media (max-width:1380px){
+  .laka-ledger{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .laka-ledger>div:nth-child(4){border-left:0}
+  .laka-ledger>div:nth-child(n+4){border-top:1px solid var(--laka-bronze-dim)}
+}
+@media (max-width:1180px){
+  .laka-trio{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .laka-trio>:last-child{grid-column:1/-1}
+}
+@media (max-width:760px){
+  .laka-ledger{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .laka-ledger>div:nth-child(n){border-left:1px solid var(--laka-bronze-dim);border-top:1px solid var(--laka-bronze-dim)}
+  .laka-ledger>div:nth-child(odd){border-left:0}
+  .laka-ledger>div:nth-child(-n+2){border-top:0}
+  .laka-trio{grid-template-columns:minmax(0,1fr)}
+  html body[data-skin="laka"] .laka-chronicle{grid-template-columns:minmax(0,1fr)}
+  .laka-chronicle-label{border-right:0;border-bottom:1px solid var(--laka-bronze-dim)}
+  html body[data-skin="laka"] .laka-chronicle ol{grid-template-columns:minmax(0,1fr)}
+  .laka-telemetry{padding-bottom:calc(90px + env(safe-area-inset-bottom,0px))}
+}
+@media (max-width:1180px){
+  html body[data-skin="laka"] .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  html body[data-skin="laka"] .cards article:nth-child(odd){border-left:0!important}
+  html body[data-skin="laka"] .cards article:nth-child(n+3){border-top:1px solid var(--laka-bronze-dim)!important}
+}
+
+/* ───── Planer eventów (templates/_laka_events.html) ───── */
+body[data-skin="laka"]{--k-chest:#c98e3a;--k-exp:#e8b93f;--k-drop:#74cf8e;--k-yang:#f0a030;--k-tanaka:#5d9cf5;--k-zuo:#e5573b}
+html body[data-skin="laka"] main .lev-head h2{margin:2px 0 0;padding:0;border:0;font:700 19px/1.2 var(--laka-display)}
+.lev-head{display:flex;align-items:flex-end;gap:12px 20px;flex-wrap:wrap;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--laka-bronze-dim)}
+.lev-head>p{margin:0;max-width:60ch;font-size:13.5px}
+.lev-top{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(260px,1fr);gap:var(--laka-gut)}
+html body[data-skin="laka"] .lev-top>.panel{margin:0}
+.lev-core{padding:4px 12px;border-radius:999px;background:var(--laka-lacquer-3);color:var(--laka-dust);font-weight:700;font-size:13px}
+.lev-core.is-on{background:var(--laka-jade-bg);color:var(--laka-jade)}
+.lev-status{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.lev-card{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;padding:12px;border:1px solid var(--laka-bronze-dim);border-radius:6px;background:var(--laka-lacquer-2)}
+.lev-card b{display:block;font-weight:700;color:var(--laka-parchment)}
+.lev-card small{display:block;font-size:12.5px;color:var(--laka-dust)}
+.lev-card.is-active{border-color:var(--laka-jade);background:linear-gradient(90deg,#16301f,var(--laka-lacquer-2))}
+.lev-card.is-scheduled{border-color:var(--laka-bronze)}
+.lev-live{color:var(--laka-jade)!important;font-weight:700}
+.lev-share{display:grid;align-content:start;gap:14px}
+.lev-share p{margin:0}
+.lev-range{display:flex;align-items:center;gap:12px}
+.lev-range input{flex:1}
+.lev-range output{font:800 22px var(--laka-body);color:var(--laka-gold-hi);min-width:4ch;text-align:right}
+html body[data-skin="laka"] .lev-share button{justify-self:start}
+/* week calendar */
+.lev-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--laka-dust)}
+.lev-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.lev-legend .k-chest,.lev-ev.k-chest{--k:var(--k-chest)}.lev-legend .k-exp,.lev-ev.k-exp{--k:var(--k-exp)}.lev-legend .k-drop,.lev-ev.k-drop{--k:var(--k-drop)}
+.lev-legend .k-yang,.lev-ev.k-yang{--k:var(--k-yang)}.lev-legend .k-tanaka,.lev-ev.k-tanaka{--k:var(--k-tanaka)}.lev-legend .k-zuo,.lev-ev.k-zuo{--k:var(--k-zuo)}
+.lev-legend i{background:var(--k)}
+.lev-actions{display:flex;gap:6px;flex-wrap:wrap}
+html body[data-skin="laka"] .lev-actions button{padding:7px 12px;font-size:13px}
+html body[data-skin="laka"] .lev-actions .lev-primary{background:linear-gradient(180deg,#f3c955,#c99227);color:#1d1404;border-color:var(--laka-gold-deep)}
+.lev-week-scroll{overflow:auto;max-height:min(68vh,640px);border:1px solid var(--laka-bronze-dim);border-radius:6px;background:#0d0906}
+.lev-week{display:grid;grid-template-columns:56px repeat(7,minmax(112px,1fr));min-width:850px;position:relative}
+.lev-corner,.lev-dayhead{position:sticky;top:0;z-index:4;background:#140d07;border-bottom:1px solid var(--laka-bronze-dim)}
+.lev-dayhead{display:grid;justify-items:center;padding:9px 4px;border-left:1px solid var(--laka-bronze-dim)}
+.lev-dayhead b{font:700 14px var(--laka-display);color:var(--laka-gold)}
+.lev-dayhead span{font-size:11.5px;color:var(--laka-dust-2)}
+.lev-dayhead.is-today{background:#2a1c0c;box-shadow:inset 0 -2px 0 var(--laka-gold)}
+.lev-dayhead.is-today b{color:var(--laka-gold-hi)}
+.lev-hours{grid-column:1}
+.lev-hours div{box-sizing:border-box;padding:3px 8px 0 0;text-align:right;font-size:11.5px;color:var(--laka-dust-2);border-top:1px solid #3a281533;font-variant-numeric:tabular-nums}
+.lev-col{position:relative;border-left:1px solid var(--laka-bronze-dim);background:repeating-linear-gradient(180deg,transparent 0 39px,#3a281544 39px 40px)}
+.lev-col.is-today{background-color:#e8b93f0a}
+html body[data-skin="laka"] main .lev-slot{position:absolute;left:0;right:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;cursor:copy}
+html body[data-skin="laka"] main .lev-slot:hover{background:#e8b93f14;filter:none}
+html body[data-skin="laka"] main .lev-ev{position:absolute;z-index:2;display:grid;align-content:start;gap:1px;padding:4px 7px;overflow:hidden;text-align:left;border:0;border-left:3px solid var(--k);border-radius:4px;background:color-mix(in srgb,var(--k) 22%,#140d07);color:var(--laka-parchment);font:inherit;box-shadow:0 2px 6px #0008;cursor:pointer}
+html body[data-skin="laka"] main .lev-ev:hover{filter:brightness(1.15);border-color:var(--k)}
+.lev-ev img{display:none;width:22px;height:22px;object-fit:contain;image-rendering:pixelated}
+html body[data-skin="laka"] main .lev-ev.is-narrow{padding:4px 0;justify-items:center;border-left-width:0;border-top:3px solid var(--k)}
+.lev-ev.is-narrow img{display:block}
+.lev-ev.is-narrow b,.lev-ev.is-narrow small{display:none}
+.lev-ev.is-half small{display:none}
+.lev-ev b{font-size:12px;font-weight:700;line-height:1.2;color:color-mix(in srgb,var(--k) 55%,#fff);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lev-ev small{font-size:11px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html body[data-skin="laka"] main .lev-ev.is-off{opacity:.45;background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--k) 14%,#140d07) 0 6px,#140d07 6px 12px)}
+html body[data-skin="laka"] main .lev-ev.is-live{box-shadow:0 0 0 1px var(--k),0 0 16px color-mix(in srgb,var(--k) 55%,transparent);animation:lev-pulse 2.4s ease-in-out infinite}
+@keyframes lev-pulse{50%{box-shadow:0 0 0 1px var(--k),0 0 4px color-mix(in srgb,var(--k) 30%,transparent)}}
+.lev-nowline{position:absolute;left:0;right:0;height:2px;z-index:3;background:#e5573b;box-shadow:0 0 6px #e5573b;pointer-events:none}
+.lev-nowline::before{content:"";position:absolute;left:-4px;top:-3px;width:8px;height:8px;border-radius:50%;background:#e5573b}
+.lev-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:12px}
+.lev-foot p{margin:0;max-width:75ch;font-size:13px}
+/* quick start */
+.lev-quick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.lev-qcard{display:grid;gap:10px;align-content:start;padding:12px;border:1px solid var(--laka-bronze-dim);border-radius:6px;background:var(--laka-lacquer-2)}
+.lev-qcard.is-running{border-color:var(--laka-jade);background:linear-gradient(180deg,#16301f,var(--laka-lacquer-2) 60%)}
+.lev-qhead{display:flex;align-items:center;gap:10px}
+.lev-qhead b{color:var(--laka-parchment)}
+.lev-qform{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:end}
+.lev-qform label{display:grid;gap:4px;font-size:12.5px}
+.lev-qform .lev-wide,.lev-qform button{grid-column:1/-1}
+.lev-qform select,.lev-qform input{width:100%;box-sizing:border-box;padding:7px 9px}
+.lev-run{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--laka-jade)}
+html body[data-skin="laka"] .lev-run button{padding:5px 10px;font-size:12.5px}
+/* history */
+html body[data-skin="laka"] .lev-past{list-style:none;margin:0;padding:0}
+.lev-past li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 4px;border-top:1px solid #3a281555}
+.lev-past li:first-child{border-top:0}
+.lev-past b{display:inline;color:var(--laka-parchment)}
+.lev-past .lev-amount{margin-left:8px;font-style:normal;font-weight:800;color:var(--laka-gold-hi)}
+.lev-past small{display:block;color:var(--laka-dust);font-size:12.5px}
+.lev-past time{color:var(--laka-dust-2);font-size:12.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+/* editor dialog */
+html body[data-skin="laka"] .lev-dialog{background:var(--laka-lacquer);color:var(--laka-parchment);border:1px solid var(--laka-bronze);border-radius:8px;box-shadow:0 30px 80px #000}
+html body[data-skin="laka"] .lev-dialog::backdrop{background:#000a}
+@media (max-width:1180px){.lev-top{grid-template-columns:minmax(0,1fr)}.lev-status{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.lev-status{grid-template-columns:minmax(0,1fr)}.lev-past li{grid-template-columns:auto minmax(0,1fr)}.lev-past time{grid-column:2}}
+
+/* ───── audit pass: one look for every control family ───── */
+/* in-page filters, sort switches, pagers and presets → gold chips */
+html body[data-skin="laka"] main :is(.rank-tabs,.item-types,.channel-tabs,.rank-per-page,.rank-pages,.pagination,.rate-presets,.gear-history-filters,.heat-controls,.map-history-actions){display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:12px 0;padding:0;border:0;background:none}
+html body[data-skin="laka"] main :is(.rank-tabs,.item-types,.channel-tabs,.rank-per-page,.rank-pages,.pagination,.rate-presets,.gear-history-filters,.heat-controls,.map-history-actions)>:is(a,button){display:inline-flex;align-items:center;gap:6px;margin:0;padding:6px 13px!important;border:1px solid var(--laka-bronze-dim)!important;border-radius:999px!important;background:var(--laka-lacquer-2)!important;color:var(--laka-parchment)!important;font:600 13px/1.2 var(--laka-body)!important;text-decoration:none;box-shadow:none!important;filter:none;transition:border-color .15s,color .15s}
+html body[data-skin="laka"] main :is(.rank-tabs,.item-types,.channel-tabs,.rank-per-page,.rank-pages,.pagination,.rate-presets,.gear-history-filters,.heat-controls,.map-history-actions)>:is(a,button):hover{border-color:var(--laka-gold)!important;color:var(--laka-gold-hi)!important}
+html body[data-skin="laka"] main :is(.rank-tabs,.item-types,.channel-tabs,.rank-per-page,.rank-pages,.pagination,.rate-presets,.gear-history-filters,.heat-controls,.map-history-actions)>:is(a,button):is(.active,[aria-current="page"],[aria-pressed="true"]){background:linear-gradient(180deg,#f3c955,#c99227)!important;border-color:var(--laka-gold-deep)!important;color:#1d1404!important;font-weight:800!important}
+html body[data-skin="laka"] main .rank-sort{padding-top:10px!important;border-top:1px dashed var(--laka-bronze-dim)!important}
+/* checkboxes in forms → switches (knob drawn with a gradient, works in every browser) */
+html body[data-skin="laka"] main :is(form,.checkbox-row,.behavior-live-options) input[type=checkbox]:not(.calendar-editor-days input):not(.rank-autoplay-toggle input){-webkit-appearance:none;appearance:none;flex:none;width:40px;height:22px;margin:0;border-radius:11px;border:1px solid var(--laka-bronze);background:radial-gradient(circle at 11px 50%,#a8957a 0 6.5px,transparent 7px),#0b0704;cursor:pointer;vertical-align:middle;transition:background .2s,border-color .2s}
+html body[data-skin="laka"] main :is(form,.checkbox-row,.behavior-live-options) input[type=checkbox]:not(.calendar-editor-days input):not(.rank-autoplay-toggle input):checked{border-color:var(--laka-gold);background:radial-gradient(circle at 28px 50%,#ffe08a 0 6.5px,transparent 7px),linear-gradient(180deg,#a8771c,#6e4c25)}
+html body[data-skin="laka"] main input[type=checkbox]:focus-visible{outline:2px solid var(--laka-gold);outline-offset:2px}
+html body[data-skin="laka"] main input[type=checkbox]:disabled{opacity:.45;cursor:not-allowed}
+/* range sliders */
+html body[data-skin="laka"] main input[type=range]{-webkit-appearance:none;appearance:none;height:22px;background:transparent;cursor:pointer}
+html body[data-skin="laka"] main input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(90deg,#a8771c,#3a2815);border:1px solid #0008}
+html body[data-skin="laka"] main input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:#3a2815;border:1px solid #0008}
+html body[data-skin="laka"] main input[type=range]::-moz-range-progress{height:6px;border-radius:3px;background:#a8771c}
+html body[data-skin="laka"] main input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;margin-top:-7px;border-radius:50%;border:2px solid #1d1404;background:radial-gradient(circle at 35% 30%,#fff3c4,#e8b93f 60%,#a8771c);box-shadow:0 0 8px #e8b93f88}
+html body[data-skin="laka"] main input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;border:2px solid #1d1404;background:radial-gradient(circle at 35% 30%,#fff3c4,#e8b93f 60%,#a8771c);box-shadow:0 0 8px #e8b93f88}
+/* selects with a gold chevron */
+html body[data-skin="laka"] main select:not([multiple]){-webkit-appearance:none;appearance:none;padding-right:32px!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e8b93f' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 10px center!important;background-size:14px!important;cursor:pointer}
+html body[data-skin="laka"] main select option{background:#17100a;color:var(--laka-parchment)}
+/* search forms → one search bar with a magnifier */
+html body[data-skin="laka"] main form.search{display:flex;gap:8px;max-width:640px;margin:4px 0 18px}
+html body[data-skin="laka"] main form.search input:not([type=hidden]){flex:1;min-width:0;padding:11px 14px 11px 40px!important;border-radius:8px!important;background:#0b0704 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a8957a' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E") no-repeat 13px center/17px!important}
+html body[data-skin="laka"] main form.search :is(select){width:auto;border-radius:8px}
+html body[data-skin="laka"] main form.search button{border-radius:8px;padding:10px 18px}
+/* panel headings: a gold rhombus instead of emoji (emoji removed by laka-shell.js on the Polish panel) */
+html body[data-skin="laka"] main .panel>h2:first-child::before,html body[data-skin="laka"] main .panel>header h2::before{content:"";display:inline-block;width:8px;height:8px;margin:0 10px 3px 0;background:var(--laka-gold);transform:rotate(45deg);box-shadow:0 0 8px #e8b93f88;vertical-align:middle}
+html body[data-skin="laka"] main .laka-widget>header h2::before,html body[data-skin="laka"] main .lev-head h2::before{display:none}
+html body[data-skin="laka"] main details{border:1px solid var(--laka-bronze-dim);border-radius:8px;background:var(--laka-lacquer-2);padding:10px 14px;margin:10px 0}
+html body[data-skin="laka"] main details[open]>summary{margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--laka-bronze-dim)}
+html body[data-skin="laka"] main details>summary{list-style:none}
+html body[data-skin="laka"] main details>summary::-webkit-details-marker{display:none}
+html body[data-skin="laka"] main details>summary::before{content:"›";display:inline-block;width:14px;color:var(--laka-gold);font-weight:800;transition:transform .2s}
+html body[data-skin="laka"] main details[open]>summary::before{transform:rotate(90deg)}
+/* level / count badges in tables */
+html body[data-skin="laka"] main td .top-level-badge{border-radius:5px}
+html body[data-skin="laka"] main .muted a{color:var(--laka-gold)}
+/* notifications bell dropdown and toasts */
+html body[data-skin="laka"] .notif-dropdown{background:var(--laka-lacquer)!important;border:1px solid var(--laka-bronze)!important;border-radius:10px!important;box-shadow:0 24px 60px #000c!important;overflow:hidden}
+html body[data-skin="laka"] .notif-dropdown-head{background:linear-gradient(180deg,#21170e,#17100a)!important;border-bottom:1px solid var(--laka-bronze-dim)!important;color:var(--laka-parchment)!important;font-family:var(--laka-display)}
+html body[data-skin="laka"] .notif-dropdown-head button{background:none!important;border:0!important;color:var(--laka-gold-hi)!important;font:600 12.5px var(--laka-body)!important;box-shadow:none!important}
+html body[data-skin="laka"] .notif-item{border-bottom:1px solid #3a281555!important;background:transparent!important}
+html body[data-skin="laka"] .notif-item:hover{background:var(--laka-lacquer-2)!important}
+html body[data-skin="laka"] .notif-item.is-unread{background:#e8b93f0d!important}
+html body[data-skin="laka"] .notif-item-title{color:var(--laka-parchment)!important}
+html body[data-skin="laka"] .notif-item.is-unread .notif-item-title::before{background:var(--laka-gold)!important}
+html body[data-skin="laka"] .notif-item-body{color:var(--laka-dust)!important}
+html body[data-skin="laka"] .notif-item-time{color:var(--laka-dust-2)!important}
+html body[data-skin="laka"] .notif-badge{background:#e5573b!important;color:#fff!important;border:2px solid var(--laka-ink)!important}
+html body[data-skin="laka"] .bell,html body[data-skin="laka"] .bell::before,html body[data-skin="laka"] .bell::after{border-color:var(--laka-gold-hi)!important}
+html body[data-skin="laka"] .bell::before,html body[data-skin="laka"] .bell::after{background:var(--laka-gold-hi)!important}
+html body[data-skin="laka"] :is(.notif-toast,.action-toast){background:var(--laka-lacquer-2)!important;border:1px solid var(--laka-bronze)!important;border-radius:10px!important;color:var(--laka-parchment)!important;box-shadow:0 14px 40px #000c!important;font-family:var(--laka-body)}
+html body[data-skin="laka"] .action-toast.success{border-color:var(--laka-jade)!important}
+html body[data-skin="laka"] .action-toast.error{border-color:#e5573b!important}
+html body[data-skin="laka"] .action-toast-close{background:none!important;border:0!important;color:var(--laka-dust)!important;box-shadow:none!important}
+/* flash dialog after form posts */
+html body[data-skin="laka"] .flash-modal::backdrop{background:#000b}
+html body[data-skin="laka"] .flash-modal .flash-card{background:var(--laka-lacquer)!important;border:1px solid var(--laka-bronze-dim);border-left:4px solid var(--laka-jade);border-radius:10px;color:var(--laka-parchment)!important;font-family:var(--laka-body)}
+html body[data-skin="laka"] .flash-modal .flash-card.error{border-left-color:#e5573b}
+html body[data-skin="laka"] .flash-modal .flash-card svg{fill:var(--laka-jade)}
+html body[data-skin="laka"] .flash-modal .flash-card.error svg{fill:#e5573b}
+html body[data-skin="laka"] .flash-modal-ok{background:linear-gradient(180deg,#f3c955,#c99227)!important;color:#1d1404!important;border:1px solid var(--laka-gold-deep)!important;border-radius:6px!important;font-weight:800}
+
+/* ───── login (templates/login.html, body.laka-login) ───── */
+body.laka-login{min-height:100vh;min-height:100dvh;display:grid;place-items:center;padding:24px 16px;box-sizing:border-box;position:relative;overflow-x:hidden}
+body.laka-login::before{content:"";position:fixed;inset:-20px;z-index:0;background:url("branding/seban-webpanel-banner.png") 62% 50%/cover no-repeat;filter:blur(10px) brightness(.35) saturate(1.1)}
+body.laka-login::after{content:"";position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 50% 40%,transparent 0,#0d0906cc 70%)}
+html body.laka-login .login-card{position:relative;z-index:1;width:min(420px,100%);margin:0;padding:0 0 26px;display:grid;gap:0;border:1px solid var(--laka-bronze);border-radius:12px;background:linear-gradient(180deg,#1d140b,#120b06);box-shadow:inset 0 0 0 3px #120b06,inset 0 0 0 4px #6e4c2555,0 30px 80px #000;overflow:visible}
+html body.laka-login .login-card::before,html body.laka-login .login-card::after{content:"";position:absolute;top:-5px;left:22px;width:9px;height:9px;background:var(--laka-gold);transform:rotate(45deg);box-shadow:0 0 10px #e8b93f}
+html body.laka-login .login-card::after{left:auto;right:22px}
+html body.laka-login .login-project-logo{display:block;width:100%;height:150px;object-fit:cover;object-position:62% 50%;border-radius:11px 11px 0 0;border-bottom:1px solid var(--laka-bronze-dim);margin:0}
+html body.laka-login .brand{margin:20px 26px 0;font:900 22px/1.1 var(--laka-display);color:var(--laka-gold-hi);text-align:center}
+html body.laka-login .brand span{display:block;margin-top:6px;font:700 11px var(--laka-body);letter-spacing:.2em;text-transform:uppercase;color:var(--laka-dust)}
+html body.laka-login h1{margin:14px 26px 4px;font:700 15px var(--laka-body);letter-spacing:.08em;text-transform:uppercase;text-align:center;color:var(--laka-dust)}
+html body.laka-login label{margin:14px 26px 0;display:grid;gap:7px;color:var(--laka-dust);font:600 13px var(--laka-body)}
+html body.laka-login input{padding:12px 14px;border-radius:8px;border:1px solid var(--laka-bronze-dim);background:#0b0704;color:var(--laka-parchment);font:500 15px var(--laka-body)}
+html body.laka-login input:focus{outline:none;border-color:var(--laka-gold);box-shadow:0 0 0 3px #e8b93f22}
+html body.laka-login button{margin:18px 26px 0;width:auto;padding:12px;border-radius:8px;border:1px solid var(--laka-gold-deep);background:linear-gradient(180deg,#f3c955,#c99227);color:#1d1404;font:800 15px var(--laka-body);cursor:pointer;box-shadow:inset 0 1px 0 #fff5,0 2px 0 #00000080}
+html body.laka-login button:hover{filter:brightness(1.08)}
+html body.laka-login.error-page .login-card{width:min(640px,100%)}
+html body.laka-login .error-status{margin:16px 26px 0;justify-self:center;padding:4px 12px;border-radius:999px;background:#3a130c;color:#ffb4a3;font:800 12px var(--laka-body);letter-spacing:.12em}
+html body.laka-login .error-message{margin:8px 26px 0;color:var(--laka-parchment);text-align:center;font:500 15px/1.5 var(--laka-body)}
+html body.laka-login .error-hint{margin:10px 26px 0;color:var(--laka-dust);font:14px var(--laka-body)}
+html body.laka-login .error-hint code,html body.laka-login .error-log pre{font-family:ui-monospace,Consolas,monospace;background:#080503;border:1px solid var(--laka-bronze-dim);border-radius:6px;color:#cdbb9c}
+html body.laka-login .error-reference{margin:14px 26px 0;display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--laka-bronze-dim);border-radius:8px;color:var(--laka-dust);font:13px var(--laka-body)}
+html body.laka-login .error-reference b{color:var(--laka-gold-hi);font-family:ui-monospace,Consolas,monospace}
+html body.laka-login .error-log{margin:12px 26px 0;color:var(--laka-dust);font:13px var(--laka-body)}
+html body.laka-login .error-log pre{max-height:240px;overflow:auto;padding:10px;font-size:12px;white-space:pre-wrap}
+html body.laka-login .error-login-link{margin:16px 26px 0;justify-self:center;color:var(--laka-gold-hi);font:700 14px var(--laka-body)}
+html body.laka-login .flash.error{margin:14px 26px 0;padding:10px 12px;border-radius:8px;border:1px solid #e5573b88;background:#3a130c;color:#ffc4b6;font:600 13.5px var(--laka-body)}
+
+/* ───── scrollbars: thin bronze everywhere in the theme ───── */
+body[data-skin="laka"] *{scrollbar-width:thin;scrollbar-color:#6e4c25 #0d0906}
+body[data-skin="laka"] ::-webkit-scrollbar{width:9px;height:9px}
+body[data-skin="laka"] ::-webkit-scrollbar-track{background:#0d0906}
+body[data-skin="laka"] ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#8a6430,#5a3d1d);border-radius:6px;border:2px solid #0d0906}
+body[data-skin="laka"] ::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#e8b93f,#a8771c)}
+
+/* ───── dashboard widgets: fill the card height ───── */
+html body[data-skin="laka"] .laka-widget{display:flex;flex-direction:column}
+html body[data-skin="laka"] .laka-widget>.laka-hbars{flex:1 1 0;min-height:180px;overflow-y:auto;align-content:start;padding-right:10px}
+html body[data-skin="laka"] .laka-widget>ol.laka-rank{flex:1 1 auto}
+.laka-history{margin-top:auto;padding:14px 18px 16px;border-top:1px solid var(--laka-bronze-dim);display:grid;gap:8px}
+.laka-history-head{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--laka-dust)}
+.laka-history-key{display:flex;gap:10px;align-items:center;letter-spacing:0;text-transform:none}
+.laka-history-key i{display:inline-block;width:12px;height:3px;border-radius:2px;margin-right:4px;vertical-align:middle}
+.laka-history-key .cpu{background:#e8b93f}.laka-history-key .ram{background:#74cf8e}
+.laka-spark svg{display:block;width:100%;height:92px}
+.laka-spark .grid{stroke:#3a2815;stroke-width:1;vector-effect:non-scaling-stroke}
+.laka-spark .cpu{fill:none;stroke:#e8b93f;stroke-width:1.8;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.laka-spark .ram{fill:none;stroke:#74cf8e;stroke-width:1.4;stroke-dasharray:4 3;vector-effect:non-scaling-stroke;opacity:.9}
+.laka-spark .dot{fill:#ffe08a;stroke:#0d0906;stroke-width:1}
+.laka-spark-axis{display:flex;justify-content:space-between;font-size:11px;color:var(--laka-dust-2);font-variant-numeric:tabular-nums}
+.laka-history-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--laka-bronze-dim);border-radius:6px}
+.laka-history-stats>div{display:grid;gap:2px;padding:8px 10px;border-left:1px solid var(--laka-bronze-dim)}
+.laka-history-stats>div:first-child{border-left:0}
+.laka-history-stats span{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--laka-dust)}
+.laka-history-stats b{font:800 17px var(--laka-body);color:var(--laka-gold-hi);font-variant-numeric:tabular-nums}
+.laka-history-stats small{font-size:11.5px;color:var(--laka-dust-2)}
+html body[data-skin="laka"] .laka-widget>.laka-history{padding:14px 18px 16px}
+@media (max-width:760px){html body[data-skin="laka"] .laka-widget>.laka-hbars{flex:none;max-height:340px}}
+
+/* ───── karta postaci: Akcje administracyjne (templates/player.html, .admin-card*) ───── */
+html body[data-skin="laka"] .admin-actions>.grid.two{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin:0}
+html body[data-skin="laka"] .admin-card{position:relative;display:flex;flex-direction:column;gap:10px;margin:0;min-width:0;padding:16px;border:1px solid var(--laka-bronze-dim);border-radius:10px;background:linear-gradient(180deg,#1e150c,#140d07 70%);box-shadow:inset 0 1px 0 #ffe08a10,0 6px 18px -10px #000;transition:border-color .2s,box-shadow .2s}
+html body[data-skin="laka"] .admin-card:hover{border-color:var(--laka-bronze);box-shadow:inset 0 1px 0 #ffe08a18,0 10px 24px -12px #e8b93f40}
+html body[data-skin="laka"] .admin-card h3{position:relative;display:flex;align-items:center;gap:12px;min-height:36px;margin:0 0 2px;font:700 15.5px/1.2 var(--laka-display);color:var(--laka-parchment)}
+html body[data-skin="laka"] .admin-card h3::before{content:"";flex:none;width:36px;height:36px;border-radius:9px;border:1px solid var(--laka-bronze-dim);background:linear-gradient(160deg,#2a1d10,#130c06 70%)}
+html body[data-skin="laka"] .admin-card h3::after{content:"";position:absolute;left:0;top:50%;width:36px;height:36px;transform:translateY(-50%);background:var(--laka-gold);-webkit-mask:var(--admin-ico) center/20px 20px no-repeat;mask:var(--admin-ico) center/20px 20px no-repeat}
+html body[data-skin="laka"] .admin-card .admin-emoji{display:none}
+html body[data-skin="laka"] .admin-card>b{font-size:13.5px;color:var(--laka-parchment)}
+html body[data-skin="laka"] .admin-card small{display:block;font-size:12.5px;line-height:1.45;color:var(--laka-dust)}
+/* .manage-form lays labels out as two columns; in the cards the field sits under its label at full width */
+html body[data-skin="laka"] .admin-card label{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:5px;margin:0;font-size:12.5px;color:var(--laka-dust)}
+html body[data-skin="laka"] .admin-card :is(input:not([type=hidden]),select){width:100%!important;max-width:none!important;box-sizing:border-box;padding:9px 11px}
+html body[data-skin="laka"] .admin-card>button:not([type=button]){order:99;margin-top:auto;width:100%;padding:10px 14px}
+html body[data-skin="laka"] .admin-presets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+html body[data-skin="laka"] .admin-presets button{margin:0;padding:6px 8px;font-size:12.5px;font-weight:700;background:var(--laka-lacquer-2);color:var(--laka-gold-hi);border:1px solid var(--laka-bronze-dim);border-radius:6px;box-shadow:none}
+html body[data-skin="laka"] .admin-presets button:hover{border-color:var(--laka-gold)}
+/* destructive action: one wide strip under the grid */
+html body[data-skin="laka"] .admin-actions>.admin-card--delete{margin-top:16px;display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,260px) auto;grid-template-areas:"h i b" "s i b";align-items:center;gap:6px 16px;border-color:#e5573b66;background:linear-gradient(90deg,#2a0f09,#140d07 70%)}
+html body[data-skin="laka"] .admin-card--delete h3{grid-area:h;color:#ffb4a3}
+html body[data-skin="laka"] .admin-card--delete h3::after{background:#e5573b}
+html body[data-skin="laka"] .admin-card--delete small{grid-area:s}
+html body[data-skin="laka"] .admin-card--delete input{grid-area:i}
+html body[data-skin="laka"] .admin-card--delete>button:not([type=button]){grid-area:b;width:auto;margin:0;background:#3a130c;color:#ffc4b6;border:1px solid #e5573b;box-shadow:none}
+@media (max-width:760px){html body[data-skin="laka"] .admin-actions>.admin-card--delete{grid-template-columns:minmax(0,1fr);grid-template-areas:"h" "s" "i" "b"}html body[data-skin="laka"] .admin-card--delete>button:not([type=button]){width:100%}}
+
+/* admin card icons (masks; colour comes from the h3::after background) */
+.admin-card--exp{--admin-ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 2L4 14h7l-1 8 9-12h-7z'/%3E%3C/svg%3E")}
+.admin-card--item{--admin-ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='8' width='18' height='5' rx='1'/%3E%3Cpath d='M5 13v8h14v-8M12 8v13M12 8C10 4 6.5 4.5 7 7c.3 1.3 2.5 1 5 1zM12 8c2-4 5.5-3.5 5-1-.3 1.3-2.5 1-5 1z'/%3E%3C/svg%3E")}
+.admin-card--yang{--admin-ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Ccircle cx='12' cy='12' r='4.5'/%3E%3Cpath d='M12 3v4.5M12 16.5V21'/%3E%3C/svg%3E")}
+.admin-card--level{--admin-ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z'/%3E%3C/svg%3E")}
+.admin-card--warp{--admin-ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z'/%3E%3Ccircle cx='12' cy='9.5' r='2.5'/%3E%3C/svg%3E")}
+.admin-card--speed{--admin-ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8h8M2 12h6M4 16h7'/%3E%3Cpath d='M13 5l7 7-7 7'/%3E%3C/svg%3E")}
+.admin-card--vip{--admin-ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 19h18M4 16.5l-1-9.5 5 4 4-6.5 4 6.5 5-4-1 9.5z'/%3E%3C/svg%3E")}
+.admin-card--coins{--admin-ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 3h12l3 6-9 12L3 9z'/%3E%3Cpath d='M3 9h18M9 3l3 18 3-18'/%3E%3C/svg%3E")}
+.admin-card--rename{--admin-ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20h4L19 9l-4-4L4 16z'/%3E%3Cpath d='M13 7l4 4'/%3E%3C/svg%3E")}
+.admin-card--reset{--admin-ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11l9-7 9 7'/%3E%3Cpath d='M5 10v10h14V10'/%3E%3Cpath d='M10 20v-6h4v6'/%3E%3C/svg%3E")}
+.admin-card--gm{--admin-ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z'/%3E%3Cpath d='M8.5 12l2.5 2.5 4.5-5'/%3E%3C/svg%3E")}
+.admin-card--delete{--admin-ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6'/%3E%3C/svg%3E")}
+
+/* ───── page transitions ───── */
+/* fill-mode "backwards", never "both": a transform kept after the animation turns main>* into the
+   containing block of position:fixed children, which threw the inventory tooltips (.item-tip.is-floating)
+   away from the cursor on /player/ */
+body[data-skin="laka"] main>*{animation:laka-rise .55s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--laka-i,0) * 60ms)}
+@keyframes laka-rise{from{opacity:0;transform:translateY(14px);filter:blur(3px)}}
+body[data-skin="laka"].laka-leaving main>*{animation:laka-fall .16s ease-in both}
+@keyframes laka-fall{to{opacity:0;transform:translateY(-8px)}}
+.laka-crumbs h1,.laka-crumbs small{animation:laka-titlein .45s cubic-bezier(.2,.7,.2,1) both}
+@keyframes laka-titlein{from{opacity:0;transform:translateX(-10px);letter-spacing:.12em}}
+.laka-tabs a{animation:laka-rise .4s cubic-bezier(.2,.7,.2,1) both}
+.laka-tabs a:nth-child(2){animation-delay:40ms}.laka-tabs a:nth-child(3){animation-delay:80ms}.laka-tabs a:nth-child(4){animation-delay:120ms}.laka-tabs a:nth-child(n+5){animation-delay:160ms}
+body[data-skin="laka"] .laka-flash{animation:laka-flash .9s ease-out}
+@keyframes laka-flash{0%{color:#fff;text-shadow:0 0 14px var(--laka-gold)}}
+
+/* ───── Ctrl+K + sheet ───── */
+.laka-overlay{position:fixed;inset:0;z-index:400;background:#000a;display:grid;place-items:start center;padding:12vh 16px 16px}
+.laka-palette{width:min(620px,100%);background:var(--laka-lacquer);border:1px solid var(--laka-bronze);border-radius:8px;box-shadow:0 30px 80px #000;overflow:hidden}
+.laka-palette input{width:100%;box-sizing:border-box;padding:16px 18px;border:0;border-bottom:1px solid var(--laka-bronze-dim);background:transparent;font:500 18px var(--laka-body);color:var(--laka-parchment);outline:none}
+.laka-palette ul{list-style:none;margin:0;padding:6px;max-height:min(420px,55vh);overflow:auto}
+.laka-palette li a{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:12px;align-items:center;padding:8px 10px;border-radius:5px;color:var(--laka-parchment);text-decoration:none}
+.laka-palette li a img{width:26px;height:26px;object-fit:contain;image-rendering:pixelated}
+.laka-palette li a small{color:var(--laka-dust);font-size:12px}
+.laka-palette li a.sel,.laka-palette li a:hover{background:var(--laka-lacquer-3);text-decoration:none}
+.laka-palette li a.sel{box-shadow:inset 2px 0 0 var(--laka-gold)}
+.laka-palette .laka-empty{padding:18px;color:var(--laka-dust)}
+.laka-overlay:has(.laka-sheet){padding:0;place-items:end stretch}
+.laka-sheet{max-height:80vh;overflow:auto;background:var(--laka-lacquer);border-top:1px solid var(--laka-bronze);border-radius:14px 14px 0 0;padding:8px 16px calc(20px + env(safe-area-inset-bottom,0px))}
+.laka-grab{width:44px;height:4px;border-radius:2px;background:var(--laka-bronze);margin:4px auto 12px}
+.laka-sheet h3{font:700 15px var(--laka-display);color:var(--laka-gold);margin:14px 0 6px;display:flex;gap:10px;align-items:center}
+.laka-sheet h3 img{width:24px;height:24px;object-fit:contain;image-rendering:pixelated}
+.laka-sheet-links{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.laka-sheet-links a{padding:9px 10px;border-radius:5px;background:var(--laka-lacquer-2);font-size:13.5px;text-decoration:none}
+.laka-sheet-links a[aria-current="page"]{color:var(--laka-gold-hi);box-shadow:inset 0 0 0 1px var(--laka-gold-deep)}
+.laka-sheet-foot{margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.laka-sheet-foot .laka-quiet{width:auto}
+
+/* ───── responsive ───── */
+@media (max-width:1180px){
+  body[data-skin="laka"]{--laka-rail:76px}
+  .laka-brand{padding:16px 6px;text-align:center}
+  .laka-brand b{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .laka-brand span,.laka-lbl,.laka-sub,.laka-rail-foot{display:none}
+  .laka-nav{padding:10px 8px}
+  .laka-sec{justify-content:center;padding:6px}
+  .laka-sec .laka-slot{width:42px;height:42px}
+  .laka-search{min-width:0}
+  .laka-search-lbl{display:none}
+}
+@media (max-width:760px){
+  body[data-skin="laka"]{--laka-rail:0px;--laka-top:96px}
+  .laka-rail{display:none}
+  .laka-top-row{padding:10px 64px 8px 16px;gap:10px}
+  .laka-crumbs small,.laka-live-lbl{display:none}
+  .laka-live{padding:6px 10px}
+  .laka-tabs{padding:0 8px}
+  body[data-skin="laka"] main{padding:calc(var(--laka-top) + 16px) 16px calc(96px + env(safe-area-inset-bottom,0px))}
+  .laka-bottombar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:160;background:#110b06f5;border-top:1px solid var(--laka-bronze);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));backdrop-filter:blur(8px)}
+  .laka-bottombar a,.laka-bottombar button{display:grid;justify-items:center;gap:3px;padding:4px 0;border:0;background:none;color:var(--laka-dust);font:700 11px var(--laka-body);cursor:pointer;text-decoration:none}
+  .laka-bottombar .laka-slot{width:34px;height:34px}
+  .laka-bottombar [aria-current="true"]{color:var(--laka-gold-hi)}
+  body[data-skin="laka"] .action-toast-stack,body[data-skin="laka"] .notif-toast-stack{bottom:calc(84px + env(safe-area-inset-bottom,0px))!important}
+  /* ticker sits above the bottom bar instead of under it */
+  body[data-skin="laka"] .news-ticker{left:7px;right:7px;bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+  body[data-skin="laka"] .news-ticker.is-hidden{left:auto}
+  /* hero: let the title wrap instead of being cut by the fixed 164px height */
+  body[data-skin="laka"] .empire-hero{height:auto!important;min-height:164px}
+  body[data-skin="laka"] .empire-hero-title{font-size:clamp(26px,8vw,40px)!important;line-height:1.05}
+}
+/* phones and touch screens have no Ctrl K: the search stays as a magnifier button */
+@media (max-width:760px),(hover:none){.laka-search kbd{display:none}}
+@media (max-width:760px){.laka-search{padding:7px 9px}}
+@media (prefers-reduced-motion:reduce){
+  body[data-skin="laka"] *,body[data-skin="laka"] *::before,body[data-skin="laka"] *::after{animation:none!important;transition:none!important}
+}

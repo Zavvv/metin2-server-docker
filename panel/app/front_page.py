@@ -143,6 +143,8 @@ S = {
         "de": "Live-Karte",
         "tr": "Canlı harita"
     },
+    "m_editsql": {"pl": "Edytor SQL", "en": "SQL editor",
+                  "de": "SQL-Editor", "tr": "SQL düzenleyici"},
     "m_adminpw": {
         "pl": "Hasło panelu admina",
         "en": "Admin panel password",
@@ -926,6 +928,7 @@ def _menu(lang, ctx):
         ("m_discord", panel.DISCORD_URL, True, False),
         ("m_github", GITHUB_URL, True, False),
         ("m_map", MAP_URL, False, False),
+        ("m_editsql", "/editsql", False, False),
         ("m_adminpw", url_for("front", s="admin"), False, ctx["page"] == "admin"),
     ]
     out = []
@@ -1336,7 +1339,7 @@ _HEAD = """<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link href="/static/cms/css/reset.css" rel="stylesheet" type="text/css" media="all" />
 		<link href="/static/cms/css/all.css" rel="stylesheet" type="text/css" media="all" />
 		<link href="/static/cms/css/plugins.css" rel="stylesheet" type="text/css" media="screen" />
-		<link href="/static/cms/css/front.css?v=5" rel="stylesheet" type="text/css" media="all" />"""
+		<link href="/static/cms/css/front.css?v=6" rel="stylesheet" type="text/css" media="all" />"""
 
 _SCRIPT = """
 <script type="text/javascript">

@@ -328,16 +328,33 @@ quest web_admin begin
 									-- on another is reached with the engine's channel move
 									-- (pc.warp_channel, playerbotify.py; "teleportuje, ale
 									-- nie zmienia ch", prodnathin, 28 September).
+									-- "y:channel:pid" names the character too: a GM is moved
+									-- onto it with the engine's own move (pc.warp_to_pid,
+									-- WarpToPID), its dungeon instance included. A Demon
+									-- Tower floor's coordinates alone are the base map,
+									-- which the tower's quest leaves at once, and that
+									-- second warp dropped the client to the menu (Tieru,
+									-- 7 October). Anybody else keeps the coordinates.
 									local x = tonumber(arg1)
 									local y = tonumber(arg2)
 									local chan = nil
+									local target = nil
 									if y == nil and arg2 ~= nil then
-										local _, _, sy, sc = string.find(arg2, "^(%d+):(%d+)$")
+										local _, _, sy, sc, sp = string.find(arg2, "^(%d+):(%d+):(%d+)$")
+										if sy == nil then
+											_, _, sy, sc = string.find(arg2, "^(%d+):(%d+)$")
+										end
 										y = tonumber(sy)
 										chan = tonumber(sc)
+										target = tonumber(sp)
+										if chan == 0 then
+											chan = nil
+										end
 									end
 									if x == nil or y == nil then
 										result = "bad_args"
+									elseif target ~= nil and target > 0 and pc.is_gm() and pc.warp_to_pid ~= nil and pc.warp_to_pid(target) then
+										-- moved onto the character by the engine
 									elseif chan ~= nil and chan ~= pc.get_channel_id() then
 										if not pc.warp_channel(chan, x, y) then
 											result = "no_channel"
@@ -513,11 +530,14 @@ quest web_admin begin
 				end
 			end
 
-			-- Respawn times, the same way: fastBossSpawn and fastMobSpawn
-			-- are read by the engine's regen_event as a percent of each
-			-- regen line's delay (0 = untouched), the map-less names being
-			-- the fallback playerbotify adds to Seban's per-map ones.
-			-- arg1 = "boss,mob", digits only, 0..100.
+			-- Respawn times, the same way: fastMetinSpawn, fastBossSpawn and
+			-- fastMobSpawn are read by the engine's regen_event as a percent
+			-- of each regen line's delay (0 = untouched), the map-less names
+			-- being the fallback playerbotify adds to Seban's per-map ones.
+			-- arg1 = "metin,boss,mob", digits only, 0..100 (Iwakura's Patch
+			-- 12, point 2: Metins apart from bosses). A panel of before the
+			-- split sends "boss,mob", its one figure for Metins and bosses
+			-- alike, and both get it.
 			local grows = wa_query("SELECT id, arg1 FROM player.web_admin_queue WHERE status='pending' AND cmd='REGEN' ORDER BY id ASC LIMIT 3")
 			if type(grows) == "table" then
 				local gi
@@ -525,19 +545,25 @@ quest web_admin begin
 					local gr = grows[gi]
 					if type(gr) == "table" then
 						local gqid = tonumber(gr.id)
-						local gboss, gmob = nil, nil
+						local gmetin, gboss, gmob = nil, nil, nil
 						if type(gr.arg1) == "string" then
-							local _, _, b1, b2 = string.find(gr.arg1, "^(%d+),(%d+)$")
+							local _, _, b0, b1, b2 = string.find(gr.arg1, "^(%d+),(%d+),(%d+)$")
+							if b0 == nil then
+								_, _, b1, b2 = string.find(gr.arg1, "^(%d+),(%d+)$")
+								b0 = b1
+							end
+							gmetin = tonumber(b0)
 							gboss = tonumber(b1)
 							gmob = tonumber(b2)
 						end
 						if gqid ~= nil then
 							local gres = "done"
-							if gboss == nil or gmob == nil or gboss > 100 or gmob > 100 then
+							if gmetin == nil or gboss == nil or gmob == nil or gmetin > 100 or gboss > 100 or gmob > 100 then
 								gres = "bad_args"
 							elseif game.set_event_flag == nil then
 								gres = "failed"
 							else
+								game.set_event_flag("fastMetinSpawn", gmetin)
 								game.set_event_flag("fastBossSpawn", gboss)
 								game.set_event_flag("fastMobSpawn", gmob)
 							end
@@ -548,10 +574,12 @@ quest web_admin begin
 			end
 
 			-- How many a respawn line keeps standing, the same way
-			-- (Kiciamol, 18 September): m2_boss_count and m2_mob_count are
-			-- percents of each line's own count that regen_spawn tops up to
-			-- (regen_target_count; 100 = as the line says, 400 = four times).
-			-- arg1 = "boss,mob", digits only, 100..400.
+			-- (Kiciamol, 18 September): m2_metin_count, m2_boss_count and
+			-- m2_mob_count are percents of each line's own count that
+			-- regen_spawn tops up to (regen_target_count; 100 = as the line
+			-- says, 400 = four times). arg1 = "metin,boss,mob", digits only,
+			-- 100..400; "boss,mob" from a panel of before Patch 12's split
+			-- sets the Metins and the bosses alike.
 			local crows = wa_query("SELECT id, arg1 FROM player.web_admin_queue WHERE status='pending' AND cmd='REGEN_COUNT' ORDER BY id ASC LIMIT 3")
 			if type(crows) == "table" then
 				local ci
@@ -559,19 +587,26 @@ quest web_admin begin
 					local cr = crows[ci]
 					if type(cr) == "table" then
 						local cqid = tonumber(cr.id)
-						local cboss, cmob = nil, nil
+						local cmetin, cboss, cmob = nil, nil, nil
 						if type(cr.arg1) == "string" then
-							local _, _, c1, c2 = string.find(cr.arg1, "^(%d+),(%d+)$")
+							local _, _, c0, c1, c2 = string.find(cr.arg1, "^(%d+),(%d+),(%d+)$")
+							if c0 == nil then
+								_, _, c1, c2 = string.find(cr.arg1, "^(%d+),(%d+)$")
+								c0 = c1
+							end
+							cmetin = tonumber(c0)
 							cboss = tonumber(c1)
 							cmob = tonumber(c2)
 						end
 						if cqid ~= nil then
 							local cres = "done"
-							if cboss == nil or cmob == nil or cboss < 100 or cboss > 400 or cmob < 100 or cmob > 400 then
+							if cmetin == nil or cboss == nil or cmob == nil or cmetin < 100 or cmetin > 400 or
+									cboss < 100 or cboss > 400 or cmob < 100 or cmob > 400 then
 								cres = "bad_args"
 							elseif game.set_event_flag == nil then
 								cres = "failed"
 							else
+								game.set_event_flag("m2_metin_count", cmetin)
 								game.set_event_flag("m2_boss_count", cboss)
 								game.set_event_flag("m2_mob_count", cmob)
 							end
@@ -727,6 +762,75 @@ quest web_admin begin
 				end
 			end
 
+			-- The chance of bonus lines on a dropped weapon or piece of armour,
+			-- the same way (Tysiek and the operator, 7 October):
+			-- m2_drop_bonus_pct is a percent of the game's own chance, which
+			-- every core reads at its next drop (playerbotify
+			-- apply_drop_bonus_chance). arg1 = the percent, digits only,
+			-- 10..1000. Its own block, so its locals end with it.
+			do
+				local brows = wa_query("SELECT id, arg1 FROM player.web_admin_queue WHERE status='pending' AND cmd='DROP_BONUS' ORDER BY id ASC LIMIT 3")
+				if type(brows) == "table" then
+					local bi
+					for bi = 1, table.getn(brows) do
+						local br = brows[bi]
+						if type(br) == "table" then
+							local bqid = tonumber(br.id)
+							local bval = nil
+							if type(br.arg1) == "string" and string.find(br.arg1, "^%d+$") then
+								bval = tonumber(br.arg1)
+							end
+							if bqid ~= nil then
+								local bres = "done"
+								if bval == nil or bval < 10 or bval > 1000 then
+									bres = "bad_args"
+								elseif game.set_event_flag == nil then
+									bres = "failed"
+								else
+									game.set_event_flag("m2_drop_bonus_pct", bval)
+								end
+								wa_query("UPDATE player.web_admin_queue SET status='" .. bres .. "' WHERE id=" .. bqid .. " AND status='pending' LIMIT 1")
+							end
+						end
+					end
+				end
+			end
+
+			-- How fast the world's characters move, the same way (RapLow and
+			-- the operator, 8 October): m2_move_speed_pct is a percent of the
+			-- game's own movement speed, which every core puts on the people,
+			-- the bots and the companions it holds at once (playerbotify
+			-- apply_move_speed_percent).
+			-- arg1 = the percent, digits only, 50..200. Its own block, so its
+			-- locals end with it.
+			do
+				local vrows = wa_query("SELECT id, arg1 FROM player.web_admin_queue WHERE status='pending' AND cmd='MOVE_SPEED' ORDER BY id ASC LIMIT 3")
+				if type(vrows) == "table" then
+					local vi
+					for vi = 1, table.getn(vrows) do
+						local vr = vrows[vi]
+						if type(vr) == "table" then
+							local vqid = tonumber(vr.id)
+							local vval = nil
+							if type(vr.arg1) == "string" and string.find(vr.arg1, "^%d+$") then
+								vval = tonumber(vr.arg1)
+							end
+							if vqid ~= nil then
+								local vres = "done"
+								if vval == nil or vval < 50 or vval > 200 then
+									vres = "bad_args"
+								elseif game.set_event_flag == nil then
+									vres = "failed"
+								else
+									game.set_event_flag("m2_move_speed_pct", vval)
+								end
+								wa_query("UPDATE player.web_admin_queue SET status='" .. vres .. "' WHERE id=" .. vqid .. " AND status='pending' LIMIT 1")
+							end
+						end
+					end
+				end
+			end
+
 			-- The world's extras, the same way (Jeremus-Sama and Kuszaa, 1
 			-- October): the Cor Draconis a day at the Alchemist and the
 			-- percents of the Metin stones' and the bosses' extra drops for a
@@ -821,6 +925,38 @@ quest web_admin begin
 								game.set_event_flag("m2_unique70_bonus_off", aval)
 							end
 							wa_query("UPDATE player.web_admin_queue SET status='" .. ares .. "' WHERE id=" .. aqid .. " AND status='pending' LIMIT 1")
+						end
+					end
+				end
+			end
+
+			-- Nannato and Tieru, 7 October: a person's yang on the ground (1)
+			-- or into the purse (0); the cores read m2_yang_ground at every
+			-- kill, and a bot's goes to the purse whatever it says. Its own
+			-- block, so its locals end with it.
+			do
+				local yrows = wa_query("SELECT id, arg1 FROM player.web_admin_queue WHERE status='pending' AND cmd='YANG_GROUND' ORDER BY id ASC LIMIT 3")
+				if type(yrows) == "table" then
+					local yi
+					for yi = 1, table.getn(yrows) do
+						local yr = yrows[yi]
+						if type(yr) == "table" then
+							local yqid = tonumber(yr.id)
+							local yval = nil
+							if yr.arg1 == "0" or yr.arg1 == "1" then
+								yval = tonumber(yr.arg1)
+							end
+							if yqid ~= nil then
+								local yres = "done"
+								if yval == nil then
+									yres = "bad_args"
+								elseif game.set_event_flag == nil then
+									yres = "failed"
+								else
+									game.set_event_flag("m2_yang_ground", yval)
+								end
+								wa_query("UPDATE player.web_admin_queue SET status='" .. yres .. "' WHERE id=" .. yqid .. " AND status='pending' LIMIT 1")
+							end
 						end
 					end
 				end

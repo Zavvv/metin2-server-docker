@@ -1,0 +1,420 @@
+#!/bin/bash
+# =============================================================================
+#  m2-drop-tables -- the operator's chest groups (special_item_group.txt) and
+#                    monster drop groups (mob_drop_item.txt) from the panel's
+#                    editor (the operator, 7 October).
+#
+#  The panel cannot write into this container, so it leaves its override in
+#  the spool the two share (the rates' pattern), in $SPOOL/drop-tables/:
+#
+#      image/<file>          the image's own file, published here at every
+#                            start so the editor has something to edit
+#      override/<file>       the operator's groups: the game's groups they
+#                            replace or add, and "# remove <key>" lines
+#      override/<file>.ok    the panel's receipt: the sha256 of the bytes it
+#                            checked against the world's item_proto/mob_proto
+#                            and the engine's own reader (files/drop_tables.py)
+#      backup/               the panel's copies of what it replaced
+#      refused/<file>        an override the game refused at boot (its sha)
+#      status                what this side did, for the panel
+#
+#  The override is group-level, like the operator's Moonlight chest
+#  (special_item_group.moonlight.custom.txt): an update that changes the
+#  game's own groups keeps the operator's and brings everything else. The
+#  merge below is files/drop_tables.py's merge(), line for line; the tests
+#  (tests/drop_tables_merge_test.py) hold the two to the same bytes.
+#
+#  Subcommands
+#      prepare           as root, at container start (the entrypoint): the
+#                        image's copy beside each file, the file given to the
+#                        service account, the spool's directories, the copy
+#                        published for the panel
+#      apply             before every boot of the cores (m2-supervise): the
+#                        override merged in, or the image's file back
+#      fallback <dir>    after a core died (m2-supervise): if it died reading
+#                        a file this start had replaced, the image's file goes
+#                        back and the override is remembered as refused, so
+#                        the next start does not try it again
+#      status            print what the last apply did
+#
+#  Nothing here can make the game read an unchecked file: an override whose
+#  bytes the receipt does not name, or that does not merge, leaves the
+#  image's file in place and says why (M2_DROP_OVERRIDE: rejected ...).
+# =============================================================================
+set -uo pipefail
+LC_ALL=C
+export LC_ALL
+
+SHARE_DIR="${M2_SHARE_DIR:-/opt/metin2/share}"
+VAR_DIR="${M2_VAR_DIR:-/opt/metin2/var}"
+SPOOL="${M2_RATES_SPOOL:-/opt/m2spool}"
+LOCALE_DIR="${M2_DROP_TABLES_LOCALE:-$SHARE_DIR/locale/poland}"
+RUN_USER="${M2_DROP_TABLES_USER:-metin2}"
+SPOOL_GROUP="${M2_DROP_TABLES_GROUP:-m2spool}"
+DIR="$SPOOL/drop-tables"
+STATE="$VAR_DIR/drop-tables"
+STATUS="$DIR/status"
+FILES="special_item_group.txt mob_drop_item.txt"
+
+say() { printf '%s [drop-tables] %s\n' "$(date -u '+%Y-%m-%d %H:%M:%SZ')" "$*"; }
+
+kind_of() {
+  case "$1" in
+    special_item_group.txt) echo special ;;
+    mob_drop_item.txt) echo mob ;;
+  esac
+}
+
+kv() { # kv <file> <key>
+  [ -f "$1" ] || return 0
+  sed -n "s/^$2=//p" "$1" 2>/dev/null | head -n 1 | tr -d '\r'
+}
+
+sha_of() { sha256sum < "$1" 2>/dev/null | cut -c1-64; }
+
+# The merge: the override (first file) over the image's file (second). Exit 3
+# with the reason on stderr when the override is not one the panel writes.
+merge_awk='
+function strip(s) { sub(/\r$/, "", s); return s }
+function ignored(n,   i) {
+  for (i = 1; i <= n; i++)
+    if (substr(w[i], 1, 1) == "#" && substr(w[i], 1, 4) != "#--#") return 1
+  return 0
+}
+function cint(s,   t, neg) {
+  if (!match(s, /^[ \t]*[+-]?[0-9]+/)) return 0
+  t = substr(s, RSTART, RLENGTH); sub(/^[ \t]*/, "", t)
+  neg = 0
+  if (substr(t, 1, 1) == "-") { neg = 1; t = substr(t, 2) }
+  else if (substr(t, 1, 1) == "+") t = substr(t, 2)
+  sub(/^0+/, "", t)
+  if (t == "") return 0
+  if (length(t) > 10 || t + 0 > 2147483647 + neg) return neg ? -2147483648 : 2147483647
+  return neg ? -(t + 0) : t + 0
+}
+function keyof(arr_mob, arr_type, arr_vnum) {
+  if (kind == "special") return (arr_vnum == "\001") ? "" : sprintf("%d", cint(arr_vnum))
+  if (arr_mob == "\001" || arr_type == "\001") return ""
+  return sprintf("%d %s", cint(arr_mob), arr_type)
+}
+function die(m) { print "M2_DROP_OVERRIDE: " m > "/dev/stderr"; dead = 1; exit 3 }
+function words(   l) { l = strip($0); nw = split(l, w); live = (nw > 0 && !ignored(nw)); return l }
+function override_done() {
+  if (checked) return
+  checked = 1
+  if (ln < 1) die("the first line is not \047# m2-drop-override 1 " fname "\047")
+  if (inblk) die("a group without its closing \047}\047")
+}
+FILENAME == ARGV[1] {
+  ln++
+  l = words()
+  if (ln == 1) {
+    if (l != "# m2-drop-override 1 " fname) die("the first line is not \047# m2-drop-override 1 " fname "\047")
+    next
+  }
+  if (!inblk) {
+    if (live && tolower(w[1]) == "group") {
+      if (nw != 2) die("a Group line needs exactly one name (line " ln ")")
+      inblk = 1; depth = 1; nb++; bl[nb] = $0; bn[nb] = 1; started = 1
+      kmob[nb] = "\001"; ktype[nb] = "\001"; kvnum[nb] = "\001"
+      next
+    }
+    if (nw == 0) next
+    if (w[1] == "#" && nw >= 2 && w[2] == "remove") {
+      if (started) die("a \047# remove\047 line after the first group (line " ln ")")
+      if (w[3] !~ /^-?[0-9]+$/ || length(w[3]) - (substr(w[3], 1, 1) == "-") > 10) die("a bad \047# remove\047 key (line " ln ")")
+      if (kind == "special" && nw == 3) k = sprintf("%d", cint(w[3]))
+      else if (kind == "mob" && nw == 4) k = sprintf("%d %s", cint(w[3]), w[4])
+      else die("a bad \047# remove\047 key (line " ln ")")
+      if (k in seen) die("the key " k " twice")
+      seen[k] = 1; rm[k] = 1
+      next
+    }
+    if (substr(w[1], 1, 1) == "#") next
+    die("text outside a group (line " ln ")")
+  }
+  bl[nb] = bl[nb] "\n" $0; bn[nb]++
+  if (bn[nb] == 2 && !(nw == 1 && w[1] == "{")) die("a group whose second line is not \047{\047 (line " ln ")")
+  if (nw >= 2 && live) {
+    kl = tolower(w[1])
+    if (kl == "vnum" && kvnum[nb] == "\001") kvnum[nb] = w[2]
+    else if (kl == "mob" && kmob[nb] == "\001") kmob[nb] = w[2]
+    else if (kl == "type" && ktype[nb] == "\001") ktype[nb] = w[2]
+  }
+  if (live && tolower(w[1]) == "group") depth++
+  else if (live && substr(w[1], 1, 1) == "}") {
+    depth--
+    if (depth == 0) {
+      inblk = 0
+      k = keyof(kmob[nb], ktype[nb], kvnum[nb])
+      if (k == "") die("a group without its key (line " ln ")")
+      if (k in seen) die("the key " k " twice")
+      seen[k] = 1; ov[k] = nb; bk[nb] = k
+    }
+  }
+  next
+}
+{
+  override_done()
+  l = words()
+  if (!oin) {
+    if (live && tolower(w[1]) == "group") {
+      oin = 1; odepth = 1; on = 1; ob[1] = $0
+      omob = "\001"; otype = "\001"; ovnum = "\001"
+      next
+    }
+    print
+    next
+  }
+  on++; ob[on] = $0
+  if (nw >= 2 && live) {
+    kl = tolower(w[1])
+    if (kl == "vnum" && ovnum == "\001") ovnum = w[2]
+    else if (kl == "mob" && omob == "\001") omob = w[2]
+    else if (kl == "type" && otype == "\001") otype = w[2]
+  }
+  if (live && tolower(w[1]) == "group") odepth++
+  else if (live && substr(w[1], 1, 1) == "}") {
+    odepth--
+    if (odepth == 0) {
+      oin = 0
+      k = keyof(omob, otype, ovnum)
+      if (k != "" && (k in ov)) {
+        if (!(k in done)) { print bl[ov[k]]; done[k] = 1 }
+      } else if (k != "" && (k in rm)) {
+        removed_here++
+      } else {
+        for (i = 1; i <= on; i++) print ob[i]
+      }
+    }
+  }
+}
+END {
+  if (dead) exit 3
+  override_done()
+  if (dead) exit 3
+  if (oin) for (i = 1; i <= on; i++) print ob[i]
+  for (i = 1; i <= nb; i++) if (!(bk[i] in done)) print bl[i]
+}
+'
+
+merge() { # merge <file> <original> <override>  -> stdout
+  awk -v kind="$(kind_of "$1")" -v fname="$1" "$merge_awk" "$3" "$2"
+}
+
+# ---------------------------------------------------------------------------
+#  prepare -- as root, from the entrypoint
+# ---------------------------------------------------------------------------
+cmd_prepare() {
+  local f live orig d
+  mkdir -p "$STATE" 2>/dev/null && chown "$RUN_USER:$RUN_USER" "$STATE" 2>/dev/null
+  for f in $FILES; do
+    live="$LOCALE_DIR/$f"; orig="$live.m2image"
+    [ -f "$live" ] || { say "no $live in this image"; continue; }
+    # The image's own file, kept beside it the first time this container
+    # starts: the container's layer is new with every image, so this is
+    # always the file the image was built with.
+    if [ ! -f "$orig" ]; then
+      cp -p "$live" "$orig" || { say "could not keep a copy of $f -- the override stays off"; continue; }
+    fi
+    chown root:root "$orig" 2>/dev/null; chmod 0644 "$orig" 2>/dev/null
+    # The service account writes the file the cores read, before every boot.
+    chown "$RUN_USER:$RUN_USER" "$live" 2>/dev/null; chmod 0644 "$live" 2>/dev/null
+  done
+  if [ ! -d "$SPOOL" ]; then
+    say "no spool at $SPOOL -- the panel's drop editor has nowhere to leave its groups"
+    return 0
+  fi
+  for d in "$DIR" "$DIR/image" "$DIR/override" "$DIR/backup" "$DIR/refused"; do
+    mkdir -p "$d" 2>/dev/null
+    chgrp "$SPOOL_GROUP" "$d" 2>/dev/null; chmod 2770 "$d" 2>/dev/null
+  done
+  # What the editor edits: the image's own file, published when it changed.
+  local tmp
+  for f in $FILES; do
+    orig="$LOCALE_DIR/$f.m2image"
+    [ -f "$orig" ] || continue
+    cmp -s "$orig" "$DIR/image/$f" && continue
+    tmp="$DIR/image/$f.new.$$"
+    if cp "$orig" "$tmp" 2>/dev/null; then
+      chgrp "$SPOOL_GROUP" "$tmp" 2>/dev/null
+      chmod 0640 "$tmp" 2>/dev/null
+      mv -f "$tmp" "$DIR/image/$f" 2>/dev/null || { rm -f "$tmp"; say "could not publish $f for the panel"; }
+    else
+      rm -f "$tmp"; say "could not publish $f for the panel"
+    fi
+  done
+  [ -f "$STATUS" ] && { chgrp "$SPOOL_GROUP" "$STATUS" 2>/dev/null; chmod 0660 "$STATUS" 2>/dev/null; }
+  return 0
+}
+
+# ---------------------------------------------------------------------------
+#  apply -- before every boot of the cores
+# ---------------------------------------------------------------------------
+STATUS_LINES=""
+add_status() { STATUS_LINES="$STATUS_LINES$1
+"; }
+
+write_status() {
+  [ -d "$DIR" ] || return 0
+  local tmp="$DIR/status.new.$$"
+  { printf 'format=1\ntime=%s\n' "$(date +%s)"; printf '%s' "$STATUS_LINES"; } > "$tmp" 2>/dev/null \
+    || { rm -f "$tmp"; return 1; }
+  chmod 0660 "$tmp" 2>/dev/null
+  mv -f "$tmp" "$STATUS" 2>/dev/null || { rm -f "$tmp"; return 1; }
+}
+
+# install <source> <live>: the cores read <live>; written in place (the
+# directory is the image's), and the image's copy again if that fails.
+install_file() {
+  cmp -s "$1" "$2" && return 0
+  cat "$1" > "$2" 2>/dev/null && cmp -s "$1" "$2" && return 0
+  return 1
+}
+
+one_line() { tr '\r\n\t' '   ' | sed 's/^ *//; s/ *$//' | cut -c1-300; }
+
+apply_one() { # apply_one <file>
+  local f="$1" live="$LOCALE_DIR/$1" orig="$LOCALE_DIR/$1.m2image"
+  local ov="$DIR/override/$1" ok="$DIR/override/$1.ok" refused="$DIR/refused/$1"
+  local state=original reason="" sha="" merged="$STATE/$1.merged" err="$STATE/$1.err"
+  local base counts=""
+  [ -f "$orig" ] || { say "$f: no copy of the image's file (prepare did not run) -- left as it is"; return 0; }
+  base=$(sha_of "$orig")
+  if [ -f "$ov" ]; then
+    sha=$(sha_of "$ov")
+    if [ ! -f "$ok" ]; then
+      state=rejected; reason="no receipt from the panel beside it"
+    elif [ "$(kv "$ok" format)" != 1 ] || [ "$(kv "$ok" file)" != "$f" ]; then
+      state=rejected; reason="the receipt is for another file or format"
+    elif [ "$(kv "$ok" sha256)" != "$sha" ]; then
+      state=rejected; reason="the file is not the one the panel checked (changed by hand or written halfway)"
+    elif [ -f "$refused" ] && [ "$(kv "$refused" sha256)" = "$sha" ]; then
+      state=rejected; reason="the game refused this version at boot before: $(kv "$refused" reason)"
+    elif mkdir -p "$STATE" 2>/dev/null && merge "$f" "$orig" "$ov" > "$merged" 2> "$err"; then
+      if [ ! -s "$merged" ]; then
+        state=rejected; reason="the merge came out empty"
+      elif install_file "$merged" "$live"; then
+        state=installed
+        counts="$(kv "$ok" replaced)/$(kv "$ok" added)/$(kv "$ok" removed)"
+      else
+        state=failed; reason="could not write $live"
+      fi
+    else
+      state=rejected; reason="$(sed 's/^M2_DROP_OVERRIDE: //' "$err" 2>/dev/null | head -n 1 | one_line)"
+      [ -n "$reason" ] || reason="the merge failed"
+    fi
+  fi
+  if [ "$state" != installed ]; then
+    install_file "$orig" "$live" || { state=failed; reason="${reason:+$reason; }could not put the image's file back"; }
+  fi
+  case "$state" in
+    installed) say "M2_DROP_OVERRIDE: installed $f (replaced/added/removed $counts, override $sha)" ;;
+    original) say "M2_DROP_OVERRIDE: $f is the image's own" ;;
+    *) say "M2_DROP_OVERRIDE: rejected $f -- $reason; the image's own file is used" ;;
+  esac
+  add_status "$f=$state"
+  add_status "$f.reason=$(printf '%s' "$reason" | one_line)"
+  add_status "$f.override=$sha"
+  add_status "$f.base=$base"
+  add_status "$f.merged=$( [ "$state" = installed ] && sha_of "$live" )"
+  add_status "$f.counts=$counts"
+}
+
+record_offsets() {
+  # Where each core's logs stood when this apply put a file in place: the
+  # fallback reads only what came after.
+  local plan="$VAR_DIR/boot-plan" name dir rest
+  [ -r "$plan" ] || return 0
+  mkdir -p "$STATE" 2>/dev/null || return 0
+  while IFS='|' read -r name dir rest; do
+    [ -n "$name" ] || continue
+    printf '%s|%s|%s\n' "$dir" "$(stat -c %s "$dir/syslog" 2>/dev/null || echo 0)" \
+      "$(stat -c %s "$dir/syserr" 2>/dev/null || echo 0)"
+  done < "$plan" > "$STATE/offsets.new" 2>/dev/null && mv -f "$STATE/offsets.new" "$STATE/offsets"
+}
+
+cmd_apply() {
+  local f
+  STATUS_LINES=""
+  for f in $FILES; do apply_one "$f"; done
+  record_offsets
+  write_status || say "could not write $STATUS for the panel"
+  return 0
+}
+
+# ---------------------------------------------------------------------------
+#  fallback <core dir> -- after a core died
+# ---------------------------------------------------------------------------
+set_status() { # set_status <file> <state> <reason>
+  [ -f "$STATUS" ] || return 0
+  local tmp="$DIR/status.new.$$"
+  awk -v f="$1" -v st="$2" -v why="$3" '
+    index($0, f "=") == 1 { print f "=" st; next }
+    index($0, f ".reason=") == 1 { print f ".reason=" why; next }
+    index($0, f ".merged=") == 1 { print f ".merged="; next }
+    { print }' "$STATUS" > "$tmp" 2>/dev/null && chmod 0660 "$tmp" 2>/dev/null && mv -f "$tmp" "$STATUS" 2>/dev/null \
+    || rm -f "$tmp"
+}
+
+cmd_fallback() {
+  local dir="${1:-}" offl=0 offe=0 line which="" f last hit size
+  [ -n "$dir" ] && [ -d "$dir" ] || return 0
+  [ -f "$STATUS" ] || return 0
+  grep -q '^[a-z_]*\.txt=installed$' "$STATUS" 2>/dev/null || return 0
+  if [ -f "$STATE/offsets" ]; then
+    line=$(grep -F "$dir|" "$STATE/offsets" | head -n 1)
+    offl=$(printf '%s' "$line" | cut -d'|' -f2); offe=$(printf '%s' "$line" | cut -d'|' -f3)
+  fi
+  case "$offl" in ''|*[!0-9]*) offl=0 ;; esac
+  case "$offe" in ''|*[!0-9]*) offe=0 ;; esac
+  size=$(stat -c %s "$dir/syserr" 2>/dev/null || echo 0); [ "$size" -ge "$offe" ] || offe=0
+  size=$(stat -c %s "$dir/syslog" 2>/dev/null || echo 0); [ "$size" -ge "$offl" ] || offl=0
+  # The boot's own words (input_db.cpp, item_manager_read_tables.cpp,
+  # text_file_loader.cpp), written after this start's apply.
+  hit=$(tail -c +"$((offe + 1))" "$dir/syserr" 2>/dev/null \
+        | grep -a -m 1 -E 'cannot load (SpecialItemGroup|MOBDropItemFile)|ReadSpecialDropItemFile|ReadMonsterDropItemGroup|ReadmonsterDropItemGroup|Invalid group syntax|must have a value' \
+        | one_line)
+  # And the file the core was reading when it stopped: a crash inside the
+  # reader writes no syserr line, but the last LoadLocaleFile line names it.
+  last=$(tail -c +"$((offl + 1))" "$dir/syslog" 2>/dev/null | grep -a -o 'LoadLocaleFile: [A-Za-z]*' | tail -n 1)
+  case "$hit" in
+    *SpecialItemGroup*|*ReadSpecialDropItemFile*) which=special_item_group.txt ;;
+    *MOBDropItemFile*|*ReadMonsterDropItemGroup*|*ReadmonsterDropItemGroup*) which=mob_drop_item.txt ;;
+  esac
+  if [ -z "$which" ]; then
+    case "$last" in
+      *SpecialItemGroup) which=special_item_group.txt ;;
+      *MOBDropItemFile) which=mob_drop_item.txt ;;
+    esac
+    [ -n "$hit" ] || hit="the core stopped while it read the file (${last:-no log line})"
+  fi
+  [ -n "$which" ] || return 0
+  grep -qx "$which=installed" "$STATUS" 2>/dev/null || return 0
+  f="$which"
+  install_file "$LOCALE_DIR/$f.m2image" "$LOCALE_DIR/$f" || { say "could not put the image's $f back"; return 1; }
+  local sha; sha=$(kv "$STATUS" "$f.override")
+  local tmp="$DIR/refused/$f.new.$$"
+  if [ -d "$DIR/refused" ]; then
+    printf 'sha256=%s\ntime=%s\nreason=%s\n' "$sha" "$(date +%s)" "$hit" > "$tmp" 2>/dev/null \
+      && chmod 0660 "$tmp" 2>/dev/null && mv -f "$tmp" "$DIR/refused/$f" 2>/dev/null || rm -f "$tmp"
+  fi
+  set_status "$f" rejected "the game refused it at boot: $hit"
+  say "M2_DROP_OVERRIDE: rejected $f -- the game refused it at boot: $hit; the image's own file is back"
+  return 0
+}
+
+cmd_status() {
+  [ -f "$STATUS" ] && cat "$STATUS" || echo "no status yet"
+}
+
+case "${1:-}" in
+  prepare)  cmd_prepare ;;
+  apply)    cmd_apply ;;
+  fallback) shift; cmd_fallback "$@" ;;
+  status)   cmd_status ;;
+  merge)    shift; merge "$@" ;;
+  *) sed -n '2,6p' "$0" | sed 's/^# \{0,1\}//'
+     echo "usage: m2-drop-tables prepare|apply|fallback <core dir>|status|merge <file> <original> <override>"
+     exit 1 ;;
+esac

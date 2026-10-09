@@ -10,7 +10,32 @@
   <article>
     <div class="profile-tags">{% set empire=empire_info(character.empire) %}{% if empire.flag %}<span class="empire-badge empire-badge--profile"><img src="{{empire_flag(character.empire)}}" alt="{{empire.name}}">{{empire.name}}</span>{% endif %}<span>HP {{character.hp}} / {{character.max_hp}}</span><span>MP {{character.mp}} / {{character.max_mp}}</span><span>Yang {{'{:,}'.format(character.gold or 0).replace(',', ' ')}}</span><span>{{map_name(character.map_index)}}</span>{% if character.channel %}<span title="{{'Aktualnie online' if character.channel_live else 'Ostatnio widziany, bot offline'}}">{{'📡' if character.channel_live else '💤'}} CH{{character.channel}}</span>{% endif %}<span>⏱ {{character.playtime_hours}} h {{character.playtime_minutes}} min</span><span>🕐 Ostatnio: {{character.last_play.strftime('%d.%m.%Y %H:%M') if character.last_play else '—'}}</span><span>💎 {{'{:,}'.format(character.cash).replace(',', ' ')}} Smoczych Monet</span>{% if character.marriage_partner %}<span>💍 Poślubiony/a z {{character.marriage_partner}}</span>{% endif %}{% if character.guild_name %}<span>🏯 {{character.guild_name}}{% if character.guild_grade %} ({{character.guild_grade}}){% endif %}</span>{% endif %}{% for p in character.premiums %}<span>⭐ {{p.label}} do {{p.expires.strftime('%d.%m.%Y')}}</span>{% else %}<span class="muted">⭐ Brak aktywnego VIP</span>{% endfor %}</div>
     <div class="profile-actions"><button type="button" class="secondary" id="teleport-me-btn" data-pid="{{character.id}}">⚡ Teleportuj moją postać w grze (1 klik)</button><small id="teleport-me-status" class="muted"></small></div>
-    <div class="vital-bars" aria-label="Stan postaci"><div class="vital hp"><span>❤ PŻ</span><div class="bar"><i style="width:{{character.hp_percent}}%"></i></div><b>{{character.hp_percent}}%</b></div><div class="vital mp"><span>✦ PM</span><div class="bar"><i style="width:{{character.mp_percent}}%"></i></div><b>{{character.mp_percent}}%</b></div><div class="vital exp"><span>⚡ EXP</span><div class="bar"><i style="width:{{character.experience.percent}}%"></i></div><b>{{character.experience.percent}}% · {{'{:,}'.format(character.experience.current).replace(',', ' ')}} / {{'{:,}'.format(character.experience.required).replace(',', ' ')}}</b></div></div>
+    <div class="vitals-row"><div class="vital-bars" aria-label="Stan postaci"><div class="vital hp"><span>❤ PŻ</span><div class="bar"><i style="width:{{character.hp_percent}}%"></i></div><b>{{character.hp_percent}}%</b></div><div class="vital mp"><span>✦ PM</span><div class="bar"><i style="width:{{character.mp_percent}}%"></i></div><b>{{character.mp_percent}}%</b></div><div class="vital exp"><span>⚡ EXP</span><div class="bar"><i style="width:{{character.experience.percent}}%"></i></div><b>{{character.experience.percent}}% · {{'{:,}'.format(character.experience.current).replace(',', ' ')}} / {{'{:,}'.format(character.experience.required).replace(',', ' ')}}</b></div></div>{% if presence %}{% set en = ui_language == 'en' %}
+    <style>
+      .vitals-row{display:flex;gap:14px;align-items:stretch;flex-wrap:wrap}
+      .vitals-row>.vital-bars{flex:1 1 260px;min-width:0}
+      .presence-chart{flex:1 1 260px;min-width:0;margin:0;padding:10px 12px;border:1px solid var(--live-line,#213852);border-radius:8px;background:var(--live-surface,transparent);color:var(--live-accent,#1f6fe5)}
+      .presence-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;font-size:13px;font-weight:600;margin-bottom:8px}
+      .presence-head small{font-size:12px;font-weight:500;opacity:.9}
+      .presence-legend{display:flex;gap:12px;font-size:11px;opacity:.9;margin-bottom:6px}
+      .presence-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+      .presence-legend .on{background:currentColor}
+      .presence-legend .off{background:var(--live-line,#213852)}
+      .presence-track{display:block;width:100%;height:52px;border-radius:6px;background:var(--live-surface-strong,transparent);overflow:visible}
+      .presence-track .pc-off{fill:var(--live-line,#213852);opacity:.55}
+      .presence-track .pc-on{fill:currentColor}
+      .presence-track .pc-tick{stroke:var(--live-surface,#0d1929);stroke-width:.6;opacity:.8}
+      .presence-axis{position:relative;height:16px;margin-top:4px;font-size:11px;opacity:.85}
+      .presence-axis span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+      .presence-axis .edge-start{transform:none;left:0}
+      .presence-axis .edge-end{transform:translateX(-100%);right:0}
+    </style>
+    <figure class="presence-chart" aria-label="{{ 'Online and offline sessions, last 24 hours' if en else 'Sesje online i offline, ostatnie 24 godziny' }}">
+      <div class="presence-head"><span>{{ 'Sessions · last 24 h' if en else 'Sesje · ostatnie 24 h' }}</span><small>online {{ presence.online_minutes // 60 }} h {{ presence.online_minutes % 60 }} min</small></div>
+      <div class="presence-legend"><span><i class="on"></i>online</span><span><i class="off"></i>offline</span></div>
+      <svg class="presence-track" viewBox="0 0 {{ presence.slots }} 52" preserveAspectRatio="none" role="img" aria-hidden="true"><rect class="pc-off" x="0" y="0" width="{{ presence.slots }}" height="52"/>{% for run in presence.runs %}<rect class="pc-on" x="{{ run[0] }}" y="0" width="{{ run[1] }}" height="52"/>{% endfor %}{% for tick in presence.ticks %}<line class="pc-tick" x1="{{ tick.pos }}" x2="{{ tick.pos }}" y1="0" y2="52"/>{% endfor %}</svg>
+      <div class="presence-axis"><span class="edge-start">{{ presence.start }}</span>{% for tick in presence.ticks %}<span style="left:{{ (tick.pos / presence.slots * 100) | round(2) }}%">{{ tick.label }}</span>{% endfor %}<span class="edge-end">{{ presence.end }}</span></div>
+    </figure>{% endif %}</div>
     <dl class="bot-live-details"><div><dt>Pozycja</dt><dd>{{character.x}}, {{character.y}}</dd></div><div><dt>Ranga</dt><dd><span class="honor {{character.honor.css}}">{{character.honor.title}}</span> · {{'{:,}'.format(character.honor.points).replace(',', ' ')}} pkt</dd></div><div><dt>Osobowość</dt><dd>{{character.personality}}</dd></div>{% if character.persona %}<div><dt>Persona</dt><dd>{{character.persona}}</dd></div><div><dt>Nastrój</dt><dd>{{character.mood}}{% if character.hold %} · {{character.hold}}{% endif %}{% if character.mood_lock %} <small class="muted">({{character.mood_lock}})</small>{% endif %}</dd></div>{% endif %}<div><dt>Ambicja</dt><dd>{{character.ambition}}</dd></div><div><dt>Aktualny cel</dt><dd>{{character.goal}}</dd></div><div><dt>Akcja</dt><dd>{{character.action}}</dd></div><div><dt>Koń</dt><dd>Lv {{character.horse_level}}</dd></div></dl>
     <div class="native-player-windows">
       <section id="native-player-map" class="native-player-map{% if character.map_portrait %} is-portrait{% endif %}" aria-label="{{ 'Character position on map' if ui_language == 'en' else 'Pozycja postaci na mapie' }}">
@@ -70,19 +95,37 @@
         <tr><td>Zdobyty Yang (łącznie)</td><td>{{'{:,}'.format(character_stats.gold_earned).replace(',', ' ')}}</td></tr>
         <tr><td>Yang ze sprzedaży u NPC</td><td>{{'{:,}'.format(character_stats.gold_from_shop_sale).replace(',', ' ')}}</td></tr>
     </tbody></table><p class="muted">Źródło: tabela silnika <code>player_special_flag</code> (system PLAYER_STATS_*), zapisywana po stronie serwera przy każdej zmianie — dokładnie ten sam licznik, który wypełnia okno "Statystyki" pod klawiszem Y w grze. Cztery pola z panelu Y — ukończone lochy, zebrane kwiaty, otwarte skrzynie, ukończone księgi misji — są zdefiniowane w silniku, ale nigdy nie są zwiększane przez żaden kod gry na tej wersji serwera, więc nie mają tu żadnej wartości do pokazania.</p></section>
-    <section class="panel"><h2>⚙ Akcje administracyjne</h2><div class="grid two">
-      <form class="manage-form game-admin-card" method="post" action="{{url_for('player_action_game', pid=character.id)}}"><h3>🎁 Daj przedmiot</h3><input type="hidden" name="command" value="ITEM"><label>Kategoria<select id="admin-item-category"><option value="all">Wszystkie</option><option value="weapons">Bronie</option><option value="armor">Zbroje</option><option value="use">Mikstury / użytkowe</option><option value="dragon">Smocze Kamienie</option><option value="metin">Kamienie Metin</option><option value="special">Specjalne</option><option value="other">Inne</option></select></label><label>Szukaj<input id="admin-item-search" type="search" placeholder="Nazwa albo VNUM"></label><label>Przedmiot<select id="admin-item-results" name="vnum" required><option value="">Wyszukaj przedmiot…</option></select></label><label>Ilość<input name="count" type="number" min="1" max="200" value="1" required></label><button>🎁 Wyślij przedmiot</button></form>
-      <form class="manage-form game-admin-card" method="post" action="{{url_for('player_action_game', pid=character.id)}}"><h3>💰 Daj Yang</h3><input type="hidden" name="command" value="GOLD"><div class="admin-presets"><button type="button" data-yang="1000000">1 Million</button><button type="button" data-yang="10000000">10 Million</button><button type="button" data-yang="100000000">100 Million</button><button type="button" data-yang="1000000000">1 Billion</button></div><label>Kwota<input id="admin-yang" name="amount" type="number" min="1" max="2000000000" value="1000000" required></label><button>💰 Wyślij Yang</button></form>
-      <form class="manage-form game-admin-card" method="post" action="{{url_for('player_action_game', pid=character.id)}}"><h3>⭐ Ustaw poziom</h3><input type="hidden" name="command" value="LEVEL"><label>Poziom<input name="level" type="number" min="1" max="120" value="{{character.level}}" required></label><button>⭐ Zmień poziom</button></form>
-      <form class="manage-form game-admin-card" method="post" action="{{url_for('player_action_game', pid=character.id)}}"><h3>🗺️ Teleportuj</h3><input type="hidden" name="command" value="WARP"><label>Miejsce<select name="warp">{% for label,x,y in admin_warps %}<option value="{{loop.index0}}">{{label}}</option>{% endfor %}</select></label><small class="muted">Działa, gdy postać jest w grze.</small><button>🗺️ Teleportuj</button></form>
-      <form class="manage-form game-admin-card" method="post" action="{{url_for('player_action_game', pid=character.id)}}"><h3>🏃 Szybkość biegu</h3><input type="hidden" name="command" value="SPEED"><label>Premia na 1 godzinę<select name="speed"><option value="0">Normalna</option><option value="30">+30%</option><option value="60">+60%</option><option value="100">+100%</option></select></label><small class="muted">Działa, gdy postać jest w grze.</small><button>🏃 Ustaw szybkość</button></form>
-      <form class="manage-form" method="post" action="{{url_for('player_action_vip', pid=character.id)}}"><h3>Nadaj VIP</h3><input type="hidden" name="premium_type" value="8"><label>Dni<input type="number" name="days" min="1" max="3650" value="30" required></label><button>Nadaj VIP</button></form>
-      <form class="manage-form" method="post" action="{{url_for('player_action_coins', pid=character.id)}}"><h3>Nadaj Smocze Monety</h3><label>Ilość (account.cash)<input type="number" name="amount" min="1" max="1000000" required></label><button>Dodaj monety</button></form>
-      <form class="manage-form" method="post" action="{{url_for('player_action_rename', pid=character.id)}}"><h3>Zmień nick</h3><label>Nowy nick<input type="text" name="new_name" minlength="2" maxlength="24" pattern="[A-Za-z0-9]+" required></label><small class="muted">Jeśli to żywy bot, silnik nie powinien cofnąć zmiany przy zapisie — ale w razie czego krótko zrestartuj kanał gry.</small><button class="secondary">Zmień nick</button></form>
-      <form class="manage-form" method="post" action="{{url_for('player_action_reset_position', pid=character.id)}}" onsubmit="return confirm('Zresetować pozycję postaci do stolicy własnego królestwa?');"><h3>Resetuj pozycję</h3><small class="muted">Przenosi do stolicy własnego królestwa (jak żywy bot — może zostać nadpisane przy zapisie z pamięci).</small><button class="secondary">Resetuj pozycję</button></form>
-      <form class="manage-form" method="post" action="{{url_for('player_action_gm_rank', pid=character.id)}}"><h3>Ranga GM</h3><label>Ranga<select name="rank">{% for value,label in gm_ranks %}<option value="{{value}}" {% if character.gm_rank==value %}selected{% endif %}>{{label}}</option>{% endfor %}</select></label><small class="muted">Silnik czyta listę GM-ów z common.gmlist przy starcie i przy /reload a (wymaga zalogowanego Właściciela) — bez tego zmiana zadziała od następnego logowania tej postaci.</small><button class="secondary">Zapisz rangę</button></form>
+    <section class="panel admin-actions"><h2>⚙ Akcje administracyjne</h2><div class="grid two">
+      {# A bot's EXP lock and the operator's override of it (bot_exp_lock_view in
+         app.py; Playerbots 2.x only, bots only). The core makes the change; the
+         panel only queues it. #}
+      {% if exp_lock %}
+      <form class="manage-form game-admin-card admin-card admin-card--exp" id="exp-lock" method="post" action="{{url_for('player_action_exp_lock', pid=character.id)}}"><h3>⚡ Doświadczenie (EXP)</h3>
+        {% if exp_lock.companion %}<small class="muted">Towarzysz gracza: jego exp zależy od Pierścienia Anty-Exp właściciela i jego własnego limitu, nie od panelu.</small>
+        {% else %}
+        <b>{% if exp_lock.blocked %}🔒 Exp zablokowany: bot nie zdobywa doświadczenia{% else %}✅ Exp leci: bot zdobywa doświadczenie{% endif %}</b>
+        {% if not exp_lock.online %}<small class="muted">Bota nie ma w grze, stan z ostatniego zapisu postaci.</small>{% endif %}
+        {% if exp_lock.lock_level %}<small class="muted">Osobowość trzyma go na poziomie {{exp_lock.lock_level}}.</small>{% endif %}
+        <small>{% if exp_lock.unlocked %}🔓 Operator odblokował exp: osobowość nie blokuje tego bota.{% else %}Bez zmiany operatora: o blokadzie decyduje osobowość.{% endif %}</small>
+        {% if exp_lock.pending %}<small class="muted">⏳ {% if exp_lock.pending.applying %}Rdzeń bota właśnie wykonuje zmianę{% elif exp_lock.pending.kind == 'EXPUNLOCK' %}Odblokowanie czeka na wejście bota do gry{% else %}Przywrócenie blokady czeka na wejście bota do gry{% endif %} (zlecone {{exp_lock.pending.since}}).</small>{% endif %}
+        {% if exp_lock.wants_unlocked %}<input type="hidden" name="mode" value="restore"><button class="secondary">Przywróć blokadę</button>
+        {% else %}<input type="hidden" name="mode" value="unlock"><button>🔓 Odblokuj exp</button>{% endif %}
+        <small class="muted">„Odblokuj exp” pozwala botowi zdobywać doświadczenie, choć jego osobowość by go zatrzymała (Grinder na progu swojego tieru, dropper w swoim paśmie). „Przywróć blokadę” oddaje decyzję osobowości. Zmianę wykonuje rdzeń, na którym bot gra; bot poza grą dostanie ją, gdy wejdzie.</small>
+        {% endif %}
+      </form>
+      {% endif %}
+      <form class="manage-form game-admin-card admin-card admin-card--item" method="post" action="{{url_for('player_action_game', pid=character.id)}}"><h3>🎁 Daj przedmiot</h3><input type="hidden" name="command" value="ITEM"><label>Kategoria<select id="admin-item-category"><option value="all">Wszystkie</option><option value="weapons">Bronie</option><option value="armor">Zbroje</option><option value="use">Mikstury / użytkowe</option><option value="dragon">Smocze Kamienie</option><option value="metin">Kamienie Metin</option><option value="special">Specjalne</option><option value="other">Inne</option></select></label><label>Szukaj<input id="admin-item-search" type="search" placeholder="Nazwa albo VNUM"></label><label>Przedmiot<select id="admin-item-results" name="vnum" required><option value="">Wyszukaj przedmiot…</option></select></label><label>Ilość<input name="count" type="number" min="1" max="200" value="1" required></label><button>🎁 Wyślij przedmiot</button></form>
+      <form class="manage-form game-admin-card admin-card admin-card--yang" method="post" action="{{url_for('player_action_game', pid=character.id)}}"><h3>💰 Daj Yang</h3><input type="hidden" name="command" value="GOLD"><div class="admin-presets"><button type="button" data-yang="1000000">1 Million</button><button type="button" data-yang="10000000">10 Million</button><button type="button" data-yang="100000000">100 Million</button><button type="button" data-yang="1000000000">1 Billion</button></div><label>Kwota<input id="admin-yang" name="amount" type="number" min="1" max="2000000000" value="1000000" required></label><button>💰 Wyślij Yang</button></form>
+      <form class="manage-form game-admin-card admin-card admin-card--level" method="post" action="{{url_for('player_action_game', pid=character.id)}}"><h3>⭐ Ustaw poziom</h3><input type="hidden" name="command" value="LEVEL"><label>Poziom<input name="level" type="number" min="1" max="120" value="{{character.level}}" required></label><button>⭐ Zmień poziom</button></form>
+      <form class="manage-form game-admin-card admin-card admin-card--warp" method="post" action="{{url_for('player_action_game', pid=character.id)}}"><h3>🗺️ Teleportuj</h3><input type="hidden" name="command" value="WARP"><label>Miejsce<select name="warp">{% for label,x,y in admin_warps %}<option value="{{loop.index0}}">{{label}}</option>{% endfor %}</select></label><small class="muted">Działa, gdy postać jest w grze.</small><button>🗺️ Teleportuj</button></form>
+      <form class="manage-form game-admin-card admin-card admin-card--speed" method="post" action="{{url_for('player_action_game', pid=character.id)}}"><h3>🏃 Szybkość biegu</h3><input type="hidden" name="command" value="SPEED"><label>Premia na 1 godzinę<select name="speed"><option value="0">Normalna</option><option value="30">+30%</option><option value="60">+60%</option><option value="100">+100%</option></select></label><small class="muted">Działa, gdy postać jest w grze.</small><button>🏃 Ustaw szybkość</button></form>
+      <form class="manage-form admin-card admin-card--vip" method="post" action="{{url_for('player_action_vip', pid=character.id)}}"><h3>Nadaj VIP</h3><input type="hidden" name="premium_type" value="8"><label>Dni<input type="number" name="days" min="1" max="3650" value="30" required></label><button>Nadaj VIP</button></form>
+      <form class="manage-form admin-card admin-card--coins" method="post" action="{{url_for('player_action_coins', pid=character.id)}}"><h3>Nadaj Smocze Monety</h3><label>Ilość (account.cash)<input type="number" name="amount" min="1" max="1000000" required></label><button>Dodaj monety</button></form>
+      <form class="manage-form admin-card admin-card--rename" method="post" action="{{url_for('player_action_rename', pid=character.id)}}"><h3>Zmień nick</h3><label>Nowy nick<input type="text" name="new_name" minlength="2" maxlength="24" pattern="[A-Za-z0-9]+" required></label><small class="muted">Jeśli to żywy bot, silnik nie powinien cofnąć zmiany przy zapisie — ale w razie czego krótko zrestartuj kanał gry.</small><button class="secondary">Zmień nick</button></form>
+      <form class="manage-form admin-card admin-card--reset" method="post" action="{{url_for('player_action_reset_position', pid=character.id)}}" onsubmit="return confirm('Zresetować pozycję postaci do stolicy własnego królestwa?');"><h3>Resetuj pozycję</h3><small class="muted">Przenosi do stolicy własnego królestwa (jak żywy bot — może zostać nadpisane przy zapisie z pamięci).</small><button class="secondary">Resetuj pozycję</button></form>
+      <form class="manage-form admin-card admin-card--gm" method="post" action="{{url_for('player_action_gm_rank', pid=character.id)}}"><h3>Ranga GM</h3><label>Ranga<select name="rank">{% for value,label in gm_ranks %}<option value="{{value}}" {% if character.gm_rank==value %}selected{% endif %}>{{label}}</option>{% endfor %}</select></label><small class="muted">Silnik czyta listę GM-ów z common.gmlist przy starcie i przy /reload a (wymaga zalogowanego Właściciela) — bez tego zmiana zadziała od następnego logowania tej postaci.</small><button class="secondary">Zapisz rangę</button></form>
       </div>
-      <form class="manage-form danger-form" method="post" action="{{url_for('player_action_delete', pid=character.id)}}" onsubmit="return confirm('To jest NIEODWRACALNE i skasuje wszystkie przedmioty tej postaci. Kontynuować?');"><h3>⚠ Usuń postać (nieodwracalne)</h3><small class="muted">Wpisz dokładną nazwę postaci, żeby potwierdzić: <b>{{character.name}}</b>. Kopia wiersza trafi do web_seban_deleted_players przed usunięciem.</small><input type="text" name="confirm_name" placeholder="Wpisz {{character.name}}" required><button class="secondary">Usuń postać</button></form>
+      <form class="manage-form danger-form admin-card admin-card--delete" method="post" action="{{url_for('player_action_delete', pid=character.id)}}" onsubmit="return confirm('To jest NIEODWRACALNE i skasuje wszystkie przedmioty tej postaci. Kontynuować?');"><h3>⚠ Usuń postać (nieodwracalne)</h3><small class="muted">Wpisz dokładną nazwę postaci, żeby potwierdzić: <b>{{character.name}}</b>. Kopia wiersza trafi do web_seban_deleted_players przed usunięciem.</small><input type="text" name="confirm_name" placeholder="Wpisz {{character.name}}" required><button class="secondary">Usuń postać</button></form>
     </section>
   </article>
   <aside class="inventory-panel">
@@ -117,6 +160,7 @@ function bindInventoryFragment(){
   if (dragonStorage) dragonStorage.hidden=activeStorage!=='dragon';
   document.querySelectorAll('[data-storage]').forEach(b=>b.onclick=()=>{activeStorage=b.dataset.storage;bindInventoryFragment()});
   bindDragonSoul();
+  bindFloatingItemTips();
 }
 function bindDragonSoul(){
   const win=document.querySelector('.dragon-soul-window'); if(!win)return;
@@ -157,6 +201,30 @@ function bindNativeCharacterWindow(){
   if(bonus&&popover)bonus.onclick=()=>{popover.hidden=!popover.hidden;bonus.setAttribute('aria-expanded',String(!popover.hidden))};
 }
 bindNativeCharacterWindow();
+// A tooltip follows the cursor. Its measured height decides whether it opens below it.
+function bindFloatingItemTips(root=document){
+  root.querySelectorAll('.equip-slot,.inv-slot,.safebox-slot,.ds-equip-slot,.ds-bag-slot,.skill-slot').forEach(host=>{
+    if(host.dataset.floatingTipBound)return; host.dataset.floatingTipBound='1';
+    const place=event=>{
+      const tip=host.querySelector('.item-tip'); if(!tip)return;
+      tip.classList.add('is-floating');
+      // :hover is not guaranteed to have painted yet on pointerenter. Force a
+      // hidden layout first; otherwise rect.height is zero and tall tooltips
+      // incorrectly choose the space above the pointer.
+      tip.style.setProperty('display','block','important');
+      tip.style.setProperty('visibility','hidden','important');
+      const gap=14, edge=10, rect=tip.getBoundingClientRect();
+      const left=Math.max(edge,Math.min(event.clientX-rect.width/2,window.innerWidth-rect.width-edge));
+      const top=event.clientY-rect.height-gap<edge ? event.clientY+gap : event.clientY-rect.height-gap;
+      tip.style.setProperty('left',String(left)+'px','important');
+      tip.style.setProperty('top',String(top)+'px','important');
+      tip.style.setProperty('visibility','visible','important');
+    };
+    host.addEventListener('pointerenter',place); host.addEventListener('pointermove',place);
+    host.addEventListener('pointerleave',()=>{const tip=host.querySelector('.item-tip');if(!tip)return;tip.classList.remove('is-floating');tip.style.removeProperty('display');tip.style.removeProperty('visibility');});
+  });
+}
+bindFloatingItemTips();
 bindInventoryFragment();
 // Wired straight to the same always-live SQL the full page render uses (see
 // load_character_items in app.py) -- no separate cache, no waiting for a

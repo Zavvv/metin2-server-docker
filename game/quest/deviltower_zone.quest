@@ -35,7 +35,12 @@ quest deviltower_zone begin
 
         when login begin
             if pc.get_map_index() == 66 then
-                if pc.getqf("pass_enter") == 0 then
+                -- The ground floor is entered through the NPC, which sets
+                -- pass_enter; anybody else is put back outside. A GM is the
+                -- operator, who reaches the floor by the panel's "teleport me"
+                -- onto a bot or person standing there (pc.warp_to_pid) and
+                -- was thrown out a second after arriving (Tieru, 7 October).
+                if pc.getqf("pass_enter") == 0 and not pc.is_gm() then
                     pc.warp((5376+532)*100, (512+596+4)*100, 65)
                     return
                 end

@@ -14,11 +14,33 @@
 -- 0 of an unqualified character as much as for the 1 - and this engine answers
 -- 1 for everybody anyway (ENABLE_NO_DSS_QUALIFICATION). The define lines are
 -- written out, because the image's qc does not read define.
+--
+-- And the Time Elixirs (Kiciamol, 7 October), which recharge a Dragon Stone's
+-- wear: nothing in this world dropped or sold one. The Alchemist's special
+-- shop 20001 (world.shop_special, which the migrator fills: the step "the
+-- Alchemist's Time Elixirs" of apply.sh) sells the small, the medium and the
+-- large for three, five and eight raw Cor Draconis (50255) and no yang
+-- (special_shop_manager.cpp counts and takes them). Behind the
+-- same two gates as the shop above; the option's words are Polish or English
+-- as the player's client asked (playerbot_lang.quest), and the item names are
+-- the client's own. The bots never come here (playerbot_dragon_soul_rules.h).
 quest dragon_soul_shop begin
 	state start begin
+		function t(pl, en)
+			if pc.getf("playerbot_lang", "en") == 1 then
+				return en
+			end
+			return pl
+		end
+
 		when 20001.chat.gameforge.dragon_soul._100_npcChat with game.get_event_flag("m2_dragon_soul_off") == 0 and pc.getf("dragon_soul", "qualified") == 1 begin
 			say (gameforge.dragon_soul._110_say)
 			npc.open_shop(13)
+		end
+
+		when 20001.chat.dragon_soul_shop.t("Eliksiry Czasu", "Time Elixirs") with game.get_event_flag("m2_dragon_soul_off") == 0 and pc.getf("dragon_soul", "qualified") == 1 begin
+			setskin(NOWINDOW)
+			pc.open_special_shop(20001)
 		end
 	end
 end
