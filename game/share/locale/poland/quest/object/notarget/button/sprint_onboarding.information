@@ -1,3 +1,0 @@
-cmdchat ( "SprintOnboarding" ) 
-clear_letter ( ) 
-set_state ( "complete" ) 

@@ -393,10 +393,88 @@ SKILL_ID_NAMES = {}
 SKILL_ID_NAMES_PL = {}
 
 
+# Iwakura's Patch 13.5, point 2 (9 October): "Marmur Polimorfii – <nazwa
+# potwora> (<poziom potwora> lvl)" wherever the panel shows an item. The five
+# Polymorph Marbles of item_proto carry the monster they turn into in socket 0,
+# and a marble is worth what its monster is worth - "Marmur Polimorfii" alone
+# said nothing. Rola Transformacyjna (50322) is ITEM_POLYMORPH too and no
+# marble, so the vnums, as the core's playerbot_names::IsPolymorphMarbleVnum.
+POLYMORPH_MARBLE_VNUMS = frozenset((70104, 70105, 70106, 70107, 71093))
+MARBLE_NAME_SEPARATOR = " – "
+
+
+def marble_monster(vnum, socket0):
+    """The monster a Polymorph Marble names (its socket 0), 0 for anything else."""
+    try:
+        vnum, socket0 = int(vnum or 0), int(socket0 or 0)
+    except (TypeError, ValueError):
+        return 0
+    return socket0 if vnum in POLYMORPH_MARBLE_VNUMS and 0 < socket0 <= 0xFFFFFFFF else 0
+
+
+def marble_monster_label(mob, language=None):
+    """"Dziki Pies (1 lvl)" / "Wild Dog (lv 1)" from the world's mob_proto (the
+    official English name for a reader of English), "potwór #101" / "monster
+    #101" for a monster mob_proto does not name."""
+    language = _dx_lang(language or (lang() if has_request_context() else "en"))
+    mob = int(mob or 0)
+    name = localized_mob_name(mob, language)
+    known = _MOB_NAMES.get(mob)
+    if not known or not known[0]:
+        return name                           # ex_mob_n: "potwór #101"
+    try:
+        level = int(known[3] or 0) if len(known) > 3 else 0
+    except (TypeError, ValueError):
+        level = 0
+    if level <= 0:
+        return name
+    return "%s (%d lvl)" % (name, level) if language == "pl" else "%s (lv %d)" % (name, level)
+
+
+def marble_full_name(item_name, mob, language=None):
+    """A marble's name with its monster after it, the name alone without one."""
+    if not mob:
+        return item_name
+    return item_name + MARBLE_NAME_SEPARATOR + marble_monster_label(mob, language)
+
+
+def marble_sockets(cur, item_ids):
+    """{item id: monster} of the Polymorph Marbles among `item_ids` that are
+    still items (player.item keeps a sold or traded piece under its id in its
+    new owner's window): the logs that name a marble keep its vnum and id,
+    never its socket. Anything the table cannot answer is no monster."""
+    ids = []
+    for i in item_ids:
+        try:
+            i = int(i or 0)
+        except (TypeError, ValueError):
+            continue
+        if i > 0:
+            ids.append(i)
+    ids = sorted(set(ids))[:2000]
+    found = {}
+    for start in range(0, len(ids), 500):
+        chunk = ids[start:start + 500]
+        try:
+            cur.execute("SELECT id, vnum, socket0 FROM player.item WHERE id IN (" +
+                        ",".join(["%s"] * len(chunk)) + ")", tuple(chunk))
+            for r in cur.fetchall():
+                mob = marble_monster(r.get("vnum"), r.get("socket0"))
+                if mob:
+                    found[int(r["id"])] = mob
+        except Exception:
+            break
+    return found
+
+
 def item_full_name(vnum, socket0, language=None):
-    """Localized name, with the skill spelled out for a skill book."""
+    """Localized name, with the skill spelled out for a skill book and the
+    monster for a Polymorph Marble."""
     language = language or (lang() if has_request_context() else "en")
     name = localized_item_name(vnum, language)
+    mob = marble_monster(vnum, socket0)
+    if mob:
+        return marble_full_name(name, mob, language)
     try:
         item_proto_ready()
         vt = ITEM_TYPES.get(int(vnum or 0), (0, 0))[0]
@@ -475,20 +553,20 @@ BOT_PERSONALITY_LABELS = {
         0: "Wytrwały poszukiwacz", 1: "Pogromca Metinów", 2: "Towarzysz drużyny",
         3: "Mistrz ekwipunku", 4: "Rozważny zbieracz", 5: "Handlarz",
         6: "Wędrowiec", 7: "Dropek Metinów", 8: "Dropek z M3",
-        9: "Dropek z M2", 10: "Dropek medali",
+        9: "Dropek M2 (Wojownik)", 10: "Dropek medali",
     },
     "en": {
         0: "Steady adventurer", 1: "Metin breaker", 2: "Team companion",
         3: "Gear specialist", 4: "Careful collector", 5: "Merchant",
         6: "Wanderer", 7: "Metin dropper", 8: "M3 weapon dropper",
-        9: "M2 Bestial dropper", 10: "Medal dropper",
+        9: "M2 dropper (Warrior)", 10: "Medal dropper",
     },
     "de": {0: "Beharrlicher Abenteurer", 1: "Metinbrecher", 2: "Gruppengefährte",
         3: "Ausrüstungsmeister", 4: "Umsichtiger Sammler", 5: "Händler", 6: "Wanderer",
-        7: "Metin-Farmer", 8: "M3-Waffen-Farmer", 9: "M2-Bestien-Farmer", 10: "Medaillen-Farmer"},
+        7: "Metin-Farmer", 8: "M3-Waffen-Farmer", 9: "M2-Farmer (Krieger)", 10: "Medaillen-Farmer"},
     "tr": {0: "Azimli maceracı", 1: "Metin kırıcı", 2: "Grup arkadaşı", 3: "Ekipman ustası",
         4: "Temkinli toplayıcı", 5: "Tüccar", 6: "Gezgin", 7: "Metin farmcısı",
-        8: "M3 silah farmcısı", 9: "M2 Yırtıcı farmcısı", 10: "Madalya farmcısı"},
+        8: "M3 silah farmcısı", 9: "M2 farmcısı (Savaşçı)", 10: "Madalya farmcısı"},
 }
 # The status file's columns before Iwakura's personalities (2.0.85): a core of
 # that age writes these fourteen and no header row the parser can read by.
@@ -570,20 +648,20 @@ BOT_DAILY_GOAL_LABELS = {
     "pl": {1: "Wbić poziom", 2: "Wbić 2 poziomy", 3: "Expić w PT", 4: "Zarobić yang",
         5: "Wydropić ulepszacz", 6: "Zbić Metiny", 7: "Zabić bossa", 8: "Uzbierać medale",
         9: "Wbić plusa", 10: "Kupić lepszy przedmiot", 11: "Sprzedać", 12: "Przeczytać księgi",
-        13: "Zbuffować grupę"},
+        13: "Zbuffować grupę", 14: "Zrobić questy", 15: "Zrobić quest"},
     "en": {1: "Gain a level", 2: "Gain 2 levels", 3: "Party exp", 4: "Earn yang",
         5: "Drop a refine material", 6: "Break Metins", 7: "Kill the boss", 8: "Collect medals",
         9: "Refine +1", 10: "Buy a better item", 11: "Sell", 12: "Read skill books",
-        13: "Buff the group"},
+        13: "Buff the group", 14: "Complete quests", 15: "Complete a quest"},
     "de": {1: "Ein Level aufsteigen", 2: "2 Level aufsteigen", 3: "EXP in der Gruppe",
         4: "Yang verdienen", 5: "Verbesserungsmaterial farmen", 6: "Metins zerstören",
         7: "Den Boss töten", 8: "Medaillen sammeln", 9: "+1 verbessern",
         10: "Besseren Gegenstand kaufen", 11: "Verkaufen", 12: "Fertigkeitsbücher lesen",
-        13: "Die Gruppe buffen"},
+        13: "Die Gruppe buffen", 14: "Quests abschließen", 15: "Eine Quest abschließen"},
     "tr": {1: "Seviye atla", 2: "2 seviye atla", 3: "Grupta EXP", 4: "Yang kazan",
         5: "Yükseltme malzemesi düşür", 6: "Metin kır", 7: "Bossu öldür", 8: "Madalya topla",
         9: "+1 yükselt", 10: "Daha iyi eşya satın al", 11: "Sat", 12: "Beceri kitabı oku",
-        13: "Grubu buffla"},
+        13: "Grubu buffla", 14: "Görevleri tamamla", 15: "Bir görevi tamamla"},
 }
 BOT_DAILY_GOAL_DIFFICULTY = {
     "pl": {0: "łatwy", 1: "normalny", 2: "trudny"},
@@ -647,7 +725,7 @@ BOT_ACTION_LABELS = {
         # months: a bot whose status text was empty fell back to "Planuje
         # nastepny ruch" whatever it was really doing.
         14: "Łowi ryby", 15: "Przegląda stragany", 16: "Wabi potwory",
-        17: "Odpoczywa w mieście", 18: "Kopie rudę",
+        17: "Odpoczywa w mieście", 18: "Kopie rudę", 19: "Robi questa",
     },
     "en": {
         0: "Planning next move", 1: "Travelling", 2: "Fighting", 3: "Picking up loot",
@@ -655,7 +733,7 @@ BOT_ACTION_LABELS = {
         8: "Reading a skill book", 9: "Socketing a spirit stone", 10: "Organising a party",
         11: "Doing Biologist mission", 12: "Visiting the Stable Boy",
         13: "Keeping a stall", 14: "Fishing", 15: "Browsing stalls",
-        16: "Luring monsters", 17: "Resting in town", 18: "Mining ore",
+        16: "Luring monsters", 17: "Resting in town", 18: "Mining ore", 19: "Doing a quest",
     },
     "de": {0: "Plant den nächsten Schritt", 1: "Reist", 2: "Kämpft", 3: "Hebt Beute auf",
         4: "Regeneriert sich", 5: "Wählt eine Spezialisierung", 6: "Handelt", 7: "Verbessert EQ",
@@ -663,13 +741,13 @@ BOT_ACTION_LABELS = {
         10: "Stellt eine Gruppe zusammen", 11: "Erledigt die Biologen-Mission",
         12: "Besucht den Stallburschen", 13: "Betreibt einen Stand", 14: "Angelt",
         15: "Stöbert an Ständen", 16: "Lockt Monster an", 17: "Rastet in der Stadt",
-        18: "Baut Erz ab"},
+        18: "Baut Erz ab", 19: "Erledigt eine Quest"},
     "tr": {0: "Sonraki hamlesini planlıyor", 1: "Yolculuk ediyor", 2: "Savaşıyor",
         3: "Ganimet topluyor", 4: "Toparlanıyor", 5: "Uzmanlık seçiyor", 6: "Ticaret yapıyor",
         7: "EQ yükseltiyor", 8: "Beceri Kitabı okuyor", 9: "Ruh Taşı takıyor", 10: "Grup kuruyor",
         11: "Biyolog görevini yapıyor", 12: "Seyis'i ziyaret ediyor", 13: "Tezgâh işletiyor",
         14: "Balık tutuyor", 15: "Tezgâhlara göz atıyor", 16: "Canavar topluyor",
-        17: "Şehirde dinleniyor", 18: "Cevher kazıyor"},
+        17: "Şehirde dinleniyor", 18: "Cevher kazıyor", 19: "Görev yapıyor"},
 }
 
 
@@ -766,6 +844,87 @@ def read_playerbot_live_status():
         _PLAYERBOT_STATUS_CACHE_KEY = cache_key
         _PLAYERBOT_STATUS_CACHE = result
         return dict(result)
+
+
+# Iwakura's Patch 15, point 9: what each bot does about its quests, every
+# core's playerbot_quest_bots.tsv (#PB15B1, rewritten every minute beside
+# playerbot_status.tsv): habit, the quest it goes after with its title, the
+# state and progress, what it does about it, how many it holds, has put aside
+# and has done.
+PLAYERBOT_QUEST_BOT_PATHS = tuple(os.path.join(os.path.dirname(p), "playerbot_quest_bots.tsv")
+                                  for p in PLAYERBOT_STATUS_PATHS)
+PLAYERBOT_QUEST_DOING = ("idzie_do_npc", "idzie_do_celu", "bije_cel")
+PLAYERBOT_QUEST_DOING_LABELS = {
+    "pl": {"idzie_do_npc": "idzie do NPC", "idzie_do_celu": "idzie do celu", "bije_cel": "bije cel"},
+    "en": {"idzie_do_npc": "going to the NPC", "idzie_do_celu": "going to the target",
+           "bije_cel": "fighting the target"},
+    "de": {"idzie_do_npc": "geht zum NPC", "idzie_do_celu": "geht zum Ziel", "bije_cel": "bekämpft das Ziel"},
+    "tr": {"idzie_do_npc": "NPC'ye gidiyor", "idzie_do_celu": "hedefe gidiyor", "bije_cel": "hedefle savaşıyor"},
+}
+PLAYERBOT_QUEST_NONE_LABELS = {"pl": "brak", "en": "none", "de": "keine", "tr": "yok"}
+PLAYERBOT_QUEST_ON_THE_WAY_LABELS = {"pl": "po drodze", "en": "on the way", "de": "nebenbei", "tr": "yol üstünde"}
+_PLAYERBOT_QUEST_CACHE_KEY = None
+_PLAYERBOT_QUEST_CACHE = {}
+
+
+def read_playerbot_quest_status():
+    """pid -> the core's quest row for that bot (the newest file wins)."""
+    global _PLAYERBOT_QUEST_CACHE_KEY, _PLAYERBOT_QUEST_CACHE
+    key = []
+    for path in PLAYERBOT_QUEST_BOT_PATHS:
+        try:
+            key.append((path, os.path.getmtime(path)))
+        except OSError:
+            key.append((path, 0))
+    key = tuple(key)
+    if key == _PLAYERBOT_QUEST_CACHE_KEY:
+        return _PLAYERBOT_QUEST_CACHE
+    now = time.time()
+    result = {}
+    for path, modified in sorted(key, key=lambda k: k[1]):
+        if not modified or now - modified > 300:
+            continue
+        try:
+            with open(path, "r", encoding="ascii", errors="replace") as stream:
+                for line in stream:
+                    if line.startswith("#"):
+                        continue
+                    parts = line.rstrip("\r\n").split("\t")
+                    if len(parts) < 12 or not parts[1].isdigit():
+                        continue
+                    try:
+                        result[int(parts[1])] = {
+                            "habit": parts[2], "quest": parts[3], "state": parts[4],
+                            "have": int(parts[5]), "need": int(parts[6]), "doing": parts[7],
+                            "held": int(parts[8]), "aside": int(parts[9]), "done": int(parts[10]),
+                            "title": parts[11] if parts[11] != "-" else parts[3],
+                        }
+                    except ValueError:
+                        continue
+        except OSError:
+            continue
+    _PLAYERBOT_QUEST_CACHE_KEY = key
+    _PLAYERBOT_QUEST_CACHE = result
+    return result
+
+
+def playerbot_quest_label(pid, language):
+    """Point 9's line: "<quest> (<state>, 18/30)" while the bot is busy with
+    its quest, "brak" while it holds quests and does something else, "brak
+    (po drodze: 3)" for a bot that takes them on the way, "" with no row."""
+    row = read_playerbot_quest_status().get(int(pid or 0))
+    if not row:
+        return ""
+    language = language if language in PLAYERBOT_QUEST_NONE_LABELS else "en"
+    if row["doing"] in PLAYERBOT_QUEST_DOING and row["quest"] != "-":
+        detail = row["state"]
+        if row["need"] > 1:
+            detail += ", %d/%d" % (row["have"], row["need"])
+        return "%s (%s; %s)" % (row["title"], detail, PLAYERBOT_QUEST_DOING_LABELS[language][row["doing"]])
+    none = PLAYERBOT_QUEST_NONE_LABELS[language]
+    if row["habit"] == "po_drodze" and row["held"]:
+        return "%s (%s: %d)" % (none, PLAYERBOT_QUEST_ON_THE_WAY_LABELS[language], row["held"])
+    return none if row["held"] or row["done"] else ""
 
 
 def localize_playerbot_status(entry, language):
@@ -1634,13 +1793,28 @@ AI_W_MIN, AI_W_MAX, AI_W_NEUTRAL = 25, 250, 100
 # Iwakura's Patch 11, point 24B: the share of bots of 35 and over that are
 # Craftsmen ("30% botow 35+ lvl"); the CRAFTSMAN key, 0..100.
 CRAFTSMAN_DEFAULT = 30
-# Iwakura's Patch 11, point 21: the bots' PvP set, an experimental option and
-# off by default (PVP_SET), and its five keys with the core's own defaults and
-# bounds (playerbot_pvp_set_rules.h): the share of the bots that qualify drawn
-# as builders, the lowest level, the percent of the purse a building session
-# may spend, whether the set goes on against a person too, and its strength
-# (0 low, 1 normal, 2 high).
-PVP_SET_DEFAULTS = {"PVP_SET_SHARE": 25, "PVP_SET_MIN_LEVEL": 30, "PVP_SET_BUDGET": 20, "PVP_SET_STRENGTH": 1}
+# Iwakura's Patch 15, point 9: "Questy botow" (QUESTS, on) and "Ile botow
+# skupia sie na questach" (QUEST_FOCUS, 0..100, 50 his), apart from the
+# Biologist and the tiers (playerbot_quests.h, mt2009).
+QUEST_FOCUS_DEFAULT = 50
+# Iwakura's Patch 11, point 21: the bots' PvP set (PVP_SET), on by default
+# since his Patch 15, point 17 (an experimental option, off, before it), and its
+# five keys with the core's own defaults and bounds (playerbot_pvp_set_rules.h):
+# the share of the bots that qualify drawn as builders (75 since Patch 15, 25
+# before), the lowest level, the percent of the purse a building session may
+# spend, whether the set goes on against a person too, and its strength (0 low,
+# 1 normal, 2 high).
+PVP_SET_DEFAULTS = {"PVP_SET_SHARE": 75, "PVP_SET_MIN_LEVEL": 30, "PVP_SET_BUDGET": 20, "PVP_SET_STRENGTH": 1}
+# Patch 15, point 17: "przy wgraniu patcha przelacznik ustawic na WL. i suwak
+# na 75%, chyba ze operator zmienial je recznie wczesniej". Every save wrote
+# every key, so a file of before carries PVP_SET 0 and PVP_SET_SHARE 25 whether
+# anybody touched them or not: in a file without PVP_SET_V those two values
+# are the old defaults and read as the new ones, anything else was a hand's.
+# The core reads the file the same way (playerbot_pvp_set_rules::
+# MigrateLegacyDefaults); a save writes PVP_SET_V, after which an off and a 25
+# are the operator's.
+PVP_SET_DEFAULTS_VERSION = 2
+PVP_SET_LEGACY = {"PVP_SET": 0, "PVP_SET_SHARE": 25}
 PVP_SET_BOUNDS = {"PVP_SET_SHARE": (0, 100), "PVP_SET_MIN_LEVEL": (1, 120), "PVP_SET_BUDGET": (0, 100),
                   "PVP_SET_STRENGTH": (0, 2)}
 # Iwakura's Community Patch 6, the population his supply tables were drawn
@@ -1768,16 +1942,21 @@ def read_ai_weights():
     # Whether a bot's stand may stand in a second village too. Off: the stands
     # belong in the first villages (Iwakura's idea, 22 September).
     vals["SHOP_M2"] = 0
-    # Iwakura's personalities and moods (playerbot_persona.h). On: the operator
-    # asked for them (19 September); off is the world as it was before.
+    # Iwakura's personalities and moods (playerbot_persona.h): on since the
+    # operator asked for them (19 September), always on since Patch 14, point 7.
     vals["PERSONA"] = 1
     # Patch 11, point 24B: the percent of bots of 35 and over that are
     # Craftsmen, forging for sale (a share, not a weight: 0..100, 30 his).
     vals["CRAFTSMAN"] = CRAFTSMAN_DEFAULT
-    # Patch 11, point 21: the bots' PvP set - experimental, off - and its keys.
-    vals["PVP_SET"] = 0
+    # Patch 15, point 9: the bots' quests, on, and the share that focuses on them.
+    vals["QUESTS"] = 1
+    vals["QUEST_FOCUS"] = QUEST_FOCUS_DEFAULT
+    # Patch 11, point 21: the bots' PvP set - on since Patch 15, point 17 - and
+    # its keys.
+    vals["PVP_SET"] = 1
     vals["PVP_SET_VS_HUMAN"] = 1
     vals.update(PVP_SET_DEFAULTS)
+    pvp_set_version = 0
     # A bot's haggle with a person over a line of the person's counter too dear
     # to buy at once (playerbot_haggle.h, mt2009). On: the operator asked for
     # it (Remigiusz, 30 September); off is the market as it was.
@@ -1801,9 +1980,6 @@ def read_ai_weights():
     vals["REST"] = 100
     # Percent of bots that pick fights with bots of another kingdom; 0 is off.
     vals["KINGDOMPVP"] = 0
-    # The lowest plus a refine under a Blessing or Dragon God scroll may land
-    # on; 1 is no floor, which is also what the core starts from.
-    vals["SCROLL_FROM"] = 1
     # The bots' guild wars: minutes a war lasts (15 or 30) and hours from the
     # start of one to the next in a kingdom (1-4). DUDU's ask; the defaults are
     # what the core did before there was a choice.
@@ -1872,13 +2048,29 @@ def read_ai_weights():
                     vals["SHOP_M2"] = 0 if parts[1].strip() in ("0", "off", "no") else 1
                     continue
                 if name == "PERSONA":
-                    vals["PERSONA"] = 0 if parts[1].strip() in ("0", "off", "no") else 1
+                    # Patch 14, point 7: a saved 0 reads as on.
+                    vals["PERSONA"] = 1
                     continue
                 if name == "HAGGLE":
                     vals["HAGGLE"] = 0 if parts[1].strip() in ("0", "off", "no") else 1
                     continue
                 if name == "SHOP_ROOM_SELL":
                     vals["SHOP_ROOM_SELL"] = 0 if parts[1].strip() in ("0", "off", "no") else 1
+                    continue
+                if name == "QUESTS":
+                    vals["QUESTS"] = 0 if parts[1].strip() in ("0", "off", "no") else 1
+                    continue
+                if name == "QUEST_FOCUS":
+                    try:
+                        vals["QUEST_FOCUS"] = max(0, min(100, int(parts[1])))
+                    except ValueError:
+                        pass
+                    continue
+                # A quest taken from the bots (QUEST_OFF_<quest>), kept as written.
+                if name.startswith("QUEST_OFF_"):
+                    # The quest's Lua name as written (the core reads it
+                    # without regard to case).
+                    vals["QUEST_OFF_" + parts[0][10:]] = 1 if parts[1].strip() not in ("0", "off", "no") else 0
                     continue
                 if name.startswith("P8_"):
                     for key, default, low, high, pl, en in PATCH8_CONTROLS:
@@ -1940,6 +2132,12 @@ def read_ai_weights():
                 if name in ("PVP_SET", "PVP_SET_VS_HUMAN"):
                     vals[name] = 0 if parts[1].strip() in ("0", "off", "no") else 1
                     continue
+                if name == "PVP_SET_V":
+                    try:
+                        pvp_set_version = max(0, int(parts[1]))
+                    except ValueError:
+                        pass
+                    continue
                 if name in PVP_SET_BOUNDS:
                     low, high = PVP_SET_BOUNDS[name]
                     try:
@@ -1948,10 +2146,8 @@ def read_ai_weights():
                         pass
                     continue
                 if name == "SCROLL_FROM":
-                    try:
-                        vals["SCROLL_FROM"] = max(1, min(9, int(parts[1])))
-                    except ValueError:
-                        pass
+                    # Iwakura's Patch 14, point 5: the scroll slider is gone
+                    # and its saved value means nothing any more.
                     continue
                 if name == "WAR_MINUTES":
                     try:
@@ -1994,6 +2190,13 @@ def read_ai_weights():
                     pass
     except OSError:
         pass
+    # Patch 15, point 17: a file of before at Patch 11's defaults is at the new
+    # ones (PVP_SET_LEGACY).
+    if pvp_set_version < PVP_SET_DEFAULTS_VERSION:
+        if vals["PVP_SET"] == PVP_SET_LEGACY["PVP_SET"]:
+            vals["PVP_SET"] = 1
+        if vals["PVP_SET_SHARE"] == PVP_SET_LEGACY["PVP_SET_SHARE"]:
+            vals["PVP_SET_SHARE"] = PVP_SET_DEFAULTS["PVP_SET_SHARE"]
     return vals
 
 
@@ -2038,14 +2241,22 @@ def write_ai_weights(vals):
     body.append("ISHOP\t%d" % (1 if vals.get("ISHOP", 1) else 0))
     # Not a weight: whether a bot's stand may stand in a second village too.
     body.append("SHOP_M2\t%d" % (1 if vals.get("SHOP_M2", 0) else 0))
-    # Not a weight: Iwakura's personalities, moods and the Grinder's locks.
-    body.append("PERSONA\t%d" % (1 if vals.get("PERSONA", 1) else 0))
+    # Not a weight: Iwakura's personalities, moods and the Grinder's locks -
+    # always 1 since Patch 14, point 7, written so an older panel reading the
+    # file shows them on.
+    body.append("PERSONA\t1")
     # Not a weight: whether a bot haggles with a person over a line too dear
     # to buy at once (mt2009).
     body.append("HAGGLE\t%d" % (1 if vals.get("HAGGLE", 1) else 0))
     # Not a weight: Iwakura's room sale, a quarter of a full counter's cheapest
     # stack sold to the general merchant (mt2009).
     body.append("SHOP_ROOM_SELL\t%d" % (1 if vals.get("SHOP_ROOM_SELL", 1) else 0))
+    # Not weights: Iwakura's Patch 15 - the bots' quests, the share that
+    # focuses on them, and a quest taken from the bots by hand.
+    body.append("QUESTS\t%d" % (1 if vals.get("QUESTS", 1) else 0))
+    body.append("QUEST_FOCUS\t%d" % max(0, min(100, int(vals.get("QUEST_FOCUS", QUEST_FOCUS_DEFAULT)))))
+    for key in sorted(k for k in vals if k.startswith("QUEST_OFF_") and vals[k]):
+        body.append("%s\t1" % key)
     body.append("LIVE_CHAT\t%d" % max(0, min(200, int(vals.get("LIVE_CHAT", 100)))))
     for key, default, low, high, pl, en in PATCH8_CONTROLS:
         body.append("%s\t%d" % (key, max(low, min(high, int(vals.get(key, default))))))
@@ -2065,15 +2276,15 @@ def write_ai_weights(vals):
     body.append("KINGDOMPVP\t%d" % max(0, min(100, int(vals.get("KINGDOMPVP", 0)))))
     # Percent of bots of 35 and over that are Craftsmen (Patch 11, point 24B).
     body.append("CRAFTSMAN\t%d" % max(0, min(100, int(vals.get("CRAFTSMAN", CRAFTSMAN_DEFAULT)))))
-    # Not weights: Iwakura's Patch 11, point 21 - the bots' PvP set (off by
-    # default) and its five keys.
-    body.append("PVP_SET\t%d" % (1 if vals.get("PVP_SET", 0) else 0))
+    # Not weights: Iwakura's Patch 11, point 21 - the bots' PvP set (on by
+    # default since Patch 15, point 17), its five keys, and the version of the
+    # defaults they were written under (PVP_SET_V: an off and a 25 written
+    # since are the operator's own).
+    body.append("PVP_SET\t%d" % (1 if vals.get("PVP_SET", 1) else 0))
+    body.append("PVP_SET_V\t%d" % PVP_SET_DEFAULTS_VERSION)
     for key, (low, high) in PVP_SET_BOUNDS.items():
         body.append("%s\t%d" % (key, max(low, min(high, int(vals.get(key, PVP_SET_DEFAULTS[key]))))))
     body.append("PVP_SET_VS_HUMAN\t%d" % (1 if vals.get("PVP_SET_VS_HUMAN", 1) else 0))
-    # The lowest plus a scroll refine may land on; 1 leaves the bots' own
-    # rules alone.
-    body.append("SCROLL_FROM\t%d" % max(1, min(9, int(vals.get("SCROLL_FROM", 1)))))
     # The bots' guild wars: how long (15 or 30 minutes) and how often (every
     # 1-4 hours in each kingdom).
     body.append("WAR_MINUTES\t%d" % (15 if int(vals.get("WAR_MINUTES", 30)) <= 15 else 30))
@@ -2091,7 +2302,7 @@ def write_ai_weights(vals):
     # What the file holds beyond this page's keys stays: rewriting it from the
     # page's own list dropped a newer core's settings and a hand-set TICK_MS
     # at every save (the advanced panel already kept them).
-    own = set(k for k, _ in AI_WEIGHT_KEYS) | set(vals)
+    own = set(k for k, _ in AI_WEIGHT_KEYS) | set(vals) | {"PVP_SET_V"}
     try:
         with open(AI_WEIGHTS, encoding="utf-8", errors="replace") as fh:
             for line in fh:
@@ -4841,10 +5052,10 @@ T.update({
                   "tr":"Bir oyuncunun çevrimdışı dükkânında bitmiş bir ekipman (+6 ve üstü) isteyen ama onu kendi fiyatından (dünyanın yang oranında Iwakura'nın fiyat listesi ve pazarın ödedikleri) pahalı bulan bot, dükkâna gider ve sahibine bir kez, sahibinin dilinde ve eşyanın bağlantısıyla fısıldar: kendi fiyatını teklif eder, son teklif olarak bunun bir buçuk katına kadar çıkar, ama harcayabileceğinin %70'ini asla geçmez. Sahip \"ok\", \"no\" ya da kendi fiyatıyla (\"5kk\") cevap verir veya dükkândaki fiyatı değiştirir; eşya anlaşılan fiyata indiğinde bot onu satın alır ve bunun için dükkânda on dakikaya kadar bekler. Botun zaten hemen ödeyeceği bir fiyatı her zaman kabul eder. Yalnızca botun kanalı ve çekirdeğindeki dükkânın sahibine sorulur; asla ticaret, açık pencere veya savaş sırasında ve o bota yazmayı bırakmasını söyledikten sonra değil; bir kişiyle aynı anda en fazla bir pazarlık, bir kişiye saatte en az on beş dakika arayla üç teklif, aynı eşya için üç saatte bir teklif (bir hayırdan sonra on iki), bir çekirdekte aynı anda üç pazarlık. Botun hemen satın aldığı şeyler değişmez. Kapalı: hiçbir bot teklif fısıldamaz ve tüm anlaşmalar unutulur."},
  "ai_haggle_on": {"en":"Enabled","pl":"Włączone","de":"Eingeschaltet","tr":"Açık"},
  "ai_shop_room": {"en":"A full shop sells its cheapest stack bit by bit (test)","pl":"Pełny sklep sprzedaje po trochu najtańszy stos (test)","de":"Ein voller Laden verkauft seinen billigsten Stapel nach und nach (Test)","tr":"Dolu dükkân en ucuz yığınını azar azar satar (deneme)"},
- "ai_shop_room_help":{"en":"Iwakura's test option (7 October), to be watched: when a bot tries to put something on its offline shop and the shop has no free cell for it, it picks the stack of the lowest total value among its materials and skill books - never equipment, never a kind the world lacks (×2.00 and over), a slipped price, a line a buyer is walking to or an item the item policy rules on - takes a quarter of it off (rounded up, at least one piece) and sells that to the general merchant at its next town visit; the rest goes back where it stood, at the same price a piece. If that frees no cell, the next attempt does it again, so the cheapest goods nobody buys leave the market slowly. At most one cut a bot every ten minutes and ten a core a minute. Silent: nothing in the panel's logs, nothing on the chat; the core writes one line every ten minutes, PLAYERBOT_SHOPROOM: census. Off: no stack is cut any more; what is already owed to the merchant is still sold.",
-                  "pl":"Opcja testowa Iwakury (7 października), do obserwacji: gdy bot próbuje wystawić coś w swoim sklepie offline, a w sklepie nie ma na to wolnego miejsca, wybiera spośród swoich materiałów i ksiąg umiejętności stos o najniższej łącznej wartości - nigdy ekwipunek, nigdy towar, którego świat ma za mało (od ×2,00), cenę z pomyłką, linię, do której idzie kupujący, ani przedmiot objęty polityką przedmiotów - zdejmuje 25% stosu (w górę, co najmniej 1 szt.) i sprzedaje to u Handlarki przy najbliższej wizycie w mieście; reszta wraca na swoje miejsce w tej samej cenie za sztukę. Jeśli to nie zwolni miejsca, przy następnej próbie robi to znowu, więc najtańsze, zalegające towary powoli znikają z rynku. Najwyżej jedno cięcie na bota co dziesięć minut i dziesięć na rdzeń na minutę. Cicho: nic w logach panelu, nic na czacie; rdzeń pisze jedną linię co dziesięć minut, PLAYERBOT_SHOPROOM: census. Wyłączone: żaden stos nie jest już cięty; to, co bot jest już winien Handlarce, i tak sprzedaje.",
-                  "de":"Iwakuras Testoption (7. Oktober), zum Beobachten: Will ein Bot etwas in seinen Offline-Laden stellen und hat der Laden dafür keinen freien Platz, wählt er unter seinen Materialien und Fertigkeitsbüchern den Stapel mit dem niedrigsten Gesamtwert - nie Ausrüstung, nie eine Ware, die der Welt fehlt (ab ×2,00), einen verrutschten Preis, eine Zeile, zu der ein Käufer unterwegs ist, oder einen Gegenstand, über den die Gegenstandsregel entscheidet - nimmt ein Viertel davon herunter (aufgerundet, mindestens ein Stück) und verkauft es beim nächsten Stadtbesuch an die Krämerin; der Rest kommt zum selben Stückpreis an seinen Platz zurück. Wird dadurch kein Platz frei, wiederholt er es beim nächsten Versuch, sodass die billigsten Waren, die niemand kauft, langsam vom Markt verschwinden. Höchstens ein Schnitt pro Bot alle zehn Minuten und zehn pro Kern und Minute. Still: nichts in den Protokollen des Panels, nichts im Chat; der Kern schreibt alle zehn Minuten eine Zeile, PLAYERBOT_SHOPROOM: census. Aus: kein Stapel wird mehr geschnitten; was der Krämerin schon geschuldet ist, wird trotzdem verkauft.",
-                  "tr":"Iwakura'nın deneme seçeneği (7 Ekim), izlenmek üzere: bir bot çevrimdışı dükkânına bir şey koymak istediğinde dükkânda ona boş yer yoksa, malzemeleri ve beceri kitapları arasından toplam değeri en düşük yığını seçer - asla ekipman, dünyada eksik olan bir mal (×2,00 ve üstü), hatalı bir fiyat, bir alıcının yürüdüğü bir satır ya da eşya kuralının kapsadığı bir eşya değil - bunun dörtte birini (yukarı yuvarlanarak, en az bir adet) indirir ve bir sonraki şehir ziyaretinde genel satıcıya satar; geri kalanı aynı adet fiyatıyla yerine döner. Bu yer açmazsa bir sonraki denemede yeniden yapar; böylece kimsenin almadığı en ucuz mallar pazardan yavaş yavaş kaybolur. Bot başına en fazla on dakikada bir kesim ve çekirdek başına dakikada on. Sessiz: panelin kayıtlarında hiçbir şey, sohbette hiçbir şey yok; çekirdek on dakikada bir satır yazar, PLAYERBOT_SHOPROOM: census. Kapalı: artık hiçbir yığın kesilmez; satıcıya zaten borçlu olunan yine satılır."},
+ "ai_shop_room_help":{"en":"Iwakura's test option (7 October), to be watched: when a bot tries to put something on its offline shop and the shop has no free cell for it, it picks the stack of the lowest total value among its materials and skill books - never equipment, never a kind the world lacks (×2.00 and over), a line a buyer is walking to or an item the item policy rules on - takes a quarter of it off (rounded up, at least one piece) and sells that to the general merchant at its next town visit; the rest goes back where it stood, at the same price a piece. If that frees no cell, the next attempt does it again, so the cheapest goods nobody buys leave the market slowly. At most one cut a bot every ten minutes and ten a core a minute. Silent: nothing in the panel's logs, nothing on the chat; the core writes one line every ten minutes, PLAYERBOT_SHOPROOM: census. Off: no stack is cut any more; what is already owed to the merchant is still sold.",
+                  "pl":"Opcja testowa Iwakury (7 października), do obserwacji: gdy bot próbuje wystawić coś w swoim sklepie offline, a w sklepie nie ma na to wolnego miejsca, wybiera spośród swoich materiałów i ksiąg umiejętności stos o najniższej łącznej wartości - nigdy ekwipunek, nigdy towar, którego świat ma za mało (od ×2,00), linię, do której idzie kupujący, ani przedmiot objęty polityką przedmiotów - zdejmuje 25% stosu (w górę, co najmniej 1 szt.) i sprzedaje to u Handlarki przy najbliższej wizycie w mieście; reszta wraca na swoje miejsce w tej samej cenie za sztukę. Jeśli to nie zwolni miejsca, przy następnej próbie robi to znowu, więc najtańsze, zalegające towary powoli znikają z rynku. Najwyżej jedno cięcie na bota co dziesięć minut i dziesięć na rdzeń na minutę. Cicho: nic w logach panelu, nic na czacie; rdzeń pisze jedną linię co dziesięć minut, PLAYERBOT_SHOPROOM: census. Wyłączone: żaden stos nie jest już cięty; to, co bot jest już winien Handlarce, i tak sprzedaje.",
+                  "de":"Iwakuras Testoption (7. Oktober), zum Beobachten: Will ein Bot etwas in seinen Offline-Laden stellen und hat der Laden dafür keinen freien Platz, wählt er unter seinen Materialien und Fertigkeitsbüchern den Stapel mit dem niedrigsten Gesamtwert - nie Ausrüstung, nie eine Ware, die der Welt fehlt (ab ×2,00), eine Zeile, zu der ein Käufer unterwegs ist, oder einen Gegenstand, über den die Gegenstandsregel entscheidet - nimmt ein Viertel davon herunter (aufgerundet, mindestens ein Stück) und verkauft es beim nächsten Stadtbesuch an die Krämerin; der Rest kommt zum selben Stückpreis an seinen Platz zurück. Wird dadurch kein Platz frei, wiederholt er es beim nächsten Versuch, sodass die billigsten Waren, die niemand kauft, langsam vom Markt verschwinden. Höchstens ein Schnitt pro Bot alle zehn Minuten und zehn pro Kern und Minute. Still: nichts in den Protokollen des Panels, nichts im Chat; der Kern schreibt alle zehn Minuten eine Zeile, PLAYERBOT_SHOPROOM: census. Aus: kein Stapel wird mehr geschnitten; was der Krämerin schon geschuldet ist, wird trotzdem verkauft.",
+                  "tr":"Iwakura'nın deneme seçeneği (7 Ekim), izlenmek üzere: bir bot çevrimdışı dükkânına bir şey koymak istediğinde dükkânda ona boş yer yoksa, malzemeleri ve beceri kitapları arasından toplam değeri en düşük yığını seçer - asla ekipman, dünyada eksik olan bir mal (×2,00 ve üstü), bir alıcının yürüdüğü bir satır ya da eşya kuralının kapsadığı bir eşya değil - bunun dörtte birini (yukarı yuvarlanarak, en az bir adet) indirir ve bir sonraki şehir ziyaretinde genel satıcıya satar; geri kalanı aynı adet fiyatıyla yerine döner. Bu yer açmazsa bir sonraki denemede yeniden yapar; böylece kimsenin almadığı en ucuz mallar pazardan yavaş yavaş kaybolur. Bot başına en fazla on dakikada bir kesim ve çekirdek başına dakikada on. Sessiz: panelin kayıtlarında hiçbir şey, sohbette hiçbir şey yok; çekirdek on dakikada bir satır yazar, PLAYERBOT_SHOPROOM: census. Kapalı: artık hiçbir yığın kesilmez; satıcıya zaten borçlu olunan yine satılır."},
  "ai_shop_room_on":{"en":"Enabled","pl":"Włączone","de":"Eingeschaltet","tr":"Açık"},
  "ai_supply":    {"en":"Living economy (Iwakura's Patch 6)","pl":"Żywa gospodarka (Patch 6 Iwakury)","de":"Lebendige Wirtschaft (Iwakuras Patch 6)","tr":"Canlı ekonomi (Iwakura'nın Yaması 6)"},
  "ai_supply_help":{"en":"Every half hour the core counts the pieces of every refine material, every skill book and the Blessing Scroll on all offline shops of the world (the bots' and the players', every kingdom) and sets a supply multiplier from Iwakura's tables: an empty market up to ×4 (a book ×3.5, the scroll ×5), a flooded one down to ×0.6. A multiplier moves at most 10% at a time, the lines already on the shops are repriced with it, an unsold line is marked down by how much of it the world holds, and no price goes under 60% of its market value (the scroll 50%). The box below adds the Forgetting Bands and the Kamień Duchowy, on the books' table (Iwakura's proposal, on by default).",
@@ -4866,11 +5077,10 @@ T.update({
                   "tr":"Kapalı (varsayılan): bot tezgahını yalnızca oyuncuların alışveriş yaptığı ilk köylerde açar; ikinci köyde duran ve süresi dolan tezgah, sahibinin bir sonraki ziyaretinde ilk köyün pazar halkasında yenilenir. Açık: tezgahlar eskisi gibi iki köyde de durur."},
  "ai_shop_m2_on": {"en":"Allowed","pl":"Dozwolone","de":"Erlaubt","tr":"İzin verildi"},
  "ai_persona":   {"en":"Bot personalities (Iwakura v2)","pl":"Osobowości botów (Iwakura v2)","de":"Bot-Persönlichkeiten (Iwakura v2)","tr":"Bot kişilikleri (Iwakura v2)"},
- "ai_persona_help": {"en":"Iwakura's personality system. A bot's personality follows its situation (Grinder, Conqueror, Trader, Gambler, Perfectionist, Metin slayer, Miner, Herbalist, Fisherman, Mercenary, Companion) and it has a mood (poor, normal, very good) shown on its card. A Grinder holds its level at its tier (15, 23, 30-35, 40-48, 55-62) until it wears a weapon +7, an armour +6 and a shield +6 for its level, and only then may level on as a Conqueror. A bot in a poor mood pauses between packs and goes AFK now and then; only such bots rest in town. Now and then a bot becomes one of five rare personalities for a while, shown in red: Metinologist, Addict, Mad Scientist, Executioner, Mad Angler - or, among the richest bots, one of four gamblers shown in purple: Junior, Senior, Chief and Mad Gambler. Off: the bots play as they did before, with their old personalities.",
-                  "pl":"System osobowości Iwakury. Osobowość bota wynika z jego sytuacji (Grinder, Zdobywca, Handlarz, Hazardzista, Perfekcjonista, Pogromca metinów, Górnik, Zielarz, Rybak, Najemnik, Towarzysz), a bot ma nastrój (słaby, normalny, bardzo dobry) widoczny na jego karcie. Grinder trzyma poziom swojego tieru (15, 23, 30-35, 40-48, 55-62), dopóki nie założy broni +7, zbroi +6 i tarczy +6 na swój poziom - dopiero wtedy może dalej expić jako Zdobywca. Bot w słabym nastroju robi przerwy między grupami mobów i co jakiś czas odchodzi od komputera; tylko takie boty odpoczywają w mieście. Od czasu do czasu bot staje się na pewien czas jedną z pięciu rzadkich osobowości, widocznych na czerwono: Metinolog, Nałogowiec, Szalony Naukowiec, Egzekutor, Szalony Wędkarz - a wśród najbogatszych botów jednym z czterech Hazardzistów, widocznych na fioletowo: Młodszym, Starszym, Naczelnym i Szalonym. Wyłączone: boty grają jak wcześniej, ze starymi osobowościami.",
-                  "de":"Iwakuras Persönlichkeitssystem. Die Persönlichkeit eines Bots folgt seiner Lage (Grinder, Eroberer, Händler, Spieler, Perfektionist, Metinjäger, Bergmann, Kräuterkundiger, Fischer, Söldner, Gefährte), und er hat eine Stimmung (schlecht, normal, sehr gut), die auf seiner Karte steht. Ein Grinder hält die Stufe seines Tiers (15, 23, 30-35, 40-48, 55-62), bis er eine Waffe +7, eine Rüstung +6 und einen Schild +6 für seine Stufe trägt, und erst dann darf er als Eroberer weiterleveln. Ein Bot in schlechter Stimmung macht Pausen zwischen den Gruppen und ist ab und zu AFK; nur solche Bots ruhen in der Stadt. Aus: die Bots spielen wie früher, mit ihren alten Persönlichkeiten.",
-                  "tr":"Iwakura'nın kişilik sistemi. Bir botun kişiliği durumuna göre değişir (Grinder, Fatih, Tüccar, Kumarbaz, Mükemmeliyetçi, Metin avcısı, Madenci, Bitkici, Balıkçı, Paralı asker, Yoldaş) ve kartında görünen bir ruh hali vardır (kötü, normal, çok iyi). Bir Grinder, seviyesine uygun +7 silah, +6 zırh ve +6 kalkan giyene kadar kademesinin seviyesinde (15, 23, 30-35, 40-48, 55-62) kalır, ancak ondan sonra Fatih olarak seviye atlayabilir. Kötü ruh halindeki bot gruplar arasında durur ve ara sıra AFK olur; yalnızca bu botlar şehirde dinlenir. Kapalı: botlar eski kişilikleriyle önceki gibi oynar."},
- "ai_persona_on": {"en":"Enabled","pl":"Włączone","de":"Eingeschaltet","tr":"Açık"},
+ "ai_persona_help": {"en":"Iwakura's personality system. A bot's personality follows its situation (Grinder, Conqueror, Trader, Gambler, Perfectionist, Metin slayer, Miner, Herbalist, Fisherman, Mercenary, Companion) and it has a mood (poor, normal, very good) shown on its card. A Grinder holds its level at its tier (15, 23, 30-35, 40-48, 55-62) until it wears a weapon +7, an armour +6 and a shield +6 for its level, and only then may level on as a Conqueror. A bot in a poor mood pauses between packs and goes AFK now and then; only such bots rest in town. Now and then a bot becomes one of five rare personalities for a while, shown in red: Metinologist, Addict, Mad Scientist, Executioner, Mad Angler - or, among the richest bots, one of four gamblers shown in purple: Junior, Senior, Chief and Mad Gambler. Always on (Patch 14).",
+                  "pl":"System osobowości Iwakury. Osobowość bota wynika z jego sytuacji (Grinder, Zdobywca, Handlarz, Hazardzista, Perfekcjonista, Pogromca metinów, Górnik, Zielarz, Rybak, Najemnik, Towarzysz), a bot ma nastrój (słaby, normalny, bardzo dobry) widoczny na jego karcie. Grinder trzyma poziom swojego tieru (15, 23, 30-35, 40-48, 55-62), dopóki nie założy broni +7, zbroi +6 i tarczy +6 na swój poziom - dopiero wtedy może dalej expić jako Zdobywca. Bot w słabym nastroju robi przerwy między grupami mobów i co jakiś czas odchodzi od komputera; tylko takie boty odpoczywają w mieście. Od czasu do czasu bot staje się na pewien czas jedną z pięciu rzadkich osobowości, widocznych na czerwono: Metinolog, Nałogowiec, Szalony Naukowiec, Egzekutor, Szalony Wędkarz - a wśród najbogatszych botów jednym z czterech Hazardzistów, widocznych na fioletowo: Młodszym, Starszym, Naczelnym i Szalonym. Zawsze włączony (Patch 14).",
+                  "de":"Iwakuras Persönlichkeitssystem. Die Persönlichkeit eines Bots folgt seiner Lage (Grinder, Eroberer, Händler, Spieler, Perfektionist, Metinjäger, Bergmann, Kräuterkundiger, Fischer, Söldner, Gefährte), und er hat eine Stimmung (schlecht, normal, sehr gut), die auf seiner Karte steht. Ein Grinder hält die Stufe seines Tiers (15, 23, 30-35, 40-48, 55-62), bis er eine Waffe +7, eine Rüstung +6 und einen Schild +6 für seine Stufe trägt, und erst dann darf er als Eroberer weiterleveln. Ein Bot in schlechter Stimmung macht Pausen zwischen den Gruppen und ist ab und zu AFK; nur solche Bots ruhen in der Stadt. Immer eingeschaltet (Patch 14).",
+                  "tr":"Iwakura'nın kişilik sistemi. Bir botun kişiliği durumuna göre değişir (Grinder, Fatih, Tüccar, Kumarbaz, Mükemmeliyetçi, Metin avcısı, Madenci, Bitkici, Balıkçı, Paralı asker, Yoldaş) ve kartında görünen bir ruh hali vardır (kötü, normal, çok iyi). Bir Grinder, seviyesine uygun +7 silah, +6 zırh ve +6 kalkan giyene kadar kademesinin seviyesinde (15, 23, 30-35, 40-48, 55-62) kalır, ancak ondan sonra Fatih olarak seviye atlayabilir. Kötü ruh halindeki bot gruplar arasında durur ve ara sıra AFK olur; yalnızca bu botlar şehirde dinlenir. Her zaman açık (Patch 14)."},
  "ai_experimental": {"en":"experimental","pl":"eksperymentalne","de":"experimentell","tr":"deneysel"},
  "ai_scrap":     {"en":"Scrap keepers","pl":"Boty złomiarze","de":"Schrotthändler-Bots","tr":"Hurdacı botlar"},
  "ai_scrap_help":{"en":"The share of stall keepers that put their low refines (+0 to +3) on the counter, cheaply, instead of vendoring them - fodder for burning at the blacksmith, the way the hard servers play. Off by default.",
@@ -4893,13 +5103,6 @@ T.update({
                   "tr":"Ortak arazide - Ork Vadisi, çöl, Sohan Dağı, zindanlar - başka krallıktan bir botla karşılaştığında düello başlatacak botların oranı. Asla köyde, asla bir oyuncuya karşı ve asla yaralı ya da zaten dövüşen bir bota karşı değil. Hangi botların saldırgan olduğu karaktere sabittir, yani her yeniden başlatmadan sonra aynıları kavga eder. Varsayılan olarak kapalı. Yalnızca ortak dünya düzeninde çalışır (unified, 1500 bota kadar varsayılan): split'te her çekirdek tek krallığın botlarını tutar, dövüşecek kimse yoktur."},
  "ai_kpvp_off":  {"en":"peace","pl":"pokój","de":"Frieden","tr":"barış"},
  "ai_kpvp_all":  {"en":"every bot","pl":"każdy bot","de":"jeder Bot","tr":"her bot"},
- "ai_scroll":    {"en":"Blessing and Dragon God Scrolls","pl":"Zwoje Błogosławieństwa i Boga Smoków","de":"Segens- und Drachengott-Schriftrollen","tr":"Kutsama ve Ejderha Tanrısı parşömenleri"},
- "ai_scroll_help":{"en":"The lowest plus a bot upgrades to under a Blessing Scroll or a Dragon God Scroll. At +7 a scroll goes only on the upgrades to +7, +8 and +9, and every lower one is done at the blacksmith without a scroll, like a player who has none - so the item can burn. At +1 nothing is restricted and the bots use scrolls as before: from +7, and earlier on a worn item that could burn and on an item with valuable bonuses. Applies within five seconds.",
-                  "pl":"Najniższy plus, na jaki bot ulepsza pod Zwojem Błogosławieństwa albo Zwojem Boga Smoków. Przy +7 zwój idzie tylko na ulepszenia na +7, +8 i +9, a każde niższe bot robi u kowala bez zwoju, jak gracz, który zwojów nie ma - więc przedmiot może spłonąć. Przy +1 nie ma ograniczenia i boty używają zwojów tak jak dotąd: od +7, a wcześniej na założonym przedmiocie, który mógłby spłonąć, i na przedmiocie z cennymi bonusami. Działa w pięć sekund.",
-                  "de":"Das niedrigste Plus, auf das ein Bot unter einer Segens- oder Drachengott-Schriftrolle verbessert. Bei +7 geht eine Schriftrolle nur auf die Verbesserungen auf +7, +8 und +9; jede niedrigere macht der Bot beim Schmied ohne Schriftrolle, wie ein Spieler ohne Schriftrollen - der Gegenstand kann also verbrennen. Bei +1 gibt es keine Einschränkung. Wirkt innerhalb von fünf Sekunden.",
-                  "tr":"Botun Kutsama veya Ejderha Tanrısı parşömeniyle yükselttiği en düşük artı. +7'de parşömen yalnızca +7, +8 ve +9 yükseltmelerinde kullanılır; daha düşük her yükseltmeyi bot demircide parşömensiz yapar, parşömeni olmayan bir oyuncu gibi - yani eşya yanabilir. +1'de kısıtlama yoktur. Beş saniye içinde uygulanır."},
- "ai_scroll_off":{"en":"no restriction","pl":"bez ograniczenia","de":"keine Einschränkung","tr":"kısıtlama yok"},
- "ai_scroll_top":{"en":"only the upgrade to +9","pl":"tylko ulepszenie na +9","de":"nur die Verbesserung auf +9","tr":"yalnızca +9 yükseltmesi"},
  "ai_chest":     {"en":"Moonlight Treasure Chests","pl":"Szkatułki Księżycowe","de":"Mondschein-Schatztruhen","tr":"Ay Işığı Sandıkları"},
  "ai_chest_help": {"en":"Choose how often Moonlight Treasure Chests drop during their event (Events page). The standard chances are 1% per monster and 30% per Metin; ×2 doubles the standard chance. No chests drop outside the event. Changes apply within five seconds, equally to players and bots; item-drop rates and level differences do not multiply this chance.",
                   "pl":"Wybierz, jak często wypadają Szkatułki Blasku Księżyca podczas ich eventu (strona Eventy). Podstawa to 1% z potwora i 30% z Metina; ×2 podwaja podstawową szansę. Poza eventem szkatułki nie wypadają. Zmiana działa w pięć sekund, tak samo dla graczy i botów; raty dropu i różnica poziomów nie mnożą tej szansy.",
@@ -5567,6 +5770,51 @@ def apply_key(attr_type):
     """The APPLY_META key for an attribute type, on either engine."""
     t = int(attr_type or 0)
     return POINT_TO_APPLY.get(t, t) if ENGINE_MT2009 else t
+
+
+# Iwakura's Patch 13.5, point 3 (9 October): one test of a bonus line at its
+# maximum for the bots (playerbot_max_line_rules.h) - its top on the server's
+# bonus table, and Max HP from 1500, "tak samo jak 2000". The bot's card
+# draws such a line in the gold the market preview gives a maximal line ("PZ
+# 1500-2000 oznaczac tym samym kolorem co bonusy maksymalne"). The tops are
+# the highest roll of each line on the table (world.item_attr on mt2009, as
+# the preview reads them; player.item_attr on r40250), read once an hour; a
+# world whose table cannot be read marks Max HP alone.
+APPLY_MAX_HP = 1
+MAX_HP_AT_TOP_FROM = 1500
+_BONUS_TOPS = {"at": 0.0, "tops": {}}
+_BONUS_TOPS_SECONDS = 3600
+
+
+def bonus_tops(cur):
+    """{attrtype as player.item keeps it: the table's highest roll}."""
+    now = time.time()
+    if _BONUS_TOPS["at"] and now - _BONUS_TOPS["at"] < _BONUS_TOPS_SECONDS:
+        return _BONUS_TOPS["tops"]
+    tops = {}
+    tables = ("world.item_attr", "world.item_attr_rare") if ENGINE_MT2009 else ("player.item_attr",)
+    for table in tables:
+        try:
+            cur.execute("SELECT apply+0 AS p, GREATEST(lv1, lv2, lv3, lv4, lv5) AS top FROM " + table)
+            for r in cur.fetchall():
+                point, top = int(r.get("p") or 0), int(r.get("top") or 0)
+                if point and top > tops.get(point, 0):
+                    tops[point] = top
+        except Exception:  # noqa: BLE001 - no such table on this world
+            pass
+    _BONUS_TOPS["at"], _BONUS_TOPS["tops"] = now, tops
+    return tops
+
+
+def bonus_line_at_top(attr_type, value, tops):
+    """The one test of Patch 13.5, point 3, on a line as player.item keeps it."""
+    value = int(value or 0)
+    if value <= 0:
+        return False
+    if apply_key(attr_type) == APPLY_MAX_HP and value >= MAX_HP_AT_TOP_FROM:
+        return True
+    top = tops.get(int(attr_type or 0), 0)
+    return bool(top) and value >= top
 
 
 T["ai_patch8"] = {"pl": "Iwakura Patch 8 — czat, rynek i peleryny", "en": "Iwakura Patch 8 — chat, market and capes"}
@@ -7430,6 +7678,14 @@ TPL_PLAYER = BASE.replace("__BODY__", """
 <p class="muted">{{t('xl_help')}}</p>
 {% endif %}
 </div>
+{% if expv.m2w %}
+<div class="card" id="m2warrior">
+<h3>{{t('m2w_title')}}</h3>
+<p><b>{% if expv.m2w.done %}✅ {{t('m2w_done')}}{% else %}⚔️ {{t('m2w_role')}}{% endif %}</b></p>
+<p>{{ expv.m2w.gear_text }}</p>
+<p class="muted">{{t('m2w_help')}}</p>
+</div>
+{% endif %}
 {% endif %}
 
 {# A bot's hours of play (log.playerbot_session): what it is doing now, a
@@ -8075,16 +8331,10 @@ TPL_GUILDS = BASE.replace("__BODY__", """
 </div>
 """)
 
-# Iwakura's Patch 11, point 21: the "Experimental" group of the bots' behaviour
-# page and its one option so far, the bots' PvP set (the PVP_SET keys).
+# Iwakura's Patch 11, point 21: the bots' PvP set (the PVP_SET keys), among
+# the ordinary settings of the bots' behaviour page since his Patch 15, point
+# 17 - it was the one option of an "Experimental" group, off by default.
 T.update({
-    "ai_experimental_group": {"pl": "Eksperymentalne", "en": "Experimental", "de": "Experimentell",
-                              "tr": "Deneysel"},
-    "ai_experimental_group_help": {
-        "pl": "Opcje w fazie testów. Każda jest domyślnie wyłączona; wyłączona nie zmienia niczego w grze.",
-        "en": "Options under test. Each is off by default; off, it changes nothing in the game.",
-        "de": "Optionen in der Testphase. Jede ist standardmäßig aus; ausgeschaltet ändert sie nichts im Spiel.",
-        "tr": "Deneme aşamasındaki seçenekler. Her biri varsayılan olarak kapalıdır; kapalıyken oyunda hiçbir şeyi değiştirmez."},
     "ai_pvpset": {"pl": "EQ PvP botów", "en": "Bots' PvP gear", "de": "PvP-Ausrüstung der Bots",
                   "tr": "Botların PvP ekipmanı"},
     "ai_pvpset_help": {
@@ -8131,16 +8381,16 @@ T.update({
     "ai_pvpset_share_help": {
         "pl": "Spośród botów spełniających warunki; losowane raz i zapisane na bocie (×2 w gildii po wojnie z ostatnich "
               "7 dni, ×1,5 po 3 śmierciach z rąk wrogiego królestwa w 24 h, ×1,3 Pogromca Metinów, ×0,5 Rybak i "
-              "Górnik). Domyślnie 25%; 0 - buduje tylko Egzekutor.",
+              "Górnik). Domyślnie 75%; 0 - buduje tylko Egzekutor.",
         "en": "Of the bots that qualify; drawn once and kept on the bot (x2 in a guild that fought a war in the last "
               "7 days, x1.5 after 3 deaths at an enemy kingdom's hands in 24 h, x1.3 the Metin hunter, x0.5 the "
-              "angler and the miner). 25% by default; 0 - only the Executioner builds.",
+              "angler and the miner). 75% by default; 0 - only the Executioner builds.",
         "de": "Unter den Bots, die die Bedingungen erfüllen; einmal ausgelost und am Bot gespeichert (x2 in einer "
               "Gilde mit einem Krieg in den letzten 7 Tagen, x1,5 nach 3 Toden durch ein feindliches Königreich in "
-              "24 h, x1,3 der Metinjäger, x0,5 Angler und Bergmann). Standard 25%; 0 - nur der Henker baut.",
+              "24 h, x1,3 der Metinjäger, x0,5 Angler und Bergmann). Standard 75%; 0 - nur der Henker baut.",
         "tr": "Koşulları karşılayan botlar arasından; bir kez çekilir ve botta saklanır (son 7 günde savaşmış bir "
               "loncada x2, 24 saatte düşman krallık elinde 3 ölümden sonra x1,5, Metin avcısı x1,3, balıkçı ve "
-              "madenci x0,5). Varsayılan %25; 0 - yalnızca Cellat kurar."},
+              "madenci x0,5). Varsayılan %75; 0 - yalnızca Cellat kurar."},
     "ai_pvpset_min_level": {"pl": "Minimalny poziom", "en": "Minimum level", "de": "Mindeststufe",
                             "tr": "En düşük seviye"},
     "ai_pvpset_budget": {"pl": "Budżet yang na EQ PvP (na jedną sesję budowania)",
@@ -8271,7 +8521,6 @@ TPL_AI = BASE.replace("__BODY__", """
 </details>
 <h3 style="margin:0 0 2px">🎭 {{t('ai_persona')}}</h3>
   <p class="muted" style="margin:0 0 6px">{{t('ai_persona_help')}}</p>
-  <label><input type="checkbox" name="PERSONA" value="1" {% if cur.get('PERSONA', 1) %}checked{% endif %}> {{t('ai_persona_on')}}</label>
   <div style="margin-top:10px">
     <label>⚒️ {{t('ai_craftsman')}}
       <span class="badge" id="v_CRAFTSMAN">{{cur.get('CRAFTSMAN', craftsman_default)}}%</span></label>
@@ -8367,6 +8616,19 @@ TPL_AI = BASE.replace("__BODY__", """
   <p class="muted" style="margin:0 0 6px">{{t('ai_shop_room_help')}}</p>
   <label><input type="checkbox" name="SHOP_ROOM_SELL" value="1" {% if cur.get('SHOP_ROOM_SELL', 1) %}checked{% endif %}> {{t('ai_shop_room_on')}}</label>
 </div>
+<div style="margin-bottom:18px">
+  <h3 style="margin:0 0 2px">📜 {{t('ai_quests')}}</h3>
+  <p class="muted" style="margin:0 0 6px">{{t('ai_quests_help')}}</p>
+  <label><input type="checkbox" name="QUESTS" value="1" {% if cur.get('QUESTS', 1) %}checked{% endif %}> {{t('ai_quests_on')}}</label>
+  <div style="margin-top:10px">
+    <label>{{t('ai_quest_focus')}}
+      <span class="badge" id="v_QUEST_FOCUS">{{cur.get('QUEST_FOCUS', quest_focus_default)}}%</span></label>
+    <input type="range" name="QUEST_FOCUS" id="s_QUEST_FOCUS" min="0" max="100" step="5" value="{{cur.get('QUEST_FOCUS', quest_focus_default)}}" style="width:100%"
+           oninput="document.getElementById('v_QUEST_FOCUS').textContent=this.value+'%'">
+    <p class="muted" style="margin:4px 0 0">{{t('ai_quest_focus_help')}}</p>
+  </div>
+  {% if quest_yang_warning %}<p style="margin:8px 0 0;color:#c0392b"><b>⚠ {{quest_yang_warning}}</b></p>{% endif %}
+</div>
 {# Not a slider: 0 is off and 1-30 the days the core keeps its explanations;
    an absent key is the core's own seven, and saving the page untouched keeps
    it absent (ai_weights). #}
@@ -8433,16 +8695,6 @@ TPL_AI = BASE.replace("__BODY__", """
   </div>
 </div>
 <div style="margin-bottom:18px">
-  <h3 style="margin:0 0 2px">📜 {{t('ai_scroll')}}
-      <span class="badge" id="v_SCROLL_FROM">+{{cur.get('SCROLL_FROM', 1)}}</span></h3>
-  <p class="muted" style="margin:0 0 6px">{{t('ai_scroll_help')}}</p>
-  <input type="range" name="SCROLL_FROM" id="s_SCROLL_FROM" min="1" max="9" step="1" value="{{cur.get('SCROLL_FROM', 1)}}" style="width:100%"
-         oninput="document.getElementById('v_SCROLL_FROM').textContent='+'+this.value">
-  <div class="muted" style="display:flex;justify-content:space-between;font-size:12px">
-    <span>+1 — {{t('ai_scroll_off')}}</span><span>+9 — {{t('ai_scroll_top')}}</span>
-  </div>
-</div>
-<div style="margin-bottom:18px">
   <h3 style="margin:0 0 2px">🎁 {{t('ai_chest')}}</h3>
   <p class="muted" style="margin:0 0 6px">{{t('ai_chest_help')}}</p>
   <label style="display:block;margin:6px 0 8px;font-weight:bold">
@@ -8463,18 +8715,17 @@ TPL_AI = BASE.replace("__BODY__", """
   {% endfor %}
   <div class="muted" style="font-size:12px">{{t('ai_chest_note')}}</div>
 </div>
-{# Iwakura's Patch 11, point 21: the "Experimental" group - the bots' PvP set,
-   off by default, and its five keys (playerbot_pvp_set_rules.h). #}
-<div style="margin-bottom:18px;border:1px dashed #f59e0b;border-radius:8px;padding:10px 12px">
-  <h3 style="margin:0 0 2px">🧪 {{t('ai_experimental_group')}} <span class="badge">{{t('ai_experimental')}}</span></h3>
-  <p class="muted" style="margin:0 0 10px">{{t('ai_experimental_group_help')}}</p>
+{# Iwakura's Patch 11, point 21: the bots' PvP set, on by default, and its five
+   keys (playerbot_pvp_set_rules.h) - an ordinary setting since his Patch 15,
+   point 17, no longer an "Experimental" group of its own. #}
+<div style="margin-bottom:18px">
   <h3 style="margin:0 0 2px">🛡️ {{t('ai_pvpset')}}</h3>
   <p class="muted" style="margin:0 0 6px">{{t('ai_pvpset_help')}}</p>
-  <label><input type="checkbox" name="PVP_SET" value="1" {% if cur.get('PVP_SET', 0) %}checked{% endif %}> {{t('ai_pvpset_on')}}</label>
+  <label><input type="checkbox" name="PVP_SET" value="1" {% if cur.get('PVP_SET', 1) %}checked{% endif %}> {{t('ai_pvpset_on')}}</label>
   <div style="margin-top:10px">
     <label>{{t('ai_pvpset_share')}}
-      <span class="badge" id="v_PVP_SET_SHARE">{{cur.get('PVP_SET_SHARE', 25)}}%</span></label>
-    <input type="range" name="PVP_SET_SHARE" id="s_PVP_SET_SHARE" min="0" max="100" step="5" value="{{cur.get('PVP_SET_SHARE', 25)}}" style="width:100%"
+      <span class="badge" id="v_PVP_SET_SHARE">{{cur.get('PVP_SET_SHARE', 75)}}%</span></label>
+    <input type="range" name="PVP_SET_SHARE" id="s_PVP_SET_SHARE" min="0" max="100" step="5" value="{{cur.get('PVP_SET_SHARE', 75)}}" style="width:100%"
            oninput="document.getElementById('v_PVP_SET_SHARE').textContent=this.value+'%'">
     <p class="muted" style="margin:4px 0 0">{{t('ai_pvpset_share_help')}}</p>
   </div>
@@ -8576,7 +8827,7 @@ MAP_I18N = {
   "tt_req_level":"Wymagany Poziom","tt_attack":"Wartość Ataku","tt_magic_attack":"Wartość Magicznego Ataku",
   "tt_attack_speed":"Szybkość Ataku","tt_defense":"Obrona","tt_move_speed":"Szybkość Ruchu",
   "tt_broken_stone":"Pęknięty Kamień","tt_empty_socket":"Czysty Slot","tt_soul_stone":"Kamień Duszy",
-  "item_n":"Przedmiot #{n}","bot_badge":"BOT","exp_hold":"blokada expa na {n} lvl","daily_goal":"Cel Dnia",
+  "item_n":"Przedmiot #{n}","bot_badge":"BOT","exp_hold":"blokada expa na {n} lvl","daily_goal":"Cel Dnia","current_quest":"Obecny quest",
   "hunt_done_through":"Ukończone do Lv {n}","hunt_not_started":"Jeszcze nierozpoczęte",
   "gh_sold_for":"{count} za {price} yang","gh_instead":"zamiast {item}","gh_paid":"za {price} yang","gh_from":"od {seller}",
   "warp_player_offline":"Żadna postać gracza nie jest teraz w grze.","warp_no_human":"Nie ma postaci gracza, którą można przenieść.",
@@ -8608,7 +8859,7 @@ MAP_I18N = {
   "tt_req_level":"Required Level","tt_attack":"Attack Value","tt_magic_attack":"Magic Attack Value",
   "tt_attack_speed":"Attack Speed","tt_defense":"Defence","tt_move_speed":"Movement Speed",
   "tt_broken_stone":"Broken Stone","tt_empty_socket":"Empty Socket","tt_soul_stone":"Spirit Stone",
-  "item_n":"Item #{n}","bot_badge":"BOT","exp_hold":"exp held at level {n}","daily_goal":"Daily Goal",
+  "item_n":"Item #{n}","bot_badge":"BOT","exp_hold":"exp held at level {n}","daily_goal":"Daily Goal","current_quest":"Current quest",
   "hunt_done_through":"Completed through Lv {n}","hunt_not_started":"Not started yet",
   "gh_sold_for":"{count} for {price} yang","gh_instead":"instead of {item}","gh_paid":"for {price} yang","gh_from":"from {seller}",
   "warp_player_offline":"None of the players' characters is in the game right now.","warp_no_human":"There is no player's character to move.",
@@ -8797,6 +9048,7 @@ MAP_I18N = {
   "bot_badge": "BOT",
   "exp_hold": "EXP gesperrt bei Level {n}",
   "daily_goal": "Tagesziel",
+  "current_quest": "Aktuelle Quest",
   "hunt_done_through": "Abgeschlossen bis Lv {n}",
   "hunt_not_started": "Noch nicht begonnen",
   "gh_sold_for": "{count} für {price} Yang",
@@ -8990,6 +9242,7 @@ MAP_I18N = {
   "bot_badge": "BOT",
   "exp_hold": "EXP {n}. seviyede kilitli",
   "daily_goal": "Günün Hedefi",
+  "current_quest": "Mevcut görev",
   "hunt_done_through": "Lv {n} dahil tamamlandı",
   "hunt_not_started": "Henüz başlanmadı",
   "gh_sold_for": "{count} adet, {price} yang karşılığında",
@@ -10506,6 +10759,11 @@ TPL_LIVE_MAP = BASE.replace("__BODY__", """
 .m2-shop-row.explained:hover { background: rgba(251,191,36,0.06); }
 .m2-shop-row.unusual { box-shadow: inset 2px 0 0 #ef4444; }
 .m2-shop-mark { color: #fbbf24; font-size: 10px; font-weight: 700; }
+/* The X that deletes a line of a bot's counter (Patch 13, point 4). */
+.m2-shop-del { color: #e07a6a; font-size: 12px; font-weight: 700; cursor: pointer; padding: 0 3px;
+  border: 1px solid transparent; border-radius: 4px; line-height: 14px; }
+.m2-shop-del:hover { border-color: #5a2a2a; background: #2b1414; }
+.m2-shop-del.pending { color: #fbbf24; font-weight: 400; }
 .m2-shop-window.m2-shop-wide { width: 440px; }
 .m2-shop-why { display: none; margin-top: 6px; padding-top: 6px; border-top: 1px solid #3d3119;
   max-height: 420px; overflow-y: auto; }
@@ -10651,6 +10909,11 @@ TPL_LIVE_MAP = BASE.replace("__BODY__", """
 }
 .m2-tt-bonus {
   color: #4ade80;
+}
+/* A line at its maximum (Max HP from 1500): the market preview's gold. */
+.m2-tt-bonus.m2-tt-max {
+  color: #E9B64B;
+  font-weight: 700;
 }
 .m2-tt-socket {
   display: flex;
@@ -11100,6 +11363,7 @@ function showTooltip(pid, ev) {
                  (bot.mood ? '<div style="color:#fbbf24;margin-bottom:4px"><b>' + I18N.mood + ':</b> ' + escapeHtml(bot.mood) +
                    (bot.hold ? ' &nbsp;|&nbsp; ' + escapeHtml(bot.hold) : '') + '</div>' : '') +
                  (bot.daily_goal ? '<div style="color:#3b82f6;margin-bottom:4px"><b>' + I18N.daily_goal + ':</b> ' + escapeHtml(bot.daily_goal) + '</div>' : '') +
+                 (bot.quest ? '<div style="color:#f472b6;margin-bottom:4px"><b>' + I18N.current_quest + ':</b> ' + escapeHtml(bot.quest) + '</div>' : '') +
                  '<div style="color:#86efac;margin-bottom:4px"><b>' + I18N.ambition + ':</b> ' + escapeHtml(bot.ambition) + ' &nbsp;|&nbsp; <b>' + I18N.current_goal + ':</b> ' + escapeHtml(bot.goal) + '</div>' +
                  '<div style="color:#ffd700;margin-bottom:4px"><b>' + I18N.action + ':</b> ' + actionStr + '</div>' +
                  '<div style="color:#ddd;margin-bottom:4px"><b>' + I18N.status + ':</b> ' + ptStr + '</div>' +
@@ -11260,6 +11524,9 @@ var g_currentShopOffers = [];
 var g_currentShopName = '';
 var g_currentShopState = 'off';
 var g_shopWhyIndex = -1;
+// The shop as /api/bot_shop gave it, and its X (delete_lines): whether this
+// counter offers it and which lines' deletion still waits for the bot.
+var g_currentShopData = null;
 
 function toggleBotShopFromEl(el) {
   var pid = parseInt(el.getAttribute('data-botpid'), 10);
@@ -11281,6 +11548,7 @@ function renderShopWindow(shop) {
   closeShopWhy();
   g_currentShopOffers = [];
   g_currentShopState = 'off';
+  g_currentShopData = shop;
   if (!shop) {
     list.innerHTML = '';
     where.textContent = '';
@@ -11315,7 +11583,8 @@ function renderShopWindow(shop) {
             (offer.count > 1 ? ' <span class="m2-shop-count">x' + offer.count + '</span>' : '') +
             '</span>' +
             (offer.explain ? '<span class="m2-shop-mark" title="' + escapeHtml(I18N.ex_why_counter) + '">?</span>' : '') +
-            '<span class="m2-shop-price">' + (offer.price || 0).toLocaleString() + '</span>';
+            '<span class="m2-shop-price">' + (offer.price || 0).toLocaleString() + '</span>' +
+            (shopLineDeleteAllowed() ? shopLineDeleteHtml(offer) : '');
     // The tooltip is the bag's, with its lines and stones, and the reason the
     // line is on the counter and its price under them; a click keeps that
     // open under the counter to be read and copied into a report.
@@ -11325,6 +11594,99 @@ function renderShopWindow(shop) {
     if (explained) row.onclick = function() { pinShopWhy(idx); };
     list.appendChild(row);
   });
+}
+
+// The X on a line of a bot's counter (Iwakura's Patch 13, point 4): the line
+// taken down and destroyed by the core the bot is loaded on (DELSHOP,
+// playerbot_admin_grants.h), after a question naming it, its stack and price.
+// A bot out of the world loses it when it next comes in; until then the line
+// wears a waiting mark, and a click on that withdraws the request. The
+// panel's admin alone, on the 2.x line, and a bot's counter only.
+function shopLineDeleteAllowed() {
+  var d = g_currentShopData && g_currentShopData.delete_lines;
+  return !!(CAN_DELETE_ITEMS && d && d.allowed);
+}
+
+function shopLinePending(id) {
+  var d = g_currentShopData && g_currentShopData.delete_lines;
+  return !!(d && d.pending && d.pending.indexOf(id) >= 0);
+}
+
+function shopLineDeleteHtml(offer) {
+  var waiting = shopLinePending(offer.id);
+  return '<span class="m2-shop-del' + (waiting ? ' pending' : '') + '" data-lineid="' + offer.id + '"' +
+         ' title="' + escapeHtml(waiting ? I18N.bsd_cancel_title : I18N.bsd_title) + '"' +
+         ' onmouseenter="event.stopPropagation(); hideItemTooltip()" onclick="askDeleteShopLine(event, this)">' +
+         (waiting ? '⏳' : '✕') + '</span>';
+}
+
+var g_shopLineSending = {};
+
+function askDeleteShopLine(ev, el) {
+  if (ev) { ev.stopPropagation(); ev.preventDefault(); }
+  hideItemTooltip();
+  var id = parseInt(el.getAttribute('data-lineid'), 10);
+  var offer = null;
+  g_currentShopOffers.forEach(function(o) { if (o.id === id) offer = o; });
+  if (!offer || !g_currentShopPid) return;
+  if (g_shopLineSending[id]) return;
+  var label = offer.name + (offer.count > 1 ? ' x' + offer.count : '');
+  var who = g_currentShopName || ('#' + g_currentShopPid);
+  if (shopLinePending(id)) {
+    if (window.confirm(I18N.bsd_confirm_cancel.replace('{item}', label).replace('{name}', who)))
+      sendShopLineDelete(g_currentShopPid, offer, 'cancel');
+    return;
+  }
+  var question = I18N.bsd_confirm.replace('{item}', label).replace('{name}', who)
+      .replace('{price}', (offer.price || 0).toLocaleString()) + '\\n' + I18N.bsd_confirm_loaded;
+  if (window.confirm(question)) sendShopLineDelete(g_currentShopPid, offer, 'delete');
+}
+
+function sendShopLineDelete(pid, offer, mode) {
+  var toast = document.getElementById('mapToast');
+  function say(text, seconds) {
+    if (!toast) return;
+    toast.innerText = text;
+    toast.style.display = 'block';
+    if (seconds) setTimeout(function() { toast.style.display = 'none'; }, seconds * 1000);
+  }
+  if (g_shopLineSending[offer.id]) return;
+  g_shopLineSending[offer.id] = true;
+  say('⏳ ' + I18N.bsd_sending, 0);
+  var body = new URLSearchParams();
+  body.append('_csrf', BOT_ITEM_CSRF);
+  body.append('pid', pid);
+  body.append('item_id', offer.id);
+  body.append('vnum', offer.vnum);
+  body.append('count', offer.count);
+  body.append('mode', mode);
+  fetch('/api/bot_shop_line_delete', {method: 'POST', body: body, credentials: 'same-origin', cache: 'no-store'})
+    .then(function(res) {
+      // A refused token or an expired login is the login page, not an answer.
+      var kind = res.headers.get('content-type') || '';
+      if (kind.indexOf('json') < 0) throw new Error(I18N.bid_expired);
+      return res.json();
+    })
+    .then(function(data) {
+      delete g_shopLineSending[offer.id];
+      var shop = g_currentShopPid === pid ? g_currentShopData : null;
+      if (shop) {
+        var d = shop.delete_lines || {allowed: true, pending: []};
+        d.pending = (d.pending || []).filter(function(x) { return x !== offer.id; });
+        if (data.status === 'done') {
+          shop.offers = (shop.offers || []).filter(function(o) { return o.id !== offer.id; });
+        } else if (data.status === 'await' || data.status === 'applying' || String(data.status).charAt(0) === 'w') {
+          d.pending.push(offer.id);
+        }
+        shop.delete_lines = d;
+        renderShopWindow(shop);
+      }
+      say(data.message || (I18N.error + ': ' + data.status), 8);
+    })
+    .catch(function(err) {
+      delete g_shopLineSending[offer.id];
+      say('❌ ' + I18N.network_error + ': ' + err.message, 6);
+    });
 }
 
 function showShopTooltip(ev, idx) {
@@ -11623,7 +11985,7 @@ function showItemTooltip(ev, item, extra, wide) {
     html += '<div class="m2-tt-divider"></div>';
     item.attrs.forEach(function(a) {
       if (applyIsHidden(a.type)) return;
-      html += '<div class="m2-tt-bonus">' + formatApply(a.type, a.val) + '</div>';
+      html += '<div class="m2-tt-bonus' + (a.max ? ' m2-tt-max' : '') + '">' + formatApply(a.type, a.val) + '</div>';
     });
   }
 
@@ -11973,6 +12335,8 @@ function openBotModal(pid) {
               // Iwakura's Patch 10, section 1: the Daily Goal in blue, so it is
               // told apart from the red, purple and green personalities.
               (p.daily_goal ? '<div style="grid-column:1 / -1"><b>' + I18N.daily_goal + ':</b> <span style="color:#3b82f6;font-weight:700">' + escapeHtml(p.daily_goal) + '</span></div>' : '') +
+              // Iwakura's Patch 15, point 9: "Obecny quest: ...".
+              (p.quest ? '<div style="grid-column:1 / -1"><b>' + I18N.current_quest + ':</b> <span style="color:#f472b6;font-weight:700">' + escapeHtml(p.quest) + '</span></div>' : '') +
               '<div style="grid-column:1 / -1"><b>' + I18N.current_goal + ':</b> <span style="color:#60a5fa;font-weight:700">' + escapeHtml(p.goal) + '</span></div>' +
               '<div style="grid-column:1 / -1"><b>' + I18N.action + ':</b> <span style="color:#ffd700">' + escapeHtml(p.action) + '</span></div>'
               : '') +
@@ -12962,6 +13326,29 @@ DECISION_OFF = {
  23: {"pl": "ponad 40 pieczonych ryb na ladzie — do Kantoru na Zwoje", "en": "over 40 grilled fish on the counter — to the Kantor for scrolls",
       "de": "über 40 gegrillte Fische auf dem Ladentisch — zum Kantor für Schriftrollen",
       "tr": "tezgâhta 40'tan fazla ızgara balık — parşömen için Kantor'a"},
+ 24: {"pl": "jednorazowe zmniejszenie o połowę dodań, zmianek i Zwojów Błogosławieństwa",
+      "en": "the one-time halving of add stones, change stones and Blessing Scrolls",
+      "de": "die einmalige Halbierung der Verstärkungen, Verzauberungen und Segensschriftrollen",
+      "tr": "ekleme taşları, değiştirme taşları ve Kutsama Parşömenlerinin tek seferlik yarıya indirilmesi"},
+ 25: {"pl": "Kozik Czar. Liś. poniżej 20% ŚR, gdy boty mają ich ponad 100 — do Handlarki", "en": "a Kozik under 20% average while the bots hold over 100 of them — for the merchant",
+      "de": "ein Kozik unter 20% Durchschnitt, solange die Bots über 100 davon haben — für die Händlerin",
+      "tr": "botlarda 100'den fazla varken ortalaması %20'nin altında bir Kozik — satıcıya"},
+ 26: {"pl": "Dzwon 32/36 lvl +0…+3 (0–1 bonus) ponad dzienny limit rynku królestwa — do Handlarki",
+      "en": "a level 32/36 bell +0..+3 (0-1 bonus) over the kingdom market's daily cap — for the merchant",
+      "de": "eine Glocke Stufe 32/36 +0..+3 (0-1 Bonus) über der Tagesgrenze des Reichsmarkts — für die Händlerin",
+      "tr": "krallık pazarının günlük sınırını aşan 32/36. seviye +0..+3 çan (0-1 bonus) — satıcıya"},
+ 27: {"pl": "Marchewka lub Czerwony Żeń-szeń ponad 300 na rynku królestwa — na Czerwone Mikstury (D) albo do Handlarki",
+      "en": "a carrot or a Red Ginseng over 300 on the kingdom's market — for Red Potions (D) or the merchant",
+      "de": "eine Karotte oder ein Roter Ginseng über 300 auf dem Reichsmarkt — für Rote Tränke (D) oder die Händlerin",
+      "tr": "krallık pazarında 300'ü aşan havuç ya da Kırmızı Ginseng — Kırmızı İksir (D) için ya da satıcıya"},
+ 28: {"pl": "gracz kupuje go od bota na spotkaniu — zdjęty do torby na okno handlu",
+      "en": "a player is buying it from the bot at a meeting — taken home for the trade window",
+      "de": "ein Spieler kauft es dem Bot bei einem Treffen ab — für das Handelsfenster nach Hause genommen",
+      "tr": "bir oyuncu bunu bir buluşmada bottan satın alıyor — takas penceresi için çantaya alındı"},
+ 29: {"pl": "hełm lub tarcza +0…+4 ponad 60 sztuk tego przedmiotu na ladach botów — do Handlarki",
+      "en": "a helmet or shield +0..+4 over 60 of the item on the bots' counters — for the merchant",
+      "de": "ein Helm oder Schild +0..+4 über 60 Stück auf den Theken der Bots — für die Händlerin",
+      "tr": "botların tezgâhlarında 60 adedi aşan +0..+4 miğfer veya kalkan — satıcıya"},
 }
 
 # The small vocabularies a parameter can be one of ("enum:NAME").
@@ -13116,6 +13503,9 @@ DECISION_ENUMS = {
   1: {"pl": " (baza ŚR)", "en": " (the average-damage base)", "de": " (die Durchschnittsschaden-Basis)",
       "tr": " (ortalama zarar tabanı)"},
   2: {"pl": " (Baza Bonusowa)", "en": " (the bonus base)", "de": " (die Bonusbasis)", "tr": " (bonus tabanı)"},
+  # Iwakura's Patch 13.5, point 4: a +0..+3 piece with two lines or more.
+  3: {"pl": " (+0..+3 z bonusami: cena z +6)", "en": " (+0..+3 with bonuses: the +6 price)",
+      "de": " (+0..+3 mit Boni: der Preis von +6)", "tr": " (bonuslu +0..+3: +6 fiyatı)"},
  },
 }
 
@@ -13485,6 +13875,25 @@ DECISION_STEPS = {
        "en": "average damage {a}: the row × {b}, floor {c} → {value}",
        "de": "Durchschnittsschaden {a}: Zeile × {b}, Untergrenze {c} → {value}",
        "tr": "ortalama zarar {a}: satır × {b}, taban {c} → {value}"}),
+ # Iwakura's Patch 13.5, point 5 (9 October): the Moonlight chest in a
+ # world's first day, a share of its normal price.
+ 55: ("yang", {"a": "pct", "b": "int", "c": "yang"},
+      {"pl": "Szkatułka na starcie świata", "en": "The chest at a world's start", "de": "Truhe beim Weltstart",
+       "tr": "Dünya başlangıcında sandık"},
+      {"pl": "świat ma {b} h: {a} normalnej ceny {c} → {value}",
+       "en": "the world is {b} h old: {a} of the normal price {c} → {value}",
+       "de": "die Welt ist {b} h alt: {a} des normalen Preises {c} → {value}",
+       "tr": "dünya {b} saatlik: normal fiyat {c} için {a} → {value}"}),
+ # Iwakura's Patch 14, point 3 (9 October): a level-30 weapon at +0..+3 on
+ # his sheet, x0.75 in a world older than 48 h and another cut while the
+ # kingdom's market holds over a hundred of the family.
+ 56: ("yang", {"a": "pct", "b": "pct", "c": "int"},
+      {"pl": "Broń 30 lvl +0…+3", "en": "Level-30 weapon +0..+3", "de": "Waffe Stufe 30 +0..+3",
+       "tr": "Seviye 30 silah +0..+3"},
+      {"pl": "cennik × {a} (świat > 48 h), obniżka {b} przy {c} szt. na rynku królestwa → {value}",
+       "en": "the sheet × {a} (world > 48 h), a cut of {b} at {c} on the kingdom's market → {value}",
+       "de": "Liste × {a} (Welt > 48 h), Abschlag {b} bei {c} Stück auf dem Markt des Reichs → {value}",
+       "tr": "liste × {a} (dünya > 48 sa), krallık pazarında {c} adette {b} indirim → {value}"}),
 }
 
 # The listing flags (LFLAG_*), bit: texts.
@@ -13690,7 +14099,10 @@ DECISION_CODE_NAMES = {
   6: "OFF_JUNK_WEAPON", 7: "OFF_POTION_PACK", 8: "OFF_LOW_ARMOUR", 9: "OFF_LOW_JEWEL", 10: "OFF_HAIR_DYE",
   11: "OFF_LEVEL30_ANVIL", 12: "OFF_CHEST_PACK", 13: "OFF_GM_STONE", 14: "OFF_SCROLL_PACK", 15: "OFF_MEDAL_PACK",
   16: "OFF_HEAP_PACK", 17: "OFF_MATERIAL_PACK", 18: "OFF_LOW_GEAR", 19: "OFF_TACKLE", 20: "OFF_RECLAIM_TO_WEAR",
-  21: "OFF_HAY", 22: "OFF_SHORTAGE_ROOM", 23: "OFF_FISH_CAP",
+  21: "OFF_HAY", 22: "OFF_SHORTAGE_ROOM", 23: "OFF_FISH_CAP", 24: "OFF_STONE_HALVING", 25: "OFF_KOZIK", 26: "OFF_BELL_CAP",
+  27: "OFF_FEED_CAP",
+  28: "OFF_PERSON_SALE",
+  29: "OFF_LOW_HEAD_SHIELD",
  },
  "STEP": {
   1: "STEP_CONTEXT", 2: "STEP_BONUS_LINE", 3: "STEP_BONUS_MAX_LINES", 4: "STEP_BONUS_PERCENT", 5: "STEP_INVESTMENT",
@@ -13705,7 +14117,7 @@ DECISION_CODE_NAMES = {
   41: "STEP_SLIP_PUT_RIGHT", 42: "STEP_RAISED_TO_FLOOR", 43: "STEP_CATALOGUE_ROW", 44: "STEP_WRB",
   45: "STEP_SUPPLY", 46: "STEP_GEAR_EXTRA", 47: "STEP_HUMAN_ROUND", 48: "STEP_MARKDOWN_TIER", 49: "STEP_WRB_FLOOR",
   50: "STEP_AVERAGE_BASE_ROW", 51: "STEP_BONUS_BASE", 52: "STEP_AVERAGE_RANK", 53: "STEP_PRICE_CEILING",
-  54: "STEP_AVERAGE_PRICE",
+  54: "STEP_AVERAGE_PRICE", 55: "STEP_YOUNG_WORLD_CHEST", 56: "STEP_LEVEL30_CUT",
  },
  "LFLAG": {
   1: "LFLAG_UNDER_MERCHANT", 2: "LFLAG_FLOOR_BOUND", 4: "LFLAG_UNDER_SHEET_HALF", 8: "LFLAG_OVER_SHEET_3X",
@@ -13855,11 +14267,12 @@ def decision_sheet_ratio(row, steps):
 
 def gear_history_offline_buys(cur, pid, limit):
     """A character's purchases from offline shops, newest first, with the
-    seller's name - [(time, vnum, count, yang, seller)]. The table is the 2.x
-    line's (ikashop); anything it cannot answer is no purchases."""
+    seller's name and the item's id - [(time, vnum, count, yang, seller,
+    item_id)]. The table is the 2.x line's (ikashop); anything it cannot answer
+    is no purchases."""
     try:
         cur.execute(
-            "SELECT time, vnum, count, yang, shop_owner FROM log.ikarusshop_log "
+            "SELECT time, vnum, count, yang, shop_owner, itemid FROM log.ikarusshop_log "
             "WHERE who = %s AND what = 'BUY_ITEM' ORDER BY id DESC LIMIT %s",
             (pid, limit),
         )
@@ -13879,7 +14292,7 @@ def gear_history_offline_buys(cur, pid, limit):
         except Exception:
             names = {}
     return [(b.get("time"), int(b.get("vnum") or 0), int(b.get("count") or 0), int(b.get("yang") or 0),
-             names.get(int(b.get("shop_owner") or 0), "")) for b in buys]
+             names.get(int(b.get("shop_owner") or 0), ""), int(b.get("itemid") or 0)) for b in buys]
 
 # The way a refine was made, from log.refinelog, which the engine writes beside
 # each REFINE row of log.log: POWER for a blacksmith, GUILD for a guild's,
@@ -14053,23 +14466,25 @@ def localized_mob_name(vnum, language=None):
         return "—"
     known = _MOB_NAMES.get(vnum)
     if ENGINE_MT2009 and (known is None or (not known[0] and time.time() - known[1] > _MOB_NAME_RETRY)):
-        name, official = "", None
+        name, official, level = "", None, None
         try:
             with db() as c, c.cursor() as cur:
                 # cp1250 like every name column, and latin1 on the way out: the
-                # bytes, decoded here (see _load_item_proto).
-                cur.execute("SELECT CAST(locale_name AS BINARY) AS name FROM player.mob_proto WHERE vnum = %s",
+                # bytes, decoded here (see _load_item_proto). The level beside
+                # it names a marble's monster (marble_monster_label).
+                cur.execute("SELECT level, CAST(locale_name AS BINARY) AS name FROM player.mob_proto WHERE vnum = %s",
                             (vnum,))
                 row = cur.fetchone()
             name = log_text(row.get("name")).strip() if row else ""
             # The official English name, while the world still calls the
             # monster what the names file matched (english_game_name).
             official = english_game_name("m", vnum, row.get("name")) if row else None
+            level = row.get("level") if row else None
         except Exception:
-            name, official = "", None
+            name, official, level = "", None, None
         if len(_MOB_NAMES) < 8192:
-            _MOB_NAMES[vnum] = (name, time.time(), official)
-        known = (name, time.time(), official)
+            _MOB_NAMES[vnum] = (name, time.time(), official, level)
+        known = (name, time.time(), official, level)
     if known and reads_english(language) and len(known) > 2 and known[2]:
         return known[2]
     return (known[0] if known else "") or map_i18n(language)["ex_mob_n"].format(n=vnum)
@@ -14559,6 +14974,33 @@ def gear_history_equip_entry(row, language, messages, lang_key):
     return (t, entry)
 
 
+def listing_marble_monster(row):
+    """The monster of a counter line's Polymorph Marble (Iwakura's Patch 13.5,
+    point 2): the item's socket 0 where the caller read it (`_mob`, from
+    attach_marble_monsters), else the row's own goods reason - GOODS_MARBLE
+    (4) keeps the monster in why_a; 0 for any other line."""
+    if int(row.get("vnum") or 0) not in POLYMORPH_MARBLE_VNUMS:
+        return 0
+    mob = int(row.get("_mob") or 0)
+    if not mob and int(row.get("why") or 0) == 4:
+        mob = marble_monster(row.get("vnum"), row.get("why_a"))
+    return mob
+
+
+def attach_marble_monsters(cur, rows):
+    """Give every counter line of a marble its monster (`_mob`) by the item's
+    id in player.item - a line sold is the buyer's item now, under that id."""
+    marbles = [r for r in rows if int(r.get("vnum") or 0) in POLYMORPH_MARBLE_VNUMS]
+    if not marbles:
+        return rows
+    found = marble_sockets(cur, [r.get("item_id") for r in marbles])
+    for r in marbles:
+        mob = found.get(int(r.get("item_id") or 0), 0)
+        if mob:
+            r["_mob"] = mob
+    return rows
+
+
 def gear_history_listing_entry(row, language, messages):
     """A counter line's last event as a line of the gear history, with its why."""
     why = explain_listing(row, language)
@@ -14573,9 +15015,10 @@ def gear_history_listing_entry(row, language, messages):
     else:
         detail = messages["ex_price"].format(price=why["price"]) if why["price"] else ""
     t = row.get("last_at") or row.get("listed_at")
+    name = localized_item_name(vnum, language) if vnum else "#%d" % why["item_id"]
     return (t, {"time": _dx_time(t, seconds=False), "kind": "listing",
                 "label": decision_label(DECISION_EVENTS, event, language),
-                "item": (localized_item_name(vnum, language) if vnum else "#%d" % why["item_id"]) +
+                "item": marble_full_name(name, listing_marble_monster(row), language) +
                         (" x%d" % count if count > 1 else ""),
                 "detail": detail, "why": why, "unusual": why["unusual"]})
 
@@ -14628,6 +15071,7 @@ def gear_history_decisions(cur, pid, limit, unusual, language, messages, lang_ke
                                             tuple(equip_args + [limit]))
     listing_rows, listing_state = _explain_rows(cur, listing_sql + " ORDER BY last_at DESC LIMIT %s",
                                                 tuple(listing_args + [limit]))
+    attach_marble_monsters(cur, listing_rows)
     entries = [gear_history_equip_entry(r, language, messages, lang_key) for r in equip_rows]
     entries += [gear_history_listing_entry(r, language, messages) for r in listing_rows]
     entries.sort(key=lambda e: e[0] if hasattr(e[0], "strftime") else datetime.datetime.min, reverse=True)
@@ -14678,6 +15122,10 @@ def api_bot_gear_history(pid):
             # "Spalone" over a sword that is now +2 was not true.
             downgrades = [(r["time"], int(r.get("vnum") or 0)) for r in raw
                           if log_text(r.get("how")) == "REFINE FAIL" and hasattr(r.get("time"), "strftime")]
+            # A Polymorph Marble with its monster (Iwakura's Patch 13.5, point
+            # 2): log.log keeps the item's id in `what`, never its socket.
+            marbles = marble_sockets(cur, [r.get("what") for r in raw
+                                           if int(r.get("vnum") or 0) in POLYMORPH_MARBLE_VNUMS])
             rows = []
             for index, r in enumerate(raw):
                 how = log_text(r.get("how"))
@@ -14688,6 +15136,8 @@ def api_bot_gear_history(pid):
                 kind, labels = GEAR_HISTORY_HOWS.get(how, ("other", {"pl": how, "en": how}))
                 vnum = int(r.get("vnum") or 0)
                 item = localized_item_name(vnum, language) if vnum else ""
+                if vnum in POLYMORPH_MARBLE_VNUMS:
+                    item = marble_full_name(item, marbles.get(int(r.get("what") or 0), 0), language)
                 hint = log_text(r.get("hint")).strip()
                 detail = ""
                 if how in ("PLAYERBOT_GIFT_OUT",):
@@ -14737,7 +15187,9 @@ def api_bot_gear_history(pid):
                 rows = [e for e in rows if e[1].get("unusual")]
             if tab in ("trade", "all"):
                 kind, labels = GEAR_HISTORY_OFFLINE_BUY
-                for t, vnum, count, yang, seller in gear_history_offline_buys(cur, pid, limit):
+                buys = gear_history_offline_buys(cur, pid, limit)
+                bought = marble_sockets(cur, [b[5] for b in buys if b[1] in POLYMORPH_MARBLE_VNUMS])
+                for t, vnum, count, yang, seller, item_id in buys:
                     detail = ("x%d " % count if count > 1 else "") + messages["gh_paid"].format(
                         price="{:,}".format(yang).replace(",", " "))
                     if seller:
@@ -14748,7 +15200,8 @@ def api_bot_gear_history(pid):
                         "time": t.strftime("%d.%m %H:%M") if hasattr(t, "strftime") else str(t),
                         "kind": kind,
                         "label": labels.get(lang_key, labels["en"]),
-                        "item": (localized_item_name(vnum, language) if vnum else "") or ("#%d" % vnum if vnum else ""),
+                        "item": marble_full_name((localized_item_name(vnum, language) if vnum else "") or
+                                                 ("#%d" % vnum if vnum else ""), bought.get(item_id, 0), language),
                         "detail": detail,
                     }))
             rows.sort(key=lambda e: e[0] if hasattr(e[0], "strftime") else datetime.datetime.min, reverse=True)
@@ -19148,6 +19601,7 @@ def api_bot_positions():
                     "mood": live_labels["mood"],
                     "hold": live_labels["hold"],
                     "daily_goal": live_labels["daily_goal"],
+                    "quest": playerbot_quest_label(pid, language) if is_bot else "",
                     "ambition": live_labels["ambition"],
                     "goal": live_labels["goal"],
                     "live": bool(live),
@@ -19190,6 +19644,7 @@ def api_bot_inventory(pid):
             player["mood"] = live_labels["mood"]
             player["hold"] = live_labels["hold"]
             player["daily_goal"] = live_labels["daily_goal"]
+            player["quest"] = playerbot_quest_label(pid, language)
             player["ambition"] = live_labels["ambition"]
             player["goal"] = live_labels["goal"]
             player["live"] = bool(live)
@@ -19276,6 +19731,7 @@ def api_bot_inventory(pid):
                 ORDER BY `window` ASC, pos ASC
             """, (pid,))
             items = cur.fetchall()
+            tops = bonus_tops(cur)
 
             # The slots the card draws (WEAR_SLOT_KEYS, shared with the
             # explanations of what a bot put on).
@@ -19296,7 +19752,8 @@ def api_bot_inventory(pid):
                     atype = it.get(f"attrtype{a_idx}") or 0
                     aval = it.get(f"attrvalue{a_idx}") or 0
                     if atype != 0 and aval != 0:
-                        attrs.append({"type": atype, "val": aval})
+                        attrs.append({"type": atype, "val": aval,
+                                      "max": bonus_line_at_top(atype, aval, tops)})
 
                 item_obj = {
                     "id": it.get("id"),
@@ -19352,15 +19809,18 @@ def api_bot_safebox(pid):
                 """,
                 (row["account_id"],),
             )
+            found = cur.fetchall()
+            tops = bonus_tops(cur)
             items = []
-            for it in cur.fetchall():
+            for it in found:
                 vnum = it.get("vnum") or 0
                 attrs = []
                 for a_idx in range(7):
                     atype = it.get("attrtype%d" % a_idx) or 0
                     aval = it.get("attrvalue%d" % a_idx) or 0
                     if atype != 0 and aval != 0:
-                        attrs.append({"type": atype, "val": aval})
+                        attrs.append({"type": atype, "val": aval,
+                                      "max": bonus_line_at_top(atype, aval, tops)})
                 items.append({
                     "id": it.get("id"),
                     "vnum": vnum,
@@ -19422,6 +19882,7 @@ def api_bot_shop(pid):
                 (pid,),
             )
             lines = list(cur.fetchall())
+            tops = bonus_tops(cur)
             explain_state, listing = "off", {}
             if ENGINE_MT2009:
                 ids = sorted({int(it.get("id") or 0) for it in lines} - {0})
@@ -19439,7 +19900,8 @@ def api_bot_shop(pid):
                     atype = it.get("attrtype%d" % a_idx) or 0
                     aval = it.get("attrvalue%d" % a_idx) or 0
                     if atype != 0 and aval != 0:
-                        attrs.append({"type": atype, "val": aval})
+                        attrs.append({"type": atype, "val": aval,
+                                      "max": bonus_line_at_top(atype, aval, tops)})
                 price = int(it.get("price") or 0)
                 row = listing.get(int(it.get("id") or 0))
                 offers.append({
@@ -19466,6 +19928,9 @@ def api_bot_shop(pid):
                 # whose log database has no table yet.
                 "explain_state": explain_state,
                 "explain_note": messages["ex_state_missing"] if explain_state == "missing" else "",
+                # The X on each line (bot_shop_delete_view): whether it is
+                # there, and the lines whose deletion still waits for the bot.
+                "delete_lines": bot_shop_delete_view(cur, pid),
             }})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
@@ -20956,6 +21421,7 @@ def decisions_page():
                     found, state = _explain_rows(cur, sql, args)
                     states.append(state)
                     capped = capped or len(found) >= DECISION_PAGE_LIMIT
+                    attach_marble_monsters(cur, found)
                     for r in found:
                         entry = gear_history_listing_entry(r, language, messages)[1]
                         why = entry["why"]
@@ -21173,21 +21639,35 @@ def ai_weights():
             vals["ISHOP"] = 1 if request.form.get("ISHOP") else 0
             vals["HAGGLE"] = 1 if request.form.get("HAGGLE") else 0
             vals["SHOP_ROOM_SELL"] = 1 if request.form.get("SHOP_ROOM_SELL") else 0
+            vals["QUESTS"] = 1 if request.form.get("QUESTS") else 0
+            try:
+                vals["QUEST_FOCUS"] = max(0, min(100, int(request.form.get("QUEST_FOCUS",
+                                                                           old.get("QUEST_FOCUS", QUEST_FOCUS_DEFAULT)))))
+            except (TypeError, ValueError):
+                vals["QUEST_FOCUS"] = old.get("QUEST_FOCUS", QUEST_FOCUS_DEFAULT)
         else:
             vals["TOWER"] = old.get("TOWER", 1)
             vals["CATACOMB"] = old.get("CATACOMB", 1)
             vals["ISHOP"] = old.get("ISHOP", 1)
             vals["HAGGLE"] = old.get("HAGGLE", 1)
             vals["SHOP_ROOM_SELL"] = old.get("SHOP_ROOM_SELL", 1)
+            vals["QUESTS"] = old.get("QUESTS", 1)
+            vals["QUEST_FOCUS"] = old.get("QUEST_FOCUS", QUEST_FOCUS_DEFAULT)
+        # A quest taken from the bots by hand (QUEST_OFF_<quest>) has no box:
+        # the file's lines stay as they are.
+        for key, value in old.items():
+            if key.startswith("QUEST_OFF_"):
+                vals[key] = value
         vals["SHOP_M2"] = 1 if request.form.get("SHOP_M2") else 0
-        vals["PERSONA"] = 1 if request.form.get("PERSONA") else 0
+        # Iwakura's Patch 14, point 7: the personalities are always on, and
+        # the checkbox that switched them is gone.
+        vals["PERSONA"] = 1
         try:
             vals["CRAFTSMAN"] = max(0, min(100, int(request.form.get("CRAFTSMAN",
                                                                      old.get("CRAFTSMAN", CRAFTSMAN_DEFAULT)))))
         except (TypeError, ValueError):
             vals["CRAFTSMAN"] = old.get("CRAFTSMAN", CRAFTSMAN_DEFAULT)
-        # Patch 11, point 21: the "Experimental" group's six keys, on both
-        # engines' page.
+        # Patch 11, point 21: the PvP set's six keys, on both engines' page.
         vals["PVP_SET"] = 1 if request.form.get("PVP_SET") else 0
         vals["PVP_SET_VS_HUMAN"] = 1 if request.form.get("PVP_SET_VS_HUMAN") else 0
         for key, (low, high) in PVP_SET_BOUNDS.items():
@@ -21215,10 +21695,6 @@ def ai_weights():
             vals["KINGDOMPVP"] = max(0, min(100, int(request.form.get("KINGDOMPVP", 0))))
         except (TypeError, ValueError):
             vals["KINGDOMPVP"] = 0
-        try:
-            vals["SCROLL_FROM"] = max(1, min(9, int(request.form.get("SCROLL_FROM", 1))))
-        except (TypeError, ValueError):
-            vals["SCROLL_FROM"] = 1
         try:
             vals["WAR_MINUTES"] = 15 if int(request.form.get("WAR_MINUTES", 30)) <= 15 else 30
         except (TypeError, ValueError):
@@ -21286,6 +21762,8 @@ def ai_weights():
                                   explain_default=EXPLAIN_DEFAULT_DAYS, explain_max=EXPLAIN_MAX_DAYS,
                                   supply_ref_default=SUPPLY_REF_BOTS_DEFAULT, supply_ref_min=SUPPLY_REF_BOTS_MIN,
                                   supply_ref_max=SUPPLY_REF_BOTS_MAX, craftsman_default=CRAFTSMAN_DEFAULT,
+                                  quest_focus_default=QUEST_FOCUS_DEFAULT,
+                                  quest_yang_warning=quest_yang_warning(lang()),
                                   price_index=price_index_text(lang()))
 
 
@@ -22686,6 +23164,29 @@ T.update({
     "xl_list_blocked": {"pl": "exp zablokowany", "en": "EXP blocked", "de": "EXP gesperrt", "tr": "EXP kilitli"},
     "xl_list_unlocked": {"pl": "exp odblokowany przez operatora", "en": "EXP unlocked by the operator",
                          "de": "EXP vom Betreiber entsperrt", "tr": "EXP operatör tarafından açıldı"},
+    # Iwakura's Patch 14, point 4: the M2 dropper Warrior's card.
+    "m2w_title": {"pl": "Rola", "en": "Role", "de": "Rolle", "tr": "Rol"},
+    "m2w_role": {"pl": "Dropek M2 (Wojownik)", "en": "M2 dropper (Warrior)", "de": "M2-Farmer (Krieger)",
+                 "tr": "M2 farmcısı (Savaşçı)"},
+    "m2w_done": {"pl": "Dropek M2 (Wojownik) - rola ukończona, gra jako zwykły bot",
+                 "en": "M2 dropper (Warrior) - role finished, plays as an ordinary bot",
+                 "de": "M2-Farmer (Krieger) - Rolle abgeschlossen, spielt als gewöhnlicher Bot",
+                 "tr": "M2 farmcısı (Savaşçı) - rol tamamlandı, sıradan bir bot olarak oynuyor"},
+    "m2w_help": {"pl": "Wojownik Ciała trzymany na 35 poziomie z koniem bojowym: bije tylko Metiny i Bestie w M2 "
+                       "swojego królestwa i wystawia drop na sklep. Rolę kończą broń 30 lvl, zbroja, tarcza 21 lvl "
+                       "i hełm 21 lvl - wszystkie na +8; wtedy blokada expa znika, a rolę bierze kolejny bot.",
+                 "en": "A Body Warrior held at level 35 on a battle horse: it breaks only the Metins and the Bestials "
+                       "of its kingdom's M2 and lists the drop on its counter. A level-30 weapon, an armour, a "
+                       "level-21 shield and a level-21 helmet, all at +8, end the role; then the EXP lock goes and "
+                       "the next bot takes the place.",
+                 "de": "Ein Körper-Krieger, auf Level 35 gehalten, auf einem Kampfpferd: er zerschlägt nur die Metins "
+                       "und Bestien der M2 seines Reichs und stellt die Beute in seinen Laden. Eine Level-30-Waffe, "
+                       "eine Rüstung, ein Level-21-Schild und ein Level-21-Helm, alle auf +8, beenden die Rolle; dann "
+                       "fällt die EXP-Sperre und der nächste Bot übernimmt.",
+                 "tr": "35. seviyede tutulan, savaş atlı bir Beden Savaşçısı: yalnızca krallığının M2'sindeki "
+                       "Metinleri ve Yırtıcıları kırar ve ganimeti tezgahına koyar. Hepsi +8 olan 30. seviye bir "
+                       "silah, bir zırh, 21. seviye bir kalkan ve 21. seviye bir miğfer rolü bitirir; o zaman EXP "
+                       "kilidi kalkar ve yerini sıradaki bot alır."},
 })
 
 for _lang, _text in {"pl": "exp odblokowany przez operatora", "en": "EXP unlocked by the operator",
@@ -22717,7 +23218,7 @@ def bot_exp_view(cur, p, now=None):
         return None
     now = now or datetime.datetime.now()
     view = {"companion": _is_companion_pid(cur, pid), "online": False, "blocked": None,
-            "unlocked": False, "lock_level": None, "pending": None}
+            "unlocked": False, "lock_level": None, "pending": None, "m2w": None}
     live = read_playerbot_live_status().get(pid)
     saved_blocked, saved_unlocked, saved_lock = None, False, None
     try:
@@ -22726,17 +23227,30 @@ def bot_exp_view(cur, p, now=None):
         saved_blocked = cur.fetchone() is not None
     except Exception:
         saved_blocked = None
+    m2w = {}
     try:
         cur.execute("SELECT szState, lValue FROM player.quest WHERE dwPID = %s AND szName = %s "
-                    "AND szState IN (%s, 'persona_lock_lv')", (pid, EXP_OVERRIDE_FLAG[0], EXP_OVERRIDE_FLAG[1]))
+                    "AND szState IN (%s, 'persona_lock_lv', 'm2warrior', 'm2warrior_gear')",
+                    (pid, EXP_OVERRIDE_FLAG[0], EXP_OVERRIDE_FLAG[1]))
         for r in cur.fetchall():
             state, value = log_text(r.get("szState")), int(r.get("lValue") or 0)
             if state == EXP_OVERRIDE_FLAG[1]:
                 saved_unlocked = value > 0
+            elif state in ("m2warrior", "m2warrior_gear"):
+                m2w[state] = value
             elif value > 1:
                 saved_lock = value - 1
     except Exception:
         pass
+    # Iwakura's Patch 14, point 4: the M2 dropper Warrior's role and its gear,
+    # from its flags (the core writes the progress every half minute).
+    if m2w.get("m2warrior") in (1, 2):
+        try:
+            language = lang()
+        except Exception:
+            language = "en"
+        view["m2w"] = {"done": m2w.get("m2warrior") == 2, "gear": m2w.get("m2warrior_gear", 0),
+                       "gear_text": m2_warrior_gear_text(m2w.get("m2warrior_gear", 0), language)}
     if live is not None:
         view["online"] = True
         # A core from before the columns: its file says nothing of either.
@@ -23129,6 +23643,310 @@ def api_bot_item_delete():
         return answer(status, key, name=name, item=item)
     return jsonify({"ok": False, "status": status, "message": t("act_error").format(status=status)})
 
+# ---------------------------------------------------------------------------
+# The X on a line of a bot's counter (Iwakura's Patch 13, point 4, 9 October:
+# "Na karcie bota/gracza, w zakladce sklepu offline, przy kazdej linii dodac
+# ikone X do usuwania przedmiotow - analogicznie jak dziala usuwanie
+# przedmiotow z ekwipunku botow"): one line of a bot's offline shop, taken
+# down and destroyed - never given back to the bot. The card's stall window
+# (/api/bot_shop) draws the X on each line, asks first naming the item, its
+# stack, its price and the bot, and posts here.
+#
+# As the trash above, nothing is written to player.item or the ikashop tables
+# here: the line is the db core's (its shop cache writes it back), so DELSHOP
+# goes into web_admin_queue as an 'await' row - arg1 the line's item id, arg2
+# "<vnum>:<count>" - which only the bots' own cores read
+# (playerbot_admin_grants.h). The engine has no road that takes a line down
+# for an owner who is not in the world (its db core makes the item again for
+# the owner's bag, or keeps it in the shop's safebox), so the row is served
+# only by the core the bot is loaded on: it asks the ikashop's own removal and
+# destroys the item the moment it lands in the bag. A bot out of the world
+# loses the line when it next comes in; until then the window marks it and a
+# click withdraws the request. Only a bot's counter: a person's goods are not
+# the operator's to destroy (the trash refuses a person's character too).
+# The answers: done, no_item, changed, busy, full, to_safebox, unanswered,
+# not_allowed, bad_args, cancelled.
+# ---------------------------------------------------------------------------
+BOT_SHOP_DELETE_WAIT = 8.0
+
+T.update({
+    "bsd_title": {"pl": "Usuń tę linię ze sklepu", "en": "Delete this line from the shop",
+                  "de": "Diese Zeile aus dem Laden löschen", "tr": "Bu satırı dükkândan sil"},
+    "bsd_cancel_title": {"pl": "Czeka na usunięcie – kliknij, aby anulować",
+                         "en": "Waiting to be deleted – click to cancel",
+                         "de": "Wartet auf das Löschen – klicken, um es abzubrechen",
+                         "tr": "Silinmeyi bekliyor – iptal etmek için tıkla"},
+    "bsd_confirm": {"pl": "Zniszczyć {item} ze sklepu offline bota {name} (cena {price} yang)?\n"
+                          "Przedmiot nie wraca do bota – znika. Tego nie da się cofnąć.",
+                    "en": "Destroy {item} from the offline shop of the bot {name} (price {price} yang)?\n"
+                          "The item does not go back to the bot – it is gone. This cannot be undone.",
+                    "de": "{item} aus dem Offline-Laden des Bots {name} vernichten (Preis {price} Yang)?\n"
+                          "Der Gegenstand geht nicht an den Bot zurück – er ist weg. Das lässt sich nicht "
+                          "rückgängig machen.",
+                    "tr": "{item}, {name} botunun çevrimdışı dükkânından yok edilsin mi (fiyat {price} yang)?\n"
+                          "Eşya bota geri dönmez – yok olur. Bu geri alınamaz."},
+    "bsd_confirm_loaded": {"pl": "Linię zdejmuje serwer, na którym bot jest w grze: jeśli bota nie ma teraz w grze, "
+                                 "linia zniknie dopiero, gdy wejdzie.",
+                           "en": "The line is taken down by the server the bot is in the game on: if the bot is not "
+                                 "in the game now, the line goes only when it comes in.",
+                           "de": "Die Zeile entfernt der Server, auf dem der Bot im Spiel ist: Ist der Bot gerade "
+                                 "nicht im Spiel, verschwindet sie erst, wenn er ins Spiel kommt.",
+                           "tr": "Satırı, botun oyunda olduğu sunucu kaldırır: bot şu anda oyunda değilse satır "
+                                 "ancak bot oyuna girince silinir."},
+    "bsd_confirm_cancel": {"pl": "Anulować czekające usunięcie linii {item} ({name})?",
+                           "en": "Cancel the waiting deletion of the line {item} ({name})?",
+                           "de": "Das wartende Löschen der Zeile {item} ({name}) abbrechen?",
+                           "tr": "{item} satırı için bekleyen silme iptal edilsin mi ({name})?"},
+    "bsd_sending": {"pl": "Usuwanie linii…", "en": "Deleting the line…", "de": "Zeile wird gelöscht…",
+                    "tr": "Satır siliniyor…"},
+    "bsd_done": {"pl": "✅ {name}: linia {item} zdjęta ze sklepu i zniszczona.",
+                 "en": "✅ {name}: the line {item} taken down and destroyed.",
+                 "de": "✅ {name}: Zeile {item} aus dem Laden genommen und vernichtet.",
+                 "tr": "✅ {name}: {item} satırı dükkândan kaldırıldı ve yok edildi."},
+    "bsd_await": {"pl": "⏳ {name} nie jest teraz w grze albo jego rdzeń jeszcze nie odpowiedział. Linię sklepu da się "
+                        "usunąć tylko wtedy, gdy bot jest w grze: {item} zniknie, gdy bot wejdzie; do tego czasu "
+                        "możesz to anulować w oknie sklepu.",
+                  "en": "⏳ {name} is not in the game now, or its core has not answered yet. A line of a shop can be "
+                        "deleted only while the bot is in the game: {item} goes when the bot comes in; until then "
+                        "you can cancel it in the shop window.",
+                  "de": "⏳ {name} ist gerade nicht im Spiel, oder sein Kern hat noch nicht geantwortet. Eine Zeile des "
+                        "Ladens lässt sich nur löschen, solange der Bot im Spiel ist: {item} verschwindet, sobald er "
+                        "ins Spiel kommt; bis dahin kannst du es im Ladenfenster abbrechen.",
+                  "tr": "⏳ {name} şu anda oyunda değil ya da çekirdeği henüz yanıt vermedi. Dükkân satırı yalnızca bot "
+                        "oyundayken silinebilir: {item}, bot oyuna girince silinecek; o zamana kadar dükkân "
+                        "penceresinde iptal edebilirsin."},
+    "bsd_applying": {"pl": "⏳ Rdzeń bota {name} właśnie zdejmuje {item} ze sklepu; otwórz sklep ponownie za chwilę.",
+                     "en": "⏳ The core of {name} is taking {item} off the shop right now; open the shop again in a moment.",
+                     "de": "⏳ Der Kern von {name} nimmt {item} gerade aus dem Laden; öffne den Laden gleich noch einmal.",
+                     "tr": "⏳ {name} botunun çekirdeği {item} eşyasını şu anda dükkândan kaldırıyor; dükkânı birazdan "
+                           "yeniden aç."},
+    "bsd_no_item": {"pl": "{item}: tej linii nie ma już w sklepie bota {name} (sprzedana albo zdjęta). Nic nie usunięto.",
+                    "en": "{item}: this line is no longer in the shop of {name} (sold, or taken down). Nothing was "
+                          "deleted.",
+                    "de": "{item}: Diese Zeile ist nicht mehr im Laden von {name} (verkauft oder entfernt). Nichts "
+                          "wurde gelöscht.",
+                    "tr": "{item}: bu satır artık {name} botunun dükkânında yok (satıldı ya da kaldırıldı). Hiçbir "
+                          "şey silinmedi."},
+    "bsd_changed": {"pl": "{item} zmienił się od otwarcia sklepu (inny przedmiot albo większy stos). Nic nie usunięto – "
+                          "otwórz sklep ponownie.",
+                    "en": "{item} has changed since the shop was opened (another item, or a bigger stack). Nothing "
+                          "was deleted – open the shop again.",
+                    "de": "{item} hat sich seit dem Öffnen des Ladens geändert (ein anderer Gegenstand oder ein "
+                          "größerer Stapel). Nichts wurde gelöscht – öffne den Laden erneut.",
+                    "tr": "{item}, dükkân açıldığından beri değişti (başka bir eşya ya da daha büyük bir yığın). "
+                          "Hiçbir şey silinmedi – dükkânı yeniden aç."},
+    "bsd_busy": {"pl": "{name} jest teraz zajęty (handel, otwarte okno, targowanie się z graczem o tę ladę albo "
+                       "usuwanie tej linii już trwa). Nic nie usunięto – spróbuj za chwilę.",
+                 "en": "{name} is busy right now (a trade, an open window, a haggle with a player over this counter, "
+                       "or this line's deletion under way). Nothing was deleted – try again in a moment.",
+                 "de": "{name} ist gerade beschäftigt (Handel, ein offenes Fenster, ein Feilschen mit einem Spieler "
+                       "um diesen Stand, oder das Löschen dieser Zeile läuft schon). Nichts wurde gelöscht – versuche "
+                       "es gleich noch einmal.",
+                 "tr": "{name} şu anda meşgul (ticaret, açık bir pencere, bu tezgâh için bir oyuncuyla pazarlık ya "
+                       "da bu satırın silinmesi zaten sürüyor). Hiçbir şey silinmedi – birazdan tekrar dene."},
+    "bsd_full": {"pl": "{name} nie ma miejsca w ekwipunku na {item}, a silnik zdejmuje linię przez ekwipunek bota. "
+                       "Nic nie usunięto – zwolnij miejsce (kosz przy przedmiocie na karcie) i spróbuj ponownie.",
+                 "en": "{name} has no room in its inventory for {item}, and the engine takes a line down through the "
+                       "bot's inventory. Nothing was deleted – make room (the trash beside an item on the card) and "
+                       "try again.",
+                 "de": "{name} hat keinen Platz im Inventar für {item}, und das Spiel nimmt eine Zeile über das "
+                       "Inventar des Bots herunter. Nichts wurde gelöscht – schaffe Platz (der Papierkorb an einem "
+                       "Gegenstand auf der Karte) und versuche es erneut.",
+                 "tr": "{name} botunun envanterinde {item} için yer yok ve oyun satırı botun envanteri üzerinden "
+                       "kaldırır. Hiçbir şey silinmedi – yer aç (karttaki eşyanın yanındaki çöp kutusu) ve tekrar "
+                       "dene."},
+    "bsd_to_safebox": {"pl": "{item}: linia zeszła ze sklepu, ale silnik odłożył przedmiot do skrytki sklepu bota {name} "
+                             "(zabrakło miejsca w ekwipunku). Nie zniszczono go.",
+                       "en": "{item}: the line came off the shop, but the engine put the item in the shop's safebox of "
+                             "{name} (its inventory was full). It was not destroyed.",
+                       "de": "{item}: Die Zeile ist aus dem Laden, aber das Spiel hat den Gegenstand in das Ladenlager "
+                             "von {name} gelegt (das Inventar war voll). Er wurde nicht vernichtet.",
+                       "tr": "{item}: satır dükkândan kalktı, ancak oyun eşyayı {name} botunun dükkân kasasına koydu "
+                             "(envanteri doluydu). Yok edilmedi."},
+    "bsd_unanswered": {"pl": "{item}: rdzeń bazy danych nie odpowiedział na zdjęcie linii w 10 minut. Otwórz sklep "
+                             "bota {name} ponownie.",
+                       "en": "{item}: the database core did not answer the take-down within 10 minutes. Open the shop "
+                             "of {name} again.",
+                       "de": "{item}: Der Datenbankkern hat das Entfernen der Zeile in 10 Minuten nicht beantwortet. "
+                             "Öffne den Laden von {name} erneut.",
+                       "tr": "{item}: veritabanı çekirdeği satırın kaldırılmasını 10 dakika içinde yanıtlamadı. "
+                             "{name} botunun dükkânını yeniden aç."},
+    "bsd_not_allowed": {"pl": "Panel usuwa linie tylko ze sklepów botów – to sklep gracza.",
+                        "en": "The panel deletes lines of bots' shops only – this is a player's shop.",
+                        "de": "Das Panel löscht nur Zeilen aus Läden von Bots – das ist der Laden eines Spielers.",
+                        "tr": "Panel yalnızca botların dükkân satırlarını siler – bu bir oyuncunun dükkânı."},
+    "bsd_not_here": {"pl": "Usuwanie linii sklepów botów ma tylko linia 2.x (mt2009).",
+                     "en": "Only the 2.x line (mt2009) can delete lines of the bots' shops.",
+                     "de": "Nur die 2.x-Linie (mt2009) kann Zeilen aus den Läden der Bots löschen.",
+                     "tr": "Botların dükkân satırlarını yalnızca 2.x hattı (mt2009) silebilir."},
+    "bsd_cancelled": {"pl": "Anulowano usunięcie linii: {item}.", "en": "Deletion of the line cancelled: {item}.",
+                      "de": "Löschen der Zeile abgebrochen: {item}.", "tr": "Satırın silinmesi iptal edildi: {item}."},
+    "bsd_cancel_none": {"pl": "Nie czekało żadne usunięcie linii: {item}.",
+                        "en": "No deletion of the line {item} was waiting.",
+                        "de": "Für die Zeile {item} wartete kein Löschen.",
+                        "tr": "{item} satırı için bekleyen bir silme yoktu."},
+})
+
+# What the stall window's script says itself: its X, its questions, its marks.
+for _key in ("bsd_title", "bsd_cancel_title", "bsd_confirm", "bsd_confirm_loaded", "bsd_confirm_cancel",
+             "bsd_sending"):
+    for _lang in LANGS:
+        MAP_I18N[_lang][_key] = T[_key][_lang]
+
+# What each answer of the bot's core says (t() keys).
+BOT_SHOP_DELETE_ANSWERS = {
+    "done": "bsd_done", "no_item": "bsd_no_item", "changed": "bsd_changed", "busy": "bsd_busy",
+    "full": "bsd_full", "to_safebox": "bsd_to_safebox", "unanswered": "bsd_unanswered",
+    "not_allowed": "bsd_not_allowed", "bad_args": "bid_bad", "cancelled": "bsd_cancelled",
+}
+
+
+def bot_shop_delete_view(cur, pid):
+    """The stall window's X: whether a character's counter offers it (a bot,
+    on the 2.x line, to the panel's admin) and the item ids of its lines whose
+    deletion still waits - 'await', 'pending', or a core's "w..." stamp while
+    it is taken down."""
+    allowed, pending = False, []
+    if not (ENGINE_MT2009 and (session.get("auth") or local_open())):
+        return {"allowed": False, "pending": []}
+    try:
+        cur.execute("SELECT id, name FROM player.player WHERE id=%s", (pid,))
+        p = cur.fetchone()
+        if p:
+            cur.execute(bot_sql("SELECT <<BOT_P_2>> AS bot FROM player.player p WHERE p.id = %s"), (pid,))
+            found = cur.fetchone()
+            allowed = bool(found and any(found.values()))
+        if allowed:
+            cur.execute("SELECT arg1 FROM player.web_admin_queue WHERE player_name = %s AND cmd = 'DELSHOP' "
+                        "AND (status IN ('await','pending') OR status LIKE 'w%%')", (p["name"],))
+            pending = sorted({int(r["arg1"]) for r in cur.fetchall() if str(r.get("arg1") or "").isdigit()})
+    except Exception:
+        return {"allowed": False, "pending": []}
+    return {"allowed": allowed, "pending": pending}
+
+
+def queue_bot_shop_delete(name, item_id, vnum, count, wait=BOT_SHOP_DELETE_WAIT):
+    """Queue DELSHOP for a line of a bot's counter as an 'await' row and wait
+    for the bot's core to answer - (status, row id), as queue_bot_item_delete:
+    a word of QUEUE_FINAL_STATUSES, 'await' while no core has taken it (the bot
+    is out of the world), or a "w..." stamp while a core takes the line down.
+    Nothing is cancelled on a timeout: the line goes when the bot loads."""
+    with db() as c, c.cursor() as cur:
+        # One request a line: the newer confirmation replaces the older.
+        cur.execute("UPDATE player.web_admin_queue SET status='cancelled' WHERE player_name=%s AND cmd='DELSHOP' "
+                    "AND arg1=%s AND status IN ('pending','await')", (name, str(item_id)))
+        cur.execute("INSERT INTO player.web_admin_queue (player_name,cmd,arg1,arg2,status) "
+                    "VALUES (%s,'DELSHOP',%s,%s,'await')", (name, str(item_id), "%d:%d" % (vnum, count)))
+        qid = cur.lastrowid
+    status = "await"
+    deadline = time.time() + wait
+    while time.time() < deadline:
+        time.sleep(0.6)
+        with db() as c, c.cursor() as cur:
+            cur.execute("SELECT status FROM player.web_admin_queue WHERE id=%s", (qid,))
+            row = cur.fetchone()
+        if row is None:
+            return "gone", qid
+        status = row["status"]
+        if status in QUEUE_FINAL_STATUSES:
+            return status, qid
+    return status, qid
+
+
+@app.route("/api/bot_shop_line_delete", methods=["POST"])
+def api_bot_shop_line_delete():
+    """The X on a line of a bot's counter (and the cancel of a deletion still
+    waiting): JSON, behind the admin login and the page's CSRF token like the
+    trash. Refused here before anything is queued: not the admin, r40250, a
+    person's character, numbers that are no line, and a line the database no
+    longer has on this character's counter, of the vnum and no bigger a stack."""
+    def answer(status, key, http=200, **fields):
+        return jsonify({"ok": status in ("done", "await", "cancelled"), "status": status,
+                        "message": t(key).format(**fields)}), http
+    if not (session.get("auth") or local_open()):
+        return answer("login", "bid_login", 403)
+    if not ENGINE_MT2009:
+        return answer("not_here", "bsd_not_here")
+    mode = request.form.get("mode", "delete")
+    try:
+        pid = int(request.form.get("pid", ""))
+        item_id = int(request.form.get("item_id", ""))
+        vnum = int(request.form.get("vnum", ""))
+        count = int(request.form.get("count", ""))
+    except (TypeError, ValueError):
+        return answer("bad_args", "bid_bad", 400)
+    if mode not in ("delete", "cancel") or not 0 < item_id <= 0xFFFFFFFF or not 0 < vnum <= 0xFFFFFFFF or \
+            not 0 < count <= 0xFFFFFFFF:
+        return answer("bad_args", "bid_bad", 400)
+    language = lang()
+    try:
+        with db() as c, c.cursor() as cur:
+            cur.execute("SELECT id, name FROM player.player WHERE id=%s", (pid,))
+            p = cur.fetchone()
+            bot = None
+            row = None
+            if p:
+                cur.execute(bot_sql("SELECT <<BOT_P_2>> AS bot FROM player.player p WHERE p.id = %s"), (pid,))
+                found = cur.fetchone()
+                bot = bool(found and any(found.values()))
+            if p and bot:
+                cur.execute("SELECT id, `window`, `count`, vnum, socket0, "
+                            "(ikashop_data IS NOT NULL AND ikashop_data <> '') AS listed "
+                            "FROM player.item WHERE id = %s AND owner_id = %s", (item_id, pid))
+                row = cur.fetchone()
+    except Exception:
+        app.logger.exception("bot shop line delete pid=%s item=%s", pid, item_id)
+        return answer("db_down", "db_down", 500)
+    if not p:
+        return answer("not_found", "not_found", 404)
+    if not bot:
+        return answer("not_allowed", "bsd_not_allowed")
+    name = p["name"]
+    item = item_full_name(vnum, row.get("socket0") if row else 0, language)
+    if count > 1:
+        item = "%s x%d" % (item, count)
+    if mode == "cancel":
+        with db() as c, c.cursor() as cur:
+            cur.execute("UPDATE player.web_admin_queue SET status='cancelled' WHERE player_name=%s AND cmd='DELSHOP' "
+                        "AND arg1=%s AND status IN ('pending','await')", (name, str(item_id)))
+            withdrawn = cur.rowcount
+            late = 0
+            if not withdrawn:
+                cur.execute("SELECT id FROM player.web_admin_queue WHERE player_name=%s AND cmd='DELSHOP' "
+                            "AND arg1=%s AND status LIKE 'w%%'", (name, str(item_id)))
+                late = len(cur.fetchall())
+        app.logger.info("bot shop line delete cancelled pid=%s name=%s item=%s withdrawn=%s late=%s",
+                        pid, name, item_id, withdrawn, late)
+        if withdrawn:
+            return answer("cancelled", "bsd_cancelled", item=item)
+        if late:
+            return answer("applying", "bid_cancel_late")
+        return answer("none", "bsd_cancel_none", item=item)
+    # What the window showed is what the database still holds: a line of this
+    # character's counter (a sold one keeps the window with its ikashop_data
+    # emptied), of the vnum and no bigger a stack. The core checks it all
+    # again against the line its shop holds.
+    window = log_text(row.get("window")) if row else ""
+    if not row or window != "IKASHOP_OFFLINESHOP" or not int(row.get("listed") or 0):
+        return answer("no_item", "bsd_no_item", item=item, name=name)
+    if int(row.get("vnum") or 0) != vnum or int(row.get("count") or 1) > count:
+        return answer("changed", "bsd_changed", item=item)
+    try:
+        status, qid = queue_bot_shop_delete(name, item_id, vnum, count)
+    except Exception:
+        app.logger.exception("bot shop line delete pid=%s item=%s", pid, item_id)
+        return answer("db_down", "db_down", 500)
+    app.logger.info("bot shop line delete pid=%s name=%s item=%s vnum=%s count=%s queue_id=%s status=%s",
+                    pid, name, item_id, vnum, count, qid, status)
+    if status == "await":
+        return answer("await", "bsd_await", name=name, item=item)
+    if str(status).startswith("w"):
+        return answer(status, "bsd_applying", name=name, item=item)
+    key = BOT_SHOP_DELETE_ANSWERS.get(status)
+    if key:
+        return answer(status, key, name=name, item=item)
+    return jsonify({"ok": False, "status": status, "message": t("act_error").format(status=status)})
+
 
 @app.route("/player/<int:pid>")
 @login_required
@@ -23149,13 +23967,16 @@ def player(pid):
     # as #vnum rather than hidden - the admin should see everything
     try:
         with db() as c, c.cursor() as cur:
-            cur.execute("SELECT vnum, count, window FROM player.item "
+            cur.execute("SELECT vnum, count, window, socket0 FROM player.item "
                         "WHERE owner_id=%s ORDER BY window, pos", (pid,))
             # On mt2009 in the reader's language: Polish, or the official
-            # English name where the world's item has one.
+            # English name where the world's item has one; a Polymorph Marble
+            # with its monster (Iwakura's Patch 13.5, point 2).
             item_proto_ready()
-            inv = [{"name": (localized_item_name(r["vnum"]) if ENGINE_MT2009 and r["vnum"] in ITEM_NAMES
-                             else ITEM_NAMES.get(r["vnum"], "#%d" % r["vnum"])),
+            inv = [{"name": marble_full_name(
+                        (localized_item_name(r["vnum"]) if ENGINE_MT2009 and r["vnum"] in ITEM_NAMES
+                         else ITEM_NAMES.get(r["vnum"], "#%d" % r["vnum"])),
+                        marble_monster(r["vnum"], r.get("socket0"))),
                     "count": r["count"], "window": str(r["window"]).lower()}
                    for r in cur.fetchall()]
     except Exception:
@@ -23259,14 +24080,17 @@ def item_qty(raw):
 # not_allowed is the bots' cores' own (playerbot_admin_grants.h): the
 # operator's EXP override asked for a companion or a character that is no
 # registered bot. no_item, changed, busy and locked are theirs too: the trash on
-# a bot's card (DELITEM, queue_bot_item_delete) refused whole. 'await' is not
+# a bot's card (DELITEM, queue_bot_item_delete) refused whole. to_safebox and
+# unanswered are the X on a line of a bot's counter (DELSHOP,
+# queue_bot_shop_delete): the engine kept the line's item in the shop's
+# safebox, or the db core never answered the take-down. 'await' is not
 # here on purpose: it is a row waiting for its bot (queue_bot_exp_override,
-# queue_bot_item_delete), not an answer.
+# queue_bot_item_delete, queue_bot_shop_delete), not an answer.
 QUEUE_FINAL_STATUSES = frozenset((
     "done", "bad_args", "no_skill", "has_item", "full", "failed",
     "qty_too_big", "partial", "no_gm", "unknown_cmd",
     "player_offline", "cancelled", "not_allowed",
-    "no_item", "changed", "busy", "locked",
+    "no_item", "changed", "busy", "locked", "to_safebox", "unanswered",
 ))
 
 def queue_and_wait(name, cmd, arg1, arg2, wait=7.0):
@@ -23679,9 +24503,12 @@ def set_gm():
 import io as _io
 import math as _math
 import zipfile as _zipfile
+import zlib as _zlib
 
 IWAKURA_EXPORT_STATEMENT_SECONDS = 60
 IWAKURA_EXPORT_MAX_BYTES = 64 * 1024 * 1024
+# The slice a file's text is deflated and inflated by (_IwakuraExport.table).
+IWAKURA_EXPORT_PACK_BYTES = 1024 * 1024
 IWAKURA_EXPORT_MAX_ROWS = 250000
 IWAKURA_EXPORT_HISTORY_ROWS = 100000
 # mt2009's AFFECT_EXP_BLOCK (antiexp_ring.quest; ManagePlayerBotExpLock adds it
@@ -23707,6 +24534,41 @@ IWAKURA_PERSONA_FLAGS = ("persona_mood", "persona_lock_lv")
 # offset in signed thousandths (point 1D), the one-time cleanup done (24I) and
 # the Craftsman's trait (24B, 1 = a Craftsman).
 IWAKURA_P11_FLAGS = ("price_offset", "p11_cleanup_done", "craftsman")
+# Patch 14, point 2D (Iwakura, 9 October): a bot's own Bravery Cape pull limit
+# (playerbot_cape.h), the number of monsters a cape of its may bring, kept as
+# it is; absent until the bot first came where a cape is allowed it.
+# Iwakura's Patch 14, point 4: the M2 dropper Warrior's role (1 holds it, 2
+# graduated) and its four pieces' progress (playerbot_m2_dropper_rules.h's
+# PackProgress: a nibble a piece, the plus + 1, weapon lowest), as they are.
+IWAKURA_P14_FLAGS = ("cape_limit", "m2warrior", "m2warrior_gear")
+M2_WARRIOR_GEAR_PLUS = 8
+M2_WARRIOR_PIECES = {"pl": ("broń", "zbroja", "tarcza", "hełm"), "en": ("weapon", "armour", "shield", "helmet"),
+                     "de": ("Waffe", "Rüstung", "Schild", "Helm"), "tr": ("silah", "zırh", "kalkan", "miğfer")}
+
+
+def m2_warrior_gear_text(packed, language):
+    """The M2 dropper Warrior's progress as the card shows it ("broń +7/+8,
+    zbroja +8/+8, ..."): each piece's plus of the +8 that ends the role, "-"
+    for a piece not worn or below the level it has to have."""
+    names = M2_WARRIOR_PIECES.get(language, M2_WARRIOR_PIECES["en"])
+    try:
+        packed = int(packed or 0)
+    except (TypeError, ValueError):
+        packed = 0
+    parts = []
+    for i, name in enumerate(names):
+        plus = ((packed >> (4 * i)) & 15) - 1
+        parts.append("%s %s/+%d" % (name, "-" if plus < 0 else "+%d" % plus, M2_WARRIOR_GEAR_PLUS))
+    return ", ".join(parts)
+
+
+def m2_warrior_role_name(state):
+    """bots.tsv's role column for the M2 dropper Warrior's flag."""
+    try:
+        state = int(state or 0)
+    except (TypeError, ValueError):
+        state = 0
+    return {1: "m2_dropper_warrior", 2: "m2_dropper_warrior_done"}.get(state, "")
 _IWAKURA_EXPORT_LOCK = threading.Lock()
 
 # Patch 11, point 15 (Iwakura, 8 October): the files that measure the rest of
@@ -23748,14 +24610,35 @@ IWAKURA_BONUS_HOWS = {"PLAYERBOT_BONUS_ADD": "add", "PLAYERBOT_BONUS_CHANGE": "c
                       "PLAYERBOT_BONUS_MARBLE": "marble"}
 IWAKURA_EXCHANGE_HOWS = ("PLAYERBOT_MATERIAL_EXCHANGE_IN", "PLAYERBOT_MATERIAL_EXCHANGE",
                          "PLAYERBOT_MATERIAL_EXCHANGE_FAIL", "PLAYERBOT_FISH_EXCHANGE_IN",
-                         "PLAYERBOT_FISH_EXCHANGE")
+                         "PLAYERBOT_FISH_EXCHANGE", "PLAYERBOT_FISH_EXCHANGE_FAIL")
 # Iwakura's Patch 12, point 10: grilled fish exchanged for a Blessing Scroll
-# (playerbot_material_exchange.h) - the fish taken, and the scroll.
-IWAKURA_FISH_EXCHANGE_HOWS = ("PLAYERBOT_FISH_EXCHANGE_IN", "PLAYERBOT_FISH_EXCHANGE")
+# (playerbot_material_exchange.h) - the fish taken, and the scroll; since Patch
+# 13 (point 1) half of them fail, and a failure's row names no scroll.
+IWAKURA_FISH_EXCHANGE_HOWS = ("PLAYERBOT_FISH_EXCHANGE_IN", "PLAYERBOT_FISH_EXCHANGE",
+                              "PLAYERBOT_FISH_EXCHANGE_FAIL")
+# Iwakura's Patch 13, point 1: an exchange's result in exchange_log.tsv.
+IWAKURA_EXCHANGE_SUCCESS = "success"
+IWAKURA_EXCHANGE_FAILED = "failed"
 # The log.log row the core writes on a worn piece or the bot's only weapon it
 # burned at the plain anvil (playerbot_economy.h, Iwakura's Patch 11 FIX, point
 # 2), on the burned item's id: refine_log.tsv's own_worn.
 IWAKURA_OWN_WORN_BURN_HOW = "PLAYERBOT_OWN_WORN_BURN"
+# Iwakura's Patch 14, point 10F: the core's row on a piece whose step went to
+# the plain anvil because the Blessing Scroll was dearer than the piece, or
+# saved less than it cost (playerbot_scroll_worth_rules.h UNPROFITABLE_HOW,
+# hint "scroll=... item=... test=A|D ..."), written before the attempt:
+# refine_log.tsv's way_label for that attempt.
+IWAKURA_SCROLL_UNPROFITABLE_HOW = "PLAYERBOT_SCROLL_UNPROFITABLE"
+IWAKURA_SCROLL_UNPROFITABLE_LABEL = {"pl": "kowal (zwój nieopłacalny)", "en": "blacksmith (scroll not worth it)",
+                                     "de": "Schmied (Schriftrolle lohnt nicht)",
+                                     "tr": "demirci (parşömen değmez)"}
+# How far apart the mark and the attempt may be, in seconds.
+IWAKURA_SCROLL_UNPROFITABLE_SLACK_S = 5
+# Iwakura's Patch 14, point 8H: the core's row on the shield of the bot's tier
+# beside the stone's own (playerbot_shield_bonus_rules.h PURPOSE_HOW), whose
+# hint is the stone's purpose ("szukam NNO", "szukam rasy mapy"): bonus_log.tsv's
+# purpose.
+IWAKURA_BONUS_PURPOSE_HOW = "PLAYERBOT_BONUS_PURPOSE"
 # The keepers who lay their counter out in the bag's order: eight in ten by a
 # hash of the pid (playerbot_shop_sort_rules.h SORTED_PERMILLE,
 # IsPlayerBotShopSorter in playerbot_town.h, PlayerBotNavHash).
@@ -23961,6 +24844,66 @@ def read_price_index_latest():
     return best
 
 
+# Iwakura's Patch 15, point 6A: "Jesli yang z questow przekroczy 15% calego
+# yang zarabianego przez boty w dobie - w panelu ostrzezenie". The quests'
+# yang of the last day is every core's playerbot_quests.tsv (its done rows,
+# the reward's yang of quest_reward_proto); the bots' own day is the growth of
+# common.playerbot_yang_history over it. The export says the same in its
+# README (_ix_part_quests); this is the page's line.
+def quest_yang_share(cur=None):
+    """(quest yang, the bots' yang growth, percent) of the last day, or None
+    when either is unknown or nothing grew."""
+    since = int(time.time()) - 86400
+    quest_yang = 0
+    for _channel, _core, folder in _ix_core_dirs():
+        path = os.path.join(folder, "playerbot_quests.tsv")
+        try:
+            lines, _cut = _ix_read_tail(path, IWAKURA_EXPORT_CORE_FILE_BYTES)
+        except OSError:
+            continue
+        for line in lines:
+            if not line or line.startswith("#"):
+                continue
+            f = line.rstrip("\r\n").split("\t")
+            if len(f) < IWAKURA_QUEST_FIELDS or f[6].strip() != "done":
+                continue
+            if _ix_int(f[0], -1) >= since:
+                quest_yang += max(0, _ix_int(f[13]))
+    if quest_yang <= 0:
+        return None
+    try:
+        own = cur is None
+        conn = db() if own else None
+        c = conn.cursor() if own else cur
+        try:
+            c.execute("SELECT MIN(total_yang) AS lo, MAX(total_yang) AS hi FROM common.playerbot_yang_history "
+                      "WHERE hour >= %s", (since // 3600,))
+            row = c.fetchone() or {}
+        finally:
+            if own:
+                conn.close()
+    except Exception:
+        return None
+    grown = int(row.get("hi") or 0) - int(row.get("lo") or 0)
+    if grown <= 0:
+        return None
+    return quest_yang, grown, quest_yang * 100 // grown
+
+
+def quest_yang_warning(language):
+    """The /ai page's 6A line, or "" while the quests' yang is under 15%."""
+    try:
+        share = quest_yang_share()
+    except Exception:
+        return ""
+    if not share or share[2] <= IWAKURA_QUEST_YANG_WARN_PERCENT:
+        return ""
+    language = language if language in LANGS else "en"
+    text = T["ai_quest_yang_warn"].get(language) or T["ai_quest_yang_warn"]["en"]
+    return text % {"pct": share[2], "quest": "{:,}".format(share[0]).replace(",", " "),
+                   "grown": "{:,}".format(share[1]).replace(",", " "), "line": IWAKURA_QUEST_YANG_WARN_PERCENT}
+
+
 def price_index_text(language, latest=None):
     """The line in the page's language: "Indeks cen: ×1,23 (rośnie)"."""
     language = language if language in LANGS else "en"
@@ -24043,6 +24986,7 @@ class _IwakuraExport:
         self.size = 0
         self.gm_pids, self.gm_accounts = set(), set()
         self.names = {}
+        self.mobs = {}        # vnum: (Polish name, level, official English or None), for the marbles
         self.session_secs = None
         self.db_now = None
         self.started = time.time()
@@ -24068,27 +25012,54 @@ class _IwakuraExport:
         except Exception:
             pass
 
-    def table(self, name, header, rows):
-        """A file of rows under the row and byte caps; a cut is a problem."""
+    def table(self, name, header, rows, max_rows=None, max_bytes=None):
+        """A file of rows under the row and byte caps; a cut is a problem.
+        A part may give caps of its own: its bytes are then bounded by its
+        `max_bytes` and not by the export's shared IWAKURA_EXPORT_MAX_BYTES.
+        `rows` may be a generator, read only as far as the caps let the file
+        grow. The text is held deflated (the explanation tables run to a
+        hundred megabytes and more on a busy world, a sixth of it deflated)
+        and inflated again into the zip by build_iwakura_export."""
         head = "\t".join(header) + "\n"
-        out, size, written, cut = [head], len(head.encode("utf-8")), 0, False
+        size, written, cut = len(head.encode("utf-8")), 0, False
+        packer, packed, pending, pending_size = _zlib.compressobj(6), [], [head], size
+        max_rows = min(IWAKURA_EXPORT_MAX_ROWS, max_rows or IWAKURA_EXPORT_MAX_ROWS)
         for row in rows:
-            if written >= IWAKURA_EXPORT_MAX_ROWS:
+            if written >= max_rows:
                 cut = True
                 break
             line = "\t".join(_ix_cell(v) for v in row) + "\n"
             length = len(line.encode("utf-8"))
-            if self.size + size + length > IWAKURA_EXPORT_MAX_BYTES:
+            if (size + length > max_bytes) if max_bytes else (self.size + size + length > IWAKURA_EXPORT_MAX_BYTES):
                 cut = True
                 break
-            out.append(line)
+            pending.append(line)
+            pending_size += length
             size += length
             written += 1
-        self.files.append((name, "".join(out).encode("utf-8")))
-        self.size += size
+            if pending_size >= IWAKURA_EXPORT_PACK_BYTES:
+                packed.append(packer.compress("".join(pending).encode("utf-8")))
+                pending, pending_size = [], 0
+        packed.append(packer.compress("".join(pending).encode("utf-8")))
+        packed.append(packer.flush())
+        self.files.append((name, b"".join(packed)))
+        if not max_bytes:
+            self.size += size
         if cut:
             self.problem(name, "cut after %d rows (export cap)" % written)
         return written
+
+    @staticmethod
+    def unpack(packed):
+        """A file's text as table() holds it, inflated a slice at a time."""
+        inflater = _zlib.decompressobj()
+        for start in range(0, len(packed), IWAKURA_EXPORT_PACK_BYTES):
+            yield inflater.decompress(packed[start:start + IWAKURA_EXPORT_PACK_BYTES])
+        yield inflater.flush()
+
+    def text(self, name):
+        """A file's whole text, as a reader outside the zip wants it."""
+        return b"".join(self.unpack(dict(self.files)[name])).decode("utf-8")
 
     def pairs(self, name, rows):
         return self.table(name, ("key", "value", "note"), rows)
@@ -24126,12 +25097,30 @@ class _IwakuraExport:
         return ("CASE WHEN LEFT(%s, 10) = 'playerbot_' THEN 'bot' WHEN %s IN %s THEN 'gm' ELSE 'person' END"
                 % (login_col, account_col, _ix_ids(self.gm_accounts)))
 
+    def monster_label(self, mob):
+        """A marble's monster as the export names it (Iwakura's Patch 13.5,
+        point 2): "Dziki Pies (1 lvl)" / "Wild Dog (lv 1)", the official English
+        name in an English export, "potwór #101" / "monster #101" for a monster
+        mob_proto does not name."""
+        mob = int(mob or 0)
+        known = self.mobs.get(mob)
+        if not known or not known[0]:
+            return map_i18n(self.language)["ex_mob_n"].format(n=mob)
+        name = (known[2] or known[0]) if self.language != "pl" else known[0]
+        level = int(known[1] or 0)
+        if level <= 0:
+            return name
+        return "%s (%d lvl)" % (name, level) if self.language == "pl" else "%s (lv %d)" % (name, level)
+
     def name_of(self, vnum, skill=0):
         vnum = int(vnum or 0)
         known = self.names.get(vnum)
         if not known:
             # r40250 keeps no item_proto table: the panel's items.json names it.
             known = (ITEM_NAMES_PL.get(vnum) or ITEM_NAMES.get(vnum, ""), "", "", "", "")
+        if skill and vnum in POLYMORPH_MARBLE_VNUMS:
+            # skill_sql's column of a marble is its monster.
+            return ((known[0] or "#%d" % vnum) + MARBLE_NAME_SEPARATOR + self.monster_label(skill),) + tuple(known[1:])
         if skill:
             table = SKILL_NAMES_BY_LANG.get(self.language) or SKILL_ID_NAMES
             word = table.get(int(skill)) or SKILL_ID_NAMES.get(int(skill)) or "#%d" % int(skill)
@@ -24141,10 +25130,11 @@ class _IwakuraExport:
     def skill_sql(self):
         """The skill of a skill book (ITEM_SKILLBOOK, 17: one vnum for every
         skill, the skill in socket0 - "A skill book is vnum 50300 with the
-        skill in socket0"), 0 for anything else: books of two skills are two
-        goods with two prices."""
+        skill in socket0"), and the monster of a Polymorph Marble, also its
+        socket0 (Iwakura's Patch 13.5, point 2), 0 for anything else: books of
+        two skills and marbles of two monsters are two goods with two prices."""
         books = [v for v, row in self.names.items() if row[1] == 17] or [50300]
-        return "IF(i.vnum IN %s, i.socket0, 0)" % _ix_ids(books)
+        return "IF(i.vnum IN %s, i.socket0, 0)" % _ix_ids(sorted(set(books) | POLYMORPH_MARBLE_VNUMS))
 
     def who(self, cur, pids):
         """{pid: (name, class)} of characters, read by id a chunk at a time
@@ -24163,7 +25153,7 @@ class _IwakuraExport:
         (the persona ones still carry their + 1), in one statement for the
         whole export; None when player.quest cannot be read."""
         if self.bot_flags is None:
-            states = IWAKURA_PERSONA_FLAGS + IWAKURA_P11_FLAGS
+            states = IWAKURA_PERSONA_FLAGS + IWAKURA_P11_FLAGS + IWAKURA_P14_FLAGS
             cur.execute("SELECT dwPID, szState, lValue FROM player.quest WHERE szName = 'playerbot' AND szState IN ("
                         + ",".join(["%s"] * len(states)) + ")", states)
             flags = {}
@@ -24200,6 +25190,16 @@ def _ix_part_names(ex, cur):
         ex.names[int(r["vnum"] or 0)] = (
             log_text(r.get("locale_name")).strip(), int(r.get("type") or 0), int(r.get("subtype") or 0),
             r.get("gold"), r.get("shop_buy_price"))
+    # The monsters, which a Polymorph Marble's row names (Iwakura's Patch 13.5,
+    # point 2): a world without the table names them "potwór #<vnum>".
+    try:
+        cur.execute("SELECT vnum, level, CAST(locale_name AS BINARY) AS locale_name FROM player.mob_proto")
+        for r in cur.fetchall():
+            vnum = int(r["vnum"] or 0)
+            ex.mobs[vnum] = (log_text(r.get("locale_name")).strip(), int(r.get("level") or 0),
+                             english_game_name("m", vnum, r.get("locale_name")))
+    except Exception as e:
+        ex.problem("names", "monster names (player.mob_proto): %s" % str(e)[:300])
 
 
 def _ix_part_rates(ex, cur):
@@ -24473,10 +25473,20 @@ def _ix_part_yang(ex, cur):
 def _ix_part_yang_history(ex, cur):
     cur.execute("SELECT hour, FROM_UNIXTIME(hour * 3600) AS at, total_yang, surcharge, exchange_pct, impulse_pct, "
                 "changed FROM common.playerbot_yang_history ORDER BY hour LIMIT %s", (IWAKURA_EXPORT_HISTORY_ROWS,))
+    history = cur.fetchall()
+    # Iwakura's Patch 15, point 6A: the bots' quests' yang of each hour, from
+    # every core's playerbot_quests.tsv (its done rows), as a column of its own.
+    quest_yang = {}
+    try:
+        for p in _ix_quest_rows(ex):
+            if p[6] == "done":
+                quest_yang[p[2] // 3600] = quest_yang.get(p[2] // 3600, 0) + p[13]
+    except Exception as e:
+        ex.problem("yang_history.tsv", "quest yang: %s" % str(e)[:200])
     ex.table("yang_history.tsv", ("hour_epoch", "hour", "total_yang", "tax_surcharge", "exchange_pct",
-                                  "impulse_pct", "changed"),
+                                  "impulse_pct", "changed", "quest_yang"),
              ((r["hour"], r["at"], r["total_yang"], r["surcharge"], r["exchange_pct"], r["impulse_pct"],
-               r["changed"]) for r in cur.fetchall()))
+               r["changed"], quest_yang.get(int(r["hour"] or 0), 0)) for r in history))
 
 
 def _ix_part_yang_sinks(ex, cur):
@@ -24697,13 +25707,16 @@ def _ix_part_bots(ex, cur):
             _ix_hours(ex.session_secs.get(pid, 0)) if ex.session_secs is not None else "",
             b.get("last_play"), b.get("map_index"),
             guild[0] if guild else (0 if guilds is not None else ""), guild[1] if guild else "",
-            flag(pid, "price_offset"), flag(pid, "p11_cleanup_done"), flag(pid, "craftsman")))
+            flag(pid, "price_offset"), flag(pid, "p11_cleanup_done"), flag(pid, "craftsman"),
+            flag(pid, "cape_limit"),
+            m2_warrior_role_name(flag(pid, "m2warrior")),
+            m2_warrior_gear_text(flag(pid, "m2warrior_gear"), language) if m2_warrior_role_name(flag(pid, "m2warrior")) else ""))
     ex.table("bots.tsv", (
         "pid", "name", "empire", "level", "exp", "job", "job_name", "skill_group", "playtime_hours", "gold",
         "exp_blocked", "exp_unlocked", "saved_lock_level", "saved_mood_id", "saved_mood", "online", "channel", "persona_id",
         "persona", "character_id", "character", "mood_id", "mood", "lock_level", "goal", "action", "status",
         "session_hours_kept", "last_play", "map_index", "guild_id", "guild", "price_offset_permille",
-        "cleanup_done", "craftsman"), out)
+        "cleanup_done", "craftsman", "cape_limit", "role", "role_gear"), out)
 
 
 # ---- Patch 11, point 15: what the patch is measured by -----------------------
@@ -24730,7 +25743,7 @@ def _ix_part_sales(ex, cur):
     except Exception as e:
         ex.problem("sales.tsv", "log.ikarusshop_log: %s" % str(e)[:300])
     listing, sold = {}, set()
-    columns = "item_id, pid, vnum, `count`, listed_at, list_price, price, sold_price, changes, last_at"
+    columns = "item_id, pid, vnum, `count`, listed_at, list_price, price, sold_price, changes, last_at, why, why_a"
     try:
         cur.execute("SELECT " + columns + " FROM log.playerbot_listing FORCE INDEX (last_at_idx) "
                     "WHERE last_at >= NOW() - INTERVAL %s DAY AND last_event = 10 ORDER BY last_at DESC LIMIT %s",
@@ -24756,6 +25769,16 @@ def _ix_part_sales(ex, cur):
                + [r.get("pid") for r in listing.values()])
     except Exception as e:
         ex.problem("sales.tsv", "names (player.player): %s" % str(e)[:300])
+    # A Polymorph Marble sold is named with its monster (Iwakura's Patch 13.5,
+    # point 2): the item under its id in the buyer's window, else the bot's
+    # listing row's goods reason (GOODS_MARBLE keeps the monster in why_a).
+    marbles = marble_sockets(cur, [b.get("itemid") for b in buys if _ix_int(b.get("vnum")) in POLYMORPH_MARBLE_VNUMS]
+                             + [i for i, r in listing.items() if _ix_int(r.get("vnum")) in POLYMORPH_MARBLE_VNUMS])
+    for item_id, r in listing.items():
+        if item_id not in marbles and _ix_int(r.get("why")) == 4:
+            mob = marble_monster(r.get("vnum"), r.get("why_a"))
+            if mob:
+                marbles[item_id] = mob
 
     def row(source, when, item_id, vnum, count, yang, tax, seller, buyer, line):
         seller_name, seller_cls = ex.people.get(seller, ("", ""))
@@ -24769,7 +25792,7 @@ def _ix_part_sales(ex, cur):
         hours = ""
         if listed and isinstance(when, datetime.datetime):
             hours = round(max(0.0, (when - listed).total_seconds()) / 3600.0, 2)
-        return (when, source, item_id, vnum, ex.name_of(vnum)[0], count,
+        return (when, source, item_id, vnum, ex.name_of(vnum, marbles.get(item_id, 0))[0], count,
                 yang / float(count) if count else None, yang, tax, seller, seller_name, seller_cls,
                 buyer or "", buyer_name, buyer_cls, offset, listed or "",
                 (line.get("list_price") or "") if listed else "", line.get("changes") if line else "", hours)
@@ -24933,7 +25956,10 @@ def _ix_part_exchanges(ex, cur):
     row an exchange claimed, its hour and bot). Grilled fish exchanged for
     a Blessing Scroll (Patch 12, point 10) are rows of their own, source
     "fish", and never in the quota table; evidence says which of the three
-    places showed an exchange."""
+    places showed an exchange. Since Patch 13 (point 1) sixty material
+    exchanges in a hundred and half the fish ones fail: outcome is success or
+    failed - a failure's log.log row (..._FAIL) or its line's result=failed
+    says so, and every exchange before Patch 13 succeeded."""
     ex.log_statements(cur)
     cur.execute("SELECT UNIX_TIMESTAMP(time) AS ts, who, vnum, how, hint FROM log.log FORCE INDEX (how_idx) "
                 "WHERE how IN (" + ",".join("'%s'" % h for h in IWAKURA_EXCHANGE_HOWS) + ") "
@@ -24960,7 +25986,7 @@ def _ix_part_exchanges(ex, cur):
         elif how in ("PLAYERBOT_MATERIAL_EXCHANGE", "PLAYERBOT_FISH_EXCHANGE"):
             last["reward"] = _ix_int(r.get("vnum"))
         else:
-            last["outcome"] = "failed"
+            last["outcome"] = IWAKURA_EXCHANGE_FAILED
     # The core's own line names the reward and the fee.
     lines, short = _ix_grep_syslogs("PLAYERBOT_EXCHANGE:")
     if short:
@@ -24996,6 +26022,10 @@ def _ix_part_exchanges(ex, cur):
         best["line"] = text
         best["reward"] = _ix_int(fields.get("reward")) or best["reward"]
         best["fee"] = fields.get("fee", best["fee"])
+        # Patch 13: the line's own result; a line of before it has none, and
+        # every exchange then gave its stone.
+        if fields.get("result") == IWAKURA_EXCHANGE_FAILED:
+            best["outcome"] = IWAKURA_EXCHANGE_FAILED
     # An exchange the quota counted that neither of the two above shows.
     try:
         cur.execute("SELECT hour, pid FROM common.playerbot_exchange_quota WHERE hour >= %s ORDER BY hour LIMIT %s",
@@ -25028,7 +26058,8 @@ def _ix_part_exchanges(ex, cur):
                     ";".join("%d:%d" % kv for kv in materials),
                     "; ".join("%s x%d" % (ex.name_of(v)[0] or "#%d" % v, n) for v, n in materials),
                     sum(n for _v, n in materials) if materials else "", e["reward"] or "",
-                    ex.name_of(e["reward"])[0] if e["reward"] else "", e["fee"], e["outcome"] or "done",
+                    ex.name_of(e["reward"])[0] if e["reward"] else "", e["fee"],
+                    e["outcome"] or IWAKURA_EXCHANGE_SUCCESS,
                     e["line"], e["source"]))
     ex.table("exchange_log.tsv", ("time", "hour_epoch", "pid", "name", "class", "source", "materials",
                                   "material_names", "units", "reward_vnum", "reward_name", "fee", "outcome",
@@ -25182,11 +26213,57 @@ def _ix_refine_attempts_r40250(ex, cur):
     return out
 
 
+def _ix_scroll_unprofitable_marks(ex, cur):
+    """The core's marks of a plain attempt the scroll's price sent to the
+    plain anvil (Patch 14, point 10F): {item_id: [ts]} and {pid: [ts]}."""
+    by_item, by_pid = {}, {}
+    try:
+        cur.execute("SELECT UNIX_TIMESTAMP(time) AS ts, who, what FROM log.log FORCE INDEX (how_idx) "
+                    "WHERE how = '" + IWAKURA_SCROLL_UNPROFITABLE_HOW + "' "
+                    "AND time >= NOW() - INTERVAL %s DAY ORDER BY time DESC LIMIT %s",
+                    (IWAKURA_EXPORT_LOG_DAYS, IWAKURA_EXPORT_LOG_ROWS))
+        for r in cur.fetchall() or ():
+            ts = _ix_int(r.get("ts"), -1)
+            if ts < 0:
+                continue
+            by_item.setdefault(_ix_int(r.get("what")), []).append(ts)
+            by_pid.setdefault(_ix_int(r.get("who")), []).append(ts)
+    except Exception as e:
+        ex.problem("refine_log.tsv", "scroll_unprofitable (log.log): %s" % str(e)[:300])
+    return by_item, by_pid
+
+
+def _ix_mark_unprofitable(attempts, marks, language):
+    """way_label "kowal (zwoj nieoplacalny)" on the plain attempts the core
+    marked: by the piece's id, or - r40250's success names the new item - by
+    the bot within a few seconds of the mark."""
+    by_item, by_pid = marks
+    if not by_item:
+        return attempts
+    label = IWAKURA_SCROLL_UNPROFITABLE_LABEL.get(language if language in LANGS else "en",
+                                                  IWAKURA_SCROLL_UNPROFITABLE_LABEL["en"])
+    out = []
+    for a in attempts:
+        when = a[0]
+        ts = int(time.mktime(when.timetuple())) if hasattr(when, "timetuple") else -1
+        way = str(a[8] or "")
+        plain = not way.startswith("SCROLL")
+        near = lambda stamps: ts >= 0 and any(abs(t - ts) <= IWAKURA_SCROLL_UNPROFITABLE_SLACK_S for t in stamps)
+        hit = _ix_int(a[2]) in by_item and (ts < 0 or near(by_item[_ix_int(a[2])]))
+        if not hit and not ENGINE_MT2009:
+            hit = near(by_pid.get(_ix_int(a[1]), ()))
+        if plain and hit:
+            a = a[:9] + (label,) + a[10:]
+        out.append(a)
+    return out
+
+
 def _ix_part_refines(ex, cur):
     """Every attempt at an anvil in the window: the bot, the item, the plus
     before and after, the way (a blacksmith or a scroll) and the outcome."""
     ex.log_statements(cur)
     attempts = (_ix_refine_attempts_mt2009 if ENGINE_MT2009 else _ix_refine_attempts_r40250)(ex, cur)
+    attempts = _ix_mark_unprofitable(attempts, _ix_scroll_unprofitable_marks(ex, cur), ex.language)
     try:
         ex.who(cur, [a[1] for a in attempts])
     except Exception as e:
@@ -25224,6 +26301,25 @@ def _ix_part_bonuses(ex, cur):
                     for n in range(7) if _ix_int(r.get("attrtype%d" % n)))
     except Exception as e:
         ex.problem("bonus_log.tsv", "lines_now (player.item): %s" % str(e)[:300])
+    # Iwakura's Patch 14, point 8H: what a stone sought on the shield of the
+    # bot's tier, the core's row beside it on the same piece.
+    purposes = {}
+    try:
+        cur.execute("SELECT UNIX_TIMESTAMP(time) AS ts, what, hint FROM log.log FORCE INDEX (how_idx) "
+                    "WHERE how = '" + IWAKURA_BONUS_PURPOSE_HOW + "' "
+                    "AND time >= NOW() - INTERVAL %s DAY ORDER BY time DESC LIMIT %s",
+                    (IWAKURA_EXPORT_LOG_DAYS, IWAKURA_EXPORT_LOG_ROWS))
+        for r in cur.fetchall() or ():
+            purposes.setdefault(_ix_int(r.get("what")), []).append((_ix_int(r.get("ts"), -1),
+                                                                    log_text(r.get("hint")).strip()))
+    except Exception as e:
+        ex.problem("bonus_log.tsv", "purpose (log.log): %s" % str(e)[:300])
+
+    def purpose_of(item_id, ts):
+        for when, word in purposes.get(item_id, ()):
+            if when >= 0 and ts >= 0 and abs(when - ts) <= 2:
+                return word
+        return ""
     try:
         ex.who(cur, [r.get("who") for r in rows])
     except Exception as e:
@@ -25235,10 +26331,256 @@ def _ix_part_bonuses(ex, cur):
         gear = ex.name_of(vnum)[1] in (1, 2)
         out.append((r.get("time"), pid, name, cls, IWAKURA_BONUS_HOWS.get(log_text(r.get("how")), ""), item_id, vnum,
                     log_text(r.get("hint")).strip() or ex.name_of(vnum)[0], vnum % 10 if gear else "",
-                    lines.get(item_id, ""), "", "", "", "", ""))
+                    lines.get(item_id, ""), "", "", "", "",
+                    purpose_of(item_id, _ix_int(r.get("ts"), -1))))
     ex.table("bonus_log.tsv", ("time", "pid", "name", "class", "stone", "item_id", "vnum", "item_name", "plus",
                                "lines_now", "lines_before", "lines_after", "price_multiplier_before",
                                "price_multiplier_after", "purpose"), out)
+
+
+# ---- The explanation tables (Iwakura, 9 October) -----------------------------
+# "pelna recepta kazdej wyceny zapisuje sie w tabeli log.playerbot_listing ...
+# a tej tabeli nie ma w ZIP-ie": every counter line's row of the explanations
+# (playerbot_explain_rules.h; mt2009 with EXPLAIN on) and every equipment
+# decision's, as the core wrote them, with each code beside it said in words.
+# The words are the decisions page's own tables (DECISION_*, explain_listing's
+# helpers) and in Polish whatever the panel's language, because Iwakura reads
+# them; the header's names (GOODS_MARBLE, EVENT_SOLD) stand beside them for
+# whoever looks the code up. Both tables are InnoDB and read newest first down
+# their time index a chunk at a time, so a cut keeps the newest rows; a world
+# with EXPLAIN off, or one older than the tables, gets the header alone and a
+# line under "Problems".
+IWAKURA_EXPLAIN_LANGUAGE = "pl"
+# The newest rows of each, under a byte budget of its own: m2zip's world of
+# about 1 100 bots wrote 121 000 counter lines (about 800 bytes a row here)
+# and 88 000 equipment decisions in eight days.
+IWAKURA_EXPORT_RECIPE_ROWS = 200000
+IWAKURA_EXPORT_RECIPE_BYTES = 160 * 1024 * 1024
+IWAKURA_EXPORT_EQUIP_ROWS = 100000
+IWAKURA_EXPORT_EQUIP_BYTES = 80 * 1024 * 1024
+IWAKURA_EXPORT_EXPLAIN_CHUNK = 5000
+IWAKURA_LISTING_COLUMNS = (
+    "item_id", "pid", "vnum", "count", "listed_at", "list_event", "stand_reason", "why", "score", "why_a", "why_b",
+    "why_c", "pick_rank", "candidates", "refused_above", "cut_shape", "cut_from", "cut_keep", "held", "list_price",
+    "list_steps", "price", "was", "last_event", "last_steps", "last_at", "changes", "off_reason", "sold_price", "flags")
+IWAKURA_EQUIP_COLUMNS = (
+    "id", "time", "pid", "level", "wear", "path", "rule", "context", "new_id", "new_vnum", "new_plus", "new_score",
+    "new_roles", "new_origin", "new_origin_ref", "new_lines", "new_terms", "old_id", "old_vnum", "old_plus",
+    "old_score", "old_roles", "old_lines", "old_terms", "suppressed", "flags")
+
+
+def _ix_explain_note(ex):
+    """What the weights file says of the explanations, for a part that found
+    no rows: EXPLAIN 0 is off, absent is the core's seven days."""
+    try:
+        days = read_ai_weights().get("EXPLAIN")
+    except Exception:
+        days = None
+    if days == 0:
+        return "EXPLAIN = 0: the core writes no explanations / wyjaśnienia wyłączone"
+    return "EXPLAIN = %s" % ("%d days" % days if days else "not set (the core's %d days)" % EXPLAIN_DEFAULT_DAYS)
+
+
+def _ix_explain_rows(ex, cur, part, table, time_col, key_col, index, cap, state):
+    """The rows of one explanation table in the export's window, newest first
+    by (time, key) down `index`, a chunk a statement and a list a chunk.
+    Never raises: a missing table sets state["missing"], any other error or the
+    export's deadline ends the read with a problem and keeps what was read."""
+    after, read = None, 0
+    while read < cap:
+        if ex.out_of_time():
+            ex.problem(part, "cut after %d rows: the export's time was spent" % read)
+            return
+        ex.log_statements(cur)
+        n = min(IWAKURA_EXPORT_EXPLAIN_CHUNK, cap - read)
+        sql = ("SELECT * FROM log.%s FORCE INDEX (%s) WHERE %s >= NOW() - INTERVAL %%s DAY "
+               % (table, index, time_col))
+        params = [IWAKURA_EXPORT_LOG_DAYS]
+        if after is not None:
+            sql += "AND (%s < %%s OR (%s = %%s AND %s < %%s)) " % (time_col, time_col, key_col)
+            params += [after[0], after[0], after[1]]
+        sql += "ORDER BY %s DESC, %s DESC LIMIT %%s" % (time_col, key_col)
+        params.append(n)
+        try:
+            cur.execute(sql, tuple(params))
+            rows = list(cur.fetchall())
+        except Exception as e:
+            code = e.args[0] if getattr(e, "args", None) else None
+            if code == 1146:
+                state["missing"] = True
+            else:
+                ex.problem(part, "log.%s after %d rows: %s" % (table, read, str(e)[:300]))
+            return
+        if not rows:
+            return
+        read += len(rows)
+        state["read"] = read
+        yield rows
+        if len(rows) < n:
+            return
+        after = (rows[-1].get(time_col), rows[-1].get(key_col))
+    ex.problem(part, "the newest %d rows only (the part's cap)" % cap)
+
+
+def _ix_explain_finish(ex, part, state):
+    """The note of a part that wrote its header alone."""
+    if state.get("missing"):
+        ex.problem(part, "no table in the database (a world older than the explanations, or the core has not made "
+                         "it yet) - the header alone / brak tabeli, sam nagłówek; " + _ix_explain_note(ex))
+    elif not state.get("read"):
+        ex.problem(part, "no rows in the last %d days - the header alone / brak wierszy, sam nagłówek; %s"
+                   % (IWAKURA_EXPORT_LOG_DAYS, _ix_explain_note(ex)))
+
+
+def _ix_steps_text(text, language):
+    """A steps column as one readable line: each step's name, its detail, the
+    price after it and how it moved it, " | " between them."""
+    rows, cut = decision_step_rows(text, language)
+    out = []
+    for r in rows:
+        piece = r["label"] + (": " + r["detail"] if r["detail"] else "")
+        if r["value"]:
+            piece += " = " + r["value"]
+            if r["effect"] and r["effect"] != "=":
+                piece += " (" + r["effect"] + ")"
+        out.append(piece)
+    if cut:
+        out.append("~ (" + ("rdzeniowi zabrakło miejsca na resztę kroków" if language == "pl"
+                            else "the core ran out of room for the rest") + ")")
+    return " | ".join(out)
+
+
+def _ix_flag_texts(flags, table, prefix, language):
+    badges = decision_flags(flags, table, 0, language, prefix)
+    return ",".join(b["name"] for b in badges), "; ".join(b["label"] for b in badges)
+
+
+def _ix_part_listing_recipes(ex, cur):
+    """Every counter line's row of log.playerbot_listing in the window, every
+    column as the core wrote it and each code said in words beside it: the
+    whole recipe of each price."""
+    part, lang_ = "listing_recipes.tsv", IWAKURA_EXPLAIN_LANGUAGE
+    header = IWAKURA_LISTING_COLUMNS + (
+        "item_name", "seller_name", "seller_class", "list_event_name", "list_event_text", "stand_reason_text",
+        "why_name", "why_text", "cut_shape_text", "list_steps_text", "last_event_name", "last_event_text",
+        "last_steps_text", "off_reason_name", "off_reason_text",
+        "flag_names", "flag_texts", "sheet_ratio", "anomalies")
+    state = {}
+    if not ENGINE_MT2009:
+        ex.table(part, header, ())
+        ex.problem(part, "r40250: no explanation tables on this engine / brak tabel wyjaśnień")
+        return
+
+    def rows():
+        for chunk in _ix_explain_rows(ex, cur, part, "playerbot_listing", "last_at", "item_id", "last_at_idx",
+                                      IWAKURA_EXPORT_RECIPE_ROWS, state):
+            try:
+                ex.who(cur, [r.get("pid") for r in chunk])
+            except Exception as e:
+                ex.problem(part, "names (player.player): %s" % str(e)[:300])
+            # A marble's monster: its goods reason keeps it (GOODS_MARBLE's
+            # why_a), else the item under its id (listing_marble_monster).
+            marbles = marble_sockets(cur, [r.get("item_id") for r in chunk
+                                           if _ix_int(r.get("vnum")) in POLYMORPH_MARBLE_VNUMS
+                                           and _ix_int(r.get("why")) != 4])
+            for r in chunk:
+                vnum, why = _ix_int(r.get("vnum")), _ix_int(r.get("why"))
+                mob = marble_monster(vnum, r.get("why_a")) if why == 4 else marbles.get(_ix_int(r.get("item_id")), 0)
+                name, cls = ex.people.get(_ix_int(r.get("pid")), ("", ""))
+                list_event, last_event = _ix_int(r.get("list_event")), _ix_int(r.get("last_event"))
+                ended_off = last_event in LISTING_END_EVENTS and last_event != 10
+                stand = _ix_int(r.get("stand_reason"))
+                flag_names, flag_texts = _ix_flag_texts(r.get("flags"), DECISION_LFLAGS, "LFLAG", lang_)
+                ratio = decision_sheet_ratio(r, decode_explain_pairs(r.get("list_steps"))[0])
+                yield tuple(r.get(c) for c in IWAKURA_LISTING_COLUMNS) + (
+                    ex.name_of(vnum, mob)[0], name, cls,
+                    decision_code_name("EVENT", list_event) if list_event else "",
+                    decision_label(DECISION_EVENTS, list_event, lang_) if list_event else "",
+                    decision_label(DECISION_STAND, stand, lang_) if stand else "",
+                    decision_code_name("GOODS", why),
+                    decision_goods_text(why, r.get("why_a"), r.get("why_b"), r.get("why_c"), lang_),
+                    decision_label(DECISION_SHAPES, r.get("cut_shape"), lang_) if _ix_int(r.get("cut_from")) else "",
+                    _ix_steps_text(r.get("list_steps"), lang_),
+                    decision_code_name("EVENT", last_event) if last_event else "",
+                    decision_label(DECISION_EVENTS, last_event, lang_) if last_event else "",
+                    _ix_steps_text(r.get("last_steps"), lang_),
+                    decision_code_name("OFF", r.get("off_reason")) if ended_off else "",
+                    decision_label(DECISION_OFF, r.get("off_reason"), lang_) if ended_off else "",
+                    flag_names, flag_texts, round(ratio["ratio"], 4) if ratio else "",
+                    "; ".join(a["label"] for a in decision_listing_anomalies(r, lang_)))
+    ex.table(part, header, rows(), max_rows=IWAKURA_EXPORT_RECIPE_ROWS, max_bytes=IWAKURA_EXPORT_RECIPE_BYTES)
+    _ix_explain_finish(ex, part, state)
+
+
+def _ix_equip_piece(ex, r, side, lang_):
+    vnum = _ix_int(r.get(side + "_vnum"))
+    if not vnum and not _ix_int(r.get(side + "_id")):
+        return ("",) * 4
+    roles = _ix_int(r.get(side + "_roles"))
+    lines, stones = decode_explain_lines(r.get(side + "_lines"))
+    return (ex.name_of(vnum)[0] if vnum else "",
+            ",".join(decision_code_name("ROLE", 1 << k) for k in range(16) if roles & (1 << k)),
+            ", ".join(format_apply(kind, value, lang_) for kind, value in lines),
+            ", ".join(ex.name_of(v)[0] or "#%d" % v for v in stones))
+
+
+def _ix_terms_text(r, lang_):
+    """The score's terms and the blow's, old against new ("Cios: 1,2 -> 1,4"),
+    leaving out a term that is nothing on both sides (the raw columns keep it)."""
+    new = {code: value for code, value, _a, _b, _c in decode_explain_pairs(r.get("new_terms"))[0]}
+    old = {code: value for code, value, _a, _b, _c in decode_explain_pairs(r.get("old_terms"))[0]}
+    has_old = bool(_ix_int(r.get("old_vnum")) or _ix_int(r.get("old_id")))
+    codes = sorted(code for code in set(new) | set(old) if new.get(code) or (has_old and old.get(code)))
+    rows = _dx_term_rows(codes, new, old, frozenset(), has_old, lang_)
+    return " | ".join("%s: %s" % (x["label"], ("%s -> %s" % (x["old"], x["new"])) if has_old else x["new"])
+                      for x in rows)
+
+
+def _ix_part_equip_decisions(ex, cur):
+    """Every equipment decision's row of log.playerbot_equip in the window,
+    every column as the core wrote it and each code said in words beside it."""
+    part, lang_ = "equip_decisions.tsv", IWAKURA_EXPLAIN_LANGUAGE
+    header = IWAKURA_EQUIP_COLUMNS + (
+        "bot_name", "bot_class", "slot_text", "path_name", "path_text", "rule_name", "rule_text", "context_name",
+        "context_text", "new_name", "new_role_names", "new_lines_text", "new_stones", "new_origin_name",
+        "new_origin_text", "old_name", "old_role_names", "old_lines_text", "old_stones", "score_gain_pct",
+        "terms_text", "flag_names", "flag_texts", "anomalies")
+    state = {}
+    if not ENGINE_MT2009:
+        ex.table(part, header, ())
+        ex.problem(part, "r40250: no explanation tables on this engine / brak tabel wyjaśnień")
+        return
+
+    def rows():
+        for chunk in _ix_explain_rows(ex, cur, part, "playerbot_equip", "time", "id", "time_idx",
+                                      IWAKURA_EXPORT_EQUIP_ROWS, state):
+            try:
+                ex.who(cur, [r.get("pid") for r in chunk])
+            except Exception as e:
+                ex.problem(part, "names (player.player): %s" % str(e)[:300])
+            for r in chunk:
+                name, cls = ex.people.get(_ix_int(r.get("pid")), ("", ""))
+                context = _ix_int(r.get("context"))
+                new = _ix_equip_piece(ex, r, "new", lang_)
+                old = _ix_equip_piece(ex, r, "old", lang_)
+                has_new = bool(new[0] or _ix_int(r.get("new_id")))
+                new_score, old_score = _ix_int(r.get("new_score")), _ix_int(r.get("old_score"))
+                gain = round((new_score - old_score) * 100.0 / old_score, 1) if has_new and old_score > 0 else ""
+                flag_names, flag_texts = _ix_flag_texts(r.get("flags"), DECISION_EFLAGS, "EFLAG", lang_)
+                terms = {c: v for c, v, _a, _b, _c in decode_explain_pairs(r.get("new_terms"))[0]}
+                old_terms = {c: v for c, v, _a, _b, _c in decode_explain_pairs(r.get("old_terms"))[0]}
+                yield tuple(r.get(c) for c in IWAKURA_EQUIP_COLUMNS) + (
+                    name, cls, _dx_wear_label(r.get("wear"), lang_),
+                    decision_code_name("PATH", r.get("path")), decision_label(DECISION_PATHS, r.get("path"), lang_),
+                    decision_code_name("RULE", r.get("rule")), decision_label(DECISION_RULES, r.get("rule"), lang_),
+                    decision_code_name("CONTEXT", context), decision_label(DECISION_CONTEXTS, context, lang_),
+                    new[0], new[1], new[2], new[3],
+                    decision_code_name("ORIGIN", r.get("new_origin")) if has_new else "",
+                    decision_origin_text(r.get("new_origin"), r.get("new_origin_ref"), lang_) if has_new else "",
+                    old[0], old[1], old[2], old[3], gain, _ix_terms_text(r, lang_), flag_names, flag_texts,
+                    "; ".join(a["label"] for a in decision_equip_anomalies(r, terms, old_terms, lang_)))
+    ex.table(part, header, rows(), max_rows=IWAKURA_EXPORT_EQUIP_ROWS, max_bytes=IWAKURA_EXPORT_EQUIP_BYTES)
+    _ix_explain_finish(ex, part, state)
 
 
 def _ix_part_no_upgrade(ex, cur):
@@ -25252,15 +26594,113 @@ def _ix_part_no_upgrade(ex, cur):
         ts, pid = _ix_int(f[0], -1), _ix_int(f[1], -1)
         if ts < 0 or pid < 0:
             continue
-        parsed.append((channel, core, ts, pid, f[2].strip(), f[3].strip()))
+        # Iwakura's Patch 14, point 10F: a fifth column, the reason's numbers
+        # (zwoj_drozszy_niz_przedmiot's "scroll=... item=..."), which this
+        # reader's last field takes with the word.
+        word, _, detail = f[3].strip().partition("\t")
+        parsed.append((channel, core, ts, pid, f[2].strip(), word.strip(), detail.strip()))
     try:
         ex.who(cur, [p[3] for p in parsed])
     except Exception as e:
         ex.problem("no_upgrade_reason.tsv", "names (player.player): %s" % str(e)[:300])
-    out = [(channel, core, _ix_epoch_text(ts), ts, pid, ex.people.get(pid, ("", ""))[0], code, word)
-           for channel, core, ts, pid, code, word in sorted(parsed, key=lambda p: (p[2], p[3]))]
+    out = [(channel, core, _ix_epoch_text(ts), ts, pid, ex.people.get(pid, ("", ""))[0], code, word, detail)
+           for channel, core, ts, pid, code, word, detail in sorted(parsed, key=lambda p: (p[2], p[3]))]
     ex.table("no_upgrade_reason.tsv", ("channel", "core", "time", "unix_ts", "pid", "name", "reason_code",
-                                       "reason"), out)
+                                       "reason", "detail"), out)
+
+
+# Iwakura's Patch 15, point 10: the bots' quests. quests.tsv from every
+# core's playerbot_quests.tsv (#PB15Q1, its last 5000): a row a quest done,
+# postponed or abandoned (playerbot_quests.h); quest_skip.tsv from
+# playerbot_quest_skip.tsv (#PB15S1, its last 2000): a quest a review left,
+# with why. The fields after the header's mark, the last taking the rest.
+IWAKURA_QUEST_FIELDS = 15
+IWAKURA_QUEST_SKIP_FIELDS = 7
+IWAKURA_QUEST_SKIP_ROWS = 2000
+# 6A: the quests' yang against the bots' yang of a day - the warning's line.
+IWAKURA_QUEST_YANG_WARN_PERCENT = 15
+
+
+def _ix_quest_rows(ex):
+    """Every core's quest results as (channel, core, ts, pid, level, quest,
+    result, reason, minutes, deaths, map, party, exp, yang, items)."""
+    found, rows = _ix_core_tsv(ex, "quests.tsv", "playerbot_quests.tsv", "#PB15Q1", IWAKURA_QUEST_FIELDS)
+    if not found:
+        ex.problem("quests.tsv", "no core has written playerbot_quests.tsv yet (Patch 15 / QUESTS off)")
+    parsed, bad = [], 0
+    for channel, core, f in rows:
+        ts, pid = _ix_int(f[0], -1), _ix_int(f[3], -1)
+        numbers = (f[4], f[8], f[9], f[10], f[11], f[12], f[13])
+        if ts < 0 or pid <= 0 or not all(re.match(r"^-?\d+$", n.strip()) for n in numbers):
+            bad += 1
+            continue
+        parsed.append((channel, core, ts, pid, _ix_int(f[4]), f[5].strip(), f[6].strip(),
+                       "" if f[7].strip() == "-" else f[7].strip(), _ix_int(f[8]), _ix_int(f[9]),
+                       _ix_int(f[10]), _ix_int(f[11]), _ix_int(f[12]), _ix_int(f[13]),
+                       "" if f[14].strip() == "-" else f[14].strip()))
+    if bad:
+        ex.problem("quests.tsv", "%d rows with a field that is not a number left out" % bad)
+    return parsed
+
+
+def _ix_part_quests(ex, cur):
+    """Every quest result the cores wrote down, with the bots' names and the
+    reward's items named."""
+    parsed = _ix_quest_rows(ex)
+    try:
+        ex.who(cur, [p[3] for p in parsed])
+    except Exception as e:
+        ex.problem("quests.tsv", "names (player.player): %s" % str(e)[:300])
+    out = []
+    for (channel, core, ts, pid, level, quest, result, reason, minutes, deaths, map_index, party, exp, yang,
+         items) in sorted(parsed, key=lambda p: (p[2], p[3])):
+        names = []
+        for part in items.split(","):
+            vnum = part.split(":")[0].lstrip("g")
+            if vnum.isdigit():
+                names.append(("grupa " if part.startswith("g") else "") + ex.name_of(int(vnum))[0])
+        out.append((channel, core, _ix_epoch_text(ts), ts, pid, ex.people.get(pid, ("", ""))[0], level, quest,
+                    result, reason, minutes, deaths, map_index, "tak" if party else "nie", exp, yang, items,
+                    "; ".join(names)))
+    ex.table("quests.tsv", ("channel", "core", "time", "unix_ts", "pid", "name", "level", "quest", "result",
+                            "reason", "minutes", "deaths", "map", "party", "exp", "yang", "items", "item_names"), out)
+    # 6A: the quests' yang of the last day against the bots' own day, said
+    # when it is past 15% (the decision is Iwakura's: smaller rewards or
+    # fewer bots on quests).
+    try:
+        since = int(time.time()) - 86400
+        quest_yang = sum(p[13] for p in parsed if p[2] >= since and p[6] == "done")
+        cur.execute("SELECT MIN(total_yang) AS lo, MAX(total_yang) AS hi FROM common.playerbot_yang_history "
+                    "WHERE hour >= %s", (since // 3600,))
+        row = cur.fetchone() or {}
+        grown = int(row.get("hi") or 0) - int(row.get("lo") or 0)
+        if quest_yang > 0 and grown > 0 and quest_yang * 100 > grown * IWAKURA_QUEST_YANG_WARN_PERCENT:
+            ex.problem("quests.tsv", "UWAGA (Patch 15 pkt 6A): yang z questow botow w ostatniej dobie %d = %d%% "
+                                     "przyrostu yang botow (%d) - powyzej %d%%"
+                       % (quest_yang, quest_yang * 100 // grown, grown, IWAKURA_QUEST_YANG_WARN_PERCENT))
+    except Exception as e:
+        ex.problem("quests.tsv", "6A yang check: %s" % str(e)[:200])
+
+
+def _ix_part_quest_skip(ex, cur):
+    """A sample of the quests the bots' reviews left, and why (point 10)."""
+    found, rows = _ix_core_tsv(ex, "quest_skip.tsv", "playerbot_quest_skip.tsv", "#PB15S1", IWAKURA_QUEST_SKIP_FIELDS)
+    if not found:
+        ex.problem("quest_skip.tsv", "no core has written playerbot_quest_skip.tsv yet (Patch 15 / QUESTS off)")
+    parsed = []
+    for channel, core, f in rows:
+        ts, pid = _ix_int(f[0], -1), _ix_int(f[3], -1)
+        if ts < 0 or pid <= 0:
+            continue
+        parsed.append((channel, core, ts, pid, _ix_int(f[4]), f[5].strip(), f[6].strip()))
+    parsed = sorted(parsed, key=lambda p: (p[2], p[3]))[-IWAKURA_QUEST_SKIP_ROWS:]
+    try:
+        ex.who(cur, [p[3] for p in parsed])
+    except Exception as e:
+        ex.problem("quest_skip.tsv", "names (player.player): %s" % str(e)[:300])
+    out = [(channel, core, _ix_epoch_text(ts), ts, pid, ex.people.get(pid, ("", ""))[0], level, quest, reason)
+           for channel, core, ts, pid, level, quest, reason in parsed]
+    ex.table("quest_skip.tsv", ("channel", "core", "time", "unix_ts", "pid", "name", "level", "quest", "reason"), out)
 
 
 def _ix_part_chat_misses(ex, cur):
@@ -25288,8 +26728,13 @@ def _ix_part_chat_misses(ex, cur):
 # talk, the barter's and the loans' alike (playerbot_meeting_rules.h). The
 # outcome's numbers are the core's own (meet::Outcome) and never change.
 IWAKURA_MEETING_FIELDS = 14
+# Iwakura's Patch 14, point 11 (G) adds two fields after kind: the furthest
+# stage the talk reached (cena / miejsce / dojscie / handel) and the word it
+# ended for. The row is read at fourteen, its last field split again, so a
+# row written before them reads with both empty. It adds the outcome
+# at_stand too (10): a purchase talk answered with the bot's stand.
 IWAKURA_MEETING_OUTCOMES = ("traded", "route", "time", "changed_mind", "channel", "no_show", "no_answer",
-                            "partner_gone", "window", "other")
+                            "partner_gone", "window", "other", "at_stand")
 
 
 def _ix_part_meetings(ex, cur):
@@ -25302,15 +26747,20 @@ def _ix_part_meetings(ex, cur):
     for channel, core, f in rows:
         ts, bot, partner = _ix_int(f[0], -1), _ix_int(f[3], -1), _ix_int(f[4], -1)
         outcome, minutes = _ix_int(f[11], -1), _ix_int(f[12], -1)
+        # "70104:101": a Polymorph Marble's vnum and its monster (Iwakura's
+        # Patch 13.5, point 2), every other piece its vnum alone.
         vnums = [v.strip() for v in f[6].split(",") if v.strip() and v.strip() != "-"]
         numbers = (f[2], f[7], f[8], f[9], f[10])
         if (ts < 0 or bot <= 0 or partner < 0 or outcome < 0 or minutes < 0 or
                 not all(re.match(r"^-?\d+$", n.strip()) for n in numbers) or
-                not all(v.isdigit() for v in vnums)):
+                not all(re.match(r"^\d+(:\d+)?$", v) for v in vnums)):
             bad += 1
             continue
-        parsed.append((channel, core, ts, _ix_int(f[2]), bot, partner, f[5].strip(), [int(v) for v in vnums],
-                       _ix_int(f[7]), _ix_int(f[8]), _ix_int(f[9]), _ix_int(f[10]), outcome, minutes, f[13].strip()))
+        pieces = [(tuple(int(x) for x in v.split(":")) + (0,))[:2] for v in vnums]
+        kind, furthest, reason = (f[13].strip().split("\t") + ["", ""])[:3]
+        parsed.append((channel, core, ts, _ix_int(f[2]), bot, partner, f[5].strip(), pieces,
+                       _ix_int(f[7]), _ix_int(f[8]), _ix_int(f[9]), _ix_int(f[10]), outcome, minutes, kind.strip(),
+                       furthest.strip() if furthest.strip() != "-" else "", reason.strip() if reason.strip() != "-" else ""))
     if bad:
         ex.problem("meetings.tsv", "%d rows with a field that is not a number left out" % bad)
     try:
@@ -25319,15 +26769,16 @@ def _ix_part_meetings(ex, cur):
         ex.problem("meetings.tsv", "names (player.player): %s" % str(e)[:300])
     out = []
     for (channel, core, ts, meeting_channel, bot, partner, partner_kind, vnums, yang, map_index, x, y, outcome,
-         minutes, kind) in sorted(parsed, key=lambda p: (p[2], p[4])):
+         minutes, kind, furthest, reason) in sorted(parsed, key=lambda p: (p[2], p[4])):
         word = IWAKURA_MEETING_OUTCOMES[outcome] if outcome < len(IWAKURA_MEETING_OUTCOMES) else "other"
         out.append((channel, core, _ix_epoch_text(ts), ts, kind, bot, ex.people.get(bot, ("", ""))[0], partner,
-                    ex.people.get(partner, ("", ""))[0], partner_kind, ",".join(str(v) for v in vnums),
-                    "; ".join(ex.name_of(v)[0] for v in vnums), yang, meeting_channel, map_index, x, y, outcome,
-                    word, minutes))
+                    ex.people.get(partner, ("", ""))[0], partner_kind, ",".join(str(v) for v, _m in vnums),
+                    "; ".join(ex.name_of(v, m if v in POLYMORPH_MARBLE_VNUMS else 0)[0] for v, m in vnums),
+                    yang, meeting_channel, map_index, x, y, outcome,
+                    word, minutes, furthest, reason))
     ex.table("meetings.tsv", ("channel", "core", "time", "unix_ts", "kind", "bot_pid", "bot_name", "partner_pid",
                               "partner_name", "partner_kind", "vnums", "items", "yang", "meeting_channel", "map", "x",
-                              "y", "outcome_code", "outcome", "minutes"), out)
+                              "y", "outcome_code", "outcome", "minutes", "furthest", "reason"), out)
 
 
 # Patch 11, point 21's pvp_sets.tsv (phase 2b): every core's newest
@@ -25340,6 +26791,137 @@ IWAKURA_PVP_SET_FIELDS = 18
 IWAKURA_PVP_SET_AIM_HUMAN = 25
 IWAKURA_PVP_SET_AIM_RESIST = 25
 IWAKURA_PVP_SET_AIM_HP = 4000
+
+
+# Iwakura's Patch 15, point 16B.6 (9 October): "W eksporcie: cele wg rodzaju
+# (13 rodzajow) i trudnosci - wylosowane / zaliczone / przepadle z powodem".
+# Every core's playerbot_daily_goal_events.tsv (#PB15G1, its last 20 000 rows:
+# a row a draw and a row an end - met, missed, let go - with why; fields of
+# playerbot_daily_goal::FormatEventRow). A goal drawn on one core and ended on
+# another after a channel move has its two rows in two files; the export adds
+# every core's up. The window is the files' own (first_time, last_time).
+IWAKURA_GOAL_EVENT_FIELDS = 9
+IWAKURA_GOAL_EVENTS = ("drawn", "met", "missed", "let_go")
+
+
+def _ix_reason_text(counts):
+    """{"logged_out": 3, "person_company": 2} as "logged_out:3, person_company:2",
+    the most first."""
+    return ", ".join("%s:%d" % (why, n) for why, n in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0])))
+
+
+def _ix_part_daily_goals(ex, _cur):
+    """The Daily Goals by kind and difficulty: drawn, met, missed and let go,
+    the success rate, the play a goal took to its end, and why each missed or
+    let-go goal ended."""
+    found, rows = _ix_core_tsv(ex, "daily_goals.tsv", "playerbot_daily_goal_events.tsv", "#PB15G1",
+                               IWAKURA_GOAL_EVENT_FIELDS)
+    if not found:
+        ex.problem("daily_goals.tsv", "no core has written playerbot_daily_goal_events.tsv yet (Patch 15, 16B.6)")
+    groups, bad, first, last = {}, 0, 0, 0
+    for _channel, _core, f in rows:
+        ts, kind, diff = _ix_int(f[0], -1), _ix_int(f[3], -1), _ix_int(f[4], -1)
+        event, why = f[2].strip(), f[8].strip()
+        if ts <= 0 or kind <= 0 or not 0 <= diff <= 2 or event not in IWAKURA_GOAL_EVENTS:
+            bad += 1
+            continue
+        first = ts if not first else min(first, ts)
+        last = max(last, ts)
+        for key in ((kind, diff), (kind, -1), (0, -1)):
+            g = groups.setdefault(key, {"drawn": 0, "met": 0, "missed": 0, "let_go": 0, "played": 0,
+                                        "ended": 0, "missed_why": {}, "let_go_why": {}})
+            g[event] += 1
+            if event != "drawn":
+                g["ended"] += 1
+                g["played"] += max(0, _ix_int(f[7]))
+            if event in ("missed", "let_go"):
+                reasons = g[event + "_why"]
+                reasons[why] = reasons.get(why, 0) + 1
+    if bad:
+        ex.problem("daily_goals.tsv", "%d rows with a field that is not a number left out" % bad)
+    labels = BOT_DAILY_GOAL_LABELS.get(ex.language, BOT_DAILY_GOAL_LABELS["en"])
+    levels = BOT_DAILY_GOAL_DIFFICULTY.get(ex.language, BOT_DAILY_GOAL_DIFFICULTY["en"])
+    out = []
+    for (kind, diff), g in sorted(groups.items(), key=lambda kv: (kv[0][0] == 0, kv[0][0], kv[0][1] < 0, kv[0][1])):
+        decided = g["met"] + g["missed"]
+        out.append((kind if kind else "all", labels.get(kind, "") if kind else ex.say("wszystkie", "all"),
+                    diff if diff >= 0 else "all", levels.get(diff, "") if diff >= 0 else ex.say("wszystkie", "all"),
+                    g["drawn"], g["met"], g["missed"], g["let_go"],
+                    round(100.0 * g["met"] / decided, 1) if decided else "",
+                    round(float(g["played"]) / g["ended"], 1) if g["ended"] else "",
+                    _ix_reason_text(g["missed_why"]), _ix_reason_text(g["let_go_why"]),
+                    _ix_epoch_text(first) if first else "", _ix_epoch_text(last) if last else ""))
+    ex.table("daily_goals.tsv", ("kind", "kind_name", "difficulty", "difficulty_name", "drawn", "met", "missed",
+                                 "let_go", "success_pct", "played_minutes_avg", "missed_reasons", "let_go_reasons",
+                                 "first_time", "last_time"), out)
+
+
+# Iwakura's Patch 15, point 16A.2 and 5 (9 October): "W eksporcie licznik
+# cape_bought (ile botow, ile sztuk, za ile)", and which maps refuse a cape.
+# Every core's PLAYERBOT_CAPE lines of the window: "bought" a line a purchase
+# (pid, units, paid), "census" every five minutes (uses, refusals by reason,
+# no_cape_map and no_cape by map).
+_IX_CAPE_TALLY = re.compile(r"(-?\d+):(\d+)")
+
+
+def _ix_part_capes(ex, _cur):
+    """The Bravery Capes the bots bought and used, and the refusals by reason
+    and map, summed over the window's census lines."""
+    since = int(time.time()) - IWAKURA_EXPORT_LOG_DAYS * 86400
+    lines, short = _ix_grep_syslogs("PLAYERBOT_CAPE: ")
+    if short:
+        ex.problem("capes.tsv", "syslog read back %d MB a core only: %s"
+                   % (IWAKURA_EXPORT_SYSLOG_BYTES >> 20, ", ".join(short)))
+    buyers, units, yang, bought_lines = set(), 0, 0, 0
+    census, sums, reasons, no_map, no_cape = 0, {}, {}, {}, {}
+    first, last = 0, 0
+    for _channel, _core, line in lines:
+        ts = _ix_syslog_epoch(line)
+        if ts and ts < since:
+            continue
+        text = line.split("PLAYERBOT_CAPE: ", 1)[1]
+        if ts:
+            first = ts if not first else min(first, ts)
+            last = max(last, ts)
+        fields = dict(re.findall(r"(\w+)=(\S+)", text))
+        if text.startswith("bought "):
+            pid = _ix_int(fields.get("pid"))
+            if pid:
+                buyers.add(pid)
+            units += max(0, _ix_int(fields.get("units")))
+            yang += max(0, _ix_int(fields.get("paid")))
+            bought_lines += 1
+        elif text.startswith("census "):
+            census += 1
+            for key in ("holders", "strong", "uses", "solo", "pulled", "cleared", "failed", "cape_deaths", "locks",
+                        "timed_out", "quiet_walks", "prepared", "wants", "busy"):
+                sums[key] = sums.get(key, 0) + max(0, _ix_int(fields.get(key)))
+            for why, n in re.findall(r"([a-z_]+):(\d+)", fields.get("refusals", "")):
+                reasons[why] = reasons.get(why, 0) + int(n)
+            for target, value in ((no_map, "no_cape_map_maps"), (no_cape, "no_cape_maps")):
+                for map_index, n in _IX_CAPE_TALLY.findall(fields.get(value, "")):
+                    target[int(map_index)] = target.get(int(map_index), 0) + int(n)
+    if not census and not bought_lines:
+        ex.problem("capes.tsv", "no PLAYERBOT_CAPE line in the window's syslogs")
+    rows = [("cape_bought_bots", len(buyers), ex.say("botów, które kupiły peleryny", "bots that bought capes")),
+            ("cape_bought_units", units, ex.say("kupionych peleryn", "capes bought")),
+            ("cape_bought_yang", yang, ex.say("yang zapłacone za nie", "yang paid for them")),
+            ("cape_bought_lines", bought_lines, ex.say("kupionych linii lad", "counter lines bought")),
+            ("census_lines", census, ex.say("linii spisu (co 5 minut na rdzeń)", "census lines (every 5 minutes a core)")),
+            ("window_first", _ix_epoch_text(first) if first else "", ""),
+            ("window_last", _ix_epoch_text(last) if last else "", "")]
+    for key in sorted(sums):
+        rows.append(("census_" + key, sums[key],
+                     ex.say("suma ze spisów okna (holders/strong: boty widziane w każdym spisie)",
+                            "summed over the window's censuses (holders/strong: bots seen in each census)")))
+    for why, n in sorted(reasons.items(), key=lambda kv: (-kv[1], kv[0])):
+        rows.append(("refusal_" + why, n, ex.say("odmowy (spojrzenia co 15 s)", "refusals (a look every 15 s)")))
+    for map_index, n in sorted(no_map.items(), key=lambda kv: (-kv[1], kv[0])):
+        rows.append(("no_cape_map_%d" % map_index, n, ex.say("mapa spoza tabeli 2A", "a map outside table 2A")))
+    for map_index, n in sorted(no_cape.items(), key=lambda kv: (-kv[1], kv[0])):
+        rows.append(("no_cape_%d" % map_index, n, ex.say("bot w sprzęcie z tabeli, bez peleryny",
+                                                          "a bot in the table's gear holding no cape")))
+    ex.pairs("capes.tsv", rows)
 
 
 def _ix_part_pvp_sets(ex, cur):
@@ -25446,6 +27028,9 @@ bot_counters.tsv - lady botów według vnum: lines (linie), units (sztuki), stan
   proto_gold i proto_shop_buy_price to ceny z item_proto. Księga umiejętności to jeden vnum
   dla każdej umiejętności, więc tu i w item_holdings.tsv każda umiejętność ma własny wiersz:
   skill to numer umiejętności (socket0), jej nazwa stoi po nazwie księgi; puste dla reszty.
+  Tak samo Marmur Polimorfii (70104-70107, 71093): każdy potwór ma własny wiersz, skill to vnum
+  potwora (socket0), a name to „Marmur Polimorfii – <potwór> (<poziom> lvl)” albo „– potwór
+  #<vnum>”, gdy mob_proto go nie zna (Patch 13.5, Punkt 2); tak też w sales.tsv i meetings.tsv.
 item_holdings.tsv - każdy vnum w sztukach według miejsca, osobno boty (bot_*) i gracze
   (person_*): inventory = torba + pas + torba smoczych kamieni, equipped = założone,
   safebox = depozyt konta + item mall + magazyn kolekcjonera (należą do konta), counter =
@@ -25464,7 +27049,12 @@ bots.tsv - lista botów: pid, name, empire, level, exp, job, skill_group, playti
   ceny sprzedawcy z Punktu 1D: flaga playerbot.price_offset, promile ze znakiem, losowane raz na
   bota), cleanup_done (flaga playerbot.p11_cleanup_done: „Wielkie porządki” z Punktu 24I zrobione)
   i craftsman (flaga playerbot.craftsman: 1 = Rzemieślnik z Punktu 24B). Puste = bot nie ma
-  jeszcze tej flagi.
+  jeszcze tej flagi. Od Patcha 14 także cape_limit (flaga playerbot.cape_limit: limit ściągnięcia
+  Peleryny Męstwa z Punktu 2D, ile potworów może zebrać peleryną; start 10, dla Ninja, Łucznika,
+  Szamana i Sury Czarnej Magii 6; puste = bot jeszcze nie był tam, gdzie wolno mu jej użyć).
+  Od Patcha 14 także role (flaga playerbot.m2warrior: m2_dropper_warrior = Dropek M2
+  (Wojownik) z Punktu 4, m2_dropper_warrior_done = ukończył rolę) i role_gear (postęp jego
+  sprzętu: broń, zbroja, tarcza i hełm wobec +8, które kończą rolę).
 bot_counters.tsv dla broni (Patch 11): rozkład ŚR wystawionych egzemplarzy (linia średnich
   obrażeń, na mt2009 typ 122): avg_copies (egzemplarze na działających ladach botów),
   avg_with_line (te z linią ŚR), avg_min, avg_p25, avg_median, avg_p75, avg_max (egzemplarz bez
@@ -25514,7 +27104,9 @@ exchange_log.tsv - każda wymiana ulepszaczy w Kantorze: time, hour_epoch, pid, 
   quota. Wymiana pieczonych ryb na Zwój Błogosławieństwa (Patch 12, Punkt 10) ma source = fish
   (log.log PLAYERBOT_FISH_EXCHANGE_IN i PLAYERBOT_FISH_EXCHANGE, linia PLAYERBOT_EXCHANGE z
   source=fish; bez wiersza w quota), a ostatnia kolumna evidence mówi o każdej wymianie, które
-  źródła ją pokazały.
+  źródła ją pokazały. outcome to wynik wymiany (Patch 13, Punkt 1): success albo failed
+  (nieudana - ulepszacze lub ryby i opłata przepadły, bez nagrody; wiersz log.log ..._FAIL albo
+  result=failed w linii rdzenia). Wszystkie wymiany sprzed Patcha 13 były udane.
 refine_log.tsv - każda próba u kowala: time, pid, name, class, item_id, vnum, item_name,
   from_plus, to_plus, outcome (success; burned - spłonął; downgraded - spadł o plus; kept -
   porażka bez straty, np. Zwój Boga Smoków), way i way_label (POWER kowal, GUILD kowal gildii,
@@ -25523,16 +27115,37 @@ refine_log.tsv - każda próba u kowala: time, pid, name, class, item_id, vnum, 
   spłonął, vnum); na r40250 tylko z log.log (log.refinelog nie ma tam indeksu): bez way
   i bez porażek, które nie zostawiły wiersza, a item_id sukcesu to nowy przedmiot. own_worn - 1
   przy spaleniu założonego przedmiotu albo jedynej broni bota u zwykłego kowala („własny
-  założony”, FIX 2 Patcha 11; wiersz PLAYERBOT_OWN_WORN_BURN rdzenia w log.log).
+  założony”, FIX 2 Patcha 11; wiersz PLAYERBOT_OWN_WORN_BURN rdzenia w log.log). way_label
+  „kowal (zwój nieopłacalny)” - próba u zwykłego kowala, bo Zwój był droższy niż przedmiot
+  albo oszczędzał mniej, niż kosztuje (Patch 14 pkt 10; wiersz PLAYERBOT_SCROLL_UNPROFITABLE
+  rdzenia w log.log z ceną Zwoju i wartością przedmiotu).
 bonus_log.tsv - każde dodanie, zmianka i marmur bota: time, pid, name, class, stone (add, change,
   marble), item_id, vnum, item_name, plus, lines_now (linie przedmiotu teraz, typ=wartość, typ jak
   w player.item: na mt2009 numer POINT, 122 ŚR, 121 obrażenia umiejętności; tylko gdy przedmiot
   jeszcze istnieje, dla wszystkich jego wierszy te same). Z log.log PLAYERBOT_BONUS_ADD/_CHANGE/
-  _MARBLE: rdzeń nie zapisuje linii przed i po ani mnożnika ceny, więc lines_before, lines_after,
-  price_multiplier_before/after i purpose są puste, a zielonego kamienia nie odróżni od zwykłego.
+  _MARBLE: rdzeń nie zapisuje linii przed i po ani mnożnika ceny, więc lines_before, lines_after
+  i price_multiplier_before/after są puste, a zielonego kamienia nie odróżni od zwykłego.
+  purpose - przy tarczy z docelowego progu bota, czego kamień szuka („szukam NNO”, „szukam rasy
+  mapy”; Patch 14 pkt 8H, wiersz PLAYERBOT_BONUS_PURPOSE rdzenia), poza tym puste.
 no_upgrade_reason.tsv - najnowsza godzinowa migawka każdego rdzenia (playerbot_no_upgrade.tsv,
   #PB11N1): boty online z ulepszaczami, dodaniami, zmiankami albo zwojami, które ich nie użyły,
-  i powód (reason_code, reason).
+  i powód (reason_code, reason), a w detail liczby powodu: przy 14 zwoj_drozszy_niz_przedmiot
+  (Patch 14 pkt 10) cena Zwoju (scroll=), wartość przedmiotu (item=), test (A - Zwój droższy niż
+  przedmiot, D - oszczędność mniejsza niż cena), vnum i plus przedmiotu.
+quests.tsv - questy botów (Patch 15 pkt 10), z playerbot_quests.tsv każdego rdzenia (#PB15Q1, ostatnie
+  5000): channel, core, time, unix_ts, pid, name, level, quest (nazwa questa w Lua), result (done -
+  ukończony, postponed - odłożony, abandoned - porzucony), reason (smierci, frustracja, brak_celu,
+  brak_drogi, nie_chce_sie, rozmowa, brak_druzyny - quest z bossem bez drużyny 3+ w 15 min, skrypt - quest
+  porzucony w samym skrypcie), minutes (od wzięcia
+  questa na cel do końca), deaths, map, party (tak/nie), exp i yang (nagroda z quest_reward_proto;
+  exp 0, gdy bot ma blokadę expa), items i item_names (przedmioty nagrody, „grupa” - grupa przedmiotów).
+  Gdy yang z questów w ostatniej dobie przekroczy 15% przyrostu yang botów, w README pojawia się UWAGA (6A).
+quest_skip.tsv - próbka powodów, dla których bot NIE wziął questa (pkt 10, ostatnie 2000 ze
+  wszystkich rdzeni, z playerbot_quest_skip.tsv #PB15S1, jeden wiersz na przegląd): poziom (za niski
+  na quest), za_niski_quest (quest ponad 12 poziomów niżej), brak_mapy (cel albo NPC na mapie, której
+  rdzeń nie hostuje), slaby_sprzet (cel za mocny), osobowosc, inna_mapa (bot nie robi jeszcze wypraw
+  po quest), wynik_za_niski (poniżej 70% zwykłej godziny bota), wylaczony (QUEST_OFF_<quest>).
+yang_history.tsv ma kolumnę quest_yang: yang z ukończonych questów botów w danej godzinie (z quests.tsv).
 chat_misses.tsv - szepty, w których bot nie znalazł intencji (playerbot_chat_misses.tsv każdego
   rdzenia, #PB11C1, ostatnie 2000): channel, core, time, unix_ts, pid jak go zapisał rdzeń, name,
   lang, text (ASCII, do 120 znaków).
@@ -25545,8 +27158,10 @@ meetings.tsv - każde spotkanie rozmowy handlowej (Punkt 16): barter bota z bote
   wymiana; route - trasa; time - czas; changed_mind - zmiana zdania, także gdy bot wybrał ofertę
   gracza zamiast bota; channel - inny kanał; no_show - druga strona nie przyszła; no_answer - brak
   odpowiedzi na PW; partner_gone - wylogowanie albo zmiana mapy; window - okno wymiany niezgodne z
-  umową; other), minutes (od ustalenia miejsca do końca; gdy miejsca nie ustalono - od początku
-  rozmowy).
+  umową; other; at_stand - rozmowa o kupno, w której bot podał swój sklep), minutes (od ustalenia
+  miejsca do końca; gdy miejsca nie ustalono - od początku rozmowy), furthest (najdalszy etap rozmowy:
+  cena / miejsce / dojscie / handel) i reason (powód zakończenia, np. meet_no_answer, bought_at_stand,
+  stand_named; puste w wierszach sprzed Patcha 14).
 pvp_sets.tsv - zestaw PvP każdego bota, który go ma albo został wylosowany do budowy (Punkt 21),
   z najnowszej migawki każdego rdzenia (playerbot_pvp_sets.tsv, #PB11P1, co 10 minut przy włączonym
   EQ PvP botów): channel, core, time, unix_ts, pid, name, level, job, builder (1 - buduje teraz),
@@ -25557,6 +27172,59 @@ pvp_sets.tsv - zestaw PvP każdego bota, który go ma albo został wylosowany do
   (ile razy założył zestaw i ile walk w nim wygrał - od włączenia opcji), set (miejsce:vnum:+plus:
   trafione/rdzeń:ready dla każdego przedmiotu), items (nazwy), lines (bonusy każdego przedmiotu jako
   typ=wartość).
+daily_goals.tsv - Cele Dnia (Patch 15, Punkt 16B) wg rodzaju i trudności, z
+  playerbot_daily_goal_events.tsv każdego rdzenia (#PB15G1, ostatnie 20 000 wierszy: wiersz przy
+  wylosowaniu i przy końcu celu): kind i kind_name (rodzaj; „all” - suma), difficulty
+  i difficulty_name (0 łatwy, 1 normalny, 2 trudny; „all” - suma rodzaju), drawn (wylosowane), met
+  (zaliczone), missed (nieudane - czas gry minął), let_go (puszczone bez nastroju), success_pct
+  (met wśród met+missed), played_minutes_avg (średnio minut gry celu do jego końca), missed_reasons
+  i let_go_reasons (powód:ile, np. person_company - gracz wziął bota do PT, exp_locked - blokada
+  expa, legacy_clock - cel sprzed Patcha 15, którego dwie godziny minęły, gdy bota nie było),
+  first_time i last_time (okno plików). Od Patcha 15 wylogowanie i zmiana kanału nie kasują celu:
+  zegar celu stoi poza grą, więc logged_out i ran_out_away już nie występują.
+capes.tsv - Peleryny Męstwa (Patch 15, Punkt 16A) z linii PLAYERBOT_CAPE w syslogach rdzeni z
+  okna (key, value, note): cape_bought_bots / _units / _yang / _lines (ile botów, ile sztuk, za ile,
+  ile linii lad), census_* (sumy ze spisów co 5 minut: użycia, sesje, chętni), refusal_<powód>
+  (odmowy przy spojrzeniu co 15 s; no_cape od Patcha 15 liczy tylko boty w sprzęcie z tabeli 2A,
+  które nie mają peleryny), no_cape_map_<mapa> (odmowy na mapie spoza tabeli, wg numeru mapy)
+  i no_cape_<mapa> (bot w sprzęcie bez peleryny, wg mapy).
+
+Tabele wyjaśnień (mt2009; rdzeń zapisuje je, póki klucz EXPLAIN nie jest 0). Każdy wiersz ma
+najpierw wszystkie kolumny tabeli tak, jak zapisał je rdzeń (liczby i kody), a za nimi te same kody
+słowami - po polsku, tymi samymi tekstami co strona „Decyzje botów” panelu - i nazwy kodów
+z playerbot_explain_rules.h (EVENT_SOLD, GOODS_MARBLE...). Okno: ostatnie {days} dni, od
+najnowszych; najwyżej {recipe_rows} wierszy wycen i {equip_rows} decyzji o ekwipunku, a każdy plik
+ma własny limit ({recipe_mb} MB i {equip_mb} MB tekstu). Gdy EXPLAIN jest wyłączony albo świat jest
+starszy niż te tabele, plik ma sam nagłówek, a „Problemy” mówią dlaczego.
+
+listing_recipes.tsv - pełna recepta każdej wyceny: jeden wiersz na linię lady bota
+  (log.playerbot_listing, klucz item_id), z ostatnim stanem tej linii. Kolumny tabeli: item_id, pid
+  (sprzedawca), vnum, count, listed_at, list_event (jak weszła na ladę), stand_reason (dlaczego bot
+  otworzył sklep), why (dlaczego to towar) ze swoimi liczbami why_a, why_b, why_c i score (ocena
+  przy wyborze), pick_rank i candidates (miejsce linii wśród kandydatów i ich liczba),
+  refused_above (ilu wyżej ocenionych nie weszło), cut_shape, cut_from, cut_keep (jak stos przycięto
+  do linii: kształt, ile było, ile zostało w torbie), held (ile zatrzymano), list_price i list_steps
+  (cena przy wystawieniu i jej kroki jako kod=wartość:a:b:c, „;~” - rdzeniowi zabrakło miejsca),
+  price i was (cena teraz i przed ostatnią zmianą), last_event, last_steps i last_at (ostatnie
+  zdarzenie: przecena, poprawka pomyłki, zdjęcie, sprzedaż, z krokami ceny przy przecenie), changes
+  (ile razy zmieniano cenę), off_reason (dlaczego zdjęta), sold_price, flags (bity LFLAG_*).
+  Kolumny słowami: item_name (marmur polimorfii z nazwą potwora), seller_name, seller_class,
+  list_event_name i list_event_text, stand_reason_text, why_name i why_text, cut_shape_text,
+  list_steps_text (każdy krok ceny: nazwa, szczegół, cena po nim i o ile ją zmienił, „ | ” między
+  krokami), last_event_name i last_event_text, last_steps_text, off_reason_name i off_reason_text,
+  flag_names i flag_texts, sheet_ratio (cena sztuki do ceny z arkusza; puste, gdy cena nie szła
+  z arkusza) i anomalies (to, co panel wyczytuje z wiersza, np. zapas wystawiony z narzędziem
+  w ręce).
+equip_decisions.tsv - każda decyzja o ekwipunku bota (log.playerbot_equip): id, time, pid, level,
+  wear (slot), path (który przegląd), rule (która reguła), context (w jakiej chwili), nowy przedmiot
+  (new_id, new_vnum, new_plus, new_score, new_roles - bity ROLE_*, new_origin i new_origin_ref - skąd
+  się wziął, new_lines - bonusy typ:wartość, a za „|” vnumy kamieni, new_terms - składniki oceny
+  kod=wartość) i to samo dla zdjętego (old_*), suppressed (ile wcześniejszych wpisów pominął limit)
+  i flags (bity EFLAG_*). Słowami: bot_name, bot_class, slot_text, path_name i path_text, rule_name
+  i rule_text, context_name i context_text, new_name, new_role_names, new_lines_text, new_stones,
+  new_origin_name i new_origin_text, old_name, old_role_names, old_lines_text, old_stones,
+  score_gain_pct (zmiana oceny w %), terms_text (składniki oceny i ciosu: stary -> nowy, bez
+  składników równych zeru po obu stronach), flag_names, flag_texts i anomalies.
 """
 
 IWAKURA_README_EN = """\
@@ -25615,7 +27283,10 @@ bot_counters.tsv - the bots' counters by vnum: lines, units, stands (counters ca
   apart in lines_expired/units_expired (nobody can buy them). proto_gold and
   proto_shop_buy_price are item_proto's prices. A skill book is one vnum for every skill, so
   here and in item_holdings.tsv each skill has its own row: skill is the skill's number
-  (socket0), its name follows the book's; empty for everything else.
+  (socket0), its name follows the book's; empty for everything else. The Polymorph Marble
+  (70104-70107, 71093) likewise: each monster has its own row, skill is the monster's vnum
+  (socket0) and name "Polymorph Marble – <monster> (lv <level>)", or "– monster #<vnum>" where
+  mob_proto does not know it (Patch 13.5, point 2); so in sales.tsv and meetings.tsv too.
 item_holdings.tsv - every vnum in units by where it lies, bots (bot_*) and people (person_*)
   apart: inventory = bag + belt + dragon-stone bag, equipped = worn, safebox = the account's
   depot + item mall + collector's warehouse (they belong to the account), counter = offline-shop
@@ -25635,6 +27306,12 @@ bots.tsv - the bots: pid, name, empire, level, exp, job, skill_group, playtime_h
   playerbot.price_offset flag, signed thousandths, drawn once a bot), cleanup_done (the
   playerbot.p11_cleanup_done flag: point 24I's "big clean-up" done) and craftsman (the
   playerbot.craftsman flag: 1 = a Craftsman of point 24B). Empty = the bot has no such flag yet.
+  Since Patch 14 also cape_limit (the playerbot.cape_limit flag: the Bravery Cape pull limit of
+  point 2D, how many monsters a cape of the bot's may bring; 10 to start, 6 for a Ninja, an
+  Archer, a Shaman and a black-magic Sura; empty = the bot has not yet been where it may use one).
+  Since Patch 14 also role (the playerbot.m2warrior flag: m2_dropper_warrior = the M2 dropper Warrior
+  of point 4, m2_dropper_warrior_done = it finished the role) and role_gear (its gear's progress:
+  weapon, armour, shield and helmet against the +8 that ends the role).
 bot_counters.tsv for weapons (Patch 11): the average damage of the listed copies (the average
   damage line, type 122 on mt2009): avg_copies (copies on the bots' running counters),
   avg_with_line (those with the line), avg_min, avg_p25, avg_median, avg_p75, avg_max (a copy
@@ -25684,7 +27361,9 @@ exchange_log.tsv - every material exchange at the Kantor: time, hour_epoch, pid,
   syslog, quota. Grilled fish exchanged for a Blessing Scroll (Patch 12, point 10) have source =
   fish (log.log's PLAYERBOT_FISH_EXCHANGE_IN and PLAYERBOT_FISH_EXCHANGE, the PLAYERBOT_EXCHANGE
   line with source=fish; no quota row), and the last column, evidence, says of every exchange
-  which places showed it.
+  which places showed it. outcome is the exchange's result (Patch 13, point 1): success or failed
+  (the materials or the fish and the fee gone, no reward; log.log's ..._FAIL row or the core
+  line's result=failed). Every exchange before Patch 13 succeeded.
 refine_log.tsv - every attempt at an anvil: time, pid, name, class, item_id, vnum, item_name,
   from_plus, to_plus, outcome (success; burned; downgraded - lost a plus; kept - failed and lost
   nothing, e.g. a Dragon God scroll), way and way_label (POWER a blacksmith, GUILD the guild's,
@@ -25693,17 +27372,24 @@ refine_log.tsv - every attempt at an anvil: time, pid, name, class, item_id, vnu
   (burned or not, the vnum); on r40250 from log.log alone (its log.refinelog has no index): no
   way, no failure that left no row, and a success's item_id is the new item. own_worn - 1 on the
   burn of a worn piece or the bot's only weapon at the plain anvil ("own worn", Patch 11 FIX,
-  point 2; the core's PLAYERBOT_OWN_WORN_BURN row in log.log).
+  point 2; the core's PLAYERBOT_OWN_WORN_BURN row in log.log). way_label "blacksmith (scroll not
+  worth it)" - an attempt at the plain anvil because the Blessing Scroll was dearer than the
+  piece or saved less than it cost (Patch 14, point 10; the core's PLAYERBOT_SCROLL_UNPROFITABLE
+  row in log.log with the scroll's price and the piece's worth).
 bonus_log.tsv - every add, change and marble stone a bot spent: time, pid, name, class, stone
   (add, change, marble), item_id, vnum, item_name, plus, lines_now (the item's lines now,
   type=value, the type as player.item holds it: a POINT number on mt2009, 122 average damage,
   121 skill damage; only while the item exists, the same on all its rows). From log.log's
   PLAYERBOT_BONUS_ADD/_CHANGE/_MARBLE: the core writes no lines before and after and no price
-  multiplier, so lines_before, lines_after, price_multiplier_before/after and purpose are empty,
-  and a green stone cannot be told from an ordinary one.
+  multiplier, so lines_before, lines_after and price_multiplier_before/after are empty, and a
+  green stone cannot be told from an ordinary one. purpose - on the shield of the bot's tier what
+  the stone seeks ("szukam NNO", "szukam rasy mapy"; Patch 14, point 8H, the core's
+  PLAYERBOT_BONUS_PURPOSE row), empty otherwise.
 no_upgrade_reason.tsv - every core's newest hourly snapshot (playerbot_no_upgrade.tsv, #PB11N1):
   the bots online holding materials, add or change stones or scrolls they did not use, and why
-  (reason_code, reason).
+  (reason_code, reason), and in detail the reason's numbers: for 14 zwoj_drozszy_niz_przedmiot
+  (Patch 14, point 10) the scroll's price (scroll=), the piece's worth (item=), the test (A - the
+  scroll dearer than the piece, D - it saves less than it costs), the piece's vnum and plus.
 chat_misses.tsv - the whispers a bot found no intent in (every core's playerbot_chat_misses.tsv,
   #PB11C1, the last 2000): channel, core, time, unix_ts, pid as the core wrote it, name, lang, text
   (ASCII, up to 120 characters).
@@ -25715,8 +27401,11 @@ meetings.tsv - every meeting of a trade talk (point 16): a bot's barter with a b
   a loan's amount), meeting_channel, map, x, y (the place agreed), outcome_code and outcome (traded;
   route; time; changed_mind - also a person's offer taken over a bot's; channel; no_show - the other
   side never came; no_answer - no answer to a whisper; partner_gone - a logout or a map change;
-  window - a trade window unlike the agreement; other), minutes (from the place agreed to the end;
-  from the talk's start where no place was agreed).
+  window - a trade window unlike the agreement; other; at_stand - a purchase talk the bot answered
+  with its stand), minutes (from the place agreed to the end; from the talk's start where no place
+  was agreed), furthest (the furthest stage of the talk: cena / miejsce / dojscie / handel) and
+  reason (the word it ended for, e.g. meet_no_answer, bought_at_stand, stand_named; empty in rows
+  written before Patch 14).
 pvp_sets.tsv - the PvP set of every bot that has one or was drawn to build one (point 21), from every
   core's newest snapshot (playerbot_pvp_sets.tsv, #PB11P1, every 10 minutes while the bots' PvP set is
   on): channel, core, time, unix_ts, pid, name, level, job, builder (1 - building now), mode (pve /
@@ -25726,6 +27415,61 @@ pvp_sets.tsv - the PvP set of every bot that has one or was drawn to build one (
   human_hit, resist1_hit, resist2_hit, hp_hit (1 - that part of the aim met), put_ons and wins (how
   often it put the set on and won a fight in it - since the option was on), set (place:vnum:+plus:
   hits/core:ready for each piece), items (the names), lines (each piece's lines as type=value).
+daily_goals.tsv - the Daily Goals (Patch 15, point 16B) by kind and difficulty, from every core's
+  playerbot_daily_goal_events.tsv (#PB15G1, its last 20 000 rows: a row at the draw and a row at the
+  goal's end): kind and kind_name ("all" - the sum), difficulty and difficulty_name (0 easy, 1
+  normal, 2 hard; "all" - the kind's sum), drawn, met, missed (its play ran out), let_go (dropped
+  with no mood), success_pct (met of met+missed), played_minutes_avg (the play a goal had at its
+  end), missed_reasons and let_go_reasons (why:count, e.g. person_company - a person took the bot
+  into a party, exp_locked - the exp lock, legacy_clock - a goal of before Patch 15 whose two hours
+  passed while the bot was away), first_time and last_time (the files' window). Since Patch 15 a
+  logout and a channel move keep the goal: its clock stands while the bot is away, so logged_out
+  and ran_out_away are no more.
+capes.tsv - the Bravery Capes (Patch 15, point 16A) from the window's PLAYERBOT_CAPE lines of
+  every core's syslog (key, value, note): cape_bought_bots / _units / _yang / _lines (how many bots,
+  capes, yang, counter lines), census_* (summed over the five-minute censuses: uses, sessions,
+  wants), refusal_<reason> (refusals at a look every 15 s; since Patch 15 no_cape counts only a bot
+  in table 2A's gear holding none), no_cape_map_<map> (refusals on a map outside the table, by map)
+  and no_cape_<map> (a bot in the gear without a cape, by map).
+
+The explanation tables (mt2009; the core writes them while the EXPLAIN key is not 0). Each row has
+first every column of the table as the core wrote it (numbers and codes), then the same codes in
+words - in Polish whatever the panel's language, the texts of the panel's "Bot decisions" page - and
+the codes' names in playerbot_explain_rules.h (EVENT_SOLD, GOODS_MARBLE...). Window: the last {days}
+days, newest first; at most {recipe_rows} price rows and {equip_rows} equipment decisions, each file
+under a budget of its own ({recipe_mb} MB and {equip_mb} MB of text). With EXPLAIN off, or a world
+older than the tables, the file has its header alone and "Problems" says why.
+
+listing_recipes.tsv - the whole recipe of every price: a row per line of a bot's counter
+  (log.playerbot_listing, keyed by item_id), as the line stands last. The table's columns: item_id,
+  pid (the seller), vnum, count, listed_at, list_event (how it went up), stand_reason (why the bot
+  opened its shop), why (why it is goods) with its numbers why_a, why_b, why_c and score (its score
+  when picked), pick_rank and candidates (the line's place among the candidates and how many there
+  were), refused_above (how many ranked above it did not go up), cut_shape, cut_from, cut_keep (how
+  the stack was cut to the line: the shape, what there was, what stayed in the bag), held (how many
+  were held back), list_price and list_steps (the price when listed and its steps as
+  code=value:a:b:c, ";~" - the core ran out of room), price and was (the price now and before the
+  last change), last_event, last_steps and last_at (the last event: a reprice, a slip put right, a
+  take-off, a sale, with the price's steps of a reprice), changes (how often the price moved),
+  off_reason (why it came off), sold_price, flags (LFLAG_* bits). In words: item_name (a Polymorph
+  Marble with its monster), seller_name, seller_class, list_event_name and list_event_text,
+  stand_reason_text, why_name and why_text, cut_shape_text, list_steps_text (each step of the price:
+  its name, its detail, the price after it and how it moved it, " | " between the steps),
+  last_event_name and last_event_text, last_steps_text, off_reason_name and off_reason_text,
+  flag_names and flag_texts, sheet_ratio (a unit's price against the sheet's; empty when the price
+  came from no sheet) and anomalies (what the panel reads out of the row, e.g. a spare listed with a
+  tool in the hand).
+equip_decisions.tsv - every equipment decision of a bot (log.playerbot_equip): id, time, pid, level,
+  wear (the slot), path (which pass), rule (which rule), context (at what moment), the new piece
+  (new_id, new_vnum, new_plus, new_score, new_roles - ROLE_* bits, new_origin and new_origin_ref -
+  where it came from, new_lines - the lines as type:value and after "|" the seated stones' vnums,
+  new_terms - the score's terms as code=value) and the same of the piece taken off (old_*),
+  suppressed (how many rows before it the budget dropped) and flags (EFLAG_* bits). In words:
+  bot_name, bot_class, slot_text, path_name and path_text, rule_name and rule_text, context_name and
+  context_text, new_name, new_role_names, new_lines_text, new_stones, new_origin_name and
+  new_origin_text, old_name, old_role_names, old_lines_text, old_stones, score_gain_pct (the score's
+  change in %), terms_text (the score's and the blow's terms: old -> new, a term that is nothing on
+  both sides left out), flag_names, flag_texts and anomalies.
 """
 
 
@@ -25737,7 +27481,10 @@ def _ix_readme(ex, generated):
               "log_rows": "{:,}".format(IWAKURA_EXPORT_LOG_ROWS).replace(",", " "),
               "deadline": IWAKURA_EXPORT_DEADLINE_SECONDS,
               "shoplog_scan": "{:,}".format(IWAKURA_EXPORT_SHOPLOG_SCAN).replace(",", " "),
-              "syslog_mb": IWAKURA_EXPORT_SYSLOG_BYTES >> 20}
+              "syslog_mb": IWAKURA_EXPORT_SYSLOG_BYTES >> 20,
+              "recipe_rows": "{:,}".format(IWAKURA_EXPORT_RECIPE_ROWS).replace(",", " "),
+              "equip_rows": "{:,}".format(IWAKURA_EXPORT_EQUIP_ROWS).replace(",", " "),
+              "recipe_mb": IWAKURA_EXPORT_RECIPE_BYTES >> 20, "equip_mb": IWAKURA_EXPORT_EQUIP_BYTES >> 20}
     lines = [IWAKURA_README_PL.format(**fields), "", IWAKURA_README_EN.format(**fields), ""]
     lines.append("Problemy tego eksportu / Problems in this export")
     lines.append("-----------------------------------------------")
@@ -25778,6 +27525,12 @@ def build_iwakura_export(language):
     ex.run("chat_misses.tsv", _ix_part_chat_misses)
     ex.run("meetings.tsv", _ix_part_meetings)
     ex.run("pvp_sets.tsv", _ix_part_pvp_sets)
+    # Iwakura's Patch 15, point 16 (9 October): the Daily Goals by kind and
+    # difficulty (16B.6) and the capes bought and refused (16A.2 and 5).
+    ex.run("daily_goals.tsv", _ix_part_daily_goals, needs_db=False)
+    ex.run("capes.tsv", _ix_part_capes, needs_db=False)
+    ex.run("quests.tsv", _ix_part_quests)
+    ex.run("quest_skip.tsv", _ix_part_quest_skip)
     if ENGINE_MT2009:
         ex.run("shops.tsv", _ix_part_shops)
         ex.run("online_hourly.tsv", _ix_part_online)
@@ -25789,13 +27542,18 @@ def build_iwakura_export(language):
     ex.run("exchange_log.tsv", _ix_part_exchanges)
     ex.run("refine_log.tsv", _ix_part_refines)
     ex.run("bonus_log.tsv", _ix_part_bonuses)
+    # The explanation tables (Iwakura, 9 October): the biggest files, last.
+    ex.run("listing_recipes.tsv", _ix_part_listing_recipes)
+    ex.run("equip_decisions.tsv", _ix_part_equip_decisions)
     stamp = time.localtime()
     readme = _ix_readme(ex, time.strftime("%Y-%m-%d %H:%M:%S", stamp))
     buf = _io.BytesIO()
     with _zipfile.ZipFile(buf, "w", _zipfile.ZIP_DEFLATED) as zf:
         zf.writestr("README.txt", readme)
-        for name, data in ex.files:
-            zf.writestr(name, data)
+        for name, packed in ex.files:
+            with zf.open(name, "w") as fh:
+                for piece in ex.unpack(packed):
+                    fh.write(piece)
     return buf.getvalue(), time.strftime("iwakura_stats_%Y%m%d_%H%M.zip", stamp)
 
 
@@ -25828,27 +27586,29 @@ T.update({
               "yang w obiegu, lady botów, przedmioty według miejsca (boty i gracze osobno) i lista botów, "
               "a od Patcha 11 także sprzedaże i sklepy offline, indeks cen, boty online w każdej godzinie, "
               "wymiany w Kantorze, próby u kowala, dodania i zmianki, powody nieulepszania i szepty bez "
-              "intencji. README.txt w środku opisuje każdą kolumnę. Zbieranie trwa od kilku sekund do "
+              "intencji, a także pełne recepty wycen i decyzje o ekwipunku botów. README.txt w środku opisuje każdą kolumnę. Zbieranie trwa od kilku sekund do "
               "dwóch i pół minuty i tylko czyta bazę i pliki rdzeni.",
         "en": "One ZIP of the world's economy: rates and events, the server's age, the Moonlight chests, "
               "yang in circulation, the bots' counters, items by where they lie (bots and players apart) "
               "and the bot list, and since Patch 11 the offline-shop sales and shops, the price index, the "
               "bots online every hour, the Kantor's exchanges, the attempts at an anvil, the add and change "
-              "stones, why bots did not refine and the whispers with no intent. The README.txt inside "
+              "stones, why bots did not refine and the whispers with no intent, and the bots' whole price "
+              "recipes and equipment decisions. The README.txt inside "
               "explains every column. It takes from a few seconds to two and a half minutes and only reads "
               "the database and the cores' files.",
         "de": "Ein ZIP zur Wirtschaft der Welt: Raten und Events, das Alter des Servers, die "
               "Mondschein-Truhen, Yang im Umlauf, die Stände der Bots, Gegenstände nach Ort (Bots und "
               "Spieler getrennt) und die Bot-Liste, seit Patch 11 auch die Verkäufe und Offline-Läden, der "
               "Preisindex, die Bots online in jeder Stunde, die Tauschgeschäfte im Kantor, die Versuche am "
-              "Amboss, die Zusatz- und Wechselsteine, warum Bots nicht verbessert haben, und Flüstern ohne "
-              "Absicht. Die README.txt darin erklärt jede Spalte. Es dauert ein paar Sekunden bis zweieinhalb "
+              "Amboss, die Zusatz- und Wechselsteine, warum Bots nicht verbessert haben, Flüstern ohne "
+              "Absicht sowie die vollständigen Preisrezepte und Ausrüstungsentscheidungen der Bots. Die README.txt darin erklärt jede Spalte. Es dauert ein paar Sekunden bis zweieinhalb "
               "Minuten und liest die Datenbank und die Dateien der Kerne nur.",
         "tr": "Dünya ekonomisinin tek bir ZIP dosyası: oranlar ve etkinlikler, sunucunun yaşı, Ay Işığı "
               "Sandıkları, dolaşımdaki yang, botların tezgâhları, bulundukları yere göre eşyalar (botlar ve "
               "oyuncular ayrı) ve bot listesi; Yama 11'den beri çevrimdışı dükkân satışları ve dükkânlar, "
               "fiyat endeksi, her saat çevrimiçi botlar, Kantor takasları, örs denemeleri, ekleme ve değiştirme "
-              "taşları, botların neden yükseltmediği ve niyet bulunamayan fısıltılar da. İçindeki README.txt "
+              "taşları, botların neden yükseltmediği, niyet bulunamayan fısıltılar ve botların tam fiyat "
+              "tarifleri ile ekipman kararları da. İçindeki README.txt "
               "her sütunu açıklar. Birkaç saniyeden iki buçuk dakikaya kadar sürer ve veritabanını ve "
               "çekirdeklerin dosyalarını yalnızca okur."},
     "ix_button": {"pl": "Eksport statystyk dla Iwakury", "en": "Statistics export for Iwakura",
@@ -25909,6 +27669,59 @@ T.update({
               "pazardaki en ucuz tabanı alır ve satış için 1-4 eşyayı +7, +8 ya da +9'a döver; ziyaret başına "
               "yang'ının en fazla yarısıyla. Varsayılan %30; 0 - kimse satış için dövmez."},
     "ai_craftsman_none": {"pl": "nikt", "en": "nobody", "de": "niemand", "tr": "kimse"},
+    # Iwakura's Patch 15, point 9: the bots' quests (QUESTS, QUEST_FOCUS).
+    "ai_quests": {"pl": "Questy botów", "en": "The bots' quests", "de": "Quests der Bots", "tr": "Botların görevleri"},
+    "ai_quests_help": {
+        "pl": "Boty robią questy gry (Patch 15 Iwakury) - prawdziwe questy Lua, tak jak gracz: rozmawiają z NPC, "
+              "wybierają odpowiedzi, biją cele i oddają questy, a nagrody daje skrypt. Biolog i system tierów "
+              "zostają bez zmian, a Biolog ma pierwszeństwo. Questy nie zdejmują blokady expa.",
+        "en": "The bots do the game's quests (Iwakura's Patch 15) - the real Lua quests, as a player does: they "
+              "talk to the NPCs, choose the answers, hunt the targets and hand the quests in, and the script "
+              "gives the rewards. The Biologist and the tiers stay as they are, and the Biologist comes first. "
+              "No quest lifts the exp lock.",
+        "de": "Die Bots erledigen die Quests des Spiels (Iwakuras Patch 15) - die echten Lua-Quests, wie ein "
+              "Spieler: Sie sprechen mit den NPCs, wählen die Antworten, jagen die Ziele und geben die Quests ab, "
+              "und das Skript gibt die Belohnungen. Der Biologe und die Stufen bleiben, wie sie sind, und der "
+              "Biologe geht vor. Keine Quest hebt die EXP-Sperre auf.",
+        "tr": "Botlar oyunun görevlerini yapar (Iwakura'nın Yaması 15) - gerçek Lua görevleri, bir oyuncu gibi: "
+              "NPC'lerle konuşur, cevapları seçer, hedefleri avlar ve görevleri teslim eder; ödülleri betik verir. "
+              "Biyolog ve kademeler olduğu gibi kalır ve Biyolog önce gelir. Hiçbir görev exp kilidini kaldırmaz."},
+    "ai_quests_on": {"pl": "Włączone", "en": "Enabled", "de": "Eingeschaltet", "tr": "Açık"},
+    # Patch 15, point 6A: the quests' yang past 15% of the bots' day.
+    "ai_quest_yang_warn": {
+        "pl": "Yang z questów botów w ostatniej dobie: %(quest)s = %(pct)d%% przyrostu yang botów (%(grown)s) - "
+              "powyżej %(line)d%% (Patch 15 pkt 6A). Do decyzji: niższe nagrody albo mniej botów na questach.",
+        "en": "The bots' quest yang of the last day: %(quest)s = %(pct)d%% of the bots' yang growth (%(grown)s) - "
+              "over %(line)d%% (Patch 15, point 6A). To decide: smaller rewards or fewer bots on quests.",
+        "de": "Yang aus den Quests der Bots am letzten Tag: %(quest)s = %(pct)d%% des Yang-Zuwachses der Bots "
+              "(%(grown)s) - über %(line)d%% (Patch 15, Punkt 6A). Zu entscheiden: kleinere Belohnungen oder "
+              "weniger Bots auf Quests.",
+        "tr": "Botların son gündeki görev yang'ı: %(quest)s = botların yang artışının %%%(pct)d'i (%(grown)s) - "
+              "%%%(line)d'in üzerinde (Yama 15, madde 6A). Karar: daha küçük ödüller ya da görevde daha az bot."},
+    "ai_quest_focus": {"pl": "Ile botów skupia się na questach", "en": "How many bots focus on quests",
+                       "de": "Wie viele Bots sich auf Quests konzentrieren",
+                       "tr": "Kaç bot görevlere odaklanır"},
+    "ai_quest_focus_help": {
+        "pl": "Ten udział botów (stały, po numerze postaci) robi questy normalnie: wybiera najlepszy quest - "
+              "najpierw na swojej mapie, potem z celem w swoim królestwie albo na froncie, dokąd jedzie (Grinder "
+              "i droppery nie wyjeżdżają) - i idzie po jego cel. Z pozostałych 70% robi je „po drodze” (bierze i oddaje questy u "
+              "NPC w mieście, a cele zalicza przy zwykłym expieniu), a 30% pomija questy. Przy 50%: 50 / 35 / 15. "
+              "Questy fabularne 1-16 robi każdy nowy bot.",
+        "en": "This share of the bots (fixed, by the character's number) does quests properly: it picks the best "
+              "quest - on its map first, then one whose target is in its kingdom or on a frontier, where it "
+              "travels (the Grinder and the droppers do not) - and goes after its target. Of the rest 70% do them on the way (they take and hand "
+              "in quests at the NPCs of the town and meet the targets in their ordinary hunting) and 30% skip "
+              "quests. At 50%: 50 / 35 / 15. Every new bot does the story quests of 1-16.",
+        "de": "Dieser Anteil der Bots (fest, nach der Nummer der Figur) erledigt Quests richtig: Er wählt die "
+              "beste Quest - zuerst auf seiner Karte, dann eine mit dem Ziel in seinem Reich oder an der Front, "
+              "wohin er reist (der Grinder und die Dropper nicht) - und verfolgt ihr Ziel. Von den übrigen erledigen 70% sie nebenbei "
+              "(sie nehmen und geben Quests bei den NPCs der Stadt ab und erfüllen die Ziele bei der gewöhnlichen "
+              "Jagd) und 30% lassen Quests aus. Bei 50%: 50 / 35 / 15. Die Story-Quests 1-16 erledigt jeder neue Bot.",
+        "tr": "Botların bu payı (sabit, karakter numarasına göre) görevleri düzgün yapar: en iyi görevi seçer - "
+              "önce kendi haritasında, sonra hedefi krallığında ya da cephede olanı, oraya gider (Grinder ve "
+              "dropper'lar gitmez) - ve hedefinin peşine düşer. Geri kalanların %70'i onları yol üstünde yapar (görevleri "
+              "şehrin NPC'lerinden alır ve teslim eder, hedefleri olağan avında karşılar) ve %30'u görevleri "
+              "atlar. %50'de: 50 / 35 / 15. Her yeni bot 1-16 hikâye görevlerini yapar."},
     "ai_craftsman_all": {"pl": "każdy bot 35+", "en": "every bot 35+", "de": "jeder Bot 35+",
                          "tr": "her 35+ bot"},
 })

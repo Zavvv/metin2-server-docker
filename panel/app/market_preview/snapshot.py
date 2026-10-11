@@ -11,13 +11,20 @@
 #  (tests/market_preview_test.py measures them at 200 000 offers); the next
 #  snapshot is built aside and swapped in whole, so nobody reads half of one.
 #
-#  The week of prices (spec 1H, "mediana ceny tego samego vnum ... z ostatnich
-#  7 dni") is the panel's own: Patch 9's market index lives in each core's
-#  memory and keeps no history, so every listing the snapshot sees is written
-#  once, by its item id, into a small SQLite file beside the panel's other
-#  files (market_history.sqlite) with its unit price over its own bonus
-#  multiplier - two lines of one vnum and plus with different bonuses are one
-#  thing to the median - and an hour's median of each kind for the chart.
+#  An offer's usual price (Iwakura's Patch 15, point 18C5): the median of the
+#  running offers of the same thing - its vnum (which is its plus), its
+#  variant, the same count of bonus lines - where there are five or more, and
+#  otherwise the one price of a piece his sheet prices (price.py, the bots'
+#  playerbot_gear_price_rules.h in Python) or, for anything else, his sheet's
+#  day price. A bargain is 25% under it; over 70% the offer is "Cena
+#  nietypowa" and written down for the panel's diagnostics
+#  (market_preview_unusual.tsv beside the history).
+#
+#  The week of prices is the panel's own for the chart: Patch 9's market index
+#  lives in each core's memory and keeps no history, so every listing the
+#  snapshot sees is written once, by its item id, into a small SQLite file
+#  beside the panel's other files (market_history.sqlite), and an hour's
+#  median of each kind.
 # =============================================================================
 
 import json
@@ -28,8 +35,9 @@ import threading
 import time
 
 try:
-    from . import rules, sheet
+    from . import price, rules, sheet
 except ImportError:                                  # loaded as plain modules by a test
+    import price                                     # noqa: F401
     import rules                                     # noqa: F401
     import sheet                                     # noqa: F401
 
@@ -45,17 +53,21 @@ PROTO_SECONDS = 3600
 HISTORY_KEEP_DAYS = 8
 COUNT_CACHE_KEYS = 64
 SUPPLY_TAIL_BYTES = 256 * 1024
+UNUSUAL_FILE = "market_preview_unusual.tsv"
 
 OFFER_COLUMNS = ("id", "owner", "vnum", "var", "cat", "sub", "plus", "lvl", "cls", "price", "cnt", "unit",
                  "nb", "nmax", "tiers", "avg", "skl",
                  "a0", "v0", "a1", "v1", "a2", "v2", "a3", "v3", "a4", "v4", "a5", "v5", "a6", "v6",
-                 "ks", "s0", "s1", "s2", "emp", "ch", "map", "bot", "running", "ref", "bkey", "slip")
+                 "ks", "s0", "s1", "s2", "emp", "ch", "map", "bot", "running", "ref", "bkey", "odd",
+                 "rare", "rcnt",
+                 "rsrc", "fref", "rn")
 SCHEMA = (
     "CREATE TABLE offers (id INTEGER PRIMARY KEY, owner INT, vnum INT, var INT, cat INT, sub INT, plus INT, "
     "lvl INT, cls INT, price INT, cnt INT, unit REAL, nb INT, nmax INT, tiers INT, avg INT, skl INT, "
     "a0 INT, v0 INT, a1 INT, v1 INT, a2 INT, v2 INT, a3 INT, v3 INT, a4 INT, v4 INT, a5 INT, v5 INT, "
     "a6 INT, v6 INT, ks INT, s0 INT, s1 INT, s2 INT, emp INT, ch INT, map INT, bot INT, running INT, "
-    "ref REAL, bkey INT, slip INT)",
+    "ref REAL, bkey INT, odd INT, rare INT, rcnt INT, "
+    "rsrc INT, fref REAL, rn INT)",
     "CREATE TABLE kinds (vnum INT, var INT, norm TEXT, PRIMARY KEY (vnum, var)) WITHOUT ROWID",
     "CREATE TABLE shops (owner INTEGER PRIMARY KEY, norm TEXT)",
 )
@@ -115,6 +127,12 @@ class Snapshot(object):
         self.stones = ()           # soul stone vnums seen in sockets
         self.counts = {}           # rules.count_key -> {(cat, sub): n}
         self.variants = {}         # (vnum, var): socket0 to name it by
+        self.icons = {}            # vnum: its icon's URL, "" for the "?" (icons.IconSet.build_map)
+        self.world_age = -1        # the world's age in seconds, -1 unknown (Patch 13.5, point 5)
+        self.attr_sets = {}        # world.item_attr: {point: ((lv1..lv5), (set levels))} (price.table_max)
+        self.yang_pct = 100        # the yang rate's multiplier on his sheet, percent
+        self.index_milli = 1000    # the price index, thousandths
+        self.unusual = []          # Patch 15, 18C6: the offers over 70% under their usual price
 
     def execute(self, sql, params=()):
         with self.lock:
@@ -152,7 +170,37 @@ class Snapshot(object):
         return [dict(zip(OFFER_COLUMNS, r)) for r in rows], total, counts, page, pages
 
 
-def build_snapshot(items, protos, shops, owners, tops, names, references, day_price, gm_owners=()):
+def offer_lines_of(attrs):
+    """(ordinary lines [(point, value)], average, skill) of an offer's seven
+    attribute pairs: a weapon's average and skill damage are no lines."""
+    lines, avg, skl = [], 0, 0
+    for point, value in attrs:
+        point, value = int(point or 0), int(value or 0)
+        if not point or not value:
+            continue
+        if point == rules.POINT_AVERAGE_DAMAGE:
+            avg = value
+        elif point == rules.POINT_SKILL_DAMAGE:
+            skl = value
+        else:
+            lines.append((point, value))
+    return lines, avg, skl
+
+
+def gear_price(proto, vnum, plus, attrs, sockets, attr_sets, yang_pct, index_milli, keep, protos):
+    """The one price of a piece his sheet prices (price.compose of its
+    facts), with the facts; (None, None) for anything else."""
+    if proto is None or proto.type not in (rules.ITEM_WEAPON, rules.ITEM_ARMOR) or plus < 0:
+        return None, None
+    facts = price.offer_facts(proto, vnum, plus, attrs, sockets, attr_sets, yang_pct, index_milli, keep, protos)
+    if facts is None:
+        return None, None
+    composed = price.compose(facts)
+    return (composed if composed["priced"] else None), facts
+
+
+def build_snapshot(items, protos, shops, owners, tops, names, references, day_price, gm_owners=(), world_age=-1,
+                   samples=None, attr_sets=None, yang_pct=100, index_milli=1000):
     """A Snapshot of offer lines.
 
     items: iterable of (id, owner, vnum, count, s0, s1, s2, ((type, value) x7), price)
@@ -161,15 +209,55 @@ def build_snapshot(items, protos, shops, owners, tops, names, references, day_pr
     owners: {owner: (name, bot, empire)}
     tops: {point: top roll}
     names: {(vnum, var): (pl name, en name)} - every kind's two names, for the search
-    references: {(vnum, plus, var): median base unit price} from the history
+    references, samples: the week's medians of before Patch 15, point 18C5
+             (History.compute_references), no longer what a usual price is;
+             accepted and unused
     day_price: function(vnum) -> unit price of an upgrade material, 0 for none
+    world_age: the world's age in seconds (DbSource.world_age), -1 unknown
+    attr_sets: world.item_attr as price.table_max reads it
+    yang_pct, index_milli: the yang rate's multiplier and the price index the
+             one price of a piece of gear is scaled by
     """
     started = time.time()
     snap = Snapshot()
     snap.protos, snap.tops = protos, tops
+    snap.attr_sets = attr_sets or {}
+    snap.yang_pct, snap.index_milli = int(yang_pct or 100), int(index_milli or 1000)
     cur = snap.conn.cursor()
     for statement in SCHEMA:
         cur.execute(statement)
+    # Patch 13, 5A: the pieces of each kind on all the running counters, read
+    # before the rows are written so each row carries its kind's count.
+    pieces = {}
+    # Patch 14, point 3: the level-30 weapons at +0..+3 of each family on each
+    # kingdom's running counters, as the cores' census counts them.
+    level30 = {}
+    for _item_id, owner, vnum, count, s0, _s1, _s2, _attrs, price in items:
+        proto = protos.get(vnum)
+        shop = shops.get(owner)
+        if proto is None or price is None or price <= 0 or not shop or not shop[4]:
+            continue
+        key = (vnum, variant_of(proto, s0))
+        pieces[key] = pieces.get(key, 0) + max(1, int(count or 1))
+        family = rules.level30_cut_family(vnum) if proto.type == rules.ITEM_WEAPON else -1
+        if family >= 0:
+            kingdom = rules.level30_market_key(shop[0], owners.get(owner, ("", False, 0))[2])
+            level30[(kingdom, family)] = level30.get((kingdom, family), 0) + max(1, int(count or 1))
+    snap.level30_units = level30
+    snap.level30_at = time.time()
+    # Patch 15, 18C5: the running offers of each thing - vnum, variant, count
+    # of bonus lines - and the median of their unit prices where there are
+    # five or more: the usual price "wzgledem rynku, a nie samego wzoru".
+    market = {}
+    for _item_id, owner, vnum, count, s0, _s1, _s2, attrs, line_price in items:
+        proto = protos.get(vnum)
+        shop = shops.get(owner)
+        if proto is None or line_price is None or line_price <= 0 or not shop or not shop[4]:
+            continue
+        key = (vnum, variant_of(proto, s0), len(offer_lines_of(attrs)[0]))
+        market.setdefault(key, []).append(float(line_price) / max(1, int(count or 1)))
+    medians = {key: (rules.median(units), len(units)) for key, units in market.items()
+               if len(units) >= rules.MARKET_MIN_OFFERS}
     classes, kinds, points, stones = {}, set(), set(), set()
     batch = []
     insert = "INSERT INTO offers (" + ", ".join(OFFER_COLUMNS) + ") VALUES (" + ", ".join("?" * len(OFFER_COLUMNS)) + ")"
@@ -216,27 +304,56 @@ def build_snapshot(items, protos, shops, owners, tops, names, references, day_pr
             else:
                 sockets.append(0)
         unit = float(price) / count
-        slot = rules.price_slot(proto.type, proto.subtype)
-        damage = [(p, v) for p, v in ((rules.POINT_AVERAGE_DAMAGE, avg), (rules.POINT_SKILL_DAMAGE, skl)) if v]
-        mult = rules.bonus_multiplier(slot, proto.level, lines + damage, tops) if slot else 1.0
         plus = proto.plus
-        ref = 0.0
-        if vnum in sheet.REFINE_MATERIALS:
-            ref = float(day_price(vnum) or 0)
+        gplus = rules.gear_plus(proto.type, vnum, plus)
+        # Patch 15, point 18C1: a piece his sheet prices asks the bots' own
+        # one price - Patch 14, point 3's cut of a level-30 weapon at +0..+3
+        # among its facts.
+        keep = rules.level30_cut_keep(vnum, gplus, len(lines), avg, world_age, level30,
+                                      rules.level30_market_key(shop[0] if shop else 0, seller[2]),
+                                      snap.level30_at) if proto.type == rules.ITEM_WEAPON else None
+        composed, facts = gear_price(proto, vnum, gplus, attrs, (s0, s1, s2), snap.attr_sets, snap.yang_pct,
+                                     snap.index_milli, keep, protos)
+        if facts is not None:
+            # A line at its maximum as the price reads it (Max HP from 1500).
+            nmax = sum(1 for line in facts.lines if line.at_top and line.ordinary)
+        fref, frsrc = 0.0, rules.REF_NONE
+        if composed is not None:
+            fref, frsrc = float(composed["price"]), rules.REF_SHEET
+        elif vnum in sheet.REFINE_MATERIALS:
+            fref, frsrc = float(day_price(vnum) or 0), rules.REF_MATERIAL
+        elif facts is None:
+            # Patch 13.5, point 5: a Moonlight chest's reference in a world's
+            # first day is the share its bots ask.
+            fref = float(day_price(vnum, proto, s0, plus) or 0) * rules.young_world_factor(vnum, world_age)
+            frsrc = rules.REF_SHEET
+        if fref <= 0:
+            fref, frsrc = 0.0, rules.REF_NONE
+        # Patch 15, 18C5: five running offers of the same thing make the
+        # market's median the usual price; fewer, the one price.
+        market_ref = medians.get((vnum, var, len(lines)))
+        if market_ref is not None:
+            ref, rsrc, rn = float(market_ref[0]), rules.REF_MARKET, market_ref[1]
         else:
-            base = references.get((vnum, plus, var))
-            if base:
-                ref = base * mult
-            else:
-                ref = float(day_price(vnum, proto, s0, plus) or 0) * mult
+            ref, rsrc, rn = fref, frsrc, 0
         pct = rules.bargain_pct(unit, ref) if ref > 0 else None
-        slip = rules.is_slip(item_id, count, cat == rules.CAT_BOOKS, vnum in sheet.REFINE_MATERIALS, unit, ref)
+        # 18C6: over 70% under it is no bargain but a price to look at.
+        odd = rules.is_unusual(pct)
+        if odd and len(snap.unusual) < rules.UNUSUAL_KEEP:
+            snap.unusual.append({"id": item_id, "vnum": vnum, "plus": gplus, "var": var, "owner": owner,
+                                 "bot": 1 if seller[1] else 0, "lines": lines, "avg": avg, "skl": skl,
+                                 "unit": unit, "ref": ref, "pct": pct, "rsrc": rsrc, "rn": rn, "fref": fref,
+                                 "how": rules.formula_text(composed)})
         bot = 1 if seller[1] else 0
+        on_market = pieces.get(key, 0)
         batch.append((item_id, owner, vnum, var, cat, sub, plus, proto.level, cls, int(price), count, unit,
                       len(lines), nmax, tiers, avg, skl) + tuple(cols) +
                      (sum(1 for s in sockets if s), sockets[0], sockets[1], sockets[2],
                       int(seller[2] or 0), int(shop[3]) if shop else 0, int(shop[0]) if shop else 0, bot,
-                      1 if shop and shop[4] else 0, ref, rules.bargain_key(pct), 1 if slip else 0))
+                      1 if shop and shop[4] else 0, ref,
+                      rules.NO_REFERENCE_KEY if odd else rules.bargain_key(pct), 1 if odd else 0,
+                      1 if rules.is_rare(on_market) else 0, on_market,
+                      rsrc, fref, rn))
         if len(batch) >= 5000:
             cur.executemany(insert, batch)
             batch = []
@@ -262,6 +379,7 @@ def build_snapshot(items, protos, shops, owners, tops, names, references, day_pr
     snap.offers = snap.execute("SELECT COUNT(*) FROM offers")[0][0]
     snap.bonus_points = tuple(sorted(points | set(sheet.BONUS_TIERS)))
     snap.stones = tuple(sorted(stones))
+    snap.world_age = int(world_age if world_age is not None else -1)
     snap.generated_at = time.time()
     snap.build_ms = int((snap.generated_at - started) * 1000)
     return snap
@@ -278,6 +396,7 @@ class History(object):
         self.path = path
         self.lock = threading.Lock()
         self.references = {}
+        self.samples = {}                # Patch 14, 6B: the bases behind each median
         self.references_at = 0.0
         self._ready = False
 
@@ -319,7 +438,7 @@ class History(object):
         """{(vnum, plus, var): median base unit} of the kinds with five
         listings or more in seven days."""
         now = int(now or time.time())
-        out, values, last = {}, [], None
+        out, values, last, samples = {}, [], None, {}
         with self.lock:
             conn = self._connect()
             try:
@@ -330,14 +449,16 @@ class History(object):
                     if key != last:
                         if last is not None and len(values) >= rules.HISTORY_MIN_OFFERS:
                             out[last] = rules.median(values)
+                            samples[last] = tuple(values)
                         last, values = key, []
                     if base and base > 0:
                         values.append(base)
                 if last is not None and len(values) >= rules.HISTORY_MIN_OFFERS:
                     out[last] = rules.median(values)
+                    samples[last] = tuple(values)
             finally:
                 conn.close()
-        self.references, self.references_at = out, time.time()
+        self.references, self.samples, self.references_at = out, samples, time.time()
         return out
 
     def chart(self, vnum, plus, var, now=None):
@@ -384,6 +505,11 @@ class DbSource(object):
         self._protos = None
         self._protos_at = 0.0
         self._tops = {}
+        self._attr_sets = {}
+
+    def attr_sets(self):
+        """world.item_attr's lines by their sets (read with the protos)."""
+        return self._attr_sets
 
     def connect(self):
         conn = self.ns.db()
@@ -416,6 +542,22 @@ class DbSource(object):
                 out[vnum] = Proto(vnum, r.get("type") or 0, r.get("subtype") or 0, r.get("antiflag") or 0, level,
                                   tuple(int(r.get("value%d" % k) or 0) for k in range(6)), applies, plus)
             tops = {}
+            # Patch 15, 18C1: a line's top on the piece's own attribute set,
+            # as the core reads it (GetPlayerBotBonusMaxRoll): the normal
+            # table's five levels and each set's level.
+            sets = {}
+            try:
+                cur.execute("SELECT apply+0 AS p, lv1, lv2, lv3, lv4, lv5, weapon, body, wrist, foots, neck, head, "
+                            "shield, ear FROM world.item_attr")
+                for r in cur.fetchall():
+                    point = int(r["p"] or 0)
+                    if point and point not in sets:
+                        sets[point] = (tuple(int(r["lv%d" % k] or 0) for k in range(1, 6)),
+                                       tuple(int(r[c] or 0) for c in ("weapon", "body", "wrist", "foots", "neck",
+                                                                      "head", "shield", "ear")))
+            except Exception:                        # noqa: BLE001 - an older table: the fifth level for all
+                sets = {}
+            self._attr_sets = sets
             for table in ("world.item_attr", "world.item_attr_rare"):
                 try:
                     cur.execute("SELECT apply+0 AS p, GREATEST(lv1, lv2, lv3, lv4, lv5) AS top FROM " + table)
@@ -479,6 +621,26 @@ class DbSource(object):
                 sleep(CHUNK_PAUSE)
         return out
 
+    def world_age(self, conn):
+        """The world's age in seconds as the cores read it for the price index
+        and the Moonlight chest (playerbot_session_realism_rules::WorldAgeSql:
+        the oldest account, which the seed makes with the install); -1 when
+        there is none or the read fails."""
+        try:
+            with conn.cursor() as cur:
+                cur.execute("SELECT COALESCE(GREATEST(0, TIMESTAMPDIFF(SECOND, MIN(c.create_time), NOW())), -1) "
+                            "AS age FROM account.account c WHERE c.create_time > '1971-01-01'")
+                row = cur.fetchone()
+        except Exception:                            # noqa: BLE001 - an unknown age is an old world's
+            return -1
+        if not row:
+            return -1
+        value = row.get("age") if isinstance(row, dict) else row[0]
+        try:
+            return int(value if value is not None else -1)
+        except (TypeError, ValueError):
+            return -1
+
     def yang_rate(self):
         try:
             return int(self.ns.read_rates().get("yang", 100) or 100)
@@ -536,10 +698,11 @@ class DbSource(object):
 class Store(object):
     """The current snapshot, the thread that renews it and the history."""
 
-    def __init__(self, ns, history_path, source=None, names=None):
+    def __init__(self, ns, history_path, source=None, names=None, icons=None):
         self.ns = ns
         self.source = source or DbSource(ns)
         self.names = names              # function(vnum, socket0) -> (pl, en)
+        self.icons = icons              # icons.IconSet: one vnum -> icon map a snapshot (Patch 13, point 6)
         self.history = History(history_path)
         self.current = None
         self.lock = threading.Lock()
@@ -615,6 +778,8 @@ class Store(object):
             shops = src.shops(conn)
             items = src.items(conn)
             owners = src.owners(conn, {i[1] for i in items} | set(shops))
+            ages = getattr(src, "world_age", None)
+            world_age = ages(conn) if ages else -1
         finally:
             try:
                 conn.close()
@@ -622,6 +787,7 @@ class Store(object):
                 pass
         modifiers, index_milli = src.supply()
         yang_pct = rules.yang_rate_price_pct(src.yang_rate())
+        attr_sets = src.attr_sets() if hasattr(src, "attr_sets") else {}
 
         def day_price(vnum, proto=None, socket0=0, plus=-1):
             if proto is None:                       # an upgrade material: the supply's day price
@@ -630,29 +796,75 @@ class Store(object):
             base = rules.sheet_price(proto.type, vnum, socket0, plus)
             return base * yang_pct / 100.0 * index_milli / 1000.0
 
-        if time.time() - self.history.references_at > 3600 or not self.history.references:
-            self.history.compute_references()
         names = {}
         for item in items:
             proto = protos.get(item[2])
             key = (item[2], variant_of(proto, item[4]))
             if key not in names:
                 names[key] = self.names(item[2], item[4]) if self.names else ("", "")
-        snap = build_snapshot(items, protos, shops, owners, tops, names, self.history.references, day_price)
-        snap.yang_pct, snap.index_milli = yang_pct, index_milli
+        snap = build_snapshot(items, protos, shops, owners, tops, names, {}, day_price, world_age=world_age,
+                              attr_sets=attr_sets, yang_pct=yang_pct, index_milli=index_milli)
+        self._write_unusual(snap)
+        snap.icons = self._icon_map(protos, items)
         self._record_history(snap, items, protos)
         return snap
 
+    def _write_unusual(self, snap):
+        """Patch 15, 18C6: "zapisac przedmiot do diagnostyki panelu (vnum,
+        plus, bonusy, cena oferty, cena odniesienia, z czego wyliczona)" -
+        market_preview_unusual.tsv beside the history, the build's whole
+        list, written aside and renamed over the last one; a line in the
+        panel's log when there are any. A full disk costs the list, not the
+        page."""
+        path = os.path.join(os.path.dirname(os.path.abspath(self.history.path)), UNUSUAL_FILE)
+        try:
+            tmp = path + ".tmp"
+            with open(tmp, "w", encoding="utf-8", newline="\n") as fh:
+                fh.write(rules.unusual_header() + "\n")
+                for entry in snap.unusual:
+                    fh.write(rules.unusual_row(snap.generated_at or time.time(), entry) + "\n")
+            os.replace(tmp, path)
+            if snap.unusual:
+                self.ns.app.logger.info("market preview: %d offers at an unusual price (over %d%% under the "
+                                        "usual), see %s", len(snap.unusual), rules.UNUSUAL_PCT, path)
+        except Exception:                            # noqa: BLE001
+            try:
+                self.ns.app.logger.exception("market preview: unusual list failed")
+            except Exception:                        # noqa: BLE001
+                pass
+
+    def _icon_map(self, protos, items):
+        """The snapshot's one vnum -> icon map (Patch 13, point 6), built here
+        and never per card; a broken icon set costs the pictures, not the page."""
+        if self.icons is None:
+            return {}
+        try:
+            self.icons.reload()
+            return self.icons.build_map(protos, {item[2] for item in items})
+        except Exception:                            # noqa: BLE001
+            try:
+                self.ns.app.logger.exception("market preview: icon map failed")
+            except Exception:                        # noqa: BLE001
+                pass
+            return {}
+
     def _record_history(self, snap, items, protos):
-        """Every running line's unit price over its own bonus multiplier."""
+        """Every running line's unit price for the chart, and its unit price
+        over what its lines and plus ask (the one price over the plain sheet,
+        price.compose) as the base of before - no reference reads it since
+        Patch 15, point 18C5. An offer at an unusual price is left out."""
         rows = snap.execute("SELECT id, vnum, plus, var, unit, a0, v0, a1, v1, a2, v2, a3, v3, a4, v4, a5, v5, "
-                            "a6, v6, lvl FROM offers WHERE running = 1 AND slip = 0")
+                            "a6, v6, lvl, bot, map, emp, avg, nb, fref, s0, s1, s2 FROM offers "
+                            "WHERE running = 1 AND odd = 0")
         lines = []
         for r in rows:
             proto = protos.get(r[1])
-            slot = rules.price_slot(proto.type, proto.subtype) if proto else 0
-            attrs = [(r[5 + 2 * k], r[6 + 2 * k]) for k in range(7)]
-            mult = rules.bonus_multiplier(slot, r[19], attrs, snap.tops) if slot else 1.0
+            mult = 1.0
+            if proto is not None and proto.type in (rules.ITEM_WEAPON, rules.ITEM_ARMOR) and r[25]:
+                plain = rules.sheet_price(proto.type, r[1], 0, r[2])
+                plain = plain * snap.yang_pct / 100.0 * snap.index_milli / 1000.0 if plain else 0
+                if plain > 0:
+                    mult = float(r[25]) / plain
             lines.append((r[0], r[1], r[2], r[3], r[4], r[4] / mult if mult else r[4]))
         try:
             self.history.record(lines)

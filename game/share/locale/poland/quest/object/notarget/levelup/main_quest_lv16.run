@@ -1,2 +1,0 @@
-if pc . get_level ( ) >= 16 then set_state ( "gotoboss" ) 
- return end 

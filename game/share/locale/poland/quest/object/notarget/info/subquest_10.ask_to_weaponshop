@@ -1,3 +1,0 @@
-say_title ( gameforge . subquest_08 . _90_targetVid ) 
-say ( gameforge . subquest_10 . _140_sayReward ) 
-say_item_vnum ( 30271 ) 

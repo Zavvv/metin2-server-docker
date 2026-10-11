@@ -1,4 +1,0 @@
-local s = number ( 1 , 100 ) 
-if s <= 5 then 
-pc . give_item2 ( 30006 , 1 ) 
-end 

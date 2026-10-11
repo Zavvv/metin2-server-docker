@@ -1,3 +1,0 @@
-setskin ( NOWINDOW ) 
-pc . warp ( 6328 * 100 , 11953 * 100 ) 
-pc . setqf ( "min_sun_uriel" , 1 ) 

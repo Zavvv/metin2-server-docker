@@ -1,4 +1,0 @@
-say_title ( gameforge . horse_upgrade2 . _100_makequestbutton ) 
-say_reward ( gameforge . horse_upgrade . _90_sayReward ) 
-setstate ( "start" ) 
-q . done ( ) 

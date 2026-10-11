@@ -1,5 +1,0 @@
-target . pos ( "__TARGET__" , 715 , 390 , 1 , "" ) 
-setskin ( NOWINDOW ) 
-makequestbutton ( gameforge . patrol_townaround . _250_makequestbutton ) 
-q . set_title ( gameforge . patrol_townaround . _10_makequestbutton ) 
-q . start ( ) 

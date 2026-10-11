@@ -1,9 +1,0 @@
-# Secrets and machine-specific configuration
-.env
-.env.*
-!.env.example
-
-# Runtime/generated data
-client-archive/
-browser/
-*.log

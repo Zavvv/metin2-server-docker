@@ -1,2 +1,0 @@
-if pc . level >= 75 then set_state ( "heavens_cave_escape" ) 
- return end 

@@ -1,129 +1,163 @@
-# The starter chest chain, as r40250's special_item_group.txt defines it
-# (rendered by linux-port-mt2009/port/shareify.py). The playerbot seed puts
-# the lv1 chest in every bot's bag; the package has no group for it.
+# The starter chest chain (Skrzynia Ucznia I -> Skrzynia Arcymistrza), rendered
+# by linux-port-mt2009/port/shareify.py. The playerbot seed puts the lv1 chest
+# in every bot's bag; the package has no group for it. Its contents are
+# Kiciamol's of 9 October (Skrzynie Ucznia 2.2.84): every line at 100, the
+# whole list given at once. A count above one is given only of an item whose
+# flag stacks (CreateItem gives one of anything else), so a non-stacking item
+# is listed twice. The class weapon left the lv1 chest: give_basic_weapon.quest
+# gives a person's character its weapon at the first login and the seed dresses
+# every bot. The lv50 chest keeps the Teleport Ring the old chain gave there,
+# because a bot of fifty rings home with it (TryPlayerBotTeleportRingHome) and
+# the ItemShop plan waits for it (PLAYERBOT_ISHOP_RING_CHEST_LEVEL).
 Group	lv1(sura_warrior)
 {
 	Vnum	50187
 	Type	Pct
-	1	50188	1	100
-	2	10	1	100
-	3	27051	20	100
-	4	27052	10	100
-	5	27053	5	100
-	6	27054	5	100
+	1	50188	1	100	-- Skrzynia Ucznia II
+	2	27051	20	100	-- Czerwona Mikstura (M)
+	3	27052	10	100	-- Niebieska Mikstura (M)
+	4	27053	5	100	-- Zielona Mikstura (M)
+	5	27054	5	100	-- Fioletowa Mikstura (M)
 }
 Group	lv1(assassin)
 {
 	Vnum	50212
 	Type	Pct
-	1	50188	1	100
-	2	1000	1	100
-	3	27051	20	100
-	4	27052	10	100
-	5	27053	5	100
-	6	27054	5	100
+	1	50188	1	100	-- Skrzynia Ucznia II
+	2	27051	20	100	-- Czerwona Mikstura (M)
+	3	27052	10	100	-- Niebieska Mikstura (M)
+	4	27053	5	100	-- Zielona Mikstura (M)
+	5	27054	5	100	-- Fioletowa Mikstura (M)
 }
 Group	lv1(shaman)
 {
 	Vnum	50213
 	Type	Pct
-	1	50188	1	100
-	2	7000	1	100
-	3	27051	20	100
-	4	27052	10	100
-	5	27053	5	100
-	6	27054	5	100
+	1	50188	1	100	-- Skrzynia Ucznia II
+	2	27051	20	100	-- Czerwona Mikstura (M)
+	3	27052	10	100	-- Niebieska Mikstura (M)
+	4	27053	5	100	-- Zielona Mikstura (M)
+	5	27054	5	100	-- Fioletowa Mikstura (M)
 }
 Group	lv10
 {
 	Vnum	50188
 	Type	Pct
-	1	76012	3	100
-	2	76017	3	100
-	3	76021	1	100
-	4	76008	3	100
-	5	50189	1	100
+	1	76012	3	100	-- Mikstura Szybkosci
+	2	76017	3	100	-- Mikstura Ataku +10
+	3	76021	1	100	-- Eliksir Slonca (M)
+	4	50189	1	100	-- Skrzynia Ucznia III
 }
 Group	lv20
 {
 	Vnum	50189
 	Type	Pct
-	1	76012	3	100
-	2	76017	3	100
-	3	76004	1	100
-	4	76006	1	100
-	5	50190	1	100
-	6	76023	3	100
-	7	76024	3	100
+	1	76012	3	100	-- Mikstura Szybkosci
+	2	76017	3	100	-- Mikstura Ataku +10
+	3	76004	1	100	-- Eliksir Ksiezyca (M)
+	4	76006	1	100	-- Wykrywacz Kamieni Metin (nie stackuje sie - 2 linie)
+	5	76006	1	100	-- Wykrywacz Kamieni Metin
+	6	76023	5	100	-- Zielony Czar
+	7	76024	5	100	-- Zielona Sila
+	8	50190	1	100	-- Skrzynia Eksperta I
 }
 Group	lv30
 {
 	Vnum	50190
 	Type	Pct
-	1	76012	3	100
-	2	76017	3	100
-	3	76011	1	100
-	4	50191	1	100
+	1	25041	3	100	-- Zwoj Blogoslawienstwa (niehandlowy)
+	2	30006	2	100	-- Zab Orka
+	3	76011	1	100	-- Ksiazka Lidera
+	4	50911	1	100	-- Receptura Fioletowa Mikstura
+	5	50912	1	100	-- Receptura Zielona Mikstura
+	6	50191	1	100	-- Skrzynia Eksperta II
+	7	50255	5	100	-- Cor Draconis (surowe)
+	8	27620	1	100	-- Karta Wedkarska
+	9	70005	1	100	-- Pierscien Doswiadczenia
 }
 Group	lv40
 {
 	Vnum	50191
 	Type	Pct
-	1	76012	3	100
-	2	76018	3	100
-	3	71153	1	100
-	4	76011	1	100
-	5	50192	1	100
+	1	70043	1	100	-- Rekawica Zlodzieja
+	2	71153	1	100	-- Mikstura Madrosci
+	3	76011	1	100	-- Ksiazka Lidera
+	4	50192	1	100	-- Skrzynia Eksperta III
+	5	50818	10	100	-- Woda SamBo
+	6	50815	10	100	-- Woda Bo
 }
 Group	lv50
 {
 	Vnum	50192
 	Type	Pct
-	1	76003	3	100
-	2	76018	3	100
-	3	76007	20	100
-	4	76019	5	100
-	5	70058	1	100
-	6	50193	1	100
+	1	76007	50	100	-- Peleryna Mestwa
+	2	25041	5	100	-- Zwoj Blogoslawienstwa (niehandlowy)
+	3	50193	1	100	-- Skrzynia Mistrza I
+	4	76013	3	100	-- Wzmocnienie Przedmiotu
+	5	76014	3	100	-- Zaczarowanie Przedmiotu
+	6	71045	5	100	-- Dlon Przebicia
+	7	71044	5	100	-- Dlon Krytyka
+	8	100000	1	100	-- Eliksir Czasu (M)
+	9	70058	1	100	-- Pierscien Teleportacji (kept: the bots ring home with it)
 }
 Group	lv60
 {
 	Vnum	50193
 	Type	Pct
-	1	76003	3	100
-	2	76018	3	100
-	3	76000	5	100
-	4	50194	1	100
+	1	70024	5	100	-- Marmur Blogoslawienstwa
+	2	71028	5	100	-- Atak Boga Smokow
+	3	71027	5	100	-- Zycie Boga Smokow
+	4	71030	5	100	-- Obrona Boga Smokow
+	5	50194	1	100	-- Skrzynia Mistrza II
 }
 Group	lv70
 {
 	Vnum	50194
 	Type	Pct
-	1	76003	3	100
-	2	76018	3	100
-	3	76013	3	100
-	4	76014	3	100
-	5	76001	1	100
-	6	50195	1	100
+	1	76013	6	100	-- Wzmocnienie Przedmiotu
+	2	76014	6	100	-- Zaczarowanie Przedmiotu
+	3	76001	1	100	-- Zwoj Powrotu Statusu
+	4	50255	10	100	-- Cor Draconis (surowe)
+	5	50195	1	100	-- Skrzynia Mistrza III
 }
 Group	lv80
 {
 	Vnum	50195
 	Type	Pct
-	1	76003	3	100
-	2	76018	3	100
-	3	76005	1	100
-	4	76020	3	100
-	5	50196	1	100
+	1	51705	20	100	-- Zolty Sok
+	2	51700	20	100	-- Pomaranczowy Sok
+	3	51710	20	100	-- Cyjanowy Sok
+	4	51715	20	100	-- Niebieski Sok
+	5	51725	20	100	-- Platynowy Sok
+	6	51730	20	100	-- Rozowy Sok
+	7	51735	20	100	-- Czerwony Sok
+	8	51745	20	100	-- Karmazynowy Sok
+	9	51800	20	100	-- Brazowy Sok
+	10	51750	20	100	-- Szary Sok
+	11	76020	3	100	-- Eliksir Poszukiwacza
+	12	50196	1	100	-- Skrzynia Arcymistrza
+	13	71153	1	100	-- Mikstura Madrosci (nie stackuje sie - 2 linie)
+	14	71153	1	100	-- Mikstura Madrosci
 }
 Group	lv90
 {
 	Vnum	50196
 	Type	Pct
-	1	76022	1	100
-	2	76015	1	100
-	3	76010	3	100
-	4	76002	3	100
+	1	51702	20	100	-- Pomaranczowa Rosa
+	2	51707	20	100	-- Zolta Rosa
+	3	51712	20	100	-- Cyjanowa Rosa
+	4	51717	20	100	-- Niebieska Rosa
+	5	51722	20	100	-- Zielona Rosa
+	6	51727	20	100	-- Platynowa Rosa
+	7	51732	20	100	-- Rozowa Rosa
+	8	51737	20	100	-- Czerwona Rosa
+	9	51742	20	100	-- Fioletowa Rosa
+	10	51747	20	100	-- Karmazynowa Rosa
+	11	51752	20	100	-- Biala Rosa
+	12	70024	10	100	-- Marmur Blogoslawienstwa
+	13	76010	3	100	-- Krwisty Kamien
+	14	76002	3	100	-- Zasuszona Glowa
+	15	70005	3	100	-- Pierscien Doswiadczenia
 }
 # Two boss caskets the package has no group for, as r40250's share defines
 # them (its names resolved to vnums: this reader takes numbers only, and one

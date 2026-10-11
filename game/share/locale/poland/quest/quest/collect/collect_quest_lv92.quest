@@ -1,6 +1,0 @@
-quest collect_quest_lv92 begin
-    state start begin
-    end
-    state run begin
-    end
-end

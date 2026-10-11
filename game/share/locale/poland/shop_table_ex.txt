@@ -1,4 +1,0 @@
-Group ShopNPC
-{
-	#--#	NPC	Group
-}

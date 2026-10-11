@@ -17,7 +17,9 @@ CSS = r"""
 --mk-line:#332B1D;--mk-title:#F0EADD;--mk-text:#A89D84;--mk-dash:#6B6350;--mk-gold:#E9B64B;
 --mk-in:#15120D;--mk-sel:#2A2214;--mk-hover:#4E3E1D;--mk-btn2:#292111;
 --mk-ok-bg:#16261A;--mk-ok-line:#2F5A37;--mk-ok:#7FD38B;--mk-bad-bg:#2B1414;--mk-bad-line:#5A2A2A;--mk-bad:#E07A6A;
---mk-tag-bg:#241F17;--mk-tag-line:#3A3122;--mk-tag:#C9BFA8;color:var(--mk-title);font-size:14px}
+--mk-tag-bg:#241F17;--mk-tag-line:#3A3122;--mk-tag:#C9BFA8;
+--mk-rare:#7EC8F2;--mk-rare-bg:#12202B;--mk-rare-line:#2C5A78;
+--mk-ph:#9A9A9A;--mk-ph-bg:#262626;--mk-ph-line:#5C5C5C;color:var(--mk-title);font-size:14px}
 .mk *{box-sizing:border-box}
 .mk a{color:var(--mk-gold)}
 .mk .mk-back{display:inline-block;margin:0 0 12px;font-size:14px}
@@ -94,7 +96,8 @@ padding:10px 12px;transition:border-color .15s}
 .mk-icon{width:48px;height:48px;background:#241F17;border:1px solid var(--mk-line);border-radius:6px;display:flex;
 align-items:center;justify-content:center;overflow:hidden;cursor:help}
 .mk-icon img{max-width:44px;max-height:44px;image-rendering:pixelated}
-.mk-icon .ph{font-weight:700;color:var(--mk-dash);font-size:18px}
+.mk-icon .ph{width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-weight:700;
+font-size:18px;color:var(--mk-ph);background:var(--mk-ph-bg);border:1px solid var(--mk-ph-line);border-radius:5px}
 .mk-name{font-size:15.5px;font-weight:700;color:var(--mk-title);cursor:pointer;word-break:break-word}
 .mk-name:hover{text-decoration:underline}
 .mk-name .plus{color:var(--mk-gold)}
@@ -123,8 +126,29 @@ font-size:12.5px}
 .mk-unit{font-size:12px;color:var(--mk-text);white-space:nowrap}
 .mk-deal{font-size:12px;padding:2px 8px;border-radius:5px;background:var(--mk-ok-bg);border:1px solid var(--mk-ok-line);
 color:var(--mk-ok);white-space:nowrap}
-.mk-deal .q{display:inline-block;margin-left:5px;width:15px;height:15px;line-height:13px;border-radius:50%;
-border:1px solid var(--mk-ok);text-align:center;font-size:10px;cursor:help}
+.mk-rare{font-size:12px;padding:2px 8px;border-radius:5px;background:var(--mk-rare-bg);border:1px solid var(--mk-rare-line);
+color:var(--mk-rare);white-space:nowrap;font-weight:600}
+.mk-deal .q{display:inline-block;margin-left:5px;width:17px;height:17px;line-height:15px;border-radius:50%;padding:0;
+border:1px solid var(--mk-ok);background:transparent;color:inherit;text-align:center;font-size:10.5px;font-weight:700;
+cursor:help;vertical-align:1px}
+.mk-deal .q:focus-visible{outline:2px solid var(--mk-gold);outline-offset:1px}
+.mk-odd{font-size:12px;padding:2px 8px;border-radius:5px;background:#1d1d1d;border:1px solid #5d5d5d;
+color:#a9a9a9;white-space:nowrap}
+.mk-odd .q{display:inline-block;margin-left:5px;width:17px;height:17px;line-height:15px;border-radius:50%;padding:0;
+border:1px solid #8a8a8a;background:transparent;color:inherit;text-align:center;font-size:10.5px;font-weight:700;
+cursor:help;vertical-align:1px}
+.mk-odd .q:focus-visible{outline:2px solid var(--mk-gold);outline-offset:1px}
+.mk-pop .f{padding-left:8px}
+.mk-pop .f.max{color:var(--mk-gold)}
+.mk-pop .f i{color:var(--mk-text);font-style:normal}
+.mk-pop .sub{color:var(--mk-text)}
+.mk-pop{position:fixed;z-index:65;max-width:330px;background:#120f0a;border:1px solid var(--mk-ok-line);border-radius:8px;
+padding:9px 11px;font-size:12.5px;line-height:1.45;color:var(--mk-tag);display:none;box-shadow:0 10px 26px rgba(0,0,0,.6)}
+.mk-pop.on{display:block}
+.mk-pop b{color:var(--mk-title);font-weight:700}
+.mk-pop .rule{color:var(--mk-text);border-top:1px solid var(--mk-line);margin-top:6px;padding-top:6px}
+.mk-pop .warn{color:var(--mk-bad);margin-top:6px}
+.mk-ks{font-size:12px;margin-left:6px}
 .mk-dear{font-size:11.5px;color:var(--mk-dash)}
 .mk-pager{display:flex;gap:10px;justify-content:center;align-items:center;margin:14px 0;flex-wrap:wrap}
 .mk-pager select{width:auto}
@@ -245,7 +269,7 @@ BODY = r"""
     <input id="mk-sname" maxlength="60" placeholder="{{ T.f_sname }}" style="margin-top:6px"></div>
    <div class="mk-f"><label class="mk-check"><input type="checkbox" id="mk-deals">{{ T.f_deals }}</label>
     <input id="mk-dmin" inputmode="numeric" placeholder="{{ T.f_dmin }}" aria-label="{{ T.f_dmin }}"><div class="mk-err">{{ T.bad_value }}</div></div>
-   <div class="mk-f"><label class="mk-check" title="{{ T.f_hideslip_hint }}"><input type="checkbox" id="mk-hideslip" checked>{{ T.f_hideslip }}</label>
+   <div class="mk-f"><label class="mk-check" title="{{ T.f_rare_hint }}"><input type="checkbox" id="mk-rare">{{ T.f_rare }}</label></div>
     <label class="mk-check"><input type="checkbox" id="mk-expired">{{ T.f_expired }}</label></div>
    <div class="mk-actions"><button type="button" class="mk-btn" id="mk-apply">{{ T.apply }}</button>
     <button type="button" class="mk-btn2" id="mk-clear">{{ T.clear_filters }}</button></div>
@@ -274,6 +298,7 @@ BODY = r"""
   <b style="font-size:16px">{{ T.compare_title }}</b><button type="button" class="mk-btn2" id="mk-cmp-close">{{ T.compare_close }}</button></div>
  <div class="mk-cmp" id="mk-cmp"></div></div></div>
 <div class="mk-tip" id="mk-tip"></div>
+<div class="mk-pop" id="mk-pop" role="tooltip"></div>
 <div class="mk-toast" id="mk-toast" role="status" aria-live="polite"></div>
 <script type="application/json" id="mk-data">{{ data|tojson }}</script>
 <script>{% raw %}__SCRIPT__{% endraw %}</script>
@@ -291,6 +316,14 @@ function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(
   return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 function fmt(key, args){ var s = T[key] || key; for (var k in (args||{})) s = s.split('{'+k+'}').join(args[k]); return s; }
 function num(n){ n = Math.round(Number(n) || 0); return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+var PLACEHOLDER = '<span class="ph" title="' + esc(T.icon_none) + '">?</span>';
+// An icon that does not load is the same grey "?", never a broken image.
+function iconFailed(ev){
+  var t = ev.target;
+  if (!t || t.tagName !== 'IMG' || !t.closest || !t.closest('.mk-icon')) return;
+  var box = t.parentNode; t.remove(); if (box && !box.querySelector('.ph')) box.insertAdjacentHTML('beforeend', PLACEHOLDER);
+}
+document.addEventListener('error', iconFailed, true);
 function bonusesWord(n){
   if (n === 1) return T.bonuses_1;
   var t = n % 10, h = n % 100;
@@ -301,7 +334,7 @@ function bonusesWord(n){
 // ---- state <-> URL --------------------------------------------------------
 var FIELDS = ['q','cat','sub','pmin','pmax','unit','lmin','lmax','rmin','rmax','cls','mine','me','nbmin','maxonly',
   'nmaxmin','avgmin','avgmax','sklmin','sklmax','ks','emp','seller','sname','shop','vnum','var','deals','dmin',
-  'hideslip','expired','sort','page','per','b1','b1v','b2','b2v','b3','b3v'];
+  'expired','rare','sort','page','per','b1','b1v','b2','b2v','b3','b3v'];
 var DEFAULTS = D.defaults;
 var state = {};
 function readUrl(){
@@ -319,7 +352,7 @@ function writeUrl(push){
 // ---- the form ---------------------------------------------------------------
 var TEXT_INPUTS = ['q','pmin','pmax','lmin','lmax','avgmin','avgmax','sklmin','sklmax','sname','dmin'];
 var SELECTS = ['sort','rmin','rmax','cls','nbmin','nmaxmin','ks','emp','seller'];
-var CHECKS = ['unit','mine','maxonly','deals','hideslip','expired'];
+var CHECKS = ['unit','mine','maxonly','deals','expired','rare'];
 function parsePrice(s){
   s = String(s || '').trim().toLowerCase().replace(/ /g, ' ').replace(/\s*yang$/, '');
   if (!s) return null;
@@ -464,40 +497,55 @@ function classBadges(o){
   if (mine >= 0 && o.classes.indexOf(mine) < 0) html += '<span class="mk-tag bad">' + esc(T.not_for_you) + '</span>';
   return html;
 }
+// Iwakura's Patch 14, point 6A: a weapon's average and skill damage are its
+// bonuses ("Bonusy": SR, UM and the other lines), counted and listed with them;
+// soul stones in the sockets are no bonus and get a label of their own.
+function bonusCount(o){ return o.bonuses.length + (o.avg ? 1 : 0) + (o.skl ? 1 : 0); }
 function bonusList(o){
   var html = '';
+  if (o.avg) html += '<div class="l"><span class="t">' + esc(T.avg) + ' ' + o.avg + '%</span><span class="r"></span></div>';
+  if (o.skl) html += '<div class="l"><span class="t">' + esc(T.skl) + ' ' + o.skl + '%</span><span class="r"></span></div>';
   o.bonuses.forEach(function(b){
     html += '<div class="l' + (b.max ? ' max' : '') + '"><span class="t">' + esc(b.t) + '</span><span class="r">' +
       (b.pve || b.pvp ? esc(fmt('pve_pvp', {a: b.pve || '–', b: b.pvp || '–'})) : '') + '</span></div>';
   });
-  var sub = [];
-  if (o.avg) sub.push(esc(T.avg) + ' ' + o.avg + '%');
-  if (o.skl) sub.push(esc(T.skl) + ' ' + o.skl + '%');
-  if (o.stones.length) sub.push(esc(T.stones) + ': ' + o.stones.map(function(s){ return esc(s.n); }).join(', '));
-  if (sub.length) html += '<div class="sub">' + sub.join(' · ') + '</div>';
+  if (o.stones.length) html += '<div class="sub">' + esc(T.stones) + ': ' + o.stones.map(function(s){ return esc(s.n); }).join(', ') + '</div>';
   return html;
 }
 function offerHtml(o, i){
   var plus = o.plus >= 0 ? ' <span class="plus">+' + o.plus + '</span>' : '';
   var stack = o.cnt > 1 ? '<span class="stack">×' + num(o.cnt) + '</span>' : '';
-  var icon = o.icon ? '<img src="' + esc(o.icon) + '" alt="" loading="lazy">' : '<span class="ph">' + esc((o.name || '?').charAt(0)) + '</span>';
+  // One URL a family (the snapshot's icon map); none is the grey "?" frame,
+  // and a picture that fails to load becomes that frame too (iconFailed).
+  var icon = o.icon ? '<img src="' + esc(o.icon) + '" alt="" loading="lazy">' : PLACEHOLDER;
   var tags = '';
   if (o.lvl > 0) tags += '<span class="mk-tag">' + esc(fmt('from_level', {n: o.lvl})) + '</span>';
   tags += classBadges(o);
   if (!o.running) tags += '<span class="mk-tag bad">' + esc(T.shop_closed) + '</span>';
-  if (o.slip) tags += '<span class="mk-tag bad">' + esc(T.slip) + '</span>';
   var flag = o.emp ? '<img src="/static/empires/' + ['', 'shinsoo', 'chunjo', 'jinno'][o.emp] + '.png" alt="' + esc(T.empires[o.emp - 1]) + '" title="' + esc(T.empires[o.emp - 1]) + '">' : '';
   tags += '<span class="mk-seller">' + flag + '<span class="who" data-shop="' + o.owner + '" title="' + esc(T.seller_title) + '">' +
     esc(o.seller || ('#' + o.owner)) + '</span> · <span class="shopname" title="' + esc(o.shop_name + ' — ' + o.where) + '">' +
     esc(o.shop_name) + '</span></span>';
-  var bon = o.bonuses.length || o.avg || o.skl || o.stones.length;
-  var bonBtn = bon ? '<div class="mk-bon"><button type="button" class="mk-btn2" data-bon="' + i + '" style="padding:3px 9px;font-size:12px">' +
-    esc(o.bonuses.length ? bonusesWord(o.bonuses.length) : T.stones) + ' ▾</button><div class="mk-bon-list" id="mk-bon-' + i + '">' + bonusList(o) + '</div></div>' : '';
+  var nBon = bonusCount(o), ksLabel = o.stones.length ? fmt('stones_n', {n: o.stones.length}) : '';
+  var bonBtn = nBon || o.stones.length ? '<div class="mk-bon"><button type="button" class="mk-btn2" data-bon="' + i + '" style="padding:3px 9px;font-size:12px">' +
+    esc(nBon ? bonusesWord(nBon) : ksLabel) + ' ▾</button>' + (nBon && ksLabel ? '<span class="mk-tag mk-ks">' + esc(ksLabel) + '</span>' : '') +
+    '<div class="mk-bon-list" id="mk-bon-' + i + '">' + bonusList(o) + '</div></div>' : '';
   var right = '<div class="mk-price">' + num(o.price) + '<small>' + esc(T.yang) + '</small></div>';
   if (o.cnt > 1) right += '<div class="mk-unit">' + esc(fmt('per_unit', {p: num(o.unit)})) + '</div>';
-  if (o.deal !== null && o.deal >= D.deal_badge) {
-    right += '<span class="mk-deal" title="' + esc(fmt('ref_price', {p: num(o.ref)})) + '">' + esc(fmt('deal', {n: o.deal})) +
-      (o.deal >= D.deal_suspect ? '<span class="q" title="' + esc(T.deal_suspect) + '">?</span>' : '') + '</span>';
+  // Patch 13, 5D: a rare item's badge replaces the bargain's, cheap or not.
+  if (o.rare) {
+    right += '<span class="mk-rare" title="' + esc(fmt('rare_title', {n: num(o.rcnt)}) +
+      (o.ref ? ' · ' + fmt('ref_price', {p: num(o.ref)}) : '')) + '">' + esc(T.rare) + '</span>';
+  } else if (o.odd) {
+    // Patch 15, point 18C6: over 70% under the usual price is no bargain but
+    // a price to look at - grey, with the same "?" and its formula.
+    right += '<span class="mk-odd">' + esc(T.odd) + '<button type="button" class="q" data-deal="' + i +
+      '" aria-label="' + esc(T.odd_help) + '" aria-expanded="false">?</button></span>';
+  } else if (o.deal !== null && o.deal >= D.deal_badge) {
+    // Patch 14, point 6B: every bargain has its "?", whose box (dealHtml)
+    // shows on hover, on focus and on a tap - a title shows on no phone.
+    right += '<span class="mk-deal">' + esc(fmt('deal', {n: o.deal})) + '<button type="button" class="q" data-deal="' +
+      i + '" aria-label="' + esc(T.deal_help) + '" aria-expanded="false">?</button></span>';
   } else if (o.deal !== null && o.deal < 0) {
     right += '<span class="mk-dear" title="' + esc(fmt('ref_price', {p: num(o.ref)})) + '">' + esc(fmt('dearer', {n: -o.deal})) + '</span>';
   }
@@ -508,6 +556,7 @@ function offerHtml(o, i){
     plus + stack + '</div><div class="mk-tags">' + tags + '</div>' + bonBtn + '</div><div class="mk-right">' + right + '</div></div>';
 }
 function draw(data){
+  hidePop();
   $('mk-when').textContent = data.generated_at ? fmt('data_from', {t: data.generated_text}) : T.building;
   if (data.building && data.generated_at) $('mk-when').innerHTML = '<span class="mk-spin"></span>' + esc(fmt('data_from', {t: data.generated_text}));
   $('mk-count').textContent = fmt('offers_n', {n: num(data.total)});
@@ -572,6 +621,62 @@ function tipHtml(o){
   if (o.stones.length) h += '<div class="hr"></div>' + o.stones.map(function(s){ return '<div>' + esc(s.n) + '</div>'; }).join('');
   return h;
 }
+// ---- the bargain's box (Patch 14, point 6B) ------------------------------------
+var pop = $('mk-pop'), popFor = null, popPinned = false;
+function yangOf(o, value){ return o.cnt > 1 ? fmt('per_unit', {p: num(value)}) : num(value) + ' ' + T.yang; }
+// Patch 15, point 18C7: the usual price's formula written out - the base
+// price and the plus it is read for, x the yang rate, x every line's
+// multiplier apart, x the index, = the usual price.
+function mul(p){ var s = (Number(p) / 100).toFixed(2); return '×' + (D.lang === 'pl' ? s.replace('.', ',') : s); }
+function idx(m){ var s = (Number(m) / 1000).toFixed(3); return '×' + (D.lang === 'pl' ? s.replace('.', ',') : s); }
+function formulaHtml(o){
+  var w = o.how || {}, h = '';
+  if (!w.row && w.row !== 0) return '';
+  var why = w.why === 2 ? fmt('how_why_low', {plus: w.plus, row: w.row}) : (w.why === 1 ? fmt('how_why_base', {row: w.row}) : '');
+  h += '<div class="f">' + esc(fmt('how_base', {row: w.row, p: num(w.sheet)})) + (why ? ' <i>' + esc(why) + '</i>' : '') +
+    (w.cut ? ' <i>' + esc(T.how_cut) + '</i>' : '') + '</div>';
+  h += '<div class="f">' + esc(fmt('how_yang', {m: mul(w.yang)})) + '</div>';
+  if (w.stones && w.stones !== 100) h += '<div class="f">' + esc(fmt('how_stones', {m: mul(w.stones)})) + '</div>';
+  if (w.sr) h += '<div class="f">' + esc(fmt('how_sr', {m: mul(w.sr)})) + '</div>';
+  if (w.floor) h += '<div class="f">' + esc(fmt('how_floor', {row: w.floor})) + '</div>';
+  if (w.zero) h += '<div class="f">' + esc(fmt('how_zero', {m: mul(w.zero)})) + '</div>';
+  (w.lines || []).forEach(function(l){
+    h += '<div class="f' + (l.max ? ' max' : '') + '">' + esc(fmt(l.max ? 'how_line_max' : 'how_line', {t: l.t, m: mul(l.m)})) + '</div>';
+  });
+  if (w.maxl) h += '<div class="f">' + esc(fmt('how_maxl', {m: mul(w.maxl)})) + '</div>';
+  h += '<div class="f">' + esc(fmt('how_index', {m: idx(w.index)})) + '</div>';
+  h += '<div class="f"><b>' + esc(fmt('how_equals', {p: num(w.formula)})) + '</b></div>';
+  return h;
+}
+function dealHtml(o){
+  var w = o.how || {};
+  var h = '<div><b>' + esc(fmt('deal_box_offer', {p: yangOf(o, o.cnt > 1 ? o.unit : o.price)})) + '</b></div>';
+  if (o.rsrc === 4) {
+    h += '<div>' + esc(fmt('deal_box_usual', {p: yangOf(o, o.ref), how: fmt('deal_how_market', {n: w.n})})) + '</div>';
+    if (w.formula) h += '<div class="sub">' + esc(fmt('how_also', {p: yangOf(o, w.formula)})) + '</div>' + formulaHtml(o);
+  } else {
+    var how = T[{1: 'deal_how_sheet', 2: 'deal_how_material'}[o.rsrc] || 'deal_how_sheet'];
+    h += '<div>' + esc(fmt('deal_box_usual', {p: yangOf(o, o.ref), how: how})) + '</div>' + formulaHtml(o);
+  }
+  h += '<div class="rule">' + esc(fmt('deal_box_rule', {n: D.deal_badge})) + '</div>';
+  if (o.odd) h += '<div class="warn">' + esc(fmt('odd_box', {n: o.odd_pct, u: D.unusual})) + '</div>';
+  return h;
+}
+function placePop(el){
+  var r = el.getBoundingClientRect(), w = pop.offsetWidth, hgt = pop.offsetHeight;
+  var x = Math.min(innerWidth - w - 8, Math.max(8, r.right - w)), y = r.bottom + 6;
+  if (y + hgt > innerHeight - 8) y = Math.max(8, r.top - hgt - 6);
+  pop.style.left = x + 'px'; pop.style.top = y + 'px';
+}
+function showPop(el, pinned){
+  var o = last && last.rows[+el.dataset.deal]; if (!o) return;
+  if (popFor && popFor !== el) popFor.setAttribute('aria-expanded', 'false');
+  pop.innerHTML = dealHtml(o); pop.classList.add('on'); placePop(el);
+  popFor = el; popPinned = !!pinned; el.setAttribute('aria-expanded', 'true');
+}
+function hidePop(){
+  pop.classList.remove('on'); if (popFor) popFor.setAttribute('aria-expanded', 'false'); popFor = null; popPinned = false;
+}
 function moveTip(ev){ var w = tip.offsetWidth, hgt = tip.offsetHeight, x = ev.clientX + 16, y = ev.clientY + 14;
   if (x + w > innerWidth - 8) x = ev.clientX - w - 12; if (y + hgt > innerHeight - 8) y = Math.max(8, innerHeight - hgt - 8);
   tip.style.left = x + 'px'; tip.style.top = y + 'px'; }
@@ -593,7 +698,7 @@ function openCompare(){
       [T.avg, o.avg ? o.avg + '%' : '–'], [T.skl, o.skl ? o.skl + '%' : '–'],
       [T.stones, o.stones.length ? o.stones.map(function(s){ return esc(s.n); }).join('<br>') : '–'],
       [T.c_price, num(o.price) + ' ' + esc(T.yang) + (o.cnt > 1 ? '<br><small>' + esc(fmt('per_unit', {p: num(o.unit)})) + '</small>' : '')],
-      [T.c_deal, o.deal !== null ? o.deal + '%' : '–'], [T.c_seller, esc(o.seller) + ' · ' + esc(o.shop_name)]];
+      [T.c_deal, o.rare ? T.rare : (o.deal !== null ? o.deal + '%' : '–')], [T.c_seller, esc(o.seller) + ' · ' + esc(o.shop_name)]];
     return '<div class="col"><div class="mk-name" style="cursor:default">' + esc(o.name) + (o.plus >= 0 ? ' <span class="plus">+' + o.plus + '</span>' : '') +
       '</div>' + rows.map(function(r){ return '<div class="row"><span>' + esc(r[0]) + '</span><span style="text-align:right">' +
       (r[0] === T.c_bonuses || r[0] === T.stones || r[0] === T.c_price || r[0] === T.c_seller ? r[1] : esc(r[1])) + '</span></div>'; }).join('') + '</div>';
@@ -664,6 +769,9 @@ document.addEventListener('change', function(ev){
   }
 });
 document.addEventListener('click', function(ev){
+  var d = ev.target.closest ? ev.target.closest('[data-deal]') : null;
+  if (d) { if (popFor === d && popPinned) hidePop(); else showPop(d, true); return; }
+  if (popFor && !(ev.target.closest && ev.target.closest('#mk-pop'))) hidePop();
   var t = ev.target.closest ? ev.target.closest('[data-cat],[data-page],[data-bon],[data-tp],[data-shop],[data-item],[data-chip]') : null;
   if (!t) return;
   if (t.dataset.cat !== undefined && t.classList.contains('mk-cat')) { fromForm(); state.cat = t.dataset.cat; state.sub = t.dataset.sub;
@@ -677,11 +785,18 @@ document.addEventListener('click', function(ev){
   if (t.dataset.chip !== undefined) { state[t.dataset.chip] = ''; if (t.dataset.chip === 'vnum') state['var'] = ''; state.page = '1'; load(true); }
 });
 document.addEventListener('mouseover', function(ev){
+  var d = ev.target.closest ? ev.target.closest('[data-deal]') : null;
+  if (d && !popPinned) showPop(d, false);
   var t = ev.target.closest ? ev.target.closest('[data-tip]') : null;
   if (!t || !last) return; tip.innerHTML = tipHtml(last.rows[+t.dataset.tip]); tip.style.display = 'block'; moveTip(ev);
 });
 document.addEventListener('mousemove', function(ev){ if (tip.style.display === 'block') moveTip(ev); });
-document.addEventListener('mouseout', function(ev){ var t = ev.target.closest ? ev.target.closest('[data-tip]') : null; if (t) tip.style.display = 'none'; });
+document.addEventListener('mouseout', function(ev){ var t = ev.target.closest ? ev.target.closest('[data-tip]') : null; if (t) tip.style.display = 'none';
+  var d = ev.target.closest ? ev.target.closest('[data-deal]') : null; if (d && d === popFor && !popPinned) hidePop(); });
+document.addEventListener('focusin', function(ev){ var d = ev.target.closest ? ev.target.closest('[data-deal]') : null; if (d && !popPinned) showPop(d, false); });
+document.addEventListener('focusout', function(ev){ var d = ev.target.closest ? ev.target.closest('[data-deal]') : null; if (d && d === popFor && !popPinned) hidePop(); });
+window.addEventListener('scroll', function(){ if (popFor) placePop(popFor); }, true);
+window.addEventListener('resize', function(){ if (popFor) placePop(popFor); });
 $('mk-apply').onclick = function(){ apply(true); };
 $('mk-clear').onclick = clearAll;
 $('mk-refresh').onclick = function(){ load(false, {refresh: '1'}); };
@@ -695,7 +810,7 @@ $('mk-cost-save').onclick = function(){
   post('/market/settings', {tp_cost: $('mk-cost').value}).then(function(r){ toast(esc(r.message), r.ok ? 'ok' : 'bad'); })
     .catch(function(){ toast(esc(T.login), 'bad'); });
 };
-document.addEventListener('keydown', function(ev){ if (ev.key === 'Escape') $('mk-modal').classList.remove('on'); });
+document.addEventListener('keydown', function(ev){ if (ev.key === 'Escape') { $('mk-modal').classList.remove('on'); hidePop(); } });
 window.addEventListener('popstate', function(){ readUrl(); toForm(); load(false); });
 readUrl(); toForm(); load(false); loadHistory(); drawCmpBar();
 })();

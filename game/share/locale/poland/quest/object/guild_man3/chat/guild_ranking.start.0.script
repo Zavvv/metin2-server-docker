@@ -1,2 +1,0 @@
-say_title ( gameforge . find_squareguard . _30_sayTitle ) 
-say ( string . format ( gameforge . guild_ranking . _10_say , guild . around_ranking_string ( ) ) ) 

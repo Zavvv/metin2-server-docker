@@ -1,2 +1,0 @@
-send_letter ( gameforge . collect_quest_lv30 . _70_sendLetter ) 
-collect_data . send_delay ( ) 

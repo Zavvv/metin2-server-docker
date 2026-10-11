@@ -1,1 +1,0 @@
-dofile( LIBDIR .. "itemshop/itemshop.lua")

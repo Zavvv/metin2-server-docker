@@ -1,2 +1,0 @@
-if not quest_book . is_on_quest ( ) then set_state ( "start" ) 
- return end 

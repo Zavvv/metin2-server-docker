@@ -4,8 +4,9 @@
 #  No Flask, no database: what a request's parameters mean, the one list of
 #  categories, the SQL a filter becomes (fixed text, every value a parameter),
 #  the sort orders, a price as a player writes it, a name as a search reads
-#  it, the reference price and the bargain, the "human slip" mark, the bonus
-#  lines' ratings and the TP's answers. tests/market_preview_test.py tests all
+#  it, the usual price and the bargain (the price of a piece of gear itself is
+#  price.py, the bots' own), the unusual price, the bonus lines' ratings and
+#  the TP's answers. tests/market_preview_test.py tests all
 #  of it; snapshot.py and __init__.py are what asks it.
 # =============================================================================
 
@@ -273,8 +274,18 @@ PER_PAGE = (25, 50, 100)
 DEFAULT_PER = 50
 MAX_PAGE = 100000
 DEFAULT_DEAL_PCT = 40
-DEAL_BADGE_PCT = 10                  # "Plakietka tylko, gdy X >= 10%"
-DEAL_SUSPECT_PCT = 80                # "Gdy X >= 80% - dodatkowo maly znak ?"
+# Iwakura's Patch 14, point 6B: "Okazja = oferta tansza o min. 25% od zwyklej
+# ceny." The badge (Patch 12's "Plakietka tylko, gdy X >= 10%") from 25%, as
+# the box under its "?" says - and the Bargain Hunter's own 75% of the day
+# price (playerbot_market_habit_rules.h, IsBargain).
+DEAL_BADGE_PCT = 25
+# Iwakura's Patch 15, point 18C6: "Bezpiecznik: roznica ponad 70% -> zamiast
+# 'Okazja' pokazac 'Cena nietypowa' (szara etykieta) i zapisac przedmiot do
+# diagnostyki panelu". An offer over UNUSUAL_PCT under its usual price is no
+# bargain - it sorts with the offers that have no usual price - and the
+# build writes it down (snapshot.Store._write_unusual), UNUSUAL_KEEP at most.
+UNUSUAL_PCT = 70
+UNUSUAL_KEEP = 2000
 NO_REFERENCE_KEY = -1000000          # sorts last under "Najlepsze okazje"
 MAX_BONUS_FILTERS = 3
 TEXT_MAX = 60
@@ -286,8 +297,8 @@ DEFAULTS = {
     "q": "", "cat": "", "sub": "", "pmin": "", "pmax": "", "unit": "0", "lmin": "", "lmax": "",
     "rmin": "", "rmax": "", "cls": "", "mine": "0", "me": "", "nbmin": "", "maxonly": "0", "nmaxmin": "",
     "avgmin": "", "avgmax": "", "sklmin": "", "sklmax": "", "ks": "", "emp": "", "seller": "", "sname": "",
-    "shop": "", "vnum": "", "deals": "0", "dmin": str(DEFAULT_DEAL_PCT), "hideslip": "1", "expired": "0",
-    "var": "", "sort": DEFAULT_SORT, "page": "1", "per": str(DEFAULT_PER),
+    "shop": "", "vnum": "", "deals": "0", "dmin": str(DEFAULT_DEAL_PCT), "expired": "0",
+    "var": "", "rare": "0", "sort": DEFAULT_SORT, "page": "1", "per": str(DEFAULT_PER),
     "b1": "", "b1v": "", "b2": "", "b2v": "", "b3": "", "b3v": "",
 }
 # The parameters a URL may carry; anything else is ignored.
@@ -408,7 +419,8 @@ def parse_filters(args, bonus_points=(), my_classes=None):
             f["var"] = variant
     if _flag(get("deals")):
         f["deals"] = f.get("dmin", DEFAULT_DEAL_PCT)
-    f["hideslip"] = str(get("hideslip") if get("hideslip") is not None else "1").strip() != "0"
+    if _flag(get("rare")):
+        f["rare"] = True
     f["expired"] = _flag(get("expired"))
     sort = str(get("sort") or DEFAULT_SORT).strip()
     if sort not in SORTS:
@@ -427,8 +439,6 @@ def build_where(f, kinds_table="kinds", shops_table="shops", ignore_category=Fal
     sql, params = [], []
     if not f.get("expired"):
         sql.append("running = 1")
-    if f.get("hideslip", True):
-        sql.append("slip = 0")
     if not ignore_category and "cat" in f:
         sql.append("cat = ?")
         params.append(f["cat"])
@@ -485,6 +495,8 @@ def build_where(f, kinds_table="kinds", shops_table="shops", ignore_category=Fal
     if "deals" in f:
         sql.append("bkey >= ?")
         params.append(max(DEAL_BADGE_PCT, int(f["deals"])))
+    if f.get("rare"):
+        sql.append("rare = 1")
     return (" AND ".join(sql) if sql else "1 = 1"), params
 
 
@@ -561,49 +573,68 @@ def price_slot(itype, subtype):
     return 0
 
 
-def _tier_pct(tiers, value):
-    pct = 100
-    for start, p in tiers:
-        if value >= start:
-            pct = p
-    return pct
-
-
 POINT_SKILL_DAMAGE = 121          # mt2009 POINT_SKILL_DAMAGE_BONUS (UM)
 POINT_AVERAGE_DAMAGE = 122        # mt2009 POINT_NORMAL_HIT_DAMAGE_BONUS (SR)
+POINT_MAX_HP = 6                  # mt2009 POINT_MAX_HP (Maks. PZ)
+
+# Iwakura's Patch 13.5, point 3: one test of a line at its maximum for every
+# rule (playerbot_max_line_rules.h) - its top on the server's table, and Max
+# HP from 1500, "tak samo jak 2000". The preview marks such a line in the gold
+# of a maximal line and prices it at his sheet's "max" column.
+MAX_HP_AT_TOP_FROM = 1500
+
+# Community Patch 5, point 11 (playerbot_price_rules.h MAX_LINES_PERCENT): two
+# lines at their top x1.7, three x2.5, four and more x4.0.
+MAX_LINES_PERCENT = (100, 100, 170, 250, 400)
 
 
-def bonus_multiplier(slot, level, lines, tops):
-    """His sheet's bonus multiplier of a piece (GetPlayerBotBonusPricePercent's
-    rows): each line on the slot and level band its own row names, the
-    maximum roll's or any other value's; a weapon's average and skill damage
-    by their tiers. `lines` [(point, value)], `tops` {point: top roll}. 1.0
-    for anything the sheet does not price."""
-    if not slot:
-        return 1.0
-    pct = 1.0
-    for point, value in lines:
-        if not point or not value:
-            continue
-        if slot == WEAPON_PRICE_SLOT and point == POINT_AVERAGE_DAMAGE:
-            pct *= _tier_pct(sheet.AVERAGE_TIERS, value) / 100.0
-            continue
-        if slot == WEAPON_PRICE_SLOT and point == POINT_SKILL_DAMAGE:
-            if value >= sheet.SKILL_TIERS[0][0]:
-                pct *= _tier_pct(sheet.SKILL_TIERS, value) / 100.0
-            continue
-        for slots, row_point, max_pct, other_pct, lv_from, lv_to, own_top in sheet.BONUS_ROWS:
-            if row_point != point or not slots & slot or not lv_from <= int(level or 0) <= lv_to:
-                continue
-            top = own_top or tops.get(point, 0)
-            pct *= (max_pct if top and value >= top else other_pct) / 100.0
-            break
-    return pct
+def line_at_top(point, value, top):
+    """The one test: `value` at the line's `top` (0: unknown), or Max HP from
+    MAX_HP_AT_TOP_FROM whatever its top."""
+    value = int(value or 0)
+    if value <= 0:
+        return False
+    if int(point or 0) == POINT_MAX_HP and value >= MAX_HP_AT_TOP_FROM:
+        return True
+    return bool(top) and value >= int(top)
+
+
+def max_lines_percent(count):
+    return MAX_LINES_PERCENT[max(0, min(int(count), len(MAX_LINES_PERCENT) - 1))]
+
+
+# The reference's multipliers of before - his bonus multipliers in floating
+# point, Patch 13.5's +6 row as a factor over the plus's own and Patch 13's x3
+# as its fallback - are gone with Iwakura's Patch 15, point 18C1-18C2: a piece
+# of gear his sheet prices asks price.compose, the bots' own one price, line
+# for line, and no x3 is anywhere.
+
+
+def gear_plus(itype, vnum, plus):
+    """A weapon's or armour's plus: its name's, else the vnum's last digit
+    (the families are ten vnums); -1 for anything else without one."""
+    if int(plus) >= 0:
+        return int(plus)
+    if int(itype or 0) in (ITEM_WEAPON, ITEM_ARMOR):
+        return int(vnum) % 10
+    return -1
+
+
+# Iwakura's Patch 13, point 5A: an item is rare while all the running counters
+# of every kingdom hold fewer than RARE_BELOW pieces of it (a piece of gear by
+# its vnum, which is its plus too; a book by its skill and a marble by its
+# monster, the snapshot's kind). 5D: "Rzadkie" in place of "Okazja".
+RARE_BELOW = 10
+
+
+def is_rare(pieces):
+    return int(pieces) < RARE_BELOW
 
 
 def is_max_line(point, value, tops):
-    top = tops.get(int(point or 0), 0)
-    return bool(top) and int(value or 0) >= top
+    """A line at its maximum on the server's table - Max HP from 1500 (Patch
+    13.5, point 3: line_at_top)."""
+    return line_at_top(point, value, tops.get(int(point or 0), 0))
 
 
 def line_tier(point, job=-1):
@@ -626,6 +657,127 @@ def tier_pair(point):
     return (row[0], row[1]) if row else (0, 0)
 
 
+# Iwakura's Patch 13.5, point 5 (playerbot_moonlight_rules.h's
+# YoungChestPercent): a bot's Moonlight chest asks half its normal price in a
+# world's first twelve hours and three quarters in the next twelve, and the
+# preview's reference is that share too ("zeby nie oznaczal wszystkich jako
+# Okazja"). A world's age is the cores' - the oldest account - and an unknown
+# one (under nought) is an old world's.
+MOONLIGHT_CHEST_VNUM = 50011
+YOUNG_CHEST_HALF_SECONDS = 12 * 3600
+YOUNG_CHEST_FULL_SECONDS = 24 * 3600
+YOUNG_CHEST_FIRST_PERCENT = 50
+YOUNG_CHEST_SECOND_PERCENT = 75
+YOUNG_CHEST_NORMAL_PERCENT = 100
+
+
+def young_chest_percent(world_age):
+    age = -1 if world_age is None else int(world_age)
+    if age < 0 or age >= YOUNG_CHEST_FULL_SECONDS:
+        return YOUNG_CHEST_NORMAL_PERCENT
+    return YOUNG_CHEST_FIRST_PERCENT if age < YOUNG_CHEST_HALF_SECONDS else YOUNG_CHEST_SECOND_PERCENT
+
+
+def young_world_factor(vnum, world_age):
+    """The share of the normal reference a kind's reference is at this age:
+    the chest's young share, 1 for everything else."""
+    if int(vnum or 0) != MOONLIGHT_CHEST_VNUM:
+        return 1.0
+    return young_chest_percent(world_age) / 100.0
+
+
+# Iwakura's Patch 14, point 3 (playerbot_gear_value_rules.h's Level30Cut): a
+# level-30 weapon at +0..+3 of the six families asks his sheet x0.75 in a
+# world older than 48 hours, and a copy under 29% average another 35..65% off,
+# drawn every eight hours for each family and kingdom, while that kingdom's
+# market holds over a hundred of the family at +0..+3. A piece of two lines or
+# more stands on its +6 row (point 4 of 13.5) and takes neither. The
+# preview's reference follows, so the bots' cut lines are not all "Okazja".
+LEVEL30_CUT_FAMILIES = (290, 1170, 2150, 3210, 5110, 7160)
+LEVEL30_CUT_MAX_PLUS = 3
+LEVEL30_CUT_OLD_WORLD_SECONDS = 48 * 3600
+LEVEL30_CUT_OLD_WORLD_PERCENT = 75
+LEVEL30_CUT_OVERSUPPLY_OVER = 100
+LEVEL30_CUT_AVERAGE_UNDER = 29
+LEVEL30_CUT_DRAW_MIN = 35
+LEVEL30_CUT_DRAW_MAX = 65
+LEVEL30_CUT_DRAW_SECONDS = 8 * 3600
+# A piece of two lines or more stands on its +6 row (Patch 13.5, point 4) and
+# takes no cut (playerbot_gear_value_rules.h LOW_PLUS_LINES_MIN).
+LOW_PLUS_MIN_LINES = 2
+# The kingdom of a stand's map (playerbot_empire_rules::GetMapOwnerEmpire).
+MAP_OWNER_EMPIRE = {1: 1, 3: 1, 4: 1, 5: 1, 21: 2, 23: 2, 24: 2, 25: 2, 41: 3, 43: 3, 44: 3, 45: 3}
+
+
+def level30_cut_family(vnum):
+    """0..5 for a level-30 weapon at +0..+3 of the six families, else -1."""
+    vnum = int(vnum or 0)
+    for i, first in enumerate(LEVEL30_CUT_FAMILIES):
+        if first <= vnum <= first + LEVEL30_CUT_MAX_PLUS:
+            return i
+    return -1
+
+
+def level30_cut_slot(now):
+    now = int(now or 0)
+    return now // LEVEL30_CUT_DRAW_SECONDS if now > 0 else 0
+
+
+def level30_oversupply_cut(slot, empire, family):
+    """B's cut 35..65: the core's hash, in 32 bits."""
+    m = 0xFFFFFFFF
+    slot = int(slot)
+    h = ((slot & m) * 2654435761) & m
+    h ^= (((slot >> 32) & m) * 0x27D4EB2F) & m
+    h ^= ((int(empire) + 1) * 0x85EBCA6B) & m
+    h ^= ((int(family) + 1) * 0xC2B2AE35) & m
+    h ^= 0x4C33300E
+    h ^= h >> 16
+    h = (h * 0x7FEB352D) & m
+    h ^= h >> 15
+    h = (h * 0x846CA68B) & m
+    h ^= h >> 16
+    return LEVEL30_CUT_DRAW_MIN + h % (LEVEL30_CUT_DRAW_MAX - LEVEL30_CUT_DRAW_MIN + 1)
+
+
+def level30_cut_permille(vnum, plus, lines, average, world_age, units, drawn):
+    """The share of his sheet a piece keeps, in thousandths (1000: no cut).
+    `lines` its ordinary lines, `units` the family's +0..+3 on the kingdom's
+    market (under 0 not counted), `drawn` the period's cut."""
+    family = level30_cut_family(vnum)
+    plus = int(plus)
+    if family < 0 or not 0 <= plus <= LEVEL30_CUT_MAX_PLUS or (int(lines) >= LOW_PLUS_MIN_LINES):
+        return 1000
+    old = LEVEL30_CUT_OLD_WORLD_PERCENT if world_age is not None and int(world_age) >= LEVEL30_CUT_OLD_WORLD_SECONDS else 100
+    cut = 0
+    if units is not None and int(units) > LEVEL30_CUT_OVERSUPPLY_OVER and int(average or 0) < LEVEL30_CUT_AVERAGE_UNDER:
+        cut = max(LEVEL30_CUT_DRAW_MIN, min(LEVEL30_CUT_DRAW_MAX, int(drawn)))
+    return 1000 * old // 100 * (100 - cut) // 100
+
+
+def level30_market_key(map_index, seller_empire):
+    """The kingdom a stand's line counts in: its map's, else its seller's."""
+    return MAP_OWNER_EMPIRE.get(int(map_index or 0), int(seller_empire or 0))
+
+
+def level30_cut_keep(vnum, plus, lines, average, world_age, counts, empire, now=None):
+    """The thousandths of his sheet a line keeps (1000 for anything else):
+    `counts` {(empire, family): units} of the snapshot's running lines - what
+    price.compose takes as the cut on the piece's own row."""
+    family = level30_cut_family(vnum)
+    if family < 0:
+        return 1000
+    units = counts.get((int(empire or 0), family), 0) if counts is not None and empire else -1
+    drawn = level30_oversupply_cut(level30_cut_slot(now if now is not None else time.time()), empire, family) \
+        if empire else 0
+    return level30_cut_permille(vnum, plus, lines, average, world_age, units, drawn)
+
+
+def level30_cut_factor(vnum, plus, lines, average, world_age, counts, empire, now=None):
+    """The same share as a factor (1.0 for anything else)."""
+    return level30_cut_keep(vnum, plus, lines, average, world_age, counts, empire, now) / 1000.0
+
+
 def bargain_pct(unit, reference):
     """1 - price / reference in whole percent; None without a reference."""
     if not reference or reference <= 0 or unit is None:
@@ -646,37 +798,63 @@ def median(values):
     return float(values[mid]) if n % 2 else (values[mid - 1] + values[mid]) / 2.0
 
 
-HISTORY_MIN_OFFERS = 5            # "jesli mniej niz 5 ofert w historii - cena z CENY"
+HISTORY_MIN_OFFERS = 5
 HISTORY_DAYS = 7
 
+# Iwakura's Patch 15, point 18C5: "gdy na rynku jest min. 5 ofert tego samego
+# przedmiotu z tym samym plusem i ta sama liczba bonusow - zwykla cena =
+# mediana tych ofert, gdy mniej - zwykla cena = wspolna funkcja ceny". The
+# running offers of one vnum (which is the plus), one variant (a book's
+# skill, a marble's monster) and one count of ordinary bonus lines; the week's
+# median of Patch 12's 1H and Patch 14's 6B band round his sheet are gone with
+# it.
+MARKET_MIN_OFFERS = 5
 
-# -----------------------------------------------------------------------------
-#  "Ludzka pomylka" (Community Patch 5, point 6; market.md "A slip is marked by
-#  its item id"): a one-unit line of a skill book or an upgrade material whose
-#  item id the bots' draw marks, asking twice its fair price or more - or any
-#  such line at five times. The draw is the core's own hash.
-# -----------------------------------------------------------------------------
-def nav_hash(value):
-    """PlayerBotNavHash (playerbot_navigation.h), 32-bit."""
-    value &= 0xFFFFFFFF
-    value ^= value >> 16
-    value = (value * 0x7FEB352D) & 0xFFFFFFFF
-    value ^= value >> 15
-    value = (value * 0x846CA68B) & 0xFFFFFFFF
-    value ^= value >> 16
-    return value
-
-
-def slip_drawn(item_id):
-    return bool(item_id) and nav_hash(int(item_id) ^ 0x534C4950) % 1000 == 0
+# Where an offer's usual price came from (the offers table's `rsrc`, the "?"
+# box names it): nothing, the one price (a piece of gear: price.compose; else
+# his sheet's day price), a refine material's day price with its supply, the
+# market's median. 3 was the week's median of before Patch 15 and is never
+# reused.
+REF_NONE, REF_SHEET, REF_MATERIAL, REF_MARKET = 0, 1, 2, 4
 
 
-def is_slip(item_id, count, is_book, is_refine, unit, fair_unit):
-    if int(count or 0) != 1 or not (is_book or is_refine) or not fair_unit or fair_unit <= 0:
-        return False
-    if unit >= fair_unit * 5:
-        return True
-    return slip_drawn(item_id) and unit >= fair_unit * 2
+def is_unusual(pct):
+    """18C6: over UNUSUAL_PCT under the usual price."""
+    return pct is not None and int(pct) > UNUSUAL_PCT
+
+
+def formula_text(composed):
+    """The one price's steps in a few words, for the diagnostics: the row and
+    why, WRB, Cena SR, the lines' premium, the price."""
+    if not composed:
+        return ""
+    why = {0: "own", 1: "bonus_base", 2: "low_plus_lines"}.get(composed.get("why"), "?")
+    return "row=+%d(%s) sheet=%d wrb=%d sr=%d premium=%d%% price=%d" % (
+        composed["row"], why, composed["sheet"], composed["gear_base"], composed["after_average"],
+        composed["premium_pct"], composed["price"])
+
+
+UNUSUAL_COLUMNS = ("time", "item_id", "vnum", "plus", "var", "owner", "bot", "lines", "avg", "skl", "unit",
+                   "reference", "pct", "source", "market_offers", "formula", "how")
+REF_WORDS = {REF_NONE: "none", REF_SHEET: "formula", REF_MATERIAL: "material", REF_MARKET: "market_median"}
+
+
+def unusual_header():
+    return "#" + "\t".join(UNUSUAL_COLUMNS)
+
+
+def unusual_row(when, e):
+    lines = ",".join("%d:%d" % (int(p), int(v)) for p, v in e.get("lines", ()))
+    return "\t".join(str(x) for x in (
+        int(when), e["id"], e["vnum"], e["plus"], e["var"], e["owner"], e["bot"], lines or "-", e["avg"], e["skl"],
+        int(round(e["unit"])), int(round(e["ref"])), e["pct"], REF_WORDS.get(e["rsrc"], "?"), e["rn"],
+        int(round(e["fref"])), e.get("how") or "-"))
+
+
+# The "ludzka pomylka" mark of a line that slipped is gone with the slip
+# itself (Iwakura's Patch 15, point 16D: the bots never ask ten times a price
+# any more); an offer far under its usual price is "Cena nietypowa" (18C6)
+# and one far over it says how much dearer it is.
 
 
 # -----------------------------------------------------------------------------

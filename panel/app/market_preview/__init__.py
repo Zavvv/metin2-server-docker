@@ -14,6 +14,8 @@
 #      GET  /market/api/tp/<id>      that order's answer
 #      GET  /market/api/tp_history   the last twenty orders
 #      POST /market/settings         the TP's fare (CSRF)
+#      GET  /market/icons/<n>.<v>.png an item's icon, the set's version in the name
+#                                    (icons.py; cached for a year)
 #
 #  rules.py is what a request means, snapshot.py the data, texts.py the words,
 #  page.py the page; sheet.py is rendered from the overlay's price and tier
@@ -26,11 +28,13 @@ import re
 import threading
 import time
 
-from . import page, rules, sheet, snapshot, texts  # noqa: F401
+from . import icons, page, price, rules, sheet, snapshot, texts  # noqa: F401
 
 _registered = {"done": False}
 _state = {"ns": None, "store": None, "limiter": rules.RateLimiter(), "icons": None, "persons": (0.0, []),
           "lock": threading.Lock()}
+ICON_CACHE_SECONDS = 365 * 86400      # a versioned name never changes its picture
+ICON_STALE_SECONDS = 300              # an old version's name: the current file, briefly
 
 # Map names of the maps a stand stands on: the first villages, where "a bot's
 # stand stands" (market.md), and the second ones; any other by its number.
@@ -116,28 +120,19 @@ def _gate():
 # -----------------------------------------------------------------------------
 #  What an offer row says
 # -----------------------------------------------------------------------------
-def _icons():
+def _icon_set():
+    """The icons (icons.IconSet): files/static/icons, the converted ones in a
+    cache beside the panel's files, and M2PANEL_ICON_SOURCE's TGA and DDS."""
     if _state["icons"] is None:
-        icons = {}
+        panel = ns()
         try:
-            path = os.path.join(ns().app.static_folder, "item_icons.json")
-            with open(path, encoding="utf-8") as fh:
-                icons = json.load(fh)
-        except Exception:                            # noqa: BLE001 - no icon set: the placeholder draws
-            icons = {}
-        _state["icons"] = icons
+            static = panel.app.static_folder
+        except Exception:                            # noqa: BLE001
+            static = ""
+        sources = [d for d in os.environ.get("M2PANEL_ICON_SOURCE", "").split(os.pathsep) if d.strip()]
+        _state["icons"] = icons.IconSet(static, os.path.join(str(panel.get("PANEL_DIR") or "."), icons.CACHE_DIR),
+                                        sources)
     return _state["icons"]
-
-
-def icon_url(vnum):
-    """The client's own icon (files/static/icons, the live map's set) of the
-    vnum, else of its +0, else none - the page draws a neutral square."""
-    icons = _icons()
-    for key in (vnum, vnum - vnum % 10):
-        name = icons.get(str(int(key)))
-        if name and re.match(r"^[A-Za-z0-9_.-]{1,64}$", name):
-            return "/static/icons/" + name
-    return ""
 
 
 def item_name(vnum, socket0, language):
@@ -208,6 +203,43 @@ def _base_lines(proto, language):
     return out
 
 
+def price_how(snap, row, proto, language):
+    """Patch 15, point 18C7: the usual price's formula written out for the
+    "?" box - the base price and the plus it is read for, the yang rate, the
+    soul stones, a weapon's Cena SR or floor, every line's multiplier apart,
+    the lines at their top, the index - from the same one price the snapshot
+    made it with (price.compose); the market's median says how many offers
+    it is of. None for a usual price that is neither."""
+    how = {"src": int(row["rsrc"] or 0), "n": int(row["rn"] or 0), "formula": round(row["fref"] or 0)}
+    if proto is None or proto.type not in (rules.ITEM_WEAPON, rules.ITEM_ARMOR) or not row["fref"]:
+        return how
+    plus = rules.gear_plus(proto.type, row["vnum"], row["plus"])
+    attrs = [(row["a%d" % k], row["v%d" % k]) for k in range(7)]
+    lines, avg, _skl = snapshot.offer_lines_of(attrs)
+    shop = snap.shops.get(row["owner"], {})
+    keep = rules.level30_cut_keep(row["vnum"], plus, len(lines), avg, snap.world_age, snap.level30_units,
+                                  rules.level30_market_key(shop.get("map", 0), row["emp"]), snap.level30_at) \
+        if proto.type == rules.ITEM_WEAPON else None
+    composed, facts = snapshot.gear_price(proto, row["vnum"], plus, attrs, (row["s0"], row["s1"], row["s2"]),
+                                          snap.attr_sets, snap.yang_pct, snap.index_milli, keep, snap.protos)
+    if composed is None:
+        return how
+    how.update({
+        "plus": plus, "row": composed["row"], "why": composed["why"], "sheet": composed["sheet"],
+        "cut": composed["level30_applied"], "yang": snap.yang_pct, "index": snap.index_milli,
+        "stones": facts.stones_pct, "wrb": composed["gear_base"],
+        "sr": facts.average_pct if composed["average_applied"] and not composed["average_floor_wins"] else 0,
+        "floor": composed["floor_row"] if composed["average_floor_wins"] else 0,
+        "zero": composed["premium_pct"] + 100 if composed["why"] == price.ROW_BONUS_BASE else 0,
+        "lines": [] if composed["why"] == price.ROW_BONUS_BASE else
+        [{"t": apply_label(line.point, line.value, language), "m": line.pct, "max": line.at_top}
+         for line in facts.lines if line.pct != 100 and not (facts.weapon and line.average)],
+        "maxl": price.max_lines_percent(composed["at_top_lines"]) if composed["at_top_lines"] > 1 and
+        composed["why"] != price.ROW_BONUS_BASE else 0,
+    })
+    return how
+
+
 def render_row(snap, row, language):
     proto = snap.protos.get(row["vnum"])
     socket0 = snap.variants.get((row["vnum"], row["var"]), 0)
@@ -233,7 +265,10 @@ def render_row(snap, row, language):
         "seller": shop.get("seller") or "", "bot": bool(row["bot"]), "emp": row["emp"],
         "shop_name": shop.get("name") or "", "ch": row["ch"], "map": row["map"],
         "where": say("map_ch", map=map_name, ch=row["ch"]), "running": bool(row["running"]),
-        "ref": round(row["ref"] or 0), "deal": deal, "slip": bool(row["slip"]), "icon": icon_url(row["vnum"]),
+        "ref": round(row["ref"] or 0), "deal": deal, "odd": bool(row["odd"]),
+        "odd_pct": rules.bargain_pct(row["unit"], row["ref"]) if row["odd"] else None,
+        "rsrc": int(row["rsrc"] or 0), "how": price_how(snap, row, proto, language),
+        "rare": bool(row["rare"]), "rcnt": int(row["rcnt"] or 0), "icon": snap.icons.get(row["vnum"], ""),
         "bonuses": bonuses, "avg": row["avg"], "skl": row["skl"], "stones": stones,
         "base": _base_lines(proto, language),
     }
@@ -289,7 +324,7 @@ def _page():
     data = {
         "lang": language, "texts": texts.for_language(language), "csrf": panel.csrf_token(),
         "defaults": rules.DEFAULTS, "persons": _persons() if enabled() else [],
-        "bonuses": bonuses, "deal_badge": rules.DEAL_BADGE_PCT, "deal_suspect": rules.DEAL_SUSPECT_PCT,
+        "bonuses": bonuses, "deal_badge": rules.DEAL_BADGE_PCT, "unusual": rules.UNUSUAL_PCT,
         "categories": [{"key": key, "name": pl if language == "pl" else en,
                         "subs": [{"key": sk, "name": spl if language == "pl" else sen} for sk, _sid, spl, sen in subs]}
                        for key, _cid, pl, en, subs in rules.CATEGORIES],
@@ -467,6 +502,24 @@ def _api_tp_history():
     return _json({"ok": True, "rows": out})
 
 
+def _icon(name):
+    """An item's icon by its versioned name: the current set's for a year and
+    immutable, so a scroll never fetches it again; a name of an older set
+    briefly (the file is the current one). Not behind the rate limiter - one
+    page shows fifty of them - and as public as /static, which they were."""
+    if not enabled():
+        return _json({"ok": False, "error": "not_here"}, 404)
+    from flask import send_file
+    path, current = _icon_set().path_of(name)
+    if not path or not os.path.isfile(path):
+        return _json({"ok": False, "error": "no_icon"}, 404)
+    resp = send_file(path, mimetype="image/png", max_age=ICON_CACHE_SECONDS if current else ICON_STALE_SECONDS,
+                     conditional=True)
+    if current:
+        resp.headers["Cache-Control"] = "public, max-age=%d, immutable" % ICON_CACHE_SECONDS
+    return resp
+
+
 def _settings():
     refused = _gate()
     if refused is not None:
@@ -507,7 +560,7 @@ def init(module, history_path=None, source=None):
     _state["ns"] = panel
     path = history_path or os.environ.get("M2PANEL_MARKET_HISTORY", "").strip() or \
         os.path.join(str(panel.get("PANEL_DIR") or "."), HISTORY_FILE)
-    _state["store"] = snapshot.Store(panel, path, source=source, names=_names_for_search)
+    _state["store"] = snapshot.Store(panel, path, source=source, names=_names_for_search, icons=_icon_set())
     _home_texts(panel)
     app = panel.app
     app.add_url_rule("/market", "market_preview", panel.login_required(_page), methods=["GET"])
@@ -516,6 +569,7 @@ def init(module, history_path=None, source=None):
     app.add_url_rule("/market/api/tp/<int:qid>", "market_api_tp_status", _api_tp_status, methods=["GET"])
     app.add_url_rule("/market/api/tp_history", "market_api_tp_history", _api_tp_history, methods=["GET"])
     app.add_url_rule("/market/settings", "market_settings", _settings, methods=["POST"])
+    app.add_url_rule("/market/icons/<name>", "market_icon", _icon, methods=["GET"])
 
     @app.context_processor
     def _market_context():

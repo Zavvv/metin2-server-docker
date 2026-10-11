@@ -1,4 +1,0 @@
-say ( gameforge . horse_levelup . _80_say ) 
-if not pc . is_mount ( ) then 
-setstate ( "failure" ) 
-end 

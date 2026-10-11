@@ -1,2 +1,0 @@
-if pc . level <= 5 then set_state ( "find" ) 
- return end 

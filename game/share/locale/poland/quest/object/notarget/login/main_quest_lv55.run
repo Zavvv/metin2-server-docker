@@ -1,2 +1,0 @@
-if pc . get_level ( ) >= 55 then set_state ( "survey8" ) 
- return end 

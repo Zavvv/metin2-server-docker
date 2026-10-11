@@ -1,2 +1,0 @@
-if pc . level >= 50 then set_state ( "information" ) 
- return end 

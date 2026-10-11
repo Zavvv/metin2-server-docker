@@ -1,3 +1,0 @@
-if pc . get_level ( ) >= 27 then 
-setstate ( "gotoboss" ) 
-end 

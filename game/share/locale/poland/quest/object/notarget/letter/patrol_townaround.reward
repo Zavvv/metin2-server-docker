@@ -1,4 +1,0 @@
-setskin ( NOWINDOW ) 
-makequestbutton ( gameforge . patrol_townaround . _420_makequestbutton ) 
-q . set_title ( gameforge . patrol_townaround . _420_makequestbutton ) 
-q . start ( ) 

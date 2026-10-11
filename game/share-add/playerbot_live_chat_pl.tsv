@@ -1563,7 +1563,6 @@ H_049	H	whisper	trade_human_repeat	neutralny	dam {cena}, pasuje?
 H_050	H	whisper	trade_human_giveup	neutralny	wiecej nie dam, nara
 H_051	H	whisper	trade_human_decline	neutralny	spk, powodzenia ze sprzedaza
 I_017	I	global	market_visit	neutralny	{ulep} po {cena}, warto?
-I_018	I	global	trade_price_slip	neutralny	{skrot} za {cena}, zero za duzo xd
 C_053	C	global	refine_scroll_answer	radosc	{ile} bodzi
 C_054	C	global	refine_average_answer	radosc	{sr} sr
 C_055	C	global	refine_question	radosc	ile sr?
@@ -1979,3 +1978,381 @@ P11P_ANSWER_1	U	global	pvp_duel_answer	neutralny	{nick} ja
 P11P_ANSWER_2	U	global	pvp_duel_answer	neutralny	{nick} dawaj, ide
 P11P_ANSWER_3	U	global	pvp_duel_answer	neutralny	ja moge 1v1
 P11P_ANSWER_4	U	global	pvp_duel_answer	neutralny	{nick} biore, juz ide
+# Iwakura's Patch 15, point 13: a bot's lines about its quests (playerbot_quest_chat.h):
+# {quest} the quest's short name, {mob} its monster, {item} its item, {npc} its NPC, {ile} and
+# {ile_max} the progress, {reszta} what is left, {nagroda_exp} and {nagroda_przedmiot} the reward.
+P15_A_001	Q	local	p15_quest_doing	ironia	robie questa {quest} ale on nudny
+P15_A_002	Q	local	p15_quest_doing	ironia	ehh ten quest {quest}... nudy
+P15_A_003	Q	local	p15_quest_doing	neutralny	{ile}/{ile_max} jeszcze troche
+P15_A_004	Q	local	p15_quest_doing	neutralny	jeszcze {reszta} i oddaje
+P15_A_005	Q	local	p15_quest_doing	neutralny	zara koniec questa {quest}
+P15_A_006	Q	local	p15_quest_doing	neutralny	prawie mam, brakuje {reszta} {item}
+P15_A_007	Q	local	p15_quest_doing	zlosc	ile mozna bic te {mob}
+P15_A_008	Q	local	p15_quest_doing	smutek	{item} nie chce leciec...
+P15_A_009	Q	local	p15_quest_doing	zlosc	30 {mob} i dalej nic
+P15_A_010	Q	local	p15_quest_doing	ironia	drop na {item} to jakis zart
+P15_A_011	Q	local	p15_quest_doing	ironia	kto wymyslil ten quest
+P15_A_012	Q	local	p15_quest_doing	neutralny	robie questy bo exp na spocie slaby
+P15_A_013	Q	local	p15_quest_doing	neutralny	robie {quest}, ktos tez?
+P15_A_014	Q	local	p15_quest_doing	neutralny	jak skoncze {quest} to ide expic dalej
+P15_A_015	Q	local	p15_quest_doing	ironia	wole juz metiny bic niz ten quest
+P15_A_016	Q	local	p15_quest_doing	smutek	{quest} zajmuje wiecznosc
+P15_A_017	Q	local	p15_quest_doing	neutralny	ok jeszcze tylko oddac quest
+P15_A_018	Q	local	p15_quest_doing	smutek	znowu do {npc} latac...
+P15_A_019	Q	local	p15_quest_doing	ironia	ten npc wysyla mnie po calej mapie
+P15_A_020	Q	local	p15_quest_doing	zlosc	czemu ten {npc} stoi tak daleko
+P15_A_021	Q	local	p15_quest_doing	neutralny	{ile}/{ile_max}... powoli
+P15_A_022	Q	local	p15_quest_doing	neutralny	polowa zrobiona
+P15_A_023	Q	local	p15_quest_doing	neutralny	dobra, polowa {quest} za mna
+P15_A_024	Q	local	p15_quest_doing	neutralny	juz {ile}, idzie
+P15_A_025	Q	local	p15_quest_doing	neutralny	jeszcze troche tych {mob}
+P15_A_026	Q	local	p15_quest_doing	zlosc	nie cierpie questow na drop
+P15_A_027	Q	local	p15_quest_doing	ironia	ten drop jest zbugowany chyba
+P15_A_028	Q	local	p15_quest_doing	ironia	1 {item} na 20 mobow, super
+P15_A_029	Q	local	p15_quest_doing	zlosc	zaraz zwariuje z tymi {mob}
+P15_A_030	Q	local	p15_quest_doing	neutralny	ide oddac quest i wracam
+P15_A_031	Q	local	p15_quest_doing	ironia	quest quest quest... a lvl stoi
+P15_A_032	Q	local	p15_quest_doing	smutek	robie {quest} od godziny
+P15_A_033	Q	local	p15_quest_doing	smutek	czemu ten quest jest taki dlugi
+P15_A_034	Q	local	p15_quest_doing	ironia	{npc} ma chyba za duzo wymagan
+P15_A_035	Q	local	p15_quest_doing	ironia	znow ten {npc} czegos chce
+P15_A_036	Q	local	p15_quest_doing	neutralny	ok jeszcze 1 etap
+P15_A_037	Q	local	p15_quest_doing	smutek	kolejny etap {quest}, nie konczy sie to
+P15_A_038	Q	local	p15_quest_doing	neutralny	latam miedzy {mapa} a miastem
+P15_A_039	Q	local	p15_quest_doing	ironia	teleport, quest, teleport, quest...
+P15_A_040	Q	local	p15_quest_doing	neutralny	bije {mob} do questa, nie podbierac pls
+P15_A_041	Q	local	p15_quest_doing	neutralny	prosze nie bic {mob} obok mnie, robie quest
+P15_A_042	Q	local	p15_quest_doing	neutralny	spokojnie, biore tylko {mob} do questa
+P15_A_043	Q	local	p15_quest_doing	neutralny	{ile} {item} w torbie, jeszcze {reszta}
+P15_A_044	Q	local	p15_quest_doing	neutralny	dobra wiem juz gdzie isc
+P15_A_045	Q	local	p15_quest_doing	smutek	myslalem ze ten quest bedzie szybki
+P15_A_046	Q	local	p15_quest_doing	ironia	na {lvl} lvl tyle questow, ze nie ma kiedy expic
+P15_A_047	Q	local	p15_quest_doing	radosc	quest + exp, dwie pieczenie na jednym ogniu
+P15_A_048	Q	local	p15_quest_doing	neutralny	robie quest przy okazji expienia
+P15_A_049	Q	local	p15_quest_doing	zlosc	{mob} wszedzie tylko nie tu gdzie trzeba
+P15_A_050	Q	local	p15_quest_doing	neutralny	lece dalej z tym questem
+P15_A_051	Q	local	p15_quest_doing	podekscytowanie	jeszcze troche i bedzie nagroda
+P15_A_052	Q	local	p15_quest_doing	zdziwienie	ciekawe co da za ten quest
+P15_A_053	Q	local	p15_quest_doing	neutralny	mam nadzieje ze nagroda bedzie warta
+P15_A_054	Q	local	p15_quest_doing	ironia	jak dadza zwoj to sie nie pogniewam
+P15_A_055	Q	local	p15_quest_doing	ironia	oby nie same mikstury w nagrodzie
+P15_B_001	Q	local	p15_quest_done	radosc	w koncu oddane
+P15_B_002	Q	local	p15_quest_done	radosc	{quest} zrobiony :)
+P15_B_003	Q	local	p15_quest_done	smutek	oddalem {quest}, nagroda slaba
+P15_B_004	Q	local	p15_quest_done	radosc	oddalem {quest}, nawet spoko nagroda
+P15_B_005	Q	local	p15_quest_done	radosc	dostalem {nagroda_przedmiot} z questa
+P15_B_006	Q	local	p15_quest_done	neutralny	quest zrobiony, kolejny
+P15_B_007	Q	local	p15_quest_done	radosc	uff koniec z {mob}
+P15_B_008	Q	local	p15_quest_done	ironia	zrobione, nigdy wiecej tego questa
+P15_B_009	Q	local	p15_quest_done	radosc	{nagroda_exp} expa z questa, niezle
+P15_B_010	Q	local	p15_quest_done	neutralny	ok mam, ide dalej
+P15_B_011	Q	local	p15_quest_done	radosc	yes, {quest} zaliczony
+P15_B_012	Q	local	p15_quest_done	radosc	koniec meki
+P15_B_013	Q	local	p15_quest_done	radosc	nareszcie
+P15_B_014	Q	local	p15_quest_done	neutralny	dobra, {quest} z glowy
+P15_B_015	Q	local	p15_quest_done	neutralny	quest oddany, mozna expic
+P15_B_016	Q	local	p15_quest_done	radosc	ale przyjemny exp z tego questa
+P15_B_017	Q	local	p15_quest_done	ironia	i tyle tego dobrego
+P15_B_018	Q	local	p15_quest_done	smutek	nagroda... no coz, liczylem na wiecej
+P15_B_019	Q	local	p15_quest_done	ironia	dali mikstury, wow... xd
+P15_B_020	Q	local	p15_quest_done	radosc	{nagroda_przedmiot}, przyda sie
+P15_B_021	Q	local	p15_quest_done	neutralny	{nagroda_przedmiot} na sprzedaz chyba
+P15_B_022	Q	local	p15_quest_done	radosc	{npc} zadowolony, ja tez
+P15_B_023	Q	local	p15_quest_done	zdziwienie	zrobione szybciej niz myslalem
+P15_B_024	Q	local	p15_quest_done	radosc	myslalem ze bedzie gorzej
+P15_B_025	Q	local	p15_quest_done	radosc	easy quest
+P15_B_026	Q	local	p15_quest_done	radosc	ten byl nawet fajny
+P15_B_027	Q	local	p15_quest_done	podekscytowanie	najlepszy quest jak dotad
+P15_B_028	Q	local	p15_quest_done	neutralny	{quest} done
+P15_B_029	Q	local	p15_quest_done	radosc	gg {quest}
+P15_B_030	Q	local	p15_quest_done	neutralny	ok kolejny quest z listy
+P15_B_031	Q	local	p15_quest_done	neutralny	skonczylem {quest}, ktos potrzebuje pomocy z nim?
+P15_B_032	Q	local	p15_quest_done	neutralny	jak ktos robi {quest} to mowcie, pomoge
+P15_C_001	Q	global	p15_quest_frustration	zlosc	nienawidze tych questow ciagle umieram
+P15_C_002	Q	global	p15_quest_frustration	zlosc	ten quest to jakis koszmar, 7 raz padam
+P15_C_003	Q	global	p15_quest_frustration	zlosc	{mob} mnie zjada, kto robil ten quest?
+P15_C_004	Q	global	p15_quest_frustration	smutek	znowu nie zyje... {quest} nie dla mnie
+P15_C_005	Q	global	p15_quest_frustration	smutek	chyba musze ulepszyc eq bo nie daje rady z {quest}
+P15_C_006	Q	global	p15_quest_frustration	zlosc	ide do kowala bo te {mob} mnie niszcza
+P15_C_007	Q	global	p15_quest_frustration	smutek	pomocy, ktos pomoze z {quest}? ciagle gine
+P15_C_008	Q	global	p15_quest_frustration	zlosc	rzucam ten quest, nie da sie
+P15_C_009	Q	global	p15_quest_frustration	zlosc	ile razy mozna umierac na jednym quescie
+P15_C_010	Q	global	p15_quest_frustration	smutek	moje eq za slabe na {quest}, ide farmic yang
+P15_C_011	Q	global	p15_quest_frustration	zlosc	kto daje takie questy na moj lvl
+P15_C_012	Q	global	p15_quest_frustration	ironia	7 smierci w 15 min, gratuluje sobie
+P15_C_013	Q	global	p15_quest_frustration	zlosc	no nie, znowu
+P15_C_014	Q	global	p15_quest_frustration	zlosc	serio, kolejna smierc
+P15_C_015	Q	global	p15_quest_frustration	zlosc	ten {mob} bije jak boss
+P15_C_016	Q	global	p15_quest_frustration	zlosc	kto balansowal ten quest
+P15_C_017	Q	global	p15_quest_frustration	smutek	mikstury sie koncza a quest dalej nie zrobiony
+P15_C_018	Q	global	p15_quest_frustration	ironia	wydalem wiecej na mikstury niz da nagroda
+P15_C_019	Q	global	p15_quest_frustration	neutralny	dobra, ide po lepsze eq i wracam
+P15_C_020	Q	global	p15_quest_frustration	smutek	chyba za niski lvl na {quest}
+P15_C_021	Q	global	p15_quest_frustration	neutralny	nastepnym razem z pt
+P15_C_022	Q	global	p15_quest_frustration	neutralny	solo sie nie da, kto idzie?
+P15_C_023	Q	global	p15_quest_frustration	zlosc	{mob} x3 na mnie i po mnie
+P15_C_024	Q	global	p15_quest_frustration	zlosc	rage, rzucam quest
+P15_C_025	Q	global	p15_quest_frustration	ironia	czas na ulepszanie zamiast questow
+P15_C_026	Q	global	p15_quest_frustration	smutek	sorry za spam, ale ten quest mnie wykonczy
+P15_C_027	Q	global	p15_quest_frustration	smutek	ide na rybki, mam dosc questow
+P15_C_028	Q	global	p15_quest_frustration	zlosc	nienawidze {mapa}
+P15_C_029	Q	global	p15_quest_frustration	zlosc	kto wymyslil zeby {mob} tak bil
+P15_C_030	Q	global	p15_quest_frustration	smutek	jutro to zrobie, dzis nie mam sily
+P15_C_031	Q	global	p15_quest_frustration	smutek	zero szans solo na {quest}
+P15_C_032	Q	global	p15_quest_frustration	ironia	-1 eq, -mikstury, quest dalej stoi
+P15_C_033	Q	global	p15_quest_frustration	zlosc	zgon za zgonem
+P15_C_034	Q	global	p15_quest_frustration	smutek	chyba zaczne od nowa z lepszym eq
+P15_C_035	Q	global	p15_quest_frustration	zlosc	dobra mam dosc
+P15_H_001	Q	local	p15_quest_abandon	neutralny	rzucam {quest}, szkoda czasu
+P15_H_002	Q	local	p15_quest_abandon	neutralny	olewam ten quest
+P15_H_003	Q	local	p15_quest_abandon	neutralny	zrobie {quest} jak wbije wiekszy lvl
+P15_H_004	Q	local	p15_quest_abandon	neutralny	quest odlozony, ide expic
+P15_H_005	Q	local	p15_quest_abandon	neutralny	nie oplaca sie, rezygnuje
+P15_H_006	Q	local	p15_quest_abandon	neutralny	moze kiedys wroce do {quest}
+P15_H_007	Q	local	p15_quest_abandon	neutralny	za dlugie to
+P15_H_008	Q	local	p15_quest_abandon	smutek	nagroda nie warta zachodu
+P15_H_009	Q	local	p15_quest_abandon	smutek	poddaje sie z {quest}
+P15_H_010	Q	local	p15_quest_abandon	neutralny	quest na pozniej
+P15_H_011	Q	local	p15_quest_abandon	neutralny	najpierw lvl, potem questy
+P15_H_012	Q	local	p15_quest_abandon	zlosc	nie mam cierpliwosci do tego questa
+P15_H_013	Q	local	p15_quest_abandon	neutralny	quest poczeka
+# Patch 15, 3C: the Daily Goal of quests' start (playerbot_daily_goal.h).
+P15_G_001	L	global	p15_goal_quests	neutralny	dzis cel: {ile} questy do zrobienia
+P15_G_002	L	global	p15_goal_quests	neutralny	na dzis plan: zrobic {ile} questy
+P15_G_003	L	global	p15_goal_quests	podekscytowanie	dzis lece z questami, {ile} musi wejsc
+P15_G_101	L	global	p15_goal_quest	neutralny	dzis cel: zrobic quest {quest}
+P15_G_102	L	global	p15_goal_quest	neutralny	na dzis plan: {quest} do konca
+P15_G_103	L	global	p15_goal_quest	podekscytowanie	dzis w koncu zrobie {quest}
+# Iwakura's Patch 15, point 13 D-G, I and J (playerbot_quest_talk.h, playerbot_quest_party.h):
+# a bot's questions about its quest (P15D), the answers (P15E), a quest party (P15F), the
+# quests' skup (P15K), the answers to a person's line about a quest (P15I) and each quest's own
+# lines (P15J, gate p15_q_<quest>). {miejsce} the side of a map, {kanal} the channel, {opcja}
+# the right option of a quest's dialog, the rest as the rows above.
+P15D_MOB_1	Q	local	p15_ask_mob	neutralny	gdzie bije {mob}?
+P15D_MOB_2	Q	local	p15_ask_mob	neutralny	{mob} sa na {mapa} czy gdzies indziej?
+P15D_MOB_3	Q	local	p15_ask_mob	neutralny	gdzie sa {mob}, szukam od 10 min
+P15D_DUN_1	Q	local	p15_ask_dungeon	zdziwienie	czy {mob} to te w lochu?
+P15D_ITEM_1	Q	local	p15_ask_item	neutralny	ktos wie gdzie dropi {item}?
+P15D_ITEM_2	Q	local	p15_ask_item	neutralny	z czego leci {item}?
+P15D_ITEM_3	Q	local	p15_ask_item	neutralny	ile {item} trzeba do {quest}?
+P15D_NPC_1	Q	local	p15_ask_npc	neutralny	gdzie stoi {npc}?
+P15D_NPC_2	Q	local	p15_ask_npc	neutralny	gdzie znajde {npc} w moim krolestwie?
+P15D_NPC_3	Q	local	p15_ask_npc	neutralny	ktos robil {quest}? co dalej po {npc}?
+P15D_NPC_4	Q	local	p15_ask_npc	neutralny	ktos mi powie gdzie isc w {quest}? strzalka mi znikla
+P15D_REW_1	Q	local	p15_ask_reward	neutralny	jaka nagroda za {quest}?
+P15D_WORTH_1	Q	local	p15_ask_worth	neutralny	warto robic {quest}?
+P15D_SOLO_1	Q	local	p15_ask_solo	neutralny	czy {quest} mozna zrobic solo?
+P15D_SOLO_2	Q	local	p15_ask_solo	neutralny	jak sie robi {quest}?
+P15D_SOLO_3	Q	local	p15_ask_solo	neutralny	ile trwa {quest}?
+P15D_LVL_1	Q	local	p15_ask_level	neutralny	jaki lvl na {quest}?
+P15D_OPT_1	Q	local	p15_ask_option	neutralny	jaka odpowiedz dac {npc}?
+P15D_OPT_2	Q	local	p15_ask_option	neutralny	co wybrac u {npc}, nie chce zepsuc questa
+P15D_MON_1	Q	local	p15_ask_monument	neutralny	ktos wie gdzie ten pomnik w {quest}?
+P15E_MOB_1	Q	local	p15_answer_where_mob	neutralny	{mob} jest na {mapa}, najlepiej {miejsce}
+P15E_MOB_2	Q	local	p15_answer_where_mob	neutralny	{mob} na {mapa}, ale uwazaj bo bija mocno
+P15E_MOB_3	Q	local	p15_answer_where_mob	neutralny	{mob} spawnuja {miejsce}, tam jest ich najwiecej
+P15E_MOB_4	Q	local	p15_answer_where_mob	neutralny	nie pamietam dokladnie, ale chyba {mapa}
+P15E_MOB_5	Q	local	p15_answer_where_mob	neutralny	najszybciej teleportem {mapa_dokad}
+P15E_MOB_6	Q	local	p15_answer_where_mob	neutralny	jest na wiki, ale {mapa}
+P15E_NPC_1	Q	local	p15_answer_where_npc	neutralny	{npc} stoi w {mapa}, {miejsce}
+P15E_NPC_2	Q	local	p15_answer_where_npc	neutralny	strzalka pokazuje {npc}, idz za nia
+P15E_NPC_3	Q	local	p15_answer_where_npc	neutralny	moge ci pokazac, jestem na ch{kanal}
+P15E_NPC_4	Q	local	p15_answer_where_npc	neutralny	robilem to, idz do {npc} po nagrode
+P15E_DROP_1	Q	local	p15_answer_drop	neutralny	{item} leci z {mob}, ale rzadko
+P15E_DROP_2	Q	local	p15_answer_drop	neutralny	{ile_max} {item} trzeba, drop slaby
+P15E_DUNNO_1	Q	local	p15_answer_dunno	neutralny	nie pamietam, sorki
+P15E_DUNNO_2	Q	local	p15_answer_dunno	neutralny	zapytaj kogos innego, robilem dawno
+P15E_DUNNO_3	Q	local	p15_answer_dunno	neutralny	sam szukalem z godzine xd
+P15E_SOLO_1	Q	local	p15_answer_solo	neutralny	solo da rade jak masz +7 bron
+P15E_PARTY_1	Q	local	p15_answer_party	neutralny	lepiej z pt, solo meczarnia
+P15E_LVL_1	Q	local	p15_answer_level	neutralny	jak masz {lvl}+ to luz
+P15E_WGOOD_1	Q	local	p15_answer_worth_good	neutralny	warto, sporo expa daje
+P15E_WGOOD_2	Q	local	p15_answer_worth_good	neutralny	nagroda srednia, ale exp dobry
+P15E_WWEAK_1	Q	local	p15_answer_worth_weak	neutralny	nie warto, lepiej expic
+P15E_OPT_1	Q	local	p15_answer_option	neutralny	wybierz pierwsza opcje u {npc}, reszta to rezygnacja
+P15E_OPT_2	Q	local	p15_answer_option	neutralny	nie klikaj nie wiem, bo musisz od nowa
+P15E_MON_1	Q	local	p15_answer_monument	neutralny	pomnik jest w {mapa}, {miejsce}
+P15E_THX_1	Q	local	p15_answer_thanks	radosc	dzieki, ide tam
+P15E_THX_2	Q	local	p15_answer_thanks	radosc	o, dzieki
+P15E_THX_3	Q	local	p15_answer_thanks	radosc	thx, lece
+P15F_SEEK_1	Q	global	p15_party_seek	neutralny	pt na {quest} {lvl}+, kto ma tego questa?
+P15F_SEEK_2	Q	global	p15_party_seek	neutralny	ktos robi {quest}? mozemy razem
+P15F_SEEK_3	Q	global	p15_party_seek	neutralny	szukam pt na {mob} do questa
+P15F_SEEK_4	Q	global	p15_party_seek	neutralny	zbieram pt na {quest}, ch{kanal} {mapa}
+P15F_SEEK_5	Q	global	p15_party_seek	neutralny	ktos ma {quest} i chce pt? szybciej pojdzie
+P15F_SEEK_6	Q	global	p15_party_seek	neutralny	pt {quest} {ile}/8, wbijajcie
+P15F_LAST_1	Q	global	p15_party_last	neutralny	pt {quest} brakuje 1 osoby
+P15F_WAIT_1	Q	global	p15_party_wait	neutralny	czekam jeszcze 5 min na pt, potem ide solo
+P15F_WAIT_2	Q	global	p15_party_wait	neutralny	pt wolne miejsce, kto ma {quest}
+P15F_NONE_1	Q	global	p15_party_none	smutek	nikt nie robi {quest}? smutno
+P15F_JOIN_1	Q	party	p15_party_join	neutralny	mam questa {quest}, wbijam do pt
+P15F_JOIN_2	Q	party	p15_party_join	neutralny	w pt to idzie 3x szybciej
+P15F_HELP_1	Q	party	p15_party_help	neutralny	moge pomoc z {quest}, sam juz zrobilem
+P15F_PROG_1	Q	party	p15_party_progress	neutralny	jeszcze {reszta} {item} i wszyscy maja
+P15F_PROG_2	Q	party	p15_party_progress	neutralny	trzymajcie sie razem, {mob} bije mocno
+P15F_PROG_3	Q	party	p15_party_progress	neutralny	leader prowadz do {mob}
+P15F_PROG_4	Q	party	p15_party_progress	neutralny	dobra robota pt, wszyscy maja?
+P15F_CRED_1	Q	party	p15_party_credit	radosc	kto zabil {mob}? zaliczylo mi sie, dzieki
+P15F_DONE_1	Q	party	p15_party_done	radosc	dzieki za pt, quest zrobiony
+P15F_DONE_2	Q	party	p15_party_done	radosc	dziekuje za pomoc z {quest} :)
+P15F_MDONE_1	Q	party	p15_party_member_done	neutralny	ja juz mam, ide oddac, dzieki pt
+P15F_MDONE_2	Q	party	p15_party_member_done	neutralny	pt sie rozpada, ja mam juz quest
+P15K_1	Q	global	p15_quest_skup	neutralny	kupie {item} do questa
+P15K_2	Q	global	p15_quest_skup	neutralny	ma ktos {ile} {item}? zaplace
+P15K_3	Q	global	p15_quest_skup	neutralny	k> {item} do questa, pw
+P15K_4	Q	global	p15_quest_skup	neutralny	k> {ile}x {item}, dobra cena
+P15K_5	Q	global	p15_quest_skup	neutralny	szukam {item}, potrzebne do questa
+P15K_6	Q	global	p15_quest_skup	neutralny	ktos sprzeda {item}? pilne
+P15K_7	Q	global	p15_quest_skup	neutralny	k> {item} albo zamienie na cos
+P15K_8	Q	global	p15_quest_skup	neutralny	brakuje mi {reszta} {item}, ktos ma?
+P15K_9	Q	global	p15_quest_skup	neutralny	kupie {item} szybko, quest czeka
+P15I_DID_1	Q	local	p15_human_done_did	neutralny	haha ja tez, myslalem ze nigdy sie nie skonczy
+P15I_DID_2	Q	local	p15_human_done_did	neutralny	witaj w klubie xd
+P15I_DID_3	Q	local	p15_human_done_did	neutralny	ile ci zajelo? mi prawie 2h
+P15I_DID_4	Q	local	p15_human_done_did	neutralny	ja go rzucilem w polowie xd
+P15I_DID_5	Q	local	p15_human_done_did	neutralny	najgorszy quest w grze imo
+P15I_DID_6	Q	local	p15_human_done_did	neutralny	ja tez, i nagroda taka sobie
+P15I_DID_7	Q	local	p15_human_done_did	neutralny	respekt, ja tam ciagle umieralem
+P15I_DID_8	Q	local	p15_human_done_did	neutralny	ja zrobilem w pt, szybko poszlo
+P15I_DID_9	Q	local	p15_human_done_did	neutralny	no ten quest to meka, gg
+P15I_DID_10	Q	local	p15_human_done_did	neutralny	ja skonczylem wczoraj, tez sie wkurzylem
+P15I_DID_11	Q	local	p15_human_done_did	neutralny	dobrze ze juz po, nastepne sa lepsze
+P15I_DID_12	Q	local	p15_human_done_did	neutralny	a ty solo robiles? szacun
+P15I_DOING_1	Q	local	p15_human_done_doing	neutralny	gratki, ja dalej sie mecze
+P15I_DOING_2	Q	local	p15_human_done_doing	neutralny	szczesciarz, ja mam {ile}/{ile_max}
+P15I_DOING_3	Q	local	p15_human_done_doing	neutralny	a ja go wlasnie zaczynam, bedzie bolalo?
+P15I_DOING_4	Q	local	p15_human_done_doing	neutralny	witaj w klubie xd
+P15I_WDUNNO_1	Q	local	p15_human_where_dunno	neutralny	nie wiem, sam szukam
+P15I_WDUNNO_2	Q	local	p15_human_where_dunno	neutralny	nie robilem jeszcze, sorki
+P15I_WDUNNO_3	Q	local	p15_human_where_dunno	neutralny	zapytaj na ch1, tam wiecej ludzi
+P15I_WGOOD_1	Q	local	p15_human_worth_good	neutralny	warto, daje {nagroda_exp} expa
+P15I_WGOOD_2	Q	local	p15_human_worth_good	neutralny	jak masz czas to rob, exp spoko
+P15I_WWEAK_1	Q	local	p15_human_worth_weak	neutralny	tak sobie, nagroda slaba
+P15I_WWEAK_2	Q	local	p15_human_worth_weak	neutralny	szkoda czasu, lepiej expic na {mapa}
+P15I_WITEM_1	Q	local	p15_human_worth_item	neutralny	dla {nagroda_przedmiot} warto
+P15I_WPARTY_1	Q	local	p15_human_worth_party	neutralny	tylko z pt, solo szkoda zdrowia
+P15I_STUCK_1	Q	local	p15_human_stuck	neutralny	to nie ty, ten quest jest trudny
+P15I_STUCK_2	Q	local	p15_human_stuck	neutralny	ulepsz bron, wtedy pojdzie
+P15I_STUCK_3	Q	local	p15_human_stuck	neutralny	rob z pt, latwiej
+P15I_STUCK_4	Q	local	p15_human_stuck	neutralny	ja tez gine, nie przejmuj sie
+P15I_STUCK_5	Q	local	p15_human_stuck	neutralny	moge pomoc, ile masz lvl?
+P15I_STUCK_6	Q	local	p15_human_stuck	neutralny	wez wiecej mikstur i lec od boku
+P15I_STUCK_7	Q	local	p15_human_stuck	neutralny	bij pojedynczo, nie ciagnij kilku na raz
+P15I_OFFER_1	Q	local	p15_human_stuck_offer	neutralny	chcesz pt? pomoge z {quest}
+P15I_REW_1	Q	local	p15_human_reward	neutralny	{nagroda_exp} expa i {nagroda_przedmiot}
+P15I_RGOOD_1	Q	local	p15_human_reward_good	neutralny	dobra nagroda, warto
+P15I_RWEAK_1	Q	local	p15_human_reward_weak	neutralny	cos tam daje, ale bez szalu
+P15I_RDUNNO_1	Q	local	p15_human_reward_dunno	neutralny	nie pamietam dokladnie, chyba yang i mikstury
+P15I_OPT_1	Q	local	p15_human_option	neutralny	wybierz {opcja}
+P15I_OGEN_1	Q	local	p15_human_option_generic	neutralny	pierwsza opcja, nie klikaj rezygnacji
+P15I_OGEN_2	Q	local	p15_human_option_generic	neutralny	jak sie pomylisz to musisz wrocic, uwazaj
+P15I_ODUNNO_1	Q	local	p15_human_option_dunno	neutralny	nie pamietam, sorki
+P15I_OCARE_1	Q	local	p15_human_option_careful	neutralny	jak sie pomylisz to musisz wrocic, uwazaj
+P15I_PHAVE_1	Q	local	p15_human_party_have	neutralny	ja tez mam, wbijam
+P15I_PHELP_1	Q	local	p15_human_party_help	neutralny	moge pomoc, zapros
+P15I_PNONE_1	Q	local	p15_human_party_none	neutralny	nie mam tego questa, sorki
+P15I_PLOW_1	Q	local	p15_human_party_low	neutralny	za niski lvl jestem na to
+P15I_BRAG_1	Q	local	p15_human_brag	radosc	gratki!
+P15I_BRAG_2	Q	local	p15_human_brag	radosc	o fajnie, mi nie wypadlo
+P15I_BRAG_3	Q	local	p15_human_brag	radosc	szczesciarz
+P15I_BRAG_4	Q	local	p15_human_brag	radosc	ja dostalem to samo, nic specjalnego xd
+P15I_BRAG_5	Q	local	p15_human_brag	radosc	daj mi xd
+P15I_MOAN_1	Q	local	p15_human_complain	ironia	questy to zlo xd
+P15I_MOAN_2	Q	local	p15_human_complain	ironia	no co zrobisz, exp trzeba
+P15I_MOAN_3	Q	local	p15_human_complain	ironia	ja tam lubie questy
+P15I_MOAN_4	Q	local	p15_human_complain	ironia	przynajmniej cos sie dzieje
+P15I_MOAN_5	Q	local	p15_human_complain	ironia	wole metiny bic
+P15I_MOAN_6	Q	local	p15_human_complain	ironia	ten {npc} zawsze czegos chce
+P15J_001	Q	local	p15_q_find_squareguard	neutralny	pierwszy quest, mikstury od handlarki
+P15J_002	Q	local	p15_q_main_quest_lv1	neutralny	witamy witamy, straznik juz czeka
+P15J_003	Q	local	p15_q_main_quest_lv2	neutralny	psy do zabicia dla straznika, latwizna
+P15J_004	Q	local	p15_q_main_quest_lv2	neutralny	{mob} sie chowaja, a straznik czeka
+P15J_005	Q	local	p15_q_main_quest_lv3	neutralny	biegam od handlarza do handlarza
+P15J_006	Q	local	p15_q_main_quest_lv6	neutralny	kowal, dozorca, kowal... wycieczka po wiosce
+P15J_007	Q	local	p15_q_subquest_1	neutralny	pusta butelka dla handlarki, nasionko z dzikow
+P15J_008	Q	local	p15_q_subquest_1	neutralny	{mob} nie chca dac nasionka
+P15J_009	Q	local	p15_q_main_quest_lv7	neutralny	wedka dla rybaka, kowal ma robote
+P15J_010	Q	local	p15_q_new_quest_lv7	neutralny	bukiet kwiatow... otwieram kwiaciarnie xd
+P15J_011	Q	local	p15_q_new_quest_lv7	neutralny	glodne wilki maja te kwiaty, serio
+P15J_012	Q	local	p15_q_subquest_2	neutralny	obiad dla handlarza, co on lubi jesc
+P15J_013	Q	local	p15_q_subquest_3	neutralny	watroba wilka na lekarstwo, fuj
+P15J_014	Q	local	p15_q_main_quest_lv9	neutralny	straznik znowu wola, ide
+P15J_015	Q	local	p15_q_subquest_4	neutralny	list od kowala, jestem listonoszem
+P15J_016	Q	local	p15_q_main_quest_lv10	neutralny	kapitan wzywa, ciekawe co tym razem
+P15J_017	Q	local	p15_q_subquest_18	neutralny	szukam soon, ktos widzial?
+P15J_018	Q	local	p15_q_subquest_5	neutralny	wachlarze dla soon, kolejnosc jest wazna
+P15J_019	Q	local	p15_q_subquest_6	neutralny	zamowienie na zbroje, kowal chce materialy
+P15J_020	Q	local	p15_q_main_quest_lv12	neutralny	szare wilki dla kapitana, jest ich pelno
+P15J_021	Q	local	p15_q_subquest_7	neutralny	ksiazka kucharska... a ja nie umiem gotowac
+P15J_022	Q	local	p15_q_subquest_19	neutralny	skora wilka, wilki uciekaja jak chce
+P15J_023	Q	local	p15_q_main_quest_lv14	neutralny	metin bitwy do questa, kto pomoze?
+P15J_024	Q	local	p15_q_main_quest_lv15	neutralny	kapitan i muzyk, dziwny ten quest
+P15J_025	Q	local	p15_q_subquest_8	neutralny	ciastko ryzowe, serio, caly quest o ciastko
+P15J_026	Q	local	p15_q_main_quest_lv16	neutralny	szpiedzy wszedzie xd
+P15J_027	Q	local	p15_q_main_quest_lv16	neutralny	list szpiega, zaprzysiezeni go maja
+P15J_028	Q	local	p15_q_subquest_9	neutralny	zloty topor nie chce wypasc
+P15J_029	Q	local	p15_q_new_quest_lv17	neutralny	futro mu-rang dla chaegiraba
+P15J_030	Q	local	p15_q_subquest_10	neutralny	spinka do wlosow, lucznicy ja maja
+P15J_031	Q	local	p15_q_new_quest_lv19	neutralny	przeklete zwierzeta, cale stado
+P15J_032	Q	local	p15_q_subquest_11	neutralny	szukam brata mirine, gdzie on polazl
+P15J_033	Q	local	p15_q_subquest_12	neutralny	mi-jung gdzies tu jest, pilnujcie
+P15J_034	Q	local	p15_q_subquest_13	neutralny	przesylka uriela, tygrysy ja maja
+P15J_035	Q	local	p15_q_new_quest_lv22	neutralny	objawy... bol glowy czy gardla? xd
+P15J_036	Q	local	p15_q_find_brother_article	neutralny	pamiatka po bracie, maniak ja ma
+P15J_037	Q	local	p15_q_subquest_15	neutralny	eun-jung do zabicia, ktos widzial?
+P15J_038	Q	local	p15_q_subquest_33	neutralny	mam mape skarbow, ide szukac
+P15J_039	Q	local	p15_q_subquest_33	neutralny	skarb? 4 mapy i szkatulka... zobaczymy
+P15J_040	Q	local	p15_q_subquest_16	neutralny	kawaleria, biegam po calym miescie
+P15J_041	Q	local	p15_q_new_quest_lv26	neutralny	dezerter, szpiedzy wszedzie xd
+P15J_042	Q	local	p15_q_main_quest_lv27	neutralny	metin czerni gdzie stoi?
+P15J_043	Q	local	p15_q_main_quest_lv27	neutralny	metin do questa zbity
+P15J_044	Q	local	p15_q_subquest_17	neutralny	obraczka ariyoung, goo-pae ja ma
+P15J_045	Q	local	p15_q_new_quest_lv28	neutralny	lapy niedzwiedzia nie leca
+P15J_046	Q	local	p15_q_new_quest_lv28	neutralny	bera mnie goni zamiast ja jego
+P15J_047	Q	local	p15_q_new_quest_lv29	neutralny	rozbita porcelana, siano dla koni... co
+P15J_048	Q	local	p15_q_main_quest_lv30	neutralny	pomniki w calej wiosce, chodze jak turysta
+P15J_049	Q	local	p15_q_subquest_20	neutralny	oszczepy dzikich, ida powoli
+P15J_050	Q	local	p15_q_subquest_25	neutralny	kwiaty dla ariyoung, romantycznie
+P15J_051	Q	local	p15_q_main_quest_lv32	neutralny	kolejna strona ksiazki, ile ich jest
+P15J_052	Q	local	p15_q_subquest_30	neutralny	kopie rude do questa, jestem gornikiem
+P15J_053	Q	local	p15_q_subquest_31	neutralny	ruda na zbroje, znowu kopanie
+P15J_054	Q	local	p15_q_subquest_22	neutralny	zloty topor deokbae, general go ma
+P15J_055	Q	local	p15_q_subquest_23	neutralny	szukam yu-hwan, gdzie on sie podzial
+P15J_056	Q	local	p15_q_subquest_44	neutralny	szukam pajaka z dzwonkiem, ktos widzial?
+P15J_057	Q	local	p15_q_subquest_44	neutralny	slysze dzwonek ale pajaka nie widze xd
+P15J_058	Q	local	p15_q_subquest_27	neutralny	ksiega swiatyni, fanatycy ja maja
+P15J_059	Q	local	p15_q_subquest_24	neutralny	ciastko ryzowe, serio, caly quest o ciastko
+P15J_060	Q	local	p15_q_main_quest_lv40	neutralny	13 stron... kto to pisal
+P15J_061	Q	local	p15_q_main_quest_lv40	neutralny	kolejna strona ksiazki, ile ich jest
+P15J_062	Q	local	p15_q_subquest_34	neutralny	generalowie czarnego wiatru gdzie sa?
+P15J_063	Q	local	p15_q_subquest_34	neutralny	3 generalow, 1 juz lezy
+P15J_064	Q	local	p15_q_subquest_32	neutralny	100 klow orka, serio?
+P15J_065	Q	local	p15_q_subquest_32	neutralny	kly orka, tygrysy, nici... handlarz chyba sklep otwiera
+P15J_066	Q	local	p15_q_new_quest_lv42	neutralny	harpun na wieloryby? na tej mapie?
+P15J_067	Q	local	p15_q_new_quest_lv43	neutralny	smutny ten quest ;/
+P15J_068	Q	local	p15_q_subquest_38	neutralny	malpy w lochu mnie bija, a luku jak nie bylo tak nie ma
+P15J_069	Q	local	p15_q_subquest_42	neutralny	hwang to nie miejsce na spacer
+P15J_070	Q	local	p15_q_main_quest_lv47	neutralny	strony ksiazki na pustyni, goraco
+P15J_071	Q	local	p15_q_subquest_36	neutralny	10 siana do questa, ktos ma?
+P15J_072	Q	local	p15_q_subquest_36	neutralny	siano dla koni, a ja myslalem ze bede bohaterem
+P15J_073	Q	local	p15_q_subquest_21	neutralny	lekarstwo, ziolo, lekarstwo... jestem aptekarzem
+P15J_074	Q	local	p15_q_subquest_41	neutralny	100 oczu pajakow... ktos normalny to wymyslil?
+P15J_075	Q	local	p15_q_subquest_41	neutralny	{ile}/100 oczu, zabijcie mnie
+P15J_076	Q	local	p15_q_subquest_41	neutralny	oczy pajakow leca jak krew z nosa
+P15J_077	Q	local	p15_q_main_quest_lv50	neutralny	kolejna strona ksiazki, ile ich jest
+P15J_078	Q	local	p15_q_subquest_47	neutralny	haslo do sekretnej wiadomosci, mysle
+P15J_079	Q	local	p15_q_subquest_37	neutralny	porcelana porcelana... ile mozna
+P15J_080	Q	local	p15_q_new_quest_lv52	neutralny	list od kapitana, zemsta na ezoterykach
+P15J_081	Q	local	p15_q_subquest_46	neutralny	50 rudy krysztalu do questa, ktos sprzeda?
+P15J_082	Q	local	p15_q_subquest_46	neutralny	porcelana porcelana... ile mozna
+P15J_083	Q	local	p15_q_main_quest_lv55	neutralny	pomniki w calej wiosce, chodze jak turysta
+P15J_084	Q	local	p15_q_subquest_39	neutralny	lekarstwo, ziolo, lekarstwo... jestem aptekarzem
+P15J_085	Q	local	p15_q_subquest_40	neutralny	zarazeni lucznicy bola
+P15J_086	Q	local	p15_q_subquest_40	neutralny	tyle grotow strzal, a oni strzelaja we mnie
+P15J_087	Q	local	p15_q_subquest_26	neutralny	zabie udka dla octavio, smacznego
+P15J_088	Q	local	p15_q_subquest_48	neutralny	szpiedzy wszedzie xd
+P15J_089	Q	local	p15_q_subquest_49	neutralny	bingsu... nawet nie wiem co to
+P15J_090	Q	local	p15_q_subquest_49	neutralny	50 kawalkow lodu, zimno mi
+P15J_091	Q	local	p15_q_subquest_49	neutralny	lody z syropem, zglodnialem
+P15J_092	Q	local	p15_q_subquest_45	neutralny	przyzywacze w swiatyni mnie zabijaja
+P15J_093	Q	local	p15_q_black_steel_crafting	neutralny	przysluga dla min-sun, gdzie ona jest

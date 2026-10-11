@@ -1,3 +1,0 @@
-if pc . get_level ( ) >= 52 then set_state ( "letterfromboss" ) 
-pc . setqf ( "ghostsleft" , 4 ) 
- return end 

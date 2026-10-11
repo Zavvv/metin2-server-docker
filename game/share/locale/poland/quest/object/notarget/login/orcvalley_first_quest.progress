@@ -1,2 +1,0 @@
-if orcvalley_first_quest . can_start_quest ( ) == "ok" then set_state ( "start" ) 
- return end 

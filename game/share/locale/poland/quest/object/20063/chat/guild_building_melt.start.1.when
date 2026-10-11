@@ -1,1 +1,0 @@
-return npc . get_guild ( ) == pc . get_guild ( ) and pc . isguildmaster ( )

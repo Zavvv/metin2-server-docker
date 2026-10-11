@@ -311,7 +311,6 @@ Y_009	Y	global	trade_medal	neutralny	WTS horse medals x{ile}, {cena}/each, pm
 Y_013	Y	global	medal_goal	neutralny	monkeys are my second home
 Y_016	Y	global	medal_goal	neutralny	any good monkey spots?
 I_017	I	global	market_visit	neutralny	{ulep} for {cena}, worth it?
-I_018	I	global	trade_price_slip	neutralny	{skrot} for {cena}, extra zero xd
 A_004	A	global	refine9	radosc	cant believe it, +9 first try
 A_005	A	global	refine9	radosc	finally {skrot} +9, took 4 blessings but worth it
 A_009	A	global	refine9	radosc	third try and +9 :D
@@ -1200,3 +1199,381 @@ P11P_ANSWER_1	U	global	pvp_duel_answer	neutralny	{nick} me
 P11P_ANSWER_2	U	global	pvp_duel_answer	neutralny	{nick} sure, omw
 P11P_ANSWER_3	U	global	pvp_duel_answer	neutralny	i can 1v1
 P11P_ANSWER_4	U	global	pvp_duel_answer	neutralny	{nick} ill take it, coming
+# Iwakura's Patch 15, point 13: a bot's lines about its quests (playerbot_quest_chat.h):
+# {quest} the quest's short name, {mob} its monster, {item} its item, {npc} its NPC, {ile} and
+# {ile_max} the progress, {reszta} what is left, {nagroda_exp} and {nagroda_przedmiot} the reward.
+P15_A_001	Q	local	p15_quest_doing	ironia	doing the {quest} quest but its boring
+P15_A_002	Q	local	p15_quest_doing	ironia	ehh this {quest} quest... boring
+P15_A_003	Q	local	p15_quest_doing	neutralny	{ile}/{ile_max} a bit more
+P15_A_004	Q	local	p15_quest_doing	neutralny	{reszta} more and i hand it in
+P15_A_005	Q	local	p15_quest_doing	neutralny	almost done with {quest}
+P15_A_006	Q	local	p15_quest_doing	neutralny	almost there, {reszta} {item} to go
+P15_A_007	Q	local	p15_quest_doing	zlosc	how long can you farm these {mob}
+P15_A_008	Q	local	p15_quest_doing	smutek	{item} just wont drop...
+P15_A_009	Q	local	p15_quest_doing	zlosc	30 {mob} and still nothing
+P15_A_010	Q	local	p15_quest_doing	ironia	the {item} drop rate is a joke
+P15_A_011	Q	local	p15_quest_doing	ironia	who came up with this quest
+P15_A_012	Q	local	p15_quest_doing	neutralny	doing quests cause exp at the spot is bad
+P15_A_013	Q	local	p15_quest_doing	neutralny	doing {quest}, anyone else?
+P15_A_014	Q	local	p15_quest_doing	neutralny	once {quest} is done i go back to grinding
+P15_A_015	Q	local	p15_quest_doing	ironia	id rather hit metins than do this quest
+P15_A_016	Q	local	p15_quest_doing	smutek	{quest} takes forever
+P15_A_017	Q	local	p15_quest_doing	neutralny	ok just need to hand it in
+P15_A_018	Q	local	p15_quest_doing	smutek	running to {npc} again...
+P15_A_019	Q	local	p15_quest_doing	ironia	this npc sends me all over the map
+P15_A_020	Q	local	p15_quest_doing	zlosc	why does {npc} stand so far away
+P15_A_021	Q	local	p15_quest_doing	neutralny	{ile}/{ile_max}... slowly
+P15_A_022	Q	local	p15_quest_doing	neutralny	half done
+P15_A_023	Q	local	p15_quest_doing	neutralny	ok, half of {quest} done
+P15_A_024	Q	local	p15_quest_doing	neutralny	{ile} already, getting there
+P15_A_025	Q	local	p15_quest_doing	neutralny	a few more of these {mob}
+P15_A_026	Q	local	p15_quest_doing	zlosc	i hate drop quests
+P15_A_027	Q	local	p15_quest_doing	ironia	i think this drop is bugged
+P15_A_028	Q	local	p15_quest_doing	ironia	1 {item} per 20 mobs, great
+P15_A_029	Q	local	p15_quest_doing	zlosc	these {mob} are driving me crazy
+P15_A_030	Q	local	p15_quest_doing	neutralny	going to hand in the quest, brb
+P15_A_031	Q	local	p15_quest_doing	ironia	quest quest quest... and my level stands still
+P15_A_032	Q	local	p15_quest_doing	smutek	been doing {quest} for an hour
+P15_A_033	Q	local	p15_quest_doing	smutek	why is this quest so long
+P15_A_034	Q	local	p15_quest_doing	ironia	{npc} wants way too much
+P15_A_035	Q	local	p15_quest_doing	ironia	{npc} wants something again
+P15_A_036	Q	local	p15_quest_doing	neutralny	ok one more step
+P15_A_037	Q	local	p15_quest_doing	smutek	another step of {quest}, it never ends
+P15_A_038	Q	local	p15_quest_doing	neutralny	running between {mapa} and town
+P15_A_039	Q	local	p15_quest_doing	ironia	teleport, quest, teleport, quest...
+P15_A_040	Q	local	p15_quest_doing	neutralny	farming {mob} for a quest, dont steal pls
+P15_A_041	Q	local	p15_quest_doing	neutralny	please dont hit the {mob} next to me, doing a quest
+P15_A_042	Q	local	p15_quest_doing	neutralny	relax, im only taking {mob} for a quest
+P15_A_043	Q	local	p15_quest_doing	neutralny	{ile} {item} in the bag, {reszta} to go
+P15_A_044	Q	local	p15_quest_doing	neutralny	ok now i know where to go
+P15_A_045	Q	local	p15_quest_doing	smutek	thought this quest would be quick
+P15_A_046	Q	local	p15_quest_doing	ironia	so many quests at {lvl} theres no time to grind
+P15_A_047	Q	local	p15_quest_doing	radosc	quest + exp, two birds with one stone
+P15_A_048	Q	local	p15_quest_doing	neutralny	doing a quest while grinding
+P15_A_049	Q	local	p15_quest_doing	zlosc	{mob} everywhere except where i need them
+P15_A_050	Q	local	p15_quest_doing	neutralny	moving on with this quest
+P15_A_051	Q	local	p15_quest_doing	podekscytowanie	a bit more and theres the reward
+P15_A_052	Q	local	p15_quest_doing	zdziwienie	wonder what this quest gives
+P15_A_053	Q	local	p15_quest_doing	neutralny	hope the reward is worth it
+P15_A_054	Q	local	p15_quest_doing	ironia	wouldnt mind a scroll as a reward
+P15_A_055	Q	local	p15_quest_doing	ironia	hope its not just potions
+P15_B_001	Q	local	p15_quest_done	radosc	finally handed in
+P15_B_002	Q	local	p15_quest_done	radosc	{quest} done :)
+P15_B_003	Q	local	p15_quest_done	smutek	handed in {quest}, weak reward
+P15_B_004	Q	local	p15_quest_done	radosc	handed in {quest}, decent reward actually
+P15_B_005	Q	local	p15_quest_done	radosc	got {nagroda_przedmiot} from the quest
+P15_B_006	Q	local	p15_quest_done	neutralny	quest done, next one
+P15_B_007	Q	local	p15_quest_done	radosc	phew, done with {mob}
+P15_B_008	Q	local	p15_quest_done	ironia	done, never again this quest
+P15_B_009	Q	local	p15_quest_done	radosc	{nagroda_exp} exp from the quest, not bad
+P15_B_010	Q	local	p15_quest_done	neutralny	ok got it, moving on
+P15_B_011	Q	local	p15_quest_done	radosc	yes, {quest} cleared
+P15_B_012	Q	local	p15_quest_done	radosc	the suffering is over
+P15_B_013	Q	local	p15_quest_done	radosc	finally
+P15_B_014	Q	local	p15_quest_done	neutralny	ok, {quest} out of the way
+P15_B_015	Q	local	p15_quest_done	neutralny	quest handed in, back to grinding
+P15_B_016	Q	local	p15_quest_done	radosc	nice exp from this quest
+P15_B_017	Q	local	p15_quest_done	ironia	and thats all
+P15_B_018	Q	local	p15_quest_done	smutek	the reward... well, hoped for more
+P15_B_019	Q	local	p15_quest_done	ironia	they gave potions, wow... xd
+P15_B_020	Q	local	p15_quest_done	radosc	{nagroda_przedmiot}, will come in handy
+P15_B_021	Q	local	p15_quest_done	neutralny	{nagroda_przedmiot} goes on sale i guess
+P15_B_022	Q	local	p15_quest_done	radosc	{npc} is happy, me too
+P15_B_023	Q	local	p15_quest_done	zdziwienie	done faster than i thought
+P15_B_024	Q	local	p15_quest_done	radosc	thought it would be worse
+P15_B_025	Q	local	p15_quest_done	radosc	easy quest
+P15_B_026	Q	local	p15_quest_done	radosc	that one was actually fun
+P15_B_027	Q	local	p15_quest_done	podekscytowanie	best quest so far
+P15_B_028	Q	local	p15_quest_done	neutralny	{quest} done
+P15_B_029	Q	local	p15_quest_done	radosc	gg {quest}
+P15_B_030	Q	local	p15_quest_done	neutralny	ok next quest on the list
+P15_B_031	Q	local	p15_quest_done	neutralny	finished {quest}, anyone need help with it?
+P15_B_032	Q	local	p15_quest_done	neutralny	if anyone does {quest} tell me, ill help
+P15_C_001	Q	global	p15_quest_frustration	zlosc	i hate these quests, i keep dying
+P15_C_002	Q	global	p15_quest_frustration	zlosc	this quest is a nightmare, died 7 times
+P15_C_003	Q	global	p15_quest_frustration	zlosc	{mob} eat me alive, who did this quest?
+P15_C_004	Q	global	p15_quest_frustration	smutek	dead again... {quest} is not for me
+P15_C_005	Q	global	p15_quest_frustration	smutek	need better gear, cant do {quest}
+P15_C_006	Q	global	p15_quest_frustration	zlosc	going to the smith, these {mob} wreck me
+P15_C_007	Q	global	p15_quest_frustration	smutek	help, anyone help with {quest}? i keep dying
+P15_C_008	Q	global	p15_quest_frustration	zlosc	dropping this quest, its impossible
+P15_C_009	Q	global	p15_quest_frustration	zlosc	how many times can you die on one quest
+P15_C_010	Q	global	p15_quest_frustration	smutek	my gear is too weak for {quest}, going to farm yang
+P15_C_011	Q	global	p15_quest_frustration	zlosc	who gives quests like this at my level
+P15_C_012	Q	global	p15_quest_frustration	ironia	7 deaths in 15 min, congrats to me
+P15_C_013	Q	global	p15_quest_frustration	zlosc	oh no, again
+P15_C_014	Q	global	p15_quest_frustration	zlosc	seriously, another death
+P15_C_015	Q	global	p15_quest_frustration	zlosc	this {mob} hits like a boss
+P15_C_016	Q	global	p15_quest_frustration	zlosc	who balanced this quest
+P15_C_017	Q	global	p15_quest_frustration	smutek	out of potions and the quest still isnt done
+P15_C_018	Q	global	p15_quest_frustration	ironia	spent more on potions than the reward is worth
+P15_C_019	Q	global	p15_quest_frustration	neutralny	ok, getting better gear and coming back
+P15_C_020	Q	global	p15_quest_frustration	smutek	guess my level is too low for {quest}
+P15_C_021	Q	global	p15_quest_frustration	neutralny	next time with a party
+P15_C_022	Q	global	p15_quest_frustration	neutralny	cant do it solo, who is coming?
+P15_C_023	Q	global	p15_quest_frustration	zlosc	{mob} x3 on me and im done
+P15_C_024	Q	global	p15_quest_frustration	zlosc	rage, dropping the quest
+P15_C_025	Q	global	p15_quest_frustration	ironia	time to upgrade instead of questing
+P15_C_026	Q	global	p15_quest_frustration	smutek	sorry for spam but this quest will kill me
+P15_C_027	Q	global	p15_quest_frustration	smutek	going fishing, had enough of quests
+P15_C_028	Q	global	p15_quest_frustration	zlosc	i hate {mapa}
+P15_C_029	Q	global	p15_quest_frustration	zlosc	who made {mob} hit this hard
+P15_C_030	Q	global	p15_quest_frustration	smutek	ill do it tomorrow, no strength today
+P15_C_031	Q	global	p15_quest_frustration	smutek	zero chance solo on {quest}
+P15_C_032	Q	global	p15_quest_frustration	ironia	-1 gear, -potions, quest still standing
+P15_C_033	Q	global	p15_quest_frustration	zlosc	death after death
+P15_C_034	Q	global	p15_quest_frustration	smutek	guess ill start over with better gear
+P15_C_035	Q	global	p15_quest_frustration	zlosc	ok im done
+P15_H_001	Q	local	p15_quest_abandon	neutralny	dropping {quest}, waste of time
+P15_H_002	Q	local	p15_quest_abandon	neutralny	forget this quest
+P15_H_003	Q	local	p15_quest_abandon	neutralny	ill do {quest} when im higher level
+P15_H_004	Q	local	p15_quest_abandon	neutralny	quest on hold, going to grind
+P15_H_005	Q	local	p15_quest_abandon	neutralny	not worth it, giving up
+P15_H_006	Q	local	p15_quest_abandon	neutralny	maybe ill come back to {quest} someday
+P15_H_007	Q	local	p15_quest_abandon	neutralny	too long
+P15_H_008	Q	local	p15_quest_abandon	smutek	reward not worth the effort
+P15_H_009	Q	local	p15_quest_abandon	smutek	giving up on {quest}
+P15_H_010	Q	local	p15_quest_abandon	neutralny	quest for later
+P15_H_011	Q	local	p15_quest_abandon	neutralny	level first, quests later
+P15_H_012	Q	local	p15_quest_abandon	zlosc	no patience for this quest
+P15_H_013	Q	local	p15_quest_abandon	neutralny	the quest can wait
+# Patch 15, 3C: the Daily Goal of quests' start (playerbot_daily_goal.h).
+P15_G_001	L	global	p15_goal_quests	neutralny	goal today: {ile} quests to do
+P15_G_002	L	global	p15_goal_quests	neutralny	plan for today: finish {ile} quests
+P15_G_003	L	global	p15_goal_quests	podekscytowanie	questing today, {ile} have to get done
+P15_G_101	L	global	p15_goal_quest	neutralny	goal today: finish the quest {quest}
+P15_G_102	L	global	p15_goal_quest	neutralny	plan for today: {quest} to the end
+P15_G_103	L	global	p15_goal_quest	podekscytowanie	today i finally do {quest}
+# Iwakura's Patch 15, point 13 D-G, I and J (playerbot_quest_talk.h, playerbot_quest_party.h):
+# a bot's questions about its quest (P15D), the answers (P15E), a quest party (P15F), the
+# quests' skup (P15K), the answers to a person's line about a quest (P15I) and each quest's own
+# lines (P15J, gate p15_q_<quest>). {miejsce} the side of a map, {kanal} the channel, {opcja}
+# the right option of a quest's dialog, the rest as the rows above.
+P15D_MOB_1	Q	local	p15_ask_mob	neutralny	where do i find {mob}?
+P15D_MOB_2	Q	local	p15_ask_mob	neutralny	are {mob} on {mapa} or somewhere else?
+P15D_MOB_3	Q	local	p15_ask_mob	neutralny	where are the {mob}, looking for 10 min
+P15D_DUN_1	Q	local	p15_ask_dungeon	zdziwienie	are {mob} the ones in the dungeon?
+P15D_ITEM_1	Q	local	p15_ask_item	neutralny	anyone know where {item} drops?
+P15D_ITEM_2	Q	local	p15_ask_item	neutralny	what drops {item}?
+P15D_ITEM_3	Q	local	p15_ask_item	neutralny	how many {item} for {quest}?
+P15D_NPC_1	Q	local	p15_ask_npc	neutralny	where is {npc}?
+P15D_NPC_2	Q	local	p15_ask_npc	neutralny	where is {npc} in my kingdom?
+P15D_NPC_3	Q	local	p15_ask_npc	neutralny	anyone did {quest}? what after {npc}?
+P15D_NPC_4	Q	local	p15_ask_npc	neutralny	where do i go in {quest}? my arrow is gone
+P15D_REW_1	Q	local	p15_ask_reward	neutralny	whats the reward for {quest}?
+P15D_WORTH_1	Q	local	p15_ask_worth	neutralny	is {quest} worth doing?
+P15D_SOLO_1	Q	local	p15_ask_solo	neutralny	can {quest} be done solo?
+P15D_SOLO_2	Q	local	p15_ask_solo	neutralny	how do you do {quest}?
+P15D_SOLO_3	Q	local	p15_ask_solo	neutralny	how long does {quest} take?
+P15D_LVL_1	Q	local	p15_ask_level	neutralny	what level for {quest}?
+P15D_OPT_1	Q	local	p15_ask_option	neutralny	what do i answer {npc}?
+P15D_OPT_2	Q	local	p15_ask_option	neutralny	what do i pick at {npc}, dont want to ruin the quest
+P15D_MON_1	Q	local	p15_ask_monument	neutralny	anyone know where the monument in {quest} is?
+P15E_MOB_1	Q	local	p15_answer_where_mob	neutralny	{mob} are on {mapa}, best {miejsce}
+P15E_MOB_2	Q	local	p15_answer_where_mob	neutralny	{mob} on {mapa}, but careful they hit hard
+P15E_MOB_3	Q	local	p15_answer_where_mob	neutralny	{mob} spawn {miejsce}, most of them there
+P15E_MOB_4	Q	local	p15_answer_where_mob	neutralny	dont remember exactly, but i think {mapa}
+P15E_MOB_5	Q	local	p15_answer_where_mob	neutralny	fastest is the teleport {mapa_dokad}
+P15E_MOB_6	Q	local	p15_answer_where_mob	neutralny	its on the wiki, but {mapa}
+P15E_NPC_1	Q	local	p15_answer_where_npc	neutralny	{npc} stands in {mapa}, {miejsce}
+P15E_NPC_2	Q	local	p15_answer_where_npc	neutralny	the arrow shows {npc}, follow it
+P15E_NPC_3	Q	local	p15_answer_where_npc	neutralny	i can show you, im on ch{kanal}
+P15E_NPC_4	Q	local	p15_answer_where_npc	neutralny	did it, go to {npc} for the reward
+P15E_DROP_1	Q	local	p15_answer_drop	neutralny	{item} drops from {mob}, but rarely
+P15E_DROP_2	Q	local	p15_answer_drop	neutralny	you need {ile_max} {item}, the drop is bad
+P15E_DUNNO_1	Q	local	p15_answer_dunno	neutralny	dont remember, sorry
+P15E_DUNNO_2	Q	local	p15_answer_dunno	neutralny	ask someone else, did it long ago
+P15E_DUNNO_3	Q	local	p15_answer_dunno	neutralny	i looked for it an hour myself xd
+P15E_SOLO_1	Q	local	p15_answer_solo	neutralny	solo is fine with a +7 weapon
+P15E_PARTY_1	Q	local	p15_answer_party	neutralny	better with a pt, solo is torture
+P15E_LVL_1	Q	local	p15_answer_level	neutralny	with {lvl}+ its easy
+P15E_WGOOD_1	Q	local	p15_answer_worth_good	neutralny	worth it, gives a lot of exp
+P15E_WGOOD_2	Q	local	p15_answer_worth_good	neutralny	reward is meh, but the exp is good
+P15E_WWEAK_1	Q	local	p15_answer_worth_weak	neutralny	not worth it, better to grind
+P15E_OPT_1	Q	local	p15_answer_option	neutralny	pick the first option at {npc}, the rest is giving up
+P15E_OPT_2	Q	local	p15_answer_option	neutralny	dont click i dont know, or you start over
+P15E_MON_1	Q	local	p15_answer_monument	neutralny	the monument is in {mapa}, {miejsce}
+P15E_THX_1	Q	local	p15_answer_thanks	radosc	thanks, going there
+P15E_THX_2	Q	local	p15_answer_thanks	radosc	oh, thanks
+P15E_THX_3	Q	local	p15_answer_thanks	radosc	thx, on my way
+P15F_SEEK_1	Q	global	p15_party_seek	neutralny	pt for {quest} {lvl}+, who has this quest?
+P15F_SEEK_2	Q	global	p15_party_seek	neutralny	anyone doing {quest}? we can team up
+P15F_SEEK_3	Q	global	p15_party_seek	neutralny	looking for a pt on {mob} for a quest
+P15F_SEEK_4	Q	global	p15_party_seek	neutralny	gathering a pt for {quest}, ch{kanal} {mapa}
+P15F_SEEK_5	Q	global	p15_party_seek	neutralny	anyone with {quest} want a pt? its faster
+P15F_SEEK_6	Q	global	p15_party_seek	neutralny	pt {quest} {ile}/8, join
+P15F_LAST_1	Q	global	p15_party_last	neutralny	pt {quest} needs 1 more
+P15F_WAIT_1	Q	global	p15_party_wait	neutralny	waiting 5 more min for a pt, then going solo
+P15F_WAIT_2	Q	global	p15_party_wait	neutralny	pt has a free spot, who has {quest}
+P15F_NONE_1	Q	global	p15_party_none	smutek	nobody doing {quest}? sad
+P15F_JOIN_1	Q	party	p15_party_join	neutralny	i have {quest}, joining the pt
+P15F_JOIN_2	Q	party	p15_party_join	neutralny	in a pt its 3x faster
+P15F_HELP_1	Q	party	p15_party_help	neutralny	i can help with {quest}, already did it
+P15F_PROG_1	Q	party	p15_party_progress	neutralny	{reszta} more {item} and everyone has it
+P15F_PROG_2	Q	party	p15_party_progress	neutralny	stay together, {mob} hits hard
+P15F_PROG_3	Q	party	p15_party_progress	neutralny	leader lead us to {mob}
+P15F_PROG_4	Q	party	p15_party_progress	neutralny	good job pt, everyone got it?
+P15F_CRED_1	Q	party	p15_party_credit	radosc	who killed {mob}? it counted for me, thanks
+P15F_DONE_1	Q	party	p15_party_done	radosc	thanks for the pt, quest done
+P15F_DONE_2	Q	party	p15_party_done	radosc	thanks for the help with {quest} :)
+P15F_MDONE_1	Q	party	p15_party_member_done	neutralny	i got it, going to hand it in, thanks pt
+P15F_MDONE_2	Q	party	p15_party_member_done	neutralny	pt is breaking up, i got the quest already
+P15K_1	Q	global	p15_quest_skup	neutralny	buying {item} for a quest
+P15K_2	Q	global	p15_quest_skup	neutralny	anyone got {ile} {item}? will pay
+P15K_3	Q	global	p15_quest_skup	neutralny	b> {item} for a quest, pm
+P15K_4	Q	global	p15_quest_skup	neutralny	b> {ile}x {item}, good price
+P15K_5	Q	global	p15_quest_skup	neutralny	looking for {item}, need it for a quest
+P15K_6	Q	global	p15_quest_skup	neutralny	anyone selling {item}? urgent
+P15K_7	Q	global	p15_quest_skup	neutralny	b> {item} or i trade something for it
+P15K_8	Q	global	p15_quest_skup	neutralny	im short {reszta} {item}, anyone?
+P15K_9	Q	global	p15_quest_skup	neutralny	buying {item} fast, the quest is waiting
+P15I_DID_1	Q	local	p15_human_done_did	neutralny	haha me too, thought it would never end
+P15I_DID_2	Q	local	p15_human_done_did	neutralny	welcome to the club xd
+P15I_DID_3	Q	local	p15_human_done_did	neutralny	how long did it take you? almost 2h for me
+P15I_DID_4	Q	local	p15_human_done_did	neutralny	i dropped it halfway xd
+P15I_DID_5	Q	local	p15_human_done_did	neutralny	worst quest in the game imo
+P15I_DID_6	Q	local	p15_human_done_did	neutralny	me too, and the reward is so so
+P15I_DID_7	Q	local	p15_human_done_did	neutralny	respect, i kept dying there
+P15I_DID_8	Q	local	p15_human_done_did	neutralny	i did it in a pt, went fast
+P15I_DID_9	Q	local	p15_human_done_did	neutralny	yeah that quest is torture, gg
+P15I_DID_10	Q	local	p15_human_done_did	neutralny	i finished it yesterday, got mad too
+P15I_DID_11	Q	local	p15_human_done_did	neutralny	good its over, the next ones are better
+P15I_DID_12	Q	local	p15_human_done_did	neutralny	you did it solo? respect
+P15I_DOING_1	Q	local	p15_human_done_doing	neutralny	grats, im still suffering
+P15I_DOING_2	Q	local	p15_human_done_doing	neutralny	lucky, i have {ile}/{ile_max}
+P15I_DOING_3	Q	local	p15_human_done_doing	neutralny	im just starting it, will it hurt?
+P15I_DOING_4	Q	local	p15_human_done_doing	neutralny	welcome to the club xd
+P15I_WDUNNO_1	Q	local	p15_human_where_dunno	neutralny	dont know, looking myself
+P15I_WDUNNO_2	Q	local	p15_human_where_dunno	neutralny	havent done it yet, sorry
+P15I_WDUNNO_3	Q	local	p15_human_where_dunno	neutralny	ask on ch1, more people there
+P15I_WGOOD_1	Q	local	p15_human_worth_good	neutralny	worth it, gives {nagroda_exp} exp
+P15I_WGOOD_2	Q	local	p15_human_worth_good	neutralny	if you have time do it, exp is ok
+P15I_WWEAK_1	Q	local	p15_human_worth_weak	neutralny	so so, the reward is weak
+P15I_WWEAK_2	Q	local	p15_human_worth_weak	neutralny	waste of time, better grind on {mapa}
+P15I_WITEM_1	Q	local	p15_human_worth_item	neutralny	worth it for {nagroda_przedmiot}
+P15I_WPARTY_1	Q	local	p15_human_worth_party	neutralny	only with a pt, solo is a waste of hp
+P15I_STUCK_1	Q	local	p15_human_stuck	neutralny	its not you, that quest is hard
+P15I_STUCK_2	Q	local	p15_human_stuck	neutralny	upgrade your weapon, then it goes
+P15I_STUCK_3	Q	local	p15_human_stuck	neutralny	do it in a pt, easier
+P15I_STUCK_4	Q	local	p15_human_stuck	neutralny	i die too, dont worry
+P15I_STUCK_5	Q	local	p15_human_stuck	neutralny	i can help, what level are you?
+P15I_STUCK_6	Q	local	p15_human_stuck	neutralny	take more potions and come from the side
+P15I_STUCK_7	Q	local	p15_human_stuck	neutralny	hit them one by one, dont pull several
+P15I_OFFER_1	Q	local	p15_human_stuck_offer	neutralny	want a pt? ill help with {quest}
+P15I_REW_1	Q	local	p15_human_reward	neutralny	{nagroda_exp} exp and {nagroda_przedmiot}
+P15I_RGOOD_1	Q	local	p15_human_reward_good	neutralny	good reward, worth it
+P15I_RWEAK_1	Q	local	p15_human_reward_weak	neutralny	gives something, nothing special
+P15I_RDUNNO_1	Q	local	p15_human_reward_dunno	neutralny	dont remember exactly, yang and potions i think
+P15I_OPT_1	Q	local	p15_human_option	neutralny	pick {opcja}
+P15I_OGEN_1	Q	local	p15_human_option_generic	neutralny	first option, dont click the give up
+P15I_OGEN_2	Q	local	p15_human_option_generic	neutralny	if you get it wrong you go back, careful
+P15I_ODUNNO_1	Q	local	p15_human_option_dunno	neutralny	dont remember, sorry
+P15I_OCARE_1	Q	local	p15_human_option_careful	neutralny	if you get it wrong you go back, careful
+P15I_PHAVE_1	Q	local	p15_human_party_have	neutralny	i have it too, joining
+P15I_PHELP_1	Q	local	p15_human_party_help	neutralny	i can help, invite me
+P15I_PNONE_1	Q	local	p15_human_party_none	neutralny	dont have that quest, sorry
+P15I_PLOW_1	Q	local	p15_human_party_low	neutralny	my level is too low for that
+P15I_BRAG_1	Q	local	p15_human_brag	radosc	grats!
+P15I_BRAG_2	Q	local	p15_human_brag	radosc	oh nice, didnt drop for me
+P15I_BRAG_3	Q	local	p15_human_brag	radosc	lucky
+P15I_BRAG_4	Q	local	p15_human_brag	radosc	i got the same, nothing special xd
+P15I_BRAG_5	Q	local	p15_human_brag	radosc	give it to me xd
+P15I_MOAN_1	Q	local	p15_human_complain	ironia	quests are evil xd
+P15I_MOAN_2	Q	local	p15_human_complain	ironia	what can you do, need the exp
+P15I_MOAN_3	Q	local	p15_human_complain	ironia	i kinda like quests
+P15I_MOAN_4	Q	local	p15_human_complain	ironia	at least something happens
+P15I_MOAN_5	Q	local	p15_human_complain	ironia	id rather hit metins
+P15I_MOAN_6	Q	local	p15_human_complain	ironia	that {npc} always wants something
+P15J_001	Q	local	p15_q_find_squareguard	neutralny	first quest, potions from the shop lady
+P15J_002	Q	local	p15_q_main_quest_lv1	neutralny	welcome welcome, the guard is waiting
+P15J_003	Q	local	p15_q_main_quest_lv2	neutralny	dogs to kill for the guard, easy
+P15J_004	Q	local	p15_q_main_quest_lv2	neutralny	the {mob} hide and the guard waits
+P15J_005	Q	local	p15_q_main_quest_lv3	neutralny	running from merchant to merchant
+P15J_006	Q	local	p15_q_main_quest_lv6	neutralny	smith, keeper, smith... a village tour
+P15J_007	Q	local	p15_q_subquest_1	neutralny	an empty bottle for the shop, a seed from boars
+P15J_008	Q	local	p15_q_subquest_1	neutralny	{mob} wont give the seed
+P15J_009	Q	local	p15_q_main_quest_lv7	neutralny	a rod for the fisherman, the smith has work
+P15J_010	Q	local	p15_q_new_quest_lv7	neutralny	a bouquet of flowers... opening a flower shop xd
+P15J_011	Q	local	p15_q_new_quest_lv7	neutralny	hungry wolves have the flowers, really
+P15J_012	Q	local	p15_q_subquest_2	neutralny	dinner for the merchant, what does he eat
+P15J_013	Q	local	p15_q_subquest_3	neutralny	wolf liver for medicine, eww
+P15J_014	Q	local	p15_q_main_quest_lv9	neutralny	the guard calls again, going
+P15J_015	Q	local	p15_q_subquest_4	neutralny	a letter from the smith, im a postman
+P15J_016	Q	local	p15_q_main_quest_lv10	neutralny	the captain calls, wonder what now
+P15J_017	Q	local	p15_q_subquest_18	neutralny	looking for soon, anyone seen her?
+P15J_018	Q	local	p15_q_subquest_5	neutralny	fans for soon, the order matters
+P15J_019	Q	local	p15_q_subquest_6	neutralny	an armour order, the smith wants materials
+P15J_020	Q	local	p15_q_main_quest_lv12	neutralny	grey wolves for the captain, plenty of them
+P15J_021	Q	local	p15_q_subquest_7	neutralny	a cookbook... and i cant cook
+P15J_022	Q	local	p15_q_subquest_19	neutralny	wolf skin, the wolves run when i need them
+P15J_023	Q	local	p15_q_main_quest_lv14	neutralny	metin of battle for the quest, who helps?
+P15J_024	Q	local	p15_q_main_quest_lv15	neutralny	the captain and a musician, odd quest
+P15J_025	Q	local	p15_q_subquest_8	neutralny	a rice cake, seriously, a whole quest for a cake
+P15J_026	Q	local	p15_q_main_quest_lv16	neutralny	spies everywhere xd
+P15J_027	Q	local	p15_q_main_quest_lv16	neutralny	the spy letter, the sworn ones have it
+P15J_028	Q	local	p15_q_subquest_9	neutralny	the golden axe wont drop
+P15J_029	Q	local	p15_q_new_quest_lv17	neutralny	mu-rang fur for chaegirab
+P15J_030	Q	local	p15_q_subquest_10	neutralny	a hairpin, the archers have it
+P15J_031	Q	local	p15_q_new_quest_lv19	neutralny	cursed animals, a whole pack
+P15J_032	Q	local	p15_q_subquest_11	neutralny	looking for mirines brother, where did he go
+P15J_033	Q	local	p15_q_subquest_12	neutralny	mi-jung is around here, watch out
+P15J_034	Q	local	p15_q_subquest_13	neutralny	uriels parcel, the tigers have it
+P15J_035	Q	local	p15_q_new_quest_lv22	neutralny	symptoms... headache or sore throat? xd
+P15J_036	Q	local	p15_q_find_brother_article	neutralny	the brothers keepsake, the maniac has it
+P15J_037	Q	local	p15_q_subquest_15	neutralny	eun-jung to kill, anyone seen her?
+P15J_038	Q	local	p15_q_subquest_33	neutralny	got a treasure map, going to look
+P15J_039	Q	local	p15_q_subquest_33	neutralny	treasure? 4 maps and a casket... we will see
+P15J_040	Q	local	p15_q_subquest_16	neutralny	the cavalry, running all over town
+P15J_041	Q	local	p15_q_new_quest_lv26	neutralny	a deserter, spies everywhere xd
+P15J_042	Q	local	p15_q_main_quest_lv27	neutralny	where is the metin of darkness?
+P15J_043	Q	local	p15_q_main_quest_lv27	neutralny	quest metin down
+P15J_044	Q	local	p15_q_subquest_17	neutralny	ariyoungs ring, goo-pae has it
+P15J_045	Q	local	p15_q_new_quest_lv28	neutralny	the bear paws wont drop
+P15J_046	Q	local	p15_q_new_quest_lv28	neutralny	bera chases me instead of me him
+P15J_047	Q	local	p15_q_new_quest_lv29	neutralny	broken china, hay for horses... what
+P15J_048	Q	local	p15_q_main_quest_lv30	neutralny	monuments all over, walking like a tourist
+P15J_049	Q	local	p15_q_subquest_20	neutralny	the savages spears, slow going
+P15J_050	Q	local	p15_q_subquest_25	neutralny	flowers for ariyoung, romantic
+P15J_051	Q	local	p15_q_main_quest_lv32	neutralny	another book page, how many are there
+P15J_052	Q	local	p15_q_subquest_30	neutralny	mining ore for a quest, im a miner now
+P15J_053	Q	local	p15_q_subquest_31	neutralny	ore for armour, digging again
+P15J_054	Q	local	p15_q_subquest_22	neutralny	deokbaes golden axe, the general has it
+P15J_055	Q	local	p15_q_subquest_23	neutralny	looking for yu-hwan, where did he go
+P15J_056	Q	local	p15_q_subquest_44	neutralny	looking for the spider with a bell, anyone seen it?
+P15J_057	Q	local	p15_q_subquest_44	neutralny	i hear the bell but dont see the spider xd
+P15J_058	Q	local	p15_q_subquest_27	neutralny	the temple book, the fanatics have it
+P15J_059	Q	local	p15_q_subquest_24	neutralny	a rice cake, seriously, a whole quest for a cake
+P15J_060	Q	local	p15_q_main_quest_lv40	neutralny	13 pages... who wrote this
+P15J_061	Q	local	p15_q_main_quest_lv40	neutralny	another book page, how many are there
+P15J_062	Q	local	p15_q_subquest_34	neutralny	where are the black wind generals?
+P15J_063	Q	local	p15_q_subquest_34	neutralny	3 generals, 1 is down
+P15J_064	Q	local	p15_q_subquest_32	neutralny	100 orc teeth, seriously?
+P15J_065	Q	local	p15_q_subquest_32	neutralny	orc teeth, tigers, threads... the merchant opens a shop
+P15J_066	Q	local	p15_q_new_quest_lv42	neutralny	a whale harpoon? on this map?
+P15J_067	Q	local	p15_q_new_quest_lv43	neutralny	sad quest ;/
+P15J_068	Q	local	p15_q_subquest_38	neutralny	the monkeys hit me and still no bow
+P15J_069	Q	local	p15_q_subquest_42	neutralny	hwang is no place for a walk
+P15J_070	Q	local	p15_q_main_quest_lv47	neutralny	book pages in the desert, hot
+P15J_071	Q	local	p15_q_subquest_36	neutralny	10 hay for a quest, anyone?
+P15J_072	Q	local	p15_q_subquest_36	neutralny	hay for horses, and i thought id be a hero
+P15J_073	Q	local	p15_q_subquest_21	neutralny	medicine, herb, medicine... im a pharmacist
+P15J_074	Q	local	p15_q_subquest_41	neutralny	100 spider eyes... who came up with that?
+P15J_075	Q	local	p15_q_subquest_41	neutralny	{ile}/100 eyes, end me
+P15J_076	Q	local	p15_q_subquest_41	neutralny	spider eyes drop like blood from a stone
+P15J_077	Q	local	p15_q_main_quest_lv50	neutralny	another book page, how many are there
+P15J_078	Q	local	p15_q_subquest_47	neutralny	the password for the secret message, thinking
+P15J_079	Q	local	p15_q_subquest_37	neutralny	china china... how much longer
+P15J_080	Q	local	p15_q_new_quest_lv52	neutralny	a letter from the captain, revenge on the esoterics
+P15J_081	Q	local	p15_q_subquest_46	neutralny	50 crystal ore for a quest, anyone selling?
+P15J_082	Q	local	p15_q_subquest_46	neutralny	china china... how much longer
+P15J_083	Q	local	p15_q_main_quest_lv55	neutralny	monuments everywhere, walking like a tourist
+P15J_084	Q	local	p15_q_subquest_39	neutralny	medicine, herb, medicine... im a pharmacist
+P15J_085	Q	local	p15_q_subquest_40	neutralny	the infected archers hurt
+P15J_086	Q	local	p15_q_subquest_40	neutralny	so many arrowheads, and they shoot at me
+P15J_087	Q	local	p15_q_subquest_26	neutralny	frog legs for octavio, bon appetit
+P15J_088	Q	local	p15_q_subquest_48	neutralny	spies everywhere xd
+P15J_089	Q	local	p15_q_subquest_49	neutralny	bingsu... i dont even know what that is
+P15J_090	Q	local	p15_q_subquest_49	neutralny	50 pieces of ice, im cold
+P15J_091	Q	local	p15_q_subquest_49	neutralny	ice cream with syrup, now im hungry
+P15J_092	Q	local	p15_q_subquest_45	neutralny	the summoners in the temple keep killing me
+P15J_093	Q	local	p15_q_black_steel_crafting	neutralny	a favour for min-sun, where is she
