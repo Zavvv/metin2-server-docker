@@ -50,6 +50,21 @@ L'archivio è comunque della linea protetta 2.x. Non usare l'installer o
 l'updater della vecchia linea 1.x: applicano un tree incompatibile alla
 release protetta.
 
+### Dati persistenti: regola non negoziabile
+
+I dati di gioco non fanno parte di questo branch: MariaDB conserva account,
+personaggi, inventari, ItemShop e progressi bot nel volume Docker `db-data`
+montato in `/var/lib/mysql`. Gli stati del gioco e dei pannelli risiedono negli
+altri volumi nominati (`game-var`, `panel-data`, `panel-conf`, `update-spool` e
+`rates-spool`).
+
+Per ogni aggiornamento usare soltanto **Pull and redeploy** sullo stesso Stack
+Portainer e mantenere invariato `M2_COMPOSE_PROJECT_NAME`. Non usare mai
+**Remove volumes**, `docker compose down -v`, `docker volume rm`, un cleanup
+di volumi Docker, né eliminare lo Stack includendo i volumi. Il redeploy può
+ricreare le immagini e i container, ma non deve mai rimuovere o rinominare i
+volumi persistenti.
+
 ## Ultima importazione analizzata
 
 - Archivio: `metin2-server-protected-update-2.2.89.zip`
