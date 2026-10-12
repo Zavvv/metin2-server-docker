@@ -26,12 +26,25 @@ esplicita.
 1. L'archivio deve essere letto senza eseguire script inclusi.
 2. Verificare `VERSION`, `PACZKA_INFO.txt`, `CHANGELOG.md` e
    `linux-port/PROTECTED`.
-3. Il solo contenuto da usare per questa repository piatta è
-   `linux-port/docker/`, copiato nella radice del branch.
-4. Escludere sempre i quattro file protetti sopra; per `panel/`, copiare tutto
+3. Gli archivi `protected-update` sono differenziali: partire sempre dal tree
+   funzionante già presente nel branch e sovrapporre `linux-port/docker/` alla
+   radice. Non svuotare il tree quando l'archivio non dichiara esplicitamente
+   la rimozione di un file.
+4. Conservare `game/share/`: è il payload runtime base (mappe, dati, locale e
+   quest) e non è incluso negli update differenziali. Il Dockerfile di gioco
+   richiede almeno `share/CMD`, `share/data`, `share/locale` e
+   `share/locale/poland/quest/quest_functions`.
+5. Estrarre anche `VERSION` e `CHANGELOG.md` dalla radice dell'archivio e
+   copiarli rispettivamente in `panel/app/VERSION` e
+   `panel/app/CHANGELOG.md`. Il pannello li incorpora nell'immagine e senza di
+   essi mostra “Version unknown”.
+6. Escludere sempre i quattro file protetti sopra; per `panel/`, copiare tutto
    tranne `panel/Dockerfile`.
-5. Confrontare gli hash SHA-256 dei file protetti prima e dopo la copia.
-6. Controllare `git status`, stageare il risultato e rivedere il diff prima di
+7. Mantenere `mariadb/Dockerfile`: l'immagine MariaDB deve includere
+   configurazione, `initdb.d/` e `playerbot/`, perché il servizio
+   `playerbot-migrate` esegue `/opt/playerbot/apply.sh` dalla stessa immagine.
+8. Confrontare gli hash SHA-256 dei file protetti prima e dopo la copia.
+9. Controllare `git status`, stageare il risultato e rivedere il diff prima di
    qualsiasi commit o push.
 
 ## Deploy con Portainer
