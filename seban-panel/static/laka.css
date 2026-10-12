@@ -237,6 +237,11 @@ html body[data-skin="laka"] .laka-widget>header h2{margin:0;padding:0;border:0;f
 .laka-bar i{display:block;height:100%;transition:width .8s;background:repeating-linear-gradient(90deg,transparent 0 9px,#0006 9px 10px),linear-gradient(180deg,var(--laka-gold-hi),var(--laka-gold-deep))}
 .laka-bar.is-warm i{background:repeating-linear-gradient(90deg,transparent 0 9px,#0006 9px 10px),linear-gradient(180deg,#ffc56b,#b8650c)}
 .laka-bar.is-hot i{background:repeating-linear-gradient(90deg,transparent 0 9px,#0006 9px 10px),linear-gradient(180deg,#ff8a6a,#a3260f)}
+html body[data-skin="laka"] .laka-meter .laka-bar{position:relative}
+html body[data-skin="laka"] .laka-meter .laka-bar .laka-swap-fill{position:absolute;left:0;bottom:0;height:3px;background:linear-gradient(90deg,#8f79d7,#c2a5ff);box-shadow:0 0 5px #aa8dee;pointer-events:none}
+html body[data-skin="laka"] .laka-meter .laka-swap-label{color:#c2a5ff;font-size:11px;white-space:nowrap}
+html body[data-skin="laka"] .laka-meter>div:first-child{flex-wrap:wrap;gap:2px 8px}
+html body[data-skin="laka"] .system-memory-card .system-swap-usage{color:#c2a5ff}
 .laka-legend{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--laka-dust)}
 .laka-legend i{width:8px;height:8px;border-radius:50%;display:inline-block}
 .laka-legend .e1,.laka-track .e1{background:#d9493a}.laka-legend .e2,.laka-track .e2{background:#e8c43f}.laka-legend .e3,.laka-track .e3{background:#4d8ff0}
@@ -506,10 +511,13 @@ html body[data-skin="laka"] .laka-widget>ol.laka-rank{flex:1 1 auto}
 .laka-history-key{display:flex;gap:10px;align-items:center;letter-spacing:0;text-transform:none}
 .laka-history-key i{display:inline-block;width:12px;height:3px;border-radius:2px;margin-right:4px;vertical-align:middle}
 .laka-history-key .cpu{background:#e8b93f}.laka-history-key .ram{background:#74cf8e}
+html body[data-skin="laka"] .laka-history-key .swap{background:#b09aea}
+html body[data-skin="laka"] .laka-history-head,html body[data-skin="laka"] .laka-history-key{flex-wrap:wrap;gap:5px 10px}
 .laka-spark svg{display:block;width:100%;height:92px}
 .laka-spark .grid{stroke:#3a2815;stroke-width:1;vector-effect:non-scaling-stroke}
 .laka-spark .cpu{fill:none;stroke:#e8b93f;stroke-width:1.8;vector-effect:non-scaling-stroke;stroke-linejoin:round}
 .laka-spark .ram{fill:none;stroke:#74cf8e;stroke-width:1.4;stroke-dasharray:4 3;vector-effect:non-scaling-stroke;opacity:.9}
+html body[data-skin="laka"] .laka-spark .swap{fill:none;stroke:#b09aea;stroke-width:1.5;vector-effect:non-scaling-stroke;opacity:.9}
 .laka-spark .dot{fill:#ffe08a;stroke:#0d0906;stroke-width:1}
 .laka-spark-axis{display:flex;justify-content:space-between;font-size:11px;color:var(--laka-dust-2);font-variant-numeric:tabular-nums}
 .laka-history-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--laka-bronze-dim);border-radius:6px}
@@ -622,7 +630,9 @@ body[data-skin="laka"] .laka-flash{animation:laka-flash .9s ease-out}
   .laka-bottombar a,.laka-bottombar button{display:grid;justify-items:center;gap:3px;padding:4px 0;border:0;background:none;color:var(--laka-dust);font:700 11px var(--laka-body);cursor:pointer;text-decoration:none}
   .laka-bottombar .laka-slot{width:34px;height:34px}
   .laka-bottombar [aria-current="true"]{color:var(--laka-gold-hi)}
-  body[data-skin="laka"] .action-toast-stack,body[data-skin="laka"] .notif-toast-stack{bottom:calc(84px + env(safe-area-inset-bottom,0px))!important}
+  /* above the bottom bar, only as tall as the toasts: with top left at its default the empty stack
+     stretched over the whole screen and swallowed taps (e.g. the shop's right-hand columns) */
+  body[data-skin="laka"] .action-toast-stack,body[data-skin="laka"] .notif-toast-stack{top:auto!important;bottom:calc(84px + env(safe-area-inset-bottom,0px))!important}
   /* ticker sits above the bottom bar instead of under it */
   body[data-skin="laka"] .news-ticker{left:7px;right:7px;bottom:calc(76px + env(safe-area-inset-bottom,0px))}
   body[data-skin="laka"] .news-ticker.is-hidden{left:auto}
@@ -635,4 +645,105 @@ body[data-skin="laka"] .laka-flash{animation:laka-flash .9s ease-out}
 @media (max-width:760px){.laka-search{padding:7px 9px}}
 @media (prefers-reduced-motion:reduce){
   body[data-skin="laka"] *,body[data-skin="laka"] *::before,body[data-skin="laka"] *::after{animation:none!important;transition:none!important}
+}
+
+/* Map distribution cards: compact lacquer gauges, scoped to the Laka dashboard. */
+html body[data-skin="laka"] .live-insights .map-insight-card--channels,
+html body[data-skin="laka"] .live-insights .map-insight-card--empires{
+  border-color:#6b4a22;background:radial-gradient(circle at 15% 15%,#5c3a181f,transparent 65%),linear-gradient(145deg,#20150b,#120c08 72%);
+  box-shadow:inset 0 1px #e8b93f30,0 10px 22px #0005;
+}
+html body[data-skin="laka"] .live-insights .map-insight-card--channels h3,
+html body[data-skin="laka"] .live-insights .map-insight-card--empires h3{
+  color:var(--laka-gold-hi);letter-spacing:.055em;
+}
+html body[data-skin="laka"] .live-insights .map-donut{
+  width:clamp(82px,7vw,112px);border:4px solid #110b06;
+  background:radial-gradient(circle at center,#140e09 0 52%,transparent 54%),var(--map-donut);
+  box-shadow:0 0 0 1px #9b6b31,inset 0 0 16px #000a,0 0 22px #d7a33238;
+}
+html body[data-skin="laka"] .live-insights .map-donut b{color:#f8ebd0;font-size:12px}
+html body[data-skin="laka"] .live-insights .map-donut small{color:#ffe08a;font:700 20px/1.1 var(--laka-display);text-shadow:0 0 12px #e8b93f88}
+html body[data-skin="laka"] .live-insights .map-donut-legend{flex:1;gap:7px;min-width:0}
+html body[data-skin="laka"] .live-insights .map-donut-legend span{
+  position:relative;display:grid;grid-template-columns:9px minmax(0,1fr) auto;gap:6px;padding:3px 0 7px;
+  border-bottom:1px solid #6b4a2255;color:#e7d4af;overflow:hidden;
+}
+html body[data-skin="laka"] .live-insights .map-donut-legend span::after{
+  content:"";position:absolute;bottom:0;left:0;width:var(--share);max-width:100%;height:2px;
+  background:var(--dot);box-shadow:0 0 8px var(--dot);pointer-events:none;
+}
+html body[data-skin="laka"] .live-insights .map-donut-legend i{width:8px;height:8px;box-shadow:0 0 8px var(--dot)}
+html body[data-skin="laka"] .live-insights .map-donut-legend em{font-style:normal;overflow:hidden;text-overflow:ellipsis}
+html body[data-skin="laka"] .live-insights .map-donut-legend b{color:#ffe08a;font-variant-numeric:tabular-nums}
+@media(max-width:420px){html body[data-skin="laka"] .live-insights .map-insight-chart{gap:9px}}
+
+/* Dashboard map: keep the insights column inside the map's measured height.
+   Earlier height:auto!important beat the inline height from live-widget.js. */
+@media(min-width:1700px){
+  html body[data-skin="laka"] .live-insights{
+    height:var(--laka-map-height,auto)!important;
+    min-height:0;overflow-y:auto;overscroll-behavior:contain;
+    scrollbar-width:thin;scrollbar-color:var(--laka-bronze) transparent;
+  }
+  html body[data-skin="laka"] .live-insights .map-insight-card{flex-shrink:0}
+  html body[data-skin="laka"] .live-insights #world-insights-card{min-height:210px}
+  html body[data-skin="laka"] .live-insights #world-insights-card .world-tab-panel{max-height:none}
+}
+
+/* Still map with small lacquered waypoint markers; keep status colours. */
+html body[data-skin="laka"] .world-map::before{display:none!important;animation:none!important}
+html body[data-skin="laka"] .world-map::after{
+  background:
+    linear-gradient(var(--laka-gold),var(--laka-gold)) left 6px top 6px/18px 2px no-repeat,
+    linear-gradient(var(--laka-gold),var(--laka-gold)) left 6px top 6px/2px 18px no-repeat,
+    linear-gradient(var(--laka-gold),var(--laka-gold)) right 6px top 6px/18px 2px no-repeat,
+    linear-gradient(var(--laka-gold),var(--laka-gold)) right 6px top 6px/2px 18px no-repeat,
+    linear-gradient(var(--laka-gold),var(--laka-gold)) left 6px bottom 6px/18px 2px no-repeat,
+    linear-gradient(var(--laka-gold),var(--laka-gold)) left 6px bottom 6px/2px 18px no-repeat,
+    linear-gradient(var(--laka-gold),var(--laka-gold)) right 6px bottom 6px/18px 2px no-repeat,
+    linear-gradient(var(--laka-gold),var(--laka-gold)) right 6px bottom 6px/2px 18px no-repeat;
+  box-shadow:none;
+}
+html body[data-skin="laka"] .world-map .bot-point{
+  width:14px!important;height:14px!important;border:0!important;
+  background:transparent!important;box-shadow:none!important;
+  --waypoint:#e8c76d;
+}
+html body[data-skin="laka"] .world-map .bot-point.dot-purple{--waypoint:#bba1da}
+html body[data-skin="laka"] .world-map .bot-point.dot-yellow{--waypoint:#f3ba63}
+html body[data-skin="laka"] .world-map .bot-point.dot-red{--waypoint:#df776c}
+html body[data-skin="laka"] .world-map .bot-point::after,
+html body[data-skin="laka"] .map-legend .map-dot::after{
+  content:"";position:absolute;inset:1px;pointer-events:none;
+  background:radial-gradient(circle at 39% 31%,#fff8 0 12%,transparent 15%),linear-gradient(145deg,#fff6,var(--waypoint) 42%,#352113);
+  clip-path:polygon(50% 0,95% 37%,73% 100%,27% 100%,5% 37%);
+  filter:drop-shadow(0 1px 2px #000c);
+}
+html body[data-skin="laka"] .world-map .bot-point:hover::after,
+html body[data-skin="laka"] .world-map .bot-point:focus-visible::after{filter:drop-shadow(0 0 5px var(--waypoint))}
+html body[data-skin="laka"] .map-legend .map-dot{
+  position:relative;display:inline-block;width:14px;height:14px;
+  margin-right:6px;vertical-align:-3px;border:0;border-radius:0;
+  background:transparent!important;box-shadow:none;--waypoint:#e8c76d;
+}
+html body[data-skin="laka"] .map-legend>span:nth-child(2) .map-dot{--waypoint:#bba1da}
+html body[data-skin="laka"] .map-legend>span:nth-child(3) .map-dot{--waypoint:#f3ba63}
+html body[data-skin="laka"] .map-legend>span:nth-child(4) .map-dot{--waypoint:#df776c}
+/* Language control belongs to the navigation on both full and compact layouts. */
+body[data-skin="laka"] .laka-language{display:grid;gap:6px;min-width:0}
+body[data-skin="laka"] .laka-language-title{color:var(--laka-dust);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+body[data-skin="laka"] .laka-language-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+body[data-skin="laka"] .laka-language-options button{min-width:0;min-height:42px;padding:7px 4px;border:1px solid var(--laka-bronze-dim);border-radius:6px;background:var(--laka-lacquer-2);color:var(--laka-parchment);font:600 13px var(--laka-body);cursor:pointer}
+body[data-skin="laka"] .laka-language-options button{display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap}
+body[data-skin="laka"] .laka-language-options button img{display:block;width:20px;height:auto;flex:none}
+body[data-skin="laka"] .laka-language-options button[aria-pressed="true"]{border-color:var(--laka-gold);background:#e8b93f1a;color:var(--laka-gold-hi)}
+body[data-skin="laka"] .laka-language-options button:focus-visible{outline:2px solid var(--laka-gold);outline-offset:2px}
+body[data-skin="laka"] .laka-sheet .laka-language{margin-top:18px;padding-top:14px;border-top:1px solid var(--laka-bronze-dim)}
+@media (min-width:761px) and (max-width:1180px){
+  body[data-skin="laka"] .laka-rail-foot{display:block;padding:8px 6px 14px}
+  body[data-skin="laka"] .laka-rail-foot>a,body[data-skin="laka"] .laka-rail-foot>form:not(.laka-language),body[data-skin="laka"] .laka-language-title{display:none}
+  body[data-skin="laka"] .laka-rail-foot .laka-language-options{grid-template-columns:1fr}
+  body[data-skin="laka"] .laka-rail-foot .laka-language-options button{min-height:38px;font-size:10px;padding:3px 0}
+  body[data-skin="laka"] .laka-rail-foot .laka-language-options button img{width:16px}
 }

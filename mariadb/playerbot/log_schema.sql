@@ -1,7 +1,27 @@
 -- Rendered by linux-port-mt2009/port/logschemify.py. DO NOT EDIT.
 -- The log tables game/src/log.cpp writes that the package dump lacks,
 -- and the columns log.log is missing. Idempotent.
+CREATE DATABASE IF NOT EXISTS log;
 USE log;
+
+CREATE TABLE IF NOT EXISTS `log` (
+  `type` varbinary(20) DEFAULT NULL COMMENT 'contains: CHARACTER, ITEM',
+  `time` datetime DEFAULT NULL,
+  `who` int(11) unsigned DEFAULT NULL,
+  `x` int(11) unsigned DEFAULT NULL,
+  `y` int(11) unsigned DEFAULT NULL,
+  `what` bigint(11) unsigned DEFAULT NULL,
+  `how` varbinary(50) DEFAULT NULL,
+  `hint` varbinary(500) DEFAULT NULL,
+  `vnum` int(11) unsigned DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE IF NOT EXISTS `hack_log` (
+  `time` datetime DEFAULT NULL,
+  `name` varbinary(16) DEFAULT NULL,
+  `server` varbinary(56) DEFAULT NULL,
+  `why` varbinary(300) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 ALTER TABLE `log` ADD COLUMN IF NOT EXISTS `ip` varbinary(20) DEFAULT NULL AFTER `hint`;
 ALTER TABLE `log` ADD INDEX IF NOT EXISTS `who_idx` (`who`);

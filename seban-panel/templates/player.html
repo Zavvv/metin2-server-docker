@@ -6,6 +6,8 @@
 <a class="back" href="{{url_for('players')}}">← Powrót do graczy</a>
 <p class="eyebrow">PODGLĄD POSTACI</p>
 <div class="player-identity"><img class="class-portrait class-portrait--profile" src="{{class_portrait(character.job)}}" alt="{{character.job_name}}"><div><h1>{{character.name}}{% if character.full_plus9_equipment %}<img class="plus9-set-badge plus9-set-badge--profile" src="{{static_asset_url('icons/plus9-set-badge.png')}}" alt="Pełny ekwipunek +9" title="Pełny ekwipunek +9">{% endif %}{% if character.gm_rank %}<img class="gm-badge" src="{{url_for('static',filename='icons/gm-badge.png')}}" alt="GM" title="Ranga GM: {{character.gm_rank}}">{% endif %} <span class="muted">· {{character.job_name}} · poziom {{level_badge(character.id,character.level)}}</span></h1><p class="muted">{{character.class_profile.gender}} · portret z klienta gry</p></div></div>
+{% if character.fame %}<p><a class="badge" href="{{ url_for('fame_ranking') }}" style="color:{{ character.fame.color }}">{{ 'Fame' if ui_language == 'en' else 'Sława' }}: {{ character.fame.level }}/10 · #{{ character.fame.rank }}</a></p>{% endif %}
+{% if investment17 %}<p class="muted">{{ investment17_label }} · {{ 'Last snapshot' if ui_language == 'en' else 'Ostatni odczyt' }}: {{ investment17_updated_at }}</p>{% endif %}
 <section class="bot-profile-head">
   <article>
     <div class="profile-tags">{% set empire=empire_info(character.empire) %}{% if empire.flag %}<span class="empire-badge empire-badge--profile"><img src="{{empire_flag(character.empire)}}" alt="{{empire.name}}">{{empire.name}}</span>{% endif %}<span>HP {{character.hp}} / {{character.max_hp}}</span><span>MP {{character.mp}} / {{character.max_mp}}</span><span>Yang {{'{:,}'.format(character.gold or 0).replace(',', ' ')}}</span><span>{{map_name(character.map_index)}}</span>{% if character.channel %}<span title="{{'Aktualnie online' if character.channel_live else 'Ostatnio widziany, bot offline'}}">{{'📡' if character.channel_live else '💤'}} CH{{character.channel}}</span>{% endif %}<span>⏱ {{character.playtime_hours}} h {{character.playtime_minutes}} min</span><span>🕐 Ostatnio: {{character.last_play.strftime('%d.%m.%Y %H:%M') if character.last_play else '—'}}</span><span>💎 {{'{:,}'.format(character.cash).replace(',', ' ')}} Smoczych Monet</span>{% if character.marriage_partner %}<span>💍 Poślubiony/a z {{character.marriage_partner}}</span>{% endif %}{% if character.guild_name %}<span>🏯 {{character.guild_name}}{% if character.guild_grade %} ({{character.guild_grade}}){% endif %}</span>{% endif %}{% for p in character.premiums %}<span>⭐ {{p.label}} do {{p.expires.strftime('%d.%m.%Y')}}</span>{% else %}<span class="muted">⭐ Brak aktywnego VIP</span>{% endfor %}</div>
@@ -48,11 +50,11 @@
       </section>
       {% include '_character_native_window.html' %}
       {% if offline_shop %}
-      <section id="offline-shop" class="native-shop-window" aria-label="{{ 'Offline shop' if ui_language == 'en' else 'Sklep offline' }}: {{offline_shop.name}}">
+      <section id="offline-shop" class="native-shop-window" data-explain="{{ '1' if offline_shop.explain_enabled else '0' }}" aria-label="{{ 'Offline shop' if ui_language == 'en' else 'Sklep offline' }}: {{offline_shop.name}}">
         <div class="native-shop-name">{{offline_shop.name}}</div>
         <div class="native-shop-layer">
           {% for o in offline_shop.offers %}
-          <div class="shop-slot{% if o.row < 4 %} tip-below{% endif %}{% if o.col <= 2 %} tip-left{% elif o.col >= 13 %} tip-right{% endif %}" style="--col:{{o.col}};--row:{{o.row}};--size:{{o.item_size}}">
+          <div class="shop-slot{% if o.row < 4 %} tip-below{% endif %}{% if o.col <= 2 %} tip-left{% elif o.col >= 13 %} tip-right{% endif %}" data-item-id="{{o.id}}" data-price="{{o.price}}" style="--col:{{o.col}};--row:{{o.row}};--size:{{o.item_size}}">
             {% if o.icon_url %}<img src="{{o.icon_url}}" loading="lazy" alt="{{o.item_name}}">{% else %}<span>{{o.vnum}}</span>{% endif %}
             {% if o.count > 1 %}<b class="shop-count">{{o.count}}</b>{% endif %}
             {{ tooltip(o, o.price) }}
@@ -114,11 +116,11 @@
         {% endif %}
       </form>
       {% endif %}
-      <form class="manage-form game-admin-card admin-card admin-card--item" method="post" action="{{url_for('player_action_game', pid=character.id)}}"><h3>🎁 Daj przedmiot</h3><input type="hidden" name="command" value="ITEM"><label>Kategoria<select id="admin-item-category"><option value="all">Wszystkie</option><option value="weapons">Bronie</option><option value="armor">Zbroje</option><option value="use">Mikstury / użytkowe</option><option value="dragon">Smocze Kamienie</option><option value="metin">Kamienie Metin</option><option value="special">Specjalne</option><option value="other">Inne</option></select></label><label>Szukaj<input id="admin-item-search" type="search" placeholder="Nazwa albo VNUM"></label><label>Przedmiot<select id="admin-item-results" name="vnum" required><option value="">Wyszukaj przedmiot…</option></select></label><label>Ilość<input name="count" type="number" min="1" max="200" value="1" required></label><button>🎁 Wyślij przedmiot</button></form>
+      <form class="manage-form game-admin-card admin-card admin-card--item" method="post" action="{{url_for('player_action_game', pid=character.id)}}"><h3>🎁 Daj przedmiot</h3><input type="hidden" name="command" value="ITEM"><label>Kategoria<select id="admin-item-category"><option value="all">Wszystkie</option><option value="weapons">Bronie</option><option value="armor">Zbroje</option><option value="use">Mikstury / użytkowe</option><option value="dragon">Smocze Kamienie</option><option value="metin">Kamienie Metin</option><option value="special">Specjalne</option><option value="other">Inne</option></select></label><label>Szukaj<input id="admin-item-search" type="search" placeholder="Nazwa albo VNUM"></label><label>Przedmiot<select id="admin-item-results" name="vnum" required><option value="">Wyszukaj przedmiot…</option></select></label><label>Ilość<input name="count" type="number" min="1" max="65535" value="1" required></label><button>🎁 Wyślij przedmiot</button></form>
       <form class="manage-form game-admin-card admin-card admin-card--yang" method="post" action="{{url_for('player_action_game', pid=character.id)}}"><h3>💰 Daj Yang</h3><input type="hidden" name="command" value="GOLD"><div class="admin-presets"><button type="button" data-yang="1000000">1 Million</button><button type="button" data-yang="10000000">10 Million</button><button type="button" data-yang="100000000">100 Million</button><button type="button" data-yang="1000000000">1 Billion</button></div><label>Kwota<input id="admin-yang" name="amount" type="number" min="1" max="2000000000" value="1000000" required></label><button>💰 Wyślij Yang</button></form>
       <form class="manage-form game-admin-card admin-card admin-card--level" method="post" action="{{url_for('player_action_game', pid=character.id)}}"><h3>⭐ Ustaw poziom</h3><input type="hidden" name="command" value="LEVEL"><label>Poziom<input name="level" type="number" min="1" max="120" value="{{character.level}}" required></label><button>⭐ Zmień poziom</button></form>
       <form class="manage-form game-admin-card admin-card admin-card--warp" method="post" action="{{url_for('player_action_game', pid=character.id)}}"><h3>🗺️ Teleportuj</h3><input type="hidden" name="command" value="WARP"><label>Miejsce<select name="warp">{% for label,x,y in admin_warps %}<option value="{{loop.index0}}">{{label}}</option>{% endfor %}</select></label><small class="muted">Działa, gdy postać jest w grze.</small><button>🗺️ Teleportuj</button></form>
-      <form class="manage-form game-admin-card admin-card admin-card--speed" method="post" action="{{url_for('player_action_game', pid=character.id)}}"><h3>🏃 Szybkość biegu</h3><input type="hidden" name="command" value="SPEED"><label>Premia na 1 godzinę<select name="speed"><option value="0">Normalna</option><option value="30">+30%</option><option value="60">+60%</option><option value="100">+100%</option></select></label><small class="muted">Działa, gdy postać jest w grze.</small><button>🏃 Ustaw szybkość</button></form>
+      <form class="manage-form game-admin-card admin-card admin-card--speed" method="post" action="{{url_for('player_action_game', pid=character.id)}}"><h3>🏃 Szybkość biegu</h3><input type="hidden" name="command" value="SPEED"><label>Premia na 30 dni (Normalna resetuje)<select name="speed"><option value="0">Normalna</option><option value="30">+30%</option><option value="60">+60%</option><option value="100">+100%</option></select></label><small class="muted">Działa, gdy postać jest w grze.</small><button>🏃 Ustaw szybkość</button></form>
       <form class="manage-form admin-card admin-card--vip" method="post" action="{{url_for('player_action_vip', pid=character.id)}}"><h3>Nadaj VIP</h3><input type="hidden" name="premium_type" value="8"><label>Dni<input type="number" name="days" min="1" max="3650" value="30" required></label><button>Nadaj VIP</button></form>
       <form class="manage-form admin-card admin-card--coins" method="post" action="{{url_for('player_action_coins', pid=character.id)}}"><h3>Nadaj Smocze Monety</h3><label>Ilość (account.cash)<input type="number" name="amount" min="1" max="1000000" required></label><button>Dodaj monety</button></form>
       <form class="manage-form admin-card admin-card--rename" method="post" action="{{url_for('player_action_rename', pid=character.id)}}"><h3>Zmień nick</h3><label>Nowy nick<input type="text" name="new_name" minlength="2" maxlength="24" pattern="[A-Za-z0-9]+" required></label><small class="muted">Jeśli to żywy bot, silnik nie powinien cofnąć zmiany przy zapisie — ale w razie czego krótko zrestartuj kanał gry.</small><button class="secondary">Zmień nick</button></form>
@@ -128,8 +130,15 @@
       <form class="manage-form danger-form admin-card admin-card--delete" method="post" action="{{url_for('player_action_delete', pid=character.id)}}" onsubmit="return confirm('To jest NIEODWRACALNE i skasuje wszystkie przedmioty tej postaci. Kontynuować?');"><h3>⚠ Usuń postać (nieodwracalne)</h3><small class="muted">Wpisz dokładną nazwę postaci, żeby potwierdzić: <b>{{character.name}}</b>. Kopia wiersza trafi do web_seban_deleted_players przed usunięciem.</small><input type="text" name="confirm_name" placeholder="Wpisz {{character.name}}" required><button class="secondary">Usuń postać</button></form>
     </section>
   </article>
-  <aside class="inventory-panel">
+  <aside class="inventory-panel" id="bot-item-inventory">
     <h2>⚔ Zawartość ekwipunku</h2>
+    {% if can_delete_bot_items %}
+    <div class="bot-item-manager" id="bot-item-manager" data-pid="{{character.id}}" data-name="{{character.name}}" data-csrf="{{item_delete_token}}">
+      <button type="button" class="bot-item-mode-button" aria-pressed="false">{{ 'Delete bot item' if ui_language == 'en' else 'Usuń przedmiot bota' }}</button>
+      <p class="bot-item-manager-hint" hidden>{{ 'Select an item in the equipment or bag. The whole stack will be deleted, including units gained before the engine processes it. Press the red button again to leave this mode.' if ui_language == 'en' else 'Wybierz przedmiot na postaci lub w ekwipunku. Usunięty zostanie cały stos, także sztuki zdobyte przed wykonaniem zlecenia. Naciśnij czerwony przycisk ponownie, aby wyjść z trybu.' }}</p>
+      <p class="bot-item-manager-status" id="bot-item-manager-status" role="status" aria-live="polite"></p>
+    </div>
+    {% endif %}
     <div id="inventory-live-region">{% set gold = character.gold %}{% include '_inventory_fragment.html' %}</div>
   </aside>
 </section>
@@ -145,6 +154,42 @@ document.body.dataset.ajaxForms='1';
 if(window.__playerRefreshInterval)clearInterval(window.__playerRefreshInterval);
 if(window.__playerLiveLogTimer)clearInterval(window.__playerLiveLogTimer);
 let invPage=0, safeboxPage=0, activeStorage='inventory';
+const itemManager=document.getElementById('bot-item-manager');
+const itemInventory=document.getElementById('bot-item-inventory');
+if(itemManager){
+itemManager.querySelector('.bot-item-mode-button').onclick=()=>{
+  const active=itemInventory.classList.toggle('is-deleting');
+  itemManager.querySelector('.bot-item-mode-button').setAttribute('aria-pressed',String(active));
+  itemManager.querySelector('.bot-item-manager-hint').hidden=!active;
+  if(active)refreshInventory();
+};
+document.getElementById('inventory-live-region').onclick=async event=>{
+  if(!itemInventory.classList.contains('is-deleting'))return;
+  const slot=event.target.closest('.equip-slot[data-item-id],.inv-slot[data-item-id]');
+  if(!slot)return;
+  event.preventDefault();event.stopPropagation();
+  if(slot.classList.contains('bot-item-busy'))return;
+  const mode=slot.dataset.pending?'cancel':'delete';
+  if(slot.dataset.pending.startsWith('w'))return;
+  const label=slot.dataset.itemName||slot.dataset.vnum;
+  const en=document.documentElement.lang==='en';
+  const question=mode==='cancel'
+    ?(en?`Cancel pending deletion of ${label}?`:`Anulować oczekujące usunięcie ${label}?`)
+    :(en?`Destroy the whole stack of ${label} from bot ${itemManager.dataset.name}, including units gained before the engine processes it? This cannot be undone.`:`Zniszczyć cały stos ${label} z ekwipunku bota ${itemManager.dataset.name}, także sztuki zdobyte przed wykonaniem zlecenia? Tego nie da się cofnąć.`);
+  if(!confirm(question))return;
+  const status=document.getElementById('bot-item-manager-status');
+  slot.classList.add('bot-item-busy');
+  status.textContent=en?'Sending request…':'Wysyłanie żądania…';
+  try{
+    const response=await fetch('/api/bot-item-delete',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':itemManager.dataset.csrf},body:JSON.stringify({pid:Number(itemManager.dataset.pid),item_id:Number(slot.dataset.itemId),vnum:Number(slot.dataset.vnum),count:Number(slot.dataset.count),mode})});
+    const data=await response.json();status.textContent=data.message||'';
+    if(data.status==='await')slot.dataset.pending='await';
+    else if(data.status==='cancelled')slot.dataset.pending='';
+    if(data.status==='done'||data.status==='changed'||data.status==='await'||data.status==='cancelled')refreshInventory();
+  }catch(_){status.textContent=en?'Network error.':'Błąd sieci.'}
+  slot.classList.remove('bot-item-busy');
+};
+}
 let dsKind=0, dsPage=0, dsDeck=0;
 function setPage(n){invPage=n;document.querySelectorAll('.inv-tabs button').forEach(x=>x.classList.toggle('active',x.dataset.page===String(n)));const slots=document.querySelectorAll('.inv-slot[data-page]');slots.forEach(x=>x.hidden=x.dataset.page!==String(n));document.getElementById('inventory-empty').hidden=[...slots].some(x=>x.dataset.page===String(n))}
 function setSafeboxPage(n){safeboxPage=n;document.querySelectorAll('.safebox-tabs button').forEach(x=>x.classList.toggle('active',x.dataset.page===String(n)));const slots=document.querySelectorAll('.safebox-slot[data-page]');slots.forEach(x=>x.hidden=x.dataset.page!==String(n));document.getElementById('safebox-empty').hidden=[...slots].some(x=>x.dataset.page===String(n))}
@@ -201,6 +246,27 @@ function bindNativeCharacterWindow(){
   if(bonus&&popover)bonus.onclick=()=>{popover.hidden=!popover.hidden;bonus.setAttribute('aria-expanded',String(!popover.hidden))};
 }
 bindNativeCharacterWindow();
+// Pinch zoom on a phone: position:fixed is laid out against the whole page (the layout viewport),
+// but only the visualViewport is on screen. A floating tooltip is therefore kept inside that
+// visible part, and scaled by 1/zoom so it keeps its normal size on screen instead of ballooning
+// past it; without this the clamp pushed it far above the item.
+function visibleArea(){
+  const v=window.visualViewport;
+  return v?{x:v.offsetLeft,y:v.offsetTop,w:v.width,h:v.height,s:v.scale||1}:{x:0,y:0,w:innerWidth,h:innerHeight,s:1};
+}
+function placeFloating(el,x,y,below){
+  const v=visibleArea(), k=v.s>1.01?1/v.s:1;
+  // .item-tip's base rules pin left/top/transform with !important, so these must be too
+  el.style.setProperty('transform-origin','0 0','important');
+  el.style.setProperty('transform',k<1?'scale('+k+')':'none','important');
+  const r=el.getBoundingClientRect(), gap=14*k, edge=10*k;
+  const left=Math.max(v.x+edge,Math.min(x-r.width/2,v.x+v.w-r.width-edge));
+  let top=below||y-r.height-gap<v.y+edge?y+gap:y-r.height-gap;
+  top=Math.max(v.y+edge,Math.min(top,v.y+v.h-r.height-edge));
+  el.style.setProperty('left',left+'px','important');
+  el.style.setProperty('top',top+'px','important');
+  el.style.setProperty('visibility','visible','important');
+}
 // A tooltip follows the cursor. Its measured height decides whether it opens below it.
 function bindFloatingItemTips(root=document){
   root.querySelectorAll('.equip-slot,.inv-slot,.safebox-slot,.ds-equip-slot,.ds-bag-slot,.skill-slot').forEach(host=>{
@@ -213,18 +279,126 @@ function bindFloatingItemTips(root=document){
       // incorrectly choose the space above the pointer.
       tip.style.setProperty('display','block','important');
       tip.style.setProperty('visibility','hidden','important');
-      const gap=14, edge=10, rect=tip.getBoundingClientRect();
-      const left=Math.max(edge,Math.min(event.clientX-rect.width/2,window.innerWidth-rect.width-edge));
-      const top=event.clientY-rect.height-gap<edge ? event.clientY+gap : event.clientY-rect.height-gap;
-      tip.style.setProperty('left',String(left)+'px','important');
-      tip.style.setProperty('top',String(top)+'px','important');
+      placeFloating(tip,event.clientX,event.clientY);
       tip.style.setProperty('visibility','visible','important');
     };
     host.addEventListener('pointerenter',place); host.addEventListener('pointermove',place);
-    host.addEventListener('pointerleave',()=>{const tip=host.querySelector('.item-tip');if(!tip)return;tip.classList.remove('is-floating');tip.style.removeProperty('display');tip.style.removeProperty('visibility');});
+    host.addEventListener('pointerleave',()=>{const tip=host.querySelector('.item-tip');if(!tip)return;tip.classList.remove('is-floating');['display','visibility','transform','transform-origin'].forEach(k=>tip.style.removeProperty(k));});
   });
 }
 bindFloatingItemTips();
+// Offline shop: the item tooltip and the price explanation are drawn in a layer on <body>.
+// Inside the shop window they could not work: on a phone the 654px window sits in a scroll
+// container that clips everything past the first columns, and the window's drop-shadow filter
+// turns it into the containing block of any position:fixed child. Mouse: hover = tooltip,
+// click = explanation pinned until closed. Touch: first tap = tooltip, second tap on the same
+// item = explanation as a bottom sheet.
+function bindShopTips(){
+  const shop=document.getElementById('offline-shop');
+  if(!shop||shop.dataset.tipsBound)return; shop.dataset.tipsBound='1'; shop.classList.add('js-shop-tips');
+  const en=document.documentElement.lang==='en';
+  const touchUi=()=>matchMedia('(hover: none), (pointer: coarse)').matches;
+  const layer=document.getElementById('shop-tip-layer')||document.body.appendChild(Object.assign(document.createElement('div'),{id:'shop-tip-layer'}));
+  let tipSlot=null;
+  const hideTip=()=>{layer.querySelector('.item-tip')?.remove();tipSlot=null};
+  const closePanel=()=>{layer.querySelectorAll('.dx-backdrop,.dx-panel').forEach(n=>n.remove());refit=null};
+  const place=placeFloating;
+  const showTip=(slot,x,y,below)=>{
+    const src=slot.querySelector('.item-tip'); if(!src)return;
+    hideTip();
+    const tip=src.cloneNode(true); tip.querySelector('.tip-explain')?.remove();
+    if(shop.dataset.explain==='1'&&slot.dataset.itemId){
+      if(touchUi()){
+        // touch: a real button in the tooltip (a second tap on a 25px slot was too fiddly)
+        const button=document.createElement('button'); button.type='button'; button.className='dx-tip-btn';
+        button.textContent=en?'Why this price?':'Dlaczego ta cena?';
+        button.addEventListener('click',e=>{e.stopPropagation();openPanel(slot)});
+        tip.append(button); tip.classList.add('is-touch');
+      } else {
+        const hint=document.createElement('span'); hint.className='dx-tip-hint';
+        hint.textContent=en?'Click to see where this price comes from':'Kliknij, aby zobaczyć, skąd ta cena';
+        tip.append(hint);
+      }
+    }
+    tip.classList.add('shop-floating-tip'); tip.style.visibility='hidden';
+    layer.append(tip); place(tip,x,y,below); tipSlot=slot;
+  };
+  // The explanation is asked for only on click (/api/shop-explain/<id>); the panel opens at once
+  // with a loading animation and keeps each answer for this page.
+  const explained=new Map();
+  let refit=null;
+  // The bottom sheet under pinch zoom: as wide as the visible part, at its bottom, scaled by 1/zoom.
+  const fitSheet=el=>{
+    const v=visibleArea();
+    if(v.s<=1.01){['left','top','bottom','width','max-height','transform','transform-origin'].forEach(k=>el.style.removeProperty(k));return}
+    const k=1/v.s;
+    el.style.setProperty('transform-origin','0 0','important');el.style.setProperty('transform','scale('+k+')','important');
+    el.style.setProperty('width',(v.w*v.s)+'px','important');el.style.setProperty('max-height',(v.h*v.s*0.82)+'px','important');
+    el.style.setProperty('left',v.x+'px','important');el.style.setProperty('bottom','auto','important');
+    el.style.setProperty('top',(v.y+v.h-el.offsetHeight*k)+'px','important');
+  };
+  const explainBody=(slot,done)=>{
+    const id=slot.dataset.itemId, box=document.createElement('div');
+    box.className='dx-body';
+    const fill=html=>{box.innerHTML=html||('<p class="dx-empty">'+(en?'The bot recorded no explanation for this line.':'Bot nie zapisał wyjaśnienia tej oferty.')+'</p>');if(done)done();};
+    if(explained.has(id)){fill(explained.get(id));return box}
+    box.innerHTML='<div class="dx-loading" role="status"><span></span><span></span><span></span><b>'+(en?'Loading the explanation…':'Wczytuję wyjaśnienie…')+'</b></div>';
+    fetch('/api/shop-explain/'+encodeURIComponent(id)+'?price='+encodeURIComponent(slot.dataset.price||''),{cache:'no-store'})
+      .then(r=>r.ok?r.json():Promise.reject(r.status))
+      .then(data=>{explained.set(id,data.html||'');fill(data.html)})
+      .catch(()=>{box.innerHTML='<p class="dx-empty">'+(en?'The explanation could not be loaded. Try again.':'Nie udało się wczytać wyjaśnienia. Spróbuj ponownie.')+'</p>';if(done)done();});
+    return box;
+  };
+  const openPanel=slot=>{
+    if(shop.dataset.explain!=='1'||!slot.dataset.itemId)return false;
+    hideTip(); closePanel();
+    const sheet=touchUi()||innerWidth<760;
+    const tip=slot.querySelector('.item-tip'), icon=slot.querySelector('img');
+    const panel=document.createElement('div');
+    panel.className='dx-panel'+(sheet?' is-sheet':''); panel.setAttribute('role','dialog');
+    panel.setAttribute('aria-label',en?'Price explanation':'Wyjaśnienie ceny');
+    const head=document.createElement('header');
+    if(icon){const img=icon.cloneNode();img.removeAttribute('loading');head.append(img)}
+    const title=document.createElement('div');
+    title.innerHTML='<b></b><span></span>';
+    title.querySelector('b').textContent=tip?.querySelector('b')?.textContent||'';
+    title.querySelector('span').textContent=tip?.querySelector('.tip-price')?.textContent||'';
+    head.append(title);
+    const close=document.createElement('button'); close.type='button'; close.className='dx-close';
+    close.setAttribute('aria-label',en?'Close':'Zamknij'); close.textContent='×'; close.onclick=closePanel;
+    head.append(close);
+    // desktop: beside the item, measured again once the answer has filled the panel
+    const position=()=>{if(!panel.isConnected)return;if(sheet){fitSheet(panel);return}
+      const v=visibleArea(),r=slot.getBoundingClientRect(),p=panel.getBoundingClientRect(),edge=12;
+      let left=r.right+12; if(left+p.width>v.x+v.w-edge)left=r.left-p.width-12; left=Math.max(v.x+edge,Math.min(left,v.x+v.w-p.width-edge));
+      panel.style.left=left+'px'; panel.style.top=Math.max(v.y+edge,Math.min(r.top-20,v.y+v.h-p.height-edge))+'px';};
+    refit=position;
+    panel.append(head, explainBody(slot,position));
+    if(sheet){const back=document.createElement('div');back.className='dx-backdrop';back.onclick=closePanel;layer.append(back)}
+    layer.append(panel);
+    position();
+    close.focus({preventScroll:true});
+    return true;
+  };
+  shop.querySelectorAll('.shop-slot').forEach(slot=>{
+    slot.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')showTip(slot,e.clientX,e.clientY)});
+    slot.addEventListener('pointermove',e=>{if(e.pointerType==='mouse'&&tipSlot===slot){const t=layer.querySelector('.item-tip');if(t)place(t,e.clientX,e.clientY)}});
+    slot.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')hideTip()});
+    slot.addEventListener('click',e=>{
+      e.stopPropagation();
+      if(touchUi()){
+        if(tipSlot===slot){ hideTip(); return; }  // the same item again: put the tooltip away
+        const r=slot.getBoundingClientRect(); showTip(slot,r.left+r.width/2,r.top,false);
+      } else openPanel(slot);
+    });
+  });
+  document.addEventListener('click',e=>{if(!e.target.closest('#shop-tip-layer .dx-panel')){hideTip();if(!e.target.closest('.shop-slot'))closePanel()}});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){hideTip();closePanel()}});
+  addEventListener('scroll',hideTip,{passive:true,capture:true});
+  // panning or zooming moves the visible part: drop the tooltip, keep an open panel in view
+  if(window.visualViewport){const moved=()=>{hideTip();if(refit)refit()};visualViewport.addEventListener('scroll',moved);visualViewport.addEventListener('resize',moved)}
+}
+bindShopTips();
 bindInventoryFragment();
 // Wired straight to the same always-live SQL the full page render uses (see
 // load_character_items in app.py) -- no separate cache, no waiting for a

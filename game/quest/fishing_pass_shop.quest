@@ -8,7 +8,7 @@
 -- opens that shop: special_shop.quest answers 20406, 9006 and the three
 -- guards, and no quest names 9009, so no
 -- player could ever buy a pass ("gdzie mozna zdobyc fishing pass?" - "Nie da
--- sie", Greess and SIZOWSKI, 17 September). This is the Fisherman's button for
+-- sie", Greess and the contributor, 17 September). This is the Fisherman's button for
 -- it. The engine keeps the shop's own limits; fishing still wants the
 -- Fisherman's introduction (fishing_onboarding) finished. Bots never come
 -- through here - they buy theirs in the AI (EnsurePlayerBotFishingPass).

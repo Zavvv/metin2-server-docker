@@ -39,10 +39,9 @@ MAX_HP_AT_TOP_FROM = 1500
 
 # playerbot_gear_value_rules.h
 SHEET_ROWS = 10
-LOW_PLUS_LINES_MAX_PLUS = 3
-LOW_PLUS_LINES_MIN = 2
-LOW_PLUS_SHEET_ROW = 6
-LOW_PLUS_SHEET_ROW_NEXT = 7
+LOW_PLUS_LINES_MAX_PLUS = 7
+LOW_PLUS_LINES_MIN = 1
+LOW_PLUS_SHEET_ROW = 7
 AVERAGE_FLOOR_ROW5_FROM, AVERAGE_FLOOR_ROW6_FROM = 30, 40
 AVERAGE_FLOOR_ROW5, AVERAGE_FLOOR_ROW6 = 5, 6
 AVERAGE_PCT_NONE = 100
@@ -224,10 +223,9 @@ def low_plus_lines_apply(plus, lines):
 def low_plus_lines_row(rows, plus, lines):
     if not low_plus_lines_apply(plus, lines):
         return plus
-    if rows[LOW_PLUS_SHEET_ROW] > 0:
-        return LOW_PLUS_SHEET_ROW
-    if rows[LOW_PLUS_SHEET_ROW_NEXT] > 0:
-        return LOW_PLUS_SHEET_ROW_NEXT
+    for row in range(LOW_PLUS_SHEET_ROW, plus, -1):
+        if rows[row] > 0 and rows[row] > rows[plus]:
+            return row
     return plus
 
 

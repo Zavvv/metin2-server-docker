@@ -2,11 +2,11 @@
     'extra' to podstrony szczegółów (karta postaci, gildia, przedmiot…), które podświetlają swoją sekcję. -#}
 {% set LAKA_SECTIONS = [
   {'name': 'Świat', 'icon': 'world', 'pages': [('dashboard', 'Przegląd świata'), ('events', 'Planer eventów'), ('season', 'Sezon i rekordy')], 'extra': ['daily_summary']},
-  {'name': 'Postacie', 'icon': 'chars', 'pages': [('players', 'Gracze i boty'), ('rankings', 'Rankingi'), ('guilds', 'Gildie'), ('bot_personalities', 'Osobowości botów'), ('character_creator', 'Kreator postaci')], 'extra': ['player', 'guild']},
-  {'name': 'Gospodarka', 'icon': 'economy', 'pages': [('economy', 'Przedmioty i drop'), ('economy_shops', 'Sklepy offline'), ('economy_itemshop', 'ItemShop')], 'extra': ['economy_item', 'economy_holders_status']},
+  {'name': 'Postacie', 'icon': 'chars', 'pages': [('players', 'Gracze i boty'), ('rankings', 'Rankingi'), ('fame_ranking', 'Fame ranking' if ui_language == 'en' else 'Ranking sławy'), ('guilds', 'Gildie'), ('bot_personalities', 'Osobowości botów'), ('character_creator', 'Kreator postaci')], 'extra': ['player', 'guild']},
+  {'name': 'Gospodarka', 'icon': 'economy', 'pages': [('economy', 'Przedmioty i drop'), ('economy_shops', 'Sklepy offline'), ('economy_offers', 'Oferty rynku'), ('economy_itemshop', 'ItemShop')], 'extra': ['economy_item', 'economy_holders_status']},
   {'name': 'Kronika', 'icon': 'chronicle', 'pages': [('world_feed', 'Wiadomości ze świata'), ('live_chat', 'Czat na żywo')], 'extra': []},
   {'name': 'Serwer', 'icon': 'server', 'pages': [('manage', 'Gra i serwer'), ('maps', 'Aktywność map'), ('respawns', 'Respawny'), ('system', 'Wydajność'), ('diagnostics', 'Diagnostyka'), ('decisions_page', 'Decyzje botów'), ('development', 'Rozwój ekwipunku'), ('panel_logs', 'Logi panelu')], 'extra': []},
-  {'name': 'Administracja', 'icon': 'admin', 'pages': [('accounts', 'Konta'), ('bot_names', 'Nazwy botów'), ('gm_commands', 'Komendy GM'), ('items_database', 'Baza przedmiotów'), ('manage_panel', 'Ustawienia panelu'), ('changelog', 'Changelog')], 'extra': ['account_detail', 'account_characters']},
+  {'name': 'Administracja', 'icon': 'admin', 'pages': [('accounts', 'Konta'), ('bot_names', 'Nazwy botów'), ('gm_commands', 'Komendy GM'), ('items_database', 'Baza przedmiotów'), ('database_structure', 'Database structure' if ui_language == 'en' else 'Struktura bazy'), ('manage_panel', 'Ustawienia panelu'), ('changelog', 'Changelog')], 'extra': ['account_detail', 'account_characters']},
 ] %}
 {% set LAKA_EXTRA_LABELS = {'player': 'Karta postaci', 'guild': 'Gildia', 'economy_item': 'Przedmiot', 'economy_holders_status': 'Posiadacze przedmiotu', 'daily_summary': 'Podsumowanie dnia', 'account_detail': 'Konto', 'account_characters': 'Postacie konta'} %}
 {% set laka_ns = namespace(sec=LAKA_SECTIONS[0], page=None) %}
@@ -37,6 +37,7 @@
     {% endfor %}
   </nav>
   <div class="laka-rail-foot">
+    {% set language_switcher_id = 'laka-rail-language' %}{% include '_language_switcher.html' %}
     <a href="{{ tieru_url }}/editsql" target="_blank" rel="noopener">Edytor bazy danych ↗</a>
     <a href="{{ tieru_url }}" target="_blank" rel="noopener">Panel Tieru (klasyczny) ↗</a>
     <form action="{{ url_for('logout') }}" method="post"><button class="laka-quiet">Wyloguj</button></form>
@@ -48,7 +49,7 @@
     <div class="laka-crumbs"><h1>{{ laka_ns.page or laka_ns.sec.name }}</h1><small>{{ laka_ns.sec.name }}</small></div>
     <div class="laka-tools">
       <button type="button" class="laka-search" id="laka-open-palette" aria-label="Szukaj stron i graczy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="laka-search-lbl">Szukaj stron, graczy…</span><kbd>Ctrl K</kbd></button>
-      <span class="laka-live" title="Boty zalogowane teraz"><i></i><b id="laka-live-count">—</b><span class="laka-live-lbl">&nbsp;botów online</span></span>
+      <span class="laka-live" title="Boty zalogowane teraz"><i></i><b id="laka-live-count">—</b><span class="laka-live-lbl">&nbsp;{{ 'bots online' if ui_language == 'en' else 'botów online' }}</span></span>
     </div>
   </div>
   <nav class="laka-tabs" aria-label="Podstrony sekcji">{% for ep, label in laka_ns.sec.pages %}<a href="{{ url_for(ep) }}"{% if ep == request.endpoint %} aria-current="page"{% endif %}>{{ label }}</a>{% endfor %}</nav>
@@ -63,6 +64,7 @@
 <template id="laka-sheet-tpl" data-players-url="{{ url_for('players') }}">
   <div class="laka-overlay" data-laka-close><div class="laka-sheet" role="dialog" aria-label="Wszystkie sekcje"><div class="laka-grab"></div>
   {% for s in LAKA_SECTIONS %}<h3><svg aria-hidden="true"><use href="#li-{{ s.icon }}"/></svg>{{ s.name }}</h3><div class="laka-sheet-links">{% for ep, label in s.pages %}<a href="{{ url_for(ep) }}" data-laka-section="{{ s.name }}" data-laka-icon="{{ s.icon }}"{% if ep == request.endpoint %} aria-current="page"{% endif %}>{{ label }}</a>{% endfor %}</div>{% endfor %}
+  {% set language_switcher_id = 'laka-sheet-language' %}{% include '_language_switcher.html' %}
   <div class="laka-sheet-foot"><a href="{{ tieru_url }}" target="_blank" rel="noopener">Panel Tieru ↗</a><form action="{{ url_for('logout') }}" method="post"><button class="laka-quiet">Wyloguj</button></form></div>
   </div></div>
 </template>

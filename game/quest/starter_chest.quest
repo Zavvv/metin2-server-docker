@@ -5,7 +5,7 @@
 -- carries a character through the first villages. A human's character got
 -- nothing: this package has no starting-item step in the db core and no
 -- quest for it, so a player who made a character stood beside bots in +9
--- gear from their chests ("gracz jest gorszy niz bot" - sizowski, 11.09).
+-- gear from their chests ("gracz jest gorszy niz bot" - the contributor, 11.09).
 --
 -- One chest per character, at the first login of a character still at the
 -- level a fresh one is. The class decides the chest, exactly as the seed

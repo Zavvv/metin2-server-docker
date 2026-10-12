@@ -13,7 +13,7 @@ import zlib
 import gzip
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, urlsplit
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
 from datetime import datetime, timedelta
@@ -21,13 +21,22 @@ from functools import wraps
 
 import pymysql
 import markdown
-from flask import Flask, abort, flash, g, jsonify, redirect, render_template, request, send_file, session, url_for
+from flask import Flask, abort, flash, g, jsonify, redirect, render_template, render_template_string, request, send_file, session, url_for
 from markupsafe import Markup, escape
 from werkzeug.exceptions import HTTPException
 from werkzeug.security import check_password_hash, generate_password_hash
 
 import translations
 import decisions
+from market_categories import (CATEGORIES as MARKET_CATEGORIES,
+                               BONUS_POINTS as MARKET_BONUS_POINTS,
+                               CLASS_FILTERS as MARKET_CLASS_FILTERS,
+                               SUBCATEGORIES as MARKET_SUBCATEGORIES,
+                               category_sql as market_category_sql,
+                               subcategory_sql as market_subcategory_sql,
+                               refine_sql as market_refine_sql,
+                               class_mask_sql as market_class_mask_sql,
+                               required_level_sql as market_required_level_sql)
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SEBAN_SESSION_SECRET", "change-this-before-public-use")
@@ -102,7 +111,7 @@ MAP_IMAGE_FILES = {
     41: "jinno-m1.png", 43: "jinno-m2.png", 44: "jinno-guild.png", 45: "easy-monkey.png",
     61: "mount-sohan.png", 62: "doyyumhwaji.png", 63: "yongbi-desert.png", 64: "orc-valley.png",
     65: "hwang-temple.png", 66: "deviltower.png", 67: "trent-forest.png", 68: "trent02-red-forest.png",
-    72: "grotto-v1.png", 73: "grotto-v2.png", 104: "spider-dungeon-v1.png",
+    71: "spider-dungeon-v2.png", 72: "grotto-v1.png", 73: "grotto-v2.png", 104: "spider-dungeon-v1.png",
     108: "medium-monkey.webp", 109: "hard-monkey.webp",
 }
 
@@ -148,6 +157,43 @@ def channel_paths(filename):
         except OSError:
             continue
 RATES_SPOOL = Path("/opt/m2spool")
+FAME_FILE = RATES_SPOOL / "playerbot_live_fame.tsv"
+FAME_COLORS = ("#9E9E9E", "#FFFFFF", "#A5D66F", "#3FAF4A", "#2EC4C4",
+               "#3A7BEF", "#9B59D6", "#F39C12", "#E74C3C", "#FFD700")
+_fame_cache = {"key": None, "rows": {}}
+
+
+def playerbot_fame():
+    """Validate the engine's hourly PB7F1 snapshot; never derive fame in SQL."""
+    try:
+        stat = FAME_FILE.stat()
+        key = (str(FAME_FILE), stat.st_mtime_ns, stat.st_size)
+        if key == _fame_cache["key"]:
+            return _fame_cache["rows"]
+        if stat.st_size > 1024 * 1024:
+            return {}
+        with FAME_FILE.open(encoding="ascii") as source:
+            lines = source.read(1024 * 1024 + 1).splitlines()
+        tag, timestamp, count = lines[0].split()
+        timestamp, count = int(timestamp), int(count)
+        now = int(time.time() * 1000)
+        if (tag != "PB7F1" or not 0 <= timestamp <= now or
+                not 0 <= count <= 10000 or len(lines) != count + 1):
+            return {}
+        result, previous = {}, 1000000000
+        for rank, line in enumerate(lines[1:], 1):
+            pid, points, level, fell = map(int, line.split())
+            if (pid <= 0 or pid in result or not 0 <= points <= previous or
+                    not 1 <= level <= 10 or not 0 <= fell <= now):
+                return {}
+            result[pid] = {"pid": pid, "points": points, "level": level,
+                           "rank": rank, "color": FAME_COLORS[level - 1]}
+            previous = points
+        _fame_cache.update(key=key, rows=result)
+        return result
+    except (OSError, ValueError, IndexError, UnicodeError):
+        return {}
+
 UPDATE_SPOOL = Path("/opt/m2update")
 # "Diagnostyka -> Logi panelu": a persistent, downloadable record of what
 # actually crashed and when, so a bug report can come with proof instead of
@@ -239,8 +285,8 @@ AI_WEIGHT_HINTS = {
 # These values share the live weight file with goal weights, but the core treats
 # them as switches or direct settings rather than 25–250% goal weights.
 AI_LIVE_DEFAULTS = {"CHAT": 1, "BOOKS": 1, "NIGHT": 1, "LIFE": 0, "WARS": 1, "TOWER": 1, "CATACOMB": 1, "ISHOP": 1,
-                     "SHOP_M2": 0, "PERSONA": 1, "LIFE_HOURS": 0, "SCRAP": 0, "REST": 100, "KINGDOMPVP": 0, "SCROLL_FROM": 1,
-                     "WAR_MINUTES": 30, "WAR_HOURS": 2, "CHEST": None, "CHEST_STONE": None}
+                     "SHOP_M2": 0, "PERSONA": 1, "HAGGLE": 1, "SHOP_ROOM_SELL": 1, "SUPPLY_BANDS": 1, "SUPPLY_SCALE": 0, "SUPPLY_REF_BOTS": 1000, "PVP_SET": 0, "PVP_SET_SHARE": 25, "PVP_SET_MIN_LEVEL": 30, "PVP_SET_BUDGET": 20, "PVP_SET_STRENGTH": 1, "PVP_SET_VS_HUMAN": 1, "LIFE_HOURS": 0, "SESSION_REALISM": 0, "LIVE_CHAT": 100, "CRAFTSMAN": 30, "SCRAP": 0, "REST": 100, "KINGDOMPVP": 0, "SCROLL_FROM": 1,
+                     "WAR_MINUTES": 30, "WAR_HOURS": 2, "WAR_KILLS": 100, "CHEST": None, "CHEST_STONE": None}
 AI_SPECIAL_WEIGHT_KEYS = frozenset(AI_LIVE_DEFAULTS)
 BIOLOGIST_COMPLETE_STATE = 557528158
 BIOLOGIST_KEY_ITEM_STATE = -1726153001
@@ -292,6 +338,7 @@ BIOLOGIST_FALLBACK_MISSIONS = (
     "make_herb_lv20", "make_herb_lv25", "collect_quest_lv30",
 )
 PANEL_VERSION_FILE = Path(__file__).parent / "VERSION"
+UPSTREAM_PANEL_VERSION = "1.114.76"  # Vendored upstream 1266f8f0ed34, not the game release.
 GM_JOB_OPTIONS = ((0, "Wojownik"), (1, "Ninja"), (2, "Sura"), (3, "Szaman"))
 # Nadawanie/odbieranie rangi GM istniejącej postaci z jej karty -- dotąd
 # szło tylko przy zakładaniu konta. Audyt vs panel Tieru (/gm na 7788).
@@ -329,6 +376,10 @@ try:
     PANEL_VERSION = PANEL_VERSION_FILE.read_text(encoding="utf-8").strip() or os.environ.get("SEBAN_PANEL_VERSION", "dev")
 except OSError:
     PANEL_VERSION = os.environ.get("SEBAN_PANEL_VERSION", "dev")
+# The suite's context preparer writes its own 2.x VERSION here. Keep the
+# advanced panel's component version distinct from the installed game version.
+if PANEL_VERSION == "dev" or PANEL_VERSION.startswith("2."):
+    PANEL_VERSION = UPSTREAM_PANEL_VERSION
 DEFAULT_SETTINGS = {
     "panel_name": "Metin2 Singleplayer", "stuck_minutes": "5", "theme": "laka", "monitor_mode": "vps", "cursor": "custom",
     # Existing installations without this key stay usable. Fresh installations
@@ -431,7 +482,6 @@ PANEL_FEATURES = {
     "map_respawns": {"title": "Dokładne respawny map", "icon": "⌖", "scope": "Respawny · własny czas mapy", "requirement": "Helper m2-map-regens w obrazie gry oraz wolumen rates-spool.", "setup": "Wdróż integration/m2-map-regens do obrazu game, przebuduj usługę game i pozostaw podłączony wolumen rates-spool."},
     "student_chest": {"title": "Skrzynia startowa na żywo", "icon": "🎒", "scope": "Zarządzanie grą · skrzynia ucznia", "requirement": "Zmodyfikowany starter_chest.quest i tabela common.m2_switches.", "setup": "Zastosuj patch questa skrzyni startowej, skompiluj questy i ustaw M2_PLAYERBOT_DISABLE_STUDENT_CHEST zgodnie z wyborem dla botów."},
     "plus9_announcements": {"title": "Ogłoszenia ulepszeń +9", "icon": "📢", "scope": "Zarządzanie grą · rankingi", "requirement": "Komenda NOTICE w web_admin.quest oraz działający seban-collector.", "setup": "Wdróż do web_admin.quest obsługę NOTICE, skompiluj quest i uruchom usługę seban-collector."},
-    "seban_updater": {"title": "Aktualizator Seban", "icon": "⬆", "scope": "Zarządzanie grą · aktualizacje", "requirement": "Usługa systemowa seban-updater i wspólny wolumen update-spool.", "setup": "Uruchom: sudo updater/install-seban-updater.sh /pełna/ścieżka/do/serwera [projekt-compose]. Następnie włącz funkcję tutaj."},
     "bot_timeline": {"title": "Wykres sesji bota", "icon": "📈", "scope": "Zarządzanie panelem · wykres na /player/", "requirement": "Brak dodatkowych zależności: korzysta z migawek pozycji botów (co 5 minut).", "setup": "Włącz tutaj, aby na karcie bota w /player/ pojawił się wykres online/offline z ostatnich 24 godzin."},
 }
 ATTR_SKILL_DAMAGE = 121 if ENGINE_MT2009 else 71
@@ -720,7 +770,7 @@ def _ensure_collector_tables():
     and if that first collector attempt fails, it does not retry until its
     full interval (default 300s) has passed, not right away. Reported by
     players as the panel "Internal Server Error"-ing for the first ~5
-    minutes after an update (sizowski, 2026-09-14)."""
+    minutes after an update (the contributor, 2026-09-14)."""
     try:
         import collector
         with db() as con, con.cursor() as cur:
@@ -842,6 +892,9 @@ def settings():
                 values[row["name"]] = str(row["value"])
     except pymysql.MySQLError:
         pass
+    # The Laka skin is the sole supported interface, including installations
+    # that still have a legacy theme saved in the settings table.
+    values["theme"] = "laka"
     return values
 
 
@@ -935,18 +988,18 @@ def validate_display_settings(form):
         stuck = max(1, min(120, int(form.get("stuck_minutes", "5"))))
     except (TypeError, ValueError):
         stuck = 5
-    theme, monitor_mode = form.get("theme", "empire"), form.get("monitor_mode", "vps")
+    monitor_mode = form.get("monitor_mode", "vps")
     cursor_choice = form.get("cursor", "custom")
     language = form.get("language", "pl")
     if not name:
         return None, "Nazwa panelu nie może być pusta."
-    if theme not in ("ocean", "ember", "forest", "empire", "laka") or monitor_mode not in ("vps", "docker"):
+    if monitor_mode not in ("vps", "docker"):
         return None, "Nieprawidłowe ustawienia wyglądu lub monitoringu."
     if cursor_choice not in ("custom", "system"):
         return None, "Nieprawidłowy wybór kursora."
     if language not in ("pl", "en"):
         return None, "Nieprawidłowy wybór języka."
-    return {"panel_name": name, "stuck_minutes": str(stuck), "theme": theme, "monitor_mode": monitor_mode, "cursor": cursor_choice, "ui_language": language}, None
+    return {"panel_name": name, "stuck_minutes": str(stuck), "theme": "laka", "monitor_mode": monitor_mode, "cursor": cursor_choice, "ui_language": language}, None
 
 
 def skill_rank(master_type, level):
@@ -1179,6 +1232,17 @@ def parse_passive_skills(raw):
 
 
 SKILL_NAMES = {vnum: name for skill_set in SKILLS.values() for vnum, name in skill_set}
+# The bots' explained decisions name skills and monsters (decisions.py's "skill" and
+# "mob" parameters): skills from the table above, monsters from the client's names file.
+_MOB_NAMES_BY_VNUM = translations._load_game_names("mob_names_en.json")
+
+
+def _decision_mob_name(vnum, lang):
+    names = _MOB_NAMES_BY_VNUM.get(str(int(vnum or 0)))
+    return (names[1] if lang == "en" and len(names) > 1 else names[0]) if names else None
+
+
+decisions.NAME_SOURCES.update(skill=lambda skill_id: SKILL_NAMES.get(int(skill_id or 0)), mob=_decision_mob_name)
 # Every ordinary Skill Book is vnum 50300 no matter which skill it teaches --
 # the skill itself only lives in socket0 (the "Instr." vnums from 50401 up
 # already carry their skill in locale_name and never need this). Kept as a
@@ -1784,7 +1848,8 @@ def guild_statuses():
             if guild is None:
                 guild = {"id": gid, "name": row.get("name", ""), "online": 0,
                          "strength_sum": 0, "exp_offered": 0, "master": row.get("master", ""),
-                         "war_with": row.get("war_with", ""), "next_war_in_s": None}
+                         "war_with": row.get("war_with", ""), "next_war_in_s": None,
+                         "tower_raid": False}
                 for key in ("empire", "tier", "level", "members", "master_pid", "ladder", "wins", "draws", "losses", "war_score", "war_enemy_score"):
                     try: guild[key] = int(row.get(key, 0))
                     except ValueError: guild[key] = 0
@@ -1796,6 +1861,8 @@ def guild_statuses():
                 guild["master"] = row["master"]
             if not guild["war_with"] and row.get("war_with"):
                 guild["war_with"] = row["war_with"]
+            if row.get("tower_raid", "0").strip() == "1":
+                guild["tower_raid"] = True
             try: next_war = int(row.get("next_war_in_s", -1))
             except ValueError: next_war = -1
             previous = guild["next_war_in_s"]
@@ -2178,34 +2245,6 @@ def update_csrf_token():
         token = uuid.uuid4().hex
         session["seban_update_csrf"] = token
     return token
-
-
-def queue_tieru_update(update_seban_panel=False):
-    """Request only the updater's fixed sequence; no command, URL or path crosses this boundary."""
-    current = update_status()
-    if not current["watcher_ready"]:
-        raise RuntimeError("Aktualizator nie jest gotowy. Administrator musi uruchomić usługę updater.")
-    if current.get("state") == "running":
-        raise RuntimeError("Aktualizacja już trwa. Poczekaj na jej zakończenie.")
-    version = installed_playerbots_version().strip()
-    if not re.fullmatch(r"[0-9]+(?:\.[0-9]+)*", version):
-        version = "0"
-    request_id = "seban-" + uuid.uuid4().hex
-    UPDATE_SPOOL.mkdir(parents=True, exist_ok=True)
-    temporary = UPDATE_SPOOL / (request_id + ".new")
-    try:
-        update_panel = "1" if update_seban_panel else "0"
-        temporary.write_text(
-            f"id={request_id}\nversion={version}\ntime={int(time.time())}\nupdate_seban_panel={update_panel}\n",
-            encoding="utf-8",
-        )
-        temporary.chmod(0o660)
-        # replace is atomic. The worker records the id before doing work, so a
-        # completed request never runs twice after a container recreation.
-        os.replace(temporary, UPDATE_SPOOL / "request")
-    finally:
-        temporary.unlink(missing_ok=True)
-
 
 
 EVENTS_FILE = RATES_SPOOL / "playerbot_events.tsv"
@@ -2873,18 +2912,32 @@ def read_ai_weights():
             if len(fields) >= 2 and fields[0].upper() in values:
                 try:
                     key, raw_value = fields[0].upper(), fields[1]
-                    if key in ("CHAT", "BOOKS", "NIGHT", "LIFE", "WARS", "TOWER", "CATACOMB", "ISHOP", "SHOP_M2", "PERSONA"):
+                    if key in ("CHAT", "BOOKS", "NIGHT", "LIFE", "WARS", "TOWER", "CATACOMB", "ISHOP", "SHOP_M2", "PERSONA", "HAGGLE", "SHOP_ROOM_SELL", "SUPPLY_BANDS", "SUPPLY_SCALE", "PVP_SET", "PVP_SET_VS_HUMAN"):
                         values[key] = 0 if raw_value.lower() in ("0", "off", "no") else 1
-                    elif key in ("SCRAP", "REST", "KINGDOMPVP"):
+                    elif key in ("SCRAP", "REST", "KINGDOMPVP", "CRAFTSMAN"):
                         values[key] = max(0, min(100, int(raw_value)))
+                    elif key == "LIVE_CHAT":
+                        values[key] = max(0, min(200, int(raw_value)))
                     elif key == "LIFE_HOURS":
                         values[key] = max(0, min(24, int(raw_value)))
+                    elif key == "SESSION_REALISM":
+                        values[key] = max(0, min(100, int(raw_value)))
                     elif key == "SCROLL_FROM":
                         values[key] = max(1, min(9, int(raw_value)))
                     elif key == "WAR_MINUTES":
-                        values[key] = max(5, min(180, int(raw_value)))
+                        values[key] = 15 if int(raw_value) <= 15 else 30
                     elif key == "WAR_HOURS":
-                        values[key] = max(1, min(24, int(raw_value)))
+                        values[key] = max(1, min(4, int(raw_value)))
+                    elif key == "WAR_KILLS":
+                        values[key] = max(0, min(1000, int(raw_value)))
+                    elif key == "SUPPLY_REF_BOTS":
+                        values[key] = max(50, min(50000, int(raw_value)))
+                    elif key in ("PVP_SET_SHARE", "PVP_SET_BUDGET"):
+                        values[key] = max(0, min(100, int(raw_value)))
+                    elif key == "PVP_SET_MIN_LEVEL":
+                        values[key] = max(1, min(120, int(raw_value)))
+                    elif key == "PVP_SET_STRENGTH":
+                        values[key] = max(0, min(2, int(raw_value)))
                     elif key in ("CHEST", "CHEST_STONE"):
                         values[key] = max(0, min(1000, int(raw_value)))
                     else:
@@ -2913,6 +2966,36 @@ def preserved_ai_weight_lines():
     return preserved
 
 
+def read_ai_explain_days():
+    """None means the core's seven-day default; zero disables recording."""
+    try:
+        for line in AI_WEIGHTS_FILE.read_text(encoding="utf-8", errors="replace").splitlines():
+            fields = line.split("#", 1)[0].split()
+            if len(fields) >= 2 and fields[0].upper() == "EXPLAIN":
+                return max(0, min(30, int(fields[1])))
+    except (OSError, ValueError):
+        pass
+    return None
+
+
+def write_ai_explain_days(days):
+    """Change only EXPLAIN in the live TSV, preserving all other core keys."""
+    RATES_SPOOL.mkdir(parents=True, exist_ok=True)
+    try:
+        lines = AI_WEIGHTS_FILE.read_text(encoding="utf-8").splitlines()
+    except FileNotFoundError:
+        lines = []
+    lines = [line for line in lines if (line.split("#", 1)[0].split() or [""])[0].upper() != "EXPLAIN"]
+    if days is not None:
+        lines.append(f"EXPLAIN\t{days}")
+    temporary = AI_WEIGHTS_FILE.with_name(f"{AI_WEIGHTS_FILE.name}.{uuid.uuid4().hex}.new")
+    try:
+        temporary.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        os.replace(temporary, AI_WEIGHTS_FILE)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
 def write_ai_weights(values):
     """Atomically replace known values without erasing newer-core settings."""
     RATES_SPOOL.mkdir(parents=True, exist_ok=True)
@@ -2923,24 +3006,38 @@ def write_ai_weights(values):
     ]
     content.extend(f"{key}\t{values[key]}" for key, _, _ in AI_WEIGHT_KEYS)
     content.append(f"CHAT\t{1 if values.get('CHAT', 1) else 0}")
+    content.append(f"LIVE_CHAT\t{max(0, min(200, int(values.get('LIVE_CHAT', 100))))}")
     content.append(f"BOOKS\t{1 if values.get('BOOKS', 1) else 0}")
     content.append(f"NIGHT\t{1 if values.get('NIGHT', 1) else 0}")
     content.append(f"LIFE	{1 if values.get('LIFE', 0) else 0}")
     # Zero removes the key and leaves the core's standard session rhythm.
     if values.get("LIFE_HOURS"):
         content.append(f"LIFE_HOURS	{max(1, min(24, int(values['LIFE_HOURS'])))}")
+    if values.get("SESSION_REALISM"):
+        content.append(f"SESSION_REALISM\t{max(1, min(100, int(values['SESSION_REALISM'])))}")
     content.append(f"WARS	{1 if values.get('WARS', 1) else 0}")
     content.append(f"TOWER\t{1 if values.get('TOWER', 1) else 0}")
     content.append(f"CATACOMB\t{1 if values.get('CATACOMB', 1) else 0}")
     content.append(f"ISHOP\t{1 if values.get('ISHOP', 1) else 0}")
     content.append(f"SHOP_M2\t{1 if values.get('SHOP_M2', 0) else 0}")
     content.append(f"PERSONA\t{1 if values.get('PERSONA', 1) else 0}")
+    content.append(f"HAGGLE\t{1 if values.get('HAGGLE', 1) else 0}")
+    content.append(f"SHOP_ROOM_SELL\t{1 if values.get('SHOP_ROOM_SELL', 1) else 0}")
+    content.append(f"SUPPLY_BANDS\t{1 if values.get('SUPPLY_BANDS', 1) else 0}")
+    content.append(f"SUPPLY_SCALE\t{1 if values.get('SUPPLY_SCALE', 0) else 0}")
+    content.append(f"SUPPLY_REF_BOTS\t{max(50, min(50000, int(values.get('SUPPLY_REF_BOTS', 1000))))}")
+    content.append(f"PVP_SET\t{1 if values.get('PVP_SET', 0) else 0}")
+    for key, low, high, default in (("PVP_SET_SHARE", 0, 100, 25), ("PVP_SET_MIN_LEVEL", 1, 120, 30), ("PVP_SET_BUDGET", 0, 100, 20), ("PVP_SET_STRENGTH", 0, 2, 1)):
+        content.append(f"{key}\t{max(low, min(high, int(values.get(key, default))))}")
+    content.append(f"PVP_SET_VS_HUMAN\t{1 if values.get('PVP_SET_VS_HUMAN', 1) else 0}")
+    content.append(f"CRAFTSMAN\t{max(0, min(100, int(values.get('CRAFTSMAN', 30))))}")
     content.append(f"SCRAP\t{max(0, min(100, int(values.get('SCRAP', 0))))}")
     content.append(f"REST\t{max(0, min(100, int(values.get('REST', 100))))}")
     content.append(f"KINGDOMPVP\t{max(0, min(100, int(values.get('KINGDOMPVP', 0))))}")
     content.append(f"SCROLL_FROM\t{max(1, min(9, int(values.get('SCROLL_FROM', 1))))}")
-    content.append(f"WAR_MINUTES\t{max(5, min(180, int(values.get('WAR_MINUTES', 30))))}")
-    content.append(f"WAR_HOURS\t{max(1, min(24, int(values.get('WAR_HOURS', 2))))}")
+    content.append(f"WAR_MINUTES\t{15 if int(values.get('WAR_MINUTES', 30)) <= 15 else 30}")
+    content.append(f"WAR_HOURS\t{max(1, min(4, int(values.get('WAR_HOURS', 2))))}")
+    content.append(f"WAR_KILLS\t{max(0, min(1000, int(values.get('WAR_KILLS', 100))))}")
     for key in ("CHEST", "CHEST_STONE"):
         if values.get(key) is not None:
             content.append(f"{key}\t{max(0, min(1000, int(values[key])))}")
@@ -4130,7 +4227,17 @@ def write_shop_explain_enabled(enabled):
 
 @app.context_processor
 def globals_for_templates():
-    tieru_url = os.environ.get("TIERU_PANEL_URL", "http://127.0.0.1:7788")
+    configured_tieru_url = os.environ.get("TIERU_PANEL_URL", "").strip().rstrip("/")
+    configured_host = urlsplit(configured_tieru_url).hostname
+    if configured_host and configured_host.lower() not in ("localhost", "127.0.0.1", "::1"):
+        tieru_url = configured_tieru_url
+    else:
+        # A browser interprets localhost as the visitor's device, not the VPS.
+        # Reuse the host they used for this panel, changing only the port.
+        panel_host = urlsplit(request.host_url).hostname or "localhost"
+        if ":" in panel_host:
+            panel_host = f"[{panel_host}]"
+        tieru_url = f"{request.scheme}://{panel_host}:7788"
     item_icon = item_icon_url
     current_settings = settings()
     ui_language = current_settings.get("ui_language", "pl")
@@ -4612,6 +4719,19 @@ def guilds():
                            status_written_at=datetime.fromtimestamp(written_at).strftime("%H:%M") if written_at else None)
 
 
+@app.route("/fame")
+@login_required
+def fame_ranking():
+    ranking = sorted(playerbot_fame().values(), key=lambda entry: entry["rank"])[:100]
+    names = {}
+    if ranking:
+        ids = tuple(entry["pid"] for entry in ranking)
+        found = rows("SELECT id,name FROM player.player WHERE id IN (" +
+                     ",".join("%s" for _ in ids) + ")", ids)
+        names = {int(entry["id"]): game_text(entry["name"]) for entry in found}
+    return render_template("fame.html", ranking=ranking, names=names)
+
+
 @app.route("/guild/<int:guild_id>")
 @login_required
 def guild(guild_id):
@@ -4809,9 +4929,18 @@ def bot_gear_history(pid, limit=60):
     raw = rows(f"""SELECT l.time, l.how, l.hint, l.vnum, i.socket0 FROM log.log l
       LEFT JOIN player.item i ON i.id = l.what
       WHERE l.who=%s AND l.how IN ({marks}) ORDER BY l.time DESC LIMIT %s""", [pid] + hows + [limit])
+    # A failed scroll may return the same item one grade lower. Its old item
+    # is logged as REMOVE (REFINE FAIL), but it was not destroyed. Tieru's
+    # history pairs that removal with the adjacent REFINE FAIL entry.
+    downgrades = [(r["time"], int(r.get("vnum") or 0)) for r in raw
+                  if game_text(r.get("how")) == "REFINE FAIL" and hasattr(r.get("time"), "strftime")]
     result = []
     for r in raw:
         how = game_text(r["how"])
+        if how == "REMOVE (REFINE FAIL)" and hasattr(r.get("time"), "strftime") and any(
+                abs((t - r["time"]).total_seconds()) <= 2 and v == int(r.get("vnum") or 0) - 1
+                for t, v in downgrades):
+            continue
         kind, label = GEAR_HISTORY_HOWS.get(how, ("other", how))
         vnum = int(r["vnum"] or 0)
         socket0 = int(r["socket0"] or 0) if vnum in SKILLBOOK_VNUMS else 0
@@ -4868,8 +4997,15 @@ def bot_gear_history(pid, limit=60):
 
 
 def _decision_item_name(vnum):
-    proto = ITEM_DEFS.get(str(int(vnum or 0)))
-    return proto["name"] if proto else f"VNUM {int(vnum or 0)}"
+    """An item's Polish client name for the explained decisions. item_names_en.json first:
+    item_defs.json carries some names with broken Polish letters ("Bia³. Z³ota") and lacks
+    a few materials altogether ("VNUM 27798" for Skamieniała Krewetka)."""
+    vnum = int(vnum or 0)
+    names = translations._ITEM_NAMES_BY_VNUM.get(str(vnum))
+    if names and names[0]:
+        return names[0]
+    proto = ITEM_DEFS.get(str(vnum))
+    return proto["name"] if proto else f"VNUM {vnum}"
 
 
 def explain_shop_offer(item_id, counter_price):
@@ -4890,6 +5026,23 @@ def explain_shop_offer(item_id, counter_price):
         return None
     lang = settings().get("ui_language", "pl")
     return decisions.explain_listing(row, lang, _decision_item_name, apply_text, counter_price=counter_price)
+
+
+@app.get("/api/shop-explain/<int:item_id>")
+@login_required
+def api_shop_explain(item_id):
+    """One counter line's explanation as HTML, asked for only when the operator clicks the item
+    in the shop on /player/ (the page itself carries none). Empty html: the bot recorded none."""
+    price = request.args.get("price", type=int)
+    try:
+        explained = explain_shop_offer(item_id, price)
+    except Exception:
+        app.logger.exception("Nie można wyjaśnić oferty id=%s", item_id)
+        return {"ok": False}, 500
+    if not explained:
+        return {"ok": True, "html": ""}
+    return {"ok": True, "html": render_template_string(
+        "{% from '_macros.html' import explain %}{{ explain(dx) }}", dx=explained)}
 
 
 def bot_offline_shop(pid):
@@ -4985,6 +5138,7 @@ def bot_offline_shop(pid):
         "x": int(shop["x"]), "y": int(shop["y"]), "is_premium": bool(shop["is_premium"]),
         "expired": int(shop.get("duration") or 0) == 0, "offers": grid_offers,
         "overflow_offers": overflow_offers,
+        "explain_enabled": shop_explain_enabled(),
         # price is already the whole-stack listing price (confirmed live:
         # e.g. 40x Peleryna Meestwa for 3 250 000, not 3 250 000 each) --
         # multiplying by count again inflated the total for any stack >1.
@@ -5399,6 +5553,69 @@ PLAYER_PROFILE_STAT_KEYS = (
 )
 
 
+PATCH17_INVESTMENT_FIELDS = ('pid', 'level', 'equipped', 'other', 'minimum', 'target', 'gap', 'target_percent', 'depot_known', 'has_nine', 'goal_vnum', 'goal_slot', 'purchase_spent', 'refine_spent', 'realized_income', 'books_bought', 'books_spent', 'books_read', 'updated_unix')
+_patch17_snapshot = {"until": 0, "rows": {}}
+
+def patch17_investment_rows():
+    now = time.time()
+    if now < _patch17_snapshot["until"]:
+        return _patch17_snapshot["rows"]
+    result = {}
+    for _channel, path in channel_paths("playerbot_investment.tsv"):
+        folder = path.parent
+        try:
+            path = folder / "playerbot_investment.tsv"
+            with open(path, "r", encoding="ascii", errors="strict") as stream:
+                if stream.readline(64).strip() != "#PB17E1":
+                    continue
+                for _ in range(10000):
+                    line = stream.readline(1024)
+                    if not line:
+                        break
+                    values = line.rstrip("\n").split("\t")
+                    if len(values) != len(PATCH17_INVESTMENT_FIELDS):
+                        continue
+                    row = dict(zip(PATCH17_INVESTMENT_FIELDS, (int(value) for value in values)))
+                    if any(value < 0 for value in row.values()) or not row["pid"] or row["target_percent"] > 100:
+                        continue
+                    old = result.get(row["pid"])
+                    if old is None or row["updated_unix"] > old["updated_unix"]:
+                        result[row["pid"]] = row
+        except (OSError, ValueError, UnicodeError):
+            continue
+    _patch17_snapshot.update(until=now+30, rows=result)
+    return result
+
+def patch17_snapshot_time(row):
+    from datetime import datetime, timezone
+    try:
+        return datetime.fromtimestamp(int(row["updated_unix"]), timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    except (KeyError, TypeError, ValueError, OverflowError, OSError):
+        return "—"
+
+
+def patch17_investment_label(row, language):
+    if not row:
+        return ""
+    total = row["equipped"] + row["other"]
+    actual = round(100.0*row["equipped"]/total, 1) if total else 0.0
+    label = ("EQ / assets: %s%% (target %s%%), gap: %s Yang" if language == "en" else
+             "EQ / majątek: %s%% (cel %s%%), luka: %s Yang") % (actual, row["target_percent"], format(row["gap"], ","))
+    if not row["depot_known"]:
+        label += " — depot not read yet" if language == "en" else " — magazyn jeszcze nieodczytany"
+    if row["has_nine"]:
+        label += " | +9: yes" if language == "en" else " | +9: tak"
+    elif row["level"] < 35:
+        label += " | +9: from level 35" if language == "en" else " | +9: od 35 poziomu"
+    elif row["goal_vnum"]:
+        label += (" | +9: pursuing item #%s (+%s)" if language == "en" else
+                  " | +9: cel, przedmiot #%s (+%s)") % (row["goal_vnum"], row["goal_vnum"] % 10)
+    else:
+        label += " | +9: looking for suitable gear" if language == "en" else " | +9: szuka odpowiedniego przedmiotu"
+    return label
+
+
+
 def player_profile_component(pid, component, fallback, loader):
     """Load optional /player data without sacrificing the entire profile.
 
@@ -5504,6 +5721,127 @@ def queue_bot_exp_override(name, command, wait=EXP_OVERRIDE_WAIT):
         if status in QUEUE_FINAL_STATUSES:
             return status, queue_id
     return status, queue_id
+
+
+BOT_ITEM_DELETE_WAIT = 8.0
+# DELITEM's count is an upper bound for the core's current stack, not the
+# number of units to remove. Most stacks cap at 200, while item_proto.stack
+# allows larger per-item caps. Use that actual cap for active looting bots.
+BOT_ITEM_DELETE_DEFAULT_STACK = 200
+
+
+def bot_item_delete_csrf_token():
+    token = session.get("seban_item_delete_csrf")
+    if not token:
+        token = uuid.uuid4().hex
+        session["seban_item_delete_csrf"] = token
+    return token
+
+
+def bot_item_delete_pending(name):
+    """Item IDs awaiting DELITEM; the core's w* state cannot be cancelled."""
+    return rows("SELECT arg1,status FROM player.web_admin_queue WHERE player_name=%s "
+                "AND cmd='DELITEM' AND (status IN ('await','pending') OR status LIKE 'w%%')",
+                (name,))
+
+
+def queue_bot_item_delete(name, item_id, vnum, count, wait=BOT_ITEM_DELETE_WAIT):
+    """Use Tieru's DELITEM queue contract; an offline bot applies it on login."""
+    with db() as con, con.cursor() as cur:
+        cur.execute("UPDATE player.web_admin_queue SET status='cancelled' WHERE player_name=%s "
+                    "AND cmd='DELITEM' AND arg1=%s AND status IN ('pending','await')",
+                    (name, str(item_id)))
+        cur.execute("INSERT INTO player.web_admin_queue (player_name,cmd,arg1,arg2,status) "
+                    "VALUES (%s,'DELITEM',%s,%s,'await')",
+                    (name, str(item_id), f"{vnum}:{count}"))
+        queue_id = cur.lastrowid
+    deadline = time.time() + wait
+    status = "await"
+    while time.time() < deadline:
+        time.sleep(0.6)
+        result = one("SELECT status FROM player.web_admin_queue WHERE id=%s", (queue_id,))
+        if not result:
+            return "gone", queue_id
+        status = str(result.get("status") or "")
+        if status in QUEUE_FINAL_STATUSES:
+            return status, queue_id
+    return status, queue_id
+
+
+@app.post("/api/bot-item-delete")
+def api_bot_item_delete():
+    """Admin-only, CSRF-protected removal of a bot's current bag/worn item."""
+    en = settings().get("ui_language") == "en"
+
+    def answer(status, pl, english, code=200):
+        return jsonify(ok=status in ("done", "await", "cancelled"), status=status,
+                       message=english if en else pl), code
+
+    current = settings()
+    if current.get("setup_complete") != "1" or (current.get("auth_enabled") == "1" and not session.get("seban_admin")):
+        return answer("login", "Zaloguj się jako administrator.", "Log in as administrator.", 403)
+    payload = request.get_json(silent=True) or {}
+    supplied = request.headers.get("X-CSRF-Token", "")
+    expected = session.get("seban_item_delete_csrf", "")
+    if not expected or not hmac.compare_digest(supplied, expected):
+        return answer("csrf", "Sesja wygasła. Odśwież kartę postaci.", "Session expired. Reload the player card.", 403)
+    if not ENGINE_MT2009:
+        return answer("not_here", "Ta funkcja wymaga silnika Playerbots 2.x.",
+                      "This feature requires the Playerbots 2.x engine.", 403)
+    try:
+        pid, item_id = int(payload["pid"]), int(payload["item_id"])
+        vnum, count = int(payload["vnum"]), int(payload["count"])
+    except (KeyError, TypeError, ValueError):
+        return answer("bad_args", "Nieprawidłowe dane przedmiotu.", "Invalid item data.", 400)
+    mode = payload.get("mode", "delete")
+    if mode not in ("delete", "cancel") or min(pid, item_id, vnum, count) <= 0 or max(item_id, vnum, count) > 0xFFFFFFFF:
+        return answer("bad_args", "Nieprawidłowe dane przedmiotu.", "Invalid item data.", 400)
+    player_row = one(f"SELECT p.name,{BOT_IS} AS is_bot FROM player.player p WHERE p.id=%s", (pid,))
+    if not player_row:
+        return answer("not_found", "Nie znaleziono postaci.", "Player not found.", 404)
+    if not player_row.get("is_bot"):
+        return answer("not_allowed", "Przedmioty można usuwać tylko botom.", "Only bot items can be deleted.", 403)
+    name = player_row["name"]
+    if mode == "cancel":
+        with db() as con, con.cursor() as cur:
+            cur.execute("UPDATE player.web_admin_queue SET status='cancelled' WHERE player_name=%s "
+                        "AND cmd='DELITEM' AND arg1=%s AND status IN ('pending','await')", (name, str(item_id)))
+            withdrawn = cur.rowcount
+        if withdrawn:
+            return answer("cancelled", "Anulowano oczekujące usunięcie.", "Pending deletion cancelled.")
+        pending = bot_item_delete_pending(name)
+        if any(str(row.get("arg1")) == str(item_id) and str(row.get("status") or "").startswith("w") for row in pending):
+            return answer("applying", "Silnik już usuwa ten przedmiot; nie można anulować.",
+                          "The engine is already deleting this item; it cannot be cancelled.")
+        return answer("none", "Nie ma oczekującego usunięcia.", "There is no pending deletion.")
+    item = one("SELECT i.id,i.`window`,i.pos,i.`count`,i.vnum,p.stack AS max_stack "
+               "FROM player.item i LEFT JOIN player.item_proto p ON p.vnum=i.vnum "
+               "WHERE i.id=%s AND i.owner_id=%s", (item_id, pid))
+    if not item or str(item.get("window")) not in ("INVENTORY", "EQUIPMENT"):
+        return answer("no_item", "Przedmiotu nie ma już w ekwipunku ani na postaci.",
+                      "The item is no longer in the bag or equipped.")
+    if int(item.get("vnum") or 0) != vnum:
+        return answer("changed", "Przedmiot zmienił się od otwarcia karty. Odśwież stronę.",
+                      "The item has changed since you opened the card. Reload the page.")
+    stack_limit = max(int(item.get("count") or 1), int(item.get("max_stack") or BOT_ITEM_DELETE_DEFAULT_STACK))
+    status, queue_id = queue_bot_item_delete(name, item_id, vnum, stack_limit)
+    app.logger.info("bot item delete pid=%s item=%s queue_id=%s status=%s", pid, item_id, queue_id, status)
+    messages = {
+        "done": ("Przedmiot usunięty przez silnik gry.", "The game engine deleted the item."),
+        "await": ("Bot jest offline lub jeszcze nie odpowiedział. Usunięcie czeka; możesz je anulować.",
+                  "The bot is offline or has not answered yet. Deletion is pending; you can cancel it."),
+        "busy": ("Bot jest zajęty. Spróbuj ponownie później.", "The bot is busy. Try again later."),
+        "locked": ("Przedmiot jest zablokowany lub używany.", "The item is locked or in use."),
+        "changed": ("Silnik wykrył zmianę przedmiotu. Nic nie usunięto.", "The engine detected an item change. Nothing was deleted."),
+        "no_item": ("Silnik nie znalazł już przedmiotu.", "The engine could not find the item."),
+        "not_allowed": ("Silnik odmówił usunięcia.", "The engine refused the deletion."),
+    }
+    if status.startswith("w"):
+        return answer(status, "Silnik właśnie usuwa przedmiot. Odśwież kartę za chwilę.",
+                      "The engine is deleting the item. Reload the card shortly.")
+    pl, english = messages.get(status, (f"Nie udało się usunąć przedmiotu ({status}).",
+                                        f"Could not delete the item ({status})."))
+    return answer(status, pl, english)
 
 
 @app.route("/player/<int:pid>")
@@ -5626,15 +5964,27 @@ def player(pid):
     )
     mission_progress = player_profile_component(pid, "missions", list, lambda: character_mission_progress(pid))
     exp_lock = player_profile_component(pid, "exp_lock", None, lambda: bot_exp_lock_view(character, live))
+    can_delete_bot_items = ENGINE_MT2009 and player_profile_component(
+        pid, "item_delete_identity", False,
+        lambda: bool(one(f"SELECT {BOT_IS} AS is_bot FROM player.player p WHERE p.id=%s", (pid,)).get("is_bot")))
+    pending_item_deletions = (player_profile_component(
+        pid, "item_delete_pending", dict,
+        lambda: {int(row["arg1"]): str(row["status"]) for row in bot_item_delete_pending(character["name"])
+                 if str(row.get("arg1") or "").isdigit()}) if can_delete_bot_items else {})
     gm_row = one("SELECT mAuthority FROM common.gmlist WHERE mName=%s LIMIT 1", (character["name"],))
     character["gm_rank"] = gm_row["mAuthority"] if gm_row else ""
+    character["fame"] = playerbot_fame().get(pid)
     presence = bot_presence_timeline(pid) if panel_feature_enabled("bot_timeline") else None
-    return render_template("player.html", presence=presence, character=character, equipment=equipment, inventory=inventory, safebox=safebox,
+    return render_template("player.html", investment17=patch17_investment_rows().get(pid),
+                            investment17_updated_at=patch17_snapshot_time(patch17_investment_rows().get(pid)),
+                            investment17_label=patch17_investment_label(patch17_investment_rows().get(pid), settings().get("ui_language", "pl")), presence=presence, character=character, equipment=equipment, inventory=inventory, safebox=safebox,
                             has_safebox=bool(safebox), horse_bag=horse_bag, has_horse_bag=bool(horse_bag),
                             dragon_soul_inventory=dragon_soul_inventory, dragon_soul_decks=dragon_soul_decks,
                             gear_history=gear_history, offline_shop=offline_shop, character_stats=character_stats,
                             mission_progress=mission_progress, gm_ranks=GM_RANK_OPTIONS,
-                            admin_warps=PLAYER_ADMIN_WARPS, exp_lock=exp_lock)
+                            admin_warps=PLAYER_ADMIN_WARPS, exp_lock=exp_lock,
+                            can_delete_bot_items=can_delete_bot_items, pending_item_deletions=pending_item_deletions,
+                            item_delete_token=bot_item_delete_csrf_token() if can_delete_bot_items else None)
 
 
 
@@ -5693,8 +6043,8 @@ def player_action_game(pid):
     try:
         if command == "ITEM":
             vnum, count = int(request.form.get("vnum", 0)), int(request.form.get("count", 1))
-            if vnum <= 0 or not 1 <= count <= 200 or not one("SELECT vnum FROM player.item_proto WHERE vnum=%s", (vnum,)):
-                raise ValueError("Wybierz istniejący przedmiot i ilość 1–200.")
+            if vnum <= 0 or not 1 <= count <= 65535 or not one("SELECT vnum FROM player.item_proto WHERE vnum=%s", (vnum,)):
+                raise ValueError("Wybierz istniejący przedmiot i ilość 1–65 535.")
             arg1, arg2, label = vnum, count, f"Przedmiot #{vnum} × {count}"
         elif command == "GOLD":
             amount = int(request.form.get("amount", 0))
@@ -5715,7 +6065,8 @@ def player_action_game(pid):
             speed = int(request.form.get("speed", -1))
             if speed not in (0, 30, 60, 100):
                 raise ValueError("Wybierz poprawną szybkość biegu.")
-            arg1, arg2, label = speed, 3600, f"szybkość +{speed}% na godzinę"
+            arg1, arg2, label = speed, 2_592_000, (
+                "normalna szybkość" if speed == 0 else f"szybkość +{speed}% (do 30 dni)")
         else:
             raise ValueError("Nieobsługiwana akcja.")
         status, _queue_id = queue_player_admin_command(character["name"], command, arg1, arg2)
@@ -5772,15 +6123,19 @@ def api_player_inventory_fragment(pid):
     """Re-renders just the equipment/inventory/safebox/horse-bag markup from
     a fresh SQL read -- polled by player.html so gear changes show up without
     a page reload, the same 'always live, never stale' read the full page uses."""
-    account_id = one("SELECT account_id FROM player.player WHERE id=%s", (pid,))
-    if not account_id:
+    player_row = one(f"SELECT p.account_id,p.name,p.gold,{BOT_IS} AS is_bot "
+                     "FROM player.player p WHERE p.id=%s", (pid,))
+    if not player_row:
         abort(404)
-    gold = one("SELECT gold FROM player.player WHERE id=%s", (pid,)).get("gold") or 0
-    equipment, inventory, safebox, horse_bag = load_character_items(pid, account_id["account_id"])
+    gold = player_row.get("gold") or 0
+    equipment, inventory, safebox, horse_bag = load_character_items(pid, player_row["account_id"])
+    pending_item_deletions = ({int(row["arg1"]): str(row["status"]) for row in bot_item_delete_pending(player_row["name"])
+                               if str(row.get("arg1") or "").isdigit()} if player_row and player_row.get("is_bot") else {})
     dragon_soul_inventory, dragon_soul_decks = load_dragon_soul_items(pid)
     return render_template("_inventory_fragment.html", gold=gold, equipment=equipment, inventory=inventory, safebox=safebox,
                             has_safebox=bool(safebox), horse_bag=horse_bag, has_horse_bag=bool(horse_bag),
-                            dragon_soul_inventory=dragon_soul_inventory, dragon_soul_decks=dragon_soul_decks)
+                            dragon_soul_inventory=dragon_soul_inventory, dragon_soul_decks=dragon_soul_decks,
+                            pending_item_deletions=pending_item_deletions)
 
 
 # VIP and "Dragon Coins" both turned out to be real, already-working engine
@@ -6090,7 +6445,57 @@ def economy_item(vnum):
     item["captured_at"] = latest.strftime("%m-%d %H:%M") if latest else None
     history = rows("""SELECT DATE_FORMAT(captured_at, '%%m-%%d %%H:%%i') AS captured_at,SUM(amount) AS amount
       FROM player.web_seban_item_snapshot WHERE """ + where + """ AND captured_at >= NOW() - INTERVAL 14 DAY GROUP BY captured_at ORDER BY captured_at""", params)
-    return render_template("economy_item.html", item=item, history=history)
+    # The collector records active listing value and units, not completed sales.
+    # Its weighted mean is labelled as an asking price, never a sale price.
+    price_variant = " AND socket0=%s" if vnum != 50300 or socket0 is not None else ""
+    price_params = (vnum, socket0 if vnum == 50300 else 0) if price_variant else (vnum,)
+    price_history = rows("""SELECT DATE_FORMAT(captured_at, '%%m-%%d %%H:%%i') AS captured_at,
+        ROUND(SUM(total_value)/NULLIF(SUM(total_units),0),2) AS unit_price
+      FROM player.web_seban_shop_item_snapshot WHERE vnum=%s""" + price_variant + """
+        AND captured_at >= NOW() - INTERVAL 14 DAY
+      GROUP BY captured_at HAVING SUM(total_units)>0 ORDER BY captured_at""", price_params)
+    # Same live IkarusShop rows and JSON price as Tieru's market snapshot.
+    # Limit this on-demand view so common VNUMs cannot hold up the page.
+    offer_sort = request.args.get("offer_sort", "price_asc")
+    order = {"price_asc": "price ASC, i.id DESC", "price_desc": "price DESC, i.id DESC"}.get(offer_sort)
+    if order is None:
+        offer_sort, order = "price_asc", "price ASC, i.id DESC"
+    shop_socket_clause = " AND i.socket0=%s" if socket0 is not None else ""
+    offer_rows = rows("""SELECT i.id, i.owner_id, i.vnum, i.`count` AS quantity, i.socket0,
+        CAST(JSON_UNQUOTE(JSON_EXTRACT(i.ikashop_data, '$.yang')) AS UNSIGNED) AS price,
+        p.name AS seller, s.name AS shop_name, s.`map` AS map_index, s.channel,
+        pi.empire, (LEFT(a.login, 10)='playerbot_') AS is_bot
+      FROM player.item i JOIN player.ikashop_offlineshop s ON s.owner=i.owner_id
+      LEFT JOIN player.player p ON p.id=i.owner_id
+      LEFT JOIN account.account a ON a.id=p.account_id
+      LEFT JOIN player.player_index pi ON pi.id=p.account_id
+      WHERE i.vnum=%s AND i.`window`='IKASHOP_OFFLINESHOP'
+        AND i.ikashop_data IS NOT NULL AND i.ikashop_data<>'' AND s.duration>0"""
+      + shop_socket_clause + " ORDER BY " + order + " LIMIT 100", params)
+    offers = []
+    for offer in offer_rows:
+        try:
+            quantity = max(1, int(offer.get("quantity") or 1))
+            price = max(0, int(offer.get("price") or 0))
+            offers.append({"item_id": int(offer["id"]), "pid": int(offer["owner_id"]),
+                           "seller": game_text(offer.get("seller")) or f"pid {offer['owner_id']}",
+                           "shop_name": game_text(offer.get("shop_name")) or "—",
+                           "map_name": map_name(int(offer.get("map_index") or 0)),
+                           "channel": int(offer.get("channel") or 1),
+                           "empire": int(offer.get("empire") or 0),
+                           "is_bot": bool(offer.get("is_bot")),
+                           "quantity": quantity, "price": price, "unit_price": round(price / quantity, 2)})
+        except (TypeError, ValueError, KeyError):
+            app.logger.warning("Skipping malformed market offer for VNUM %s: %r", vnum, offer)
+    offer_groups = [
+        {"name": EMPIRES[empire]["name"], "empire": empire,
+         "offers": [offer for offer in offers if offer["empire"] == empire]}
+        for empire in (1, 3, 2)
+    ]
+    offer_groups.append({"name": "Wszystkie", "empire": 0, "offers": offers})
+    return render_template("economy_item.html", item=item, history=history,
+                           price_history=price_history,
+                           offers=offers, offer_groups=offer_groups, offer_sort=offer_sort)
 
 
 # "Kto ma najwięcej" -- przeszukiwanie na żądanie operatora. Zapytanie po
@@ -6467,6 +6872,380 @@ def economy_shops():
                             recent_sales=recent_shop_sales(10))
 
 
+MARKET_PRICE_MAX = 10 ** 13
+MARKET_PRICE_K = re.compile(r"^(\d+(?:[.,]\d+)?)\s*(k{1,4})$")
+MARKET_PRICE_GROUPS = re.compile(r"^\d{1,3}(?:[ .,_]\d{3})+$")
+
+
+def parse_market_price(text):
+    """Tieru market_preview.rules.parse_price: k/kk/kkk and grouped Yang."""
+    value_text = str(text if text is not None else "").strip().lower().replace("\xa0", " ")
+    if not value_text:
+        return None
+    value_text = re.sub(r"\s*yang$", "", value_text)
+    match = MARKET_PRICE_K.match(value_text.replace(" ", ""))
+    if match:
+        whole, _, fraction = match.group(1).replace(",", ".").partition(".")
+        scale = 1000 ** len(match.group(2))
+        value = int(whole) * scale
+        if fraction:
+            value += int(fraction) * scale // (10 ** len(fraction))
+    elif value_text.isdigit():
+        value = int(value_text)
+    elif MARKET_PRICE_GROUPS.match(value_text):
+        value = int(re.sub(r"[ .,_]", "", value_text))
+    else:
+        raise ValueError(text)
+    if value < 0 or value > MARKET_PRICE_MAX:
+        raise ValueError(text)
+    return value
+
+
+def market_max_bonus_count_sql(tops):
+    """Count rolls at Tieru's item_attr/item_attr_rare top, excluding SR/UM."""
+    valid = sorted((int(point), int(top)) for point, top in tops.items()
+                   if 0 < int(point) <= 65535 and 0 < int(top) <= 2147483647)
+    if not valid:
+        return "0"
+    cases = " ".join(f"WHEN {point} THEN {top}" for point, top in valid)
+    return " + ".join(
+        f"(i.attrtype{index} NOT IN (0,121,122) AND i.attrvalue{index} >= "
+        f"CASE i.attrtype{index} {cases} ELSE 2147483647 END)"
+        for index in range(7))
+
+
+@app.route("/economy/offers")
+@login_required
+def economy_offers():
+    """Browse current IkarusShop rows, using Tieru's owner/shop/price sources."""
+    query = request.args.get("q", "").strip()[:80]
+    seller_type = request.args.get("seller", "all")
+    if seller_type not in ("all", "bot", "person"):
+        seller_type = "all"
+    seller_name = request.args.get("seller_name", "").strip()[:80]
+    shop_name = request.args.get("shop_name", "").strip()[:80]
+    shop_owner = request.args.get("shop", 0, type=int)
+    if not 1 <= shop_owner <= 0xFFFFFFFF:
+        shop_owner = 0
+    category = request.args.get("category", 0, type=int)
+    if category not in (0, *(entry[0] for entry in MARKET_CATEGORIES)):
+        category = 0
+    subcategory = request.args.get("subcategory", 0, type=int)
+    if subcategory not in (0, *(entry[0] for entry in MARKET_SUBCATEGORIES.get(category, ()))):
+        subcategory = 0
+    class_bit = request.args.get("cls", 0, type=int)
+    if class_bit not in (0, *(entry[0] for entry in MARKET_CLASS_FILTERS)):
+        class_bit = 0
+    bonus_min = request.args.get("nbmin", 0, type=int)
+    if bonus_min not in range(6):
+        bonus_min = 0
+    max_bonus_min = request.args.get("nmaxmin", 0, type=int)
+    if max_bonus_min not in range(5):
+        max_bonus_min = 0
+    market_bonus_options = tuple((point, APPLY_LABELS.get(
+        POINT_TO_APPLY.get(point, point), (f"Bonus #{point}", ""))[0])
+        for point in MARKET_BONUS_POINTS)
+    market_bonus_names = dict(market_bonus_options)
+    selected_bonuses, bonus_params = [], {}
+    for number in range(1, 4):
+        point = request.args.get(f"b{number}", 0, type=int)
+        if point not in MARKET_BONUS_POINTS:
+            continue
+        floor = request.args.get(f"b{number}v", 1, type=int)
+        if not -100000 <= floor <= 100000:
+            floor = 1
+        selected_bonuses.append((point, floor))
+        bonus_params[f"b{number}"] = point
+        bonus_params[f"b{number}v"] = floor
+    stone_vnum = request.args.get("stone", 0, type=int)
+    if not 28000 <= stone_vnum <= 28999:
+        stone_vnum = 0
+    has_stone = request.args.get("ks") == "has" and not stone_vnum
+    damage_inputs = {key: request.args.get(key, "").strip() for key in
+                     ("avgmin", "avgmax", "sklmin", "sklmax")}
+    damage_values = {}
+    for key, value in damage_inputs.items():
+        damage_values[key] = int(value) if value.isdigit() and len(value) <= 3 and int(value) <= 200 else None
+        damage_inputs[key] = str(damage_values[key]) if damage_values[key] is not None else ""
+    for low, high in (("avgmin", "avgmax"), ("sklmin", "sklmax")):
+        if (damage_values[low] is not None and damage_values[high] is not None
+                and damage_values[low] > damage_values[high]):
+            damage_values[low] = damage_values[high] = None
+            damage_inputs[low] = damage_inputs[high] = ""
+    refine_inputs = {key: request.args.get(key, "").strip() for key in ("rmin", "rmax")}
+    refine_values = {}
+    for key, value in refine_inputs.items():
+        refine_values[key] = int(value) if value.isdigit() and len(value) <= 2 and int(value) <= 19 else None
+        if refine_values[key] is None:
+            refine_inputs[key] = ""
+        else:
+            refine_inputs[key] = str(refine_values[key])
+    if (refine_values["rmin"] is not None and refine_values["rmax"] is not None
+            and refine_values["rmin"] > refine_values["rmax"]):
+        refine_inputs = {"rmin": "", "rmax": ""}
+        refine_values = {"rmin": None, "rmax": None}
+    level_inputs = {key: request.args.get(key, "").strip() for key in ("lmin", "lmax")}
+    level_values = {}
+    for key, value in level_inputs.items():
+        level_values[key] = int(value) if value.isdigit() and len(value) <= 3 and int(value) <= 255 else None
+        level_inputs[key] = str(level_values[key]) if level_values[key] is not None else ""
+    if (level_values["lmin"] is not None and level_values["lmax"] is not None
+            and level_values["lmin"] > level_values["lmax"]):
+        level_inputs = {"lmin": "", "lmax": ""}
+        level_values = {"lmin": None, "lmax": None}
+    empire = request.args.get("empire", type=int) or 0
+    if empire not in (0, 1, 2, 3):
+        empire = 0
+    price_inputs = {key: request.args.get(key, "").strip()[:40] for key in ("pmin", "pmax")}
+    price_values, price_errors = {}, {}
+    for key, raw_price in price_inputs.items():
+        try:
+            price_values[key] = parse_market_price(raw_price)
+        except ValueError:
+            price_errors[key] = True
+    if (price_values.get("pmin") is not None and price_values.get("pmax") is not None
+            and price_values["pmin"] > price_values["pmax"]):
+        price_errors = {"pmin": True, "pmax": True}
+        price_values = {}
+    unit_price_filter = request.args.get("unit") == "1"
+    bonus_count_sql = " + ".join(
+        f"(i.attrtype{index} NOT IN (0,121,122) AND i.attrvalue{index}<>0)"
+        for index in range(7))
+    sort = request.args.get("sort", "price_asc")
+    order = {"price_asc": "price ASC, i.id DESC",
+             "price_desc": "price DESC, i.id DESC",
+             "unit_asc": "price / GREATEST(i.`count`,1) ASC, i.id DESC",
+             "newest": "i.id DESC",
+             "bonus_count": "(" + bonus_count_sql + ") DESC, price ASC, i.id DESC",
+             "plus_desc": "(" + market_refine_sql() + ") DESC, price ASC, i.id DESC",
+             "level_desc": "(" + market_required_level_sql() + ") DESC, price ASC, i.id DESC",
+             "level_asc": "(" + market_required_level_sql() + ") ASC, price ASC, i.id DESC"}.get(sort)
+    if order is None:
+        sort, order = "price_asc", "price ASC, i.id DESC"
+    page_size = request.args.get("size", 50, type=int)
+    if page_size not in (25, 50, 100):
+        page_size = 50
+    page = max(1, min(100, request.args.get("page", 1, type=int)))
+    filter_values = {"q": query, "seller": seller_type if seller_type != "all" else "",
+                     "seller_name": seller_name, "shop_name": shop_name,
+                     "shop": shop_owner if shop_owner else "",
+                     "category": category if category else "",
+                     "subcategory": subcategory if subcategory else "",
+                     "cls": class_bit if class_bit else "",
+                     "nbmin": bonus_min if bonus_min else "",
+                     "nmaxmin": max_bonus_min if max_bonus_min else "",
+                     **bonus_params,
+                     "ks": "has" if has_stone else "",
+                     "stone": stone_vnum if stone_vnum else "",
+                     **damage_inputs,
+                     "rmin": refine_inputs["rmin"], "rmax": refine_inputs["rmax"],
+                     "lmin": level_inputs["lmin"], "lmax": level_inputs["lmax"],
+                     "empire": empire if empire else "",
+                     "pmin": price_inputs["pmin"] if "pmin" not in price_errors else "",
+                     "pmax": price_inputs["pmax"] if "pmax" not in price_errors else "",
+                     "unit": "1" if unit_price_filter else ""}
+    filter_labels = {
+        "q": ("Przedmiot", "Item"), "seller": ("Sprzedawca", "Seller"),
+        "seller_name": ("Nick sprzedawcy", "Seller nickname"),
+        "shop_name": ("Nazwa sklepu", "Shop name"),
+        "shop": ("ID właściciela sklepu", "Shop owner ID"),
+        "category": ("Kategoria", "Category"),
+        "subcategory": ("Podkategoria", "Subcategory"),
+        "cls": ("Klasa postaci", "Character class"),
+        "nbmin": ("Liczba bonusów od", "Minimum bonus lines"),
+        "nmaxmin": ("Maksymalnych bonusów od", "Maximum bonus lines from"),
+        "ks": ("Kamień duszy", "Soul stone"),
+        "stone": ("VNUM kamienia", "Stone VNUM"),
+        "avgmin": ("Średnie obrażenia od", "Average damage from"),
+        "avgmax": ("Średnie obrażenia do", "Average damage to"),
+        "sklmin": ("Obrażenia umiejętności od", "Skill damage from"),
+        "sklmax": ("Obrażenia umiejętności do", "Skill damage to"),
+        "rmin": ("Ulepszenie od", "Refinement from"),
+        "rmax": ("Ulepszenie do", "Refinement to"),
+        "lmin": ("Poziom od", "Level from"), "lmax": ("Poziom do", "Level to"),
+        "empire": ("Królestwo", "Kingdom"),
+        "pmin": ("Cena od", "Price from"), "pmax": ("Cena do", "Price to"),
+        "unit": ("Cena za sztukę", "Unit price")}
+    english = settings().get("ui_language") == "en"
+    active_filters = []
+    for key, value in filter_values.items():
+        if not value or (key.startswith("b") and key.endswith("v") and key[:-1] in bonus_params):
+            continue
+        remaining = {name: selected for name, selected in filter_values.items()
+                     if (selected or (name.endswith("v") and name[:-1] in bonus_params))
+                     and name != key and not (key == "category" and name == "subcategory")
+                     and name != key + "v"}
+        if sort != "price_asc":
+            remaining["sort"] = sort
+        if page_size != 50:
+            remaining["size"] = page_size
+        if key.startswith("b") and key[1:].isdigit():
+            label = market_bonus_names[int(value)]
+            if english:
+                label = translations.EXACT.get(label, label)
+            value = f"≥ {bonus_params[key + 'v']}"
+        else:
+            label = filter_labels[key][1 if english else 0]
+        active_filters.append({"label": label, "value": value,
+                               "url": url_for("economy_offers", **remaining)})
+    clauses = ["i.`window`='IKASHOP_OFFLINESHOP'", "i.ikashop_data IS NOT NULL",
+               "i.ikashop_data<>''", "s.duration>0"]
+    params = []
+    if query:
+        clauses.append("(i.vnum=%s OR ip.locale_name LIKE %s)")
+        params.extend([int(query) if query.isdigit() else -1, f"%{query}%"])
+    if empire:
+        clauses.append("pi.empire=%s")
+        params.append(empire)
+    if seller_type != "all":
+        clauses.append("LEFT(a.login,10)" + ("=" if seller_type == "bot" else "<>") + "'playerbot_'")
+    if seller_name:
+        clauses.append("p.name LIKE %s")
+        params.append(f"%{seller_name}%")
+    if shop_name:
+        clauses.append("s.name LIKE %s")
+        params.append(f"%{shop_name}%")
+    if shop_owner:
+        clauses.append("i.owner_id=%s")
+        params.append(shop_owner)
+    if category:
+        clauses.append("(" + market_category_sql() + ")=%s")
+        params.append(category)
+    if subcategory:
+        clauses.append("(" + market_subcategory_sql() + ")=%s")
+        params.append(subcategory)
+    if class_bit:
+        clauses.append("((" + market_class_mask_sql() + ") & %s)<>0")
+        params.append(class_bit)
+    if bonus_min:
+        clauses.append("(" + bonus_count_sql + ")>=%s")
+        params.append(bonus_min)
+    if max_bonus_min:
+        tops = {}
+        for table_name in ("item_attr", "item_attr_rare"):
+            try:
+                top_rows = rows("SELECT apply+0 AS point, GREATEST(lv1,lv2,lv3,lv4,lv5) AS top "
+                                "FROM world." + table_name)
+            except pymysql.MySQLError:
+                continue  # Tieru also skips missing attribute tables.
+            for top_row in top_rows:
+                point, top = int(top_row.get("point") or 0), int(top_row.get("top") or 0)
+                if top > tops.get(point, 0):
+                    tops[point] = top
+        clauses.append("(" + market_max_bonus_count_sql(tops) + ")>=%s")
+        params.append(max_bonus_min)
+    for point, floor in selected_bonuses:
+        clauses.append("(" + " OR ".join(
+            f"(i.attrtype{index}=%s AND i.attrvalue{index}>=%s)"
+            for index in range(7)) + ")")
+        params.extend((point, floor) * 7)
+    if has_stone or stone_vnum:
+        clauses.append("ip.type IN (1,2)")
+        if stone_vnum:
+            clauses.append("(i.socket0=%s OR i.socket1=%s OR i.socket2=%s)")
+            params.extend((stone_vnum,) * 3)
+        else:
+            clauses.append("(" + " OR ".join(
+                f"i.socket{index} BETWEEN 28000 AND 28999" for index in range(3)) + ")")
+    for prefix, point in (("avg", 122), ("skl", 121)):
+        damage_sql = "COALESCE(" + ",".join(
+            f"NULLIF(IF(i.attrtype{index}={point},i.attrvalue{index},0),0)"
+            for index in range(6, -1, -1)) + ",0)"
+        for suffix, operator in (("min", ">="), ("max", "<=")):
+            value = damage_values[prefix + suffix]
+            if value is not None:
+                clauses.append(damage_sql + operator + "%s")
+                params.append(value)
+    for key, operator in (("rmin", ">="), ("rmax", "<=")):
+        if refine_values[key] is not None:
+            clauses.append("(" + market_refine_sql() + ")" + operator + "%s")
+            params.append(refine_values[key])
+    for key, operator in (("lmin", ">="), ("lmax", "<=")):
+        if level_values[key] is not None:
+            clauses.append("(" + market_required_level_sql() + ")" + operator + "%s")
+            params.append(level_values[key])
+    price_expr = "CAST(JSON_UNQUOTE(JSON_EXTRACT(i.ikashop_data,'$.yang')) AS UNSIGNED)"
+    if unit_price_filter:
+        price_expr += " / GREATEST(i.`count`,1)"
+    for key, operator in (("pmin", ">="), ("pmax", "<=")):
+        if price_values.get(key) is not None:
+            clauses.append(price_expr + operator + "%s")
+            params.append(price_values[key])
+    where_sql = " AND ".join(clauses)
+    total = int(one("""SELECT COUNT(*) AS total
+      FROM player.item i JOIN player.ikashop_offlineshop s ON s.owner=i.owner_id
+      LEFT JOIN player.item_proto ip ON ip.vnum=i.vnum
+      LEFT JOIN player.player p ON p.id=i.owner_id
+      LEFT JOIN account.account a ON a.id=p.account_id
+      LEFT JOIN player.player_index pi ON pi.id=p.account_id
+      WHERE """ + where_sql, tuple(params)).get("total") or 0)
+    params.extend([page_size + 1, (page - 1) * page_size])
+    raw = rows("""SELECT i.id, i.owner_id, i.vnum, i.`count` AS quantity,
+        CAST(JSON_UNQUOTE(JSON_EXTRACT(i.ikashop_data,'$.yang')) AS UNSIGNED) AS price,
+        COALESCE(ip.locale_name, CONCAT('VNUM ',i.vnum)) AS item_name, ip.type AS item_type,
+        i.socket0,i.socket1,i.socket2,
+        i.attrtype0,i.attrvalue0,i.attrtype1,i.attrvalue1,i.attrtype2,i.attrvalue2,
+        i.attrtype3,i.attrvalue3,i.attrtype4,i.attrvalue4,i.attrtype5,i.attrvalue5,
+        i.attrtype6,i.attrvalue6,
+        p.name AS seller, s.name AS shop_name, s.`map` AS map_index, s.channel,
+        pi.empire, (LEFT(a.login,10)='playerbot_') AS is_bot
+      FROM player.item i JOIN player.ikashop_offlineshop s ON s.owner=i.owner_id
+      LEFT JOIN player.item_proto ip ON ip.vnum=i.vnum
+      LEFT JOIN player.player p ON p.id=i.owner_id
+      LEFT JOIN account.account a ON a.id=p.account_id
+      LEFT JOIN player.player_index pi ON pi.id=p.account_id
+      WHERE """ + where_sql + " ORDER BY " + order + " LIMIT %s OFFSET %s", params)
+    has_next = len(raw) > page_size
+    offers = []
+    for offer in raw[:page_size]:
+        try:
+            quantity = max(1, int(offer.get("quantity") or 1))
+            price = max(0, int(offer.get("price") or 0))
+            vnum = int(offer["vnum"])
+            bonuses = [apply_text(offer.get(f"attrtype{index}"), offer.get(f"attrvalue{index}"))
+                       for index in range(7)
+                       if int(offer.get(f"attrtype{index}") or 0)
+                       and int(offer.get(f"attrvalue{index}") or 0)]
+            stones = []
+            if int(offer.get("item_type") or 0) in (1, 2):
+                for index in range(3):
+                    stone_vnum = int(offer.get(f"socket{index}") or 0)
+                    if 28000 <= stone_vnum <= 28999:
+                        stone = ITEM_DEFS.get(str(stone_vnum), {})
+                        stones.append(game_text(stone.get("name")) or f"VNUM {stone_vnum}")
+            offers.append({"id": int(offer["id"]), "pid": int(offer["owner_id"]),
+                           "vnum": vnum, "item_name": game_text(offer.get("item_name")),
+                           "seller": game_text(offer.get("seller")) or f"pid {offer['owner_id']}",
+                           "shop_name": game_text(offer.get("shop_name")) or "—",
+                           "map_name": map_name(int(offer.get("map_index") or 0)),
+                           "channel": int(offer.get("channel") or 1),
+                           "empire": int(offer.get("empire") or 0),
+                           "is_bot": bool(offer.get("is_bot")),
+                           "quantity": quantity, "price": price,
+                           "unit_price": round(price / quantity, 2),
+                           "bonuses": bonuses, "stones": stones})
+        except (TypeError, ValueError, KeyError):
+            app.logger.warning("Skipping malformed global market offer: %r", offer)
+    return render_template("economy_offers.html", offers=offers, query=query,
+                           seller_type=seller_type, seller_name=seller_name,
+                           shop_name=shop_name, shop_owner=shop_owner, category=category,
+                           subcategory=subcategory, market_categories=MARKET_CATEGORIES,
+                           market_subcategories=MARKET_SUBCATEGORIES.get(category, ()),
+                           class_bit=class_bit, market_class_filters=MARKET_CLASS_FILTERS,
+                           bonus_min=bonus_min, max_bonus_min=max_bonus_min,
+                           market_bonus_options=market_bonus_options,
+                           bonus_params=bonus_params,
+                           has_stone=has_stone, stone_vnum=stone_vnum,
+                           damage_inputs=damage_inputs,
+                           refine_inputs=refine_inputs, level_inputs=level_inputs,
+                           empire=empire, sort=sort,
+                           page=page, page_size=page_size, has_next=has_next,
+                           total=total,
+                           active_filters=active_filters,
+                           price_inputs=price_inputs,
+                           price_errors=price_errors, unit_price_filter=unit_price_filter)
+
+
 @app.route("/api/shop-feed")
 @login_required
 def api_shop_feed():
@@ -6487,6 +7266,32 @@ def item_name_search(query):
             clause += " OR p.vnum IN (" + ",".join(["%s"] * len(vnums)) + ")"
             params += vnums
     return "(" + clause + ")", params
+
+
+@app.get("/database/structure")
+@login_required
+def database_structure():
+    """Read-only game schema browser; unlike regular pages, always requires login."""
+    if settings().get("auth_enabled") != "1" or not session.get("seban_admin"):
+        abort(403)
+    db_name = request.args.get("db", "player")
+    if db_name not in ("account", "common", "player", "log"):
+        abort(404)
+    table_name = request.args.get("table", "").strip()
+    tables = rows("""SELECT TABLE_NAME AS name, ENGINE AS engine,
+        TABLE_ROWS AS rows_estimate, DATA_LENGTH + INDEX_LENGTH AS bytes_estimate
+        FROM information_schema.TABLES WHERE TABLE_SCHEMA=%s
+        ORDER BY TABLE_NAME LIMIT 500""", (db_name,))
+    if table_name and table_name not in {row["name"] for row in tables}:
+        abort(404)
+    columns = rows("""SELECT COLUMN_NAME AS name, COLUMN_TYPE AS type,
+        IS_NULLABLE AS nullable, COLUMN_KEY AS column_key,
+        COLUMN_DEFAULT AS default_value, EXTRA AS extra
+        FROM information_schema.COLUMNS
+        WHERE TABLE_SCHEMA=%s AND TABLE_NAME=%s
+        ORDER BY ORDINAL_POSITION LIMIT 500""", (db_name, table_name)) if table_name else []
+    return render_template("database_structure.html", databases=("account", "common", "player", "log"),
+                           db_name=db_name, table_name=table_name, tables=tables, columns=columns)
 
 
 @app.route("/items")
@@ -7467,9 +8272,24 @@ def changelog():
     source = request.args.get("source", "seban")
     if source not in ("seban", "tieru"):
         source = "seban"
-    tieru_entries, tieru_error = ([], None) if source != "tieru" else tieru_changelog_entries()
-    return render_template("changelog.html", entries=changelog_entries(), panel_version=PANEL_VERSION,
-                            source=source, tieru_entries=tieru_entries, tieru_error=tieru_error)
+    page = max(1, min(1000, request.args.get("page", 1, type=int)))
+    page_size = 20
+    if source == "tieru":
+        tieru_entries, tieru_error = tieru_changelog_entries()
+        entries = []
+        total = len(tieru_entries)
+    else:
+        entries = changelog_entries()
+        total = len(entries)
+        tieru_entries, tieru_error = [], None
+    page = min(page, max(1, (total + page_size - 1) // page_size))
+    all_entries = tieru_entries if source == "tieru" else entries
+    selected = all_entries[(page - 1) * page_size:page * page_size]
+    return render_template("changelog.html", entries=selected if source == "seban" else [],
+                           panel_version=PANEL_VERSION, source=source,
+                           tieru_entries=selected if source == "tieru" else [],
+                           tieru_error=tieru_error, page=page,
+                           has_previous=page > 1, has_next=page * page_size < total)
 
 
 @app.route("/accounts/<int:aid>/characters")
@@ -7518,7 +8338,7 @@ def api_news_feed():
 def system():
     samples = rows("""
       SELECT DATE_FORMAT(captured_at, '%%H:%%i') AS label, cpu_percent, ram_percent, ram_used_mb, ram_total_mb,
-             disk_percent, disk_used_mb, disk_total_mb
+             swap_percent, swap_used_mb, swap_total_mb, disk_percent, disk_used_mb, disk_total_mb
       FROM player.web_seban_system_snapshot WHERE captured_at >= NOW() - INTERVAL 24 HOUR ORDER BY captured_at
     """)
     current = samples[-1] if samples else {}
@@ -7537,7 +8357,7 @@ def api_system_history():
     """Last 24h of the collector's VPS snapshots (the same rows /system charts), thinned to at most
     ~120 points for the dashboard sparkline of the laka theme."""
     samples = rows("""
-      SELECT DATE_FORMAT(captured_at, '%%H:%%i') AS label, cpu_percent, ram_percent, disk_percent
+      SELECT DATE_FORMAT(captured_at, '%%H:%%i') AS label, cpu_percent, ram_percent, swap_percent, disk_percent
       FROM player.web_seban_system_snapshot WHERE captured_at >= NOW() - INTERVAL 24 HOUR ORDER BY captured_at
     """)
     step = max(1, len(samples) // 120)
@@ -7667,14 +8487,15 @@ SEASON_CATEGORIES = {
 def _season_week_rows():
     if time.time() - _season_cache["at"] < 600 and _season_cache.get("weekly") is not None:
         return _season_cache["weekly"], _season_cache["records"]
-    weekly = rows("""SELECT p.id,p.name,p.level,
+    weekly = rows("""SELECT p.id,p.name,p.level,p.horse_level,
         SUM(l.how='STONE_KILL') AS metins,
         SUM(l.how='BOSS_KILL') AS bosses,
-        SUM(l.how='REFINE SUCCESS' AND (l.hint LIKE '%%+7' OR l.hint LIKE '%%+8' OR l.hint LIKE '%%+9')) AS refine7
+        SUM(l.how='REFINE SUCCESS' AND (l.hint LIKE '%%+7' OR l.hint LIKE '%%+8' OR l.hint LIKE '%%+9')) AS refine7,
+        SUM(l.how='DEAD_BY_NPC') AS deaths
         FROM log.log l JOIN player.player p ON p.id=l.who
         WHERE l.time>=NOW()-INTERVAL 7 DAY AND """ + ranking_scope_sql("p") + """
-          AND l.how IN ('STONE_KILL','BOSS_KILL','REFINE SUCCESS')
-        GROUP BY p.id""")
+          AND l.how IN ('STONE_KILL','BOSS_KILL','REFINE SUCCESS','DEAD_BY_NPC')
+        GROUP BY p.id HAVING metins>0 OR bosses>0 OR refine7>0""")
     for row in weekly:
         row["monsters"] = 0
         row["points"] = int(row.get("metins") or 0)*150 + int(row.get("bosses") or 0)*500 + int(row.get("refine7") or 0)*200
@@ -7686,6 +8507,15 @@ def _season_week_rows():
         FROM log.log l
         WHERE l.time>=NOW()-INTERVAL 7 DAY
           AND l.how IN ('STONE_KILL','BOSS_KILL','REFINE SUCCESS')""")
+    records = records or {}
+    horse_record = one("SELECT p.name,p.horse_level AS value FROM player.player p WHERE "
+                       + ranking_scope_sql("p") + " ORDER BY p.horse_level DESC,p.level DESC LIMIT 1") or {}
+    gold_record = one("SELECT p.name,p.gold AS value FROM player.player p WHERE "
+                      + ranking_scope_sql("p") + " ORDER BY p.gold DESC,p.level DESC LIMIT 1") or {}
+    records["horse"] = int(horse_record.get("value") or 0)
+    records["horse_name"] = game_text(horse_record.get("name"))
+    records["gold"] = int(gold_record.get("value") or 0)
+    records["gold_name"] = game_text(gold_record.get("name"))
     _season_cache.update(at=time.time(), weekly=weekly, records=records)
     return weekly, records
 
@@ -7695,7 +8525,7 @@ def _season_alltime_rows():
     # character Y-panel reads), pivoted per character. Exact, and cheap.
     # The +7 count isn't a lifetime flag, so the all-time "Ulepszenia" column
     # is every successful refine (stat_refine_success) instead.
-    alltime = rows("""SELECT p.id,p.name,p.level,
+    alltime = rows("""SELECT p.id,p.name,p.level,p.horse_level,
         COALESCE(SUM(CASE WHEN f.flag='stat_stone' THEN f.value END),0) AS metins,
         COALESCE(SUM(CASE WHEN f.flag='stat_boss' THEN f.value END),0) AS bosses,
         COALESCE(SUM(CASE WHEN f.flag='stat_monster' THEN f.value END),0) AS monsters,
@@ -7703,7 +8533,7 @@ def _season_alltime_rows():
         FROM player.player p JOIN player.player_special_flag f ON f.pid=p.id
         WHERE """ + ranking_scope_sql("p") + """
           AND f.flag IN ('stat_stone','stat_boss','stat_monster','stat_refine_success')
-        GROUP BY p.id,p.name,p.level HAVING metins>0 OR bosses>0 OR monsters>0 OR refine7>0""")
+        GROUP BY p.id,p.name,p.level,p.horse_level HAVING metins>0 OR bosses>0 OR monsters>0 OR refine7>0""")
     for row in alltime:
         row["points"] = int(row["metins"]) * 150 + int(row["bosses"]) * 500
     return alltime
@@ -7787,17 +8617,24 @@ def read_panel_log_files(max_lines=500):
 def decisions_page():
     """Decyzje botów z log.playerbot_listing (Tieru's /decisions, 2.2.39+):
     dlaczego bot wystawił przedmiot i jak wyliczył cenę. Ostatnie 60 wpisów,
-    opcjonalnie tylko jednego bota (nick albo pid)."""
+    opcjonalnie z wybranego okresu i tylko jednego bota (nick albo pid)."""
     lang = settings().get("ui_language", "pl")
     bot = (request.args.get("bot") or "").strip()
-    params, where = [], ""
+    hours = request.args.get("hours", "all")
+    if hours not in ("all", "1", "6", "24", "72", "168"):
+        hours = "all"
+    params, conditions = [], []
+    if hours != "all":
+        conditions.append("COALESCE(l.last_at,l.listed_at) >= NOW() - INTERVAL %s HOUR")
+        params.append(int(hours))
     if bot:
         if bot.isdigit():
-            where = "WHERE l.pid=%s"
+            conditions.append("l.pid=%s")
             params.append(int(bot))
         else:
-            where = "WHERE p.name=%s"
+            conditions.append("p.name=%s")
             params.append(bot)
+    where = "WHERE " + " AND ".join(conditions) if conditions else ""
     try:
         records = rows(f"""SELECT l.*, p.name AS bot_name FROM log.playerbot_listing l
             LEFT JOIN player.player p ON p.id=l.pid {where}
@@ -7813,7 +8650,7 @@ def decisions_page():
             ex = None
         entries.append({"row": row, "ex": ex, "bot_name": game_text(row.get("bot_name")) or f"pid {row.get('pid')}",
                         "item": _decision_item_name(row.get("vnum"))})
-    return render_template("decisions.html", entries=entries, bot=bot)
+    return render_template("decisions.html", entries=entries, bot=bot, hours=hours)
 
 
 @app.route("/diagnostics/panel-logs")
@@ -8067,9 +8904,7 @@ def manage():
     for bot in bots:
         per_channel[int(bot.get("channel") or 1)] = per_channel.get(int(bot.get("channel") or 1), 0) + 1
     bot_channels = sorted(per_channel.items()) if len(per_channel) > 1 else []
-    updater = update_status()
-    updater["protected"] = current_settings.get("auth_enabled") == "1" and bool(session.get("seban_admin"))
-    return render_template("manage.html", rates=read_rates(), rate_presets=RATE_PRESETS, ai_weights=read_ai_weights(), chest_switch=read_chest_switch(), ai_weight_keys=[k for k in AI_WEIGHT_KEYS if not (ENGINE_MT2009 and k[0] == "HUNTING")], ai_weight_capped=AI_WEIGHT_CAPPED, ai_weight_hints=AI_WEIGHT_HINTS, engine_mt2009=ENGINE_MT2009, restart=restart_progress(), settings=current_settings, map_counts=map_counts, bot_count=len(bots), bot_channels=bot_channels, map_respawn_options=MAP_RESPAWN_OPTIONS, map_stone_respawn_ids=MAP_STONE_RESPAWN_IDS, map_respawn_status=read_map_regen_status(), server_settings=server_settings_status(), updater=updater, playerbots_release=playerbots_release_status(), update_csrf=update_csrf_token(), bot_count_wanted=read_bot_count() if panel_feature_enabled("bot_count", current_settings) else len(live_bots()) or 350, spawn_plan=read_spawn_plan(), student_chest_disabled=read_student_chest_disabled() if panel_feature_enabled("student_chest", current_settings) else False, custom_patches_enabled=CUSTOM_PATCHES_ENABLED, include_real_players=include_real_players_in_rankings(), announce_plus9=read_announce_plus9_refines() if panel_feature_enabled("plus9_announcements", current_settings) else False, bots_held=read_bot_hold(), item_policy=read_ai_item_policy(), difficulty=read_difficulty(), autohunt=read_autohunt(), channels=read_channel_settings(), channel_shares=CH2_SHARE_CHOICES, fresh_counts=FRESH_COUNT_CHOICES, world_extras=read_world_extras() if ENGINE_MT2009 else None)
+    return render_template("manage.html", rates=read_rates(), rate_presets=RATE_PRESETS, ai_weights=read_ai_weights(), chest_switch=read_chest_switch(), ai_weight_keys=[k for k in AI_WEIGHT_KEYS if not (ENGINE_MT2009 and k[0] == "HUNTING")], ai_weight_capped=AI_WEIGHT_CAPPED, ai_weight_hints=AI_WEIGHT_HINTS, engine_mt2009=ENGINE_MT2009, restart=restart_progress(), settings=current_settings, map_counts=map_counts, bot_count=len(bots), bot_channels=bot_channels, map_respawn_options=MAP_RESPAWN_OPTIONS, map_stone_respawn_ids=MAP_STONE_RESPAWN_IDS, map_respawn_status=read_map_regen_status(), server_settings=server_settings_status(), update_csrf=update_csrf_token(), bot_count_wanted=read_bot_count() if panel_feature_enabled("bot_count", current_settings) else len(live_bots()) or 350, spawn_plan=read_spawn_plan(), student_chest_disabled=read_student_chest_disabled() if panel_feature_enabled("student_chest", current_settings) else False, custom_patches_enabled=CUSTOM_PATCHES_ENABLED, include_real_players=include_real_players_in_rankings(), announce_plus9=read_announce_plus9_refines() if panel_feature_enabled("plus9_announcements", current_settings) else False, bots_held=read_bot_hold(), item_policy=read_ai_item_policy(), difficulty=read_difficulty(), autohunt=read_autohunt(), channels=read_channel_settings(), channel_shares=CH2_SHARE_CHOICES, fresh_counts=FRESH_COUNT_CHOICES, world_extras=read_world_extras() if ENGINE_MT2009 else None, explain_days=read_ai_explain_days())
 
 
 @app.post("/manage/difficulty")
@@ -8209,29 +9044,6 @@ def manage_panel_reaper_chests():
     return redirect(url_for("manage_panel", _anchor="reaper-chests"))
 
 
-@app.post("/manage/update")
-@login_required
-def manage_update():
-    if blocked := require_panel_feature("seban_updater"):
-        return blocked
-    current = settings()
-    if current.get("auth_enabled") != "1" or not session.get("seban_admin"):
-        flash("Aktualizacje z panelu wymagają włączonej ochrony hasłem.", "error")
-        return redirect(url_for("manage"))
-    supplied = request.form.get("update_csrf", "")
-    expected = session.get("seban_update_csrf", "")
-    if not expected or not hmac.compare_digest(supplied, expected):
-        abort(403)
-    try:
-        queue_tieru_update(current.get("update_seban_panel") == "1")
-    except (OSError, RuntimeError) as exc:
-        flash(str(exc), "error")
-    else:
-        panel_note = " Razem z Playerbots zostanie zaktualizowany Seban Panel." if current.get("update_seban_panel") == "1" else " Seban Panel pozostanie w obecnej wersji."
-        flash("Pobrano zlecenie aktualizacji. Serwer zostanie przebudowany przez odizolowany updater; postęp jest widoczny poniżej." + panel_note)
-    return redirect(url_for("manage"))
-
-
 @app.post("/manage/settings")
 @login_required
 def manage_settings():
@@ -8259,15 +9071,17 @@ def manage_settings():
     return redirect(url_for("manage_panel"))
 
 
-@app.post("/manage/overrides")
+@app.post("/language")
 @login_required
-def manage_overrides():
-    if blocked := require_panel_feature("seban_updater"):
-        return blocked
-    values = {key: "1" if request.form.get(key) == "1" else "0" for key in ("allow_student_chest", "allow_moonlight_chest", "keep_demo_characters", "update_seban_panel")}
-    write_settings(values)
-    flash("Override'y zapisane. Zostaną zastosowane przy następnej aktualizacji Playerbots.")
-    return redirect(url_for("manage"))
+def set_language():
+    language = request.form.get("language")
+    if language not in ("pl", "en"):
+        abort(400)
+    write_settings({"ui_language": language})
+    destination = request.form.get("next", "")
+    if not destination.startswith("/") or destination.startswith("//") or "\\" in destination:
+        destination = url_for("dashboard")
+    return redirect(destination)
 
 
 @app.post("/manage/restart-config")
@@ -8351,13 +9165,18 @@ def manage_spawn_plan():
 # and the same web_admin_queue commands as his panel, so the game's
 # web_admin.quest applies them live and a restart keeps them.
 def read_world_extras():
-    raw = read_global_quest_flags(("m2_ds_eyes_per_day", "m2_extra_ds_drop", "m2_extra_coupon_drop", "m2_dragon_soul_off", "m2_mob_hp"))
+    raw = read_global_quest_flags(("m2_ds_eyes_per_day", "m2_extra_ds_drop", "m2_extra_coupon_drop", "m2_dragon_soul_off", "m2_mob_hp", "m2_unique70_bonus_off", "m2_yang_ground", "m2_owner_defence_off", "m2_drop_bonus_pct", "m2_move_speed_pct"))
     eyes = int(raw.get("m2_ds_eyes_per_day") or 0)
     return {
         "eyes": eyes if 1 <= eyes <= 100 else 10,
         "ds": max(0, min(100, int(raw.get("m2_extra_ds_drop") or 0))),
         "coupon": max(0, min(100, int(raw.get("m2_extra_coupon_drop") or 0))),
         "alchemy_off": 1 if int(raw.get("m2_dragon_soul_off") or 0) > 0 else 0,
+        "unique70_off": 1 if int(raw.get("m2_unique70_bonus_off") or 0) > 0 else 0,
+        "yang_ground": 1 if int(raw.get("m2_yang_ground") or 0) > 0 else 0,
+        "owner_defence_off": 1 if int(raw.get("m2_owner_defence_off") or 0) > 0 else 0,
+        "drop_bonus_pct": (lambda v: 100 if v <= 0 else max(10, min(1000, v)))(int(raw.get("m2_drop_bonus_pct") or 0)),
+        "move_speed_pct": (lambda v: 100 if v <= 0 else max(50, min(200, v)))(int(raw.get("m2_move_speed_pct") or 0)),
         "mob_hp": (lambda v: 100 if v <= 0 else max(10, min(300, v)))(int(raw.get("m2_mob_hp") or 0)),
     }
 
@@ -8413,6 +9232,108 @@ def manage_dragon_soul():
     else:
         flash("Alchemia Smoczych Kamieni włączona " + ("— działa od razu." if status == "done" else "— zadziała po restarcie gry."))
     return redirect(url_for("manage"))
+
+
+@app.post("/manage/unique70-bonus")
+@login_required
+def manage_unique70_bonus():
+    """Tieru's m2_unique70_bonus_off / UNIQUE70_BONUS live switch."""
+    if not ENGINE_MT2009:
+        return redirect(url_for("manage"))
+    value = (request.form.get("off") or "").strip()
+    if value not in ("0", "1"):
+        flash("Nieprawidłowa wartość szóstego bonusu broni 70 poziomu.", "error")
+        return redirect(url_for("manage"))
+    rows("REPLACE INTO player.quest (dwPID,szName,szState,lValue) "
+         "VALUES (0,'m2_unique70_bonus_off','',%s)", (int(value),))
+    status, queue_id = queue_game_admin_command("UNIQUE70_BONUS", value)
+    if status == "timeout":
+        cancel_pending_admin_command(queue_id)
+    flash("Szósty bonus nowych broni 70 poziomu zapisany" +
+          (" — działa od razu." if status == "done" else " — zadziała po restarcie gry."))
+    return redirect(url_for("manage", _anchor="world-extras"))
+
+
+@app.post("/manage/yang-ground")
+@login_required
+def manage_yang_ground():
+    """Tieru's m2_yang_ground / YANG_GROUND switch for human kills."""
+    if not ENGINE_MT2009:
+        return redirect(url_for("manage"))
+    value = (request.form.get("ground") or "").strip()
+    if value not in ("0", "1"):
+        flash("Nieprawidłowe ustawienie Yang z potworów.", "error")
+        return redirect(url_for("manage"))
+    rows("REPLACE INTO player.quest (dwPID,szName,szState,lValue) "
+         "VALUES (0,'m2_yang_ground','',%s)", (int(value),))
+    status, queue_id = queue_game_admin_command("YANG_GROUND", value)
+    if status == "timeout":
+        cancel_pending_admin_command(queue_id)
+    flash("Ustawienie Yang z potworów zapisane" +
+          (" — działa od razu." if status == "done" else " — zadziała po restarcie gry."))
+    return redirect(url_for("manage", _anchor="world-extras"))
+
+
+@app.post("/manage/owner-defence")
+@login_required
+def manage_owner_defence():
+    """Tieru's m2_owner_defence_off / OWNER_DEFENCE live switch."""
+    if not ENGINE_MT2009:
+        return redirect(url_for("manage"))
+    value = (request.form.get("off") or "").strip()
+    if value not in ("0", "1"):
+        flash("Nieprawidłowe ustawienie obrony gracza.", "error")
+        return redirect(url_for("manage"))
+    rows("REPLACE INTO player.quest (dwPID,szName,szState,lValue) "
+         "VALUES (0,'m2_owner_defence_off','',%s)", (int(value),))
+    status, queue_id = queue_game_admin_command("OWNER_DEFENCE", value)
+    if status == "timeout":
+        cancel_pending_admin_command(queue_id)
+    flash("Obrona przed botami innych królestw zapisana" +
+          (" — działa od razu." if status == "done" else " — zadziała po restarcie gry."))
+    return redirect(url_for("manage", _anchor="world-extras"))
+
+
+@app.post("/manage/drop-bonus")
+@login_required
+def manage_drop_bonus():
+    """Tieru's m2_drop_bonus_pct / DROP_BONUS live setting (10–1000%)."""
+    if not ENGINE_MT2009:
+        return redirect(url_for("manage"))
+    raw = (request.form.get("pct") or "").strip()
+    if not raw.isascii() or not raw.isdigit() or not 10 <= int(raw) <= 1000:
+        flash("Szansa bonusów w dropie musi wynosić od 10% do 1000%.", "error")
+        return redirect(url_for("manage"))
+    value = int(raw)
+    rows("REPLACE INTO player.quest (dwPID,szName,szState,lValue) "
+         "VALUES (0,'m2_drop_bonus_pct','',%s)", (value,))
+    status, queue_id = queue_game_admin_command("DROP_BONUS", str(value))
+    if status == "timeout":
+        cancel_pending_admin_command(queue_id)
+    flash("Szansa bonusów w dropie zapisana" +
+          (" — działa od następnego dropu." if status == "done" else " — zadziała po restarcie gry."))
+    return redirect(url_for("manage", _anchor="world-extras"))
+
+
+@app.post("/manage/move-speed")
+@login_required
+def manage_move_speed():
+    """Tieru's m2_move_speed_pct / MOVE_SPEED live setting (50–200%)."""
+    if not ENGINE_MT2009:
+        return redirect(url_for("manage"))
+    raw = (request.form.get("pct") or "").strip()
+    if not raw.isascii() or not raw.isdigit() or not 50 <= int(raw) <= 200:
+        flash("Szybkość ruchu musi wynosić od 50% do 200%.", "error")
+        return redirect(url_for("manage"))
+    value = int(raw)
+    rows("REPLACE INTO player.quest (dwPID,szName,szState,lValue) "
+         "VALUES (0,'m2_move_speed_pct','',%s)", (value,))
+    status, queue_id = queue_game_admin_command("MOVE_SPEED", str(value))
+    if status == "timeout":
+        cancel_pending_admin_command(queue_id)
+    flash("Szybkość ruchu zapisana" +
+          (" — działa od razu." if status == "done" else " — zadziała po restarcie gry."))
+    return redirect(url_for("manage", _anchor="world-extras"))
 
 
 @app.post("/manage/student-chest")
@@ -8568,13 +9489,34 @@ def manage_behavior():
             value = AI_WEIGHT_NEUTRAL
         values[key] = max(AI_WEIGHT_MIN, min(AI_WEIGHT_MAX, value))
     values["CHAT"] = 1 if "1" in request.form.getlist("CHAT") else 0
+    try:
+        values["LIVE_CHAT"] = max(0, min(200, int(request.form.get("LIVE_CHAT", values.get("LIVE_CHAT", 100)))))
+    except (TypeError, ValueError):
+        values["LIVE_CHAT"] = values.get("LIVE_CHAT", 100)
+    try:
+        values["CRAFTSMAN"] = max(0, min(100, int(request.form.get("CRAFTSMAN", values.get("CRAFTSMAN", 30)))))
+    except (TypeError, ValueError):
+        values["CRAFTSMAN"] = values.get("CRAFTSMAN", 30)
     values["BOOKS"] = values.get("BOOKS", 1) if "BOOKS" not in request.form else (1 if "1" in request.form.getlist("BOOKS") else 0)
-    for key, default in (("NIGHT", 1), ("LIFE", 0), ("WARS", 1), ("TOWER", 1), ("ISHOP", 1), ("SHOP_M2", 0), ("PERSONA", 1)):
+    for key, default in (("NIGHT", 1), ("LIFE", 0), ("WARS", 1), ("TOWER", 1), ("ISHOP", 1), ("SHOP_M2", 0), ("PERSONA", 1), ("HAGGLE", 1), ("SHOP_ROOM_SELL", 1), ("SUPPLY_BANDS", 1), ("SUPPLY_SCALE", 0), ("PVP_SET", 0), ("PVP_SET_VS_HUMAN", 1)):
         values[key] = values.get(key, default) if key not in request.form else (1 if "1" in request.form.getlist(key) else 0)
+    for key, low, high, default in (("PVP_SET_SHARE", 0, 100, 25), ("PVP_SET_MIN_LEVEL", 1, 120, 30), ("PVP_SET_BUDGET", 0, 100, 20), ("PVP_SET_STRENGTH", 0, 2, 1)):
+        try:
+            values[key] = max(low, min(high, int(request.form.get(key, values.get(key, default)))))
+        except (TypeError, ValueError):
+            values[key] = values.get(key, default)
+    try:
+        values["SUPPLY_REF_BOTS"] = max(50, min(50000, int(request.form.get("SUPPLY_REF_BOTS", values.get("SUPPLY_REF_BOTS", 1000)))))
+    except (TypeError, ValueError):
+        values["SUPPLY_REF_BOTS"] = values.get("SUPPLY_REF_BOTS", 1000)
     try:
         values["LIFE_HOURS"] = max(0, min(24, int(request.form.get("LIFE_HOURS", values.get("LIFE_HOURS", 0)))))
     except (TypeError, ValueError):
         values["LIFE_HOURS"] = values.get("LIFE_HOURS", 0)
+    try:
+        values["SESSION_REALISM"] = max(0, min(100, int(request.form.get("SESSION_REALISM", values.get("SESSION_REALISM", 0)))))
+    except (TypeError, ValueError):
+        values["SESSION_REALISM"] = values.get("SESSION_REALISM", 0)
     try:
         values["SCRAP"] = max(0, min(100, int(request.form.get("SCRAP", values.get("SCRAP", 0)))))
     except (TypeError, ValueError):
@@ -8591,11 +9533,15 @@ def manage_behavior():
         values["SCROLL_FROM"] = max(1, min(9, int(request.form.get("SCROLL_FROM", values.get("SCROLL_FROM", 1)))))
     except (TypeError, ValueError):
         values["SCROLL_FROM"] = 1
-    for key, minimum, maximum, default in (("WAR_MINUTES", 5, 180, 30), ("WAR_HOURS", 1, 24, 2)):
+    try:
+        values["WAR_MINUTES"] = 15 if int(request.form.get("WAR_MINUTES", values.get("WAR_MINUTES", 30))) <= 15 else 30
+    except (TypeError, ValueError):
+        values["WAR_MINUTES"] = values.get("WAR_MINUTES", 30)
+    for key, minimum, maximum, default in (("WAR_HOURS", 1, 4, 2), ("WAR_KILLS", 0, 1000, 100)):
         try:
             values[key] = max(minimum, min(maximum, int(request.form.get(key, values.get(key, default)))))
         except (TypeError, ValueError):
-            values[key] = default
+            values[key] = values.get(key, default)
     switch = read_chest_switch()
     chest_off = "1" in request.form.getlist("CHEST_OFF")
     for key in ("CHEST", "CHEST_STONE"):
@@ -8622,6 +9568,34 @@ def manage_behavior():
     else:
         flash("Zachowanie botów zapisane — nowy plan działania wejdzie w życie do 5 sekund, bez restartu.")
     return redirect(url_for("manage"))
+
+
+@app.post("/manage/explain-retention")
+@login_required
+def manage_explain_retention():
+    supplied = request.form.get("update_csrf", "")
+    expected = session.get("seban_update_csrf", "")
+    if not expected or not hmac.compare_digest(supplied, expected):
+        abort(403)
+    if request.form.get("action") == "default":
+        days = None
+    else:
+        try:
+            days = int(request.form.get("days", ""))
+        except ValueError:
+            days = -1
+        if not 0 <= days <= 30:
+            flash("Retencja wyjaśnień musi wynosić od 0 do 30 dni.", "error")
+            return redirect(url_for("manage") + "#explain-retention")
+    try:
+        current_days = read_ai_explain_days()
+        if days != current_days and not (current_days is None and days == 7):
+            write_ai_explain_days(days)
+    except OSError:
+        flash("Nie udało się zapisać retencji wyjaśnień.", "error")
+    else:
+        flash("Retencja wyjaśnień decyzji została zapisana — działa bez restartu.")
+    return redirect(url_for("manage") + "#explain-retention")
 
 
 @app.post("/manage/item-policy")
@@ -8723,10 +9697,8 @@ def manage_restart():
 @login_required
 def api_manage_status():
     status = read_rate_status()
-    updater = update_status()
-    updater["protected"] = settings().get("auth_enabled") == "1" and bool(session.get("seban_admin"))
     check_finished_events()
-    return {"ok": True, "restart": restart_progress(), "server_settings": server_settings_status(), "updater": updater, "rates": read_rates(), "events": read_events_status(), "bots": len(live_bots()), "maps": live_map_counts()}
+    return {"ok": True, "restart": restart_progress(), "server_settings": server_settings_status(), "rates": read_rates(), "events": read_events_status(), "bots": len(live_bots()), "maps": live_map_counts()}
 
 
 @app.route("/api/notifications")

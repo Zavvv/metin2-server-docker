@@ -33,6 +33,7 @@
   if (map && liveInsights && 'ResizeObserver' in window) {
     const insightsFloat = () => window.matchMedia('(min-width: 1700px)').matches;
     const syncInsightsHeight = () => {
+      liveInsights.style.setProperty('--laka-map-height', insightsFloat() ? map.offsetHeight + 'px' : 'auto');
       if (insightsFloat()) liveInsights.style.height = map.offsetHeight + 'px';
       else liveInsights.style.height = '';
     };
@@ -65,7 +66,7 @@
   restartInfo.id = 'last-restart';
   document.querySelector('.live-shell header > div').appendChild(restartInfo);
   [...document.querySelectorAll('.live-shell footer span')].filter(node => node.textContent.includes('Podkład graficzny')).forEach(node => node.remove());
-  const mapLabels = {21:'Chunjo M1 — Joan',23:'Chunjo M2 — Bokjung',24:'Chunjo M3 — Waryong',25:'Loch Małp Chunjo',61:'Góra Sohan',64:'Dolina Orków',63:'Pustynia Yongbi',104:'Loch Pająków V1',108:'Loch Małp Normalny',109:'Loch Małp Trudny',65:'Świątynia Hwang',4:'Shinsoo M3 — Jungrang',44:'Jinno M3 — Imha',5:'Loch Małp Shinsoo',45:'Loch Małp Jinno',1:'Shinsoo M1 — Yongan',3:'Shinsoo M2 — Jayang',41:'Jinno M1 — Pyongmoo',43:'Jinno M2 — Bakra',67:'Las',68:'Czerwony Las',66:'Wieża Demonów'};
+  const mapLabels = {21:'Chunjo M1 — Joan',23:'Chunjo M2 — Bokjung',24:'Chunjo M3 — Waryong',25:'Loch Małp Chunjo',61:'Góra Sohan',64:'Dolina Orków',63:'Pustynia Yongbi',104:'Loch Pająków V1',71:'Loch Pająków V2',108:'Loch Małp Normalny',109:'Loch Małp Trudny',65:'Świątynia Hwang',4:'Shinsoo M3 — Jungrang',44:'Jinno M3 — Imha',5:'Loch Małp Shinsoo',45:'Loch Małp Jinno',1:'Shinsoo M1 — Yongan',3:'Shinsoo M2 — Jayang',41:'Jinno M1 — Pyongmoo',43:'Jinno M2 — Bakra',67:'Las',68:'Czerwony Las',66:'Wieża Demonów'};
   Object.entries(mapLabels).forEach(([id,label]) => {
     const option = select.querySelector(`option[value="${id}"]`);
     if (option) option.textContent = label;
@@ -209,11 +210,21 @@
       return {global: (parsed.global && parsed.global.delay && parsed.global.count) ? parsed.global : fallback, maps: parsed.maps || {values:{},stones:{}}};
     } catch (_) { return {global: fallback, maps: {values:{},stones:{}}}; }
   }
-  function donut(id,rows,colors){const n=$(id),total=rows.reduce((a,x)=>a+x[1],0),t=total||1;if(!n)return;let at=0;const slices=rows.map(([l,v],i)=>{const from=at/t*360;at+=v;return `${colors[i]} ${from}deg ${at/t*360}deg`}).join(',');
-    // An empty map (total 0) has no leader -- reduce() defaulting to rows[0]
-    // named the first kingdom (Shinsoo) "dominant" at 0%, which read as a
-    // real claim rather than "nobody's here".
-    const lead=total?rows.reduce((a,x)=>x[1]>a[1]?x:a,rows[0]||['—',0]):['—',0],pct=total?Math.round(lead[1]/t*100):0;n.innerHTML=`<div class="map-donut" style="--map-donut:conic-gradient(${slices})"><b>${escape(lead[0])}</b><small>${pct}%</small></div><div class="map-donut-legend">${rows.map(([l,v],i)=>`<span><i style="--dot:${colors[i]}"></i>${escape(l)} <b>${v}</b></span>`).join('')}</div>`}
+  function donut(id, rows, colors) {
+    const target = $(id);
+    if (!target) return;
+    const total = rows.reduce((sum, row) => sum + row[1], 0);
+    const denominator = total || 1;
+    let offset = 0;
+    const slices = rows.map(([, count], index) => {
+      const start = offset / denominator * 360;
+      offset += count;
+      return `${colors[index % colors.length]} ${start}deg ${offset / denominator * 360}deg`;
+    }).join(',');
+    const leader = total ? rows.reduce((best, row) => row[1] > best[1] ? row : best, rows[0] || ['—', 0]) : ['—', 0];
+    const percent = total ? Math.round(leader[1] / total * 100) : 0;
+    target.innerHTML = `<div class="map-donut" role="img" aria-label="${escape(rows.map(([label, count]) => `${label}: ${count}`).join(', '))}" style="--map-donut:${total ? `conic-gradient(${slices})` : 'conic-gradient(#453925 0deg 360deg)'}"><b>${escape(leader[0])}</b><small>${percent}%</small></div><div class="map-donut-legend">${rows.map(([label, count], index) => `<span style="--dot:${colors[index % colors.length]};--share:${total ? count / total * 100 : 0}%"><i></i><em>${escape(label)}</em><b>${count}</b></span>`).join('')}</div>`;
+  }
   function insights(mapId,bots){donut('map-channel-chart',[...new Set(snapshot.map(x=>+x.channel||1))].sort().map(c=>[`CH${c}`,bots.filter(x=>(+x.channel||1)===c).length]),['#43df91','#ef5ac9','#f5f5f5','#8a8a94']);donut('map-empire-chart',[[1,'Shinsoo'],[2,'Chunjo'],[3,'Jinno']].map(([e,l])=>[l,bots.filter(x=>+x.empire===e).length]),['#d95a54','#e8b93f','#4f86d9']);const rI=regenInfo(),m=rI.maps,g=rI.global,n=$('map-respawn-summary'),v=(m.values||{}),st=(m.stones||{}),mapSeconds=value=>value === 'reset' || value === undefined || value === null || value === '' ? null : Number(value);const mobSeconds=mapSeconds(v[mapId]),stoneSeconds=mapSeconds(st[mapId]);if(n)n.innerHTML=`<div><b>⚔ Potwory</b><small>${mobSeconds?`Własny czas mapy · ${mobSeconds} s`:`Globalnie · ${g.delay.mob}% czasu podstawowego`}</small></div><div><b>🗿 Metiny</b><small>${stoneSeconds?`Własny czas mapy · ${stoneSeconds} s`:`Globalnie · ${g.delay.metin ?? g.delay.boss}% czasu podstawowego`}</small></div><div><b>👹 Bossowie</b><small>${`Globalnie · ${g.delay.boss}% czasu podstawowego`}</small></div><div><b>✦ Liczebność</b><small>Potwory ${g.count.mob}% · Metiny ${g.count.metin ?? g.count.boss}% · Bossowie ${g.count.boss}%</small></div>`}
   document.querySelectorAll('[data-insight]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-insight]').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('[data-insight-page]').forEach(x=>x.classList.toggle('active',x.dataset.insightPage===b.dataset.insight))});
   function render() {

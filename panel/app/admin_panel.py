@@ -1831,6 +1831,20 @@ AI_W_CAPPED = frozenset(("REFINE", "SKILL", "BIOLOG", "HUNTING"))
 
 # Patch 8 controls; bounds mirror playerbot_patch8_settings.h.
 PATCH8_CONTROLS = (
+    ('P17_PW_GREET_MIN_MS', 2000, 2000, 30000, 'PW: powitanie od (ms)', 'PW: greeting from (ms)'),
+    ('P17_PW_GREET_MAX_MS', 10000, 2000, 60000, 'PW: powitanie do (ms)', 'PW: greeting until (ms)'),
+    ('P17_GLOBAL_GREET_MIN_MS', 30000, 5000, 120000, 'Global: powitanie od (ms)', 'Global: greeting from (ms)'),
+    ('P17_GLOBAL_GREET_MAX_MS', 60000, 5000, 180000, 'Global: powitanie do (ms)', 'Global: greeting until (ms)'),
+    ('P17_GLOBAL_GREET_GAP_MS', 600000, 60000, 3600000, 'Global: przerwa powitań gracza (ms)', 'Global: gap between greetings to a player (ms)'),
+    ('P17_GLOBAL_GREET_MAX', 3, 0, 5, 'Global: maks. odpowiedzi na powitanie', 'Global: maximum greeting replies'),
+    ('P17_GM_GREET_MIN', 2, 0, 5, 'GM: min. odpowiedzi na powitanie', 'GM: minimum greeting replies'),
+    ('P17_GM_GREET_MAX', 5, 0, 10, 'GM: maks. odpowiedzi na powitanie', 'GM: maximum greeting replies'),
+    ('P17_GM_QUESTION_MIN', 2, 0, 5, 'GM: min. odpowiedzi na pytanie', 'GM: minimum question replies'),
+    ('P17_GM_QUESTION_MAX', 4, 0, 10, 'GM: maks. odpowiedzi na pytanie', 'GM: maximum question replies'),
+    ('P17_GM_INFO_MIN', 1, 0, 5, 'GM: min. reakcji na ogłoszenie', 'GM: minimum announcement replies'),
+    ('P17_GM_INFO_MAX', 3, 0, 10, 'GM: maks. reakcji na ogłoszenie', 'GM: maximum announcement replies'),
+    ('P17_PUBLIC_PER_MIN', 3, 1, 10, 'Czat: luźne odpowiedzi bota na minutę', 'Chat: casual replies per bot per minute'),
+
     ('P8_ORC_TOOTH_FARM_LIMIT', 50, 0, 500, 'Biolog: limit botów szukających zębów orka na kanał (0 = bez limitu)', 'Biologist: Orc Tooth farmers per channel (0 = unlimited)'),
     ('P8_CHAT_RATE', 100, 0, 1000, 'Czat: wiadomości na godzinę przy 1000 botach', 'Chat: messages per hour at 1000 bots'),
     ('P8_CAP_QUIET', 2, 0, 100, 'Cichy: limit wiadomości na godzinę', 'Quiet: hourly message limit'),
@@ -1877,7 +1891,7 @@ PATCH8_CONTROLS = (
     ('P8_GM_REACTIONS_MIN', 10, 0, 100, 'Ogłoszenie GM: minimum reakcji', 'GM announcement: minimum reactions'),
     ('P8_GM_REACTIONS_MAX', 35, 0, 100, 'Ogłoszenie GM: maksimum reakcji', 'GM announcement: maximum reactions'),
     ('P8_GM_DELAY_MIN_MS', 5000, 5000, 90000, 'Ogłoszenie GM: najwcześniejsza reakcja (ms)', 'GM announcement: earliest reaction (ms)'),
-    ('P8_GM_DELAY_MAX_MS', 90000, 5000, 90000, 'Ogłoszenie GM: najpóźniejsza reakcja (ms)', 'GM announcement: latest reaction (ms)'),
+    ('P8_GM_DELAY_MAX_MS', 60000, 5000, 90000, 'Ogłoszenie GM: najpóźniejsza reakcja (ms)', 'GM announcement: latest reaction (ms)'),
     ('P8_GM_COOLDOWN_MS', 180000, 180000, 3600000, 'Ogłoszenie GM: przerwa między falami (ms)', 'GM announcement: gap between waves (ms)'),
     ('P8_FLIRT', 1, 0, 1, 'Smok: lekki flirt w grze', 'Dragon Shaman: light in-game flirting'),
     ('P8_FLIRT_DAILY_GAIN', 15, 0, 100, 'Flirt: maksymalny dzienny wzrost sympatii', 'Flirting: maximum daily affection gain'),
@@ -12320,6 +12334,7 @@ function openBotModal(pid) {
       html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;font-size:12px;background:#1a150e;padding:10px;border-radius:6px">' +
               '<div><b>HP:</b> <span style="color:#ef4444">' + (p.hp || 0) + '</span> / <b>MP:</b> <span style="color:#38bdf8">' + (p.mp || 0) + '</span></div>' +
               '<div><b>Yang:</b> <span style="color:#eab308;font-weight:700">' + (p.gold || 0).toLocaleString() + '</span></div>' +
+              (isBot && data.investment17_label ? '<div style="grid-column:1 / -1">' + escapeHtml(data.investment17_label) + '</div>' : '') +
               '<div><b>' + I18N.position + ':</b> (' + p.x + ', ' + p.y + ')</div>' +
               // What the AI is doing is a bot's alone: a person reached from a
               // ranking (blipu, 28 September) has no personality, goal or action,
@@ -13062,7 +13077,7 @@ def api_admin_warp_me():
                     ",".join(["%s"] * len(rows))), tuple(rows.keys()))
             # Written down every time. The button moves whichever human character
             # is in the game, wherever its player happens to be looking, and "I
-            # stood AFK and was suddenly in the Demon Tower" (sizowski, 14
+            # stood AFK and was suddenly in the Demon Tower" (the contributor, 14
             # September) could not be told apart from a click without a line.
             app.logger.warning("teleport me (auto): tried=%s moved=%s status=%s to=(%d, %d)",
                                ",".join(names), moved, st, target_x, target_y)
@@ -19616,6 +19631,7 @@ def api_bot_inventory(pid):
     messages = map_i18n(language)
     live = read_playerbot_live_status().get(int(pid))
     live_labels = playerbot_live_labels(live, language)
+    investment17=patch17_investment_rows().get(pid)
     try:
         with db() as c, c.cursor() as cur:
             cur.execute(bot_sql("""
@@ -19773,6 +19789,8 @@ def api_bot_inventory(pid):
             return jsonify({
                 "ok": True,
                 "player": player,
+                "investment17": investment17,
+                "investment17_label": patch17_investment_label(investment17, language),
                 "equipment": equipment,
                 "inventory": inventory,
                 # The card's trash (bot_item_delete_view): whether it is
@@ -25872,6 +25890,81 @@ def _ix_part_shops(ex, cur):
                            "map", "running", "minutes_left", "hours_left"), out)
 
 
+
+PATCH17_INVESTMENT_FIELDS = ('pid', 'level', 'equipped', 'other', 'minimum', 'target', 'gap', 'target_percent', 'depot_known', 'has_nine', 'goal_vnum', 'goal_slot', 'purchase_spent', 'refine_spent', 'realized_income', 'books_bought', 'books_spent', 'books_read', 'updated_unix')
+_patch17_snapshot = {"until": 0, "rows": {}}
+
+def patch17_investment_rows():
+    now = time.time()
+    if now < _patch17_snapshot["until"]:
+        return _patch17_snapshot["rows"]
+    result = {}
+    for _channel, _core, folder in _ix_core_dirs():
+        try:
+            path = os.path.join(folder, "playerbot_investment.tsv")
+            with open(path, "r", encoding="ascii", errors="strict") as stream:
+                if stream.readline(64).strip() != "#PB17E1":
+                    continue
+                for _ in range(10000):
+                    line = stream.readline(1024)
+                    if not line:
+                        break
+                    values = line.rstrip("\n").split("\t")
+                    if len(values) != len(PATCH17_INVESTMENT_FIELDS):
+                        continue
+                    row = dict(zip(PATCH17_INVESTMENT_FIELDS, (int(value) for value in values)))
+                    if any(value < 0 for value in row.values()) or not row["pid"] or row["target_percent"] > 100:
+                        continue
+                    old = result.get(row["pid"])
+                    if old is None or row["updated_unix"] > old["updated_unix"]:
+                        result[row["pid"]] = row
+        except (OSError, ValueError, UnicodeError):
+            continue
+    _patch17_snapshot.update(until=now+30, rows=result)
+    return result
+
+def patch17_investment_label(row, language):
+    if not row:
+        return ""
+    total = row["equipped"] + row["other"]
+    actual = round(100.0*row["equipped"]/total, 1) if total else 0.0
+    label = ("EQ / assets: %s%% (target %s%%), gap: %s Yang" if language == "en" else
+             "EQ / majątek: %s%% (cel %s%%), luka: %s Yang") % (actual, row["target_percent"], format(row["gap"], ","))
+    if not row["depot_known"]:
+        label += " — depot not read yet" if language == "en" else " — magazyn jeszcze nieodczytany"
+    if row["has_nine"]:
+        label += " | +9: yes" if language == "en" else " | +9: tak"
+    elif row["level"] < 35:
+        label += " | +9: from level 35" if language == "en" else " | +9: od 35 poziomu"
+    elif row["goal_vnum"]:
+        label += (" | +9: pursuing item #%s (+%s)" if language == "en" else
+                  " | +9: cel, przedmiot #%s (+%s)") % (row["goal_vnum"], row["goal_vnum"] % 10)
+    else:
+        label += " | +9: looking for suitable gear" if language == "en" else " | +9: szuka odpowiedniego przedmiotu"
+    return label
+
+def _ix_part_patch17(ex, _cur):
+    for part, filename, magic, columns, numeric in (
+        ("bot_investment.tsv", "playerbot_investment.tsv", "#PB17E1", PATCH17_INVESTMENT_FIELDS, True),
+        ("chat_diagnostics.tsv", "playerbot_chat_diagnostics.tsv", "#PB17D1",
+         ("unix_ts", "human_pid", "bot_pid", "reply_channel", "topic", "context_source", "missing_field", "clarification", "correction", "result"), False),
+        ("chat_counters.tsv", "playerbot_chat_counters.tsv", "#PB17C1",
+         ("pw_received", "pw_replied", "reply_latency_ms_sum", "pw_unknown", "updated_unix"), True)):
+        found, rows = _ix_core_tsv(ex, part, filename, magic, len(columns))
+        out = []
+        for channel, core, values in rows:
+            try:
+                converted = tuple(int(value) for value in values) if numeric else tuple(values)
+                if numeric and any(value < 0 for value in converted):
+                    continue
+            except ValueError:
+                continue
+            out.append((channel, core)+converted)
+        if not found:
+            ex.problem(part, "No Patch 17 snapshot from game cores yet.")
+        ex.table(part, ("channel", "core")+columns, out)
+
+
 def _ix_part_price_index(ex, _cur):
     """Point 2's index and point 1's supply and modifier for every material,
     an hour a row, as the core that recalculates the supply writes them."""
@@ -26258,19 +26351,101 @@ def _ix_mark_unprofitable(attempts, marks, language):
     return out
 
 
+def _ix_refine_purposes(ex, cur, attempts):
+    """Join a guard's mark to a real attempt, never count the guard as one.
+    r40250 successes name a new item, so their fallback also requires the
+    same pid, from-plus, family and a unique nearest timestamp."""
+    by_item, by_step = {}, {}
+    try:
+        cur.execute("SELECT time, UNIX_TIMESTAMP(time) AS ts, who, what, vnum, hint FROM log.log FORCE INDEX (how_idx) "
+                    "WHERE how = 'PLAYERBOT_REFINE_PURPOSE' AND time >= NOW() - INTERVAL %s DAY "
+                    "ORDER BY time DESC LIMIT %s", (IWAKURA_EXPORT_LOG_DAYS, IWAKURA_EXPORT_LOG_ROWS))
+        for r in cur.fetchall() or ():
+            hint = log_text(r.get("hint"))
+            purpose = re.search(r"(?:^| )purpose=(own_worn|copy|for_sale|mass|gambler|battle_to6)(?: |$)", hint)
+            plus = re.search(r"(?:^| )plus=(\d+)(?: |$)", hint)
+            worn = re.search(r"(?:^| )own_worn=([01])(?: |$)", hint)
+            if not purpose or not plus or not worn:
+                continue
+            when = r.get("time")
+            stamp = int(time.mktime(when.timetuple())) if hasattr(when, "timetuple") else _ix_int(r.get("ts"), -1)
+            entry = (stamp, _ix_int(r.get("vnum")), purpose.group(1), int(worn.group(1)))
+            key = (_ix_int(r.get("who")), _ix_int(r.get("what")), int(plus.group(1)))
+            by_item.setdefault(key, []).append(entry)
+            by_step.setdefault((key[0], key[2]), []).append(entry)
+    except Exception as e:
+        ex.problem("refine_log.tsv", "purpose (log.log): %s" % str(e)[:300])
+    out = {}
+    for i, a in enumerate(attempts):
+        when = a[0]
+        if not hasattr(when, "timetuple"):
+            continue
+        stamp = int(time.mktime(when.timetuple()))
+        key = (_ix_int(a[1]), _ix_int(a[2]), _ix_int(a[5], -1))
+        candidates = by_item.get(key, ())
+        if not candidates and not ENGINE_MT2009:
+            candidates = [e for e in by_step.get((key[0], key[2]), ())
+                          if e[1] // 10 == _ix_int(a[3]) // 10]
+        near = [e for e in candidates if abs(e[0] - stamp) <= 2]
+        if near:
+            nearest = min(abs(e[0] - stamp) for e in near)
+            near = [e for e in near if abs(e[0] - stamp) == nearest]
+            if len(near) == 1:
+                out[i] = (near[0][2], near[0][3])
+    return out
+
+
 def _ix_part_refines(ex, cur):
     """Every attempt at an anvil in the window: the bot, the item, the plus
     before and after, the way (a blacksmith or a scroll) and the outcome."""
     ex.log_statements(cur)
     attempts = (_ix_refine_attempts_mt2009 if ENGINE_MT2009 else _ix_refine_attempts_r40250)(ex, cur)
     attempts = _ix_mark_unprofitable(attempts, _ix_scroll_unprofitable_marks(ex, cur), ex.language)
+    purposes = _ix_refine_purposes(ex, cur, attempts)
     try:
         ex.who(cur, [a[1] for a in attempts])
     except Exception as e:
         ex.problem("refine_log.tsv", "names (player.player): %s" % str(e)[:300])
-    out = [(a[0], a[1]) + ex.people.get(a[1], ("", "")) + a[2:10] + ("", a[10]) for a in attempts]
+    out = [(a[0], a[1]) + ex.people.get(a[1], ("", "")) + a[2:10] +
+           (purposes.get(i, ("", ""))[0], purposes.get(i, ("", a[10]))[1]) for i, a in enumerate(attempts)]
     ex.table("refine_log.tsv", ("time", "pid", "name", "class", "item_id", "vnum", "item_name", "from_plus",
                                 "to_plus", "outcome", "way", "way_label", "purpose", "own_worn"), out)
+
+
+def _ix_part_shield_rebuys(ex, cur):
+    """Actual native receipts only, with counters over the export window.
+    Do not infer a purchase from a reservation or a removed shield."""
+    ex.log_statements(cur)
+    cur.execute("SELECT time, who, what, vnum, hint FROM log.log FORCE INDEX (how_idx) "
+                "WHERE how = 'PLAYERBOT_SHIELD_REBUY' AND time >= NOW() - INTERVAL %s DAY "
+                "ORDER BY time DESC LIMIT %s", (IWAKURA_EXPORT_LOG_DAYS, IWAKURA_EXPORT_LOG_ROWS))
+    logged = list(cur.fetchall() or ())
+    if len(logged) >= IWAKURA_EXPORT_LOG_ROWS:
+        ex.problem("shield_rebuy_log.tsv", "the newest %d receipts only; counters cover these rows" % IWAKURA_EXPORT_LOG_ROWS)
+    parsed = []
+    for row in logged:
+        fields = re.fullmatch(r"source=(npc|market) count=(\d+) paid=(\d+) after_burn=([01])", log_text(row.get("hint")))
+        if not fields or not 13000 <= _ix_int(row.get("vnum")) < 14000 or _ix_int(row.get("who")) <= 0:
+            continue
+        source, count, paid, burned = fields.groups()
+        if int(count) > 0 and int(paid) > 0:
+            parsed.append((row.get("time"), _ix_int(row.get("who")), _ix_int(row.get("what")),
+                           _ix_int(row.get("vnum")), source, int(count), int(paid), int(burned)))
+    ex.who(cur, [row[1] for row in parsed])
+    out, totals = [], {}
+    for row in reversed(parsed):
+        out.append(row[:2] + ex.people.get(row[1], ("", "")) + row[2:])
+        key = (row[4], row[7])
+        total = totals.setdefault(key, [0, 0, 0, set()])
+        total[0] += 1
+        total[1] += row[5]
+        total[2] += row[6]
+        total[3].add(row[1])
+    ex.table("shield_rebuy_log.tsv", ("time", "pid", "name", "class", "item_id", "vnum", "source",
+                                       "count", "paid_yang", "after_burn"), out)
+    ex.table("shield_rebuy_totals.tsv", ("source", "after_burn", "receipts", "shields", "paid_yang", "bots"),
+             [(source, burned) + tuple(value[:3]) + (len(value[3]),)
+              for (source, burned), value in sorted(totals.items())])
 
 
 def _ix_part_bonuses(ex, cur):
@@ -27110,12 +27285,18 @@ exchange_log.tsv - każda wymiana ulepszaczy w Kantorze: time, hour_epoch, pid, 
 refine_log.tsv - każda próba u kowala: time, pid, name, class, item_id, vnum, item_name,
   from_plus, to_plus, outcome (success; burned - spłonął; downgraded - spadł o plus; kept -
   porażka bez straty, np. Zwój Boga Smoków), way i way_label (POWER kowal, GUILD kowal gildii,
-  DEVILTOWER kowal w Wieży, SCROLL:vnum zwój), purpose (własny / na sprzedaż / PvP - rdzeń tego
-  jeszcze nie zapisuje, puste). Na mt2009 z log.refinelog (wiersz na próbę) i log.log (czy
+  DEVILTOWER kowal w Wieży, SCROLL:vnum zwój), purpose (own_worn, copy, for_sale, mass, gambler,
+  battle_to6). Cel pochodzi z jednoznacznego zapisu PLAYERBOT_REFINE_PURPOSE obok rzeczywistej
+  próby; starsze i niejednoznaczne próby mają puste pole. Na mt2009 z log.refinelog (wiersz na próbę) i log.log (czy
   spłonął, vnum); na r40250 tylko z log.log (log.refinelog nie ma tam indeksu): bez way
   i bez porażek, które nie zostawiły wiersza, a item_id sukcesu to nowy przedmiot. own_worn - 1
-  przy spaleniu założonego przedmiotu albo jedynej broni bota u zwykłego kowala („własny
-  założony”, FIX 2 Patcha 11; wiersz PLAYERBOT_OWN_WORN_BURN rdzenia w log.log). way_label
+  przy próbie na założonym przedmiocie, także udanej; starsze dane oznaczają tylko spalenie
+  przedmiotu albo jedynej broni (PLAYERBOT_OWN_WORN_BURN, FIX 2 Patcha 11). Zakupy zamiennika
+  tarczy są zapisane jako PLAYERBOT_SHIELD_REBUY w log.log: source=npc/market, count, paid,
+  after_burn. shield_rebuy_log.tsv podaje rzeczywiste zakupy tarcz: time, pid, name, class,
+  item_id, vnum, source, count, paid_yang, after_burn. shield_rebuy_totals.tsv sumuje te same
+  wiersze według source i after_burn: receipts, shields, paid_yang, bots. Liczniki obejmują
+  tylko okno i limit eksportu; wcześniejsze wersje nie zapisywały tych zakupów. way_label
   „kowal (zwój nieopłacalny)” - próba u zwykłego kowala, bo Zwój był droższy niż przedmiot
   albo oszczędzał mniej, niż kosztuje (Patch 14 pkt 10; wiersz PLAYERBOT_SCROLL_UNPROFITABLE
   rdzenia w log.log z ceną Zwoju i wartością przedmiotu).
@@ -27367,12 +27548,18 @@ exchange_log.tsv - every material exchange at the Kantor: time, hour_epoch, pid,
 refine_log.tsv - every attempt at an anvil: time, pid, name, class, item_id, vnum, item_name,
   from_plus, to_plus, outcome (success; burned; downgraded - lost a plus; kept - failed and lost
   nothing, e.g. a Dragon God scroll), way and way_label (POWER a blacksmith, GUILD the guild's,
-  DEVILTOWER the Demon Tower's, SCROLL:vnum a scroll), purpose (own / for sale / PvP - the core
-  does not record it yet, empty). On mt2009 from log.refinelog (a row an attempt) and log.log
+  DEVILTOWER the Demon Tower's, SCROLL:vnum a scroll), purpose (own_worn, copy, for_sale, mass,
+  gambler, battle_to6) from a unique PLAYERBOT_REFINE_PURPOSE mark beside a real attempt;
+  older or ambiguous attempts stay blank. On mt2009 from log.refinelog (a row an attempt) and log.log
   (burned or not, the vnum); on r40250 from log.log alone (its log.refinelog has no index): no
-  way, no failure that left no row, and a success's item_id is the new item. own_worn - 1 on the
-  burn of a worn piece or the bot's only weapon at the plain anvil ("own worn", Patch 11 FIX,
-  point 2; the core's PLAYERBOT_OWN_WORN_BURN row in log.log). way_label "blacksmith (scroll not
+  way, no failure that left no row, and a success's item_id is the new item. own_worn - 1 on a
+  marked worn-piece attempt, including success; older marks only identify a burn of a worn
+  piece or sole weapon (PLAYERBOT_OWN_WORN_BURN, Patch 11 FIX 2). Shield replacement purchases
+  are logged as PLAYERBOT_SHIELD_REBUY: source=npc/market, count, paid, after_burn.
+  shield_rebuy_log.tsv carries actual shield receipts: time, pid, name, class, item_id, vnum,
+  source, count, paid_yang, after_burn. shield_rebuy_totals.tsv sums those same rows by source
+  and after_burn: receipts, shields, paid_yang, bots. Counters cover only the export window
+  and row cap; older versions did not record these purchases. way_label "blacksmith (scroll not
   worth it)" - an attempt at the plain anvil because the Blessing Scroll was dearer than the
   piece or saved less than it cost (Patch 14, point 10; the core's PLAYERBOT_SCROLL_UNPROFITABLE
   row in log.log with the scroll's price and the piece's worth).
@@ -27521,6 +27708,7 @@ def build_iwakura_export(language):
     # Patch 11, point 15: the core's files first, the log tables last, so a
     # deadline that comes cuts the heaviest reads.
     ex.run("price_index.tsv", _ix_part_price_index, needs_db=False)
+    ex.run("bot_investment.tsv", _ix_part_patch17, needs_db=False)
     ex.run("no_upgrade_reason.tsv", _ix_part_no_upgrade)
     ex.run("chat_misses.tsv", _ix_part_chat_misses)
     ex.run("meetings.tsv", _ix_part_meetings)
@@ -27541,6 +27729,7 @@ def build_iwakura_export(language):
                              "brak sklepów offline i tabeli sesji")
     ex.run("exchange_log.tsv", _ix_part_exchanges)
     ex.run("refine_log.tsv", _ix_part_refines)
+    ex.run("shield_rebuy_log.tsv", _ix_part_shield_rebuys)
     ex.run("bonus_log.tsv", _ix_part_bonuses)
     # The explanation tables (Iwakura, 9 October): the biggest files, last.
     ex.run("listing_recipes.tsv", _ix_part_listing_recipes)
@@ -29202,6 +29391,15 @@ T.update({
                    "tr": "Veri tabanı yanıt vermiyor - o olmadan dünyanın tabloları okunamaz."},
 })
 
+
+# Iwakura's reviewed presentation module; preserve the current panel backend.
+# A missing theme keeps the classic panel usable during an older installation.
+if os.environ.get("M2PANEL_THEME", "iwakura") != "classic":
+    try:
+        import m2_theme as _m2_theme
+        _m2_theme.install(sys.modules[__name__])
+    except Exception:
+        app.logger.exception("m2_theme: not loaded; using the classic panel")
 
 if __name__ == "__main__":
     app.run(host=CONF.get("bind", "0.0.0.0"), port=CONF.get("port", 7788))
