@@ -338,7 +338,7 @@ BIOLOGIST_FALLBACK_MISSIONS = (
     "make_herb_lv20", "make_herb_lv25", "collect_quest_lv30",
 )
 PANEL_VERSION_FILE = Path(__file__).parent / "VERSION"
-UPSTREAM_PANEL_VERSION = "1.114.76"  # Vendored upstream 1266f8f0ed34, not the game release.
+UPSTREAM_PANEL_VERSION = "1.114.88"  # Vendored upstream 56b0b679a340, not the game release.
 GM_JOB_OPTIONS = ((0, "Wojownik"), (1, "Ninja"), (2, "Sura"), (3, "Szaman"))
 # Nadawanie/odbieranie rangi GM istniejącej postaci z jej karty -- dotąd
 # szło tylko przy zakładaniu konta. Audyt vs panel Tieru (/gm na 7788).
@@ -391,6 +391,7 @@ DEFAULT_SETTINGS = {
     "legendary_notice_live_chat": "1", "legendary_notice_world_feed": "1", "legendary_notice_ticker": "1",
     "reaper_chest_world_feed": "1",
     "fastest_shop_items_limit": "15",
+    "shop_transaction_tracker": "1",
     "show_skill_paths": "0",
 }
 try:
@@ -477,7 +478,7 @@ ENGINE_MT2009 = PANEL_ENGINE == "mt2009"
 CUSTOM_PATCHES_ENABLED = os.environ.get("M2_PANEL_CUSTOM_PATCHES", "0").strip().lower() in ("1", "true", "yes", "on")
 
 PANEL_FEATURES = {
-    "bot_count": {"title": "Docelowa liczba botów", "icon": "🤖", "scope": "Zarządzanie grą · liczba botów", "requirement": "Hostowy watcher obsługujący botcount.request i odtworzenie kontenera game.", "setup": "Uruchom updater/install-seban-updater.sh dla katalogu stosu. Watcher zapisze PLAYERBOT_AUTOSPAWN_COUNT w .env i odtworzy usługę game."},
+    "bot_count": {"title": "Docelowa liczba botów", "icon": "🤖", "scope": "Zarządzanie grą · liczba botów", "requirement": "Rdzeń z kontraktem populacji Patch 18.", "setup": "Zapis zmienia trwały cel na następny restart rdzeni. Nie odtwarza kontenera ani świata."},
     "spawn_plan": {"title": "Plan wejścia botów", "icon": "🌅", "scope": "Zarządzanie grą · plan wejścia", "requirement": "Hostowy watcher obsługujący spawn-plan.request.", "setup": "Zainstaluj updater/install-seban-updater.sh. Integracja zapisuje okno wejścia w .env i bezpiecznie odtwarza game."},
     "map_respawns": {"title": "Dokładne respawny map", "icon": "⌖", "scope": "Respawny · własny czas mapy", "requirement": "Helper m2-map-regens w obrazie gry oraz wolumen rates-spool.", "setup": "Wdróż integration/m2-map-regens do obrazu game, przebuduj usługę game i pozostaw podłączony wolumen rates-spool."},
     "student_chest": {"title": "Skrzynia startowa na żywo", "icon": "🎒", "scope": "Zarządzanie grą · skrzynia ucznia", "requirement": "Zmodyfikowany starter_chest.quest i tabela common.m2_switches.", "setup": "Zastosuj patch questa skrzyni startowej, skompiluj questy i ustaw M2_PLAYERBOT_DISABLE_STUDENT_CHEST zgodnie z wyborem dla botów."},
@@ -1816,6 +1817,90 @@ def live_statuses():
     return result
 
 
+STORY_QUEST_SQL = ("szName REGEXP '^(main_quest_lv[0-9]+|subquest_[0-9]+|"
+                   "new_quest_lv[0-9]+)$' OR szName IN ('find_brother_article','find_squareguard')")
+QUEST_DOING = frozenset(("idzie_do_npc", "idzie_do_celu", "bije_cel"))
+INVESTMENT_FIELDS = ("pid", "level", "equipped", "other", "minimum", "target", "gap",
+                     "target_percent", "depot_known", "has_nine", "goal_vnum", "goal_slot",
+                     "purchase_spent", "refine_spent", "realized_income", "books_bought",
+                     "books_spent", "books_read", "updated_unix")
+_profile_snapshots = {"quest": {"until": 0, "rows": {}}, "investment": {"until": 0, "rows": {}}}
+
+
+def bot_profile_snapshots(kind):
+    """Read the same core snapshots used by Tieru's classic bot card."""
+    cache = _profile_snapshots[kind]
+    now = time.time()
+    if now < cache["until"]:
+        return cache["rows"]
+    filename = "playerbot_quest_bots.tsv" if kind == "quest" else "playerbot_investment.tsv"
+    marker = "#PB15B1" if kind == "quest" else "#PB17E1"
+    result = {}
+    for _channel, path in channel_paths(filename):
+        try:
+            if now - path.stat().st_mtime > 300:
+                continue
+            with path.open("r", encoding="ascii", errors="replace") as stream:
+                if not stream.readline().startswith(marker):
+                    continue
+                for line in stream:
+                    parts = line.rstrip("\r\n").split("\t")
+                    if kind == "quest":
+                        if len(parts) < 12 or not parts[0].isdigit() or not parts[1].isdigit():
+                            continue
+                        try:
+                            row = {"updated_unix": int(parts[0]), "pid": int(parts[1]),
+                                   "habit": parts[2], "quest": parts[3], "state": parts[4],
+                                   "have": int(parts[5]), "need": int(parts[6]), "doing": parts[7],
+                                   "held": int(parts[8]), "aside": int(parts[9]), "done": int(parts[10]),
+                                   "title": parts[11] if parts[11] != "-" else parts[3]}
+                        except ValueError:
+                            continue
+                    else:
+                        if len(parts) != len(INVESTMENT_FIELDS):
+                            continue
+                        try:
+                            row = dict(zip(INVESTMENT_FIELDS, (int(value) for value in parts)))
+                        except ValueError:
+                            continue
+                        if any(value < 0 for value in row.values()) or not row["pid"] or row["target_percent"] > 100:
+                            continue
+                    old = result.get(row["pid"])
+                    if old is None or row["updated_unix"] > old["updated_unix"]:
+                        result[row["pid"]] = row
+        except OSError:
+            continue
+    cache.update(until=now + 30, rows=result)
+    return result
+
+
+def investment_summary(row):
+    if not row:
+        return None
+    total = row["equipped"] + row["other"]
+    share = round(100 * row["equipped"] / total, 1) if total else 0.0
+    return {"share": share, "target_percent": row["target_percent"], "gap": row["gap"],
+            "depot_known": bool(row["depot_known"]), "has_nine": bool(row["has_nine"]),
+            "goal_vnum": row["goal_vnum"], "level": row["level"]}
+
+
+try:
+    QUEST_CATALOG = json.loads((Path(__file__).parent / "static" / "quest_catalog.json").read_text(encoding="utf-8"))
+except (OSError, ValueError):
+    QUEST_CATALOG = {}
+
+
+def quest_display_name(name):
+    title = (QUEST_CATALOG.get(name) or {}).get("title")
+    if title:
+        return title
+    match = re.fullmatch(r"(main_quest_lv|new_quest_lv|subquest_)(\d+)", name)
+    if match:
+        family = "Misja poboczna" if match.group(1) == "subquest_" else "Misja fabularna"
+        return f"{family} · {'#' if match.group(1) == 'subquest_' else 'Lv '}{match.group(2)}"
+    return {"find_brother_article": "Poszukiwanie brata", "find_squareguard": "Poszukiwanie strażnika"}.get(name, name)
+
+
 def guild_statuses():
     """Scal raporty rdzeni Playerbots (odświeżane co minutę), ze wszystkich
     kanałów naraz -- gildie są bytem serwerowym, nie kanałowym.
@@ -2200,10 +2285,11 @@ def latest_playerbots_release():
     return dict(result)
 
 
-def playerbots_release_status(check_remote=True):
+def playerbots_release_status(check_remote=True, latest_override=None):
     installed = installed_playerbots_version().strip()
     # Dashboard first paint must not wait on an external GitHub request.
-    latest_info = latest_playerbots_release() if check_remote else {"latest": None, "error": None}
+    latest_info = ({"latest": latest_override, "error": None} if latest_override is not None else
+                   latest_playerbots_release() if check_remote else {"latest": None, "error": None})
     latest = latest_info.get("latest")
     installed_key, latest_key = version_key(installed), version_key(latest)
     if installed_key and latest_key:
@@ -3307,44 +3393,22 @@ def queue_spawn_plan(window, late_joiners, late_hours):
     (UPDATE_SPOOL / "spawn-plan.status").write_text(f"state=oczekuje\ntime={int(time.time())}\nwindow={window}\nlate_joiners={late_joiners}\nlate_hours={late_hours}\nmessage=Plan wejścia zapisany; oczekiwanie na restart gry.\n", encoding="utf-8")
 
 
-def read_bot_count():
-    """The bot-count target the game side will use on its next start.
+def read_population_contract():
+    import population_contracts
+    try:
+        return population_contracts.read(db, online=len(live_bots()))
+    except pymysql.MySQLError:
+        return {"available": False, "desired": None, "pool": None, "online": None,
+                "pending_restart": None, "source": None, "applied": []}
 
-    PLAYERBOT_AUTOSPAWN_COUNT is read once, at core boot, only when
-    CPlayerBotManager::GetCount()==0 (game/src/input_db.cpp) -- there is no
-    live/hot-reload path for it, matching Tieru's own launcher slider
-    ("Zmiana suwaka działa dopiero po restarcie serwera", panel CHANGELOG
-    1.33.2). A change therefore needs a real container recreate of `game`,
-    exactly like the spawn-plan feature already does -- so this reads/writes
-    through the SAME update-spool volume and watcher as queue_spawn_plan(),
-    not RATES_SPOOL (that one is polled live, in-process, from inside the
-    game container by m2-rates; there is no equivalent poller for bot count,
-    confirmed missing from the image, 2026-09-26). Falls back to counting
-    who is actually alive right now (never zero on a running world) only
-    when the spool has nothing at all.
-    """
-    status = read_spool_values(UPDATE_SPOOL / "botcount.status")
-    value = status.get("count", "")
-    if value.isdigit():
-        return int(value)
-    return len(live_bots()) or 350
+
+def read_bot_count():
+    return read_population_contract()["desired"]
 
 
 def queue_botcount_change(count):
-    """Ask for a new playerbot target -- writes PLAYERBOT_AUTOSPAWN_COUNT
-    into .env and force-recreates the `game` container, via the same
-    isolated host-side watcher (seban-updater-watch.sh) that already
-    handles the spawn-plan feature. See read_bot_count()'s docstring for
-    why this can't be a live in-process reload."""
-    stamp = int(time.time() * 1000)
-    request_data = "\n".join((f"id=seban-botcount-{stamp}", f"count={count}", f"time={int(time.time())}", ""))
-    UPDATE_SPOOL.mkdir(parents=True, exist_ok=True)
-    temporary = UPDATE_SPOOL / "botcount.request.new"
-    temporary.write_text(request_data, encoding="utf-8")
-    os.replace(temporary, UPDATE_SPOOL / "botcount.request")
-    (UPDATE_SPOOL / "botcount.status").write_text(
-        "state=oczekuje\ntime=%s\ncount=%s\nmessage=Żądanie zapisane; oczekiwanie na restart gry.\n" %
-        (int(time.time()), count), encoding="utf-8")
+    import population_contracts
+    return population_contracts.save(db, count)
 
 
 def read_student_chest_disabled():
@@ -3623,13 +3687,8 @@ HUNTING_QUEST_TARGETS = {
 }
 
 
-def character_mission_progress(pid):
-    """Kartoteka postaci: a small, deliberately-scoped set of trackable
-    missions (Biolog, Koń bojowy, Polowanie) rather than every quest --
-    Metin2's quest system has dozens of ad-hoc scripts, most without any
-    persistent numeric counter worth showing. These three are the ones
-    that do, verified against their actual quest/engine source, 2026-09-26.
-    """
+def character_mission_progress(pid, current_quest=None):
+    """Track numeric missions plus every persisted story/side quest in progress."""
     quest_names = list(biologist_missions()) + ["playerbot", "hunting"]
     marks = ",".join(["%s"] * len(quest_names))
     quest_rows = rows(f"SELECT szName,szState,lValue FROM player.quest WHERE dwPID=%s AND szName IN ({marks})", [pid] + quest_names)
@@ -3682,7 +3741,138 @@ def character_mission_progress(pid):
 
     for mission in missions:
         mission["percent"] = min(100, round(mission["current"] * 100 / mission["target"])) if mission["target"] else 0
+    # Story quests have no numeric counter, but their persisted state still
+    # tells us whether the character has started one.
+    story = rows(f"SELECT szName,lValue FROM player.quest WHERE dwPID=%s AND szState='__status' AND ({STORY_QUEST_SQL})", (pid,))
+    seen_story = set()
+    for quest in story:
+        is_current = current_quest and current_quest.get("quest") == quest["szName"]
+        state = int(quest.get("lValue") or 0)
+        if state != QUEST_COMPLETE_STATE and (state != QUEST_INFORMATION_STATE or is_current):
+            seen_story.add(quest["szName"])
+            label = current_quest["title"] if is_current else quest_display_name(quest["szName"])
+            current = max(0, current_quest["have"]) if is_current else 0
+            target = max(0, current_quest["need"]) if is_current else 0
+            missions.append({"label": label, "current": current, "target": target,
+                             "unit": "", "detail": "Obecny quest" if is_current else "W toku",
+                             "percent": min(100, round(current * 100 / target)) if target else 0})
+    if (current_quest and current_quest.get("doing") in QUEST_DOING and
+            current_quest.get("quest") not in seen_story and current_quest.get("quest") != "-"):
+        current, target = max(0, current_quest["have"]), max(0, current_quest["need"])
+        missions.append({"label": current_quest["title"], "current": current, "target": target,
+                         "unit": "", "detail": "Obecny quest",
+                         "percent": min(100, round(current * 100 / target)) if target else 0})
     return missions
+
+
+QUEST_COMPLETE_STATE = 668443392  # CRC32("__COMPLETE__") in this engine.
+QUEST_INFORMATION_STATE = 695801987  # CRC32("information"): offered, not necessarily accepted.
+
+
+def character_completed_quests(pid):
+    """Current completed states are authoritative; the log only supplies dates."""
+    bio = biologist_missions()
+    quest_rows = rows("SELECT szName,lValue FROM player.quest WHERE dwPID=%s AND szState='__status' "
+                      "AND ((" + STORY_QUEST_SQL + ") OR szName IN (" +
+                      ",".join(["%s"] * len(bio)) + "))", (pid, *bio))
+    completed = []
+    for quest in quest_rows:
+        name = quest["szName"]
+        is_bio = name in bio
+        expected = BIOLOGIST_COMPLETE_STATE if is_bio else QUEST_COMPLETE_STATE
+        if int(quest.get("lValue") or 0) != expected:
+            continue
+        number = re.search(r"[0-9]+$", name)
+        completed.append({"key": name, "category": "Biolog" if is_bio else "Poboczna" if name.startswith("subquest_") else "Fabularna",
+                          "label": (f"Biolog · Lv {number.group()}" if number else name) if is_bio else quest_display_name(name),
+                          "number": ("#" if name.startswith("subquest_") else "Lv ") + number.group() if number and not is_bio else None,
+                          "date": None, "giver": None})
+    hunt = one("SELECT lValue FROM player.quest WHERE dwPID=%s AND szName='hunting' AND szState='huntingProgress'", (pid,))
+    for index in range(min(len(HUNTING_QUEST_TARGETS), max(0, int((hunt or {}).get("lValue") or 0)))):
+        completed.append({"key": None, "category": "Polowanie", "label": f"Polowanie nr {index + 1}",
+                          "number": None, "date": None, "giver": None})
+    if completed:
+        history = rows("SELECT quest_name,MAX(time) AS finished_at FROM log.quest_state_log "
+                       "WHERE pid=%s AND quest_state='__COMPLETE__' GROUP BY quest_name", (pid,))
+        dates = {r["quest_name"]: r["finished_at"] for r in history}
+        for mission in completed:
+            mission["date"] = dates.get(mission["key"])
+        npc_vnums = sorted({int(QUEST_CATALOG[mission["key"]]["npc_vnum"])
+                            for mission in completed if mission["key"] in QUEST_CATALOG
+                            and QUEST_CATALOG[mission["key"]].get("npc_vnum")})
+        if npc_vnums:
+            try:
+                npc_rows = rows("SELECT vnum,locale_name FROM player.mob_proto WHERE vnum IN (" +
+                                ",".join(["%s"] * len(npc_vnums)) + ")", npc_vnums)
+                npc_names = {int(r["vnum"]): game_text(r["locale_name"]) for r in npc_rows if r.get("vnum")}
+                for mission in completed:
+                    npc_vnum = (QUEST_CATALOG.get(mission["key"]) or {}).get("npc_vnum")
+                    if npc_vnum:
+                        mission["giver"] = npc_names.get(int(npc_vnum))
+            except pymysql.MySQLError:
+                pass
+    return completed
+
+
+_ITEM_VALUE_PRICES = {"at": 0.0, "prices": {}}
+
+
+def character_item_value(pid, account_id):
+    """Same market/listing/NPC valuation as Tieru's bot_value, with a 2m cache."""
+    now = time.time()
+    if now - _ITEM_VALUE_PRICES["at"] >= 120:
+        prices = {}
+        offers = rows("SELECT vnum,SUM(`count`) AS n,"
+                      "SUM(CAST(JSON_UNQUOTE(JSON_EXTRACT(ikashop_data,'$.yang')) AS UNSIGNED)) AS y "
+                      "FROM player.item WHERE `window`='IKASHOP_OFFLINESHOP' AND ikashop_data IS NOT NULL "
+                      "AND ikashop_data<>'' GROUP BY vnum")
+        for offer in offers:
+            if int(offer.get("n") or 0) and int(offer.get("y") or 0):
+                prices[int(offer["vnum"])] = int(offer["y"]) / int(offer["n"])
+        if not prices:
+            latest = one("SELECT MAX(captured_at) AS t FROM player.web_seban_shop_item_snapshot").get("t")
+            if latest:
+                for offer in rows("SELECT vnum,SUM(total_units) AS n,SUM(total_value) AS y FROM player.web_seban_shop_item_snapshot WHERE captured_at=%s GROUP BY vnum", (latest,)):
+                    if int(offer.get("n") or 0):
+                        prices[int(offer["vnum"])] = int(offer.get("y") or 0) / int(offer["n"])
+        _ITEM_VALUE_PRICES.update(at=now, prices=prices)
+    prices = _ITEM_VALUE_PRICES["prices"]
+    items = rows("SELECT `window`,vnum,`count`,ikashop_data FROM player.item WHERE owner_id=%s "
+                 "AND `window` IN ('EQUIPMENT','INVENTORY','BELT_INVENTORY','DRAGON_SOUL_INVENTORY','IKASHOP_OFFLINESHOP')", (pid,))
+    if account_id:
+        items += [dict(item, window="SAFEBOX") for item in rows(
+            "SELECT vnum,`count` FROM player.item WHERE owner_id=%s AND `window`='SAFEBOX'", (account_id,))]
+    vnums = sorted({int(item["vnum"]) for item in items})
+    npc = {}
+    if vnums:
+        proto = rows("SELECT vnum,gold FROM player.item_proto WHERE vnum IN (" + ",".join(["%s"] * len(vnums)) + ")", vnums)
+        npc = {int(item["vnum"]): int(item.get("gold") or 0) for item in proto}
+    part = {"equip": 0, "inv": 0, "safe": 0, "shop": 0}
+    how = {"listed": 0, "market": 0, "npc": 0, "none": 0}
+    for item in items:
+        window = game_text(item["window"])
+        key = {"EQUIPMENT": "equip", "SAFEBOX": "safe", "IKASHOP_OFFLINESHOP": "shop"}.get(window, "inv")
+        vnum, count = int(item["vnum"]), int(item.get("count") or 1)
+        value = None
+        if key == "shop":
+            try:
+                value = int(json.loads(game_text(item.get("ikashop_data")) or "{}").get("yang") or 0) or None
+                if value:
+                    how["listed"] += 1
+            except (ValueError, TypeError):
+                pass
+        if value is None and vnum in prices:
+            value = prices[vnum] * count
+            how["market"] += 1
+        if value is None and npc.get(vnum):
+            value = npc[vnum] * count
+            how["npc"] += 1
+        if value is None:
+            value = 0
+            how["none"] += 1
+        part[key] += int(value)
+    part["total"] = sum(part.values())
+    return {"value": part, "how": how}
 
 
 # ---------------------------------------------------------------------------
@@ -3900,42 +4090,53 @@ def bot_ranking(kind, sort_by="avg", people_only=False, weapon_type=None, plus9_
             LEFT JOIN player.item_proto ip ON ip.vnum=best.vnum WHERE {base}
             ORDER BY power_score DESC,best.vnum DESC,p.level DESC {limit_clause}""")
     if kind == "weapon":
-        # value4 (max base damage) + value5 (the refine-step damage bonus) is
-        # the proto's own real attack power -- unlike value1/value2 (only
-        # swords/two or so subtypes), value3/value4 is populated for every
-        # weapon subtype that's an actual hand weapon (checked live,
-        # 2026-10-03: 100% coverage across subtypes 0/1/2/3/4/5/7 -- swords,
-        # daggers, bows, polearms, bells, fans). subtype 6 is ammunition
-        # (arrows) with huge unrelated value3/4/5 numbers of its own and is
-        # excluded outright, not ranked as a "weapon". Replaces an earlier
-        # pass that used value2 and fell back to a tier*10+refine heuristic
-        # for subtypes without it (2026-10-03, operator: "a dagger +2 is
-        # still #1 -- just rank by real attack value, period") -- value4 is
-        # the one column every real weapon actually has, so no fallback is
-        # needed any more. Original report: a lower-tier sword refined to +9
-        # (130-152 damage) ranked *below* a higher-tier sword at only +4
-        # (94-120) under the old req_level*10+refine heuristic, because
-        # req_level swamped the 0-9 refine signal.
-        # weapon_type (validated against WEAPON_SUBTYPES by the route before
-        # this call) narrows to one subtype; otherwise every real weapon
-        # (everything but subtype 6, ammunition) is eligible.
+        # Ten-level progression bands allow a fully upgraded weapon near the
+        # end of one band to outrank a less refined weapon in that same band,
+        # while the next band always wins. For example: 55 +9 > 60 +7, but
+        # 65 +6 > 60 +9. Use the +0 proto's level: some weapons increase their
+        # required level with each refinement (87 +9 requires level 105).
+        # Attack is only comparable within one subtype, never across bows and
+        # melee weapons. Pick an owner's best item and rank owners identically.
+        # Subtype 6 is ammunition, not a weapon.
         subtype_clause = f"ip2.subtype={WEAPON_SUBTYPES[weapon_type][0]}" if weapon_type in WEAPON_SUBTYPES else "ip2.subtype<>6"
+        req = "COALESCE(CASE WHEN ip2.limittype0=1 THEN ip2.limitvalue0 WHEN ip2.limittype1=1 THEN ip2.limitvalue1 END,0)"
+        base_req = f"COALESCE(CASE WHEN base_ip.limittype0=1 THEN base_ip.limitvalue0 WHEN base_ip.limittype1=1 THEN base_ip.limitvalue1 END,{req})"
+        band = f"CEIL({base_req}/10)"
+        attack = "COALESCE(ip2.value4,0)+COALESCE(ip2.value5,0)"
+        progress_order = f"{band} DESC,MOD(i.vnum,10) DESC,{base_req} DESC"
+        if weapon_type in WEAPON_SUBTYPES:
+            progress_order += f",{attack} DESC"
+        attack_order = f"{attack} DESC,{req} DESC,MOD(i.vnum,10) DESC"
+        attack_sort = sort_by == "attack" and weapon_type in WEAPON_SUBTYPES
+        item_order = attack_order if attack_sort else progress_order
+        rank_order = ("power_score DESC,best.req_level DESC,best.upgrade_level DESC"
+                      if attack_sort else
+                      "best.progress_band DESC,best.upgrade_level DESC,best.base_level DESC" +
+                      (",power_score DESC" if weapon_type in WEAPON_SUBTYPES else ""))
         return rows(f"""SELECT p.id,p.name,p.level,p.gold,best.vnum,
-            CONCAT(COALESCE(ip.locale_name,CONCAT('VNUM ',best.vnum)),' (wymagany poziom ',COALESCE(best.req_level,0),')') AS detail,
+            COALESCE(ip.locale_name,CONCAT('VNUM ',best.vnum)) AS detail,
+            COALESCE(best.base_level,0) AS base_level,
+            COALESCE(best.progress_band,0) AS progress_band,
+            COALESCE(best.req_level,0) AS required_level,
+            COALESCE(best.upgrade_level,0) AS upgrade_level,
             COALESCE(best.power_score,0) AS power_score,
             COALESCE(best.is_shop,0) AS is_shop
             FROM player.player p
             LEFT JOIN (
                 SELECT i.owner_id,i.vnum,
-                    COALESCE(CASE WHEN ip2.limittype0=1 THEN ip2.limitvalue0 WHEN ip2.limittype1=1 THEN ip2.limitvalue1 END,0) AS req_level,
-                    ip2.value4+ip2.value5 AS power_score,
+                    {base_req} AS base_level,
+                    {band} AS progress_band,
+                    {req} AS req_level,
+                    MOD(i.vnum,10) AS upgrade_level,
+                    {attack} AS power_score,
                     CAST(i.window='IKASHOP_OFFLINESHOP' AS UNSIGNED) AS is_shop,
-                    ROW_NUMBER() OVER (PARTITION BY i.owner_id ORDER BY ip2.value4+ip2.value5 DESC, i.window='EQUIPMENT' DESC) AS rn
+                    ROW_NUMBER() OVER (PARTITION BY i.owner_id ORDER BY {item_order},i.window='EQUIPMENT' DESC,i.id DESC) AS rn
                 FROM player.item i JOIN player.item_proto ip2 ON ip2.vnum=i.vnum AND ip2.type=1 AND {subtype_clause}
+                LEFT JOIN player.item_proto base_ip ON base_ip.vnum=i.vnum-MOD(i.vnum,10) AND base_ip.type=1
                 WHERE i.window IN ('EQUIPMENT','IKASHOP_OFFLINESHOP')
             ) best ON best.owner_id=p.id AND best.rn=1
             LEFT JOIN player.item_proto ip ON ip.vnum=best.vnum WHERE {base}
-            ORDER BY power_score DESC,best.vnum DESC,p.level DESC {limit_clause}""")
+            ORDER BY {rank_order},p.level DESC,p.id ASC {limit_clause}""")
     if kind == "weapon30":
         weapon30_order = {
             "avg": "avg_damage DESC, skill_damage DESC, p.level DESC",
@@ -4042,10 +4243,19 @@ def bot_ranking(kind, sort_by="avg", people_only=False, weapon_type=None, plus9_
         return rows(f"""SELECT p.id,p.name,p.level,p.gold,COUNT(DISTINCT q.szName) AS score,CONCAT(COUNT(DISTINCT q.szName),' / {len(missions)} misji') AS detail
             FROM player.player p LEFT JOIN player.quest q ON q.dwPID=p.id AND q.szName IN ({marks}) AND q.szState='__status' AND q.lValue=%s
             WHERE {base} GROUP BY p.id ORDER BY score DESC,p.level DESC {limit_clause}""", (*missions, BIOLOGIST_COMPLETE_STATE))
-    # Ranking "hunting" usuniety razem z zakladka: levelup.quest nie dziala na
-    # tej linii silnika, wiec zapytanie zwracalo sto rekordow z zerem. Gdyby
-    # ktos wszedl ze starym ?type=hunting, kind nie ma go juz w kinds i strona
-    # pokazuje domyslny ranking poziomu.
+    if kind == "story":
+        return rows(f"""SELECT p.id,p.name,p.level,p.gold,COUNT(DISTINCT q.szName) AS score,
+            CONCAT(COUNT(DISTINCT q.szName),' ukończonych misji') AS detail
+            FROM player.player p LEFT JOIN player.quest q ON q.dwPID=p.id
+            AND ({STORY_QUEST_SQL.replace('szName', 'q.szName')}) AND q.szState='__status' AND q.lValue=%s
+            WHERE {base} GROUP BY p.id ORDER BY score DESC,p.level DESC {limit_clause}""", (QUEST_COMPLETE_STATE,))
+    if kind == "hunting":
+        return rows(f"""SELECT p.id,p.name,p.level,p.gold,
+            COALESCE(GREATEST(0,q.lValue),0) AS score,
+            CONCAT(COALESCE(GREATEST(0,q.lValue),0),' ukończonych polowań') AS detail
+            FROM player.player p LEFT JOIN player.quest q ON q.dwPID=p.id
+            AND q.szName='hunting' AND q.szState='huntingProgress'
+            WHERE {base} ORDER BY score DESC,p.level DESC {limit_clause}""")
     if kind == "shops":
         # Replaced 2026-10-03 (operator: "Wystawione Stragany" was a leftover
         # from before offline shops existed -- it only ever listed who
@@ -4622,12 +4832,24 @@ def _schedule_dashboard_deferred_refresh():
 def api_dashboard_deferred():
     cached = _read_dashboard_deferred_cache()
     if cached:
+        data = cached["data"]
+        world = data.get("world_summary")
+        if isinstance(world, dict):
+            installed = installed_playerbots_version()
+            if installed != world.get("version"):
+                # Rankings and history can use the 60-second cache, but a
+                # launcher update must not leave yesterday's version on screen.
+                previous_release = world.get("release") or {}
+                latest = previous_release.get("latest") if isinstance(previous_release, dict) else None
+                release = playerbots_release_status(check_remote=False, latest_override=latest)
+                world = {**world, "version": release["installed"], "release": release}
+                data = {**data, "world_summary": world}
         if time.time() - float(cached.get("at") or 0) >= DASHBOARD_DEFERRED_CACHE_TTL:
             _schedule_dashboard_deferred_refresh()
         # Serve stale data immediately while it is refreshed in the background.
         # These widgets are historical/server summaries; the live map retains
         # its separate 1.5-second endpoint and is never served from this cache.
-        response = jsonify(ok=True, **cached["data"])
+        response = jsonify(ok=True, **data)
     else:
         data = _dashboard_deferred_context()
         try:
@@ -5962,7 +6184,15 @@ def player(pid):
         pid, "statistics", lambda: {key: 0 for key in PLAYER_PROFILE_STAT_KEYS},
         lambda: character_stat_summary(pid),
     )
-    mission_progress = player_profile_component(pid, "missions", list, lambda: character_mission_progress(pid))
+    current_quest = player_profile_component(pid, "current_quest", None,
+                                             lambda: bot_profile_snapshots("quest").get(pid))
+    investment = player_profile_component(pid, "investment", None,
+                                          lambda: investment_summary(bot_profile_snapshots("investment").get(pid)))
+    mission_progress = player_profile_component(pid, "missions", list,
+                                                lambda: character_mission_progress(pid, current_quest))
+    completed_quests = player_profile_component(pid, "completed_quests", list, lambda: character_completed_quests(pid))
+    item_value = player_profile_component(pid, "item_value", None,
+                                          lambda: character_item_value(pid, character.get("account_id")))
     exp_lock = player_profile_component(pid, "exp_lock", None, lambda: bot_exp_lock_view(character, live))
     can_delete_bot_items = ENGINE_MT2009 and player_profile_component(
         pid, "item_delete_identity", False,
@@ -5981,7 +6211,9 @@ def player(pid):
                             has_safebox=bool(safebox), horse_bag=horse_bag, has_horse_bag=bool(horse_bag),
                             dragon_soul_inventory=dragon_soul_inventory, dragon_soul_decks=dragon_soul_decks,
                             gear_history=gear_history, offline_shop=offline_shop, character_stats=character_stats,
-                            mission_progress=mission_progress, gm_ranks=GM_RANK_OPTIONS,
+                            mission_progress=mission_progress, completed_quests=completed_quests,
+                            item_value=item_value, current_quest=current_quest,
+                            investment=investment, gm_ranks=GM_RANK_OPTIONS,
                             admin_warps=PLAYER_ADMIN_WARPS, exp_lock=exp_lock,
                             can_delete_bot_items=can_delete_bot_items, pending_item_deletions=pending_item_deletions,
                             item_delete_token=bot_item_delete_csrf_token() if can_delete_bot_items else None)
@@ -6724,10 +6956,9 @@ def shop_sales_velocity(hours=24, limit=15, only_skillbooks=False):
 
 def recent_shop_sales(limit=10):
     """Last N completed stall sales, newest first. The engine's sale log
-    (log.log how='PLAYERBOT_STALL_SOLD') only ever records the seller -- no
-    buyer identity exists anywhere for an offline-shop purchase, confirmed
-    against a live sample -- so this is honestly a 'who sold what' feed, not
-    a two-sided trade feed. Joined to player.item on log.what (the sold
+    (log.log how='PLAYERBOT_STALL_SOLD') only records the seller. The separate
+    log.ikarusshop_log BUY_ITEM record has both buyer and shop_owner and feeds
+    /economy/transactions. This legacy summary is joined to player.item on log.what (the sold
     item's own id) to recover socket0 for Skill Books -- see
     shop_sales_velocity() for the match-rate note."""
     raw = rows("""SELECT l.time, l.who, l.x, l.y, l.vnum, l.hint, i.socket0 FROM log.log l
@@ -7252,6 +7483,90 @@ def api_shop_feed():
     return {"ok": True, "sales": recent_shop_sales(10)}
 
 
+def shop_transaction_rows(limit=40, before_id=None, after_id=None, item_query=""):
+    """Completed IkarusShop purchases; BUY_ITEM carries both character IDs.
+
+    LOCK_ITEM_TO_BUY is an attempted reservation, not a completed sale. The
+    seller-only PLAYERBOT_STALL_SOLD entry in log.log is not joined here, so
+    one purchase cannot appear twice or be paired with the wrong buyer.
+    """
+    if before_id is not None and after_id is not None:
+        raise ValueError("Use one transaction cursor at a time")
+    condition = " AND l.id < %s" if before_id is not None else " AND l.id > %s" if after_id is not None else ""
+    order = "ASC" if after_id is not None else "DESC"
+    params = list((before_id,) if before_id is not None else (after_id,) if after_id is not None else ())
+    if item_query:
+        name_clause, name_params = item_name_search(item_query)
+        condition += " AND " + name_clause.replace("p.", "ip.")
+        params.extend(name_params)
+    params.append(limit + 1)
+    raw = rows(f"""SELECT l.id,l.time,l.who AS buyer_id,l.shop_owner AS seller_id,
+             l.vnum,l.`count` AS quantity,l.yang,l.cheque,l.itemid,
+             b.name AS buyer_name,s.name AS seller_name,
+             LEFT(ba.login,10)='playerbot_' AS buyer_is_bot,
+             LEFT(sa.login,10)='playerbot_' AS seller_is_bot,
+             COALESCE(ip.locale_name,CONCAT('VNUM ',l.vnum)) AS proto_name,
+             ip.size AS item_size,
+             i.socket0
+      FROM log.ikarusshop_log l
+      LEFT JOIN player.player b ON b.id=l.who
+      LEFT JOIN player.player s ON s.id=l.shop_owner
+      LEFT JOIN account.account ba ON ba.id=b.account_id
+      LEFT JOIN account.account sa ON sa.id=s.account_id
+      LEFT JOIN player.item_proto ip ON ip.vnum=l.vnum
+      LEFT JOIN player.item i ON i.id=l.itemid
+      WHERE l.what='BUY_ITEM' AND l.time >= NOW() - INTERVAL 7 DAY{condition}
+      ORDER BY l.id {order} LIMIT %s""", tuple(params))
+    has_more = len(raw) > limit
+    english = settings().get("ui_language", "pl") == "en"
+    transactions = []
+    for row in raw[:limit]:
+        vnum = int(row["vnum"] or 0)
+        name = resolve_item_display_name(vnum, row.get("socket0"), game_text(row["proto_name"]))
+        if english:
+            name = translations.ITEM_NAMES.get(name, name)
+        transactions.append({
+            "id": int(row["id"]), "time": row["time"].strftime("%d.%m.%Y %H:%M:%S"),
+            "buyer_id": int(row["buyer_id"] or 0),
+            "buyer": game_text(row.get("buyer_name")) or f"PID {row['buyer_id']}",
+            "buyer_is_bot": bool(row.get("buyer_is_bot")),
+            "seller_id": int(row["seller_id"] or 0),
+            "seller": game_text(row.get("seller_name")) or f"PID {row['seller_id']}",
+            "seller_is_bot": bool(row.get("seller_is_bot")),
+            "vnum": vnum, "item_name": name, "icon_url": item_icon_url(vnum),
+            "item_size": max(1, min(3, int(row.get("item_size") or 1))),
+            "quantity": int(row["quantity"] or 0), "yang": int(row["yang"] or 0),
+            "cheque": int(row["cheque"] or 0),
+        })
+    return transactions, has_more
+
+
+@app.route("/economy/transactions")
+@login_required
+def economy_transactions():
+    return render_template("economy_transactions.html", tracker_enabled=settings().get("shop_transaction_tracker", "1") == "1")
+
+
+@app.route("/api/shop-transactions")
+@login_required
+def api_shop_transactions():
+    if settings().get("shop_transaction_tracker", "1") != "1":
+        return {"ok": False, "error": "tracker_disabled"}, 503
+    before, after = request.args.get("before"), request.args.get("after")
+    item_query = request.args.get("q", "").strip()
+    if (before and after) or any(value and (not value.isdecimal() or int(value) < 1) for value in (before, after)):
+        return {"ok": False, "error": "invalid_cursor"}, 400
+    if len(item_query) > 80:
+        return {"ok": False, "error": "query_too_long"}, 400
+    transactions, has_more = shop_transaction_rows(
+        limit=100 if after else 40,
+        before_id=int(before) if before else None,
+        after_id=int(after) if after else None,
+        item_query=item_query,
+    )
+    return {"ok": True, "transactions": transactions, "has_more": has_more}
+
+
 def item_name_search(query):
     """The item database's search: a VNUM, the Polish proto name or the
     internal one -- and on an English panel the official English name too,
@@ -7273,7 +7588,11 @@ def item_name_search(query):
 def database_structure():
     """Read-only game schema browser; unlike regular pages, always requires login."""
     if settings().get("auth_enabled") != "1" or not session.get("seban_admin"):
-        abort(403)
+        abort(403, description=(
+            "Enable panel password protection and sign in as administrator to view the database structure."
+            if settings().get("ui_language") == "en" else
+            "Aby zobaczyć strukturę bazy, włącz ochronę hasłem panelu i zaloguj się jako administrator."
+        ))
     db_name = request.args.get("db", "player")
     if db_name not in ("account", "common", "player", "log"):
         abort(404)
@@ -8369,22 +8688,33 @@ def api_system_history():
 def rankings():
     kinds = {
         "level": "Poziom", "armor": "Zbroja", "weapon": "Broń", "weapon30": "Broń 30 Lv",
-        # Bez "Polowanie": na tej linii silnika levelup.quest lezy w
-        # quest/_unused, zaden hook zabicia nie strzela i licznik stoi na zero
-        # dla kazdego bota - ranking miał wiec 100 pozycji z "Ukonczone do Lv 0"
-        # (Tieru, 13 wrzesnia).
-        "gold": "Yang", "items": "Przedmioty", "horse": "Koń", "biologist": "Biolog",
+        "gold": "Yang", "items": "Przedmioty", "horse": "Koń", "missions": "Misje",
         "shops": "Sprzedaże na sklepie Offline", "skills": "Umiejętności", "plus9": "Przedmiot +9", "playtime": "Czas gry", "bosses": "Bossy", "refine": "Pomyślne ulepszenia", "refine_rate": "Skuteczność ulepszeń", "fish": "Wyłowione ryby",
         "damage_max": "Rekord obrażeń (zwykłe)", "damage_max_horse": "Rekord obrażeń (konno)", "damage_max_skill": "Rekord obrażeń (umiejętność)",
         "yang_earned": "Zdobyty Yang (łącznie)",
         "monsters_killed": "Zabite potwory (łącznie)", "minibosses": "Pokonane minibossy", "pvp_kills_total": "Pokonani gracze (PVP)", "duel_wins": "Wygrane pojedynki", "mining": "Wykopane rudy",
     }
     kind = request.args.get("type", "level")
+    mission_categories = [("story", "Misje fabularne i poboczne"), ("biologist", "Biolog")]
+    # mt2009 ships no active hunting quest; preserve the suite's disabled
+    # ranking rather than display an unsupported zero-only leaderboard.
+    if not ENGINE_MT2009:
+        mission_categories.append(("hunting", "Polowanie"))
+    mission_category = request.args.get("category", "story") if kind == "missions" else "story"
+    if kind == "biologist":
+        kind, mission_category = "missions", "biologist"
+    elif kind == "hunting":
+        kind, mission_category = "missions", "hunting"
+    if mission_category not in dict(mission_categories):
+        mission_category = "story"
     if kind not in kinds:
         kind = "level"
     weapon30_sort = request.args.get("sort", "avg") if kind == "weapon30" else "avg"
     if weapon30_sort not in ("avg", "skill", "upgrade"):
         weapon30_sort = "avg"
+    weapon_sort = request.args.get("sort", "level") if kind == "weapon" else "level"
+    if weapon_sort not in ("level", "attack"):
+        weapon_sort = "level"
     plus9_category = request.args.get("category", "all") if kind == "plus9" else "all"
     if plus9_category not in PLUS9_CATEGORIES:
         plus9_category = "all"
@@ -8394,6 +8724,8 @@ def rankings():
     weapon_type = request.args.get("weapon_type") if kind == "weapon" else None
     if weapon_type not in WEAPON_SUBTYPES:
         weapon_type = None
+    if weapon_type is None and weapon_sort == "attack":
+        weapon_sort = "level"
     try:
         per_page = int(request.args.get("per_page", 100))
     except (TypeError, ValueError):
@@ -8404,7 +8736,8 @@ def rankings():
     # so a person far down a ranking of bots is still found (blipu, 28.09).
     people_ranked = include_real_players_in_rankings()
     people_only = people_ranked and request.args.get("people") == "1"
-    all_ranking = bot_ranking(kind, plus9_sort if kind == "plus9" else weapon30_sort, people_only, weapon_type, plus9_category)
+    ranking_sort = plus9_sort if kind == "plus9" else weapon_sort if kind == "weapon" else weapon30_sort
+    all_ranking = bot_ranking(mission_category if kind == "missions" else kind, ranking_sort, people_only, weapon_type, plus9_category)
     total = len(all_ranking)
     total_pages = max(1, -(-total // per_page))  # ceil division
     # "goto_page" (the jump-to-page box, 1-based, what the operator actually
@@ -8468,11 +8801,12 @@ def rankings():
                 int(row.get("avg_damage") or 0), int(row.get("skill_damage") or 0), game_text(row.get("item_name")))
         else:
             row["detail"] = game_text(row.get("detail"))
-    return render_template("rankings.html", kinds=kinds, kind=kind, ranking=ranking, weapon30_sort=weapon30_sort,
+    return render_template("rankings.html", kinds=kinds, kind=kind, ranking=ranking, weapon30_sort=weapon30_sort, weapon_sort=weapon_sort,
                            weapon_type=weapon_type, weapon_subtypes=WEAPON_SUBTYPES,
                            plus9_category=plus9_category, plus9_categories=PLUS9_CATEGORIES, plus9_sort=plus9_sort,
                            per_page=per_page, page=page, total_pages=total_pages, page_numbers=page_numbers,
-                           people_ranked=people_ranked, people_only=people_only)
+                           people_ranked=people_ranked, people_only=people_only,
+                           mission_category=mission_category, mission_categories=mission_categories)
 
 
 SEASON_CATEGORIES = {
@@ -8904,7 +9238,7 @@ def manage():
     for bot in bots:
         per_channel[int(bot.get("channel") or 1)] = per_channel.get(int(bot.get("channel") or 1), 0) + 1
     bot_channels = sorted(per_channel.items()) if len(per_channel) > 1 else []
-    return render_template("manage.html", rates=read_rates(), rate_presets=RATE_PRESETS, ai_weights=read_ai_weights(), chest_switch=read_chest_switch(), ai_weight_keys=[k for k in AI_WEIGHT_KEYS if not (ENGINE_MT2009 and k[0] == "HUNTING")], ai_weight_capped=AI_WEIGHT_CAPPED, ai_weight_hints=AI_WEIGHT_HINTS, engine_mt2009=ENGINE_MT2009, restart=restart_progress(), settings=current_settings, map_counts=map_counts, bot_count=len(bots), bot_channels=bot_channels, map_respawn_options=MAP_RESPAWN_OPTIONS, map_stone_respawn_ids=MAP_STONE_RESPAWN_IDS, map_respawn_status=read_map_regen_status(), server_settings=server_settings_status(), update_csrf=update_csrf_token(), bot_count_wanted=read_bot_count() if panel_feature_enabled("bot_count", current_settings) else len(live_bots()) or 350, spawn_plan=read_spawn_plan(), student_chest_disabled=read_student_chest_disabled() if panel_feature_enabled("student_chest", current_settings) else False, custom_patches_enabled=CUSTOM_PATCHES_ENABLED, include_real_players=include_real_players_in_rankings(), announce_plus9=read_announce_plus9_refines() if panel_feature_enabled("plus9_announcements", current_settings) else False, bots_held=read_bot_hold(), item_policy=read_ai_item_policy(), difficulty=read_difficulty(), autohunt=read_autohunt(), channels=read_channel_settings(), channel_shares=CH2_SHARE_CHOICES, fresh_counts=FRESH_COUNT_CHOICES, world_extras=read_world_extras() if ENGINE_MT2009 else None, explain_days=read_ai_explain_days())
+    return render_template("manage.html", rates=read_rates(), rate_presets=RATE_PRESETS, ai_weights=read_ai_weights(), chest_switch=read_chest_switch(), ai_weight_keys=[k for k in AI_WEIGHT_KEYS if not (ENGINE_MT2009 and k[0] == "HUNTING")], ai_weight_capped=AI_WEIGHT_CAPPED, ai_weight_hints=AI_WEIGHT_HINTS, engine_mt2009=ENGINE_MT2009, restart=restart_progress(), settings=current_settings, map_counts=map_counts, bot_count=len(bots), bot_channels=bot_channels, map_respawn_options=MAP_RESPAWN_OPTIONS, map_stone_respawn_ids=MAP_STONE_RESPAWN_IDS, map_respawn_status=read_map_regen_status(), server_settings=server_settings_status(), update_csrf=update_csrf_token(), population_contract=read_population_contract(), bot_count_wanted=read_bot_count(), spawn_plan=read_spawn_plan(), student_chest_disabled=read_student_chest_disabled() if panel_feature_enabled("student_chest", current_settings) else False, custom_patches_enabled=CUSTOM_PATCHES_ENABLED, include_real_players=include_real_players_in_rankings(), announce_plus9=read_announce_plus9_refines() if panel_feature_enabled("plus9_announcements", current_settings) else False, bots_held=read_bot_hold(), item_policy=read_ai_item_policy(), difficulty=read_difficulty(), autohunt=read_autohunt(), channels=read_channel_settings(), channel_shares=CH2_SHARE_CHOICES, fresh_counts=FRESH_COUNT_CHOICES, world_extras=read_world_extras() if ENGINE_MT2009 else None, explain_days=read_ai_explain_days())
 
 
 @app.post("/manage/difficulty")
@@ -8995,6 +9329,17 @@ def manage_panel():
     current = settings()
     badge_settings = top_level_badge_settings()
     return render_template("manage_panel.html", settings=current, capability_features=panel_feature_states(current), custom_default=CUSTOM_PATCHES_ENABLED, top_level_badges_enabled=badge_settings["enabled"], top_level_badge_places=badge_settings["places"], full_plus9_badges_enabled=full_plus9_badges_enabled(), shop_explain_enabled=shop_explain_enabled())
+
+
+@app.post("/manage/panel/shop-transaction-tracker")
+@login_required
+def manage_panel_shop_transaction_tracker():
+    enabled = "1" if request.form.get("enabled") == "1" else "0"
+    write_settings({"shop_transaction_tracker": enabled})
+    english = settings().get("ui_language", "pl") == "en"
+    flash(("Shop transaction tracker enabled." if enabled == "1" else "Shop transaction tracker disabled.") if english
+          else ("Tracker transakcji straganów włączony." if enabled == "1" else "Tracker transakcji straganów wyłączony."), "success")
+    return redirect(url_for("manage_panel", _anchor="shop-transaction-tracker"))
 
 
 @app.post("/manage/panel/features")
@@ -9102,7 +9447,7 @@ def manage_restart_config():
             # snapping it to some default.
             if "playerbot_count" in request.form and panel_feature_enabled("bot_count"):
                 bot_count = int(request.form["playerbot_count"])
-                if not 1 <= bot_count <= 2500:
+                if not 0 <= bot_count <= 2500:
                     raise ValueError("Liczba botów musi mieścić się w zakresie 1–2500.")
             for index, name in MAP_RESPAWN_OPTIONS:
                 for prefix in ("", "stone_"):

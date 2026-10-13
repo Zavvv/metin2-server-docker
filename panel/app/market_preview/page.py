@@ -282,7 +282,7 @@ BODY = r"""
   </div>
  </aside>
  <section>
-  <div class="mk-charbar"><label class="mk-muted" for="mk-me" title="{{ T.character_hint }}">{{ T.character }}:</label>
+  <div class="mk-charbar" style="display:none"><label class="mk-muted" for="mk-me" title="{{ T.character_hint }}">{{ T.character }}:</label>
    <select id="mk-me" title="{{ T.character_hint }}"><option value="">{{ T.character_none }}</option>
     {% for p in persons %}<option value="{{ p.pid }}">{{ p.name }} · {{ T.classes[p.cls] }} · lv {{ p.level }}</option>{% endfor %}
    </select></div>
@@ -381,7 +381,10 @@ function toForm(){
   TEXT_INPUTS.forEach(function(k){ var el = $('mk-' + k); if (el) el.value = state[k] || ''; });
   SELECTS.forEach(function(k){ var el = $('mk-' + k); if (el) el.value = state[k] || (k === 'sort' ? 'deals' : ''); });
   CHECKS.forEach(function(k){ var el = $('mk-' + k); if (el) el.checked = String(state[k]) === '1'; });
-  $('mk-me').value = state.me || '';
+  // Iwakura P18: wyboru postaci nie pokazujemy – bierzemy pierwszą postać gracza (TP, „dla mojej postaci”).
+  var meSel = $('mk-me');
+  if (!state.me && meSel.options.length > 1) { state.me = meSel.options[1].value; }
+  meSel.value = state.me || '';
   drawBonusRows();
   validate();
 }
@@ -524,7 +527,10 @@ function offerHtml(o, i){
   if (!o.running) tags += '<span class="mk-tag bad">' + esc(T.shop_closed) + '</span>';
   var flag = o.emp ? '<img src="/static/empires/' + ['', 'shinsoo', 'chunjo', 'jinno'][o.emp] + '.png" alt="' + esc(T.empires[o.emp - 1]) + '" title="' + esc(T.empires[o.emp - 1]) + '">' : '';
   tags += '<span class="mk-seller">' + flag + '<span class="who" data-shop="' + o.owner + '" title="' + esc(T.seller_title) + '">' +
-    esc(o.seller || ('#' + o.owner)) + '</span> · <span class="shopname" title="' + esc(o.shop_name + ' — ' + o.where) + '">' +
+    esc(o.seller || ('#' + o.owner)) + '</span>' +
+    // Iwakura P18 pkt 6E: sakiewka – okno postaci (ekwipunek, magazyn, sklep)
+    ' <a class="m2p-purse mk-purse" href="/player/' + o.owner + '" title="' + esc(T.purse_title) + '">💰</a>' +
+    ' · <span class="shopname" title="' + esc(o.shop_name + ' — ' + o.where) + '">' +
     esc(o.shop_name) + '</span></span>';
   var nBon = bonusCount(o), ksLabel = o.stones.length ? fmt('stones_n', {n: o.stones.length}) : '';
   var bonBtn = nBon || o.stones.length ? '<div class="mk-bon"><button type="button" class="mk-btn2" data-bon="' + i + '" style="padding:3px 9px;font-size:12px">' +

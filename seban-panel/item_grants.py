@@ -360,6 +360,11 @@ if __name__ == "__main__":
             with db() as con:
                 with con.cursor() as cur: init(cur)
                 tick(con)
+                from persona_contracts import tick as persona_tick
+                from app import ENGINE_MT2009
+                persona_tick(con, ENGINE_MT2009)
+                from price_reference import tick as reference_tick
+                reference_tick(con, ENGINE_MT2009)
         except Exception as exc:
             error = f"{type(exc).__name__}: {exc}"
             print(f"[item-grants] {error}", flush=True)

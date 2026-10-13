@@ -261,6 +261,7 @@ SORTS = {
     "price_desc": "price DESC, id DESC",
     "unit_asc": "unit ASC, id DESC",
     "plus_desc": "plus DESC, price ASC, id DESC",
+    "plus_asc": "plus ASC, price ASC, id DESC",
     "level_desc": "lvl DESC, price ASC, id DESC",
     "level_asc": "lvl ASC, price ASC, id DESC",
     "bonus_count": "nb DESC, nmax DESC, price ASC, id DESC",

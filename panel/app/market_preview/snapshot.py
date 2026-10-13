@@ -91,11 +91,12 @@ DAMAGE_POINTS = (rules.POINT_SKILL_DAMAGE, rules.POINT_AVERAGE_DAMAGE)
 
 class Proto(object):
     """What the snapshot needs of one item_proto row."""
-    __slots__ = ("vnum", "type", "subtype", "antiflag", "level", "values", "applies", "plus")
+    __slots__ = ("vnum", "type", "subtype", "antiflag", "level", "values", "applies", "plus", "refined_vnum")
 
-    def __init__(self, vnum, itype, subtype, antiflag=0, level=0, values=(0,) * 6, applies=(), plus=-1):
+    def __init__(self, vnum, itype, subtype, antiflag=0, level=0, values=(0,) * 6, applies=(), plus=-1, refined_vnum=0):
         self.vnum, self.type, self.subtype, self.antiflag = int(vnum), int(itype), int(subtype), int(antiflag)
         self.level, self.values, self.applies, self.plus = int(level), tuple(values), tuple(applies), int(plus)
+        self.refined_vnum = int(refined_vnum)
 
 
 def variant_of(proto, socket0):
@@ -196,9 +197,14 @@ def gear_price(proto, vnum, plus, attrs, sockets, attr_sets, yang_pct, index_mil
     if facts is None:
         return None, None
     composed = price.compose(facts)
+    if facts.pricing_options.get('precise') and composed['priced']:
+        c9 = price.verified_c9(proto, vnum, plus, protos, facts.rows, facts.curve_pct, facts.inflation)
+        quote = price.listing_quote(composed, c9, facts.pricing_options)
+        composed.update(price=quote['price'], price_reasons=quote['reasons'], price_conflict=quote['conflict'])
     return (composed if composed["priced"] else None), facts
 
 
+@price.overrides.synchronized
 def build_snapshot(items, protos, shops, owners, tops, names, references, day_price, gm_owners=(), world_age=-1,
                    samples=None, attr_sets=None, yang_pct=100, index_milli=1000):
     """A Snapshot of offer lines.
@@ -528,7 +534,7 @@ class DbSource(object):
         with conn.cursor() as cur:
             cur.execute("SELECT vnum, type, subtype, antiflag, limittype0, limitvalue0, limittype1, limitvalue1, "
                         "value0, value1, value2, value3, value4, value5, applytype0, applyvalue0, applytype1, "
-                        "applyvalue1, applytype2, applyvalue2, CAST(locale_name AS BINARY) AS name "
+                        "applyvalue1, applytype2, applyvalue2, refined_vnum, CAST(locale_name AS BINARY) AS name "
                         "FROM player.item_proto")
             for r in cur.fetchall():
                 level = 0
@@ -540,7 +546,7 @@ class DbSource(object):
                 _base, plus = rules.split_plus(_text(r.get("name")))
                 vnum = int(r["vnum"] or 0)
                 out[vnum] = Proto(vnum, r.get("type") or 0, r.get("subtype") or 0, r.get("antiflag") or 0, level,
-                                  tuple(int(r.get("value%d" % k) or 0) for k in range(6)), applies, plus)
+                                  tuple(int(r.get("value%d" % k) or 0) for k in range(6)), applies, plus, r.get('refined_vnum') or 0)
             tops = {}
             # Patch 15, 18C1: a line's top on the piece's own attribute set,
             # as the core reads it (GetPlayerBotBonusMaxRoll): the normal

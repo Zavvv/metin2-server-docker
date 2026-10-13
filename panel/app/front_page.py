@@ -1323,7 +1323,7 @@ def _footer(lang):
 <div class="footer-wrapper">
 	<div id="footer">
 		<ul>
-			<li class="first">%s<br />%s &copy; Metin2 Playerbots — Tieru<br />%s: ĹŌŞƬĒĶ (l0st3k)<br />CC BY-NC-ND 4.0 — %s &nbsp;&bull;&nbsp; <a href="%s">%s</a></li>
+			<li class="first">%s<br />%s &copy; Metin2 Playerbots — Tieru<br />%s: ĹŌŞƬĒĶ (l0st3k)<br />Panel rework: Iwakura<br />CC BY-NC-ND 4.0 — %s &nbsp;&bull;&nbsp; <a href="%s">%s</a></li>
 		</ul>
 	</div>
 </div>

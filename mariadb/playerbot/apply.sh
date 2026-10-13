@@ -925,6 +925,17 @@ if [ -s "$itemshop_schema" ]; then
     fi
 fi
 
+# Patch 18 contracts are required by both the native consumer and the panel.
+# Apply before game startup; a failed contract must not enable half the patch.
+patch18_schema=/opt/playerbot/patch18_contracts.sql
+if [ -s "$patch18_schema" ]; then
+    db < "$patch18_schema"
+    db < /opt/playerbot/patch18_prices.sql
+    db < /opt/playerbot/patch18_bells.sql
+    db -e "ALTER TABLE log.log ADD INDEX IF NOT EXISTS how_time_idx (how,time);"
+    echo "[playerbot-migrate] patch18 contracts applied"
+fi
+
 # A developer may keep more persistent bots than the public 350-row seed. When
 # that world matters, make its minimum size explicit in .env. This catches the
 # easy-to-miss case where Docker is pointed at another daemon or a fresh volume:
@@ -1388,6 +1399,89 @@ if [ "$unique70_bonus_env" != "$((unique70_bonus_off + 1))" ]; then
         echo "[playerbot-migrate] WARNING: could not write the Level-70 weapon sixth bonus flag; the cores keep the last one" >&2
     fi
 fi
+
+# The ordinary +5 Spirit Stones (iahgod, report 252a7169, 13 October).
+# The client already has these fourteen stones; the package left them
+# ITEM_NONE with no wear flag, duplicate family or bonus on the server.
+# Restore only their stock empty gameplay metadata. Renames and prices
+# stay, custom gameplay rows stay, and deleted rows are not recreated.
+# 28500/28504/28508/28512 are separate custom stones, outside this list.
+# PROTO_FROM_DB reads this at boot; the existing attachment roll stays.
+db_retry -e "UPDATE world.item_proto SET type = 10, size = 1,
+        wearflag = CASE vnum
+            WHEN 28530 THEN 16
+            WHEN 28531 THEN 16
+            WHEN 28532 THEN 16
+            WHEN 28533 THEN 16
+            WHEN 28534 THEN 16
+            WHEN 28535 THEN 16
+            WHEN 28536 THEN 16
+            WHEN 28537 THEN 16
+            WHEN 28538 THEN 1
+            WHEN 28539 THEN 1
+            WHEN 28540 THEN 1
+            WHEN 28541 THEN 1
+            WHEN 28542 THEN 1
+            WHEN 28543 THEN 1
+            END,
+        value5 = CASE vnum
+            WHEN 28530 THEN 17
+            WHEN 28531 THEN 18
+            WHEN 28532 THEN 19
+            WHEN 28533 THEN 20
+            WHEN 28534 THEN 21
+            WHEN 28535 THEN 22
+            WHEN 28536 THEN 23
+            WHEN 28537 THEN 24
+            WHEN 28538 THEN 25
+            WHEN 28539 THEN 26
+            WHEN 28540 THEN 27
+            WHEN 28541 THEN 28
+            WHEN 28542 THEN 29
+            WHEN 28543 THEN 30
+            END,
+        applytype0 = CASE vnum
+            WHEN 28530 THEN 41
+            WHEN 28531 THEN 40
+            WHEN 28532 THEN 21
+            WHEN 28533 THEN 54
+            WHEN 28534 THEN 55
+            WHEN 28535 THEN 56
+            WHEN 28536 THEN 57
+            WHEN 28537 THEN 53
+            WHEN 28538 THEN 67
+            WHEN 28539 THEN 68
+            WHEN 28540 THEN 8
+            WHEN 28541 THEN 6
+            WHEN 28542 THEN 96
+            WHEN 28543 THEN 19
+            END,
+        applyvalue0 = CASE vnum
+            WHEN 28530 THEN 14
+            WHEN 28531 THEN 14
+            WHEN 28532 THEN 32
+            WHEN 28533 THEN 32
+            WHEN 28534 THEN 32
+            WHEN 28535 THEN 32
+            WHEN 28536 THEN 32
+            WHEN 28537 THEN 12
+            WHEN 28538 THEN 12
+            WHEN 28539 THEN 14
+            WHEN 28540 THEN 700
+            WHEN 28541 THEN 1500
+            WHEN 28542 THEN 50
+            WHEN 28543 THEN 38
+            END
+     WHERE vnum IN (28530, 28531, 28532, 28533, 28534, 28535, 28536, 28537, 28538, 28539, 28540, 28541, 28542, 28543)
+       AND type = 0 AND subtype = 0 AND size = 1 AND stack = 200 AND weight = 0
+       AND antiflag = 0 AND flag = 0 AND wearflag = 0 AND immuneflag + 0 = 0
+       AND refined_vnum = 0 AND refine_set = 0 AND magic_pct = 0
+       AND specular = 0 AND socket_pct = 0 AND addon_type = 0
+       AND limittype0 = 0 AND limitvalue0 = 0 AND limittype1 = 0 AND limitvalue1 = 0
+       AND applytype0 = 0 AND applyvalue0 = 0 AND applytype1 = 0 AND applyvalue1 = 0
+       AND applytype2 = 0 AND applyvalue2 = 0
+       AND value0 = 0 AND value1 = 0 AND value2 = 0 AND value3 = 0 AND value4 = 0 AND value5 = 0;" \
+    || echo "[playerbot-migrate] WARNING: could not restore the ordinary +5 Spirit Stones" >&2
 # A person's yang into the purse (1, patch 0010 as it always was) or on the
 # ground as in the original game (0); a bot's and a companion's go to the
 # purse either way (Nannato and Tieru, 7 October). The cores read

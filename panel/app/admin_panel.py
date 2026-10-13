@@ -481,7 +481,8 @@ def item_full_name(vnum, socket0, language=None):
     except Exception:
         vt = 0
     # 17 = ITEM_SKILLBOOK. The skill id lives in socket0.
-    if vt == 17 and int(socket0 or 0) > 0:
+    # 22 = ITEM_SKILLFORGET (Księga Zapomnienia) carries the skill in socket0 too (Iwakura, P18).
+    if vt in (17, 22) and int(socket0 or 0) > 0:
         table = SKILL_NAMES_BY_LANG.get(language, SKILL_ID_NAMES)
         sk = table.get(int(socket0)) or SKILL_ID_NAMES.get(int(socket0))
         if sk:
@@ -11936,7 +11937,9 @@ function showItemTooltip(ev, item, extra, wide) {
   var def = (g_itemDefs && g_itemDefs[String(item.vnum)]) || {};
   var name = item.name || def.name || I18N.item_n.replace('{n}', item.vnum);
 
-  var html = '<div class="m2-tt-name">' + name + '</div>';
+  var html = '<div class="m2-tt-name">' + name + '</div>' +
+             // Iwakura, Patch 18 pkt 6B: VNUM w dymku przedmiotu.
+             '<div class="m2-tt-vnum" style="color:#9ca3af;font-size:10px">VNUM: <b style="color:#e5e7eb">' + item.vnum + '</b></div>';
 
   if (def.level && def.level > 0) {
     html += '<div style="color:#a1a1aa;font-size:10px">' + I18N.tt_req_level + ': <b style="color:#e5e7eb">' + def.level + '</b></div>';
@@ -12008,7 +12011,8 @@ function showItemTooltip(ev, item, extra, wide) {
     var hasSock = false;
     var sockHtml = '<div class="m2-tt-divider"></div>';
     item.sockets.forEach(function(sVal, sIdx) {
-      if (sVal === 0 && def.type !== 1 && def.type !== 2) return;
+      // Iwakura P18: poza bronią i zbroją gniazdo to dane (umiejętność księgi, potwór marmuru) – są już w nazwie.
+      if (def.type !== 1 && def.type !== 2) return;
       hasSock = true;
       if (sVal === 0) {
         sockHtml += '<div class="m2-tt-socket" style="color:#71717a">⚪ ' + I18N.tt_broken_stone + '</div>';
@@ -12334,14 +12338,15 @@ function openBotModal(pid) {
       html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;font-size:12px;background:#1a150e;padding:10px;border-radius:6px">' +
               '<div><b>HP:</b> <span style="color:#ef4444">' + (p.hp || 0) + '</span> / <b>MP:</b> <span style="color:#38bdf8">' + (p.mp || 0) + '</span></div>' +
               '<div><b>Yang:</b> <span style="color:#eab308;font-weight:700">' + (p.gold || 0).toLocaleString() + '</span></div>' +
-              (isBot && data.investment17_label ? '<div style="grid-column:1 / -1">' + escapeHtml(data.investment17_label) + '</div>' : '') +
+              // Iwakura, Patch 18 pkt 6B: linii „EQ / majątek …” nie pokazujemy na karcie (zostaje w eksporcie).
               '<div><b>' + I18N.position + ':</b> (' + p.x + ', ' + p.y + ')</div>' +
               // What the AI is doing is a bot's alone: a person reached from a
               // ranking (blipu, 28 September) has no personality, goal or action,
               // and the defaults read as though he had.
               (isBot ?
-              '<div><b>' + I18N.personality + ':</b> <span style="color:#c084fc;font-weight:700">' + escapeHtml(p.personality) + '</span>' +
-                (p.charakter ? ' <span style="color:#9ca3af">(' + I18N.charakter + ': ' + escapeHtml(p.charakter) + ')</span>' : '') + '</div>' +
+              // Iwakura P18: Osobowość (z listą wyboru) w całym wierszu, Charakter jako osobna pozycja.
+              '<div style="grid-column:1 / -1"><b>' + I18N.personality + ':</b> <span style="color:#c084fc;font-weight:700">' + escapeHtml(p.personality) + '</span></div>' +
+              (p.charakter ? '<div style="grid-column:1 / -1"><b>' + I18N.charakter + ':</b> <span style="color:#c084fc;font-weight:700">' + escapeHtml(p.charakter) + '</span></div>' : '') +
               '<div><b>' + I18N.ambition + ':</b> <span style="color:#86efac;font-weight:700">' + escapeHtml(p.ambition) + '</span></div>' +
               // Iwakura's Bot Mood System: "Aktualny nastroj powinien byc zawsze
               // widoczny w panelu danego bota". Empty while the switch is off.
@@ -12489,7 +12494,7 @@ function openBotModal(pid) {
       // The depot is not a wear slot, so it has no entry in equipCoords. The
       // container is 200px wide and the eight real slots stop at x=132, so it
       // goes in that unused margin rather than overlapping any of them.
-      html += '<div class="m2-equip-slot" title="' + I18N.depot +
+      html += '<div class="m2-equip-slot m2-classic-store" title="' + I18N.depot +
               '" style="left:150px;top:6px;width:34px;height:34px;cursor:pointer;' +
               'display:flex;align-items:center;justify-content:center;font-size:19px"' +
               ' data-botpid="' + p.id + '" data-botname="' + p.name + '"' +
@@ -12497,11 +12502,14 @@ function openBotModal(pid) {
 
       // And the stall beside it: what the bot sells lives in its offline shop,
       // which is neither the bag nor the depot (Tieru, 17 September).
-      html += '<div class="m2-equip-slot" title="' + I18N.shop +
+      html += '<div class="m2-equip-slot m2-classic-store" title="' + I18N.shop +
               '" style="left:150px;top:46px;width:34px;height:34px;cursor:pointer;' +
               'display:flex;align-items:center;justify-content:center;font-size:19px"' +
               ' data-botpid="' + p.id + '" data-botname="' + p.name + '"' +
               ' onclick="toggleBotShopFromEl(this)">\U0001F3EA</div>';
+
+      // Theme cards use the marker; keep the original controls for classic fallback.
+      html += '<div class="m2-bot-ref" style="display:none" data-botpid="' + p.id + '" data-botname="' + escapeHtml(p.name) + '"></div>';
 
       // No refresh button: opening a character is the refresh. openBotModal
       // reads /api/bot_inventory every time it runs, and the three fetches of
@@ -20015,8 +20023,9 @@ def api_bot_rankings():
                     SELECT p.id, p.name, p.level, p.job, p.gold, i.vnum as weapon_vnum
                     FROM player.player p
                     LEFT JOIN player.item i ON p.id = i.owner_id AND i.window = 'EQUIPMENT' AND i.pos = 4
+                    LEFT JOIN player.item_proto ip ON ip.vnum = i.vnum
                     WHERE <<RANKED_P_2>>
-                    ORDER BY MOD(i.vnum, 10) DESC, i.vnum DESC, p.level DESC
+                    ORDER BY (CASE WHEN ip.limittype0 = 1 THEN ip.limitvalue0 WHEN ip.limittype1 = 1 THEN ip.limitvalue1 ELSE 0 END) DESC, MOD(i.vnum, 10) DESC, i.vnum DESC, p.level DESC
                     LIMIT %s
                 """, people_only), (rank_limit,))
             elif rtype == "armor":
@@ -20024,8 +20033,9 @@ def api_bot_rankings():
                     SELECT p.id, p.name, p.level, p.job, p.gold, i.vnum as armor_vnum
                     FROM player.player p
                     LEFT JOIN player.item i ON p.id = i.owner_id AND i.window = 'EQUIPMENT' AND i.pos = 0
+                    LEFT JOIN player.item_proto ip ON ip.vnum = i.vnum
                     WHERE <<RANKED_P_2>>
-                    ORDER BY MOD(i.vnum, 10) DESC, i.vnum DESC, p.level DESC
+                    ORDER BY (CASE WHEN ip.limittype0 = 1 THEN ip.limitvalue0 WHEN ip.limittype1 = 1 THEN ip.limitvalue1 ELSE 0 END) DESC, MOD(i.vnum, 10) DESC, i.vnum DESC, p.level DESC
                     LIMIT %s
                 """, people_only), (rank_limit,))
             elif rtype == "items":
@@ -24602,7 +24612,29 @@ _IWAKURA_EXPORT_LOCK = threading.Lock()
 IWAKURA_EXPORT_LOG_DAYS = 8                  # log.playerbot_session keeps eight
 IWAKURA_EXPORT_LOG_STATEMENT_SECONDS = 20
 IWAKURA_EXPORT_LOG_ROWS = 100000
-IWAKURA_EXPORT_DEADLINE_SECONDS = 150
+IWAKURA_EXPORT_DEADLINE_SECONDS = 600
+IWAKURA_EXPORT_SECTION_SECONDS = 60
+
+
+class _IwakuraBoundCursor:
+    """Bound each read by the current section and export deadline."""
+    def __init__(self, exporter, cursor):
+        self.exporter, self.cursor = exporter, cursor
+
+    def execute(self, sql, args=None):
+        if self.exporter.part_out_of_time():
+            raise TimeoutError("export_section_deadline")
+        seconds = max(1, min(IWAKURA_EXPORT_LOG_STATEMENT_SECONDS,
+                             self.exporter.part_deadline - time.monotonic(),
+                             self.exporter.deadline - time.monotonic()))
+        if sql.lstrip().upper().startswith(("SELECT", "SHOW", "WITH")):
+            # Refuse an unbounded database read if this server lacks the bound.
+            # The section reports it; independent file sections still complete.
+            self.cursor.execute("SET SESSION max_statement_time = %s", (seconds,))
+        return self.cursor.execute(sql, args)
+
+    def __getattr__(self, name):
+        return getattr(self.cursor, name)
 # log.ikarusshop_log has no index on time: it is read back from its newest id.
 IWAKURA_EXPORT_SHOPLOG_SCAN = 2000000
 IWAKURA_EXPORT_ID_CHUNK = 500
@@ -25008,7 +25040,9 @@ class _IwakuraExport:
         self.session_secs = None
         self.db_now = None
         self.started = time.time()
-        self.deadline = self.started + IWAKURA_EXPORT_DEADLINE_SECONDS
+        self.deadline = time.monotonic() + IWAKURA_EXPORT_DEADLINE_SECONDS
+        self.part_deadline = self.deadline
+        self.file_status = []
         self.people = {}        # pid: (name, class), read as the parts need them
         self.bot_flags = None   # pid: {state: lValue} of the playerbot quest flags the export reads
 
@@ -25019,18 +25053,21 @@ class _IwakuraExport:
         self.problems.append((part, text))
 
     def out_of_time(self):
-        return time.time() >= self.deadline
+        return time.monotonic() >= self.deadline
+
+    def part_out_of_time(self):
+        return time.monotonic() >= min(self.deadline, self.part_deadline)
 
     def log_statements(self, cur):
         """This part's statements over a log table under their own bound, and
         never past the export's deadline."""
-        seconds = max(1, min(IWAKURA_EXPORT_LOG_STATEMENT_SECONDS, int(self.deadline - time.time())))
+        seconds = max(1, min(IWAKURA_EXPORT_LOG_STATEMENT_SECONDS, int(min(self.deadline, self.part_deadline) - time.monotonic())))
         try:
             cur.execute("SET SESSION max_statement_time = %s", (seconds,))
         except Exception:
             pass
 
-    def table(self, name, header, rows, max_rows=None, max_bytes=None):
+    def table(self, name, header, rows, max_rows=None, max_bytes=None, enforce_time=True):
         """A file of rows under the row and byte caps; a cut is a problem.
         A part may give caps of its own: its bytes are then bounded by its
         `max_bytes` and not by the export's shared IWAKURA_EXPORT_MAX_BYTES.
@@ -25042,7 +25079,19 @@ class _IwakuraExport:
         size, written, cut = len(head.encode("utf-8")), 0, False
         packer, packed, pending, pending_size = _zlib.compressobj(6), [], [head], size
         max_rows = min(IWAKURA_EXPORT_MAX_ROWS, max_rows or IWAKURA_EXPORT_MAX_ROWS)
-        for row in rows:
+        time_col = next((i for i,k in enumerate(header) if k in ('unix_ts','valued_at','snapshot_at','time')), None)
+        id_col = next((i for i,k in enumerate(header) if k in ('id','item_id','queue_id','pid')), None)
+        first_time, last_time, first_id, last_id = None, None, None, None
+        def bounded_rows():
+            try:
+                yield from rows
+            except Exception as exc:
+                self.problem(name, "partial rows: %s: %s" % (type(exc).__name__,str(exc)[:300]))
+        for row in bounded_rows():
+            if enforce_time and self.part_out_of_time():
+                cut = True
+                self.problem(name,"partial rows: section deadline")
+                break
             if written >= max_rows:
                 cut = True
                 break
@@ -25055,6 +25104,17 @@ class _IwakuraExport:
             pending_size += length
             size += length
             written += 1
+            if time_col is not None and row[time_col] is not None:
+                v = _ix_cell(row[time_col])
+                first_time = v if first_time is None else min(first_time,v)
+                last_time = v if last_time is None else max(last_time,v)
+            if id_col is not None and row[id_col] is not None:
+                try:
+                    v = int(row[id_col])
+                    first_id = v if first_id is None else min(first_id,v)
+                    last_id = v if last_id is None else max(last_id,v)
+                except (ValueError,TypeError):
+                    pass
             if pending_size >= IWAKURA_EXPORT_PACK_BYTES:
                 packed.append(packer.compress("".join(pending).encode("utf-8")))
                 pending, pending_size = [], 0
@@ -25065,6 +25125,9 @@ class _IwakuraExport:
             self.size += size
         if cut:
             self.problem(name, "cut after %d rows (export cap)" % written)
+        notes = [text for part,text in self.problems if part == name]
+        self.file_status.append((name,"partial" if notes else ("ok" if written else "empty"),
+                                 written,first_time,last_time,first_id,last_id," | ".join(notes)))
         return written
 
     @staticmethod
@@ -25083,12 +25146,14 @@ class _IwakuraExport:
         return self.table(name, ("key", "value", "note"), rows)
 
     def run(self, part, fn, needs_db=True):
-        started = time.time()
+        started = time.monotonic()
         state = "ok"
+        before_problems = len(self.problems)
         if self.out_of_time():
             self.problem(part, "skipped: the export's %d s were spent" % IWAKURA_EXPORT_DEADLINE_SECONDS)
             self.timings.append((part, 0.0, "skipped"))
             return
+        self.part_deadline = min(self.deadline, started + IWAKURA_EXPORT_SECTION_SECONDS)
         try:
             if needs_db:
                 with db() as c, c.cursor() as cur:
@@ -25098,14 +25163,16 @@ class _IwakuraExport:
                         cur.execute("SET SESSION max_statement_time = %s", (IWAKURA_EXPORT_STATEMENT_SECONDS,))
                     except Exception:
                         pass
-                    fn(self, cur)
+                    fn(self, _IwakuraBoundCursor(self,cur))
             else:
                 fn(self, None)
         except Exception as e:
             app.logger.exception("iwakura export: part %s failed", part)
             self.problem(part, "%s: %s" % (type(e).__name__, str(e)[:500]))
             state = "error"
-        self.timings.append((part, time.time() - started, state))
+        if state == "ok" and len(self.problems)>before_problems:
+            state = "partial"
+        self.timings.append((part, time.monotonic() - started, state))
 
     def pid_class(self, pid_col="p.id", login_col="a.login"):
         return ("CASE WHEN LEFT(%s, 10) = 'playerbot_' THEN 'bot' WHEN %s IN %s THEN 'gm' ELSE 'person' END"
@@ -25303,10 +25370,12 @@ def _ix_part_events(ex, _cur):
 
 def _ix_part_lifetime(ex, cur):
     say = ex.say
-    cur.execute("SELECT NOW() AS now")
-    now = cur.fetchone()["now"]
+    cur.execute("SELECT NOW() AS now, UNIX_TIMESTAMP(NOW()) AS unix_now")
+    clock_row = cur.fetchone()
+    now = clock_row["now"]
     ex.db_now = now
     out = [("db_now", now, say("czas serwera bazy w chwili eksportu", "the database server's time at the export"))]
+    out.append(("db_now_unix", clock_row.get("unix_now"), "UNIX_TIMESTAMP(NOW())"))
     starts = []
     cur.execute("SELECT LEFT(login, 10) = 'playerbot_' AS bot, MIN(create_time) AS first, COUNT(*) AS n "
                 "FROM account.account WHERE create_time > '1971-01-01' GROUP BY bot")
@@ -25739,6 +25808,38 @@ def _ix_part_bots(ex, cur):
 
 # ---- Patch 11, point 15: what the patch is measured by -----------------------
 
+def _ix_purchase_batches(ex, cur, top, days, cap):
+    """Keyset pages over the actual shop-log primary key, no growing OFFSET."""
+    after = None
+    read = 0
+    floor_id = max(0, top - IWAKURA_EXPORT_SHOPLOG_SCAN)
+    while read < cap:
+        if ex.part_out_of_time():
+            raise TimeoutError("sales read cut after %d rows" % read)
+        ex.log_statements(cur)
+        sql = ("SELECT id, time, who, itemid, shop_owner, vnum, `count`, yang, extra FROM log.ikarusshop_log "
+               "FORCE INDEX (PRIMARY) WHERE id > %s AND what = 'BUY_ITEM' AND time >= NOW() - INTERVAL %s DAY ")
+        params = [floor_id, days]
+        if after is not None:
+            sql += "AND id < %s "
+            params.append(after)
+        limit = min(2000, cap-read)
+        sql += "ORDER BY id DESC LIMIT %s"
+        params.append(limit)
+        cur.execute(sql, tuple(params))
+        page = list(cur.fetchall())
+        if not page:
+            return
+        read += len(page)
+        yield page
+        if len(page) < limit:
+            return
+        after = _ix_int(page[-1].get("id"))
+        if not after:
+            raise ValueError("shop log page has no usable primary key")
+    ex.problem("sales.tsv", "log.ikarusshop_log: the newest %d purchases only" % cap)
+
+
 def _ix_part_sales(ex, cur):
     """Every sale of an offline-shop line in the window. log.ikarusshop_log's
     BUY_ITEM is every purchase the db core settled (the buyer, the seller, the
@@ -25752,14 +25853,11 @@ def _ix_part_sales(ex, cur):
     try:
         cur.execute("SELECT MAX(id) AS top FROM log.ikarusshop_log")
         top = _ix_int((cur.fetchone() or {}).get("top"))
-        cur.execute("SELECT id, time, who, itemid, shop_owner, vnum, `count`, yang, extra FROM log.ikarusshop_log "
-                    "FORCE INDEX (PRIMARY) WHERE id > %s AND what = 'BUY_ITEM' AND time >= NOW() - INTERVAL %s DAY "
-                    "ORDER BY id DESC LIMIT %s", (max(0, top - IWAKURA_EXPORT_SHOPLOG_SCAN), days, cap))
-        buys = list(cur.fetchall())[::-1]
-        if len(buys) >= cap:
-            ex.problem("sales.tsv", "log.ikarusshop_log: the newest %d purchases only" % cap)
+        for page in _ix_purchase_batches(ex, cur, top, days, cap):
+            buys.extend(page)
     except Exception as e:
         ex.problem("sales.tsv", "log.ikarusshop_log: %s" % str(e)[:300])
+    buys.reverse()
     listing, sold = {}, set()
     columns = "item_id, pid, vnum, `count`, listed_at, list_price, price, sold_price, changes, last_at, why, why_a"
     try:
@@ -25965,6 +26063,39 @@ def _ix_part_patch17(ex, _cur):
         ex.table(part, ("channel", "core")+columns, out)
 
 
+def _ix_part_patch18(ex, _cur):
+    """Native facts; per-row time is explicit because production is bounded."""
+    definitions = (
+        ("build_identity.tsv", "playerbot_build_identity.tsv", "#PB18I1",
+         ("unix_ts", "source_build_commit", "loaded_exe_sha256", "active_proto_sha256",
+          "pricing_version", "active_ai_config_sha256")),
+        ("eq_plan.tsv", "playerbot_eq_plan.tsv", "#PB18EQ2",
+         ("unix_ts", "pid", "level", "active_character_seconds", "slot", "worn_id", "worn_vnum",
+          "worn_plus", "worn_score", "project_family", "project_id", "target", "backup_id", "copy1_id",
+          "copy2_id", "reason", "retry_unix", "visit_attempts", "shield_attempts", "anvil_elapsed_ms", "pricing_version",
+          "project_vnum", "project_plus", "project_level", "project_score", "project_potential", "path_cost",
+          "actual_yang", "missing_material_vnum", "material_held", "material_needed", "reason_unix",
+          "worn_level", "phase")),
+        ("visit_wallet.tsv", "playerbot_visit_wallet.tsv", "#PB18W1",
+         ("unix_ts", "pid", "visit_monotonic_ms", "actual_cash", "reserves", "replacement_reserve",
+          "initial_free_cash", "acknowledged_income", "total_spent", "category", "allocation_started",
+          "allocation_percent", "allocation_base", "income_at_start", "allocation_cap", "allocation_spent")),
+        ("asset_valuation.tsv", "playerbot_asset_valuation.tsv", "#PB18A1",
+         ("unix_ts", "pid", "pricing_version", "reference_version", "equipped", "other", "equipped_strength",
+          "uncapped_reference_wealth", "complete", "cash_unix", "cash_read", "depot_read", "offline_storage_read",
+          "excluded_unknown_proto", "excluded_quest", "excluded_nontrade", "excluded_sealed", "excluded_no_quote")),
+        ("pvp_plan.tsv", "playerbot_pvp_plan.tsv", "#PB18PVP2",
+         ("unix_ts", "pid", "enabled", "share", "min_level", "budget_percent", "actual_pve_minimum",
+          "free_adds", "free_changes", "place", "part_minimum_plus", "phase_reason", "actual_refines",
+          "part_item_id", "part_vnum", "part_plus", "part_target_plus", "refine_reason", "bonus_reason")))
+    for part, filename, magic, columns in definitions:
+        found, rows = _ix_core_tsv(ex, part, filename, magic, len(columns))
+        if not found:
+            ex.problem(part, "Native Patch 18 snapshot unavailable; this is not evidence of an empty world.")
+        ex.table(part, ("channel", "core") + columns,
+                 ((channel, core) + tuple(values) for channel, core, values in rows))
+
+
 def _ix_part_price_index(ex, _cur):
     """Point 2's index and point 1's supply and modifier for every material,
     an hour a row, as the core that recalculates the supply writes them."""
@@ -25986,6 +26117,52 @@ def _ix_part_price_index(ex, _cur):
     out.sort(key=lambda r: (r[0], r[7], r[1], r[2]))
     ex.table("price_index.tsv", ("unix_ts", "channel", "core", "time", "index", "trend", "trend_word", "vnum",
                                  "name", "supply", "modifier"), out)
+
+
+def _ix_part_measurement_sessions(ex, cur):
+    """Exact retained intervals for same-PID 24/72h comparisons, paged by PK."""
+    now = ex.db_now
+    if not isinstance(now, datetime.datetime):
+        cur.execute("SELECT NOW() AS now")
+        now = cur.fetchone()["now"]
+    floor = now - datetime.timedelta(days=IWAKURA_EXPORT_LOG_DAYS)
+    rows, after = [], None
+    while len(rows) < IWAKURA_EXPORT_LOG_ROWS:
+        sql = ("SELECT pid,login_at,UNIX_TIMESTAMP(login_at) AS login_unix,"
+               "UNIX_TIMESTAMP(LEAST(%s,GREATEST(COALESCE(logout_at,seen_at,login_at),login_at))) AS end_unix "
+               "FROM log.playerbot_session FORCE INDEX (PRIMARY) WHERE login_at<=%s "
+               "AND GREATEST(COALESCE(logout_at,seen_at,login_at),login_at)>=%s ")
+        params = [now,now,floor]
+        if after:
+            sql += "AND (pid>%s OR (pid=%s AND login_at>%s)) "
+            params += [after[0],after[0],after[1]]
+        limit = min(2000,IWAKURA_EXPORT_LOG_ROWS-len(rows))
+        sql += "ORDER BY pid,login_at LIMIT %s"
+        params.append(limit)
+        try:
+            cur.execute(sql,tuple(params))
+            page = list(cur.fetchall())
+        except Exception as error:
+            ex.problem("measurement_sessions.tsv", "partial sessions: " + str(error)[:300])
+            break
+        rows.extend(page)
+        if len(page)<limit:
+            break
+        after=(page[-1]['pid'],page[-1]['login_at'])
+    if len(rows)>=IWAKURA_EXPORT_LOG_ROWS:
+        ex.problem("measurement_sessions.tsv", "retained session row cap")
+    ex.table("measurement_sessions.tsv",("pid","login_unix","end_unix"),
+             ((r['pid'],r['login_unix'],r['end_unix']) for r in rows),enforce_time=False)
+
+
+def _ix_part_measurement_events(ex, cur):
+    """Raw survival/NPC disposal receipts; disappearance is not a sale/death."""
+    rows=[]
+    for page in _ix_how_batches(ex,cur,"measurement_events.tsv",("DEAD_BY_NPC","NPC_SELL")):
+        rows.extend(page)
+    ex.table("measurement_events.tsv",("unix_ts","pid","item_id","vnum","how","hint"),
+             ((_ix_int(r.get('ts')),_ix_int(r.get('who')),_ix_int(r.get('what')),
+               _ix_int(r.get('vnum')),log_text(r.get('how')),log_text(r.get('hint'))) for r in rows),enforce_time=False)
 
 
 def _ix_part_online(ex, cur):
@@ -26395,6 +26572,44 @@ def _ix_refine_purposes(ex, cur, attempts):
     return out
 
 
+def _ix_plan_attempt_marks(ex, cur, attempts):
+    """Actual post-native receipts, never the earlier intention/guard record."""
+    marks = {}
+    for chunk in _ix_chunks(sorted({_ix_int(a[2]) for a in attempts}-{0})):
+        if ex.part_out_of_time():
+            ex.problem("refine_log.tsv", "Plan receipts cut at section deadline")
+            break
+        try:
+            ex.log_statements(cur)
+            cur.execute("SELECT time,who,what,hint FROM log.log FORCE INDEX (what_idx) "
+                        "WHERE what IN "+_ix_ids(chunk)+" AND how='PLAYERBOT_EQ_PLAN_ATTEMPT' "
+                        "AND time>=NOW()-INTERVAL %s DAY ORDER BY time DESC LIMIT %s",
+                        (IWAKURA_EXPORT_LOG_DAYS, 2000))
+            rows = list(cur.fetchall())
+            if len(rows) >= 2000:
+                ex.problem("refine_log.tsv", "Plan receipts: 2000-row chunk cap")
+            for row in rows:
+                match = re.search(r"^plan=1 slot=(-?\d+) vnum=(\d+) from=(\d+)$", log_text(row.get('hint')))
+                if match and hasattr(row.get('time'), 'timetuple'):
+                    key = _ix_int(row.get('who')), _ix_int(row.get('what'))
+                    marks.setdefault(key, []).append((int(time.mktime(row['time'].timetuple())), int(match[2]), int(match[3])))
+        except Exception as exc:
+            ex.problem("refine_log.tsv", "Plan receipts: "+str(exc)[:200])
+            break
+    flags = {}
+    for i,a in enumerate(attempts):
+        if not hasattr(a[0], 'timetuple'):
+            continue
+        stamp = int(time.mktime(a[0].timetuple()))
+        candidates = marks.get((_ix_int(a[1]),_ix_int(a[2])), ())
+        if not candidates and not ENGINE_MT2009:
+            candidates = [x for (pid,_), values in marks.items() if pid==_ix_int(a[1]) for x in values]
+        nearby = [x for x in candidates if abs(x[0]-stamp)<=2 and x[1]//10==_ix_int(a[3])//10 and x[2]==_ix_int(a[5])]
+        if len(nearby)==1:
+            flags[i] = 1
+    return flags
+
+
 def _ix_part_refines(ex, cur):
     """Every attempt at an anvil in the window: the bot, the item, the plus
     before and after, the way (a blacksmith or a scroll) and the outcome."""
@@ -26402,14 +26617,15 @@ def _ix_part_refines(ex, cur):
     attempts = (_ix_refine_attempts_mt2009 if ENGINE_MT2009 else _ix_refine_attempts_r40250)(ex, cur)
     attempts = _ix_mark_unprofitable(attempts, _ix_scroll_unprofitable_marks(ex, cur), ex.language)
     purposes = _ix_refine_purposes(ex, cur, attempts)
+    plan_flags = _ix_plan_attempt_marks(ex, cur, attempts)
     try:
         ex.who(cur, [a[1] for a in attempts])
     except Exception as e:
         ex.problem("refine_log.tsv", "names (player.player): %s" % str(e)[:300])
     out = [(a[0], a[1]) + ex.people.get(a[1], ("", "")) + a[2:10] +
-           (purposes.get(i, ("", ""))[0], purposes.get(i, ("", a[10]))[1]) for i, a in enumerate(attempts)]
+           (purposes.get(i, ("", ""))[0], purposes.get(i, ("", a[10]))[1], plan_flags.get(i, "")) for i, a in enumerate(attempts)]
     ex.table("refine_log.tsv", ("time", "pid", "name", "class", "item_id", "vnum", "item_name", "from_plus",
-                                "to_plus", "outcome", "way", "way_label", "purpose", "own_worn"), out)
+                                "to_plus", "outcome", "way", "way_label", "purpose", "own_worn", "plan"), out)
 
 
 def _ix_part_shield_rebuys(ex, cur):
@@ -26448,19 +26664,54 @@ def _ix_part_shield_rebuys(ex, cur):
               for (source, burned), value in sorted(totals.items())])
 
 
+def _ix_how_batches(ex, cur, part, hows):
+    """Bounded indexed time windows for the native log, which has no row ID.
+
+    A busy second cannot be keyset-paged without inventing a unique key.
+    Saturated windows are explicitly partial; subsequent windows still run.
+    Never use an increasing OFFSET or discard already fetched rows on timeout.
+    """
+    upper = ex.db_now
+    if not isinstance(upper, datetime.datetime):
+        cur.execute("SELECT NOW() AS now")
+        upper = cur.fetchone()["now"]
+    upper += datetime.timedelta(seconds=1)
+    lower_bound = upper - datetime.timedelta(days=IWAKURA_EXPORT_LOG_DAYS)
+    read = 0
+    quoted = ",".join("'%s'" % h for h in hows)
+    while upper > lower_bound and read < IWAKURA_EXPORT_LOG_ROWS:
+        if ex.part_out_of_time():
+            ex.problem(part, "partial native log after %d rows: section deadline" % read)
+            return
+        lower = max(lower_bound, upper - datetime.timedelta(hours=1))
+        limit = min(2000, IWAKURA_EXPORT_LOG_ROWS-read)
+        ex.log_statements(cur)
+        try:
+            cur.execute("SELECT UNIX_TIMESTAMP(time) AS ts, time, who, what, vnum, how, hint "
+                        "FROM log.log FORCE INDEX (how_time_idx) WHERE how IN (" + quoted + ") "
+                        "AND time >= %s AND time < %s ORDER BY time DESC LIMIT %s",
+                        (lower, upper, limit))
+            rows = list(cur.fetchall())
+        except Exception as error:
+            ex.problem(part, "partial native log after %d rows: %s" % (read, str(error)[:300]))
+            return
+        read += len(rows)
+        if len(rows) >= limit:
+            ex.problem(part, "native log window %s..%s truncated at %d rows" % (lower, upper, limit))
+        if rows:
+            yield rows
+        upper = lower
+    if read >= IWAKURA_EXPORT_LOG_ROWS:
+        ex.problem(part, "native log row cap %d reached" % read)
+
+
 def _ix_part_bonuses(ex, cur):
     """Every add, change and marble stone a bot spent in the window: the
     log.log row the core writes on the piece (PLAYERBOT_BONUS_ADD, _CHANGE,
     _MARBLE: who, the piece's id, vnum and name), and the piece's lines as
     player.item holds them now."""
-    ex.log_statements(cur)
-    cur.execute("SELECT UNIX_TIMESTAMP(time) AS ts, time, who, what, vnum, how, hint FROM log.log FORCE INDEX (how_idx) "
-                "WHERE how IN (" + ",".join("'%s'" % h for h in IWAKURA_BONUS_HOWS) + ") "
-                "AND time >= NOW() - INTERVAL %s DAY ORDER BY time DESC LIMIT %s",
-                (IWAKURA_EXPORT_LOG_DAYS, IWAKURA_EXPORT_LOG_ROWS))
-    rows = list(cur.fetchall())[::-1]
-    if len(rows) >= IWAKURA_EXPORT_LOG_ROWS:
-        ex.problem("bonus_log.tsv", "the newest %d stones only" % IWAKURA_EXPORT_LOG_ROWS)
+    rows = [row for batch in _ix_how_batches(ex,cur,"bonus_log.tsv",IWAKURA_BONUS_HOWS) for row in batch]
+    rows.reverse()
     lines = {}
     try:
         ids = sorted({_ix_int(r.get("what")) for r in rows} - {0})
@@ -26480,13 +26731,10 @@ def _ix_part_bonuses(ex, cur):
     # bot's tier, the core's row beside it on the same piece.
     purposes = {}
     try:
-        cur.execute("SELECT UNIX_TIMESTAMP(time) AS ts, what, hint FROM log.log FORCE INDEX (how_idx) "
-                    "WHERE how = '" + IWAKURA_BONUS_PURPOSE_HOW + "' "
-                    "AND time >= NOW() - INTERVAL %s DAY ORDER BY time DESC LIMIT %s",
-                    (IWAKURA_EXPORT_LOG_DAYS, IWAKURA_EXPORT_LOG_ROWS))
-        for r in cur.fetchall() or ():
-            purposes.setdefault(_ix_int(r.get("what")), []).append((_ix_int(r.get("ts"), -1),
-                                                                    log_text(r.get("hint")).strip()))
+        for batch in _ix_how_batches(ex,cur,"bonus_log.tsv",(IWAKURA_BONUS_PURPOSE_HOW,)):
+            for r in batch:
+                purposes.setdefault(_ix_int(r.get("what")), []).append((_ix_int(r.get("ts"), -1),
+                                                                        log_text(r.get("hint")).strip()))
     except Exception as e:
         ex.problem("bonus_log.tsv", "purpose (log.log): %s" % str(e)[:300])
 
@@ -26510,7 +26758,7 @@ def _ix_part_bonuses(ex, cur):
                     purpose_of(item_id, _ix_int(r.get("ts"), -1))))
     ex.table("bonus_log.tsv", ("time", "pid", "name", "class", "stone", "item_id", "vnum", "item_name", "plus",
                                "lines_now", "lines_before", "lines_after", "price_multiplier_before",
-                               "price_multiplier_after", "purpose"), out)
+                               "price_multiplier_after", "purpose"), out, enforce_time=False)
 
 
 # ---- The explanation tables (Iwakura, 9 October) -----------------------------
@@ -26563,7 +26811,7 @@ def _ix_explain_rows(ex, cur, part, table, time_col, key_col, index, cap, state)
     export's deadline ends the read with a problem and keeps what was read."""
     after, read = None, 0
     while read < cap:
-        if ex.out_of_time():
+        if ex.part_out_of_time():
             ex.problem(part, "cut after %d rows: the export's time was spent" % read)
             return
         ex.log_statements(cur)
@@ -27709,6 +27957,7 @@ def build_iwakura_export(language):
     # deadline that comes cuts the heaviest reads.
     ex.run("price_index.tsv", _ix_part_price_index, needs_db=False)
     ex.run("bot_investment.tsv", _ix_part_patch17, needs_db=False)
+    ex.run("build_identity.tsv", _ix_part_patch18, needs_db=False)
     ex.run("no_upgrade_reason.tsv", _ix_part_no_upgrade)
     ex.run("chat_misses.tsv", _ix_part_chat_misses)
     ex.run("meetings.tsv", _ix_part_meetings)
@@ -27722,6 +27971,8 @@ def build_iwakura_export(language):
     if ENGINE_MT2009:
         ex.run("shops.tsv", _ix_part_shops)
         ex.run("online_hourly.tsv", _ix_part_online)
+        ex.run("measurement_sessions.tsv", _ix_part_measurement_sessions)
+        ex.run("measurement_events.tsv", _ix_part_measurement_events)
         ex.run("sales.tsv", _ix_part_sales)
     else:
         for name in ("shops.tsv", "online_hourly.tsv", "sales.tsv"):
@@ -27734,6 +27985,10 @@ def build_iwakura_export(language):
     # The explanation tables (Iwakura, 9 October): the biggest files, last.
     ex.run("listing_recipes.tsv", _ix_part_listing_recipes)
     ex.run("equip_decisions.tsv", _ix_part_equip_decisions)
+    ex.part_deadline = ex.deadline
+    ex.table("export_files.tsv", ("file","status","rows","from_time","to_time","from_id","to_id","error_or_truncation"),
+             tuple(ex.file_status),enforce_time=False)
+    ex.table("export_sections.tsv", ("section","seconds","status"),tuple(ex.timings),enforce_time=False)
     stamp = time.localtime()
     readme = _ix_readme(ex, time.strftime("%Y-%m-%d %H:%M:%S", stamp))
     buf = _io.BytesIO()
@@ -27776,21 +28031,21 @@ T.update({
               "a od Patcha 11 także sprzedaże i sklepy offline, indeks cen, boty online w każdej godzinie, "
               "wymiany w Kantorze, próby u kowala, dodania i zmianki, powody nieulepszania i szepty bez "
               "intencji, a także pełne recepty wycen i decyzje o ekwipunku botów. README.txt w środku opisuje każdą kolumnę. Zbieranie trwa od kilku sekund do "
-              "dwóch i pół minuty i tylko czyta bazę i pliki rdzeni.",
+              "dziesięciu minut i tylko czyta bazę i pliki rdzeni.",
         "en": "One ZIP of the world's economy: rates and events, the server's age, the Moonlight chests, "
               "yang in circulation, the bots' counters, items by where they lie (bots and players apart) "
               "and the bot list, and since Patch 11 the offline-shop sales and shops, the price index, the "
               "bots online every hour, the Kantor's exchanges, the attempts at an anvil, the add and change "
               "stones, why bots did not refine and the whispers with no intent, and the bots' whole price "
               "recipes and equipment decisions. The README.txt inside "
-              "explains every column. It takes from a few seconds to two and a half minutes and only reads "
+              "explains every column. It takes from a few seconds to ten minutes and only reads "
               "the database and the cores' files.",
         "de": "Ein ZIP zur Wirtschaft der Welt: Raten und Events, das Alter des Servers, die "
               "Mondschein-Truhen, Yang im Umlauf, die Stände der Bots, Gegenstände nach Ort (Bots und "
               "Spieler getrennt) und die Bot-Liste, seit Patch 11 auch die Verkäufe und Offline-Läden, der "
               "Preisindex, die Bots online in jeder Stunde, die Tauschgeschäfte im Kantor, die Versuche am "
               "Amboss, die Zusatz- und Wechselsteine, warum Bots nicht verbessert haben, Flüstern ohne "
-              "Absicht sowie die vollständigen Preisrezepte und Ausrüstungsentscheidungen der Bots. Die README.txt darin erklärt jede Spalte. Es dauert ein paar Sekunden bis zweieinhalb "
+              "Absicht sowie die vollständigen Preisrezepte und Ausrüstungsentscheidungen der Bots. Die README.txt darin erklärt jede Spalte. Es dauert ein paar Sekunden bis zehn "
               "Minuten und liest die Datenbank und die Dateien der Kerne nur.",
         "tr": "Dünya ekonomisinin tek bir ZIP dosyası: oranlar ve etkinlikler, sunucunun yaşı, Ay Işığı "
               "Sandıkları, dolaşımdaki yang, botların tezgâhları, bulundukları yere göre eşyalar (botlar ve "
@@ -27798,7 +28053,7 @@ T.update({
               "fiyat endeksi, her saat çevrimiçi botlar, Kantor takasları, örs denemeleri, ekleme ve değiştirme "
               "taşları, botların neden yükseltmediği, niyet bulunamayan fısıltılar ve botların tam fiyat "
               "tarifleri ile ekipman kararları da. İçindeki README.txt "
-              "her sütunu açıklar. Birkaç saniyeden iki buçuk dakikaya kadar sürer ve veritabanını ve "
+              "her sütunu açıklar. Birkaç saniyeden on dakikaya kadar sürer ve veritabanını ve "
               "çekirdeklerin dosyalarını yalnızca okur."},
     "ix_button": {"pl": "Eksport statystyk dla Iwakury", "en": "Statistics export for Iwakura",
                   "de": "Statistik-Export für Iwakura", "tr": "Iwakura için istatistik dışa aktarımı"},

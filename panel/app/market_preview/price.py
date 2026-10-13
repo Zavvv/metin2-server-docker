@@ -37,6 +37,12 @@ MAX_LINES_PERCENT = (100, 100, 170, 250, 400)
 AVERAGE_DAMAGE_MAX_FROM = 40
 MAX_HP_AT_TOP_FROM = 1500
 
+try:
+    from . import overrides
+except ImportError:
+    import overrides
+PRICING_OPTIONS = overrides.options({})
+
 # playerbot_gear_value_rules.h
 SHEET_ROWS = 10
 LOW_PLUS_LINES_MAX_PLUS = 7
@@ -120,9 +126,9 @@ def find_line_rows(rows, point, slot, level):
                 not int(lv_from) <= int(level) <= int(lv_to):
             continue
         if int(top) == 0 and slot_rule is None:
-            slot_rule = (int(mx), int(other), 0)
+            slot_rule = (mx, other, 0)
         elif int(top) != 0 and top_rule is None:
-            top_rule = (int(mx), int(other), int(top))
+            top_rule = (mx, other, int(top))
     return [slot_rule, top_rule]
 
 
@@ -141,6 +147,9 @@ def rows_of_point(point):
 def apply_int_row(found, int_slot):
     row = INT_ROWS.get(int_slot)
     if row:
+        key = 'intq:%s:' % ('shield' if int_slot == INT_SLOT_SHIELD else 'shaman_weapon')
+        row = (overrides.resulting_percent(key+'max', row[0], PRICING_OPTIONS),
+               overrides.resulting_percent(key+'other', row[1], PRICING_OPTIONS))
         found[0] = (row[0], row[1], 0)
     return found
 
@@ -180,7 +189,7 @@ class Line(object):
 
     def __init__(self, pct=100, at_top=False, average=False, ordinary=False, tier=0, value=0, top=0,
                  base_pct=100, point=0):
-        self.pct, self.at_top, self.average, self.ordinary = int(pct), bool(at_top), bool(average), bool(ordinary)
+        self.pct, self.at_top, self.average, self.ordinary = pct, bool(at_top), bool(average), bool(ordinary)
         self.tier, self.value, self.top, self.base_pct, self.point = int(tier), int(value), int(top), \
             int(base_pct), int(point)
 
@@ -200,14 +209,16 @@ def compound(product, pct, cap):
     return cap if product > cap else product
 
 
-def classic(lines, without_average, cap=LINES_PRODUCT_CAP_PCT):
+def classic(lines, without_average, cap=LINES_PRODUCT_CAP_PCT, policy=None):
     """Classic: (product, at_top_lines, premium)."""
     product, at_top = 100, 0
+    policy = PRICING_OPTIONS if policy is None else policy
     for line in lines:
         if line.at_top:
             at_top += 1
         if not without_average or not line.average:
-            product = compound(product, line.pct, cap)
+            product = compound(product, line.pct, 1000000 if policy.get('cap_active') else cap)
+    product = overrides.soft_cap(product, policy)
     return product, at_top, tdiv(product * max_lines_percent(at_top), 100) - 100
 
 
@@ -329,6 +340,127 @@ class Facts(object):
         self.stones_pct, self.curve_pct, self.inflation = int(stones_pct), int(curve_pct), int(inflation)
         self.average_pct, self.average = int(average_pct), int(average)
         self.level30_keep, self.cap = int(level30_keep), int(cap)
+        self.pricing_options = dict(PRICING_OPTIONS)
+
+
+def _compose_precise(f, out):
+    from decimal import Decimal
+    D = lambda x: Decimal(str(x))
+    def soft(product):
+        policy = f.pricing_options
+        full = D(policy.get('full', 10000))
+        return product if not policy.get('cap_active') or product <= full else full + (product-full)*D(policy.get('excess', 0))/100
+    lines = f.lines
+    out['ordinary_lines'] = ordinary_lines(lines)
+    out['low_row'] = low_plus_lines_row(f.rows, f.plus, out['ordinary_lines'])
+    row = out['low_row']
+    product, zero, points, max_count = D(100), D(100), 0, 0
+    for line in lines:
+        max_count += int(line.at_top)
+        if not f.weapon or not line.average:
+            product *= D(line.pct)/100
+        earned = line_points(line.tier, line.value, line.top)
+        points += earned
+        if not earned and line.value > 0:
+            zero *= D(line.pct)/100
+    product = soft(product*max_lines_percent(max_count)/100)
+    zero = soft(zero)
+    base_row = bonus_base_row(points, f.base_slot)
+    out['base'] = dict(points=points, row=base_row, applies=False, wins=False, zero_point_pct=float(zero))
+    why = ROW_LOW_PLUS_LINES if row != f.plus else ROW_OWN
+    if not f.weapon and f.base_slot != BASE_SLOT_NONE and base_row > row and f.rows[base_row]*zero > f.rows[row]*product:
+        row, why, product = base_row, ROW_BONUS_BASE, zero
+        out['base'].update(applies=True, wins=True)
+    out.update(row=row, why=why, sheet_row=f.rows[row])
+    if f.rows[row] <= 0:
+        return out
+    keep = f.level30_keep if row == f.plus else LEVEL30_CUT_PERMILLE_ONE
+    stones = f.stones_pct if f.stones_pct > 0 else 100
+    scale = D(max(1, f.curve_pct))/100*f.inflation/INFLATION_ONE
+    sheet_value = D(f.rows[row])*keep/1000
+    base = sheet_value*stones/100*scale
+    after = base
+    floor = D(0)
+    if f.weapon:
+        floor_row = average_floor_row(f.average)
+        if row == f.plus and average_floor_applies(f.plus, floor_row) and f.rows[floor_row] > 0:
+            floor = D(f.rows[floor_row])*keep/1000*stones/100*scale
+            out['floor_row'] = floor_row
+        after = max(base*f.average_pct/100, floor)
+        out.update(average_applied=f.average_pct != AVERAGE_PCT_NONE or floor > 0,
+                   average_price_sr=float(base*f.average_pct/100), average_floor_wins=floor > base*f.average_pct/100)
+    precise = after*product/100
+    out.update(priced=True, sheet=float(sheet_value), gear_base=float(base), after_average=float(after),
+               floor=float(floor), product=float(product), at_top_lines=max_count, classic_pct=float(product-100),
+               premium_pct=float(product-100), price=min(PRICE_CEILING, int(precise)), precise_price=str(precise),
+               level30_applied=sheet_value != f.rows[row])
+    return out
+
+
+def listing_quote(composed, c9, policy, *, floor=0, count=1, extra=100, spread=100,
+                  bonowacz=0, habit=0, rare=0, markdown=0, markup=0, now=None,
+                  reference=False, counter_ceiling=1999000000):
+    """The native unit-chain boundary, with explicit listing context inputs.
+
+    Missing owner/supply/investment facts must not be silently invented by a
+    caller. A sheet reference uses neutral modifiers and is labelled as such.
+    """
+    from decimal import Decimal, ROUND_FLOOR
+    import time
+    D = lambda value: Decimal(str(value))
+    unit = D(composed.get('precise_price', composed.get('price', 0)))
+    unit *= D(max(0, extra))/100*D(max(0, spread))/100*D(max(100, 100+bonowacz))/100
+    if habit > 0:
+        unit = D(habit)
+    if rare:
+        unit = min(unit*D(rare)/100, unit*D(400)/100)
+    else:
+        unit *= D(max(0, 100-markdown) if markdown > 0 else 100+max(0, markup))/100
+    before_cap = max(unit, D(floor))
+    capped, reasons = before_cap, []
+    if not reference and policy.get('plus9', 0):
+        if c9 > 0:
+            capped = min(capped, D(c9)*D(policy['plus9'])/100)
+        else:
+            reasons.append('price_missing_c9')
+    clock = int(time.time()) if now is None else int(now)
+    started = int(policy.get('started', 0))
+    age = clock-started if started else -1
+    if not reference and policy.get('young_days', 0) and policy.get('young_pct', 0) and 0 <= age < 86400*policy['young_days']:
+        if policy.get('median', 0) > 0:
+            capped = min(capped, D(policy['median'])*D(policy['young_pct'])/100)
+        else:
+            reasons.append('price_missing_cohort')
+    conflict = capped < D(floor)
+    if conflict:
+        reasons.insert(0, 'price_floor_cap_conflict')
+        capped = before_cap
+    unit_yang = max(1, int((capped+D('0.5')).to_integral_value(rounding=ROUND_FLOOR)))
+    total=unit_yang*max(1, int(count))
+    if counter_ceiling > 0:
+        total=min(total, int(counter_ceiling))
+    return dict(price=total, unit=unit_yang,
+                precise_price=str(capped), before_cap=str(before_cap), conflict=conflict,
+                reasons=reasons or ['priced'])
+
+
+def verified_c9(proto, vnum, plus, protos, rows, curve_pct, inflation):
+    """Only the actual ten-step native proto/refine family supplies C9."""
+    from decimal import Decimal
+    base = int(vnum)-int(plus)
+    current, seen, found = protos.get(base), set(), False
+    mask = ITEM_ANTIFLAG_CLASSES | 3  # native FEMALE/MALE flags
+    for step in range(10):
+        if (current is None or current.vnum in seen or current.type != proto.type or
+                current.subtype != proto.subtype or current.antiflag & mask != proto.antiflag & mask or current.plus != step):
+            return 0
+        seen.add(current.vnum)
+        found |= current.vnum == int(vnum) and step == int(plus)
+        if step != 9:
+            current = protos.get(current.refined_vnum)
+    if not found or not rows[9]:
+        return 0
+    return Decimal(rows[9])*Decimal(max(1, curve_pct))/100*Decimal(inflation)/INFLATION_ONE
 
 
 def compose(f):
@@ -339,6 +471,8 @@ def compose(f):
            "product": 100, "at_top_lines": 0, "classic_pct": 0, "premium_pct": 0, "price": 0}
     if f.plus < 0 or f.plus >= SHEET_ROWS:
         return out
+    if f.pricing_options.get('precise'):
+        return _compose_precise(f, out)
     lines = f.lines
     out["ordinary_lines"] = ordinary_lines(lines)
     out["low_row"] = low_plus_lines_row(f.rows, f.plus, out["ordinary_lines"])
@@ -346,7 +480,7 @@ def compose(f):
     out["why"] = ROW_LOW_PLUS_LINES if out["low_row"] != f.plus else ROW_OWN
     base = None
     if not f.weapon and f.base_slot != BASE_SLOT_NONE:
-        plain = classic(lines, False, f.cap)
+        plain = classic(lines, False, f.cap, f.pricing_options)
         base_lines = [(line.tier, line.value, line.top, line.base_pct) for line in lines]
         base = evaluate_bonus_base_at(f.rows, f.plus, out["low_row"], f.base_slot, base_lines, plain[2], f.cap)
         if base["wins"]:
@@ -382,11 +516,12 @@ def compose(f):
             out["average_floor_wins"] = floor > price_sr
             sr = saturate(floor if floor > price_sr else price_sr)
             out["after_average"] = sr if sr > 1 else 1
-    out["product"], out["at_top_lines"], out["classic_pct"] = classic(lines, f.weapon, f.cap)
+    out["product"], out["at_top_lines"], out["classic_pct"] = classic(lines, f.weapon, f.cap, f.pricing_options)
     out["premium_pct"] = out["classic_pct"]
     if base and base["wins"] and row == base["row"]:
-        out["premium_pct"] = max(-2147483647, min(2147483647, base["zero_point_pct"] - 100))
+        out["premium_pct"] = max(-2147483647, min(2147483647, overrides.soft_cap(base["zero_point_pct"], f.pricing_options) - 100))
     out["price"] = apply_premium(out["after_average"], out["premium_pct"])
+    out["price"] = overrides.final_cap(out["price"], scale_sheet(f.rows[9], f.curve_pct, f.inflation), f.pricing_options)
     return out
 
 
@@ -529,6 +664,7 @@ def offer_lines(proto, attrs, attr_sets):
     return out
 
 
+@overrides.synchronized
 def offer_facts(proto, vnum, plus, attrs, sockets, attr_sets, yang_pct, index_milli, level30_keep=None,
                 protos=None):
     """The Facts of an offer of a family his sheet prices, or None."""

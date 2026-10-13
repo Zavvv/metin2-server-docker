@@ -30,8 +30,16 @@ from urllib.parse import urlparse
 from flask import Response, abort, jsonify, render_template_string, request, session, url_for
 from werkzeug.datastructures import ImmutableMultiDict
 from markupsafe import escape
+from market_preview import overrides as _price_overrides
+from market_preview import population as _population
 
-THEME_VERSION = "2.5.9"
+THEME_VERSION = "2.6.0-p18"
+# Neither currently supported core handles PERSONASET. Do not enqueue an
+# unexecutable mutation; enable only together with a reviewed native handler.
+PERSONA_CHANGE_SUPPORTED = True
+# Price edits must be implemented by the shared native pricing reader too.
+# Until then, expose the sheet for inspection without changing its values.
+PRICE_CHANGE_SUPPORTED = True
 IMG = "/static/cms/img/"
 
 # ---------------------------------------------------------------------------
@@ -58,6 +66,7 @@ L = {
     "restart":    {"pl": "Zrestartuj serwer", "en": "Restart the server", "de": "Server neu starten", "tr": "Sunucuyu yeniden başlat"},
     "itemshop":   {"pl": "ItemShop", "en": "ItemShop", "de": "ItemShop", "tr": "ItemShop"},
     "refines":    {"pl": "Ulepszenia", "en": "Upgrades", "de": "Verbesserungen", "tr": "Yükseltmeler"},
+    "prices":     {"pl": "Ceny i mnożniki", "en": "Prices & multipliers", "de": "Preise & Multiplikatoren", "tr": "Fiyatlar ve çarpanlar"},
     "items":      {"pl": "Przedmioty i drop", "en": "Items & drop", "de": "Gegenstände & Drop", "tr": "Eşyalar ve drop"},
     "itemdb":     {"pl": "Baza przedmiotów", "en": "Item database", "de": "Gegenstandsdatenbank", "tr": "Eşya veritabanı"},
     "maps":       {"pl": "Aktywność map", "en": "Map activity", "de": "Kartenaktivität", "tr": "Harita etkinliği"},
@@ -73,6 +82,7 @@ L = {
     "client":     {"pl": "Dane dla klienta", "en": "Client data", "de": "Client-Daten", "tr": "İstemci verileri"},
     "patchlog":   {"pl": "Wersja i zmiany", "en": "Version & changes", "de": "Version & Änderungen", "tr": "Sürüm ve değişiklikler"},
     "export":     {"pl": "Statystyki Iwakury", "en": "Iwakura statistics", "de": "Iwakura-Statistik", "tr": "Iwakura istatistikleri"},
+    "newacc":     {"pl": "Stwórz konto", "en": "Create account", "de": "Konto erstellen", "tr": "Hesap oluştur"},
     "reset":      {"pl": "Reset hasła gracza", "en": "Player password reset", "de": "Spieler-Passwort-Reset", "tr": "Oyuncu şifre sıfırlama"},
     "gamelang":   {"pl": "Język gry", "en": "Game language", "de": "Spielsprache", "tr": "Oyun dili"},
     "pass":       {"pl": "Hasło administratora", "en": "Admin password", "de": "Admin-Passwort", "tr": "Yönetici şifresi"},
@@ -143,17 +153,17 @@ FOOT_OPEN = '<footer class="m2p-foot">'
 FOOT_CLOSE = "</footer>"
 TAIL = ('</div></div>\n<script src="/m2p/theme.js?v=' + THEME_VERSION + '" defer></script>\n'
         '</body></html>')
-SIDE_BOOT = ("<script>(function(){var p='';try{p=localStorage.getItem('m2p_pal')||''}catch(e){}"
+SIDE_BOOT = ("<script>(function(){var p='';try{p=localStorage.getItem('m2p_pal')||(document.cookie.match(/(?:^|; )m2p_pal=([^;]*)/)||[])[1]||''}catch(e){p=(document.cookie.match(/(?:^|; )m2p_pal=([^;]*)/)||[])[1]||''}"
              "var s=({red:'red',brown:'dark',blue:'blue',green:'green'})[p]||'parch';"
              "if(s!=='parch')document.body.classList.add('m2p-side-'+s)})()</script>")
-PAL_BOOT = ("<script>(function(){var p='parch';try{p=localStorage.getItem('m2p_pal')||'parch'}catch(e){}"
+PAL_BOOT = ("<script>(function(){var p='parch';try{p=localStorage.getItem('m2p_pal')||(document.cookie.match(/(?:^|; )m2p_pal=([^;]*)/)||[])[1]||'parch'}catch(e){p=(document.cookie.match(/(?:^|; )m2p_pal=([^;]*)/)||[])[1]||'parch'}"
             "if(p==='1963'){document.documentElement.classList.add('m2p-1963');p='parch'}"
             "if(p==='blue'||p==='green'){document.body.classList.add('m2p-hue-'+p);p='red'}"
             "if(p!=='red'&&p!=='brown')p='parch';document.body.classList.add('m2p-'+p)})()</script>")
 BODY_TAG = ('<body class="m2p m2p-ep-{{ (request.endpoint or \'none\')|replace(\'.\', \'-\') }}'
             '{% if m2p.section %} m2p-sec m2p-sec-{{ m2p.section }}{% endif %}">'
             # Kolor okien (czerwony / brazowy) przed pierwszym rysowaniem strony.
-            "<script>(function(){var p='parch';try{p=localStorage.getItem('m2p_pal')||'parch'}catch(e){}"
+            "<script>(function(){var p='parch';try{p=localStorage.getItem('m2p_pal')||(document.cookie.match(/(?:^|; )m2p_pal=([^;]*)/)||[])[1]||'parch'}catch(e){p=(document.cookie.match(/(?:^|; )m2p_pal=([^;]*)/)||[])[1]||'parch'}"
             "if(p==='1963'){document.documentElement.classList.add('m2p-1963');p='parch'}"
             "if(p==='blue'||p==='green'){document.body.classList.add('m2p-hue-'+p);p='red'}"
             "if(p!=='red'&&p!=='brown')p='parch';document.body.classList.add('m2p-'+p)})()</script>" + SIDE_BOOT)
@@ -269,10 +279,12 @@ def _context(mod):
                 item("mstats", "m2p_market_stats"),
                 item("itemshop", "m2p_itemshop"),
                 item("refines", "m2p_refines"),
+                item("prices", "m2p_prices"),
             ]),
             group("g_game", [
                 item("rates", "rates"),
                 item("ai", "ai_weights"),
+                {"key": "population", "label": "Populacja botów" if lang == "pl" else "Bot population", "href": "/panel/populacja", "active": request.endpoint == "m2p_population", "ext": False, "new": False, "tip": ""},
                 item("ai_items", "ai_item_policy"),
                 item("events", "events_page"),
                 item("editsql", "editsql_home", prefix="editsql"),
@@ -285,6 +297,7 @@ def _context(mod):
                 item("patchlog", "patchlog", eps=("update_page",), new=upd_new),
                 item("perf", "m2p_perf"),
                 item("export", sec="statystyki"),
+                item("newacc", "m2p_new_account"),
                 item("reset", sec="reset-hasla"),
                 item("gamelang", sec="jezyk-gry"),
                 item("pass", sec="haslo-panelu"),
@@ -338,7 +351,7 @@ RE_ESQ_BOX = re.compile(
     re.S)
 
 
-SIDE_BOOT = ("<script>(function(){var p='';try{p=localStorage.getItem('m2p_pal')||''}catch(e){}"
+SIDE_BOOT = ("<script>(function(){var p='';try{p=localStorage.getItem('m2p_pal')||(document.cookie.match(/(?:^|; )m2p_pal=([^;]*)/)||[])[1]||''}catch(e){p=(document.cookie.match(/(?:^|; )m2p_pal=([^;]*)/)||[])[1]||''}"
              "var s=({red:'red',brown:'dark',blue:'blue',green:'green'})[p]||'parch';"
              "if(s!=='parch')document.body.classList.add('m2p-side-'+s)})()</script>")
 RE_ESQ_FIRST = re.compile(
@@ -346,12 +359,24 @@ RE_ESQ_FIRST = re.compile(
     r'<ul class="main-nav esq-nav">.*?</ul>\s*</div>\s*</div>\s*</div>\s*', re.S)
 
 
-def _patch_editsql(mod, html):
-    if 'class="editsql-body"' not in html or "m2p-box" in html:
+def _palette_only(html):
+    """Iwakura P18 pkt 6H: strona edytora bez naszego menu (np. przed zalogowaniem do edytora)
+    też dostaje aktywny motyw, a nie pergamin."""
+    if "m2p_pal" in html:
         return None
+    html = html.replace("</head>", '<link rel="stylesheet" href="/m2p/side.css?v=%s">\n</head>' % THEME_VERSION, 1)
+    html = re.sub(r"(<body[^>]*>)", lambda m: m.group(1) + PAL_BOOT + SIDE_BOOT, html, count=1)
+    return _esq_palette(html)
+
+
+def _patch_editsql(mod, html):
+    if 'class="editsql-body"' not in html:
+        return None
+    if "m2p-box" in html:
+        return _palette_only(html)
     m = RE_ESQ_BOX.search(html)
     if not m or 'href="/admin"' not in m.group(0):
-        return None
+        return _palette_only(html)
     ctx = _context(mod)
     groups = render_template_string(SIDE_GROUPS, m2p=ctx)
     kept = [li for li in re.findall(r"<li>.*?</li>", m.group(0), re.S)
@@ -380,7 +405,29 @@ def _patch_editsql(mod, html):
                 html = html[:mm.end()] + col + html[mm.end():]
     html = html.replace("</head>", '<link rel="stylesheet" href="/m2p/side.css?v=%s">\n</head>' % THEME_VERSION, 1)
     html = re.sub(r"(<body[^>]*>)", lambda m: m.group(1) + PAL_BOOT + SIDE_BOOT, html, count=1)
-    return html
+    return _esq_palette(html)
+
+
+# Iwakura P18 pkt 6H: wybór motywu także w stopce edytora bazy danych.
+ESQ_PAL = ("<script>(function(){var f=document.getElementById('footer');if(!f)return;"
+           "var pl=(document.documentElement.getAttribute('lang')||'pl').slice(0,2)==='pl';"
+           "var N=pl?['Motyw','pergamin','czerwony','brązowy','niebieski','zielony','1963']:['Theme','parchment','red','brown','blue','green','1963'];"
+           "var K=['parch','red','brown','blue','green','1963'],c='parch';"
+           "try{c=localStorage.getItem('m2p_pal')||(document.cookie.match(/(?:^|; )m2p_pal=([^;]*)/)||[])[1]||'parch'}catch(e){}"
+           "var d=document.createElement('div');d.className='m2p-pal';"
+           "d.innerHTML=N[0]+': '+K.map(function(k,i){return '<a data-p=\"'+k+'\"'+(k===c?' class=\"on\"':'')+'>'+N[i+1]+'</a>'}).join('|');"
+           "d.addEventListener('click',function(e){var a=e.target.closest('a[data-p]');if(!a)return;var k=a.getAttribute('data-p');"
+           "try{localStorage.setItem('m2p_pal',k)}catch(_){}document.cookie='m2p_pal='+k+'; path=/; max-age=31536000; SameSite=Lax';location.reload()});"
+           "f.appendChild(d)})()</script>")
+
+
+def _esq_palette(html):
+    if "m2p-esq-pal" in html or "</body>" not in html:
+        return html
+    css = ("<style id=\"m2p-esq-pal\">#footer .m2p-pal{margin-top:6px;font-size:11px;color:#c9b48a;text-align:center}"
+           "#footer .m2p-pal a{cursor:pointer;margin:0 4px;color:#e8d49a}"
+           "#footer .m2p-pal a.on{color:#fff1b8;font-weight:bold;text-decoration:underline}</style>")
+    return html.replace("</body>", css + ESQ_PAL + "</body>", 1)
 
 
 # ---------------------------------------------------------------------------
@@ -615,7 +662,7 @@ def market_stats(mod, rng, lang):
             out["top_sold"] = [{"vnum": v, "name": _ms_item_name(mod, v, lang), "sales": a["sales"], "units": a["units"],
                                 "revenue": a["revenue"], "avg": round(a["revenue"] / a["units"]) if a["units"] else 0,
                                 "per_h": round(a["sales"] / 24.0, 1)} for v, a in ranked]
-            rec = q("SELECT time, who, vnum, hint FROM log.log WHERE how='PLAYERBOT_STALL_SOLD' ORDER BY time DESC LIMIT 15")
+            rec = q("SELECT time, who, vnum, hint FROM log.log WHERE how='PLAYERBOT_STALL_SOLD' ORDER BY time DESC LIMIT 150")
             who = sorted({int(r["who"] or 0) for r in rec})
             names = {}
             if who:
@@ -762,6 +809,141 @@ def chat_messages(mod, limit=100):
 import os as _os
 import time as _time
 
+_ALCHEMY_RUNTIME_CACHE = {}
+
+
+def _p18_alchemy_runtime(mod, pid, now=None):
+    """Read the atomic native snapshot; missing/stale data is never labelled live."""
+    now = _time.time() if now is None else now
+    best = None
+    for _, _, folder in mod._ix_core_dirs():
+        path = _os.path.join(folder, 'playerbot_alchemy_runtime.tsv')
+        try:
+            stat = _os.stat(path)
+            key = (stat.st_mtime_ns, stat.st_size)
+            cached = _ALCHEMY_RUNTIME_CACHE.get(path)
+            if cached is None or cached[0] != key:
+                if stat.st_size > 2 * 1024 * 1024:
+                    continue
+                with open(path, encoding='ascii') as stream:
+                    raw = stream.read(2 * 1024 * 1024 + 1)
+                if len(raw) > 2 * 1024 * 1024:
+                    continue
+                lines = raw.splitlines()
+                head = lines[0].split('\t')
+                if len(head) != 5 or head[0] != '#PB18DS1':
+                    continue
+                stamp, start, slots, decks = map(int, head[1:])
+                if not (0 < slots <= 12 and 0 < decks <= 4 and start >= 32):
+                    continue
+                bots = {}
+                for line in lines[1:]:
+                    fields = line.split('\t')
+                    if len(fields) != 19:
+                        raise ValueError('invalid native alchemy row')
+                    ts, owner, active, deck, slot = map(int, fields[:5])
+                    if ts != stamp or not (-1 <= active < decks):
+                        raise ValueError('invalid native alchemy clock/deck')
+                    entry = bots.setdefault(owner, {'active_deck': active, 'rows': []})
+                    if entry['active_deck'] != active:
+                        raise ValueError('inconsistent native deck')
+                    if deck == slot == -1:
+                        continue
+                    if not (0 <= deck < decks and 0 <= slot < slots):
+                        raise ValueError('invalid native alchemy slot')
+                    window = fields[5]
+                    pos, item_id, vnum = map(int, fields[6:9])
+                    expected = 32 + deck * slots + slot if window == 'EQUIPMENT' else start + deck * slots + slot
+                    if window not in ('EQUIPMENT', 'INVENTORY') or pos != expected:
+                        raise ValueError('invalid native item position')
+                    if any(x['deck'] == deck and x['slot'] == slot for x in entry['rows']):
+                        raise ValueError('duplicate native alchemy slot')
+                    row = dict(w=window, pos=pos, id=item_id, vnum=vnum, deck=deck, slot=slot)
+                    row.update({'socket%d' % i: int(fields[9+i]) for i in range(3)})
+                    for i, pair in enumerate(fields[12:]):
+                        kind, value = map(int, pair.split(':'))
+                        row.update({'attrtype%d' % i: kind, 'attrvalue%d' % i: value})
+                    entry['rows'].append(row)
+                cached = (key, stamp, bots)
+                _ALCHEMY_RUNTIME_CACHE[path] = cached
+            _, stamp, bots = cached
+            if not (-5 <= now - stamp <= 120) or pid not in bots:
+                continue
+            if best is None or stamp > best['source_at']:
+                best = dict(bots[pid], source='native', live=True, source_at=stamp, read_at=int(now))
+        except (OSError, ValueError, IndexError, UnicodeError):
+            continue
+    return best
+
+_EQ_PLAN_RUNTIME_CACHE = {}
+_P18_EQ_FIELDS = (
+    "unix_ts", "pid", "level", "active_character_seconds", "slot", "worn_id", "worn_vnum", "worn_plus",
+    "worn_score", "project_family", "project_id", "target", "backup_id", "copy1_id", "copy2_id", "reason",
+    "retry_unix", "visit_attempts", "shield_attempts", "anvil_elapsed_ms", "pricing_version",
+    "project_vnum", "project_plus", "project_level", "project_score", "project_potential", "path_cost",
+    "actual_yang", "missing_material_vnum", "material_held", "material_needed", "reason_unix", "worn_level", "phase")
+_P18_EQ_REASONS = (
+    ("Gotowy krok / zwykła aktywność", "Step ready / ordinary activity"), ("Brak bazy z progu", "No suitable tier base"),
+    ("Brak materiału", "Material missing"), ("Nienoszalny wynik", "Result not wearable"),
+    ("Czeka na Zwój", "Waiting for Blessing Scroll"), ("Brak Yang", "Not enough Yang"),
+    ("Brak receptury", "Recipe missing"), ("Chroniony przedmiot", "Protected piece"),
+    ("Brak dostępnego zamiennika", "Replacement unavailable"), ("Pełna torba", "Inventory full"),
+    ("Zakładanie teraz niedostępne", "Equipment window closed"), ("Chronione zajęcie", "Protected activity"),
+    ("Limit czasu wizyty", "Visit time limit"), ("Limit prób wizyty", "Visit attempt limit"),
+    ("Limit Bojowej na dobę", "Daily Battle Shield limit"), ("Limit budżetu kategorii", "Category budget limit"),
+    ("Minimum ceny przekracza limit", "Price floor exceeds cap"))
+
+
+def _p18_eq_runtime(mod, pid, now=None):
+    """Exact native selection; saved equipment alone never invents a project."""
+    now = _time.time() if now is None else now
+    best = None
+    for _, _, folder in mod._ix_core_dirs():
+        path = _os.path.join(folder, 'playerbot_eq_plan.tsv')
+        try:
+            stat = _os.stat(path)
+            key = stat.st_mtime_ns, stat.st_size
+            cached = _EQ_PLAN_RUNTIME_CACHE.get(path)
+            if cached is None or cached[0] != key:
+                if stat.st_size > 8*1024*1024:
+                    continue
+                with open(path, encoding='ascii') as stream:
+                    raw = stream.read(8*1024*1024+1)
+                lines = raw.splitlines()
+                if len(raw)>8*1024*1024 or not lines or lines[0] != '#PB18EQ2':
+                    continue
+                bots = {}
+                for line in lines[1:]:
+                    values = line.split('\t')
+                    if len(values) != len(_P18_EQ_FIELDS):
+                        raise ValueError("bad EQ row width")
+                    nums = [int(v) for v in values[:-1]]
+                    if any(v<0 for i,v in enumerate(nums) if i not in (9,10,12,13,14)):
+                        raise ValueError("invalid EQ values")
+                    for i in (9,10,12,13,14):
+                        nums[i] &= 0xffffffff
+                    row = dict(zip(_P18_EQ_FIELDS, nums+[values[-1]]))
+                    if row['slot'] not in (0,1,2,3,4,5,6,10) or not 0<row['pid']<=0xffffffff:
+                        raise ValueError("invalid EQ PID/slot")
+                    entries = bots.setdefault(row['pid'], {})
+                    if row['slot'] in entries:
+                        raise ValueError("duplicate EQ slot")
+                    entries[row['slot']] = row
+                cached = key, bots
+                _EQ_PLAN_RUNTIME_CACHE[path] = cached
+            rows = list(cached[1].get(pid, {}).values())
+            if len(rows) != 8:
+                continue
+            stamp = min(row['unix_ts'] for row in rows)
+            if any(row['unix_ts'] != stamp for row in rows) or not -5<=now-stamp<=600:
+                continue
+            if best is None or stamp>best['source_unix']:
+                best = dict(source_unix=stamp, age_seconds=max(0,int(now-stamp)), rows=rows)
+        except (OSError, UnicodeError, ValueError, IndexError):
+            continue
+    return best
+
+
 SEBAN_MAP_NAMES = {
     1: "Shinsoo M1 — Yongan", 3: "Shinsoo M2 — Jayang", 4: "Shinsoo M3 — Jungrang", 5: "Loch Małp Shinsoo",
     21: "Chunjo M1 — Joan", 23: "Chunjo M2 — Bokjung", 24: "Chunjo M3 — Waryong", 25: "Loch Małp Chunjo",
@@ -886,12 +1068,14 @@ def itemshop_data(mod, lang):
         r = _q(mod, "SELECT COALESCE(SUM(cash),0) AS cash, 0 AS mark, COALESCE(SUM(cash>0),0) AS ca, 0 AS ma FROM account.account", one=True)
         mark_col = False
     out["totals"] = {k: int(r[k] or 0) for k in ("cash", "mark", "ca", "ma")}
-    cols = "login, cash, " + ("cash_mark" if mark_col else "0") + " AS mark"
-    out["top_cash"] = [{"login": _ms_text(mod, x["login"]), "cash": int(x["cash"] or 0), "mark": int(x["mark"] or 0)}
-                       for x in _q(mod, "SELECT " + cols + " FROM account.account WHERE cash>0 ORDER BY cash DESC LIMIT 15")]
+    cols = "a.login, (SELECT p.name FROM player.player p WHERE p.account_id=a.id ORDER BY p.level DESC, p.id LIMIT 1) AS pname, " \
+           "(SELECT p.id FROM player.player p WHERE p.account_id=a.id ORDER BY p.level DESC, p.id LIMIT 1) AS ppid, " \
+           "a.cash, " + ("a.cash_mark" if mark_col else "0") + " AS mark"
+    out["top_cash"] = [{"pid": int(x.get("ppid") or 0), "login": _ms_text(mod, x.get("pname") or x["login"]), "cash": int(x["cash"] or 0), "mark": int(x["mark"] or 0)}
+                       for x in _q(mod, "SELECT " + cols + " FROM account.account a WHERE a.cash>0 ORDER BY a.cash DESC LIMIT 15")]
     if mark_col:
-        out["top_mark"] = [{"login": _ms_text(mod, x["login"]), "cash": int(x["cash"] or 0), "mark": int(x["mark"] or 0)}
-                           for x in _q(mod, "SELECT " + cols + " FROM account.account WHERE cash_mark>0 ORDER BY cash_mark DESC LIMIT 15")]
+        out["top_mark"] = [{"pid": int(x.get("ppid") or 0), "login": _ms_text(mod, x.get("pname") or x["login"]), "cash": int(x["cash"] or 0), "mark": int(x["mark"] or 0)}
+                           for x in _q(mod, "SELECT " + cols + " FROM account.account a WHERE a.cash_mark>0 ORDER BY a.cash_mark DESC LIMIT 15")]
     try:
         rec = _q(mod, "SELECT pid, vnum, time FROM log.itemshop ORDER BY time DESC LIMIT 60")
         who = _names_by_pid(mod, [x["pid"] for x in rec])
@@ -902,9 +1086,13 @@ def itemshop_data(mod, lang):
                                   "vnum": int(x["vnum"] or 0), "item": _iname(mod, x["vnum"], lang)})
         out["popular"] = [{"vnum": int(x["vnum"]), "item": _iname(mod, x["vnum"], lang), "n": int(x["n"])}
                           for x in _q(mod, "SELECT vnum, COUNT(*) AS n FROM log.itemshop GROUP BY vnum ORDER BY n DESC LIMIT 15")]
-        out["daily"] = [[int(_time.mktime(x["d"].timetuple())), int(x["n"])]
-                        for x in _q(mod, "SELECT DATE(time) AS d, COUNT(*) AS n FROM log.itemshop "
-                                         "WHERE time >= NOW() - INTERVAL 30 DAY GROUP BY d ORDER BY d")]
+        # Iwakura P18: wszystkie 30 dni (dni bez zakupów = 0), inaczej 2 punkty rozjeżdżały wykres
+        import datetime as _dt
+        per_day = {x["d"]: int(x["n"]) for x in _q(mod, "SELECT DATE(time) AS d, COUNT(*) AS n FROM log.itemshop "
+                                                         "WHERE time >= CURDATE() - INTERVAL 29 DAY GROUP BY d")}
+        today = _dt.date.today()
+        out["daily"] = [[int(_time.mktime(dd.timetuple())), per_day.get(dd, 0)]
+                        for dd in (today - _dt.timedelta(days=i) for i in range(29, -1, -1))]
         out["totals"]["buys"] = int((_q(mod, "SELECT COUNT(*) AS n FROM log.itemshop", one=True) or {}).get("n") or 0)
         out["totals"]["buys24"] = int((_q(mod, "SELECT COUNT(*) AS n FROM log.itemshop WHERE time >= NOW() - INTERVAL 1 DAY",
                                           one=True) or {}).get("n") or 0)
@@ -1334,13 +1522,37 @@ def how_label(h):
 
 
 
+# Iwakura P18: prawdziwe nazwy questów (z paczki „Questy”, nazwa techniczna -> tytuł PL).
+QUEST_TITLES = {"black_steel_crafting": "Przysługa dla Min-Sun","find_brother_article": "Pamiątka po Bracie Mirine","find_squareguard": "Strażnik Wsi","main_quest_lv1": "Witamy w Metin2 SinglePlayer","main_quest_lv10": "Idź do Kapitana","main_quest_lv12": "Idź do Kapitana","main_quest_lv14": "Idź do Kapitana","main_quest_lv15": "Znajdź Kapitana","main_quest_lv16": "Schwytaj Szpiega","main_quest_lv2": "List od Strażnika Miejskiego","main_quest_lv27": "Zniszcz Kamienie Metin!","main_quest_lv3": "Nowiny od Strażnika Miejskiego","main_quest_lv30": "Sekret Kamieni Metin","main_quest_lv32": "Tajemnicza Książka","main_quest_lv40": "Strony Tajemniczej Książki","main_quest_lv47": "Strony Tajemniczej Książki","main_quest_lv50": "Strony Tajemniczej Książki","main_quest_lv55": "Poszukiwania pomników","main_quest_lv6": "Idź do Strażnika Miejskiego","main_quest_lv7": "Kolejna przysługa","main_quest_lv9": "Porozmawiaj ze Strażnikiem Miejskim","new_quest_lv17": "Prezent dla Chaegiraba","new_quest_lv19": "Zbadaj Przeklęte Zwierzęta","new_quest_lv22": "Chory Strażnik","new_quest_lv26": "Dezerter","new_quest_lv28": "Polowanie na niedźwiedzie","new_quest_lv29": "Rozbita Porcelana","new_quest_lv42": "Rozgniewane potwory morza","new_quest_lv43": "Sierota","new_quest_lv52": "List od Kapitana","new_quest_lv7": "Ślub córki","subquest_1": "Znajdź garncarza Yonah","subquest_10": "Znajdź spinkę do włosów","subquest_11": "Znajdź mojego brata","subquest_12": "Zabij Mi-Jung z Zaprzysiężonych","subquest_13": "Poszukiwania materiałów","subquest_15": "Eun-Jung z Klanu Zaprzysiężonych","subquest_16": "Uzbrojona Kawaleria","subquest_17": "Porozmawiaj z Handlarką Różnościami","subquest_18": "Znajdź Soon","subquest_19": "Zdobądź Skórę Wilka","subquest_2": "Znajdź Handlarza Zbrojami","subquest_20": "Oszczepy","subquest_21": "Lekarstwo dla Balso","subquest_22": "Złoty topór Deokbae","subquest_23": "Poszukaj Yu-Hwan","subquest_24": "Ukradzione ciastko ryżowe","subquest_25": "Udaj się do Ariyoung","subquest_26": "Idź do Octavio","subquest_27": "Idź do Aranyo","subquest_3": "Składnik na lekarstwo","subquest_30": "Ruda na nową broń","subquest_31": "Ruda na nową zbroje","subquest_32": "Zapytanie handlarza","subquest_33": "Mapa Skarbów","subquest_34": "Zabij generałów Gangu Czarnego Wiatru","subquest_36": "Konie mają kłopoty","subquest_37": "Sekret seledynowej porcelany","subquest_38": "Skarb Łowcy","subquest_39": "Idź do Baek-Go","subquest_4": "List od Kowala","subquest_40": "Wsparcie wojenne","subquest_41": "Specjał z oczu pająków","subquest_42": "Pozwólmy odpocząć poległym","subquest_44": "Pająk z dzwonkiem","subquest_45": "Świątynia Ciemności","subquest_46": "Seledynowa Porcelana","subquest_48": "Spotkaj się ze Szpiegiem","subquest_49": "Czym jest Bingsu","subquest_5": "Pomoc dla Soon","subquest_6": "Zamówienie na zbroję","subquest_7": "Najlepsza Książka Kucharska","subquest_8": "Ciastko Ryżowe","subquest_9": "Znajdź Złoty Topór"}
+
+# English counterparts for the contributor’s Polish quest labels.
+QUEST_TITLES_EN = {'black_steel_crafting': 'A favour for Min-Sun', 'find_brother_article': 'Mirine’s brother’s keepsake', 'find_squareguard': 'Village Guard', 'main_quest_lv1': 'Welcome to Metin2 Singleplayer', 'main_quest_lv10': 'Go to the Captain', 'main_quest_lv12': 'Go to the Captain', 'main_quest_lv14': 'Go to the Captain', 'main_quest_lv15': 'Find the Captain', 'main_quest_lv16': 'Catch the spy', 'main_quest_lv2': 'Letter from the City Guard', 'main_quest_lv27': 'Destroy the Metin Stones', 'main_quest_lv3': 'News from the City Guard', 'main_quest_lv30': 'The secret of the Metin Stones', 'main_quest_lv32': 'The mysterious book', 'main_quest_lv40': 'Pages of the mysterious book', 'main_quest_lv47': 'Pages of the mysterious book', 'main_quest_lv50': 'Pages of the mysterious book', 'main_quest_lv55': 'Search for monuments', 'main_quest_lv6': 'Go to the City Guard', 'main_quest_lv7': 'Another favour', 'main_quest_lv9': 'Talk to the City Guard', 'new_quest_lv17': 'A gift for Chaegirab', 'new_quest_lv19': 'Investigate the cursed animals', 'new_quest_lv22': 'The sick guard', 'new_quest_lv26': 'The deserter', 'new_quest_lv28': 'Bear hunting', 'new_quest_lv29': 'Broken porcelain', 'new_quest_lv42': 'Angry sea monsters', 'new_quest_lv43': 'The orphan', 'new_quest_lv52': 'Letter from the Captain', 'new_quest_lv7': 'The daughter’s wedding', 'subquest_1': 'Find Yonah the potter', 'subquest_10': 'Find the hairpin', 'subquest_11': 'Find my brother', 'subquest_12': 'Kill Mi-Jung of the White Oath', 'subquest_13': 'Search for materials', 'subquest_15': 'Eun-Jung of the White Oath', 'subquest_16': 'Armed cavalry', 'subquest_17': 'Talk to the General Store', 'subquest_18': 'Find Soon', 'subquest_19': 'Obtain wolf skin', 'subquest_2': 'Find the Armour Dealer', 'subquest_20': 'Javelins', 'subquest_21': 'A medicine for Balso', 'subquest_22': 'Deokbae’s golden axe', 'subquest_23': 'Find Yu-Hwan', 'subquest_24': 'The stolen rice cake', 'subquest_25': 'Go to Ariyoung', 'subquest_26': 'Go to Octavio', 'subquest_27': 'Go to Aranyo', 'subquest_3': 'A medicine ingredient', 'subquest_30': 'Ore for a new weapon', 'subquest_31': 'Ore for new armour', 'subquest_32': 'The dealer’s request', 'subquest_33': 'Treasure map', 'subquest_34': 'Kill the Black Wind Gang’s generals', 'subquest_36': 'The horses are in trouble', 'subquest_37': 'The secret of celadon porcelain', 'subquest_38': 'The hunter’s treasure', 'subquest_39': 'Go to Baek-Go', 'subquest_4': 'Letter from the Blacksmith', 'subquest_40': 'War support', 'subquest_41': 'Spider-eye delicacy', 'subquest_42': 'Let the fallen rest', 'subquest_44': 'Spider with a bell', 'subquest_45': 'Temple of Darkness', 'subquest_46': 'Celadon porcelain', 'subquest_48': 'Meet the spy', 'subquest_49': 'What is Bingsu?', 'subquest_5': 'Help Soon', 'subquest_6': 'An armour order', 'subquest_7': 'The best cookbook', 'subquest_8': 'Rice cake', 'subquest_9': 'Find the golden axe'}
+
+
+_M2P_CACHE = {}
+
+
+def _cached(key, ttl, fn):
+    """Iwakura P18: ciężkie zestawienia (statystyki świata) liczone najwyżej raz na `ttl` s."""
+    hit = _M2P_CACHE.get(key)
+    now = _time.time()
+    if hit and now - hit[0] < ttl:
+        return hit[1]
+    val = fn()
+    if isinstance(val, dict) and val.get("ok"):
+        _M2P_CACHE[key] = (now, val)
+    return val
+
+
 def world_stats(mod):
     out = {"ok": True}
     try:
         ng = mod._not_game_master("p")
     except Exception:  # noqa: BLE001
         ng = "1=1"
-    ng = "(" + ng + " AND p.name NOT IN ('Admin','AdminNinja','AdminSura','AdminSzaman','[SA]Admin','Test'))"
+    # Iwakura P18 pkt 6D: postacie, które nigdy nie grały (1 lvl, 0 min gry), nie liczą się do statystyk świata.
+    ng = "(" + ng + " AND p.name NOT IN ('Admin','AdminNinja','AdminSura','AdminSzaman','[SA]Admin','Test')" \
+         " AND NOT (p.level <= 1 AND p.playtime = 0))"
     r = _q(mod, mod.bot_sql("SELECT COUNT(*) AS n, COALESCE(SUM(<<BOT_P_2>>),0) AS bots, COALESCE(SUM(gold),0) AS gold, "
                             "COALESCE(AVG(level),0) AS lv, COALESCE(MAX(level),0) AS mx, COALESCE(SUM(playtime),0) AS pt "
                             "FROM player.player p WHERE " + ng), one=True) or {}
@@ -1431,6 +1643,355 @@ def world_stats(mod):
     return out
 
 
+# ---------------------------------------------------------------------------
+# Iwakura P18 pkt 3 / 6: „Mnożniki bonusów i ceny bazowe” – ręczna edycja KAŻDEJ wartości
+# arkusza cen (market_preview/sheet.py = playerbot_price_tables.h) i parametrów z Patcha 18
+# pkt 3. Nadpisania: player.web_m2p_price_override (k, v), historia: player.web_m2p_price_history.
+# Panel (Podgląd rynku, wyceny) stosuje je od razu; rdzeń czyta tę samą tabelę (pkt 6 patcha).
+# Klucze: gear:<baza>:<plus>, bonus:<nr wiersza>:max|other, mat:<vnum>, book:<skill>,
+# forget:<skill>, marble:<mob>, soul:<rodzaj>:<stopień>, soulgrade:<i>, sockcnt:<i>,
+# sockstone:<rodzaj>:<stopień>, avg:<i>, skilltier:<i>, glob:<nazwa>.
+# ---------------------------------------------------------------------------
+PRICE_SLOT_NAMES = ((1, "Hełm"), (2, "Zbroja"), (4, "Tarcza"), (8, "Buty"), (16, "Bransoleta"),
+                    (32, "Naszyjnik"), (64, "Kolczyki"), (128, "Broń"))
+PRICE_GLOBALS = (
+    ("bonus_boost_pct", 0, "Podniesienie mnożników bonusów (%): nowy = 1 + (stary − 1) × (1 + X/100)"),
+    ("cap_full", 10000, "Cap: iloczyn mnożników liczony w całości do (×, setne)"),
+    ("cap_excess_pct", 0, "Cap: nadwyżka ponad próg liczona w (%)"),
+    ("cap_vs_plus9", 0, "Cena max względem ceny +9 bez bonusów (×, setne)"),
+    ("young_world_days", 0, "Młody świat: liczba dni z dodatkowym capem"),
+    ("young_cap_pct", 0, "Młody świat: cena max (% referencyjnego majątku aktywnych botów 40+)"),
+    ("moonlight_pct", 0, "Szkatułka Blasku Księżyca: zmiana ceny (%)"),
+)
+_PRICE_DEFAULTS = {}
+_PRICE_OVR = {}
+_PRICE_LOAD_AT = 0.0
+_PRICE_META = {"at": 0.0, "values": {}}
+
+
+def _price_defaults():
+    """Every editable value of the sheet as {key: default}, taken once from the module."""
+    if _PRICE_DEFAULTS:
+        return _PRICE_DEFAULTS
+    try:
+        from market_preview import sheet
+    except Exception:  # noqa: BLE001
+        return _PRICE_DEFAULTS
+    d = _PRICE_DEFAULTS
+    for base, (_mask, prices) in sheet.GEAR.items():
+        for i, v in enumerate(prices):
+            d["gear:%d:%d" % (base, i)] = int(v)
+    for i, row in enumerate(sheet.BONUS_ROWS):
+        d["bonus:%d:max" % i] = int(row[2])
+        d["bonus:%d:other" % i] = int(row[3])
+        d["bonusq:%d:max" % i] = _price_overrides.migrated_multiplier(int(row[2]))
+        d["bonusq:%d:other" % i] = _price_overrides.migrated_multiplier(int(row[3]))
+    d['glob:patch18'] = 18
+    for name, pair in (('shield', (260, 200)), ('shaman_weapon', (300, 250))):
+        for field, value in zip(('max', 'other'), pair):
+            d['intq:%s:%s' % (name, field)] = _price_overrides.migrated_multiplier(value)
+    for k, v in sheet.MATERIALS.items():
+        d["mat:%d" % k] = int(v)
+    for k, v in sheet.BOOKS.items():
+        d["book:%d" % k] = int(v)
+    for k, v in sheet.FORGET_SCROLLS.items():
+        d["forget:%d" % k] = int(v)
+    for k, v in sheet.MARBLES.items():
+        d["marble:%d" % k] = int(v)
+    for (kind, grade), v in sheet.SOUL_STONES.items():
+        d["soul:%d:%d" % (kind, grade)] = int(v)
+    for i, v in enumerate(sheet.SOUL_STONE_GRADES):
+        d["soulgrade:%d" % i] = int(v)
+    for i, v in enumerate(sheet.SOCKET_COUNT_PERCENT):
+        d["sockcnt:%d" % i] = int(v)
+    for (kind, grade), v in sheet.SOCKET_STONE_PERCENT.items():
+        d["sockstone:%d:%d" % (kind, grade)] = int(v)
+    for i, (_lv, v) in enumerate(sheet.AVERAGE_TIERS):
+        d["avg:%d" % i] = int(v)
+    for i, (_lv, v) in enumerate(sheet.SKILL_TIERS):
+        d["skilltier:%d" % i] = int(v)
+    for name, v, _t in PRICE_GLOBALS:
+        d["glob:" + name] = int(v)
+    _PRICE_DEFAULTS["__orig_bonus_rows__"] = tuple(sheet.BONUS_ROWS)
+    _PRICE_DEFAULTS["__orig_avg__"] = tuple(sheet.AVERAGE_TIERS)
+    _PRICE_DEFAULTS["__orig_skill__"] = tuple(sheet.SKILL_TIERS)
+    _PRICE_DEFAULTS["__orig_grades__"] = tuple(sheet.SOUL_STONE_GRADES)
+    _PRICE_DEFAULTS["__orig_sockcnt__"] = tuple(sheet.SOCKET_COUNT_PERCENT)
+    _PRICE_DEFAULTS["__orig_gear__"] = dict(sheet.GEAR)
+    return d
+
+
+def _price_supported_defaults(mod):
+    d = _price_defaults()
+    if mod.ENGINE_MT2009:
+        return d
+    # The generated sheet ends with three mt2009-only APPLY rows. The r40250
+    # native table omits them; never offer an override that its core rejects.
+    end = len(d['__orig_bonus_rows__'])
+    excluded = {'%s:%d:%s' % (prefix, i, field) for i in range(end-3, end)
+                for field in ('max', 'other') for prefix in ('bonus', 'bonusq')}
+    return {k:v for k,v in d.items() if k not in excluded}
+
+
+def _price_tables(cur):
+    cur.execute("CREATE TABLE IF NOT EXISTS player.web_m2p_price_override (k VARCHAR(64) NOT NULL PRIMARY KEY, "
+                "v BIGINT NOT NULL, updated_at DATETIME NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4")
+    cur.execute("CREATE TABLE IF NOT EXISTS player.web_m2p_price_history (id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, "
+                "k VARCHAR(64) NOT NULL, old_v BIGINT NULL, new_v BIGINT NULL, at DATETIME NOT NULL, who VARCHAR(64) NOT NULL, "
+                "KEY at_idx (at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4")
+
+
+@_price_overrides.synchronized
+def _price_apply(ovr):
+    """Put the defaults back, then the overrides, into market_preview.sheet (in place)."""
+    d = _price_defaults()
+    if not d:
+        return
+    from market_preview import sheet
+    try:
+        from market_preview import price as _price
+    except Exception:  # noqa: BLE001
+        _price = None
+    _price_overrides.validate(ovr, d, allow_meta=True)
+    def val(k):
+        return int(ovr.get(k, d[k]))
+    precise = ovr.get('glob:patch18') == 18
+    def line(i, field):
+        return val('bonusq:%d:%s' % (i, field))/100.0 if precise else _price_overrides.boost(
+            val('bonus:%d:%s' % (i, field)), val('glob:bonus_boost_pct'))
+    for base, (mask, prices) in d["__orig_gear__"].items():
+        sheet.GEAR[base] = (mask, tuple(val("gear:%d:%d" % (base, i)) for i in range(len(prices))))
+    sheet.BONUS_ROWS = tuple((r[0], r[1], line(i, 'max'), line(i, 'other')) + tuple(r[4:])
+                             for i, r in enumerate(d["__orig_bonus_rows__"]))
+    for name, table in (("mat", sheet.MATERIALS), ("book", sheet.BOOKS), ("forget", sheet.FORGET_SCROLLS), ("marble", sheet.MARBLES)):
+        for k in list(table):
+            table[k] = val("%s:%d" % (name, k))
+    for (kind, grade) in list(sheet.SOUL_STONES):
+        sheet.SOUL_STONES[(kind, grade)] = val("soul:%d:%d" % (kind, grade))
+    for (kind, grade) in list(sheet.SOCKET_STONE_PERCENT):
+        sheet.SOCKET_STONE_PERCENT[(kind, grade)] = val("sockstone:%d:%d" % (kind, grade))
+    sheet.SOUL_STONE_GRADES = tuple(val("soulgrade:%d" % i) for i in range(len(d["__orig_grades__"])))
+    sheet.SOCKET_COUNT_PERCENT = tuple(val("sockcnt:%d" % i) for i in range(len(d["__orig_sockcnt__"])))
+    sheet.AVERAGE_TIERS = tuple((lv, val("avg:%d" % i)) for i, (lv, _v) in enumerate(d["__orig_avg__"]))
+    sheet.SKILL_TIERS = tuple((lv, val("skilltier:%d" % i)) for i, (lv, _v) in enumerate(d["__orig_skill__"]))
+    if _price is not None and hasattr(_price, "_ROWS_BY_POINT"):
+        _price._ROWS_BY_POINT.clear()
+    if 50011 in sheet.MATERIALS:
+        sheet.MATERIALS[50011] = min(0xffffffff, sheet.MATERIALS[50011] * (100 + val("glob:moonlight_pct")) // 100)
+    if _price is not None:
+        _price.PRICING_OPTIONS = _price_overrides.options(ovr)
+        if precise:
+            _price.PRICING_OPTIONS['resulting'].update({k: int(ovr.get(k, v)) for k, v in d.items()
+                                                       if k.startswith(('bonusq:', 'intq:'))})
+    _PRICE_OVR.clear()
+    _PRICE_OVR.update(ovr)
+
+
+def _price_metadata(mod, cur, values):
+    if not (values.get("glob:young_world_days", 0) and values.get("glob:young_cap_pct", 0)):
+        return {}
+    if _time.time() - _PRICE_META["at"] < 60:
+        return dict(_PRICE_META["values"])
+    try:
+        cur.execute("SELECT median,world_started,cohort,reference_version,UNIX_TIMESTAMP(updated_at) AS at,UNIX_TIMESTAMP(NOW()) AS now,"
+                    "(SELECT reference_version FROM player.web_m2p_valuation ORDER BY valued_at DESC,pid DESC LIMIT 1) AS current_version "
+                    "FROM player.web_m2p_price_reference WHERE singleton=1")
+        row = cur.fetchone() or {}
+        started, middle = int(row.get('world_started') or 0), int(row.get('median') or 0)
+        if not 0 <= started <= 0xffffffff or not 0 <= middle <= 9000000000000000:
+            raise ValueError("wealth_census_bounds")
+        if not (0 <= int(row.get('now') or 0)-int(row.get('at') or 0) <= 7200 and int(row.get('cohort') or 0)>0):
+            middle = 0
+        if row.get('reference_version') != row.get('current_version'):
+            middle = 0
+        result = {"__world_started__": started, "__median_wealth_40__": middle,
+                  "__reference_version__": int(row.get('reference_version') or 0)}
+    except Exception as exc:
+        mod.app.logger.warning("m2_theme: reference census unavailable (%s)", type(exc).__name__)
+        result = {"__world_started__": 0, "__median_wealth_40__": 0}
+    _PRICE_META.update(at=_time.time(), values=result)
+    return result
+
+
+@_price_overrides.synchronized
+def _price_load(mod, force=False):
+    global _PRICE_LOAD_AT
+    if not PRICE_CHANGE_SUPPORTED:
+        return False
+    if not force and _time.time() - _PRICE_LOAD_AT < 5:
+        return True
+    try:
+        with mod.db() as c, c.cursor() as cur:
+            _price_tables(cur)
+            cur.execute("SELECT k, v FROM player.web_m2p_price_override ORDER BY k LIMIT 8193")
+            ovr = {r["k"]: int(r["v"]) for r in cur.fetchall()}
+            if any(k.startswith('__') for k in ovr):
+                raise ValueError('reserved_price_key')
+            _price_overrides.validate(ovr, _price_supported_defaults(mod), allow_meta=True)
+            ovr.update(_price_metadata(mod, cur, ovr))
+        if ovr != _PRICE_OVR:
+            _price_apply(ovr)
+            try:
+                from market_preview import store
+                if store() is not None:
+                    store().request_refresh()
+            except Exception:
+                pass
+        _PRICE_LOAD_AT = _time.time()
+        return True
+    except Exception as exc:
+        _PRICE_LOAD_AT = _time.time()
+        mod.app.logger.warning("m2_theme: price reload failed (%s)", type(exc).__name__)
+        return False
+
+
+
+@_price_overrides.synchronized
+def _price_rows(mod, lang):
+    """The page's sections: [{id, title, cols, rows: [{label, sub, cells: [{k, def, cur}]}]}]."""
+    from market_preview import sheet
+    try:
+        from market_preview import apply_label
+    except Exception:  # noqa: BLE001
+        apply_label = None
+    d = _price_defaults()
+    def cell(k):
+        return {"k": k, "d": d[k], "v": int(_PRICE_OVR.get(k, d[k]))}
+    def iname(v):
+        try:
+            return mod.localized_item_name(int(v), lang)
+        except Exception:  # noqa: BLE001
+            return "#%s" % v
+    skills = (getattr(mod, "SKILL_NAMES_BY_LANG", {}) or {}).get(lang) or getattr(mod, "SKILL_ID_NAMES", {}) or {}
+    out = []
+    rows = []
+    for base in sorted(d["__orig_gear__"]):
+        n = len(d["__orig_gear__"][base][1])
+        rows.append({"label": iname(base), "sub": "vnum %d" % base, "cells": [cell("gear:%d:%d" % (base, i)) for i in range(n)]})
+    out.append({"id": "gear", "title": "Ceny bazowe broni i zbroi (+0…+9)", "cols": ["+%d" % i for i in range(10)], "rows": rows})
+    rows = []
+    supported = _price_supported_defaults(mod)
+    for i, r in enumerate(d["__orig_bonus_rows__"]):
+        if 'bonus:%d:max' % i not in supported:
+            continue
+        slots = ", ".join(n for b, n in PRICE_SLOT_NAMES if int(r[0]) & b) or "—"
+        try:
+            point = int(r[1])
+            attr = point if mod.ENGINE_MT2009 else mod.POINT_TO_APPLY.get(point, point)
+            bn = mod.apply_name(attr, lang)
+        except Exception:  # noqa: BLE001
+            bn = "Bonus %d" % r[1]
+        lv = "lvl %d–%d" % (r[4], r[5]) if (r[4], r[5]) != (0, 255) else ""
+        rows.append({"label": bn, "sub": slots + ((" · " + lv) if lv else "") + (" · własny max %d" % r[6] if r[6] else ""),
+                     "cells": [cell("%s:%d:max" % ('bonusq' if _PRICE_OVR.get('glob:patch18')==18 else 'bonus', i)),
+                               cell("%s:%d:other" % ('bonusq' if _PRICE_OVR.get('glob:patch18')==18 else 'bonus', i))]})
+    precise = _PRICE_OVR.get('glob:patch18') == 18
+    if precise:
+        for name, title in (('shield', 'INT: tarcza'), ('shaman_weapon', 'INT: broń szamana')):
+            rows.append({'label': title, 'sub': '', 'cells': [cell('intq:%s:%s' % (name, f)) for f in ('max', 'other')]})
+    out.append({"id": "bonus", "title": "Mnożniki bonusów (24500 = ×2,4500)" if precise else "Mnożniki bonusów (230 = ×2,30)", "cols": ["max", "inna"], "rows": rows})
+    out.append({"id": "mat", "title": "Ulepszacze i materiały", "cols": ["cena"],
+                "rows": [{"label": iname(k), "sub": "vnum %d" % k, "cells": [cell("mat:%d" % k)]} for k in sorted(sheet.MATERIALS)]})
+    out.append({"id": "book", "title": "Księgi Umiejętności", "cols": ["cena"],
+                "rows": [{"label": skills.get(k) or "#%d" % k, "sub": "umiejętność %d" % k, "cells": [cell("book:%d" % k)]} for k in sorted(sheet.BOOKS)]})
+    out.append({"id": "forget", "title": "Zwoje / Księgi Zapomnienia", "cols": ["cena"],
+                "rows": [{"label": skills.get(k) or "#%d" % k, "sub": "umiejętność %d" % k, "cells": [cell("forget:%d" % k)]} for k in sorted(sheet.FORGET_SCROLLS)]})
+    def mob(k):
+        try:
+            return mod.localized_mob_name(int(k), lang)
+        except Exception:  # noqa: BLE001
+            return "#%d" % k
+    out.append({"id": "marble", "title": "Marmury Polimorfii", "cols": ["cena"],
+                "rows": [{"label": mob(k), "sub": "potwór %d" % k, "cells": [cell("marble:%d" % k)]} for k in sorted(sheet.MARBLES)]})
+    rows = [{"label": iname(28000 + kind + 100 * grade), "sub": "rodzaj %d · +%d" % (kind, grade),
+             "cells": [cell("soul:%d:%d" % (kind, grade)), cell("sockstone:%d:%d" % (kind, grade)) if ("sockstone:%d:%d" % (kind, grade)) in d else None]}
+            for (kind, grade) in sorted(sheet.SOUL_STONES)]
+    out.append({"id": "soul", "title": "Kamienie Duszy", "cols": ["cena", "% w gnieździe"], "rows": rows})
+    rows = [{"label": "Stopień +%d" % i, "sub": "Kamień Duszy bez własnej ceny", "cells": [cell("soulgrade:%d" % i)]} for i in range(len(d["__orig_grades__"]))]
+    rows += [{"label": "%d %s" % (i, "gniazdo" if i == 1 else "gniazda"), "sub": "% ceny za liczbę gniazd", "cells": [cell("sockcnt:%d" % i)]} for i in range(len(d["__orig_sockcnt__"]))]
+    out.append({"id": "sock", "title": "Gniazda i stopnie kamieni", "cols": ["wartość"], "rows": rows})
+    rows = [{"label": "ŚR od %d%%" % lv, "sub": "% ceny", "cells": [cell("avg:%d" % i)]} for i, (lv, _v) in enumerate(d["__orig_avg__"])]
+    rows += [{"label": "UM od %d%%" % lv, "sub": "% ceny", "cells": [cell("skilltier:%d" % i)]} for i, (lv, _v) in enumerate(d["__orig_skill__"])]
+    out.append({"id": "dmg", "title": "Średnie Obrażenia (ŚR) i Obrażenia Umiejętności (UM)", "cols": ["% ceny"], "rows": rows})
+    out.append({"id": "glob", "title": "Parametry globalne cen", "cols": ["wartość"],
+                "rows": [{"label": t, "sub": "glob:" + n, "cells": [cell("glob:" + n)]} for n, _v, t in PRICE_GLOBALS]})
+    for sec in out:
+        for r in sec["rows"]:
+            r["cells"] = [c for c in r["cells"]] if all(r["cells"]) else [c or {"k": "", "d": None, "v": None} for c in r["cells"]]
+    if lang != "pl":
+        for sec in out:
+            sec["title"] = _price_text_en(sec["title"])
+            sec["cols"] = [_price_text_en(c) for c in sec["cols"]]
+            for row in sec["rows"]:
+                row["sub"] = _price_text_en(row["sub"])
+                if sec["id"] in ("sock", "dmg", "glob"):
+                    row["label"] = _price_text_en(row["label"])
+    return out
+
+
+PRICES_BODY = """<div class="card m2p-pr"><h3>{{ m2p_pg.title }}</h3>
+<p class="muted">{{ prices_note }}</p>
+<div class="m2p-pr-bar"><input id="prQ" placeholder="Szukaj (nazwa / vnum)…"><label><input type="checkbox" id="prChanged"> tylko zmienione</label>
+<span id="prDirty" class="muted"></span><button type="button" class="btn" id="prSave" disabled>Zapisz zmiany</button>
+<button type="button" class="btn" id="prHistBtn">Historia zmian</button></div>
+<div class="m2p-pr-tabs" id="prTabs"></div><div id="prBody"><div class="muted">…</div></div>
+<div id="prHist" hidden></div><input type="hidden" id="prCsrf" value="{{ csrf_token }}"></div>
+<script>
+(function(){
+ var D=null, CUR='gear', dirty={}, invalid={};
+ function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+ function fmt(n){ return n==null?'':Number(n).toLocaleString('pl-PL').replace(/\\u00a0/g,' '); }
+ function load(){ fetch('/m2p/api/prices',{credentials:'same-origin',cache:'no-store'}).then(function(r){ return r.json(); }).then(function(j){ D=j; tabs(); draw(); }); }
+ function tabs(){ var t=document.getElementById('prTabs'); t.innerHTML=D.sections.map(function(s){ return '<button type="button" data-s="'+s.id+'" class="'+(s.id===CUR?'on':'')+'">'+esc(s.title)+'</button>'; }).join(''); }
+ function draw(){
+  var sec=D.sections.filter(function(s){ return s.id===CUR; })[0]; if(!sec) return;
+  var q=(document.getElementById('prQ').value||'').toLowerCase().trim(), only=document.getElementById('prChanged').checked;
+  var rows=sec.rows.filter(function(r){ if(q&&(r.label+' '+r.sub).toLowerCase().indexOf(q)<0) return false;
+   if(only&&!r.cells.some(function(c){ return c&&c.k&&(c.v!==c.d||dirty[c.k]!==undefined); })) return false; return true; });
+  var h='<table class="m2p-pr-t"><tr><th>Pozycja</th>'+sec.cols.map(function(c){ return '<th>'+esc(c)+'</th>'; }).join('')+'<th></th></tr>';
+  h+=rows.slice(0,800).map(function(r){ return '<tr><td><b>'+esc(r.label)+'</b><br><small class="muted">'+esc(r.sub)+'</small></td>'+r.cells.map(function(c){
+    if(!c||!c.k) return '<td></td>';
+    var v=invalid[c.k]!==undefined?invalid[c.k]:(dirty[c.k]!==undefined?dirty[c.k]:c.v), ch=v!==c.d;
+    return '<td><input '+(D.editable?'':'disabled ')+'class="m2p-pr-in'+(ch?' ch':'')+(dirty[c.k]!==undefined?' dirty':'')+'" data-k="'+c.k+'" data-d="'+c.d+'" value="'+esc(v)+'" inputmode="numeric" title="domyślnie: '+fmt(c.d)+'"></td>'; }).join('')+
+    '<td><button type="button" '+(D.editable?'':'disabled ')+'class="m2p-pr-rst" data-r="'+r.cells.map(function(c){ return c?c.k:''; }).join(',')+'" title="Przywróć domyślne">↺</button></td></tr>'; }).join('')+'</table>';
+  if(rows.length>800) h+='<p class="muted">Pokazano 800 z '+rows.length+' – zawęź wyszukiwanie.</p>';
+  document.getElementById('prBody').innerHTML=h; mark();
+ }
+ function mark(){ var n=Object.keys(dirty).length, bad=Object.keys(invalid).length; document.getElementById('prDirty').textContent=bad?('Błędne wartości: '+bad):(n?('Niezapisane zmiany: '+n):''); document.getElementById('prSave').disabled=!D.editable||!n||!!bad; }
+ document.getElementById('prTabs').addEventListener('click',function(e){ var b=e.target.closest('button[data-s]'); if(!b) return; CUR=b.getAttribute('data-s'); tabs(); draw(); });
+ document.getElementById('prQ').addEventListener('input',draw); document.getElementById('prChanged').addEventListener('change',draw);
+ document.getElementById('prBody').addEventListener('input',function(e){ var i=e.target.closest('.m2p-pr-in'); if(!i) return; var v=i.value.trim(), k=i.getAttribute('data-k');
+  if(!/^-?[0-9]+$/.test(v)||!Number.isSafeInteger(Number(v))){ invalid[k]=v; mark(); return; }
+  delete invalid[k]; dirty[k]=Number(v); i.classList.add('dirty'); i.classList.toggle('ch',Number(v)!==Number(i.getAttribute('data-d'))); mark(); });
+ document.getElementById('prBody').addEventListener('click',function(e){ var b=e.target.closest('.m2p-pr-rst'); if(!b) return;
+  b.getAttribute('data-r').split(',').forEach(function(k){ if(!k) return; delete invalid[k]; var c=find(k); if(c) dirty[k]=c.d; }); draw(); });
+ function find(k){ for(var i=0;i<D.sections.length;i++){ var s=D.sections[i]; for(var j=0;j<s.rows.length;j++){ var r=s.rows[j]; for(var x=0;x<r.cells.length;x++){ if(r.cells[x]&&r.cells[x].k===k) return r.cells[x]; } } } return null; }
+ document.getElementById('prSave').addEventListener('click',function(){
+  var fd=new URLSearchParams(); fd.set('_csrf',document.getElementById('prCsrf').value); fd.set('changes',JSON.stringify(dirty));
+  this.disabled=true;
+  fetch('/m2p/api/prices',{method:'POST',body:fd,credentials:'same-origin'}).then(function(r){ return r.json(); }).then(function(j){
+   if(!j||!j.ok){ alert('Błąd zapisu: '+((j&&j.error)||'')); mark(); return; } dirty={}; load(); }); });
+ document.getElementById('prHistBtn').addEventListener('click',function(){ var h=document.getElementById('prHist'); if(!h.hidden){ h.hidden=true; return; }
+  fetch('/m2p/api/prices_history',{credentials:'same-origin',cache:'no-store'}).then(function(r){ return r.json(); }).then(function(j){
+   h.hidden=false; h.innerHTML='<h4>Historia zmian</h4>'+(j.rows&&j.rows.length?'<table class="m2p-pr-t"><tr><th>Kiedy</th><th>Kto</th><th>Pozycja</th><th>Było</th><th>Jest</th></tr>'+j.rows.map(function(r){
+    return '<tr><td>'+r.at+'</td><td>'+esc(r.who)+'</td><td>'+esc(r.label)+' <small class="muted">'+esc(r.k)+'</small></td><td>'+fmt(r.old)+'</td><td>'+fmt(r.new)+'</td></tr>'; }).join('')+'</table>':'<p class="muted">Brak zmian.</p>'); }); });
+ load();
+})();
+</script>"""
+
+
+PRICE_TEXT_EN = {'Ceny bazowe broni i zbroi (+0…+9)': 'Weapon and armour base prices (+0…+9)', 'Mnożniki bonusów (×, w setnych: 230 = ×2,30)': 'Bonus multipliers (hundredths: 230 = ×2.30)', 'Ulepszacze i materiały': 'Refine materials', 'Księgi Umiejętności': 'Skill Books', 'Zwoje / Księgi Zapomnienia': 'Forgetfulness Scrolls / Books', 'Marmury Polimorfii': 'Polymorph Marbles', 'Kamienie Duszy': 'Spirit Stones', 'Gniazda i stopnie kamieni': 'Sockets and stone grades', 'Średnie Obrażenia (ŚR) i Obrażenia Umiejętności (UM)': 'Average Damage and Skill Damage', 'Parametry globalne cen': 'Global price parameters', 'Hełm': 'Helmet', 'Zbroja': 'Armour', 'Tarcza': 'Shield', 'Buty': 'Shoes', 'Bransoleta': 'Bracelet', 'Naszyjnik': 'Necklace', 'Kolczyki': 'Earrings', 'Broń': 'Weapon', 'cena': 'price', 'inna': 'other', 'wartość': 'value', '% w gnieździe': '% in socket', 'umiejętność': 'skill', 'potwór': 'monster', 'rodzaj': 'type', 'własny max': 'own maximum', 'Stopień': 'Grade', 'Kamień Duszy bez własnej ceny': 'Spirit Stone without an individual price', '% ceny za liczbę gniazd': '% price by socket count', '% ceny': '% price', 'gniazda': 'sockets', 'gniazdo': 'socket', 'ŚR od': 'Average damage from', 'UM od': 'Skill damage from', 'Podniesienie mnożników bonusów (%): nowy = 1 + (stary − 1) × (1 + X/100)': 'Bonus multiplier increase (%): new = 1 + (old − 1) × (1 + X/100)', 'Cap: iloczyn mnożników liczony w całości do (×, setne)': 'Cap: full multiplier product up to (×, hundredths)', 'Cap: nadwyżka ponad próg liczona w (%)': 'Cap: excess above the threshold counted at (%)', 'Cena max względem ceny +9 bez bonusów (×, setne)': 'Maximum price relative to +9 without bonuses (×, hundredths)', 'Młody świat: liczba dni z dodatkowym capem': 'Young world: days with an additional cap', 'Młody świat: cena max (% mediany gotówki botów 40+)': 'Young world: maximum price (% median cash of level 40+ bots)', 'Szkatułka Blasku Księżyca: zmiana ceny (%)': 'Moonlight Treasure Chest: price change (%)'}
+
+def _price_text_en(text):
+    for pl, en in sorted(PRICE_TEXT_EN.items(), key=lambda x: -len(x[0])):
+        text = text.replace(pl, en)
+    return text
+
+PRICES_BODY_EN = PRICES_BODY
+for _pl, _en in {'Szukaj (nazwa / vnum)…': 'Search (name / vnum)…', 'tylko zmienione': 'only changed', 'Zapisz zmiany': 'Save changes', 'Historia zmian': 'Change history', 'Pozycja': 'Entry', 'domyślnie:': 'default:', 'Przywróć domyślne': 'Restore defaults', 'Pokazano 800 z': 'Showing 800 of', 'zawęź wyszukiwanie.': 'narrow your search.', 'Niezapisane zmiany:': 'Unsaved changes:', 'Błędne wartości:': 'Invalid values:', 'Błąd zapisu:': 'Save failed:', 'Kiedy': 'When', 'Kto': 'Who', 'Było': 'Before', 'Jest': 'After', 'Brak zmian.': 'No changes.', 'pl-PL': 'en-GB'}.items():
+    PRICES_BODY_EN = PRICES_BODY_EN.replace(_pl, _en)
+
+
 PAGES2 = (
     # slug, endpoint, text key, body
     ("itemshop", "m2p_itemshop", "itemshop"),
@@ -1484,7 +2045,7 @@ def install_pages2(mod, app):
         "perf": lambda: perf_data(mod, rng()),
         "event_history": lambda: {"ok": True, "rows": event_history(mod)},
         "item_tip": lambda: item_tip(mod, int(request.args.get("pid", "0") or 0), int(request.args.get("vnum", "0") or 0), lang()),
-        "world": lambda: world_stats(mod),
+        "world": lambda: _cached("world", 60, lambda: world_stats(mod)),
         "bot_value": lambda: bot_value(mod, int(request.args.get("pid", "0") or 0)),
     }
     def _restart():
@@ -1625,7 +2186,414 @@ def install(mod):
                         "last": [int(last["t"]), int(last["v"])] if last else None})
     app.add_url_rule("/m2p/api/metric", "m2p_metric", _metric)
 
+    # Iwakura, Patch 18: „(Odpoczywa X botów)” pod „Boty w grze” – boty z odpoczynkiem
+    # w log.playerbot_session (rest_until > NOW, logout_reason = odpoczynek), których nie ma w grze.
+    @mod.login_required
+    def _resting():
+        try:
+            live = mod.read_playerbot_live_status() or {}
+        except Exception:  # noqa: BLE001
+            live = {}
+        n = 0
+        try:
+            rest_code = getattr(mod, "SESSION_LOGOUT_REST", 1)
+            for r in _q(mod, "SELECT pid FROM log.playerbot_session WHERE rest_until > NOW() "
+                             "AND logout_reason = %s GROUP BY pid", (rest_code,)):
+                if int(r["pid"] or 0) not in live:
+                    n += 1
+        except Exception as exc:  # noqa: BLE001
+            return jsonify({"ok": False, "error": str(exc)[:200]})
+        return jsonify({"ok": True, "resting": n})
+    app.add_url_rule("/m2p/api/resting", "m2p_resting", _resting)
+
+    # Iwakura P18: „Statystyki przedmiotów” pod Wartością ekwipunku – suma DODATKOWYCH bonusów
+    # (linie attrtype0..6) z całego założonego EQ, posortowana wg tabeli tierów Iwakury (PvE,
+    # +1 dla klasy bota – market_preview/sheet.BONUS_TIERS, ta sama co w Podglądzie rynku).
+    @mod.login_required
+    def _bot_itemstats():
+        try:
+            pid = int(request.args.get("pid", "0"))
+        except ValueError:
+            abort(400)
+        if not 0 < pid <= 0xffffffff:
+            abort(400)
+        lang_ = mod.lang() if hasattr(mod, "lang") else "pl"
+        try:
+            from market_preview import sheet as _sheet, apply_label as _apply_label
+        except Exception:  # noqa: BLE001
+            _sheet, _apply_label = None, None
+        try:
+            prow = _q(mod, "SELECT job FROM player.player WHERE id=%s", (pid,), one=True) or {}
+            cls = int(prow.get("job") or 0) % 4
+            cols = ", ".join("attrtype%d, attrvalue%d" % (i, i) for i in range(7))
+            # Tylko miejsca EQ z karty (zbroja, hełm, buty, bransoleta, broń, naszyjnik, kolczyki, tarcza) –
+            # bez Smoczych Kamieni (też okno EQUIPMENT), kostiumów i strzał.
+            rows = _q(mod, "SELECT vnum, " + cols + " FROM player.item WHERE owner_id=%s AND `window`='EQUIPMENT' "
+                           "AND pos IN (0,1,2,3,4,5,6,10) AND NOT (vnum BETWEEN 110000 AND 169999)", (pid,))
+        except Exception as exc:  # noqa: BLE001
+            return jsonify({"ok": False, "error": str(exc)[:200]})
+        tot, cnt = {}, {}
+        for r in rows:
+            for i in range(7):
+                t, v = int(r.get("attrtype%d" % i) or 0), int(r.get("attrvalue%d" % i) or 0)
+                if t <= 0 or v == 0:
+                    continue
+                tot[t] = tot.get(t, 0) + v
+                cnt[t] = cnt.get(t, 0) + 1
+        out = []
+        for t, v in tot.items():
+            # The tier sheet uses POINT ids; r40250 item attributes use APPLY ids.
+            point = t
+            if not getattr(mod, "ENGINE_MT2009", False):
+                point = next((k for k, v in mod.POINT_TO_APPLY.items() if v == t), t)
+            row = (_sheet.BONUS_TIERS.get(point) if _sheet else None)
+            pve = pvp = 0
+            if row:
+                pve, pvp = row[0], row[1]
+                if pve > 0 and row[2] & (1 << cls):
+                    pve = min(6, pve + 1)
+                if pvp > 0 and row[3] & (1 << cls):
+                    pvp = min(6, pvp + 1)
+            try:
+                label = mod.format_apply(t, v, lang_)
+            except Exception:  # noqa: BLE001
+                label = "Bonus #%d %s" % (t, v)
+            hl = ""
+            rank = pve
+            if t == int(getattr(mod, "APPLY_NORMAL_HIT_DAMAGE_BONUS", 122)):
+                hl, rank = "sr", 99           # Średnie Obrażenia – najlepsze, zawsze na górze
+            elif t == int(getattr(mod, "APPLY_SKILL_DAMAGE_BONUS", 121)):
+                hl, rank = "um", 3.5          # Obrażenia Umiejętności – w środku listy
+            out.append({"p": t, "v": v, "n": cnt[t], "t": label, "pve": pve, "pvp": pvp, "hl": hl, "rank": rank})
+        out.sort(key=lambda x: (-x["rank"], -x["pvp"], -x["v"]))
+        return jsonify({"ok": True, "items": len(rows), "bonuses": out})
+    app.add_url_rule("/m2p/api/bot_itemstats", "m2p_bot_itemstats", _bot_itemstats)
+
+    # Iwakura P18: historia czytania Ksiąg Umiejętności (karta bota, zakładka Statystyki i umiejętności).
+    @mod.login_required
+    def _bot_books():
+        try:
+            pid = int(request.args.get("pid", "0"))
+        except ValueError:
+            abort(400)
+        if not 0 < pid <= 0xffffffff:
+            abort(400)
+        lang_ = mod.lang() if hasattr(mod, "lang") else "pl"
+        names = (getattr(mod, "SKILL_NAMES_BY_LANG", {}) or {}).get(lang_) or getattr(mod, "SKILL_ID_NAMES", {}) or {}
+        rows = []
+        try:
+            for x in _q(mod, "SELECT time, how, vnum, what, hint FROM log.log WHERE who=%s AND time >= NOW() - INTERVAL 30 DAY "
+                             "AND (how LIKE 'READ%%' OR how LIKE '%%BOOK%%') ORDER BY time DESC LIMIT 300", (pid,)):
+                how = _ms_text(mod, x.get("how")).strip().upper()
+                ok = None
+                if "FAIL" in how:
+                    ok = False
+                elif "SUCC" in how or how in ("READ", "READ_BOOK", "BOOK_READ"):
+                    ok = True
+                sk = int(x.get("vnum") or 0)
+                what = int(x.get("what") or 0)
+                hint = _ms_text(mod, x.get("hint")).strip()
+                # CharLog(ch, dwSkillVnum, "READ_...", hint): the skill is in `what`.
+                skill = names.get(what) or names.get(sk) or ""
+                if skill:
+                    sk = 0
+                if not skill:
+                    # Skill id may sit in the hint ("skill=61", "61 ...") – first number that names a skill.
+                    for num in re.findall(r"\d+", hint):
+                        if int(num) in names:
+                            skill = names[int(num)]
+                            break
+                if not skill and sk >= 1000:
+                    try:
+                        skill = mod.item_full_name(sk, 0, lang_)
+                    except Exception:  # noqa: BLE001
+                        skill = ""
+                book = (("Księga Umiejętności: " if lang_ == "pl" else "Skill Book: ") + skill) if skill and sk < 1000 else skill
+                rows.append({"time": x["time"].strftime("%d.%m %H:%M") if x.get("time") else "", "how": how,
+                             "ok": ok, "skill": book or hint[:80] or (("#%d" % sk) if sk else "?"),
+                             "vnum": sk, "hint": hint[:120]})
+        except Exception as exc:  # noqa: BLE001
+            return jsonify({"ok": False, "error": str(exc)[:200]})
+        return jsonify({"ok": True, "rows": rows})
+    app.add_url_rule("/m2p/api/bot_books", "m2p_bot_books", _bot_books)
+
+    # Iwakura P18 pkt 6B: Alchemia (Smocze Kamienie) – kamienie, które bot naprawdę ma założone.
+    # Czyta aktualny vnum (uszlachetnienie zmienia vnum): 1 T G S xx – T rodzaj, G klasa, S czystość.
+    DS_TYPES = {1: ("Diament", "Diamond"), 2: ("Rubin", "Ruby"), 3: ("Jadeit", "Jade"),
+                4: ("Szafir", "Sapphire"), 5: ("Granat", "Garnet"), 6: ("Onyks", "Onyx")}
+    DS_GRADES = {0: ("Surowy", "Rough"), 1: ("Szlifowany", "Cut"), 2: ("Rzadki", "Rare"),
+                 3: ("Antyczny", "Antique"), 4: ("Legendarny", "Legendary"), 5: ("Mityczny", "Mythic")}
+
+    @mod.login_required
+    def _bot_alchemy():
+        try:
+            pid = int(request.args.get("pid", "0"))
+        except ValueError:
+            abort(400)
+        if not 0 < pid <= 0xffffffff:
+            abort(400)
+        lang_ = mod.lang() if hasattr(mod, "lang") else "pl"
+        li = 0 if lang_ == "pl" else 1
+        runtime = _p18_alchemy_runtime(mod, pid) if getattr(mod, 'ENGINE_MT2009', False) else None
+        try:
+            cols = ", ".join("attrtype%d, attrvalue%d" % (i, i) for i in range(7))
+            rows = _q(mod, "SELECT `window` AS w, pos, vnum, socket0, socket1, socket2, " + cols + " FROM player.item "
+                           "WHERE owner_id=%s AND vnum BETWEEN 110000 AND 169999 ORDER BY `window`, pos", (pid,))
+        except Exception:  # noqa: BLE001
+            if runtime is None:
+                return jsonify({"ok": False, "source": "unavailable", "live": False})
+            rows = []
+        bag = sum(1 for x in rows if x['w'] == 'DRAGON_SOUL_INVENTORY')
+        unresolved = sum(1 for x in rows if x['w'] == 'INVENTORY') if runtime is None else 0
+        if runtime is not None:
+            rows = runtime['rows']
+        worn = []
+        for r in rows:
+            v = int(r["vnum"])
+            pos = int(r['pos'])
+            if runtime is None and (r['w'] != 'EQUIPMENT' or not 32 <= pos < 44):
+                continue
+            t, g, st = (v // 10000) % 10, (v // 1000) % 10, (v // 100) % 10
+            bon = []
+            for i in range(7):
+                at, av = int(r.get("attrtype%d" % i) or 0), int(r.get("attrvalue%d" % i) or 0)
+                if at > 0 and av:
+                    try:
+                        bon.append(mod.format_apply(at, av, lang_))
+                    except Exception:  # noqa: BLE001
+                        bon.append("#%d %d" % (at, av))
+            try:
+                name = mod.localized_item_name(v, lang_)
+            except Exception:  # noqa: BLE001
+                name = "#%d" % v
+            deck, slot = (r['deck'], r['slot']) if runtime else divmod(pos - 32, 6)
+            worn.append({"pos": pos, "window": r['w'], "id": r.get('id'), "deck": deck, "slot": slot,
+                         "vnum": v, "name": name,
+                         "type": DS_TYPES.get(t, ("?", "?"))[li], "grade": DS_GRADES.get(g, ("?", "?"))[li],
+                         "purity": st + 1, "bonuses": bon})
+        worn.sort(key=lambda x: (x['deck'], x['slot']))
+        metadata = {k: runtime[k] for k in ('source', 'live', 'source_at', 'read_at', 'active_deck')} if runtime else dict(
+            source='database', live=False, source_at=None, read_at=int(_time.time()), active_deck=None)
+        return jsonify(dict(metadata, ok=True, worn=worn, bag=bag, unresolved=unresolved))
+    app.add_url_rule("/m2p/api/bot_alchemy", "m2p_bot_alchemy", _bot_alchemy)
+
+    # Iwakura P18 pkt 1I: „Plan EQ” na karcie bota – podgląd panelu wg tabeli progów z Patcha 18 pkt 1B
+    # (noszone, próg, minimalny plus, najlepsza baza z progu w torbie/magazynie). Rdzeń liczy plan sam;
+    # panel pokazuje, czy noszone EQ spełnia tabelę.
+    PLAN_SLOTS = ((4, 1, None, ("Broń", "Weapon")), (0, 2, 0, ("Zbroja", "Armour")), (1, 2, 1, ("Hełm", "Helmet")),
+                  (10, 2, 2, ("Tarcza", "Shield")), (3, 2, 3, ("Bransoleta", "Bracelet")), (2, 2, 4, ("Buty", "Shoes")),
+                  (5, 2, 5, ("Naszyjnik", "Necklace")), (6, 2, 6, ("Kolczyki", "Earrings")))
+
+    def _plan_floor(slot_pos, L):
+        if slot_pos == 4:
+            return 0 if L < 15 else 15 if L < 25 else 25 if L < 30 else 30 if L < 45 else max(36, L - 15)
+        if slot_pos == 0:
+            return 0 if L < 15 else 18 if L < 25 else 26 if L < 35 else 34 if L < 45 else L - 15
+        if slot_pos in (1, 10):
+            return 0 if L < 21 else 21 if L < 35 else 31 if L < 45 else L - 15
+        return 0 if L < 22 else 22 if L < 45 else L - 15
+
+    def _plan_min_plus(L):
+        return 4 if L < 15 else 6 if L < 35 else 7
+
+    @mod.login_required
+    def _bot_eqplan():
+        try:
+            pid = int(request.args.get("pid", "0"))
+        except ValueError:
+            abort(400)
+        if not 0 < pid <= 0xffffffff:
+            abort(400)
+        lang_ = mod.lang() if hasattr(mod, "lang") else "pl"
+        li = 0 if lang_ == "pl" else 1
+        native = _p18_eq_runtime(mod, pid)
+        if native is not None:
+            slots = []
+            labels = {pos:label[li] for pos,_typ,_sub,label in PLAN_SLOTS}
+            for row in native['rows']:
+                data = dict(row)
+                for field in ('worn', 'project'):
+                    vnum = row[field+'_vnum']
+                    try:
+                        data[field] = mod.localized_item_name(vnum, lang_) if vnum else ''
+                    except Exception:
+                        data[field] = '#%d'%vnum if vnum else ''
+                code = row['reason']
+                data['reason_text'] = _P18_EQ_REASONS[code][li] if 0<=code<len(_P18_EQ_REASONS) else '#%d'%code
+                data['slot_text'] = labels.get(row['slot'], '#%d'%row['slot'])
+                slots.append(data)
+            return jsonify(dict(ok=True,source='native_snapshot',live=False,
+                                source_unix=native['source_unix'],age_seconds=native['age_seconds'],slots=slots))
+        try:
+            pr = _q(mod, "SELECT level, job, account_id, playtime FROM player.player WHERE id=%s", (pid,), one=True)
+            if not pr:
+                return jsonify({"ok": False})
+            L, job = int(pr["level"] or 0), int(pr["job"] or 0)
+            cls, male = job % 4, job in (0, 2, 5, 7)
+            items = _q(mod, "SELECT i.`window` AS w, i.pos, i.vnum, p.type, p.subtype, p.antiflag, "
+                            "(CASE WHEN p.limittype0=1 THEN p.limitvalue0 WHEN p.limittype1=1 THEN p.limitvalue1 ELSE 0 END) AS lv "
+                            "FROM player.item i JOIN player.item_proto p ON p.vnum=i.vnum "
+                            "WHERE ((i.owner_id=%s AND i.`window` IN ('EQUIPMENT','INVENTORY')) OR (i.owner_id=%s AND i.`window`='SAFEBOX')) "
+                            "AND p.type IN (1,2)", (pid, int(pr["account_id"] or 0)))
+        except Exception as exc:  # noqa: BLE001
+            return jsonify({"ok": False, "error": str(exc)[:200]})
+        cls_bit = (4, 8, 16, 32)[cls]
+        sex_bit = 2 if male else 1
+
+        def usable(r):
+            af = int(r["antiflag"] or 0)
+            return not (af & cls_bit) and not (af & sex_bit) and int(r["lv"] or 0) <= L
+
+        def nm(v):
+            try:
+                return mod.localized_item_name(v, lang_)
+            except Exception:  # noqa: BLE001
+                return "#%d" % v
+        out = []
+        minp = _plan_min_plus(L)
+        young = int(pr.get("playtime") or 0) < 360
+        for pos, typ, sub, label in PLAN_SLOTS:
+            floor = _plan_floor(pos, L)
+            worn = next((r for r in items if r["w"] == "EQUIPMENT" and int(r["pos"]) == pos), None)
+            def fits(r):
+                if int(r["type"]) != typ:
+                    return False
+                if typ == 1:
+                    return int(r["subtype"]) <= 5
+                return int(r["subtype"]) == sub
+            cands = [r for r in items if r["w"] != "EQUIPMENT" and fits(r) and usable(r) and int(r["lv"] or 0) >= floor]
+            best = max(cands, key=lambda r: (int(r["lv"] or 0), int(r["vnum"]) % 10), default=None)
+            row = {"slot": label[li], "floor": floor, "min_plus": minp}
+            if worn:
+                wl, wp = int(worn["lv"] or 0), int(worn["vnum"]) % 10
+                row.update(worn=nm(int(worn["vnum"])), worn_lv=wl, worn_plus=wp)
+                if wl < floor:
+                    row["state"] = "below_tier"
+                elif wp < minp and not young:
+                    row["state"] = "low_plus"
+                else:
+                    row["state"] = "ok"
+            else:
+                row.update(worn="", worn_lv=0, worn_plus=0, state="empty")
+            if best and (not worn or int(best["lv"] or 0) > int(worn["lv"] or 0)):
+                row.update(base=nm(int(best["vnum"])), base_lv=int(best["lv"] or 0), base_where=best["w"])
+            out.append(row)
+        return jsonify({"ok": True, "source": "db_saved", "live": False, "level": L, "young": young, "slots": out})
+    app.add_url_rule("/m2p/api/bot_eqplan", "m2p_bot_eqplan", _bot_eqplan)
+
+    # Iwakura, Patch 18 pkt 6F: członkowie gildii (podgląd z panelu).
+    @mod.login_required
+    def _guild_members():
+        name = (request.args.get("name") or "").strip()[:64]
+        if not name:
+            return jsonify({"ok": False})
+        try:
+            g = _q(mod, "SELECT id, name, level, master FROM player.guild WHERE name=%s LIMIT 1", (name,), one=True)
+            if not g:
+                return jsonify({"ok": False, "missing": True})
+            rows = _q(mod, mod.bot_sql("SELECT p.id, p.name, p.level, p.job, <<EMPIRE_P>> AS empire, <<BOT_P_2>> AS is_bot, "
+                                       "gm.is_general FROM player.guild_member gm JOIN player.player p ON p.id = gm.pid "
+                                       "WHERE gm.guild_id=%s ORDER BY p.level DESC, p.name"), (g["id"],))
+        except Exception as exc:  # noqa: BLE001
+            return jsonify({"ok": False, "error": str(exc)[:200]})
+        try:
+            live = mod.read_playerbot_live_status() or {}
+        except Exception:  # noqa: BLE001
+            live = {}
+        master = int(g.get("master") or 0)
+        return jsonify({"ok": True, "id": int(g["id"]), "members": [
+            {"pid": int(r["id"]), "name": _ms_text(mod, r["name"]), "level": int(r["level"] or 0), "job": _job(mod, r["job"]),
+             "empire": int(r["empire"] or 0), "bot": bool(r["is_bot"]), "online": int(r["id"]) in live,
+             "master": int(r["id"]) == master, "general": bool(r.get("is_general"))} for r in rows]})
+    app.add_url_rule("/m2p/api/guild_members", "m2p_guild_members", _guild_members)
+
+    # Patch 18: the engine publishes its enum and records completed changes.
+    # A request is never itself an entry in the execution history.
+    def _persona_now(pid):
+        try:
+            return ((mod.read_playerbot_live_status() or {}).get(pid) or {}).get("persona_id")
+        except Exception:
+            return None
+
+    @mod.login_required
+    def _persona():
+        lang_ = mod.lang() if hasattr(mod, "lang") else "pl"
+        labels = mod.BOT_PERSONA_LABELS.get(lang_) or mod.BOT_PERSONA_LABELS["en"]
+        try:
+            pid = int((request.form if request.method == "POST" else request.args).get("pid", "0"))
+        except (ValueError, TypeError):
+            abort(400)
+        if not 0 < pid <= 0xffffffff:
+            abort(400)
+        try:
+            with mod.db() as c, c.cursor() as cur:
+                cur.execute("SELECT value FROM player.web_m2p_contract_state WHERE name='persona_contract'")
+                ready = PERSONA_CHANGE_SUPPORTED and mod.ENGINE_MT2009 and int((cur.fetchone() or {}).get("value") or 0) == 18
+                cur.execute("SELECT id,native_name FROM player.web_m2p_persona_catalog WHERE contract_version=18 ORDER BY id")
+                catalog = {int(r["id"]): labels.get(int(r["id"]), r["native_name"]) for r in cur.fetchall()}
+                if request.method == "POST":
+                    if not ready:
+                        return jsonify({"ok": False, "error": "persona_change_unavailable"}), 503
+                    raw = request.form.get("persona", "")
+                    automatic = raw == "AUTO"
+                    try:
+                        new_id = None if automatic else int(raw)
+                    except ValueError:
+                        abort(400)
+                    if not automatic and new_id not in catalog:
+                        abort(400)
+                    c.begin()
+                    cur.execute(mod.bot_sql("SELECT p.name FROM player.player p WHERE p.id=%s AND <<BOT_P_2>> FOR UPDATE"), (pid,))
+                    row = cur.fetchone()
+                    if not row:
+                        c.rollback()
+                        return jsonify({"ok": False, "error": "not_a_bot"}), 404
+                    cur.execute("UPDATE player.web_admin_queue SET status='cancelled' WHERE player_id=%s "
+                                "AND cmd='PERSONASET' AND status IN ('pending','await')", (pid,))
+                    cur.execute("INSERT INTO player.web_admin_queue (player_id,player_name,cmd,arg1,arg2,status) "
+                                "VALUES (%s,%s,'PERSONASET',%s,'panel','await')", (pid,row["name"],raw if automatic else str(new_id)))
+                    qid = cur.lastrowid
+                    c.commit()
+                    return jsonify({"ok": True, "queued": qid})
+                cur.execute("SELECT persona_id,queue_id,applied_queue FROM player.web_m2p_persona_profile WHERE pid=%s", (pid,))
+                profile=cur.fetchone()
+                cur.execute("SELECT id,arg1,status FROM player.web_admin_queue WHERE player_id=%s AND cmd='PERSONASET' ORDER BY id DESC LIMIT 1", (pid,))
+                queued=cur.fetchone()
+                cur.execute("SELECT at,old_id,new_id,reason,queue_id FROM player.web_m2p_persona_history "
+                            "WHERE pid=%s ORDER BY at DESC,id DESC LIMIT 50", (pid,))
+                history=[{"at":r["at"].strftime("%d.%m.%Y %H:%M") if r.get("at") else "",
+                          "old":labels.get(r["old_id"],str(r["old_id"])) if r["old_id"] is not None else "—",
+                          "new":labels.get(r["new_id"],str(r["new_id"])),"reason":r["reason"],"job":r["queue_id"]}
+                         for r in cur.fetchall()]
+            return jsonify({"ok":True,"now":_persona_now(pid),"can_set":ready,
+                            "list":[[k,v] for k,v in catalog.items()],"history":history,
+                            "profile":profile,"request":queued,"csrf":mod.csrf_token()})
+        except Exception:
+            mod.app.logger.exception("m2_theme: persona contract unavailable")
+            return jsonify({"ok":False,"error":"persona_data_unavailable"}),503
+    app.add_url_rule("/m2p/api/persona", "m2p_persona", _persona, methods=["GET", "POST"])
+
     # Ranking "Przedmiot +9 (30+ lv)": ranking +9 przefiltrowany po poziomie przedmiotu.
+    # Iwakura P18: tła map jak w grze (atlas klienta, static/maps/<indeks>.webp, zasięg 1:1 z
+    # PLAYERBOT_MAP_BOUNDS – sprawdzone nałożeniem na server_attr). Brak pliku = stary podkład.
+    _maps_dir = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "static", "maps")
+    _orig_tile = app.view_functions.get("api_map_tile")
+    if _orig_tile is not None and _os.path.isdir(_maps_dir):
+        try:
+            mod.PLAYERBOT_MAP_TILE_VERSION = str(getattr(mod, "PLAYERBOT_MAP_TILE_VERSION", "")) + "g1"
+        except Exception:  # noqa: BLE001
+            pass
+
+        def _map_tile(map_index):
+            path = _os.path.join(_maps_dir, "%d.webp" % int(map_index))
+            if _os.path.isfile(path):
+                with open(path, "rb") as fh:
+                    resp = app.response_class(fh.read(), mimetype="image/webp")
+                resp.headers["Cache-Control"] = "public, max-age=604800"
+                return resp
+            return _orig_tile(map_index)
+        app.view_functions["api_map_tile"] = _map_tile
+
     orig_rank = app.view_functions.get("api_bot_rankings")
     if orig_rank is not None:
         def _rankings():
@@ -1646,6 +2614,25 @@ def install(mod):
                     except Exception:  # noqa: BLE001
                         pass
                 return resp
+            plus_f = request.args.get("plus", "")
+            if request.args.get("type") == "weapon" and plus_f in ("7-9", "7", "8", "9"):
+                try:
+                    want = max(15, min(5000, int(request.args.get("limit", "15"))))
+                except (TypeError, ValueError):
+                    want = 15
+                args = request.args.to_dict()
+                args.update(limit="5000")
+                request.args = ImmutableMultiDict(args)
+                resp = orig_rank()
+                resp = resp[0] if isinstance(resp, tuple) else resp
+                data = resp.get_json(silent=True) or {}
+                if not data.get("ok"):
+                    return resp
+                ok_plus = (7, 8, 9) if plus_f == "7-9" else (int(plus_f),)
+                data["rankings"] = [r for r in data.get("rankings") or []
+                                    if r.get("weapon_vnum") and int(r["weapon_vnum"]) % 10 in ok_plus][:want]
+                data.update(limit=want, plus=plus_f)
+                return jsonify(data)
             if request.args.get("type") != "plus9_30":
                 return orig_rank()
             try:
@@ -1671,6 +2658,37 @@ def install(mod):
             data.update(type="plus9_30", limit=want)
             return jsonify(data)
         app.view_functions["api_bot_rankings"] = _rankings
+
+    @mod.login_required
+    def _population_page():
+        pl = mod.lang() == "pl"
+        L = lambda a, b: a if pl else b
+        message, state = "", {}
+        try:
+            if request.method == "POST":
+                raw = request.form.get("desired", "")
+                if not re.fullmatch(r"[0-9]{1,4}", raw):
+                    abort(400)
+                _population.save(mod.db, int(raw))
+                message = L("Zapisano cel na następny restart rdzeni.", "Target saved for the next game-core restart.")
+            state = _population.read(mod.db, len(mod.read_playerbot_live_status() or {}))
+        except ValueError:
+            abort(400)
+        except Exception as exc:
+            app.logger.warning("population contract unavailable: %s", type(exc).__name__)
+            message = L("Kontrakt populacji jest niedostępny. Sprawdź wersję rdzenia i migrację.", "Population contract unavailable. Check the engine version and migration.")
+        body = '''<div class="card"><h3>{{ title }}</h3><p>{{ note }}</p><p>{{ message }}</p>
+<p>{{ pool }}: {{ state.pool if state.pool is not none else '?' }} · {{ online }}: {{ state.online if state.online is not none else '?' }}</p>
+<p>{{ pending }}: {{ yes if state.pending_restart else no if state.available else '?' }} · {{ source }}: {{ state.source or '?' }}</p>
+<form method="post"><input type="hidden" name="_csrf" value="{{ csrf_token }}">
+<label>{{ target }} <input type="number" name="desired" min="0" max="2500" required value="{{ state.desired if state.desired is not none else '' }}" {% if not state.available %}disabled{% endif %}></label>
+<button {% if not state.available %}disabled{% endif %}>{{ save }}</button></form></div>'''
+        return render_template_string(mod.BASE.replace("__BODY__", body), state=state, message=message,
+            title=L("Populacja botów", "Bot population"),
+            note=L("Cel dotyczy podstawowej populacji. Świeże kohorty i dropperzy medali są osobnymi ustawieniami. Zapis nie odtwarza kontenera i nie resetuje postaci ani AI.", "The target covers the base population. Fresh cohorts and medal droppers have separate settings. Saving does not recreate the container or reset characters or AI."),
+            pool=L("Pula", "Pool"), online=L("Online", "Online"), pending=L("Oczekuje na restart", "Pending restart"),
+            source=L("Źródło", "Source"), target=L("Cel", "Target"), save=L("Zapisz", "Save"), yes=L("tak", "yes"), no=L("nie", "no"))
+    app.add_url_rule("/panel/populacja", "m2p_population", _population_page, methods=["GET", "POST"])
 
     @mod.login_required
     def _market_stats_page():
@@ -1714,6 +2732,161 @@ def install(mod):
         return render_template_string(mod.BASE.replace("__BODY__", RANK_BODY), m2p_pg=txt,
                                       engine_mt2009=bool(getattr(mod, "ENGINE_MT2009", False)))
     app.add_url_rule("/panel/rankingi", "m2p_rankings", _rankings_page)
+
+    _price_load(mod)
+
+    @app.before_request
+    def _prices_refresh():
+        if session.get("auth") or mod.local_open():
+            _price_load(mod)
+
+    @mod.login_required
+    def _prices_page():
+        pl = _pg_lang() == "pl"
+        body = PRICES_BODY if pl else PRICES_BODY_EN
+        return render_template_string(mod.BASE.replace("__BODY__", body), m2p_pg={"title": "Mnożniki bonusów i ceny bazowe" if pl else "Bonus multipliers and base prices"},
+                                      prices_note=("Zmiany dotyczą cen w grze i wycen w panelu. Rozpoczęta wizyta zachowuje swoją wersję cen. Limit młodego świata używa kompletnego majątku referencyjnego aktywnych botów 40+, bez twardych capów; wspólna mediana jest liczona najwyżej raz na godzinę." if pl else
+                                                   "Changes affect game prices and panel valuations. An existing visit keeps its price version. The young-world cap uses complete reference wealth of active level 40+ bots without hard caps; the shared median is calculated at most once an hour."))
+    app.add_url_rule("/panel/ceny-i-mnozniki", "m2p_prices", _prices_page)
+
+    def _price_labels(lang):
+        out = {}
+        try:
+            for sec in _price_rows(mod, lang):
+                for r in sec["rows"]:
+                    for i, c in enumerate(r["cells"]):
+                        if c and c.get("k"):
+                            out[c["k"]] = r["label"] + ((" " + sec["cols"][i]) if len(sec["cols"]) > 1 else "")
+        except Exception:  # noqa: BLE001
+            pass
+        return out
+
+    @mod.login_required
+    def _prices_api():
+        lang = _pg_lang()
+        if request.method == "POST":
+            if not PRICE_CHANGE_SUPPORTED:
+                return jsonify({"ok": False, "error": "price_changes_unavailable"}), 501
+            try:
+                raw = request.form.get("changes") or "{}"
+                if len(raw) > 65536:
+                    raise ValueError("request_too_large")
+                changes = _price_overrides.validate(json.loads(raw), _price_supported_defaults(mod))
+            except (ValueError, TypeError):
+                return jsonify({"ok": False, "error": "invalid_price_changes"}), 400
+            who = ("admin@" + (request.remote_addr or "?"))[:64]
+            try:
+                with mod.db() as c, c.cursor() as cur:
+                    _price_tables(cur)
+                    c.begin()
+                    try:
+                        cur.execute("SELECT k, v FROM player.web_m2p_price_override ORDER BY k FOR UPDATE")
+                        latest = {r["k"]: int(r["v"]) for r in cur.fetchall()}
+                        for k, v in changes.items():
+                            old = int(latest.get(k, _price_defaults()[k]))
+                            if v == old:
+                                continue
+                            if v == _price_defaults()[k]:
+                                cur.execute("DELETE FROM player.web_m2p_price_override WHERE k=%s", (k,))
+                            else:
+                                cur.execute("INSERT INTO player.web_m2p_price_override (k,v,updated_at) VALUES (%s,%s,NOW()) "
+                                            "ON DUPLICATE KEY UPDATE v=VALUES(v), updated_at=NOW()", (k,v))
+                            cur.execute("INSERT INTO player.web_m2p_price_history (k,old_v,new_v,at,who) VALUES (%s,%s,%s,NOW(),%s)", (k,old,v,who))
+                        c.commit()
+                    except Exception:
+                        c.rollback()
+                        raise
+            except Exception as exc:
+                mod.app.logger.warning("m2_theme: price save failed (%s)", type(exc).__name__)
+                return jsonify({"ok": False, "error": "price_save_failed"}), 500
+            _price_load(mod, force=True)
+            return jsonify({"ok": True})
+        _price_load(mod)
+        try:
+            return jsonify({"ok": True, "editable": PRICE_CHANGE_SUPPORTED, "sections": _price_rows(mod, lang)})
+        except Exception as exc:  # noqa: BLE001
+            mod.app.logger.warning("m2_theme: price view failed (%s)", type(exc).__name__)
+            return jsonify({"ok": False, "error": "price_view_failed"}), 500
+    app.add_url_rule("/m2p/api/prices", "m2p_prices_api", _prices_api, methods=["GET", "POST"])
+
+    @mod.login_required
+    def _prices_hist():
+        lang = _pg_lang()
+        try:
+            rows = _q(mod, "SELECT k, old_v, new_v, at, who FROM player.web_m2p_price_history ORDER BY id DESC LIMIT 300")
+        except Exception:  # noqa: BLE001
+            rows = []
+        labels = _price_labels(lang) if rows else {}
+        return jsonify({"ok": True, "rows": [{"k": r["k"], "label": labels.get(r["k"], r["k"]), "old": r["old_v"], "new": r["new_v"],
+                                              "who": r["who"], "at": r["at"].strftime("%d.%m.%Y %H:%M") if r.get("at") else ""} for r in rows]})
+    app.add_url_rule("/m2p/api/prices_history", "m2p_prices_history", _prices_hist)
+
+    # Iwakura P18: tworzenie konta gry z panelu (admin) – te same zasady i ten sam INSERT co /register,
+    # bez limitu prób na IP; e-mail zapisywany, jeśli tabela account.account ma kolumnę email.
+    @mod.login_required
+    def _new_account():
+        lang = _pg_lang()
+        pl = lang == "pl"
+        msg, ok, form = "", False, {"login": "", "email": "", "social": ""}
+        if request.method == "POST":
+            lg = (request.form.get("login") or "").strip()
+            pw = request.form.get("pw") or ""
+            pw2 = request.form.get("pw2") or ""
+            em = (request.form.get("email") or "").strip()
+            social = (request.form.get("social") or "").strip()
+            form = {"login": lg, "email": em, "social": social}
+            if not mod.valid_account_login(lg):
+                msg = "Login: 4–16 znaków, tylko litery i cyfry." if pl else "Login: 4-16 letters or digits."
+            elif not mod.valid_account_password(pw):
+                msg = "Hasło: 6–16 znaków (bez spacji i polskich liter)." if pl else "Password: 6-16 characters (no spaces)."
+            elif pw != pw2:
+                msg = "Hasła się różnią." if pl else "Passwords differ."
+            elif em and (len(em) > 100 or not re.fullmatch(r"[^@\s]{1,64}@[^@\s]{1,100}\.[A-Za-z]{2,24}", em)):
+                msg = "Nieprawidłowy e-mail." if pl else "Invalid e-mail."
+            elif not mod.valid_deletion_code(social):
+                msg = "Kod usunięcia postaci: dokładnie 7 cyfr." if pl else "Character deletion code: exactly 7 digits."
+            else:
+                try:
+                    with mod.db() as c, c.cursor() as cur:
+                        cur.execute("SELECT 1 FROM account.account WHERE login=%s", (lg,))
+                        if cur.fetchone():
+                            msg = "Taki login już istnieje." if pl else "This login is taken."
+                        else:
+                            cur.execute("SELECT COUNT(*) AS n FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='account' "
+                                        "AND TABLE_NAME='account' AND COLUMN_NAME='email'")
+                            has_mail = int((cur.fetchone() or {}).get("n") or 0) > 0
+                            if has_mail:
+                                cur.execute("INSERT INTO account.account (login,password,social_id,email,status) "
+                                            "VALUES (%s,%s,%s,%s,'OK')", (lg, mod.m2_hash(pw), social, em))
+                            else:
+                                cur.execute("INSERT INTO account.account (login,password,social_id,status) "
+                                            "VALUES (%s,%s,%s,'OK')", (lg, mod.m2_hash(pw), social))
+                            ok = True
+                            msg = (("Konto „%s” utworzone." % lg) if pl else ("Account \"%s\" created." % lg)) + \
+                                  ("" if has_mail or not em else (" (bez e-maila – baza nie ma takiej kolumny)" if pl else " (no e-mail column in the database)"))
+                            form = {"login": "", "email": "", "social": ""}
+                except Exception as exc:  # noqa: BLE001
+                    app.logger.warning("m2_theme: account creation failed (%s)", type(exc).__name__)
+                    msg = "Nie udało się utworzyć konta." if pl else "Could not create the account."
+        L = (lambda a, b: a if pl else b)
+        body = """<div class="card"><h3>{{ t_title }}</h3>
+{% if msg %}<p class="{{ 'm2p-acc-ok' if ok else 'm2p-acc-err' }}">{{ msg }}</p>{% endif %}
+<form method="post" class="m2p-acc-form" autocomplete="off"><input type="hidden" name="_csrf" value="{{ csrf_token }}">
+<label>{{ l_login }}<input name="login" value="{{ form.login }}" maxlength="16" required></label>
+<label>{{ l_pw }}<input type="password" name="pw" maxlength="16" required autocomplete="new-password"></label>
+<label>{{ l_pw2 }}<input type="password" name="pw2" maxlength="16" required autocomplete="new-password"></label>
+<label>{{ l_mail }}<input type="email" name="email" value="{{ form.email }}" maxlength="100"></label>
+<label>{{ l_code }}<input name="social" value="{{ form.social }}" maxlength="7" pattern="[0-9]{7}" inputmode="numeric" required></label>
+<button type="submit" class="btn">{{ l_btn }}</button></form>
+<p class="muted">{{ l_note }}</p></div>"""
+        return render_template_string(mod.BASE.replace("__BODY__", body), msg=msg, ok=ok, form=form,
+                                      t_title=_l("newacc", lang), l_login=L("Login", "Login"), l_pw=L("Hasło", "Password"),
+                                      l_pw2=L("Powtórz hasło", "Repeat password"), l_mail=L("E-mail (opcjonalnie)", "E-mail (optional)"),
+                                      l_code=L("Kod usunięcia postaci (7 cyfr)", "Character deletion code (7 digits)"),
+                                      l_btn=L("Stwórz konto", "Create account"),
+                                      l_note=L("Login 4–16 liter/cyfr, hasło 6–16 znaków. Konto od razu działa w grze (status OK).",
+                                               "Login 4-16 letters/digits, password 6-16 characters. The account works in game at once."))
+    app.add_url_rule("/panel/stworz-konto", "m2p_new_account", _new_account, methods=["GET", "POST"])
 
     @mod.login_required
     def _chat_page():
@@ -1855,12 +3028,37 @@ background:linear-gradient(90deg,transparent,#c99a48 20%,#c99a48 80%,transparent
 :is(body.m2p-side-dark,body.m2p-side-red,body.m2p-side-blue,body.m2p-side-green) .m2p-box-bot{padding-top:18px}
 body.m2p-side-dark .m2p-box h3,body.m2p-side-red .m2p-box h3{color:#f2d68f;
 background:linear-gradient(90deg,transparent,#c99a48 20%,#c99a48 80%,transparent) no-repeat 0 100%/100% 1px}
-/* edytor bazy: tlo tresci za kolorem okien (pergamin przyciemniony, napisy zostaja czytelne) */
-.editsql-body.m2p-red .esq-content,.editsql-body.m2p-brown .esq-content{position:relative}
-.editsql-body.m2p-red .esq-content::after,.editsql-body.m2p-brown .esq-content::after{content:"";position:absolute;inset:0;
-pointer-events:none;mix-blend-mode:multiply;z-index:5}
-.editsql-body.m2p-red .esq-content::after{background:rgba(160,40,25,.38)}
-.editsql-body.m2p-brown .esq-content::after{background:rgba(110,70,30,.45)}
+/* edytor bazy w kolorowym motywie: okna jak w reszcie panelu (Iwakura P18 pkt 6H) */
+body.editsql-body.m2p-red{--e-a:#5c140c;--e-m:#430f09;--e-b:#2e0905;--e-line:#8a3a22;--e-h1:#b52c1b;--e-h2:#6a120a;--e-in:#1f0604;background-color:#1b0906}
+body.editsql-body.m2p-red.m2p-hue-blue{--e-a:#122d55;--e-m:#0d213e;--e-b:#08162a;--e-line:#294d82;--e-h1:#265aa9;--e-h2:#113162;--e-in:#06101f;background-color:#0b1424}
+body.editsql-body.m2p-red.m2p-hue-green{--e-a:#12551c;--e-m:#0d3e15;--e-b:#082a0d;--e-line:#298237;--e-h1:#26a93b;--e-h2:#11621e;--e-in:#04140a;background-color:#0b1a0f}
+body.editsql-body.m2p-brown{--e-a:#3a2614;--e-m:#24180d;--e-b:#140c06;--e-line:#6e4e2a;--e-h1:#7a5228;--e-h2:#3e2812;--e-in:#140c06;background-color:#1a120b}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content{border-image:none!important;border:1px solid var(--e-line)!important;border-radius:3px;
+background:linear-gradient(180deg,var(--e-a) 0%,var(--e-m) 45%,var(--e-b) 100%)!important;color:#ead9bf!important;
+box-shadow:inset 0 0 0 1px rgba(0,0,0,.5),0 6px 18px rgba(0,0,0,.55)}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content .content-bg,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content .content-bg-bottom{border-image:none!important;border-width:0!important;margin:0!important;background:none!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-main .shadow{display:none}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content h2,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-box-title{border-image:none!important;border:0!important;border-bottom:1px solid #d6a24a!important;
+background:linear-gradient(180deg,var(--e-h1) 0%,var(--e-h2) 100%)!important;color:#f6e3a8!important;text-shadow:0 1px 2px #000;padding:7px 12px!important;border-radius:2px}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content h2 small,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-crumbs,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-dim,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-hint,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-tile-hint,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-field-hint,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-field-note{color:#d0a98c!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-lead,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content p,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content li,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content label,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content td,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-kv-val,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-label{color:#ead9bf!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content a,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-crumbs a,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-crumbs span,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-tile-title,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-group-title,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-card-title,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-kv-key{color:#f2d68f!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-group-title{border-bottom-color:#d6a24a!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-tile,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-box,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-section,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-note,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-card,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-fact,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-chip,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-kv-row{background-color:rgba(0,0,0,.28)!important;
+border-color:rgba(255,190,140,.20)!important;box-shadow:none!important;color:#ead9bf!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-tile:hover{background-color:rgba(0,0,0,.42)!important;border-color:#d6a24a!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-section legend{background:var(--e-h2)!important;color:#f6e3a8!important;border-color:var(--e-line)!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-table th,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content th{background:linear-gradient(180deg,var(--e-h2),var(--e-b))!important;color:#f6e3a8!important;border-color:var(--e-line)!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-table td,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content td{border-color:rgba(255,190,140,.14)!important;background:transparent!important;color:#ead9bf!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-table tr:hover td{background:rgba(255,200,120,.08)!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-table tr:nth-child(even) td{background:rgba(0,0,0,.14)!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-table{background:rgba(0,0,0,.25)!important;border-color:var(--e-line)!important;color:#ead9bf!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-table th a,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-table th.esq-sorted{color:#f6e3a8!important;background:transparent}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-table tbody tr:hover > td{background-color:rgba(255,200,120,.10)!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) #page .esq-content input:not([type=checkbox]):not([type=radio]),body.editsql-body:is(.m2p-red,.m2p-brown) #page .esq-content select,body.editsql-body:is(.m2p-red,.m2p-brown) #page .esq-content textarea,
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content input:not([type=checkbox]):not([type=radio]),body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content select,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content textarea{background:var(--e-in)!important;color:#f3e6cc!important;border-color:var(--e-line)!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) #page .esq-content input::placeholder{color:#a88a70!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-toolbar,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-pager,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-actions{background:rgba(0,0,0,.22)!important;border-color:rgba(255,190,140,.18)!important}
 
 .m2p-nav a.m2p-new::after{content:"";display:inline-block;width:7px;height:7px;margin:0 0 1px 6px;border-radius:50%;
 background:#9be05a;box-shadow:0 0 6px #9be05a;vertical-align:middle}
@@ -1868,6 +3066,60 @@ background:#9be05a;box-shadow:0 0 6px #9be05a;vertical-align:middle}
 
 # ... i reszta panelu.
 CSS = r"""
+/* ---- Iwakura P18 pkt 7: ikony ostre (bez rozmycia przy skalowaniu) ---- */
+img[src*="/static/icons/"],img[src*="/static/skill_icons/"],.m2-item-entity img,.m2p-slot img{image-rendering:crisp-edges;image-rendering:pixelated}
+.m2p-slot img{max-width:32px!important}
+#botModal .skill-row img{width:32px!important;height:32px!important}
+/* ---- Iwakura P18 pkt 6F: gildie ---- */
+.m2p-ep-guilds_page h3 .badge{background:#f2d68f!important;color:#3a1a05!important;border:1px solid #8a6a3a;text-shadow:none!important;font-weight:700}
+.m2p-glink{font-weight:700;text-decoration:underline dotted}
+.m2p-gm-list{display:flex;flex-wrap:wrap;gap:6px 14px;padding:6px 2px}
+.m2p-gm{white-space:nowrap}.m2p-gm.on a{color:#16a34a}.m2p-gm small{opacity:.75}
+/* ---- Iwakura P18 pkt 6G: mapa – wyrównane przełączniki, lupa ---- */
+.m2p-ep-live_map .card label{line-height:20px}
+.m2p-ep-live_map .card label input[type=checkbox],.m2p-ep-live_map .card label input[type=range]{margin:0!important;vertical-align:middle;flex:none;align-self:center}
+.m2p-ep-live_map .card>div>div{align-items:center}
+.m2p-ep-live_map .card select,.m2p-ep-live_map .card .lvl-btn,.m2p-ep-live_map #searchInput{height:30px;box-sizing:border-box;margin:0!important}
+#mapViewport #heatLayer,#mapViewport #markersLayer,#mapViewport .m2p-bglayer{transition:transform .12s ease-out;will-change:transform}
+#mapViewport .m2p-bglayer{position:absolute;inset:0;z-index:0;display:none;pointer-events:none;background-size:100% 100%;background-repeat:no-repeat}
+.m2p-lupa{position:absolute;right:10px;bottom:10px;z-index:150;width:34px;height:34px;border-radius:50%;cursor:pointer;
+display:flex;align-items:center;justify-content:center;font-size:18px;background:rgba(20,14,8,.85);border:1px solid #c99a48;
+box-shadow:0 2px 6px rgba(0,0,0,.6);user-select:none}
+.m2p-lupa.on{background:#c99a48}
+.m2p-rkplus{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px}
+.m2p-rkplus button{padding:3px 10px!important;font-size:12px!important;height:auto!important;opacity:.75}
+.m2p-rkplus button.on{opacity:1;outline:2px solid #d6a24a}
+.m2p-kubox{margin-top:12px}.m2p-kubody{max-height:320px;overflow:auto}
+.m2p-acc-form{display:grid;gap:10px;max-width:420px;margin:8px 0 12px}
+.m2p-acc-form label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:13px}
+.m2p-acc-form button{justify-self:start;padding:7px 18px}
+.m2p-acc-ok{color:#16a34a;font-weight:700}.m2p-acc-err{color:#dc2626;font-weight:700}
+.m2p-istats .m2p-vrow{font-size:12.5px}.m2p-bon-t6 span{color:#f59e0b;font-weight:700}.m2p-bon-t5 span{color:#a855f7;font-weight:600}
+.m2p-bon-t4 span{color:#3b82f6}
+.m2p-istats .m2p-bon-sr span{color:#dc2626!important;font-weight:800;opacity:1!important}.m2p-istats .m2p-bon-um span{color:#2563eb!important;font-weight:700;opacity:1!important}.m2p-bon-t1 span,.m2p-bon-t0 span{opacity:.75}
+.m2p-persona select{margin-left:6px}
+.m2p-panel.m2p-spanel,.m2p-panel.m2p-qpanel,.m2p-panel.m2p-ppanel{overflow-y:auto;overflow-x:hidden}
+.m2p-spanel .bot-build-grid{flex:none!important;max-height:none!important;overflow:visible!important}
+.m2p-spanel .m2p-kubox{flex:none}.m2p-spanel .m2p-kubody{max-height:none;overflow:visible}
+.m2p-panel.m2p-apanel{overflow-y:auto}
+.m2p-ds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.m2p-ds{display:flex;gap:8px;align-items:flex-start;padding:7px;border:1px solid rgba(140,100,50,.4);border-radius:3px;background:rgba(0,0,0,.06)}
+.m2p-ds img{width:32px;height:32px;image-rendering:pixelated;flex:none}.m2p-ds-b{font-size:11.5px;margin-top:3px}
+.m2p-wip{display:flex;align-items:center;justify-content:center;min-height:260px;font:700 28px/1.2 Georgia,serif;letter-spacing:.12em;color:#b8860b;text-shadow:0 1px 2px rgba(0,0,0,.4);text-align:center}
+#mapViewport.m2p-fit{margin:0 auto}
+.m2p-pr-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 10px}.m2p-pr-bar #prQ{min-width:240px}
+.m2p-pr-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.m2p-pr-tabs button{padding:4px 10px!important;font-size:12px!important;opacity:.75}.m2p-pr-tabs button.on{opacity:1;outline:2px solid #d6a24a}
+#prBody{overflow-x:auto}.m2p-pr-t{width:100%;border-collapse:collapse;font-size:12px}.m2p-pr-t td,.m2p-pr-t th{padding:3px 5px;border-bottom:1px solid rgba(140,100,50,.25);vertical-align:middle}
+.m2p-pr-in{width:92px;padding:2px 5px!important;font-size:12px!important;text-align:right}.m2p-pr-in.ch{border-color:#d97706!important;font-weight:700}.m2p-pr-in.dirty{background:#fff3c4!important;color:#3a1a05!important}
+.m2p-pr-rst{padding:1px 7px!important;font-size:13px!important}#prHist{margin-top:14px}
+/* ---- Iwakura P18: kółko ładowania ---- */
+@keyframes m2pspin{to{transform:rotate(360deg)}}
+#m2pPage:empty{min-height:220px;position:relative}
+#m2pPage:empty::after,.m2p-loading::after{content:"";position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;
+border-radius:50%;border:3px solid rgba(212,169,74,.25);border-top-color:#d4a94a;animation:m2pspin .8s linear infinite}
+.m2p-loading{position:relative!important;min-height:64px;color:transparent!important;text-align:center}
+.m2p-loading-i{display:inline-block;width:12px;height:12px;vertical-align:-2px;border-radius:50%;border:2px solid rgba(212,169,74,.25);
+border-top-color:#d4a94a;animation:m2pspin .8s linear infinite;color:transparent!important;overflow:hidden;font-size:0}
 /* ===== Panel Sterowania: motyw w stylu strony glownej ===== */
 :root{--gold:#d6a24a;--gold2:#f2d68f;--bg:#080504;--card:#140d08;--card2:#1f150d;--line:#4b3420;
 --txt:#ece0c6;--muted:#a99677;--glow:rgba(214,162,74,.14);--green:#7fbf4a;--red:#d84a35;
@@ -2360,7 +3612,7 @@ border:1px solid #8a6a3a;border-radius:2px;padding:1px}
 .m2p-rk-top td{background:rgba(214,162,74,.10)!important}
 .m2p-rk-person td{background:rgba(179,38,30,.07)!important}
 .m2p-rk-pt{display:inline-block;padding:0 4px;border:1px solid #8a5ab0;border-radius:2px;color:#6a3aa0;font-weight:bold;font-size:10px}
-.m2p-rk-ico{width:22px;height:22px;vertical-align:middle;margin-right:6px;image-rendering:pixelated}
+.m2p-rk-ico{width:32px;height:32px;vertical-align:middle;margin-right:6px;image-rendering:pixelated}
 .m2p-rk-tw a{font-weight:600}
 /* czat */
 .m2p-onair{display:inline-flex!important;align-items:center;gap:7px;margin-left:4px;padding:4px 11px 4px 9px!important;
@@ -2439,6 +3691,7 @@ background:linear-gradient(#5a2c13,#2a140b);color:#f4ead7!important;font:11px Ta
 #botModal .m2-equip-container{width:156px;height:188px;margin:0 auto 6px;border:0;border-radius:0;box-shadow:none;
 background:url(/m2p/inv/equipment-base.png) 0 0/156px 188px no-repeat}
 #botModal .m2-equip-silhouette{display:none}
+#botModal .m2-classic-store{display:none!important}
 #botModal .m2-equip-slot{width:32px!important;height:32px!important;background:transparent!important;border:0!important;box-shadow:none!important}
 #botModal .m2-equip-slot:hover{box-shadow:inset 0 0 0 1px #e0b65c,0 0 6px rgba(224,182,92,.45)!important}
 #botModal .m2-equip-watermark{display:none}
@@ -2485,9 +3738,9 @@ body.m2p-ep-m2p_itemshop .wrap,body.m2p-ep-m2p_refines .wrap,body.m2p-ep-m2p_ite
 body.m2p-ep-m2p_maps .wrap,body.m2p-ep-m2p_world .wrap,body.m2p-ep-m2p_perf .wrap,body.m2p-ep-events_page .wrap{max-width:none}
 .m2p-pg-head .m2p-ms-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
 .m2p-pg-head p{margin:0}
-.m2p-ico{width:28px;height:28px;object-fit:contain;image-rendering:pixelated;background:radial-gradient(circle,#7a5c38,#4a3420);
+.m2p-ico{box-sizing:content-box!important;width:32px;height:32px;object-fit:contain;image-rendering:pixelated;background:radial-gradient(circle,#7a5c38,#4a3420);
 border:1px solid #8a6a3a;border-radius:2px;padding:1px;vertical-align:middle;flex:none}
-.m2p-ico.sm{width:22px;height:22px}.m2p-ico.lg{width:34px;height:34px}
+.m2p-ico.sm{width:32px;height:32px}.m2p-ico.lg{width:32px;height:32px}
 .m2p-ico-txt{display:inline-flex;align-items:center;justify-content:center;font-size:13px}
 .m2p-plus{display:inline-block;min-width:34px;text-align:center;padding:2px 6px;border-radius:2px;font:bold 12px Georgia,serif;color:#fff;
 background:linear-gradient(180deg,#d9a441,#7f5512);border:1px solid #ffe08a;text-shadow:0 1px 1px #000}
@@ -2616,6 +3869,14 @@ body.m2p-red .m2p-vrow,body.m2p-brown .m2p-vrow{background:rgba(0,0,0,.25)}
 .m2p-vrow.tot b{color:#7b1300;font-family:Georgia,serif}
 .m2p-vrow.gold{opacity:.8}
 .m2p-vnote{font-size:10.5px;margin-top:6px}
+.m2p-qsec{font-weight:700;margin:8px 0 4px;color:var(--gold,#d4a94a)}
+.m2p-qrow{padding:5px 7px;border:1px solid rgba(140,100,50,.4);border-radius:3px}.m2p-qrow span{margin-left:6px}.m2p-qrow i{margin-left:6px;opacity:.8}
+.m2p-qt{width:100%;border-collapse:collapse;font-size:12px}.m2p-qt td,.m2p-qt th{padding:3px 5px;border-bottom:1px solid rgba(140,100,50,.25);text-align:left}
+.m2p-qbody{max-height:none}
+.m2p-persona{display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap;margin-left:4px}
+.m2p-persona select{width:auto;max-width:190px;padding:2px 4px;font-size:12px}
+.m2p-phbtn{font-size:11px;padding:2px 7px;cursor:pointer}.m2p-pmsg{font-size:11px}
+.m2p-phist{max-height:220px;overflow:auto;margin:4px 0 6px}
 .m2p-bon{padding:1px 7px!important;margin-left:6px!important;font-size:10.5px!important;line-height:16px!important}
 .m2p-bon.on{background:linear-gradient(180deg,#d9a441,#7f5512)!important}
 tr.m2p-bon-row td{background:rgba(42,95,154,.07)!important;padding:6px 10px 8px 46px!important}
@@ -2867,6 +4128,89 @@ JS = r"""
  var LANG=(d.documentElement.getAttribute('lang')||'pl').slice(0,2);
  var PL=LANG==='pl';
 
+ // Iwakura P18 pkt 6F: gildie – nazwa jako odnośnik, rozwijana lista członków
+ if(/\bm2p-ep-guilds_page\b/.test(b.className)){
+  d.querySelectorAll('.card table tr').forEach(function(tr){ var td=tr.querySelector('td'); var nb=td&&td.querySelector('b'); if(!nb) return;
+   var gname=nb.textContent.trim(); var a=d.createElement('a'); a.href='#'; a.className='m2p-glink'; a.textContent=gname; a.title=T2('Pokaż członków','Show members');
+   nb.textContent=''; nb.appendChild(a);
+   a.addEventListener('click',function(e){ e.preventDefault(); var nx=tr.nextElementSibling;
+    if(nx&&nx.classList.contains('m2p-gmem')){ nx.parentNode.removeChild(nx); return; }
+    var row=d.createElement('tr'); row.className='m2p-gmem'; var c=d.createElement('td'); c.colSpan=tr.children.length; c.textContent='…'; row.appendChild(c); tr.parentNode.insertBefore(row,tr.nextSibling);
+    fetch('/m2p/api/guild_members?name='+encodeURIComponent(gname),{credentials:'same-origin'}).then(function(r){ return r.json(); }).then(function(j){
+     if(!j||!j.ok){ c.textContent=T2('Brak danych o członkach.','No member data.'); return; }
+     c.innerHTML='<div class="m2p-gm-list">'+j.members.map(function(m){
+      return '<span class="m2p-gm'+(m.online?' on':'')+'">'+(m.master?'👑 ':(m.general?'★ ':''))+'<a href="/player/'+m.pid+'">'+String(m.name).replace(/[&<>"]/g,'')+'</a> <small>Lv '+m.level+' · '+m.job+(m.bot?'':' · '+T2('gracz','player'))+'</small></span>'; }).join('')+'</div>';
+    }).catch(function(){ c.textContent=T2('Brak danych o członkach.','No member data.'); });
+   });
+  });
+ }
+ // Iwakura P18 pkt 6G: lupa na mapie – mapa i nicki przybliżane razem (jedna warstwa tła), +50%, za kursorem; drugi klik = powrót
+ (function(){
+  var vp=d.getElementById('mapViewport'); if(!vp) return;
+  var Z=1.5, on=false, ox=50, oy=50, bgImg='';
+  var bgL=d.createElement('div'); bgL.className='m2p-bglayer'; vp.insertBefore(bgL,vp.firstChild);
+  var lp=d.createElement('div'); lp.className='m2p-lupa'; lp.textContent='🔍'; vp.appendChild(lp);
+  // proporcje mapy jak w grze (atlas M1 4:5, reszta 1:1) – bez rozciągania obrazu
+  var ratio=1;
+  function fit(){ var host=vp.parentNode, W=host?host.clientWidth-(parseFloat(getComputedStyle(host).paddingLeft)||0)-(parseFloat(getComputedStyle(host).paddingRight)||0):vp.clientWidth;
+   var H=Math.min(760,Math.round(W/ratio)); var w=Math.min(W,Math.round(H*ratio)); vp.classList.add('m2p-fit'); vp.style.width=w+'px'; vp.style.height=H+'px'; }
+  function measure(){ var raw=vp.style.backgroundImage||bgL.style.backgroundImage||''; if(!/^url\(/.test(raw)) return;
+   var src=raw.replace(/^url\(["']?/,'').replace(/["']?\)$/,''); if(!src) return;
+   var im=new Image(); im.onload=function(){ if(im.naturalWidth&&im.naturalHeight){ ratio=im.naturalWidth/im.naturalHeight; fit(); } }; im.src=src; }
+  window.addEventListener('resize',fit); measure(); d.addEventListener('DOMContentLoaded',function(){ setTimeout(measure,0); }); window.addEventListener('load',measure);
+  function layers(){ return [bgL,d.getElementById('heatLayer'),d.getElementById('markersLayer')]; }
+  function apply(){
+   if(on){ var cur=vp.style.backgroundImage; if(cur&&cur!=='none'){ bgImg=cur; } bgL.style.backgroundImage=bgImg; bgL.style.display='block'; vp.style.backgroundImage='none'; }
+   else { if(bgImg) vp.style.backgroundImage=bgImg; bgL.style.display='none'; }
+   layers().forEach(function(l){ if(!l) return; l.style.transformOrigin=ox+'% '+oy+'%'; l.style.transform=on?'scale('+Z+')':''; });
+   lp.classList.toggle('on',on); lp.title=on?T2('Powrót','Back'):T2('Przybliż 50%','Zoom 50%'); }
+  apply();
+  lp.addEventListener('click',function(e){ e.stopPropagation(); on=!on; if(!on){ ox=50; oy=50; } apply(); });
+  vp.addEventListener('mousemove',function(e){ if(!on||e.target===lp) return; var r=vp.getBoundingClientRect();
+   ox=Math.max(0,Math.min(100,100*(e.clientX-r.left)/r.width)); oy=Math.max(0,Math.min(100,100*(e.clientY-r.top)/r.height)); apply(); });
+  var sm=window.setMapFilter; if(sm) window.setMapFilter=function(){ bgImg=''; var r=sm.apply(this,arguments); if(on) apply(); measure(); return r; };
+  // dymek bota: poza oknem mapy (fixed przy kursorze, mieści się w oknie przeglądarki)
+  var tt=d.getElementById('mapTooltip'), mx=0, my=0;
+  d.addEventListener('mousemove',function(e){ mx=e.clientX; my=e.clientY; if(tt&&tt.style.display==='block') place(); },true);
+  function place(){ var w=tt.offsetWidth, h=tt.offsetHeight, x=mx+18, y=my+14;
+   if(x+w>innerWidth-8) x=mx-w-14; if(x<8) x=8; if(y+h>innerHeight-8) y=Math.max(8,innerHeight-h-8);
+   tt.style.left=x+'px'; tt.style.top=y+'px'; }
+  if(tt){ b.appendChild(tt); tt.style.position='fixed'; tt.style.zIndex='10050';
+   var st=window.showTooltip; if(st) window.showTooltip=function(pid,ev){ var r=st.apply(this,arguments); if(ev){ mx=ev.clientX; my=ev.clientY; } place(); return r; }; }
+ })();
+ // Iwakura P18 pkt 7: ikony – zapasowe pliki dla przedmiotów bez własnej ikony (seria, peleryna, receptury)
+ (function(){
+  var MAP=null; function icons(){ if(MAP) return MAP; MAP=window.g_itemIcons||{};
+   if(!window.g_itemIcons) fetch('/static/item_icons.json').then(function(r){ return r.json(); }).then(function(j){ MAP=j; }).catch(function(){}); return MAP; }
+  var FIX={70138:'70038.png',50901:'50902.png'};
+  function alt(v){ var m=icons(), out=[];
+   if(FIX[v]) out.push(FIX[v]);
+   if(v>=50909&&v<=50943) out.push('22000.png');
+   var base=v-v%10; if(base!==v){ out.push(m[String(base)]||('00000'+base).slice(-5)+'.png'); }
+   return out; }
+  window.addEventListener('error',function(e){ var im=e.target; if(!im||im.tagName!=='IMG') return;
+   var src=im.getAttribute('src')||'', mm=/\/static\/icons\/(\d{1,6})\.png/.exec(src); var v=mm?+mm[1]:+(im.getAttribute('data-m2p-v')||0);
+   if(!v){ return; }
+   if(!im.hasAttribute('data-m2p-v')) im.setAttribute('data-m2p-v',v);
+   var tried=+(im.getAttribute('data-m2p-try')||0), list=alt(v);
+   if(tried<list.length){ e.stopPropagation(); im.setAttribute('data-m2p-try',tried+1); im.src='/static/icons/'+list[tried]; }
+  },true);
+ })();
+ // Iwakura P18: kółko ładowania zamiast „…” / „Wczytuję...” (statystyki świata, wycena, questy, inne okna)
+ (function(){
+  var RX=/^\s*(…|\.\.\.|Wczytuję\.*|Wczytywanie\.*|Ładowanie\.*|Loading\.*|Lädt\.*|Yükleniyor\.*)\s*$/i, INL=/^(SPAN|B|SMALL|I|EM|STRONG|A|LABEL)$/;
+  function mark(el){ if(!el||el.nodeType!==1||el.closest('script,style,textarea,select,option,input')) return;
+   if(el.childElementCount===0&&RX.test(el.textContent||'')){ el.classList.add(INL.test(el.tagName)?'m2p-loading-i':'m2p-loading'); }
+   else { el.classList.remove('m2p-loading'); el.classList.remove('m2p-loading-i'); } }
+  function scan(root){ if(!root) return; if(root.nodeType===3){ mark(root.parentNode); return; } if(root.nodeType!==1) return;
+   mark(root); if(root.childElementCount){ var w=d.createTreeWalker(root,NodeFilter.SHOW_TEXT,null), n; while((n=w.nextNode())){ if(n.nodeValue.length<20) mark(n.parentNode); } } }
+  scan(b);
+  new MutationObserver(function(ms){ ms.forEach(function(m){
+   if(m.type==='characterData'){ mark(m.target.parentNode); return; }
+   if(m.target.classList&&(m.target.classList.contains('m2p-loading')||m.target.classList.contains('m2p-loading-i'))) mark(m.target);
+   for(var i=0;i<m.addedNodes.length;i++) scan(m.addedNodes[i]); }); }).observe(b,{childList:true,subtree:true,characterData:true});
+ })();
+
  // menu wysuwane na telefonie
  var burger=d.querySelector('.m2p-burger');
  function setOpen(o){ b.classList.toggle('m2p-nav-open',o); if(burger) burger.setAttribute('aria-expanded',o?'true':'false'); }
@@ -2888,7 +4232,7 @@ JS = r"""
   pal.addEventListener('click',function(e){ var a=e.target.closest('a[data-p]'); if(!a) return; var k=a.getAttribute('data-p');
    d.documentElement.classList.toggle('m2p-1963',k==='1963'); b.classList.toggle('m2p-hue-blue',k==='blue'); b.classList.toggle('m2p-hue-green',k==='green');
    var kk=k==='1963'?'parch':(k==='blue'||k==='green'?'red':k);
-   ['parch','red','brown'].forEach(function(x){ b.classList.toggle('m2p-'+x,x===kk); }); try{ localStorage.setItem('m2p_pal',k); }catch(_){} mark();
+   ['parch','red','brown'].forEach(function(x){ b.classList.toggle('m2p-'+x,x===kk); }); try{ localStorage.setItem('m2p_pal',k); }catch(_){} try{ d.cookie='m2p_pal='+k+'; path=/; max-age=31536000; SameSite=Lax'; }catch(_){} mark();
    { var f=({red:'red',brown:'dark',blue:'blue',green:'green'})[k]||'parch'; ['dark','red','blue','green'].forEach(function(x){ b.classList.toggle('m2p-side-'+x,x===f); }); if(window.m2pSmark) window.m2pSmark(); } });
   mark(); (foot.querySelector('.wrap')||foot).appendChild(pal);
   window.m2pSmark=function(){};
@@ -2944,6 +4288,104 @@ JS = r"""
  }
 
  // ---- mapa: okno postaci w trzech kolumnach, historia i dziennik w zakladkach ----
+ function qEsc(x){ return String(x==null?'':x).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+ var Q_RES={done:T2('ukończony','done'),postponed:T2('odłożony','postponed'),abandoned:T2('porzucony','abandoned'),aside:T2('odłożony','put aside')};
+ function loadQuests(el,pid){
+  fetch('/m2p/api/bot_quests?pid='+pid,{credentials:'same-origin',cache:'no-store'}).then(function(r){ return r.json(); }).then(function(j){
+   if(!j||!j.ok){ el.textContent=T2('Brak danych.','No data.'); return; }
+   var c=j.current, h=j.history||[], html='';
+   html+='<div class="m2p-qsec">'+T2('Aktywny','Active')+'</div>';
+   if(c&&c.quest&&c.quest!=='-'){
+    html+='<div class="m2p-qrow on"><b>'+qEsc(c.title)+'</b> <span>'+qEsc(c.state)+(c.need>1?' · '+c.have+'/'+c.need:'')+'</span> <i>'+qEsc(c.doing_label||'')+'</i></div>';
+   } else html+='<div class="muted">'+T2('Brak aktywnego questa.','No active quest.')+'</div>';
+   if(c) html+='<div class="muted" style="font-size:11px;margin:4px 0 8px">'+T2('W dzienniku: ','Held: ')+c.held+' · '+T2('odłożone: ','put aside: ')+c.aside+' · '+T2('ukończone: ','done: ')+c.done+'</div>';
+   var done=h.filter(function(x){ return x.result==='done'; }), other=h.filter(function(x){ return x.result!=='done'; });
+   html+='<div class="m2p-qsec">'+T2('Ukończone','Completed')+' ('+done.length+')</div>';
+   html+=done.length?'<table class="m2p-qt"><tr><th>'+T2('Kiedy','When')+'</th><th>Quest</th><th>Lv</th><th>'+T2('Czas','Time')+'</th><th>EXP</th><th>Yang</th></tr>'+done.map(function(x){
+     return '<tr><td>'+x.when+'</td><td>'+qEsc(x.title)+'</td><td>'+qEsc(x.level)+'</td><td>'+qEsc(x.minutes)+' min</td><td>'+qEsc(x.exp)+'</td><td>'+qEsc(x.yang)+'</td></tr>'; }).join('')+'</table>':'<div class="muted">—</div>';
+   html+='<div class="m2p-qsec">'+T2('Odłożone / porzucone','Postponed / abandoned')+' ('+other.length+')</div>';
+   html+=other.length?'<table class="m2p-qt"><tr><th>'+T2('Kiedy','When')+'</th><th>Quest</th><th>'+T2('Stan','State')+'</th><th>'+T2('Powód','Reason')+'</th></tr>'+other.map(function(x){
+     return '<tr><td>'+x.when+'</td><td>'+qEsc(x.title)+'</td><td>'+qEsc(Q_RES[x.result]||x.result)+'</td><td>'+qEsc(x.reason)+'</td></tr>'; }).join('')+'</table>':'<div class="muted">—</div>';
+   el.innerHTML=html;
+  }).catch(function(){ el.textContent=T2('Brak danych.','No data.'); });
+ }
+ function loadBooks(el,pid){
+  fetch('/m2p/api/bot_books?pid='+pid,{credentials:'same-origin',cache:'no-store'}).then(function(r){ return r.json(); }).then(function(j){
+   if(!j||!j.ok||!j.rows.length){ el.innerHTML='<div class="muted">'+T2('Brak zapisanych prób czytania (30 dni).','No reading attempts recorded (30 days).')+'</div>'; return; }
+   var okN=j.rows.filter(function(x){ return x.ok===true; }).length, badN=j.rows.filter(function(x){ return x.ok===false; }).length;
+   el.innerHTML='<div class="muted" style="font-size:11px;margin-bottom:4px">'+T2('Przeczytane: ','Read: ')+okN+' · '+T2('spalone: ','failed: ')+badN+'</div>'+
+    '<table class="m2p-qt"><tr><th>'+T2('Kiedy','When')+'</th><th>'+T2('Księga','Book')+'</th><th>'+T2('Wynik','Result')+'</th></tr>'+j.rows.map(function(x){
+     var res=x.ok===true?'<b style="color:#16a34a">'+T2('przeczytana','read')+'</b>':(x.ok===false?'<b style="color:#dc2626">'+T2('spalona','failed')+'</b>':qEsc(x.how));
+     return '<tr><td>'+x.time+'</td><td title="'+qEsc(x.how+' '+x.hint)+'">'+qEsc(x.skill)+'</td><td>'+res+'</td></tr>'; }).join('')+'</table>';
+  }).catch(function(){ el.textContent=T2('Brak danych.','No data.'); });
+ }
+ function loadAlchemy(el,pid){
+  fetch('/m2p/api/bot_alchemy?pid='+pid,{credentials:'same-origin',cache:'no-store'}).then(function(r){return r.json();}).then(function(j){
+   if(!j||!j.ok){el.textContent=T2('Brak danych.','No data.');return;}
+   var h='<div class="muted">'+(j.live?T2('Odczyt z gry','Game snapshot'):T2('Zapis w bazie; aktywny zestaw nieznany','Database save; active deck unknown'));
+   if(j.source_at)h+=' · '+qEsc(new Date(j.source_at*1000).toLocaleTimeString());
+   h+='</div>';
+   for(var deck=0;deck<2;deck++){
+    h+='<div class="m2p-qsec">'+T2('Zestaw ','Deck ')+(deck+1)+(j.active_deck===deck?' · '+T2('aktywny','active'):'')+'</div>';
+    var rows=(j.worn||[]).filter(function(x){return x.deck===deck;});
+    h+=rows.length?rows.map(function(x){return '<div class="m2p-qrow"><b>'+qEsc(x.name)+'</b> '+qEsc(x.grade)+' · '+T2('Czystość ','Purity ')+qEsc(x.purity)+'<div>'+x.bonuses.map(qEsc).join('<br>')+'</div></div>';}).join(''):'<div class="muted">—</div>';
+   }
+   if(j.unresolved)h+='<div class="muted">'+T2('Pozycje wymagające odczytu z gry: ','Positions needing a game snapshot: ')+j.unresolved+'</div>';
+   el.innerHTML=h;
+  }).catch(function(){el.textContent=T2('Brak danych.','No data.');});
+ }
+ var PLAN_ST={ok:[T2('gotowe','ok'),'#16a34a'],below_tier:[T2('spod progu','below tier'),'#dc2626'],low_plus:[T2('za niski plus','plus too low'),'#d97706'],empty:[T2('puste','empty'),'#9ca3af']};
+ function loadPlan(el,pid){
+  fetch('/m2p/api/bot_eqplan?pid='+pid,{credentials:'same-origin',cache:'no-store'}).then(function(r){ return r.json(); }).then(function(j){
+   if(!j||!j.ok){ el.textContent=T2('Brak danych.','No data.'); return; }
+   if(j.source==='native_snapshot'){
+    el.innerHTML='<div class="muted">'+T2('Migawka rdzenia, wiek: ','Core snapshot, age: ')+j.age_seconds+' s</div>'+
+     '<table class="m2p-qt"><tr><th>'+T2('Miejsce','Slot')+'</th><th>'+T2('Noszone','Worn')+'</th><th>'+T2('Projekt → cel','Project → target')+'</th><th>'+T2('Koszt / Yang','Cost / Yang')+'</th><th>'+T2('Stan / następny przegląd','State / next review')+'</th></tr>'+
+     j.slots.map(function(x){return '<tr><td>'+qEsc(x.slot_text)+'</td><td>'+qEsc(x.worn||'—')+'</td><td>'+qEsc(x.project||'—')+
+      (x.project?' → +'+x.target+' <small>('+T2('ocena','score')+' '+x.project_score+' → '+x.project_potential+')</small>':'')+
+      '</td><td>'+x.path_cost+' / '+x.actual_yang+'</td><td>'+qEsc(x.reason_text)+
+      (x.missing_material_vnum?' #'+x.missing_material_vnum+' '+x.material_held+'/'+x.material_needed:'')+
+      (x.retry_unix?' · '+new Date(x.retry_unix*1000).toLocaleString():'')+'</td></tr>';}).join('')+'</table>';
+    return;
+   }
+   el.innerHTML=
+    '<div class="muted">'+T2('Zapis bazy; bieżący projekt rdzenia jest niedostępny.','Saved database data; the current native project is unavailable.')+'</div>'+
+    '<table class="m2p-qt"><tr><th>'+T2('Miejsce','Slot')+'</th><th>'+T2('Noszone','Worn')+'</th><th>'+T2('Próg / min. plus','Tier / min plus')+'</th><th>'+T2('Stan','State')+'</th><th>'+T2('Baza z progu w torbie/magazynie','Tier base in bag/storage')+'</th></tr>'+
+    j.slots.map(function(x){ var st=PLAN_ST[x.state]||[x.state,''];
+     return '<tr><td>'+qEsc(x.slot)+'</td><td>'+(x.worn?qEsc(x.worn)+' <small class="muted">('+x.worn_lv+' lvl)</small>':'—')+'</td><td>'+(x.floor?x.floor+'+ lvl':'—')+' / +'+x.min_plus+'</td><td><b style="color:'+st[1]+'">'+st[0]+'</b></td><td>'+(x.base?qEsc(x.base)+' <small class="muted">('+x.base_lv+' lvl, '+(x.base_where==='SAFEBOX'?T2('magazyn','storage'):T2('torba','bag'))+')</small>':'—')+'</td></tr>'; }).join('')+'</table>';
+  }).catch(function(){ el.textContent=T2('Brak danych.','No data.'); });
+ }
+ var P_WHY={panel:T2('zmiana z panelu','set from the panel'),auto:T2('losowanie / rozwój','draw / growth'),start:T2('pierwszy odczyt','first seen')};
+ function personaUi(box,pid,histEl){
+  var row=null; [].some.call(box.querySelectorAll('b'),function(bb){ if(/^(Osobowość|Personality|Persönlichkeit|Kişilik)\s*:?$/.test(bb.textContent.trim())){ row=bb.parentNode; return true; } return false; });
+  if(!row){ if(histEl) histEl.textContent=T2('Brak danych.','No data.'); return; }
+  fetch('/m2p/api/persona?pid='+pid,{credentials:'same-origin',cache:'no-store'}).then(function(r){ return r.json(); }).then(function(j){
+   if(!j||!j.ok) return;
+   var wrap=d.createElement('div'); wrap.className='m2p-persona';
+   var sel=d.createElement('select'); sel.innerHTML='<option value="AUTO">'+T2('Automatyczna osobowość','Automatic personality')+'</option>'+j.list.map(function(e){ return '<option value="'+e[0]+'"'+(e[0]===j.now?' selected':'')+'>'+qEsc(e[1])+'</option>'; }).join('');
+   if(j.profile&&j.profile.persona_id!=null) sel.value=j.profile.persona_id;
+   if(j.now==null&&!j.profile){ var o=d.createElement('option'); o.value=''; o.textContent='—'; o.selected=true; sel.insertBefore(o,sel.firstChild); }
+   var msg=d.createElement('span'); msg.className='m2p-pmsg muted';
+   sel.disabled=!j.can_set;
+   if(!j.can_set) msg.textContent=T2('Zmiana niedostępna w tej wersji.','Changing personality is unavailable in this version.');
+   var hist=histEl||d.createElement('div');
+   hist.innerHTML=j.history.length?'<table class="m2p-qt"><tr><th>'+T2('Kiedy','When')+'</th><th>'+T2('Było','From')+'</th><th>'+T2('Jest','To')+'</th><th>'+T2('Powód','Reason')+'</th></tr>'+j.history.map(function(x){
+     return '<tr><td>'+x.at+'</td><td>'+qEsc(x.old)+'</td><td>'+qEsc(x.new)+'</td><td>'+qEsc(P_WHY[x.reason]||x.reason)+(x.queue&&x.queue!=='done'?' <small class="muted">('+qEsc(x.queue)+')</small>':'')+'</td></tr>'; }).join('')+'</table>':'<div class="muted">'+T2('Brak zapisanych zmian.','No changes recorded.')+'</div>';
+   sel.onchange=function(){ if(!j.can_set||sel.value==='') return;
+    if(!confirm(T2('Wymusić osobowość „','Force personality "')+sel.options[sel.selectedIndex].text+T2('” temu botowi?','" on this bot?'))){ sel.value=j.now==null?'':j.now; return; }
+    var fd=new URLSearchParams(); fd.set('_csrf',j.csrf); fd.set('pid',pid); fd.set('persona',sel.value);
+    msg.textContent='…';
+    fetch('/m2p/api/persona',{method:'POST',body:fd,credentials:'same-origin'}).then(function(r){ return r.json(); }).then(function(k){
+     if(k&&k.ok){ msg.textContent=T2('Polecenie oczekuje na wykonanie.','The command is waiting for execution.'); if(window.openBotModal){ try{ window.openBotModal(+pid); }catch(_){} } return; }
+     msg.textContent=T2('błąd: ','error: ')+((k&&k.error)||''); })
+     .catch(function(){ msg.textContent=T2('błąd zapisu','save failed'); }); };
+   var frow=d.createElement('div'); frow.style.gridColumn='1 / -1'; frow.className='m2p-persona-row';
+   frow.innerHTML='<b>'+T2('Wymuś osobowość','Force personality')+':</b> ';
+   wrap.appendChild(sel); wrap.appendChild(msg); frow.appendChild(wrap);
+   var after=row.nextElementSibling&&/Charakter|Character/.test(row.nextElementSibling.textContent)?row.nextElementSibling:row;
+   after.parentNode.insertBefore(frow,after.nextSibling);
+  }).catch(function(){});
+ }
  var BOT_TAB=0;
  function rebuild(cols,store){
   if(cols.classList.contains('m2p-bot')) return;
@@ -2967,7 +4409,23 @@ JS = r"""
    if(hh&&tabsEl){ hh.classList.add('m2p-ghead'); hh.insertBefore(tabsEl,hh.children[1]||null); }
   }
   if(logs&&logs.firstElementChild) logs.firstElementChild.classList.add('m2p-ghead');
-  var panels=[hist,logs].filter(Boolean);
+  // Iwakura P18 pkt 6B: zakładki Questy (3.) i Statystyki (4. – statystyki i umiejętności przeniesione)
+  var pidRef=(store&&store.querySelector('[data-botpid]'))||left.querySelector('[data-botpid]')||right.querySelector('[data-botpid]');
+  var qPan=null, sPan=null, bg=a.querySelector('.bot-build-grid');
+  if(pidRef){
+   qPan=mk('m2p-qpanel'); qPan.innerHTML='<div class="m2p-ghead"><h4 style="margin:0">'+T2('Questy','Quests')+'</h4></div><div class="m2p-qbody">…</div>';
+   loadQuests(qPan.querySelector('.m2p-qbody'),pidRef.getAttribute('data-botpid'));
+  }
+  if(bg){ sPan=mk('m2p-spanel'); sPan.innerHTML='<div class="m2p-ghead"><h4 style="margin:0">'+T2('Statystyki i umiejętności','Stats and skills')+'</h4></div>'; sPan.appendChild(bg);
+   if(pidRef){ var pb=mk('m2p-kubox m2p-planbox'); pb.innerHTML='<div class="m2p-qsec">'+T2('Plan EQ','EQ plan')+'</div><div class="m2p-planbody">…</div>'; sPan.appendChild(pb); loadPlan(pb.querySelector('.m2p-planbody'),pidRef.getAttribute('data-botpid')); }
+   if(pidRef){ var kb=mk('m2p-kubox'); kb.innerHTML='<div class="m2p-qsec">'+T2('Historia czytania Ksiąg Umiejętności','Skill book reading history')+'</div><div class="m2p-kubody">…</div>'; sPan.appendChild(kb); loadBooks(kb.querySelector('.m2p-kubody'),pidRef.getAttribute('data-botpid')); } }
+  var pPan=null;
+  if(pidRef){ pPan=mk('m2p-ppanel'); pPan.innerHTML='<div class="m2p-ghead"><h4 style="margin:0">'+T2('Historia osobowości','Personality history')+'</h4></div><div class="m2p-pbody">…</div>';
+   personaUi(a,pidRef.getAttribute('data-botpid'),pPan.querySelector('.m2p-pbody')); }
+  var aPan=null;
+  if(pidRef){ aPan=mk('m2p-apanel'); aPan.innerHTML='<div class="m2p-ghead"><h4 style="margin:0">'+T2('Alchemia','Alchemy')+'</h4></div><div class="m2p-abody">…</div>';
+   loadAlchemy(aPan.querySelector('.m2p-abody'),pidRef.getAttribute('data-botpid')); }
+  var panels=[hist,logs,qPan,sPan,pPan,aPan].filter(Boolean);
   if(panels.length){
    var tabs=mk('m2p-tabs');
    panels.forEach(function(pn,i){
@@ -2987,12 +4445,20 @@ JS = r"""
   var pidEl=cols.querySelector('[data-botpid]');
   if(pidEl){ var vc=d.createElement('div'); vc.className='bot-build-panel m2p-value';
    vc.innerHTML='<h4>'+T2('Wartość ekwipunku','Gear value')+'</h4><div class="m2p-value-b">…</div>'; a.appendChild(vc);
+   var ic=d.createElement('div'); ic.className='bot-build-panel m2p-value m2p-istats';
+   ic.innerHTML='<h4>'+T2('Statystyki przedmiotów','Item statistics')+'</h4><div class="m2p-value-b">…</div>'; a.appendChild(ic);
+   get2('/m2p/api/bot_itemstats?pid='+pidEl.getAttribute('data-botpid')).then(function(j){
+    var el=ic.querySelector('.m2p-value-b'); if(!j||!j.ok){ el.innerHTML='<span class="muted">'+T2('Brak danych.','No data.')+'</span>'; return; }
+    if(!j.bonuses.length){ el.innerHTML='<span class="muted">'+T2('Założone EQ nie ma dodatkowych bonusów.','The worn gear has no extra bonuses.')+'</span>'; return; }
+    el.innerHTML=
+     j.bonuses.map(function(x){ var t=window.formatApply?window.formatApply(x.p,x.v):x.t; if(/^Bonus #/.test(t)) return '';
+      return '<div class="m2p-vrow m2p-bon-t'+x.pve+(x.hl?' m2p-bon-'+x.hl:'')+'"><span>'+qEsc(t)+'</span></div>'; }).join('');
+   }).catch(function(){});
    get2('/m2p/api/bot_value?pid='+pidEl.getAttribute('data-botpid')).then(function(j){
     var el=vc.querySelector('.m2p-value-b'); if(!j||!j.ok){ el.innerHTML='<span class="muted">'+T2('Brak danych.','No data.')+'</span>'; return; }
     var v=j.value, h=j.how; function ln(t,x,cls){ return '<div class="m2p-vrow'+(cls?' '+cls:'')+'"><span>'+t+'</span><b>'+n2(x)+' Yang</b></div>'; }
     el.innerHTML=ln(T2('Wartość całkowita','Total value'),v.total,'tot')+ln(T2('Założone EQ','Worn gear'),v.equip)+ln(T2('Ekwipunek','Inventory'),v.inv)+
-     ln(T2('Magazyn','Storage'),v.safe)+ln(T2('Sklep (ceny wystawione)','Shop (listed prices)'),v.shop)+ln(T2('Yang przy postaci','Yang carried'),j.gold,'gold')+
-     '<div class="muted m2p-vnote">'+T2('Wycena: ','Priced: ')+h.market+T2(' wg cen z rynku, ',' by market, ')+h.npc+T2(' wg ceny NPC, ',' by NPC price, ')+h.listed+T2(' wystawionych w sklepie',' listed')+(h.none?', '+h.none+T2(' bez ceny',' unpriced'):'')+'</div>'; });
+     ln(T2('Magazyn','Storage'),v.safe)+ln(T2('Sklep (ceny wystawione)','Shop (listed prices)'),v.shop)+ln(T2('Yang przy postaci','Yang carried'),j.gold,'gold'); });
   }
   var mbox=cols.closest('.modal-box'); if(mbox) mbox.classList.add('m2p-bot-box');
  }
@@ -3056,6 +4522,10 @@ JS = r"""
   function actName(a){ a=String(a||'').replace(/^\s*\[[^\]]*\]\s*/,'').replace(/\s*\(.*$/,'').replace(/:.*/,'').trim();
    if(/^rozbijam|metin/i.test(a)) return T2('Rozbijam Metin','Breaking a Metin');
    if(FIGHT.test(a)) return T2('Walczy z potworem','Fighting a monster'); return a.replace(/\d+$/,'').trim()||W.other; }
+  var REST_N=null;
+  function loadResting(){ fetch('/m2p/api/resting',{credentials:'same-origin'}).then(function(r){ return r.ok?r.json():null; }).then(function(j){
+   if(j&&j.ok){ REST_N=j.resting; var rs=ws.querySelector('[data-k="bots"] small'); if(rs) rs.textContent=T2('(Odpoczywa '+fmtN(REST_N)+' botów)','('+fmtN(REST_N)+' bots resting)'); } }).catch(function(){}); }
+  loadResting(); setInterval(loadResting,60000);
   function worldStats(){
    var all=window.g_bots||[], cur=String(window.g_selectedMap||'');
    var here=all.filter(function(b){ return String(b.map_index)===cur; });
@@ -3067,6 +4537,7 @@ JS = r"""
    bars('cls',sorted(count(all,function(b){ return (b.goal||'').replace(/\s*\(.*$/,'').trim()||null; })).slice(0,25));
    var pt=all.filter(function(b){ return b.in_pt; }).length;
    ws.querySelector('[data-k="bots"] b').textContent=fmtN(all.length);
+   var rs=ws.querySelector('[data-k="bots"] small'); if(rs) rs.textContent=REST_N!=null?T2('(Odpoczywa '+fmtN(REST_N)+' botów)','('+fmtN(REST_N)+' bots resting)'):'';
    ws.querySelector('[data-k="pt"] b').textContent=fmtN(pt);
    ws.querySelector('[data-k="pt"] small').textContent=all.length?Math.round(100*pt/all.length)+'%':'';
   }
@@ -3294,9 +4765,15 @@ JS = r"""
     default: return '<b>Lv '+r.level+'</b>';
    }
   }
+  // Iwakura P18: filtr plusa w rankingu broni (+7…+9 / +7 / +8 / +9)
+  var RKPLUS='', rkPB=d.createElement('div'); rkPB.className='m2p-rkplus';
+  rkPB.innerHTML=[['',T2('Wszystkie','All')],['7-9','+7…+9'],['7','+7'],['8','+8'],['9','+9']].map(function(e){ return '<button type="button" data-p="'+e[0]+'">'+e[1]+'</button>'; }).join('');
+  (function(){ var tt=d.getElementById('rkTitle'); if(tt&&tt.parentNode) tt.parentNode.insertBefore(rkPB,tt.nextSibling); })();
+  rkPB.addEventListener('click',function(e){ var bt=e.target.closest('button[data-p]'); if(!bt) return; RKPLUS=bt.getAttribute('data-p'); loadRk(); });
   function draw(){
    cats.querySelectorAll('button').forEach(function(bt){ bt.classList.toggle('on',bt.getAttribute('data-c')===CAT); });
    d.getElementById('rkTitle').textContent=RL[CAT]||CAT;
+   rkPB.style.display=CAT==='weapon'?'':'none'; rkPB.querySelectorAll('button').forEach(function(bt){ bt.classList.toggle('on',bt.getAttribute('data-p')===RKPLUS); });
    var q=(d.getElementById('rkSearch').value||'').toLowerCase().trim();
    var rows=rkData.map(function(r,i){ r._i=i+1; return r; }).filter(function(r){ return !q||((r.name||'')+' '+(r.job||'')).toLowerCase().indexOf(q)>=0; });
    var el=d.getElementById('rkTable');
@@ -3310,7 +4787,7 @@ JS = r"""
   function loadRk(){
    var lim=d.getElementById('rkLimit').value, ppl=d.getElementById('rkPeople').checked;
    d.getElementById('rkTable').innerHTML='<p class="muted">…</p>';
-   fetch('/api/bot_rankings?type='+CAT+'&limit='+lim+(ppl?'&people=1':''),{credentials:'same-origin'}).then(function(r){ return r.json(); }).then(function(j){
+   fetch('/api/bot_rankings?type='+CAT+'&limit='+lim+(ppl?'&people=1':'')+(CAT==='weapon'&&RKPLUS?'&plus='+RKPLUS:''),{credentials:'same-origin'}).then(function(r){ return r.json(); }).then(function(j){
     rkData=(j&&j.ok&&j.rankings)||[]; d.getElementById('rkPeopleL').style.display=(j&&j.people===false)?'none':''; draw(); }).catch(function(){ rkData=[]; draw(); });
   }
   d.getElementById('rkTable').addEventListener('click',function(e){ var a=e.target.closest('.m2p-purse'); if(!a) return; e.preventDefault(); botFrame(a.getAttribute('data-pid')); });
@@ -3368,13 +4845,15 @@ JS = r"""
   var t0=Infinity,t1=-Infinity,vmin=o.zero?0:Infinity,vmax=o.max!=null?o.max:-Infinity;
   all.forEach(function(p){ t0=Math.min(t0,p[0]); t1=Math.max(t1,p[0]); if(!o.zero) vmin=Math.min(vmin,p[1]); if(o.max==null) vmax=Math.max(vmax,p[1]); });
   if(vmax<=vmin) vmax=vmin+1; if(o.max==null){ var pad=(vmax-vmin)*.06; vmax+=pad; if(!o.zero) vmin=Math.max(0,vmin-pad); }
-  function x(t){ return L+(W-L-R)*(t-t0)/Math.max(1,t1-t0); } function y(v){ return Tp+(H-Tp-B)*(1-(v-vmin)/(vmax-vmin)); }
+  if(o.ints){ vmin=0; vmax=Math.max(4,Math.ceil(vmax/4)*4); }
+  var bpad=o.bars?(W-L-R)/Math.max(1,all.length)/2:0;
+  function x(t){ return L+bpad+(W-L-R-2*bpad)*(t-t0)/Math.max(1,t1-t0); } function y(v){ return Tp+(H-Tp-B)*(1-(v-vmin)/(vmax-vmin)); }
   var s='<svg viewBox="0 0 '+W+' '+H+'" style="height:'+H+'px">';
   for(var g=0;g<=4;g++){ var v=vmin+(vmax-vmin)*g/4,yy=y(v).toFixed(1);
    s+='<line class="g" x1="'+L+'" x2="'+(W-R)+'" y1="'+yy+'" y2="'+yy+'"/><text x="'+(L-8)+'" y="'+(+yy+4)+'" text-anchor="end">'+n2(Math.round(v))+(o.unit||'')+'</text>'; }
   var span=t1-t0, NT=Math.max(2,Math.min(8,Math.floor((W-L)/120)));
   for(var k=0;k<=NT;k++){ var tt=t0+span*k/NT,dd=new Date(tt*1000);
-   var lab=span<=2*86400?('0'+dd.getHours()).slice(-2)+':'+('0'+dd.getMinutes()).slice(-2):('0'+dd.getDate()).slice(-2)+'.'+('0'+(dd.getMonth()+1)).slice(-2)+(span<=8*86400?' '+('0'+dd.getHours()).slice(-2)+'h':'');
+   var lab=o.days?('0'+dd.getDate()).slice(-2)+'.'+('0'+(dd.getMonth()+1)).slice(-2):span<=2*86400?('0'+dd.getHours()).slice(-2)+':'+('0'+dd.getMinutes()).slice(-2):('0'+dd.getDate()).slice(-2)+'.'+('0'+(dd.getMonth()+1)).slice(-2)+(span<=8*86400?' '+('0'+dd.getHours()).slice(-2)+'h':'');
    s+='<text x="'+x(tt).toFixed(1)+'" y="'+(H-8)+'" text-anchor="'+(k===0?'start':(k===NT?'end':'middle'))+'">'+lab+'</text>'; }
   series.forEach(function(se){ var p=se.pts||[]; if(se.hidden||!p.length) return;
    if(o.bars){ var bw=Math.max(2,(W-L-R)/Math.max(p.length,1)*.7); p.forEach(function(q){ s+='<rect x="'+(x(q[0])-bw/2).toFixed(1)+'" y="'+y(q[1]).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+Math.max(0,(H-B)-y(q[1])).toFixed(1)+'" fill="'+se.color+'" opacity=".85"><title>'+n2(q[1])+'</title></rect>'; }); return; }
@@ -3480,16 +4959,17 @@ JS = r"""
   get2('/m2p/api/itemshop').then(function(j){
    if(!j||!j.ok){ pg.innerHTML=card2('ItemShop','<p class="muted">'+T2('Brak danych.','No data.')+'</p>'); return; }
    var t=j.totals||{};
+   function isWho(r){ return r.pid?'<a href="/player/'+r.pid+'">'+esc(r.login)+'</a> <a class="m2p-purse" href="/player/'+r.pid+'" title="'+T2('Ekwipunek, magazyn i sklep','Inventory, storage and shop')+'">💰</a>':esc(r.login); }
    pg.innerHTML='<div class="m2p-ms-kpis">'+kpi2(T2('Smocze Monety w obiegu','Dragon Coins'),n2(t.cash),n2(t.ca)+T2(' kont z saldem',' accounts'))+
     kpi2(T2('Smocze Znaki w obiegu','Dragon Marks'),n2(t.mark),n2(t.ma)+T2(' kont z saldem',' accounts'))+
     kpi2(T2('Zakupy łącznie','Purchases'),n2(t.buys),T2('ostatnie 24 h: ','last 24 h: ')+n2(t.buys24))+
     kpi2(T2('Popularne pozycje','Popular items'),n2((j.popular||[]).length),T2('różnych kupowanych przedmiotów','distinct items'))+'</div>'+
     card2(T2('Zakupy dziennie (30 dni)','Purchases per day (30 days)'),'<div class="m2p-ms-chart" id="isD"></div>')+
-    '<div class="m2p-ms-2">'+card2(T2('Najwięcej Smoczych Monet','Most Dragon Coins'),tbl2(['#',T2('Konto','Account'),T2('Monety','Coins'),T2('Znaki','Marks')],(j.top_cash||[]).map(function(r,i){ return [i+1,esc(r.login),n2(r.cash),n2(r.mark)]; }),T2('Brak kont z monetami.','No accounts with coins.')))+
+    '<div class="m2p-ms-2">'+card2(T2('Najwięcej Smoczych Monet','Most Dragon Coins'),tbl2(['#',T2('Postać','Character'),T2('Monety','Coins'),T2('Znaki','Marks')],(j.top_cash||[]).map(function(r,i){ return [i+1,isWho(r),n2(r.cash),n2(r.mark)]; }),T2('Brak kont z monetami.','No accounts with coins.')))+
     card2(T2('Najczęściej kupowane','Best sellers'),tbl2([T2('Przedmiot','Item'),T2('Zakupów','Bought')],(j.popular||[]).map(function(r){ return ['<span class="m2p-ms-item">'+icoImg(r.vnum)+esc(r.item)+'</span>',n2(r.n)]; }),T2('Nikt jeszcze nic nie kupił.','No purchases yet.')))+'</div>'+
-    (j.top_mark&&j.top_mark.length?card2(T2('Najwięcej Smoczych Znaków','Most Dragon Marks'),tbl2(['#',T2('Konto','Account'),T2('Znaki','Marks')],j.top_mark.map(function(r,i){ return [i+1,esc(r.login),n2(r.mark)]; }))):'')+
+    (j.top_mark&&j.top_mark.length?card2(T2('Najwięcej Smoczych Znaków','Most Dragon Marks'),tbl2(['#',T2('Postać','Character'),T2('Znaki','Marks')],j.top_mark.map(function(r,i){ return [i+1,isWho(r),n2(r.mark)]; }))):'')+
     card2(T2('Ostatnie zakupy','Recent purchases'),tbl2([T2('Kiedy','When'),T2('Kupujący','Buyer'),T2('Przedmiot','Item')],(j.recent||[]).map(function(r){ return [r.time,who2(r),'<span class="m2p-ms-item">'+icoImg(r.vnum)+esc(r.item)+'</span>']; }),T2('Nie ma jeszcze zapisanych zakupów w ItemShopie.','No ItemShop purchases yet.')));
-   chart2('isD',[{color:'#a8261a',pts:j.daily||[]}],{bars:true,zero:true});
+   chart2('isD',[{color:'#a8261a',pts:j.daily||[]}],{bars:true,zero:true,days:true,ints:true,left:44});
   });
  }
 

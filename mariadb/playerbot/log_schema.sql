@@ -27,6 +27,7 @@ ALTER TABLE `log` ADD COLUMN IF NOT EXISTS `ip` varbinary(20) DEFAULT NULL AFTER
 ALTER TABLE `log` ADD INDEX IF NOT EXISTS `who_idx` (`who`);
 ALTER TABLE `log` ADD INDEX IF NOT EXISTS `what_idx` (`what`);
 ALTER TABLE `log` ADD INDEX IF NOT EXISTS `how_idx` (`how`);
+ALTER TABLE `log` ADD INDEX IF NOT EXISTS `how_time_idx` (`how`, `time`);
 
 CREATE TABLE IF NOT EXISTS `bootlog` (
   `time` datetime NOT NULL DEFAULT current_timestamp(),

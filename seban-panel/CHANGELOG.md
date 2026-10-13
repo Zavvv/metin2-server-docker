@@ -1,3 +1,617 @@
+## 2026-10-12 · 1.114.88 · Czytelna blokada struktury bazy
+
+- Odnośnik do przeglądu struktury bazy pojawia się tylko przy włączonej ochronie hasłem i zalogowanej sesji administratora. Bez tych warunków bezpośredni adres nadal zwraca 403, ale wyjaśnia po polsku lub angielsku, jak uzyskać dostęp.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-12 · 1.114.87 · Przywrócony układ profilu postaci
+
+- Kolumna ekwipunku nie przejmuje już reguł CSS menu bocznego. Dane postaci, mapa, sklep i lista misji wróciły na swoje miejsca w `/player/`.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-12 · 1.114.86 · Nazwy misji z plików gry
+
+- Okno zadań postaci i lista ukończonych misji pokazują nazwy odczytane z lokalizacji i skryptów aktualnego serwera zamiast ogólnych numerów tam, gdzie gra udostępnia tytuł. Katalog obejmuje 88 misji; dla pozostałych zachowany jest opis z numerem.
+- Przy ukończonej misji panel pokazuje pierwszego zleceniodawcę wskazanego przez skrypt, jeżeli da się go jednoznacznie powiązać z NPC w bazie gry. Lista ukończonych misji znajduje się bezpośrednio pod oknem ekwipunku, po jednej pozycji w wierszu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-12 · 1.114.85 · Rozpoczęte questy bez dostępnych zadań
+
+- Zakładka zadań nie oznacza już jako rozpoczętych misji, których skrypt jest tylko w stanie `information` (dostępne u NPC). Wyjątkiem jest quest wskazany bezpośrednio przez bieżącą migawkę rdzenia.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-12 · 1.114.84 · Pełniejszy obraz misji i majątku bota
+
+- Profil i ranking misji uwzględniają teraz także questy `subquest_*`, `new_quest_lv*` i dwa osobne skrypty fabularne, które wcześniej były pomijane przez filtr obejmujący wyłącznie `main_quest_lv*`.
+- Karta postaci czyta bieżący quest i jego postęp z migawki rdzenia. Rozpoczęte questy widać w zakładce zadań, a ukończone na liście poniżej okien gry; daty są podawane tylko tam, gdzie zapisano je w logu.
+- Przy danych postaci pojawił się wskaźnik EQ / majątek z migawki rdzenia: udział wyposażenia, cel, brakujący Yang, stan odczytu magazynu oraz postęp do kompletu +9. To inna miara niż szacunkowa wartość przedmiotów dodana w poprzedniej wersji.
+- Nowe etykiety są dostępne po polsku i angielsku.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-12 · 1.114.83 · Misje i wartość ekwipunku postaci
+
+- Ranking misji ma osobne kategorie fabularne, Biologa i polowania. Liczniki czytają zapisane stany questów silnika, a dawne adresy rankingu Biologa i polowań kierują do odpowiednich kategorii.
+- Zakładka zadań na karcie postaci pokazuje również rozpoczęte misje fabularne. Pod oknami gry widać ukończone misje; data pojawia się tam, gdzie zachował ją dziennik questów. Starsze ukończenia bez wpisu w dzienniku nie dostają wymyślonej daty.
+- Karta postaci rozróżnia bieżącą osobowość od pierwotnego charakteru, tak jak klasyczny panel. Nowa sekcja szacuje wartość wyposażenia, plecaka, magazynu i sklepu według cen ofert offline, z ceną NPC jako wartością zastępczą. Gotówka postaci pozostaje osobno.
+- Nowe opisy i wyniki misji działają po polsku i angielsku.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-12 · 1.114.82 · Aktualna wersja Playerbots na dashboardzie
+
+- Dashboard odczytuje zainstalowaną wersję Playerbots na bieżąco, także gdy pozostałe statystyki są jeszcze w pamięci podręcznej. Po aktualizacji przez launcher nie pokazuje starego numeru z zapisanego podsumowania.
+- Porównanie z najnowszym wydaniem korzysta z ostatnio pobranego numeru, bez dodatkowego żądania do GitHub przy każdym otwarciu dashboardu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-11 · 1.114.81 · Ranking broni według przedziałów postępu
+
+- Ranking broni grupuje modele według bazowego poziomu co 10 poziomów. W grupie decyduje stopień ulepszenia, a potem poziom modelu: 55 +9 wyprzedza 60 +7, natomiast 65 +6 wyprzedza 60 +9.
+- Poziom bazowy jest odczytywany z wersji +0 przedmiotu, aby ulepszenie, które podnosi wymagany poziom postaci, nie przenosiło broni do sztucznie wyższego przedziału. Oba poziomy są pokazane przy wyniku, gdy się różnią.
+- Porównanie surowej wartości ataku jest dostępne wyłącznie po wybraniu jednego rodzaju broni. Widok wszystkich rodzajów nie porównuje łuków z mieczami według pojedynczego ciosu. Opisy są po polsku i angielsku.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-11 · 1.114.80 · Ranking broni według postępu wyposażenia
+
+- Domyślny ranking broni wybiera najlepszą broń każdej postaci i sortuje według wymaganego poziomu, potem stopnia ulepszenia, a dopiero na końcu wartości ataku. Broń na poziom 60 +7 jest przed bronią na poziom 55 +9; łuki nie wygrywają wyłącznie dzięki wysokiej wartości pojedynczego ataku.
+- Dotychczasowe sortowanie po wartości ataku pozostaje dostępne jednym kliknięciem. Filtry rodzajów broni oraz wybrana kolejność utrzymują się przy zmianie strony rankingu i przełączeniu na samych graczy.
+- Wynik pokazuje nazwę, wymagany poziom, stopień ulepszenia i atak. Nowe kontrolki oraz objaśnienie mają polskie i angielskie wersje językowe.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-11 · 1.114.79 · Wyłącznik i układ trackera straganów
+
+- Ikona przedmiotu jest obok opisu transakcji; zachowuje proporcje, ale nie powiększa wiersza nawet przy przedmiocie zajmującym trzy sloty.
+- W ustawieniach panelu można wyłączyć tracker. Wyłączony widok nie uruchamia odświeżania, a API nie odczytuje transakcji; log gry pozostaje bez zmian.
+- Nowe ustawienie i komunikaty trackera mają polskie i angielskie wersje językowe.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-11 · 1.114.78 · Czytelniejszy i lżejszy tracker straganów
+
+- Sprzedający jest po lewej, kupujący po prawej. Ikony przedmiotów zachowują wysokość odpowiadającą jednemu, dwóm lub trzem slotom gry.
+- Wyszukiwanie po nazwie przedmiotu lub VNUM działa po stronie serwera, także dla angielskich nazw z panelu.
+- Tracker pokazuje transakcje z ostatnich 7 dni i pobiera je porcjami; log silnika nie jest czyszczony. Wyszukiwanie wstrzymuje automatyczne odświeżanie, ograniczając liczbę zapytań.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-11 · 1.114.77 · Tracker transakcji na straganach
+
+- Nowa strona „Transakcje straganów” pokazuje zakończone zakupy IkarusShop: kupującego, sprzedawcę, przedmiot, ilość, cenę i czas z jednego wpisu `BUY_ITEM`. Nie łączy zdarzeń po zbliżonym czasie ani nie liczy rezerwacji `LOCK_ITEM_TO_BUY` jako zakupów.
+- Lista odświeża się co 8 sekund, ma wstrzymanie odświeżania i ładowanie starszych transakcji. Działa na telefonie i w obu językach panelu.
+- Skrót sprzedaży na stronie sklepów offline prowadzi do pełnego trackera. Poprawiono jego wcześniejszy opis sugerujący, że silnik w ogóle nie zna kupującego.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-11 · 1.114.76 · Zużycie swapu VPS w monitoringu
+
+- Kolektor odczytuje swap hosta z `/proc/meminfo` i zapisuje jego zużycie w istniejącej historii telemetrii bez usuwania dotychczasowych próbek.
+- Widżet „Obciążenie VPS” pokazuje procent i ilość zajętego swapu przy RAM oraz fioletową linię na tym samym pasku i wykresie. Strona „Wydajność” pokazuje swap przy karcie pamięci i na wspólnym wykresie 24 godzin.
+- Gdy VPS nie ma skonfigurowanego swapu, strona Wydajność informuje o jego braku zamiast pokazywać pozorne 0%.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-11 · 1.114.75 · Wieża Demonów i prawidłowy Loch Pająków V2 na mapach
+
+- Wieża Demonów jest dostępna w selektorze mapy na żywo w dashboardzie. Wykorzystuje istniejący obraz `deviltower.png` i pokazuje boty z kolejnych pięter na podkładzie wieży.
+- Loch Pająków V2 (mapa 71) ma właściwą nazwę w zestawieniu aktywności oraz własny atlas mapy z plików klienta gry. Znaczniki nie są już nakładane na podkład Lochu Pająków V1.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-11 · 1.114.74 · Usuwanie przedmiotów z widoku ekwipunku
+
+- Tryb usuwania nakłada czerwone oznaczenie na istniejące okno ekwipunku bota. Przedmiot wybiera się kliknięciem jego ikony w wyposażeniu lub torbie, bez osobnej listy. Po potwierdzeniu można też anulować oczekujące zlecenie tym samym kliknięciem.
+- Komenda DELITEM wskazuje ID i VNUM konkretnego przedmiotu, ale akceptuje wzrost liczby sztuk w stosie między odświeżeniem strony a wykonaniem przez silnik. Potwierdzenie wyraźnie informuje, że usuwany jest cały stos.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-11 · 1.114.73 · Dostępne linki do panelu Tieru
+
+- Linki do klasycznego panelu Tieru i edytora SQL otwierają ten sam host co Seban Panel na porcie 7788, gdy konfiguracja wskazuje localhost. Jawnie skonfigurowany publiczny adres pozostaje bez zmian.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-11 · 1.114.72 · Języki jako dwa przyciski
+
+- W nawigacji motywu Łąka i Złoto lista języków została zastąpiona dwoma widocznymi przyciskami z flagami: 🇵🇱 Polski i 🇬🇧 English. Aktywny język jest wyróżniony; układ działa także w zwiniętym pasku i menu telefonu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-11 · 1.114.71 · Jeden motyw i szybka zmiana języka
+
+- Łąka i Złoto jest jedynym dostępnym motywem, także gdy w bazie zapisano wcześniej inny wybór. Formularz ustawień nie pozwala już wybierać dawnych motywów.
+- W lewej nawigacji dodano przełącznik 🇵🇱 Polish / 🇬🇧 English. Na telefonie jest dostępny w menu Więcej; zmiana wraca na bieżącą stronę i zapisuje wyłącznie język.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-11 · 1.114.70 · Porządki w zarządzaniu serwerem
+
+- Usunięto z `/manage` przestarzałą kartę Aktualizatora Seban, jej ustawienia nadpisywania i akcje aktualizacji z przeglądarki. Karta zgodności panelu nie pokazuje już tego modułu.
+- Wyłączone integracje nie zajmują już miejsca w `/manage`; pozostają dostępne po włączeniu w ustawieniach zgodności. Usunięto także nieaktualny opis silnika r40250. Działający watcher pozostaje na serwerze, ponieważ obsługuje plan wejścia i odczyt wersji Playerbots.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-11 · 1.114.69 · Oferty przedmiotów według królestw
+
+- Aktywne oferty przedmiotu są dostępne w czterech rozwijanych listach: Shinsoo, Jinno, Chunjo i Wszystkie. Każda pokazuje liczbę widocznych ofert, a sortowanie i szczegóły ofert nadal działają.
+- Układ działa po polsku i angielsku; na telefonie szeroka tabela przewija się wewnątrz rozwiniętej listy.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-11 · 1.114.68 · Legenda mapy zgodna ze znacznikami
+
+- Legenda Solo, W grupie, Walka z Metinem i Zablokowany w motywie Łąka i Złoto pokazuje te same symbole i kolory co boty na mapie.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-11 · 1.114.67 · Mapa i aktywności w granicach kart
+
+- W motywie Łąka i Złoto lista aktywności i diagramy przewijają się wewnątrz kolumny o wysokości mapy, zamiast wystawać poza ramkę dashboardu.
+- Usunięto obracający się efekt radaru i linie skanowania mapy. Boty oznaczają teraz małe znaczniki w kolorach odpowiadających ich stanowi.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-11 · 1.114.66 · Powrót do wyglądu dashboardu z 1.114.61
+
+- Przywrócono układ, style i działanie Przeglądu świata w motywie Łąka i Złoto z wersji 1.114.61. Pozostałe funkcje panelu i późniejsze poprawki danych pozostają zachowane.
+- Poprzedni wygląd można odzyskać z tagu `laka-dashboard-folio-before-rollback-20261011`.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-11 · 1.114.65 · Nowy pulpit świata w motywie Łąka i Złoto
+
+- Dashboard motywu Łąka i Złoto został uszyty jako nowy szablon i nowy arkusz stylów. Mapa zajmuje prawą część pierwszego widoku, a odczyty serwera, aktywności i postacie tworzą po lewej czytelną stronę informacyjną. Na telefonie mapa pojawia się zaraz po nagłówku; zachowuje proporcje M1 4:5 i pozostałych map 1:1.
+- Znaczniki botów to teraz niewielkie punkty bez stale wyświetlanych podpisów. Nazwy można włączyć w filtrach, a lista aktywności na bieżącej mapie dostała większą wysokość i własne przewijanie. Diagramy kanałów i królestw zostały zastąpione prostymi zestawieniami; kanały w „Świecie w liczbach” nie używają dawnych obwódek.
+- Nowe teksty mają odpowiedniki angielskie. Dane nadal pochodzą z istniejących endpointów, pozostałe motywy zachowują dotychczasowy widok. Punkt powrotu: `laka-dashboard-observatory-before-redesign-20261011`.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.64 · Obserwatorium świata w motywie Łąka i Złoto
+
+- Dashboard motywu Łąka i Złoto otrzymał nową kompozycję: wąski pulpit sterowania, mapę dopasowaną do jej rzeczywistych proporcji oraz sąsiadujące z nią dane o postaciach i świecie. Usunęliśmy pustą przestrzeń wokół mapy; cała mapa mieści się w pierwszym widoku na sprawdzonych ekranach.
+- Zielone akcenty dashboardu zastąpiły mosiądz, miedź i ciepłe złoto. Znaczniki postaci na mapie są teraz drobnymi rombami z odrębnym kolorem dla grupy, walki z Metinem i zablokowania. Niższe sekcje opierają się na typografii i delikatnych liniach zamiast ściany kart.
+- Nowe nagłówki mają polskie i angielskie tłumaczenia. Zmiana dotyczy wyłącznie motywu Łąka i Złoto. Poprzednią wersję zapisano pod tagiem `laka-dashboard-atlas-before-redesign-20261010`.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.63 · Atlas świata — nowy dashboard Łąki i Złota
+
+- Przegląd świata w motywie Łąka i Złoto powstał od nowa jako osobny szablon. Mapa jest główną sceną, obok której działa dziennik obserwacji postaci, aktywności i rytmu świata. Filtry rozwijają się na żądanie; ważne sterowanie mapą pozostaje dostępne od razu.
+- Puls serwera, przekrój świata, infrastruktura, geografia botów, rankingi i kronika otrzymały nową hierarchię i układ. Dane nadal pochodzą z tych samych działających endpointów. Widżety przewijają swoją zawartość wewnątrz sekcji.
+- Mapa M1 zachowuje proporcje 4:5, pozostałe mapy 1:1. Jej pełny obszar mieści się w pierwszym widoku na przetestowanych telefonach, tabletach i monitorach. Zmiana dotyczy wyłącznie nowego motywu; obecny wcześniej wygląd można odtworzyć z tagu `laka-dashboard-v2-before-redesign-20261010`.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.62 · Nowy Przegląd świata w motywie Łąka i Złoto
+
+- Dashboard motywu Laka stawia mapę na pierwszym planie. Jej rozmiar dopasowuje się do wysokości ekranu z zachowaniem proporcji 4:5 dla map M1 i 1:1 dla pozostałych; cała mapa mieści się w pierwszym widoku także na telefonie. Na mniejszych ekranach podstawowe wyszukiwanie pozostaje widoczne, a pozostałe filtry otwiera przycisk.
+- Karty liczb, panel rankingu, analizy kanałów i królestw oraz stan serwera otrzymały nowy układ z półprzezroczystymi powierzchniami. Widżety przewijają własną zawartość i nie wychodzą poza swoje ramki. Stan serwera, raty i boty na mapach przełącza się kropkami pod kartą.
+- Zmiana dotyczy tylko motywu Laka. Punkt powrotu do poprzedniego wyglądu zapisano w tagu `laka-dashboard-before-redesign-20261010`.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.61 · Poprawna historia nieudanego ulepszania
+
+- Historia przedmiotów bota nie oznacza już jako spalonego przedmiotu, który po nieudanym ulepszeniu wrócił z poziomem niższym o jeden. Łączy wpis usunięcia starej wersji z pobliskim wpisem `REFINE FAIL`, zgodnie z regułą panelu Tieru. Faktycznie zniszczone przedmioty pozostają widoczne.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.60 · Zakres czasu w decyzjach botów
+
+- Diagnostyka decyzji sprzedażowych pozwala wybrać pełną historię albo ostatnie 1, 6, 24, 72 lub 168 godzin, także dla wskazanego bota. Filtr działa w zapytaniu do logu gry, więc ogranicza dane przed ich pobraniem; nieznana wartość przywraca bezpieczny widok całej historii.
+- Formularz ma polskie i angielskie etykiety. Widok nadal pokazuje maksymalnie 60 najnowszych wpisów z wybranego okresu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.59 · Wyprawy gildii do Wieży Demonów
+
+- Lista gildii pokazuje, kiedy gildia bota jest w Wieży Demonów. Stan jest łączony ze wszystkich rdzeni tak samo jak u Tieru; wystarczy raport z jednego kanału. Wskazanie nie zastępuje informacji o trwającej wojnie.
+- Etykieta działa po polsku i angielsku, bez zmiany szerokości tabeli ani proporcji motywu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.58 · Pełna ilość przedmiotów w akcji GM
+
+- Akcja „Daj przedmiot” przyjmuje stos do 65 535 sztuk, zgodnie z limitem `player.item.count` używanym przez Tieru i silnik gry. Większe ilości są odrzucane przed dodaniem komendy do kolejki.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.57 · Ranking sławy botów
+
+- Ranking sławy z silnika jest dostępny w sekcji postaci; karta bota pokazuje jego poziom sławy i miejsce w rankingu. Dane pochodzą z godzinowej migawki `PB7F1`, nie z szacunków panelu.
+- Odczyt odrzuca niepoprawny lub zbyt duży plik; brak migawki wyświetla pusty stan. Widok ma polskie i angielskie etykiety oraz przewijaną tabelę na telefonie.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.56 · Maksymalne bonusy w ofertach
+
+- Rynek pozwala wybrać minimalną liczbę bonusów o maksymalnej wartości. Progi są czytane z tabel `world.item_attr` i `world.item_attr_rare` tak jak u Tieru; obrażenia średnie i umiejętności nie są liczone jako zwykłe linie bonusów.
+- Filtr działa przy zmianie strony i w obu językach. Brak tabeli rzadkich atrybutów nie przerywa przeglądania ofert.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.55 · Numer strony ofert po angielsku
+
+- Wyniki rynku w trybie English pokazują „Offers · page N” także dla dynamicznego numeru strony; polska etykieta nie przebija się już przez tłumaczenie odpowiedzi HTML.
+- Dodano test całej wyrenderowanej strony, obejmujący numer strony większy od pierwszej.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.54 · Natywny podgląd struktury bazy
+
+- Administracja ma własny widok schematu baz gry: listę tabel oraz kolumn, typów, kluczy i wartości domyślnych. Strona czyta wyłącznie `information_schema`, a nazwy baz i tabel są sprawdzane po stronie serwera.
+- Ze względu na dane graczy widok wymaga włączonego logowania administratora nawet wtedy, gdy reszta panelu jest otwarta. Zapis rekordów pozostaje w chronionym edytorze Tieru do czasu przeniesienia jego transakcji, walidacji i historii zmian.
+- Oba motywy sprawdzono przy 375 i 1440 px; 137 testów przechodzi.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.53 · Czytelniejsze diagramy na mapie
+
+- Diagramy rozkładu kanałów i królestw w motywie Laka i Złoto mają wyraźniejsze pierścienie, liczbę dominującej grupy i paski udziałów. Puste mapy nie wskazują fałszywego lidera.
+- Karty sprawdzono przy 375 i 1440 px bez poziomego przewijania; pozostałe motywy zachowują swój wygląd.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.52 · Filtry rynku po lewej stronie
+
+- Na szerokim ekranie filtry ofert znajdują się w przewijalnej kolumnie po lewej, a wyniki i porównanie ofert po prawej. Na telefonie układ pozostaje jednokolumnowy; tabela przewija się w swoim kontenerze.
+- Sprawdzono obydwa motywy w szerokościach 375 i 1440 px, bez poziomego przewijania strony.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.51 · Historia cen ofertowych przedmiotu
+
+- Szczegóły przedmiotu w gospodarce pokazują wykres 14 dni średniej ważonej ceny za sztukę z aktywnych ofert sklepów offline. Wykres wyraźnie odróżnia cenę ofertową od ceny sprzedaży i uwzględnia wariant księgi umiejętności.
+- Uzupełniono polskie i angielskie etykiety tego widoku, w tym listy ofert. Dodano testy źródła i filtrowania danych; pełna regresja: 134 testy zielone.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.50 · Spójny angielski w gospodarce i administracji
+
+- Puste stany kolektora na stronach gospodarki i sklepów offline nie wstawiają już polskiego tekstu w środku angielskiego zdania. Uzupełniono także etykietę decyzji botów w diagnostyce oraz przełącznik skrzyni startowej w ustawieniach.
+- Przejrzano wyrenderowane odpowiedzi głównych sekcji w trybie English. Zmienione widoki działają w obu motywach na 375 i 1440 px; 132 testy regresji przechodzą.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.49 · Trwałość szybkości biegu postaci
+
+- Komenda szybkości biegu na karcie postaci wysyła teraz do kolejki silnika czas 30 dni, taki jak panel Tieru. Opcja „Normalna” zleca reset, a opis pola nie obiecuje już godzinnego efektu.
+- Dodano test parametrów komendy dla premii i resetu. Pełna regresja: 130 testów zielonych.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.48 · Rekordy konia i Yang w sezonie
+
+- Do rekordów sezonu dodano najwyższy poziom konia oraz największą ilość Yang u postaci wraz z nazwą właściciela. Dane pochodzą z `player.player` i obejmują ten sam zakres postaci co ranking, bez zapisu do bazy.
+- Karty są dostępne po polsku i angielsku; obydwa motywy sprawdzono na 375 i 1440 px. Pełna regresja: 129 testów zielonych.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.47 · Zgony i koń w sezonie
+
+- Tygodniowa tabela sezonu pokazuje zgony z rzeczywistego zdarzenia silnika `DEAD_BY_NPC`; oba widoki pokazują poziom konia. Zgony same w sobie nie dodają postaci do rankingu, tak jak u Tieru.
+- Tabela z nowymi kolumnami przewija się we własnym obszarze na telefonie. Sprawdzono motywy Laka i Ocean na 375 i 1440 px oraz 128 testów regresji.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.46 · Porównanie aktywnych ofert
+
+- Rynek pozwala zaznaczyć dwie lub trzy oferty z bieżącej strony i porównać cenę, cenę za sztukę, liczbę przedmiotów, sprzedawcę, bonusy oraz kamienie w kartach pod tabelą.
+- Wybór nie przenosi starych cen między stronami. Kontrolki mają teksty polskie i angielskie; sprawdzono interakcję w obu motywach przy 375 i 1440 px. Pełna regresja: 126 testów zielonych.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.45 · Angielski kalendarza eventów
+
+- Dwa teksty tworzone z połączonych fragmentów w widoku eventów Laka — stan rdzenia i instrukcja edycji harmonogramu — wyświetlają się teraz po angielsku po przełączeniu języka.
+- Dodano test odpowiedzi strony; oba motywy sprawdzono na 375 i 1440 px bez poziomego przewijania. Pełna regresja: 125 testów zielonych.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.44 · Bonusy i kamienie w ofertach rynku
+
+- Lista aktywnych ofert pokazuje pod nazwą przedmiotu rzeczywiste linie bonusów i kamienie w slotach broni lub zbroi. Odczyt korzysta z tych samych pól `attrtype/attrvalue` i `socket` silnika, które obsługują ekwipunek i sklep bota.
+- Pozostałe typy przedmiotów nie interpretują swoich socketów jako kamieni. Układ rynku sprawdzono w obu motywach na telefonie i desktopie; 125 testów przechodzi.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.43 · Sortowanie ofert po bonusach
+
+- Aktywne oferty rynku można sortować według liczby zwykłych linii bonusowych. Średnie obrażenia i obrażenia umiejętności nie są liczone jako zwykłe linie, zgodnie z logiką rynku Tieru.
+- Sortowanie działa z pozostałymi filtrami i stronicowaniem w obu językach. Dodano test SQL; pełna regresja: 123 testy zielone.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.42 · Angielski w pozostałych widokach
+
+- Uzupełniono tłumaczenia eventów, nowych ustawień świata i alchemii, decyzji botów, rynku oraz strony błędu. Krótkie etykiety i opisy dodawane przez skrypty korzystają z tej samej warstwy tłumaczeń.
+- Dodano kontrolę tłumaczeń nowych sekcji. Pełna regresja: 122 testy zakończone powodzeniem.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.41 · Spójny język na stronie głównej
+
+- Uzupełniono angielskie nazwy krótkich etykiet nawigacji Laka, belki, menu mobilnego i widżetów strony głównej. Te same tłumaczenia obejmują teksty dodawane później przez skrypty dashboardu.
+- Najnowszy wpis na stronie głównej prowadzi w wersji angielskiej do opisu wydania bez wstawiania polskiej treści changelogu. Dodano test strony głównej po angielsku; wygląd obu motywów pozostał bez zmian.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.40 · Changelog na telefonie
+
+- Changelog wyświetla teraz najwyżej 20 wpisów na stronie, zamiast renderować całą historię ponad 200 wersji i setki animowanych elementów naraz. Starsze wpisy pozostają dostępne przez przyciski stron.
+- Stronicowanie obejmuje także changelog Tieru, zachowuje wybrane źródło i działa w obu językach. Dodano testy liczby wpisów oraz nawigacji.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.39 · Konkretne bonusy na rynku
+
+- Wyszukiwarka ofert przyjmuje do trzech konkretnych bonusów wraz z minimalną wartością każdego. Numery bonusów pochodzą z tabeli cenowej Tieru; każdy warunek przeszukuje siedem linii atrybutów i działa łącznie z pozostałymi filtrami.
+- Wybrane bonusy zachowują się przy stronicowaniu, można je usuwać pojedynczymi chipami, a etykiety i komunikaty formularza są dostępne po polsku i angielsku. Dodano testy poprawności punktów, wartości i SQL.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.38 · Oferty jednego sklepu
+
+- Przeglądarka rynku pozwala ograniczyć oferty do sklepu jednego właściciela po ID postaci. Filtr odpowiada polu `owner` u Tieru, działa razem z pozostałymi warunkami i zachowuje się przy stronicowaniu.
+- Dodano aktywny chip, etykietę PL/EN i testy ograniczenia identyfikatora oraz parametryzacji SQL.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.37 · Filtr kamieni duszy na rynku
+
+- Oferty można ograniczyć do broni i zbroi z dowolnym kamieniem duszy albo z konkretnym VNUM kamienia. Zakres 28000–28999 i trzy gniazda są zgodne z regułą Tieru; wpisanie VNUM ma pierwszeństwo przed ogólnym wyborem.
+- Filtr zachowuje się przy stronicowaniu, jest widoczny jako aktywny chip i ma teksty PL/EN. Dodano testy zapytania.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.36 · Filtry obrażeń na rynku
+
+- Dodano osobne zakresy średnich obrażeń i obrażeń umiejętności (0–200) przy przeglądaniu ofert. Odczyt siedmiu atrybutów korzysta z punktów 122 i 121 silnika MT2009, zgodnie z kodem Tieru, i wybiera ostatnią niezerową linię danego typu.
+- Zakresy pozostają przy zmianie strony i pojawiają się w aktywnych filtrach. Dodano etykiety PL/EN oraz testy granic.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.35 · Liczba bonusów w filtrze rynku
+
+- Przeglądarka ofert potrafi ograniczyć wyniki do przedmiotów mających co najmniej 1–5 zwykłych linii bonusów. Zliczanie siedmiu atrybutów odpowiada regule Tieru: puste linie oraz średnie obrażenia i obrażenia umiejętności nie podnoszą licznika.
+- Filtr pozostaje przy zmianie strony, jest widoczny w aktywnych filtrach i ma etykiety PL/EN. Dodano testy granic i zapytania SQL.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.34 · Aktywne filtry rynku
+
+- Przeglądarka ofert pokazuje aktywne filtry jako chipy. Kliknięcie usuwa tylko wybrany filtr i wraca na pierwszą stronę wyników; usunięcie kategorii usuwa też zależną podkategorię. Sortowanie i liczba ofert na stronę pozostają bez zmian.
+- Dodano przycisk wyczyszczenia wszystkich filtrów, etykiety PL/EN oraz testy zachowania adresów filtrów.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-10 · 1.114.33 · Retencja wyjaśnień decyzji botów
+
+- W ustawieniach zachowania botów można ustawić przechowywanie wyjaśnień decyzji na 0–30 dni. Zero wyłącza zapis, a przywrócenie domyślnego ustawienia usuwa klucz `EXPLAIN`, dzięki czemu rdzeń stosuje własne 7 dni.
+- Zapis modyfikuje tylko ten klucz w pliku wag, zachowuje nieznane opcje silnika i wymaga aktywnej sesji oraz tokenu formularza. Dodano teksty PL/EN i testy zapisu, resetu oraz zwykłego zapisu pozostałych wag.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+## 2026-10-10 · 1.114.32 · Sortowanie aktywnych ofert
+
+- Przeglądarka rynku sortuje teraz także po najnowszych ofertach, najwyższym ulepszeniu oraz wymaganym poziomie rosnąco lub malejąco. Reguły ulepszenia i poziomu korzystają z tych samych pól `item_proto` co filtry, zgodnie z panelem Tieru.
+- Każdy porządek jest na zamkniętej liście SQL; dodano nazwy PL/EN i testy wszystkich nowych wariantów.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+## 2026-10-10 · 1.114.31 · Wymagany poziom w ofertach rynku
+
+- Przeglądarka ofert filtruje przedmioty po wymaganym poziomie od 0 do 255. Odczyt z dwóch pól limitu `item_proto` zachowuje regułę Tieru: drugi limit poziomu ma pierwszeństwo, jeśli obydwa są ustawione.
+- Granice działają razem z innymi filtrami i pozostają przy zmianie strony. Dodano teksty PL/EN i testy błędnego zakresu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+## 2026-10-09 · 1.114.30 · Filtr klasy na rynku
+
+- Aktywne oferty można ograniczyć do przedmiotów używanych przez Wojownika, Ninjy, Surę albo Szamana. Zgodność sprzętu wynika z `item_proto.antiflag`, a ksiąg z numeru umiejętności, tak jak w klasyfikacji Tieru.
+- Filtr działa wraz z pozostałymi i pozostaje przy zmianie strony. Dodano etykiety PL/EN oraz test zapytania.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+## 2026-10-09 · 1.114.29 · Zakres ulepszenia na rynku
+
+- Przeglądarka aktywnych ofert filtruje przedmioty po ulepszeniu od `+0` do `+19`, osobno z dolną i górną granicą. Wartość jest odczytywana z końcówki nazwy `item_proto` zgodnie z parserem Tieru, a nie zgadywana z VNUM.
+- Zakres zachowuje się przy zmianie strony, błędne i odwrócone wartości są odrzucane. Dodano teksty PL/EN i testy obu przypadków.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+## 2026-10-09 · 1.114.28 · Podkategorie ofert rynku
+
+- Filtr rynku rozróżnia typ broni, tarcze i hełmy, biżuterię, klasy ksiąg, poziom kamieni duszy oraz rodzaje materiałów zgodnie z regułami Tieru.
+- Lista podkategorii zależy od wybranej kategorii, a wybór pozostaje przy zmianie strony. Zachowano nazwy PL/EN i dodano testy zgodności oraz odrzucania niepasujących podkategorii.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+## 2026-10-09 · 1.114.27 · Kategorie aktywnych ofert
+
+- Oferty rynku można filtrować według 11 kategorii Tieru. Klasyfikacja używa typu i podtypu przedmiotu z `item_proto` oraz dokładnej listy wyjątków dla ulepszaczy, ksiąg, ziół i rud z jego reguł.
+- Filtr działa razem z pozostałymi i pozostaje przy zmianie strony. Opcje mają nazwy PL/EN, a zapytania są parametryzowane.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+## 2026-10-09 · 1.114.26 · Liczba ofert dla filtrów rynku
+
+- Przeglądarka rynku pokazuje łączną liczbę aktywnych ofert odpowiadających bieżącym filtrom, niezależnie od rozmiaru strony. Liczy ją z tego samego źródła IkarusShop co listę pozycji.
+- Dodano tłumaczenie PL/EN i test zgodności parametrów zapytań listy oraz licznika.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.25 · Liczba ofert na stronie rynku
+
+- Przeglądarka aktywnych ofert pozwala wybrać 25, 50 albo 100 pozycji na stronę. Wybór pozostaje aktywny przy przechodzeniu między stronami i działa razem z filtrami.
+- Parametr ma zamkniętą listę dozwolonych wartości; dodano tłumaczenie PL/EN oraz test granic i przesunięcia wyników.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.24 · Sprzedawca i nazwa sklepu w filtrach rynku
+
+- Aktywne oferty można filtrować po nicku sprzedawcy oraz nazwie straganu. Oba filtry działają razem z dotychczasowymi filtrami i pozostają przy zmianie strony wyników.
+- Zapytania są parametryzowane, a teksty formularza mają wersję PL/EN. Dodano testy złożonych filtrów.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.23 · Zakres cen na rynku
+
+- Przeglądarka ofert przyjmuje minimalną i maksymalną cenę Yang oraz opcjonalnie filtruje cenę za sztukę w stosie. Obsługuje wpisy `500k`, `1.5kk`, `2kkk` i grupowane kwoty tak samo jak parser Tieru.
+- Niepoprawne wartości są oznaczane bez przerwania strony. Filtry pozostają przy zmianie strony wyników; dodano teksty PL/EN i testy parsera oraz zapytania.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.22 · Przeglądarka ofert rynku
+
+- W Gospodarce dodano stronę aktywnych ofert IkarusShop z wyszukiwaniem po nazwie lub VNUM, filtrem królestwa i typu sprzedawcy oraz sortowaniem po cenie całkowitej albo za sztukę. Wyniki są stronicowane po 50 i prowadzą do przedmiotu lub sprzedawcy.
+- Odczyt używa źródłowych tabel sklepu i ceny JSON, ogranicza zapytania oraz nie dotyka wystawionych przedmiotów. Nowa strona jest w nawigacji Laka i klasycznej, z tekstami PL/EN oraz testami filtrów.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.21 · Aktywne oferty przedmiotu na rynku
+
+- Strona historii przedmiotu pokazuje do 100 aktywnych ofert IkarusShop z ceną całkowitą i za sztukę, ilością, sprzedawcą, nazwą sklepu, królestwem, mapą i kanałem. Można sortować po cenie rosnąco lub malejąco.
+- Dane pochodzą z tych samych tabel i pola JSON ceny, których używa rynek Tieru. Widok ma teksty PL/EN, zapytanie ograniczone limitem oraz testy sortowania i przeliczania ceny.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.20 · Zestawy PvP botów
+
+- Dodano eksperymentalny przełącznik zestawów PvP botów wraz z udziałem, minimalnym poziomem, siłą zestawu, budżetem i użyciem przeciw graczom. Domyślnie funkcja jest wyłączona.
+- Wszystkie sześć kluczy `PVP_SET*` ma zakresy i wartości domyślne z reguł silnika Tieru. Formularz ma polskie i angielskie teksty; testy chronią odczyt, granice i zapis.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.19 · Skalowanie progów podaży
+
+- Dodano opcjonalne skalowanie progów podaży do liczby żywych botów oraz referencyjną liczbę 50–50 000 (domyślnie 1000). Przy wyłączonym przełączniku silnik zachowuje oryginalne progi Iwakury.
+- Panel zapisuje dokładnie `SUPPLY_SCALE` i `SUPPLY_REF_BOTS`, z tekstami PL/EN i testami granic.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.18 · Wycena opasek i Kamienia Duchowego według podaży
+
+- Dodano przełącznik `SUPPLY_BANDS`: Opaski Zapomnienia i Kamień Duchowy mogą korzystać z progów podaży ksiąg umiejętności. Stan domyślny jest zgodny z silnikiem Tieru: włączony.
+- Ustawienie działa przez plik wag AI, ma teksty PL/EN i test odczytu/zapisu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.17 · Miejsce w sklepach offline botów
+
+- Dodano przełącznik `SHOP_ROOM_SELL`, zgodny z panelem Tieru. Gdy sklep bota jest pełny, silnik może sprzedać u handlarki ćwierć najtańszego stosu materiałów lub ksiąg, aby zwolnić komórkę. Wyposażenie pozostaje poza tą regułą.
+- Opcja jest domyślnie włączona. Dodano teksty PL/EN i test odczytu/zapisu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.16 · Targowanie botów w sklepach graczy
+
+- W zachowaniu botów można włączyć lub wyłączyć targowanie o zbyt drogie przedmioty +6 i wyższe w sklepach offline graczy. Opcja jest domyślnie włączona i zapisuje klucz `HAGGLE` zgodny z panelem Tieru.
+- Dodano teksty PL/EN i testy odczytu oraz zapisu. Zwykły zakup przedmiotów nie zależy od tej opcji.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.15 · Koniec wojny gildii po zabójstwach
+
+- Dodano limit 0–1000 zabójstw kończących wojnę gildii botów; 0 oznacza zakończenie wyłącznie po czasie. `WAR_KILLS` zapisuje się w pliku wag dokładnie jak u Tieru.
+- Dopasowano dotychczasowe suwaki wojny do zakresów silnika: 15 lub 30 minut oraz 1–4 godziny odstępu. Dodano polskie i angielskie teksty oraz testy.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.14 · Rzemieślnicy botów
+
+- Dodano suwak udziału botów od 35 poziomu kujących przedmioty na sprzedaż. Wartość domyślna 30%, zakres 0–100%; 0 wyłącza tę cechę.
+- Kontrolka używa klucza `CRAFTSMAN` jak panel Tieru, ma teksty PL/EN oraz testy odczytu i zapisu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.13 · Gęstość czatu botów
+
+- Dodano suwak Global chat 0–200% niezależny od przełącznika komunikatów nad głową bota. 100% oznacza normalne natężenie, 0 przywraca dawny czat i wołanie w obrębie królestwa.
+- Odczyt i zapis `LIVE_CHAT` jest zgodny z panelem Tieru. Teksty dostępne po polsku i angielsku; testy chronią domyślną wartość, zakres i niezależność ustawień.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.12 · Realistyczne sesje botów
+
+- W ustawieniach zachowania botów dodano suwak „Realizm sesji” 0–100%. Wskazuje odsetek botów objętych rytmem dnia i tygodnia Iwakury; działa niezależnie od starszego przełącznika sesji.
+- Zapis jest zgodny z `SESSION_REALISM` panelu Tieru. Przy 0 klucz znika z pliku wag, więc silnik zachowuje dotychczasowy tryb. Dodano teksty PL/EN i testy odczytu oraz zapisu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.11 · Szybkość ruchu graczy i botów
+
+- W dodatkach świata można ustawić 50–200% szybkości ruchu graczy, botów i Towarzysza pieszo oraz na wierzchowcu. 100% oznacza normalne tempo gry; potwory nie są objęte zmianą.
+- Panel zapisuje `m2_move_speed_pct` i wysyła komendę `MOVE_SPEED` jak Tieru. Po potwierdzeniu silnika ustawienie działa na żywo i zostaje po restarcie. Dodano PL/EN oraz testy zakresu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.10 · Bonusy w przedmiotach wypadających z potworów
+
+- W dodatkach świata można ustawić 10–1000% szansy na bonusy nowych broni i zbroi z potworów; 100% oznacza normalną szansę gry. Dotyczy najwyżej trzech bonusów i nie zmienia nagród, skrzyń ani sklepów.
+- Panel zapisuje `m2_drop_bonus_pct` i wysyła komendę `DROP_BONUS` zgodnie z kodem Tieru. Po odpowiedzi silnika zmiana działa od następnego dropu i pozostaje po restarcie. Dodano PL/EN i testy zakresu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.9 · Obrona przed botami innych królestw
+
+- W dodatkach świata można teraz włączyć lub wyłączyć reakcję Towarzysza w trybie Atak/Obrona oraz pomocy gildii i grupy na celowe ataki obcych botów na gracza. Pasywny Towarzysz nie odpowiada atakiem.
+- Panel zapisuje flagę `m2_owner_defence_off` i wysyła komendę `OWNER_DEFENCE`, tak jak panel Tieru. Ustawienie działa na żywo po odpowiedzi silnika, przetrwa restart i ma teksty PL/EN.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.8 · Yang z potworów: do ekwipunku lub na ziemię
+
+- W dodatkach świata dodano wybór, czy Yang z potworów zabitych przez gracza trafia od razu do ekwipunku, czy spada na ziemię jak w oryginalnej grze. Boty i Towarzysz nadal dostają Yang bezpośrednio.
+- Panel używa flagi `m2_yang_ground` i komendy `YANG_GROUND` z panelu Tieru. Ustawienie działa na żywo po potwierdzeniu silnika i przetrwa restart. Formularz jest dostępny po polsku i angielsku.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.7 · Szósty bonus nowych broni 70 poziomu
+
+- W zarządzaniu dodatkami świata można teraz włączać lub wyłączać losowy szósty bonus nowo tworzonych broni poziomu 70. Istniejące bronie nie zmieniają się.
+- Panel zapisuje tę samą flagę `m2_unique70_bonus_off` i wysyła tę samą komendę `UNIQUE70_BONUS` co panel Tieru. Zmiana działa na żywo po odpowiedzi silnika i przetrwa restart. Dodano tłumaczenie angielskie oraz testy kontraktu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.6 · Usuwanie przedmiotów bota przez silnik gry
+
+- Na karcie bota, pod ekwipunkiem, dodano zwijaną listę przedmiotów z torby i wyposażenia. Administrator może wskazać konkretny egzemplarz do usunięcia; panel potwierdza nazwę, a operację wykonuje silnik Playerbots przez kolejkę `DELITEM`.
+- Offline bot zastosuje żądanie po wejściu do gry. Do tego czasu można je anulować; gdy silnik już zaczął usuwać przedmiot, panel nie obiecuje anulowania. Stan po wykonaniu oraz odmowa silnika pojawiają się obok listy.
+- Serwer sprawdza sesję administratora, token żądania, tożsamość bota, właściciela, okno przedmiotu, VNUM i liczbę sztuk. Przedmioty graczy, magazynu i sklepu offline są poza tą akcją. Dodano teksty polskie i angielskie oraz testy endpointu.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-09 · 1.114.5 · Tooltip przy powiększonym ekranie
+
+- Po mocnym przybliżeniu ekranu palcami na telefonie tooltip przedmiotu w sklepie i w ekwipunku na karcie postaci pojawiał się gdzieś wysoko, daleko od ikony. Teraz wyskakuje tuż przy stukniętym przedmiocie, w widocznej części ekranu, i ma czytelną wielkość zamiast rosnąć razem z przybliżeniem.
+- Arkusz z wyjaśnieniem ceny przy przybliżeniu też mieści się w tym, co widać, i trzyma się dołu ekranu. Przesunięcie lub zmiana przybliżenia chowa tooltip i dopasowuje otwarty arkusz.
+
+![via Claude by Seban](https://img.shields.io/badge/via-Claude%20by%20Seban-D97757)
+
+## 2026-10-09 · 1.114.4 · Telefon: sklep da się klikać, przycisk „Dlaczego ta cena?”
+
+- Na telefonie dało się stuknąć tylko pierwsze kolumny sklepu na karcie postaci. Pusty pojemnik na wyskakujące powiadomienia rozciągał się w motywie Laka i Złoto na niemal cały ekran i przechwytywał dotknięcia. Teraz ma tylko wysokość powiadomień i nigdy nie zabiera dotknięć stronie pod spodem, także w pozostałych motywach.
+- Na telefonie tooltip przedmiotu w sklepie ma przycisk „Dlaczego ta cena?”, który otwiera wyjaśnienie. Nie trzeba już trafiać drugi raz w mały slot. Ponowne stuknięcie w ten sam przedmiot chowa tooltip.
+
+![via Claude by Seban](https://img.shields.io/badge/via-Claude%20by%20Seban-D97757)
+
+## 2026-10-09 · 1.114.3 · Wyjaśnienie ceny wczytywane po kliknięciu
+
+- Wyjaśnienie ceny w sklepie na karcie postaci znów działa. Od przebudowy okna sklepu (natywne UI) żadna oferta go nie dostawała, także w 1.114.2.
+- Wyjaśnienie wczytuje się dopiero po kliknięciu w przedmiot (na telefonie po drugim stuknięciu). Panel otwiera się od razu z animacją ładowania, a ponowne otwarcie tego samego przedmiotu nie pyta serwera drugi raz. Strona gracza nie ładuje wyjaśnień, których nikt nie otworzy.
+- Gdy bot nie zapisał wyjaśnienia danej oferty, panel mówi to wprost.
+
+![via Claude by Seban](https://img.shields.io/badge/via-Claude%20by%20Seban-D97757)
+
+## 2026-10-09 · 1.114.2 · Sklep na karcie postaci: tooltipy na telefonie i wyjaśnienie ceny
+
+- Tooltipy przedmiotów w sklepie offline działają na telefonie w każdej kolumnie. Wcześniej okno sklepu, szersze od ekranu, ucinało je od mniej więcej szóstej kolumny.
+- Najechanie pokazuje zwykły tooltip przedmiotu, a kliknięcie przypina obok panel z wyjaśnieniem ceny. Na telefonie pierwsze stuknięcie pokazuje tooltip, a drugie otwiera wyjaśnienie jako arkusz od dołu.
+- Wyjaśnienie mówi tyle co panel Tieru: wynik towaru, który był kandydatem i ilu wyżej odrzuciła lada, jak ucięto stos i ile zostało w plecaku, kiedy i za ile wystawiono, flagi lady, cenę krok po kroku (z „=” dla kroków bez zmiany) i cenę za sztukę wobec arkusza.
+- Słownik decyzji botów odświeżony z panelu Tieru (Playerbots 2.2.82): nowe kroki ceny, np. „Ludzkie zaokrąglenie” zamiast „kod 47”, nazwy umiejętności i potworów oraz poprawne polskie nazwy przedmiotów. Generator `tools/generate_decision_tables.py` odświeża go po każdej aktualizacji.
+- Strona Decyzje botów pokazuje kroki ceny jako tabelę zamiast surowych danych.
+
+![via Claude by Seban](https://img.shields.io/badge/via-Claude%20by%20Seban-D97757)
+
 ## 2026-10-09 · 1.114.1 · Metiny osobno od bossów w respawnach
 
 - Strona Respawny ma osobne ustawienia dla Metinów, bossów i zwykłych potworów, zarówno dla tempa odrodzenia, jak i liczebności (Patch 12 Iwakury, punkt 2). Metin to kamień Metin, boss to potwór o randze bossa.
