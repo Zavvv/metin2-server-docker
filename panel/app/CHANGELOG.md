@@ -17,6 +17,68 @@ every version here.
 
 ---
 
+## 2.2.96 — 2026-10-14
+
+Poprawka zapisanych kont w kliencie. Klient 2.0.102 x64.
+
+- Zapisane konta, które po aktualizacji klienta do 2.0.101 zniknęły z okna logowania, znowu się wczytują, a nowe konta znowu się zapisują. Nic nie przepadło - dane zostały w pliku i wracają po aktualizacji (NerrVoVy, Kordyl13).
+
+Zaktualizuj serwer i launcher do 2.2.96, uruchom ponownie launcher, następnie zaktualizuj klienta do 2.0.102 (64-bit).
+Postacie i ustawienia zostają zachowane. Wydanie chronione. Dziękujemy NerrVoVy za szybkie zgłoszenie. Po 2.2.95 nadal prosimy o zgłaszanie błędów przez launcher („Zgłoś błąd”) z opisem.
+
+## 2.2.95 — 2026-10-14
+
+Duża aktualizacja: Patch 19, nowy event, dodatki do klienta i poprawki po Waszych zgłoszeniach. Klient 2.0.101 x64.
+
+**Uwaga:** ze względu na dużą liczbę zmian może wystąpić sporo błędów. Prosimy o pilne zgłaszanie ich przez launcher („Zgłoś błąd”) z dołączonym opisem.
+
+- Patch 19 (Iwakura i Tyrion): rozwój ekwipunku botów, hełmy i tarcze, Kamienie Duszy i bonusy, ceny na rynku, Cor Draconis znów łączy się w stosy, nowy wygląd panelu WWW z wyborem osobowości bota, zabawami dla całego świata, oknami wytwarzania i rozbudowanym edytorem (Iwakura, Tyrion, .yxzi).
+- Nowy event heksagonalnych szkatułek z Metinów - domyślnie wyłączony, włącza się go w panelu wydarzeń (Kiciamol).
+- Klient: szybkie otwieranie szeptów z czatu, kwoty w formacie 10k/10kk, liczba sztuk w opisie przedmiotu, przewijanie stron ekwipunku i zakładek okna postaci, nowa lista bonusów w Domu Towarowym (Uxìĕ [DSO]).
+- Towarzysz: oddaje medale konia u stajennego, gdy stoisz obok (NxcK_Os), ustawienie „Grupa: NIE” działa jak należy (DimitriASM), trzyma więcej Cor Draconis (teivos), sprzedaje zbędne rzeczy (zhask9431).
+- Boty: lepiej obsługują stoiska, medale konne i pełne torby (Iwakura, Tyrion, zhask9431).
+- Auto Łowy nie biegają już między Metinem a potworami wokół niego (DimitriASM).
+- Klient pamięta zapisane konta (Kordyl13) i ustawioną głośność efektów (DeeJaz, iahgod).
+- Panel WWW: poprawki karty języka gry (Moris, NxcK_Os), celu bota (Metalurji) i zmiany nicku postaci GM (kreinbargh).
+
+Zaktualizuj serwer i launcher do 2.2.95, uruchom ponownie launcher, następnie zaktualizuj klienta do 2.0.101 (64-bit).
+Postacie i ustawienia zostają zachowane. Wydanie chronione. Dziękujemy Uxìĕ [DSO] i Kiciamolowi za ich dodatki, Iwakurze i Tyrionowi za Patch 19 oraz wszystkim za zgłoszenia.
+
+## 2.2.94 — 2026-10-13
+
+Kolejna porcja poprawek po Waszych zgłoszeniach. Klient 2.0.100 x64.
+
+- Wybór osobowości bota w panelu zachowuje wybraną opcję podczas wykonywania polecenia i pokazuje wynik zmiany.
+- Ulubione przedmioty zachowują oznaczenie przy potwierdzonym ręcznym przenoszeniu, zamianie miejsc oraz zakładaniu i zdejmowaniu wyposażenia. Nieudana operacja zachowuje dotychczasową gwiazdkę.
+- Poprawione odwrócone kierunki dźwięków przestrzennych w kliencie x64, również podczas obracania kamery.
+- Aktualizacja długo używanych światów dokładniej pokazuje postęp przygotowania historii oraz informuje o oczekiwaniu i dostępnej przestrzeni. Dane historii pozostają zachowane.
+- Zachowane wcześniejsze poprawki obrazu i klasyczny konfigurator. Test lokalny potwierdził działanie gry i brak migotania otoczenia.
+
+Zaktualizuj serwer i launcher do 2.2.94, uruchom ponownie launcher, następnie zaktualizuj klienta do 2.0.100 (64-bit).
+Postacie i ustawienia zostają zachowane. Wydanie chronione. Dziękujemy za logi i testy — prosimy o dalszy feedback dotyczący ulubionych, zmiany osobowości i dźwięków.
+
+## 2.2.93 — 2026-10-13
+
+Poprawki po Waszych zgłoszeniach. Klient 2.0.99 x64.
+
+- Poprawione miganie obiektów, które stają się przezroczyste podczas przechodzenia obok postaci.
+- Przywrócony klasyczny konfigurator obrazu i dźwięku. Limit FPS pozostaje dostępny w grze.
+- Poprawiona obsługa kliknięć w dodatkowych oknach ekwipunku, także przy otwartym plecaku konia.
+- Boty z ręcznie wybranym zachowaniem poprawnie reagują na zapełnienie ekwipunku.
+- Poprawiony zapis wybranych ustawień AI oraz wyświetlanie strony populacji w panelu WWW.
+- Panel wydarzeń wyraźnie informuje, gdy drop z Metinów jest wyłączony, i pokazuje rzeczywistą ustawioną szansę.
+
+Zaktualizuj serwer i launcher, uruchom ponownie launcher, następnie zaktualizuj klienta.
+Postacie i ustawienia zostają zachowane. Wydanie chronione. Dziękujemy za zgłoszenia i prosimy o dalszy feedback.
+
+## 2.2.92 — 2026-10-13
+
+Poprawki stabilności klienta i botów oraz usprawnienia rynku i Wiki.
+Odświeżone Auto Łowy i nowe możliwości ekwipunku. Klient 2.0.98 x64.
+
+Zaktualizuj serwer i launcher, uruchom ponownie launcher, następnie zaktualizuj klienta.
+Postacie i ustawienia zostają zachowane. Wydanie chronione. Dziękujemy autorom i testerom.
+
 ## 2.2.91 — 2026-10-13
 
 Usprawnienia botów, gospodarki i paneli WWW oraz poprawki zgłoszonych błędów.

@@ -402,6 +402,35 @@ quest web_admin begin
 									else
 										command("reload a")
 									end
+								elseif cmd == "RENAME" then
+									-- The panel renames a character that is in the game
+									-- (kreinbargh, 13 October). Writing player.player behind
+									-- a loaded character changes nothing in the game: the db
+									-- core serves the character from its cache, name and all,
+									-- and never writes the name back. pc.change_name is the
+									-- engine's own rename: it checks the name, writes the row,
+									-- saves the new name into the cache (SetNewName) and
+									-- disconnects the player ten seconds later, so the next
+									-- login is the new name. The panel copied the GM rights
+									-- to the new name before it queued this, and reloads the
+									-- GM list once this answers "done".
+									local new_name = arg1
+									if type(new_name) ~= "string" or string.len(new_name) < 2 or string.len(new_name) > 24 then
+										result = "bad_args"
+									else
+										local rc = pc.change_name(new_name)
+										if rc == 4 then
+											result = "done"
+										elseif rc == 3 then
+											result = "name_taken"
+										elseif rc == 2 then
+											result = "bad_name"
+										elseif rc == 0 then
+											result = "renaming"
+										else
+											result = "failed"
+										end
+									end
 								else
 									result = "unknown_cmd"
 								end
@@ -409,7 +438,7 @@ quest web_admin begin
 								-- Only words from our own short list may
 								-- reach the database. Nothing a user typed
 								-- can get in here.
-								if result ~= "done" and result ~= "bad_args" and result ~= "no_skill" and result ~= "has_item" and result ~= "full" and result ~= "failed" and result ~= "qty_too_big" and result ~= "partial" and result ~= "no_gm" then
+								if result ~= "done" and result ~= "bad_args" and result ~= "no_skill" and result ~= "has_item" and result ~= "full" and result ~= "failed" and result ~= "qty_too_big" and result ~= "partial" and result ~= "no_gm" and result ~= "name_taken" and result ~= "bad_name" and result ~= "renaming" then
 									result = "unknown_cmd"
 								end
 

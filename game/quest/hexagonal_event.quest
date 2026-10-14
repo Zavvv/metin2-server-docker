@@ -1,0 +1,23 @@
+-- The Hexagonal Chest event (Kiciamol, 14 October): a person's Metin stone
+-- may drop the hexagonal chest of the map it was broken on while the panel's
+-- /events page runs the event. The rules - the map table, the panel's file,
+-- the chance, the windows, who gets nothing - are m2_hexagonal_event.lua's,
+-- a library the quest libraries load (tests/quest_hexagonal_event_test.sh).
+-- The login starts each core's five-second clock, which writes the core's
+-- answer for the panel; the kill reads the panel's file when it is due.
+quest hexagonal_event begin
+	state start begin
+		when login begin
+			m2_hex_event.start_clock()
+		end
+		when hexagonal_event_tick.server_timer begin
+			m2_hex_event.refresh(false)
+		end
+		-- npc.is_pc() first: npc.get_type() reads the victim's mob table, which a
+		-- character has none of, and a player killed in PvP took the core down
+		-- (m2zip, 14 October).
+		when kill with not npc.is_pc() and npc.get_type() == 2 begin
+			m2_hex_event.kill()
+		end
+	end
+end

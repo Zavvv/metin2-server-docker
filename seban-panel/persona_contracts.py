@@ -45,7 +45,7 @@ def tick(con, engine_mt2009=True):
                     status='not_allowed'
                 elif raw != 'AUTO':
                     if not raw.isascii() or not raw.isdecimal() or int(raw) not in catalog:
-                        status='bad_args'
+                        status='failed'  # Patch 19, point 7: a bad id is 'failed'
                     else:
                         value=int(raw)
                 if status=='done':

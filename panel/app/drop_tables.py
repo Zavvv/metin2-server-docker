@@ -1305,6 +1305,203 @@ def validate(file_name, original, override_raw, item_exists, mob_exists, origina
     return v
 
 
+# =============================================================================
+#  etc_drop_item.txt (Iwakura x Tyrion Patch 19, point 9)
+# =============================================================================
+# The game reads etc_drop_item.txt from the file, not from world.etc_drop_item
+# (that table does nothing). ITEM_MANAGER::ReadEtcDropItemFile reads it a
+# line at a time with fgets(512): the text before the LAST tab is the item
+# (str_to_number: strtoul, so the vnum), the text after it the chance in
+# percent (atof, stored as fProb * 10000); a line without a tab, with an empty
+# item or a chance of 0 is skipped. Before Patch 19 a vnum item_proto lacks
+# stopped every core's boot; since playerbotify's
+# apply_etc_drop_item_tolerance it is skipped with a syserr line, and so is a
+# chance outside (0, 100] - the panel refuses both all the same.
+#
+# The override is line-level, keyed by the vnum, in the same spool and with
+# the same receipt as the two group files:
+#
+#     # m2-drop-override 1 etc_drop_item.txt
+#     # remove 30073
+#     30034<TAB>2.00
+#
+# m2-drop-tables puts each entry in place of the first image line of its vnum
+# (later lines of that vnum are dropped: the engine's map keeps the last one,
+# so two would be a trap), drops the removed vnums, keeps every other line as
+# the image has it and appends the new vnums - etc_merge() below, byte for
+# byte (tests/drop_tables_merge_test.py).
+ETC_FILE = "etc_drop_item.txt"
+ALL_FILES = FILES + (ETC_FILE,)
+ETC_LINE_MAX = 511                 # fgets(buf, 512): a longer line splits
+ETC_CHANCE_MAX = 100.0
+_ETC_ENTRY = re.compile(rb"([0-9]{1,10})\t([0-9]{1,3}(?:\.[0-9]{1,6})?)")
+_ETC_KEY = re.compile(rb"[ \t]*([0-9]+)")
+
+TEXTS.update({
+    "etc_entry": ("line {line}: an entry is '<item number><TAB><chance>', the chance with a dot",
+                  "linia {line}: wpis to „<numer przedmiotu><TAB><szansa>”, szansa z kropką"),
+    "etc_chance": ("line {line}: the chance {chance} must be over 0 and at most 100",
+                   "linia {line}: szansa {chance} musi być większa od 0 i najwyżej 100"),
+    "etc_item": ("line {line}: there is no item {item} in item_proto", "linia {line}: nie ma przedmiotu {item} w item_proto"),
+    "etc_long": ("line {line} is longer than the game reads at once ({n} characters)",
+                 "linia {line} jest dłuższa, niż gra czyta naraz ({n} znaków)"),
+    "etc_image_item": ("the game's own line {line} names item {item}, which item_proto lacks (the game skips it)",
+                       "własna linia gry {line} wskazuje przedmiot {item}, którego nie ma w item_proto (gra ją pomija)"),
+})
+
+
+def etc_key(line):
+    """The vnum a line of etc_drop_item.txt is about, as m2-drop-tables keys
+    it, or None: the digits at the start of the text before its last tab."""
+    line = _strip_cr(line)
+    tab = line.rfind(b"\t")
+    if tab <= 0:
+        return None
+    m = _ETC_KEY.match(line[:tab])
+    if not m or len(m.group(1)) > 10:
+        return None
+    return str(int(m.group(1)))
+
+
+class EtcOverride(object):
+    def __init__(self, removes=(), entries=()):
+        self.file_name = ETC_FILE
+        self.removes = list(removes)       # keys, in order
+        self.entries = list(entries)       # (key, line without its line end)
+
+    def keys(self):
+        return [k for k, _l in self.entries]
+
+    def empty(self):
+        return not self.removes and not self.entries
+
+
+def etc_parse_override(raw):
+    """The panel's etc_drop_item.txt override, read the way m2-drop-tables
+    reads it. Raises OverrideError with the reason it would give."""
+    lines = raw_lines(raw)
+    if not lines or _strip_cr(lines[0]) != HEADER + b" %d %s" % (FORMAT, ETC_FILE.encode()):
+        raise OverrideError(Msg("ov_header", format=FORMAT, file=ETC_FILE))
+    if b"\x00" in raw:
+        raise OverrideError(Msg("ov_nul"))
+    removes, entries, seen = [], [], set()
+    for number, line in enumerate(lines[1:], 2):
+        text = _strip_cr(line)
+        w = _words(line)
+        if not w:
+            continue
+        if w[0] == b"#" and len(w) >= 2 and w[1] == b"remove":
+            if len(w) != 3 or not re.fullmatch(rb"[0-9]{1,10}", w[2]):
+                raise OverrideError(Msg("ov_remove_key", line=number))
+            key = str(int(w[2]))
+        elif text[:1] == b"#":
+            continue
+        else:
+            m = _ETC_ENTRY.fullmatch(text)
+            if not m:
+                raise OverrideError(Msg("etc_entry", line=number))
+            chance = float(m.group(2))
+            if not 0.0 < chance <= ETC_CHANCE_MAX:
+                raise OverrideError(Msg("etc_chance", line=number, chance=m.group(2).decode("ascii")))
+            key = str(int(m.group(1)))
+        if key in seen:
+            raise OverrideError(Msg("ov_twice", key=key))
+        seen.add(key)
+        if w[0] == b"#":
+            removes.append(key)
+        else:
+            entries.append((key, b"%s\t%s" % (key.encode("ascii"), m.group(2))))
+    return EtcOverride(removes, entries)
+
+
+def etc_render_override(override, base_sha256=""):
+    out = [HEADER + b" %d %s" % (FORMAT, ETC_FILE.encode()),
+           b"# base " + base_sha256.encode("ascii"),
+           b"# The operator's lines for this file, written by the panel's editor.",
+           b"# m2-drop-tables merges them over the image's own file before every boot."]
+    out += [b"# remove " + key.encode("ascii") for key in override.removes]
+    out += [line for _key, line in override.entries]
+    return b"".join(line + b"\r\n" for line in out)
+
+
+def etc_merge(original, override_raw):
+    """The effective etc_drop_item.txt: m2-drop-tables does exactly this."""
+    override = etc_parse_override(override_raw)
+    by_key = dict(override.entries)
+    removed = set(override.removes)
+    done = set()
+    out = []
+    for line in raw_lines(original):
+        key = etc_key(line)
+        if key is not None and key in by_key:
+            if key not in done:
+                out.append(by_key[key])
+                done.add(key)
+            continue
+        if key is not None and key in removed:
+            continue
+        out.append(line)
+    for key, line in override.entries:
+        if key not in done:
+            out.append(line)
+    return join_lines(out)
+
+
+def etc_read_engine(raw, item_exists):
+    """What ReadEtcDropItemFile makes of the bytes: {vnum: chance} and
+    [(line, Msg)] for the lines it skips for want of an item (a line it
+    would have stopped the boot on before Patch 19)."""
+    chances, missing = {}, []
+    for number, line in enumerate(raw.split(b"\n"), 1):
+        line = line[:ETC_LINE_MAX]
+        tab = line.rfind(b"\t")
+        if tab < 0:
+            continue
+        name, chance = line[:tab], c_atof(line[tab + 1:])
+        if not name or chance == 0.0:
+            continue
+        vnum = c_strtoul(name)
+        if not item_exists(vnum):
+            missing.append((number, Msg("etc_image_item", line=number, item=vnum)))
+            continue
+        if not 0.0 < chance <= ETC_CHANCE_MAX:
+            continue
+        chances[vnum] = chance
+    return chances, missing
+
+
+def etc_validate(original, override_raw, item_exists):
+    """The panel's check of an etc_drop_item.txt override: its shape, every
+    item it names in item_proto, and the merged file through the reader."""
+    v = Verdict()
+    try:
+        override = etc_parse_override(override_raw)
+    except OverrideError as exc:
+        v.errors.append(("", Msg("ov_file", why=exc.msg)))
+        return v
+    v.merged = etc_merge(original, override_raw)
+    image_keys = set(k for k in (etc_key(line) for line in raw_lines(original)) if k is not None)
+    for key in override.removes:
+        if key in image_keys:
+            v.counts["removed"] += 1
+        else:
+            v.warnings.append((key, Msg("nothing_to_remove", key=key)))
+    for number, (key, line) in enumerate(override.entries, 1):
+        v.counts["replaced" if key in image_keys else "added"] += 1
+        if not item_exists(int(key)):
+            v.errors.append((key, Msg("etc_item", line=number, item=key)))
+    for number, line in enumerate(raw_lines(v.merged), 1):
+        if len(line) > ETC_LINE_MAX:
+            v.errors.append(("", Msg("etc_long", line=number, n=len(line))))
+    touched = set(override.keys())
+    _chances, missing = etc_read_engine(v.merged, item_exists)
+    for _number, msg in missing:
+        key = str(msg.args["item"])
+        if key not in touched:
+            v.warnings.append(("", msg))
+    return v
+
+
 def group_diff(old, new, old_label="before", new_label="after"):
     """A unified diff of two group texts, for the preview."""
     a = old.decode("utf-8", "replace").replace("\r", "").splitlines()

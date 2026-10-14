@@ -1999,7 +1999,26 @@ EXACT.update({
 # are covered by several smaller patterns each translating their own
 # fragment, rather than needing one full-sentence regex per shape.
 # ---------------------------------------------------------------------------
+
+# Chest event windows do not override saved drop settings.
+EXACT.update({
+    "Drop Szkatułek Blasku Księżyca": "Moonlight Treasure Chest drops",
+    "Globalny wyłącznik dropu jest zaznaczony. Uruchomienie eventu nie zmienia tego ustawienia.": "The global drop switch is checked. Starting an event does not change this setting.",
+    "Obie zapisane szanse wynoszą 0%. Podczas eventu szkatułki nie wypadną.": "Both saved chances are 0%. No chests will drop during the event.",
+    "Część szans pochodzi z konfiguracji serwera; panel nie zna tych wartości.": "Some chances come from server configuration; this panel does not know those values.",
+    "Zapisane szanse pozwalają na drop. Szkatułki wypadają tylko w aktywnym oknie blasków.": "Saved chances allow drops. Chests drop only during an active chest event window.",
+    "Harmonogram i ustawienia dropu są niezależne. Uruchomienie eventu nie zmienia wyłącznika ani zapisanych szans.": "The schedule and drop settings are independent. Starting an event does not change the switch or saved chances.",
+    "Sprawdź wyłącznik i szanse w ustawieniach AI": "Check the switch and chances in AI settings",
+    "Z potwora": "Per monster",
+    "Z Metina": "Per Metin stone",
+    "z konfiguracji serwera": "from server configuration",
+    "Z potwora:": "Per monster:",
+    "Z Metina:": "Per Metin stone:",
+    "Sprawdź wyłącznik i szanse w ustawieniach zachowania": "Check the switch and chances in behaviour settings"
+})
+
 PATTERNS_RAW = [
+    (r'^Okno blasków zapisane na (\d+) minut, ale ustawienia dropu wymagają uwagi\. Sprawdź wyłącznik i szanse w ustawieniach zachowania\.$', 'Chest event window saved for $1 minutes, but the drop settings need attention. Check the switch and chances in behaviour settings.'),
     (r'^Własne: ×', 'Custom: ×'),
     (r'^×0 — Brak dropu$', '×0 — No drops'),
     (r'^Lv (\d+)$', 'Lv $1'),
@@ -2544,6 +2563,31 @@ PATTERNS_RAW += [
     # The mood line's tail ("Normalny · blokada expa na 30 lvl").
     (r'blokada expa na (\d+) lvl', 'EXP locked at level $1'),
     (r'exp odblokowany przez operatora', 'EXP unlocked by the operator'),
+]
+
+# The rename of a character and its GM rights (kreinbargh, 13 October).
+EXACT.update({
+    "Postać w grze zmienia nick sama i zostaje rozłączona; poza grą gra pokaże nowy nick 10 minut po wylogowaniu konta albo po pełnym restarcie. Prawa GM idą za nickiem.":
+        "A character in the game renames itself and is disconnected; out of the game, the game shows the new name 10 minutes after the account logged out or after a full restart. GM rights follow the name.",
+})
+PATTERNS_RAW += [
+    (r"^Nick '(.+)' jest już na liście GM \(common\.gmlist\) innej postaci\. Usuń najpierw ten wpis\.$",
+     "The name '$1' is already in another character's GM list entry (common.gmlist). Remove that entry first."),
+    (r"^Postać ma prawa GM, a lista GM \(common\.gmlist\) mieści nicki do (\d+) znaków\. Wybierz krótszy nick albo zaktualizuj serwer\.$",
+     "The character has GM rights, and the GM list (common.gmlist) holds names of up to $1 characters. Choose a shorter name or update the server."),
+    (r"^Gra przyjęła zmianę nicku '(.+)' → '(.+)', ale nie odpowiedziała na czas\. Sprawdź kartę postaci za chwilę\.$",
+     "The game took the rename '$1' → '$2' but did not answer in time. Check the character's card in a moment."),
+    (r"^Gra nie zmieniła nicku \((.+)\)\. Nic nie zostało zmienione\.$",
+     "The game did not change the name ($1). Nothing was changed."),
+    (r"^Zmieniono nick '(.+)' → '(.+)'\. Postać była w grze: gra sama zmieniła jej nick, za około 10 sekund rozłączy gracza, a następne logowanie jest już pod nowym nickiem\.",
+     "Renamed '$1' → '$2'. The character was in the game: the game renamed it itself, disconnects the player in about 10 seconds, and the next login is under the new name."),
+    (r"^Zmieniono nick '(.+)' → '(.+)'\. Gra pokaże nowy nick, gdy serwer bazy zapomni tę postać: 10 minut po wylogowaniu konta albo po pełnym restarcie serwera\.",
+     "Renamed '$1' → '$2'. The game shows the new name once the database server lets the character go: 10 minutes after the account logged out, or after a full restart of the server."),
+    (r" Prawa GM przeszły na nowy nick i do tego czasu działają pod oboma; pod nowym od następnego restartu serwera albo /reload a\.$",
+     " The GM rights moved to the new name and work under both until then; under the new one from the next server restart or /reload a."),
+    (r" Prawa GM przeszły na nowy nick i do tego czasu działają pod oboma\.$",
+     " The GM rights moved to the new name and work under both until then."),
+    (r" Prawa GM przeszły na nowy nick\.$", " The GM rights moved to the new name."),
 ]
 
 

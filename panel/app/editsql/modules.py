@@ -966,6 +966,15 @@ def shop_items_html(shop_vnum):
                 '<span class="esq-lookup" id="add_item_look"></span></form>'
                 % (action, render.csrf_input(), render._esc(T("VNUM przedmiotu", "Item VNUM")),
                    render._esc(T("Ilość", "Count")), render._esc(T("Dodaj pozycję", "Add item"))))
+    # Iwakura P19: wiele pozycji naraz (jedna linia = „vnum ilość”).
+    add_form += ('<form method="post" action="%s" class="esq-toolbar esq-add-form">%s'
+                 '<input type="hidden" name="action" value="child_add" />'
+                 '<div class="esq-tb-field" style="flex:1 1 320px"><label for="add_bulk">%s</label>'
+                 '<textarea id="add_bulk" name="bulk" rows="4" placeholder="27001 200&#10;27002 200&#10;19 1"></textarea></div>'
+                 '<div class="esq-tb-buttons"><button class="esq-btn esq-btn-small esq-btn-go" type="submit">%s</button></div></form>'
+                 % (action, render.csrf_input(), render._esc(T("Wiele pozycji naraz: vnum ilość (jedna na linię)",
+                                                                "Many at once: vnum count (one per line)")),
+                    render._esc(T("Dodaj wszystkie", "Add all"))))
     return render.box(T("Pozycje sklepu (%d)", "Shop items (%d)") % len(rows),
                       render.table([T("Przedmiot", "Item"), T("Ilość", "Count"), ""], body,
                                    empty=T("Sklep jest pusty.", "The shop is empty.")) + add_form,

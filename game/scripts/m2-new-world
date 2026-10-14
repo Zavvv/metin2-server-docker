@@ -1,0 +1,85 @@
+#!/bin/bash
+# =============================================================================
+#  m2-new-world -- a new database leaves no ranking of the old world behind
+#                  (Iwakura x Tyrion Patch 19, point 11).
+#
+#  "Rankingi pokazuja konta z poprzedniego swiata": a reinstall of the
+#  database (the launcher's reset deletes the database volume) keeps the
+#  state volume and the spool, and the bots' exports there - the status file
+#  the panels rank by, the fame, the chronicle, the server's firsts, the
+#  Daily Goals' records, the social journals by pid - named the old world's
+#  characters until the cores happened to write them again, and some never
+#  did. The migrator (apply.sh) knows which world the database is
+#  (player.web_m2p_world, written by initdb with the database) and writes its
+#  id to $SPOOL/world-id at every start; this compares it with the id the state
+#  volume was last used with ($VAR_DIR/.world-id) and, when the two differ,
+#  removes the world-state files below from both, before any core starts.
+#
+#  Never removed: the operator's own files - the weights, the item policy,
+#  the timed events, the editable chat library, the channel wish, the drop
+#  editor's directory, the rates - only what the cores write about the world's
+#  characters. The first start with this script on a world from before it
+#  only remembers the id (nothing to compare with), and so does a start whose
+#  migrator could not write the spool.
+#
+#  Run as root by the entrypoint. Prints what it did.
+# =============================================================================
+set -uo pipefail
+VAR_DIR="${M2_VAR_DIR:-/opt/metin2/var}"
+SPOOL="${M2_RATES_SPOOL:-/opt/m2spool}"
+say() { printf '%s [new-world] %s\n' "$(date -u '+%Y-%m-%d %H:%M:%SZ')" "$*"; }
+
+# The cores' exports about the world's characters, written in a core's own
+# directory or in the spool (PlayerBotLiveStatePath).
+STATE_FILES="playerbot_status.tsv playerbot_guild_status.tsv playerbot_events_status.tsv
+playerbot_daily_goal.tsv playerbot_daily_goal_events.tsv playerbot_daily_goal_state.tsv
+playerbot_realism_state.tsv playerbot_supply_state.tsv playerbot_supply_lines.tsv
+playerbot_price_index.tsv playerbot_price_index_state.tsv playerbot_coupon_state.tsv
+playerbot_pvp_sets.tsv playerbot_pvp_plan.tsv playerbot_meetings.tsv playerbot_quests.tsv
+playerbot_quest_bots.tsv playerbot_quest_skip.tsv playerbot_eq_plan.tsv playerbot_asset_valuation.tsv
+playerbot_development.tsv playerbot_investment.tsv playerbot_investment_observations.tsv
+playerbot_visit_wallet.tsv playerbot_counter_deals.tsv playerbot_no_upgrade.tsv
+playerbot_achievements.tsv playerbot_chat_counters.tsv playerbot_chat_misses.tsv
+playerbot_chat_diagnostics.tsv playerbot_chat_categories.tsv playerbot_life.tsv
+playerbot_alchemy_runtime.tsv playerbot_server_firsts.tsv playerbot_barter_ads.tsv
+playerbot_gm_rounds175.tsv playerbot_patch8_gm_notice.tsv playerbot_live_affair.tsv
+playerbot_live_chronicle.tsv playerbot_live_fame.tsv playerbot_live_global.tsv
+playerbot_live_nearby.tsv playerbot_live_human_clock.dat playerbot_live_human_social.tsv
+playerbot_live_legend.tsv playerbot_live_rumours.tsv playerbot_live_undercut.tsv
+playerbot_catacomb_now playerbot_tower_now"
+# The same by a pid, an item or a pair in the name.
+STATE_PATTERNS="playerbot_live_bonus_* playerbot_live_fame_event_* playerbot_live_item_contract_*
+playerbot_live_loan_* playerbot_live_mix_* playerbot_live_top_* playerbot_live_war_*
+playerbot_patch8_known_* playerbot_patch8_minor_* playerbot_patch8_relation_*
+playerbot_social_* playerbot_party_trip_*"
+
+wanted=$(head -n 1 "$SPOOL/world-id" 2>/dev/null | tr -cd '0-9a-f')
+[ -n "$wanted" ] || { say "no world id in the spool -- nothing compared"; exit 0; }
+had=$(head -n 1 "$VAR_DIR/.world-id" 2>/dev/null | tr -cd '0-9a-f')
+remember() {
+  printf '%s\n' "$wanted" > "$VAR_DIR/.world-id.new" 2>/dev/null \
+    && mv -f "$VAR_DIR/.world-id.new" "$VAR_DIR/.world-id" 2>/dev/null \
+    || say "could not remember the world id in $VAR_DIR"
+}
+if [ -z "$had" ]; then
+  say "world $wanted: first start with this check, the state files are kept"
+  remember; exit 0
+fi
+[ "$had" = "$wanted" ] && exit 0
+
+say "M2_NEW_WORLD: the database is world $wanted, the state volume was world $had -- the old world's exports go"
+removed=0
+for dir in "$VAR_DIR" "$SPOOL"; do
+  [ -d "$dir" ] || continue
+  # A core's directory is at most a few levels down the state volume; the
+  # spool's files are at its top.
+  depth=4; [ "$dir" = "$SPOOL" ] && depth=1
+  for name in $STATE_FILES $STATE_PATTERNS; do
+    while IFS= read -r -d '' f; do
+      rm -f -- "$f" && removed=$((removed + 1))
+    done < <(find "$dir" -maxdepth "$depth" -type f -name "$name" -print0 2>/dev/null)
+  done
+done
+say "M2_NEW_WORLD: $removed file(s) of the old world removed"
+remember
+exit 0

@@ -443,6 +443,10 @@ db_retry -e "UPDATE world.item_proto SET limitvalue0 = 30 WHERE vnum = 70138 AND
 # Lower its stock fifty only when this world actually has the approved
 # level-thirty cape; preserve custom shop and proto limits.
 db_retry -e "UPDATE common.itemshop_items SET minLevel = 30 WHERE vnum = 70138 AND minLevel = 50 AND EXISTS (SELECT 1 FROM world.item_proto WHERE vnum = 70138 AND type = 3 AND subtype = 10 AND limittype0 = 1 AND limitvalue0 = 30 AND limittype1 = 0 AND limitvalue1 = 0);"
+# A misclick at an NPC must not sell the horse summon picture/books.
+# ITEM_ANTIFLAG_SELL is bit 8; leave trade, storage and quest use alone.
+# The client mirrors these exact rows in gamedata (port/protoify.py).
+db_retry -e "UPDATE world.item_proto SET antiflag = antiflag | 256 WHERE vnum IN (50051, 50052, 50053) AND type = 18 AND subtype = 0 AND (antiflag & 256) = 0;"
 # And the pass the rod needs. Karta Wedkarska (27620), which CHARACTER::fishing()
 # wants worn, is sold in one place, the Fisherman's special shop (9009, opened
 # by fishing_pass_shop.quest), and the package asks level fifty for it - so a
@@ -925,15 +929,185 @@ if [ -s "$itemshop_schema" ]; then
     fi
 fi
 
+# Begin guarded native log index.
+# The statistics export names this index with FORCE INDEX. Keep that contract,
+# but do not silently rebuild millions of MyISAM history rows at first upgrade.
+# The read-only volume below measures the database filesystem, never /tmp in
+# this client-only container. Its space cannot establish the Docker host's free
+# space or the database's separate sort-temporary filesystem.
+playerbot_log_index_watch() {
+    pb_index_watch_started=$(date +%s)
+    while kill -0 "$pb_index_build_pid" 2>/dev/null; do
+        pb_index_connection=$(head -1 /tmp/playerbot-log-index.out)
+        pb_index_progress=
+        case "$pb_index_connection" in
+            ''|*[!0-9]*) ;;
+            *)
+                pb_index_progress=$(db --connect-timeout=5 -e "SET SESSION max_statement_time = 5;
+                    SELECT CONCAT('SQL ', TIME, ' s, ',
+                           REPLACE(REPLACE(IFNULL(NULLIF(STATE, ''), 'working'), CHAR(10), ' '), CHAR(13), ' '),
+                           IF(PROGRESS > 0, CONCAT(', ', ROUND(PROGRESS, 1), '%'), ''))
+                      FROM information_schema.PROCESSLIST
+                     WHERE ID = $pb_index_connection;" 2>/dev/null </dev/null || true)
+                ;;
+        esac
+        pb_index_elapsed=$(( $(date +%s) - pb_index_watch_started ))
+        [ "$pb_index_elapsed" -ge 0 ] || pb_index_elapsed=0
+        echo "[playerbot-migrate] log index: still building how_time_idx (${pb_index_elapsed} s${pb_index_progress:+; $pb_index_progress}) - do not stop the database or start another update"
+        sleep 20
+    done
+}
+
+playerbot_log_index_state() {
+    db -e "SET SESSION lock_wait_timeout = 30;
+        SELECT CASE WHEN COUNT(*) = 0 THEN 'absent'
+               WHEN MIN(INDEX_TYPE) = 'BTREE'
+                AND SUM(SEQ_IN_INDEX = 1 AND COLUMN_NAME = 'how' AND SUB_PART IS NULL) = 1
+                AND SUM(SEQ_IN_INDEX = 2 AND COLUMN_NAME = 'time' AND SUB_PART IS NULL) = 1
+                AND SUM(IGNORED = 'YES') = 0 THEN 'ready' ELSE 'conflict' END
+          FROM information_schema.STATISTICS
+         WHERE TABLE_SCHEMA = 'log' AND TABLE_NAME = 'log' AND INDEX_NAME = 'how_time_idx';"
+}
+
+ensure_playerbot_log_index() {
+    # An existing correctly named full-column prefix avoids any ALTER or copy.
+    # Do not drop or silently replace an operator's conflicting custom index.
+    pb_index_state=$(playerbot_log_index_state) || {
+        echo "[playerbot-migrate] FATAL: could not inspect the native log index; no index change was requested" >&2
+        return 1
+    }
+    case "$pb_index_state" in
+        ready)
+            echo "[playerbot-migrate] log index: how_time_idx already covers how/time - no history rebuild"
+            return 0
+            ;;
+        absent) ;;
+        *)
+            echo "[playerbot-migrate] FATAL: how_time_idx exists with an incompatible definition; leaving the operator's index and history unchanged" >&2
+            return 1
+            ;;
+    esac
+    pb_index_meta=$(db -e "SET SESSION lock_wait_timeout = 30;
+        SELECT ENGINE, IFNULL(DATA_LENGTH, 0), IFNULL(INDEX_LENGTH, 0),
+               IFNULL(DATA_FREE, 0), IFNULL(TABLE_ROWS, 0), @@datadir
+          FROM information_schema.TABLES
+         WHERE TABLE_SCHEMA = 'log' AND TABLE_NAME = 'log' AND TABLE_TYPE = 'BASE TABLE';") || return 1
+    IFS="$(printf '\t')" read -r pb_index_engine pb_index_data pb_index_keys pb_index_free pb_index_rows pb_index_datadir <<EOF
+$pb_index_meta
+EOF
+    case "$pb_index_data:$pb_index_keys:$pb_index_free:$pb_index_rows" in
+        ''|*[!0-9:]*|:*|*::*|*:)
+            echo "[playerbot-migrate] FATAL: native log table metadata is missing or invalid; no index change was requested" >&2
+            return 1
+            ;;
+    esac
+    # Headroom is advisory: DEFAULT may use an index-only engine path, and
+    # metadata cannot establish its exact temporary allocation. Do not force
+    # a full data COPY or refuse a start from an approximate size estimate.
+    pb_index_estimate=$(awk -v d="$pb_index_data" -v k="$pb_index_keys" -v n="$pb_index_rows" \
+        'BEGIN { printf "%.0f", d + 2 * k + n * 256 + 268435456 }')
+    pb_index_available=
+    case "$pb_index_datadir" in
+        /var/lib/mysql|/var/lib/mysql/)
+            if awk '$5 == "/opt/playerbot-db-space" { found = 1 } END { exit !found }' /proc/self/mountinfo; then
+                pb_index_available=$(df -Pk /opt/playerbot-db-space | awk 'NR == 2 { printf "%.0f", $4 * 1024 }')
+            fi
+            ;;
+    esac
+    case "$pb_index_available" in
+        ''|*[!0-9]*)
+            echo "[playerbot-migrate] WARNING: log index: database filesystem free space is unknown (missing read-only volume mount or nonstandard datadir); the migrator's /tmp is not the database disk" >&2
+            ;;
+        *)
+            echo "[playerbot-migrate] log index: database filesystem has $pb_index_available free bytes; advisory headroom $pb_index_estimate bytes"
+            if [ "$pb_index_available" -lt "$pb_index_estimate" ]; then
+                echo "[playerbot-migrate] WARNING: log index: free space is below estimated copy/index/sort headroom; this estimate is not a reservation or an exact requirement" >&2
+            fi
+            ;;
+    esac
+    echo "[playerbot-migrate] log index: building how_time_idx on $pb_index_engine history ($pb_index_rows estimated rows, $pb_index_data data bytes, $pb_index_keys index bytes); a large first upgrade can take minutes"
+    echo "[playerbot-migrate] log index: also keep space on the database's sort-temporary disk and Docker host; the read-only volume check cannot measure those"
+    # WAIT bounds only acquisition of the metadata lock. Once COPY has begun,
+    # never cancel it because an elapsed-time budget expired. No global server
+    # tunables are changed and no automatic retry repeats a failed large copy.
+    pb_index_started=$(date +%s)
+    db --unbuffered -e "SELECT CONNECTION_ID();
+        ALTER TABLE log.log WAIT 30 ADD INDEX IF NOT EXISTS how_time_idx (how,time);" \
+        >/tmp/playerbot-log-index.out 2>/tmp/playerbot-log-index.err &
+    pb_index_build_pid=$!
+    playerbot_log_index_watch &
+    pb_index_watch_pid=$!
+    pb_index_rc=0
+    wait "$pb_index_build_pid" || pb_index_rc=$?
+    kill "$pb_index_watch_pid" 2>/dev/null || true
+    wait "$pb_index_watch_pid" 2>/dev/null || true
+    if [ "$pb_index_rc" -ne 0 ]; then
+        echo "[playerbot-migrate] FATAL: native log index failed after $(( $(date +%s) - pb_index_started )) s (exit $pb_index_rc); no automatic copy retry. Inspect the database error below; do not delete history or the database volume" >&2
+        grep -v 'ssl-verify-server-cert' /tmp/playerbot-log-index.err | head -5 >&2 || true
+        return "$pb_index_rc"
+    fi
+    # IF NOT EXISTS can succeed because another session supplied the name.
+    # Verify its shape too, instead of trusting a concurrent custom index.
+    pb_index_state=$(playerbot_log_index_state) || return 1
+    if [ "$pb_index_state" != ready ]; then
+        echo "[playerbot-migrate] FATAL: native log index returned success without the required how/time definition; leaving history and existing indexes unchanged" >&2
+        return 1
+    fi
+    echo "[playerbot-migrate] log index: how_time_idx built in $(( $(date +%s) - pb_index_started )) s"
+}
+# End guarded native log index.
+
 # Patch 18 contracts are required by both the native consumer and the panel.
 # Apply before game startup; a failed contract must not enable half the patch.
 patch18_schema=/opt/playerbot/patch18_contracts.sql
 if [ -s "$patch18_schema" ]; then
     db < "$patch18_schema"
     db < /opt/playerbot/patch18_prices.sql
-    db < /opt/playerbot/patch18_bells.sql
-    db -e "ALTER TABLE log.log ADD INDEX IF NOT EXISTS how_time_idx (how,time);"
+    ensure_playerbot_log_index
     echo "[playerbot-migrate] patch18 contracts applied"
+    # Patch 19 (Iwakura x Tyrion), 1J and 5: the Blessing Scrolls' value0 and
+    # the one Cor Draconis vnum, in the world's own item rows (mt2009's
+    # world.item_proto; the file ships with that engine only). Before any core
+    # loads an item; the old values are kept in web_m2p_proto_migration_old.
+    if [ -s /opt/playerbot/patch19_world.sql ] &&
+            [ "$(db -e "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA='world' AND TABLE_NAME='item_proto';" 2>/dev/null)" = 1 ]; then
+        if db_retry </opt/playerbot/patch19_world.sql; then
+            echo "[playerbot-migrate] patch19 world rows applied"
+        else
+            echo "[playerbot-migrate] WARNING: could not apply patch19 world rows (scroll value0, Cor Draconis)" >&2
+        fi
+    fi
+fi
+# The Hexagonal Chest event (Kiciamol, 14 October): the chests 55000-55020 as
+# copies of 50037 in world.item_proto (mt2009 only; the file ships with that
+# engine). Before any core loads an item; a vnum the operator already uses is
+# left as it is and named. The chests' groups are the game image's.
+if [ -s /opt/playerbot/hexagonal_world.sql ] &&
+        [ "$(db -e "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA='world' AND TABLE_NAME='item_proto';" 2>/dev/null)" = 1 ]; then
+    if hex_out=$(db_retry </opt/playerbot/hexagonal_world.sql 2>&1); then
+        echo "$hex_out" | sed '/^$/d; s/^/[playerbot-migrate] /'
+    else
+        echo "[playerbot-migrate] WARNING: could not add the hexagonal chests to world.item_proto:" >&2
+        echo "$hex_out" | head -3 >&2
+    fi
+fi
+# Patch 19 (Iwakura x Tyrion): the Fun events' tables and the world's identity
+# (patch19_contracts.sql), and on mt2009 the NPC crafting windows as a table
+# (crafting_windows.sql; r40250 has no world database and no such file).
+if [ -s /opt/playerbot/patch19_contracts.sql ]; then
+    if db_retry < /opt/playerbot/patch19_contracts.sql; then
+        echo "[playerbot-migrate] patch19 contracts applied"
+    else
+        echo "[playerbot-migrate] WARNING: patch19 contracts not applied; the panel's Fun commands wait" >&2
+    fi
+fi
+if [ -s /opt/playerbot/crafting_windows.sql ]; then
+    if db_retry < /opt/playerbot/crafting_windows.sql; then
+        cw=$(db -e "SELECT COUNT(DISTINCT window_id), COUNT(*) FROM world.crafting_window;" 2>/dev/null || true)
+        echo "[playerbot-migrate] crafting windows (world.crafting_window): $(printf '%s' "$cw" | awk '{print $1" windows, "$2" recipes"}')"
+    else
+        echo "[playerbot-migrate] WARNING: world.crafting_window not made; the windows stay the package's" >&2
+    fi
 fi
 
 # A developer may keep more persistent bots than the public 350-row seed. When
@@ -1897,6 +2071,13 @@ else
             echo "[playerbot-migrate] FATAL: canonical cohort conflict (strict mode)" >&2
             exit "$rc"
         fi
+        if [ -s "$patch18_schema" ]; then
+            # A missing/unadopted ledger cannot identify every old bot's bells.
+            # Do not enable Patch 18 or seal an empty snapshot after a conflict.
+            echo "[playerbot-migrate] FATAL: Patch 18 needs a successful canonical seed/adoption before the bell snapshot" >&2
+            echo "[playerbot-migrate] FATAL: resolve the seed conflict above before restarting; the snapshot was not run" >&2
+            exit "$rc"
+        fi
         echo "[playerbot-migrate] WARNING: existing non-canonical Playerbot cohort detected" >&2
         echo "[playerbot-migrate] WARNING: preserving it unchanged; canonical seed skipped" >&2
         echo "[playerbot-migrate] WARNING: set PLAYERBOT_SEED_STRICT=1 to make this fatal" >&2
@@ -1959,6 +2140,14 @@ case "${pool_first:-}${pool_last:-}" in
         ;;
 esac
 
+# The seed creates its durable ledger and adopts verified existing identities.
+# Snapshot only after that and the post-check, never from a temporary empty
+# ledger: doing so would seal bell_snapshot18=18 while omitting legacy goods.
+if [ -s "$patch18_schema" ]; then
+    db < /opt/playerbot/patch18_bells.sql
+    echo "[playerbot-migrate] patch18 bell snapshot applied after seed/adoption"
+fi
+
 # ---------------------------------------------------------------------------
 # Human nicknames.
 #
@@ -1996,6 +2185,108 @@ if [ -s "$names" ]; then
 else
     echo "[playerbot-migrate] no playerbot_names.sql; bots keep their seed names"
 fi
+
+# BEGIN new world (tests/patch19_sql_test.sh runs this block)
+# ---------------------------------------------------------------------------
+# A new world (Iwakura x Tyrion Patch 19, point 11).
+#
+# "Po swiezej reinstalacji bazy prawa GM nie sa resetowane" and "rankingi
+# pokazuja konta z poprzedniego swiata". The database knows which world it is
+# (player.web_m2p_world: initdb writes the row with fresh=1 into a database it
+# has just made, patch19_contracts.sql adopts an older world with fresh=0).
+# Once for a fresh one: common.gmlist starts empty and the operator's accounts
+# (M2_GM_ACCOUNTS, the tester account by default) get IMPLEMENTOR for every
+# character they have - the game masters initdb created on `admin' among them
+# - and the panel's tables about characters start empty. At every start the
+# world's id goes to the spool, and the game container's m2-new-world removes
+# the old world's exports from the state volume and the spool when the id is
+# not the one they were written for.
+#
+# Only a world nobody has played yet is reset (kreinbargh's lost IMPLEMENTOR,
+# 13 October, made the question worth asking): the reset belongs to the
+# first start, before any core ran, and a start that failed before this
+# block, or a reset_done that could not be written, would otherwise carry
+# it to a later start and empty the GM list - and the rankings - of a world
+# its operator has been playing, every character of another account losing
+# its rights at that restart. A character with playtime is a world played:
+# the seed's bots, the companion pool and initdb's game masters all start
+# at 0. Such a world is marked done and left as it is; a count that cannot
+# be read changes nothing and asks again at the next start.
+# ---------------------------------------------------------------------------
+world_row=$(db -e "SELECT world_id, fresh, IF(reset_done IS NULL, 0, 1) FROM player.web_m2p_world WHERE singleton = 1;" 2>/dev/null || true)
+world_id=$(printf '%s\n' "$world_row" | awk 'NR == 1 { print $1 }' | tr -cd '0-9a-f')
+world_fresh=$(printf '%s\n' "$world_row" | awk 'NR == 1 { print $2 }')
+world_reset=$(printf '%s\n' "$world_row" | awk 'NR == 1 { print $3 }')
+world_played=x
+if [ -n "$world_id" ] && [ "$world_fresh" = "1" ] && [ "$world_reset" = "0" ]; then
+    world_played=$(db -e "SELECT COUNT(*) FROM player.player WHERE playtime > 0;" 2>/dev/null | tr -cd '0-9')
+    [ -n "$world_played" ] || world_played=x
+    if [ "$world_played" = "x" ]; then
+        echo "[playerbot-migrate] WARNING: new world $world_id: could not tell whether it was played; its GM list is left as it is until the next start" >&2
+    elif [ "$world_played" != "0" ]; then
+        echo "[playerbot-migrate] new world $world_id: already played ($world_played characters); its GM list and rankings are kept"
+        db_retry -e "UPDATE player.web_m2p_world SET reset_done = NOW() WHERE singleton = 1;" \
+            || echo "[playerbot-migrate] WARNING: could not mark the played world's reset done" >&2
+    fi
+fi
+if [ -n "$world_id" ] && [ "$world_fresh" = "1" ] && [ "$world_reset" = "0" ] && [ "$world_played" = "0" ]; then
+    echo "[playerbot-migrate] new world $world_id: the GM list and the rankings' sources start empty"
+    if db_retry -e "DELETE FROM common.gmlist;"; then
+        echo "[playerbot-migrate] new world: common.gmlist emptied"
+    else
+        echo "[playerbot-migrate] WARNING: could not empty common.gmlist" >&2
+    fi
+    for gm_login in $(printf '%s' "${M2_GM_ACCOUNTS:-admin}" | tr ',;' '  '); do
+        case "$gm_login" in
+            *[!A-Za-z0-9_]*|'') echo "[playerbot-migrate] WARNING: M2_GM_ACCOUNTS: '$gm_login' is no login; skipped" >&2; continue ;;
+        esac
+        if db_retry -e "INSERT INTO common.gmlist (mAccount, mName, mContactIP, mServerIP, mAuthority)
+                SELECT a.login, p.name, '', 'ALL', 'IMPLEMENTOR'
+                  FROM player.player AS p JOIN account.account AS a ON a.id = p.account_id
+                 WHERE a.login = '$gm_login'
+                   AND NOT EXISTS (SELECT 1 FROM common.gmlist AS g WHERE g.mName = p.name);"; then
+            gm_n=$(db -e "SELECT COUNT(*) FROM common.gmlist WHERE mAccount = '$gm_login';" 2>/dev/null || echo '?')
+            echo "[playerbot-migrate] new world: $gm_n game master(s) on the account '$gm_login'"
+        else
+            echo "[playerbot-migrate] WARNING: could not name the game masters of '$gm_login'" >&2
+        fi
+    done
+    for pb_table in web_m2p_valuation web_m2p_persona_history web_m2p_persona_profile web_m2p_fun_event web_m2p_fun_run; do
+        pb_has=$(db -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'player' AND table_name = '$pb_table';" 2>/dev/null || echo 0)
+        if [ "$pb_has" = "1" ]; then
+            db_retry -e "DELETE FROM player.$pb_table;" >/dev/null || echo "[playerbot-migrate] WARNING: could not empty player.$pb_table" >&2
+        fi
+    done
+    db_retry -e "UPDATE player.web_m2p_world SET reset_done = NOW() WHERE singleton = 1;" \
+        || echo "[playerbot-migrate] WARNING: could not mark the new world's reset done; it runs again next start" >&2
+fi
+if [ -n "$world_id" ] && [ -d /opt/m2spool ]; then
+    if printf '%s\n' "$world_id" > /opt/m2spool/world-id.new 2>/dev/null && mv -f /opt/m2spool/world-id.new /opt/m2spool/world-id 2>/dev/null; then
+        chmod 0664 /opt/m2spool/world-id 2>/dev/null || true
+    else
+        rm -f /opt/m2spool/world-id.new 2>/dev/null || true
+        echo "[playerbot-migrate] WARNING: could not write the world's id to the spool; the old world's exports are not compared" >&2
+    fi
+fi
+# END new world
+
+# BEGIN gmlist width (tests/patch19_sql_test.sh runs this block)
+# A character's name is up to 24 letters (CHARACTER_NAME_MAX_LEN; the bots'
+# names and a renamed character's are), and the package's common.gmlist
+# keeps mName in sixteen: a game master named longer could never be one, the
+# row cut short or refused (kreinbargh's renamed GM, 13 October, made the
+# width worth a look). The db core copies the column into a 32-byte field
+# (TAdminInfo::m_szName), so twenty-four is safe on both sides. Once a world.
+# ---------------------------------------------------------------------------
+gm_width=$(db -e "SELECT CHARACTER_MAXIMUM_LENGTH FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = 'common' AND TABLE_NAME = 'gmlist' AND COLUMN_NAME = 'mName';" 2>/dev/null | tr -cd '0-9')
+if [ -n "$gm_width" ] && [ "$gm_width" -lt 24 ]; then
+    if db_retry -e "ALTER TABLE common.gmlist MODIFY mName VARCHAR(24) NOT NULL DEFAULT '';"; then
+        echo "[playerbot-migrate] common.gmlist: mName widened from $gm_width to 24 characters"
+    else
+        echo "[playerbot-migrate] WARNING: could not widen common.gmlist.mName; a game master's name stays at $gm_width characters" >&2
+    fi
+fi
+# END gmlist width
 
 # The tester account's own game masters, mt2009 only (see the file).
 if [ -s /opt/playerbot/gm_characters.sql ]; then

@@ -13,11 +13,13 @@
 # package-en/mob_names.txt  sha256 8ba331f476826fb4
 # conf/mob_names.txt  sha256 171a1f706d6e7471
 # conf/mob_names_pl.txt  sha256 48a2946520e9f6af
-# data/item_texts_en.tsv  sha256 0f4b084d41cb2deb
+# data/item_texts_en.tsv  sha256 8cca402c53d467ad
 # data/mob_texts_en.tsv  sha256 5b622a6bc225d117
+# playerbot/hexagonal_world.sql  sha256 6fbbca2de4a6c204
 # renamed by the migrator: m10077, m10814, m10817, m10818, i31073, i40002
+# added by the migrator: i55000, i55001, i55002, i55003, i55004, i55005, i55006, i55007, i55008, i55009, i55010, i55011, i55012, i55013, i55014, i55015, i55016, i55017, i55018, i55019, i55020
 #
-# item_proto: 6001 in this world, 5862 named (5505 by vnum, 103 by Gameforge's Polish name, 254 by hand), 139 left in Polish (no_row 14, other_item 2, untranslated 123)
+# item_proto: 6022 in this world, 5883 named (5505 by vnum, 103 by Gameforge's Polish name, 275 by hand), 139 left in Polish (no_row 14, other_item 2, untranslated 123)
 # mob_proto: 1424 in this world, 1056 named (1001 by vnum, 1 by Gameforge's Polish name, 54 by hand), 368 left in Polish (no_row 35, other_item 70, untranslated 263)
 # mob_proto type NPC: 360 in this world, 275 named (236 by vnum, 1 by Gameforge's Polish name, 38 by hand), 85 left in Polish (no_row 28, other_item 1, untranslated 56)
 #
@@ -5075,6 +5077,27 @@ i	53514	Executioner's Chest	743d6ae5
 i	53515	Executioner's Chest (Gold)	07361e3b
 i	53516	Bone Chest	ec4645db
 i	53517	Jade Cage	ce4475d3
+i	55000	Hexagonal Treasure Chest (M2)	d3068d63
+i	55001	Hexagonal Treasure Chest (Guild Grounds)	d54debbb
+i	55002	Hexagonal Treasure Chest (Mount Sohan)	10fa4372
+i	55003	Hexagonal Treasure Chest (Doyyumhwaji)	83451c74
+i	55004	Hexagonal Treasure Chest (Desert)	0e7d51dd
+i	55005	Hexagonal Treasure Chest (Orc Valley)	b76e418f
+i	55006	Hexagonal Treasure Chest (Temple)	d69da391
+i	55007	Hexagonal Treasure Chest (Demon Tower)	83c2466b
+i	55008	Hexagonal Treasure Chest (Ghost Wood)	f778e36e
+i	55009	Hexagonal Treasure Chest (Red Wood)	3492dad1
+i	55010	Hexagonal Treasure Chest (Spider Dungeon 2)	ebae789d
+i	55011	Hexagonal Treasure Chest (Grotto 1)	b9a77f62
+i	55012	Hexagonal Treasure Chest (Grotto 2)	b8a77dcf
+i	55013	Hexagonal Treasure Chest (Monkey Dungeon 2)	f3712a18
+i	55014	Hexagonal Treasure Chest (Monkey Dungeon 3)	f4712bab
+i	55015	Hexagonal Treasure Chest (Dragon Room)	4477bc56
+i	55016	Hexagonal Treasure Chest (Cape)	3cac276c
+i	55017	Hexagonal Treasure Chest (Nephrite Bay)	0095c6d7
+i	55018	Hexagonal Treasure Chest (Gautama Cliff)	8006287e
+i	55019	Hexagonal Treasure Chest (Thunder Mountains)	66c22d0d
+i	55020	Hexagonal Treasure Chest (Fortress)	25b0c2ec
 i	60001	Gall	593cc53e
 i	60002	Note from Storage Guard	fa679527
 i	60003	Heroic Symbol	81753fb8

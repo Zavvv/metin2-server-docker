@@ -11,7 +11,9 @@
 !mark-default
 !quest
 !quest/m2_biologist.lua
+!quest/m2_crafting_windows.lua
 !quest/m2_difficulty.lua
+!quest/m2_hexagonal_event.lua
 !quest/quest_language.lua
 !quest/quest_texts_en.lua
 !scripts
@@ -21,6 +23,7 @@
 !share-add/oxquiz.lua
 !share-add/playerbot_live_chat_*.tsv
 !share-add/playerbot_names_en.tsv
+!share-add/special_item_group.hexagonal.txt
 !share-add/special_item_group.moonlight.txt
 !share-add/special_item_group.starter.txt
 !share-add/special_spawns.baroness.txt

@@ -218,6 +218,11 @@ command -v m2-lang >/dev/null 2>&1 \
 # published in the spool for the editor.
 command -v m2-drop-tables >/dev/null 2>&1 \
   && { m2-drop-tables prepare || log "could not prepare the drop tables (the editor will say so)"; }
+# A new database (Iwakura x Tyrion Patch 19, point 11): the old world's
+# exports on the state volume and in the spool go before any core starts, so
+# no ranking names the previous world's characters (see m2-new-world).
+command -v m2-new-world >/dev/null 2>&1 \
+  && { m2-new-world || log "could not compare the world with the state volume (continuing)"; }
 
 # -----------------------------------------------------------------------------
 # 3. Resource limits.

@@ -2,7 +2,9 @@
 # =============================================================================
 #  m2-drop-tables -- the operator's chest groups (special_item_group.txt) and
 #                    monster drop groups (mob_drop_item.txt) from the panel's
-#                    editor (the operator, 7 October).
+#                    editor (the operator, 7 October), and since Iwakura x
+#                    Tyrion Patch 19, point 9, etc_drop_item.txt (a monster
+#                    proto's own drop and its chance, a line per item).
 #
 #  The panel cannot write into this container, so it leaves its override in
 #  the spool the two share (the rates' pattern), in $SPOOL/drop-tables/:
@@ -54,7 +56,11 @@ SPOOL_GROUP="${M2_DROP_TABLES_GROUP:-m2spool}"
 DIR="$SPOOL/drop-tables"
 STATE="$VAR_DIR/drop-tables"
 STATUS="$DIR/status"
-FILES="special_item_group.txt mob_drop_item.txt"
+# etc_drop_item.txt since Iwakura x Tyrion Patch 19, point 9: the item a
+# monster's proto names as its drop and its chance, a line per item. The game
+# reads it from this file (world.etc_drop_item does nothing); its override is
+# line-level, keyed by the item's number (merge_etc_awk below).
+FILES="special_item_group.txt mob_drop_item.txt etc_drop_item.txt"
 
 say() { printf '%s [drop-tables] %s\n' "$(date -u '+%Y-%m-%d %H:%M:%SZ')" "$*"; }
 
@@ -62,6 +68,7 @@ kind_of() {
   case "$1" in
     special_item_group.txt) echo special ;;
     mob_drop_item.txt) echo mob ;;
+    etc_drop_item.txt) echo etc ;;
   esac
 }
 
@@ -198,7 +205,81 @@ END {
 }
 '
 
+# etc_drop_item.txt's merge: files/drop_tables.py's etc_merge(), line for
+# line. An entry takes the place of the first image line of its item (later
+# lines of that item go: the engine keeps the last one it reads), a removed
+# item's lines go, new items are appended. An image line's key is the digits
+# at the start of the text before its last tab, as the engine's strrchr and
+# strtoul read it.
+merge_etc_awk='
+function strip(s) { sub(/\r$/, "", s); return s }
+function die(m) { print "M2_DROP_OVERRIDE: " m > "/dev/stderr"; dead = 1; exit 3 }
+function nozero(s) { sub(/^0+/, "", s); return s == "" ? "0" : s }
+function keyof(l,   i, t, name, d) {
+  t = 0
+  for (i = length(l); i > 0; i--) if (substr(l, i, 1) == "\t") { t = i; break }
+  if (t <= 1) return ""
+  name = substr(l, 1, t - 1)
+  if (!match(name, /^[ \t]*[0-9]+/)) return ""
+  d = substr(name, RSTART, RLENGTH); gsub(/[ \t]/, "", d)
+  if (length(d) > 10) return ""
+  return nozero(d)
+}
+function override_done() {
+  if (checked) return
+  checked = 1
+  if (ln < 1) die("the first line is not \047# m2-drop-override 1 " fname "\047")
+}
+FILENAME == ARGV[1] {
+  ln++
+  l = strip($0)
+  if (ln == 1) {
+    if (l != "# m2-drop-override 1 " fname) die("the first line is not \047# m2-drop-override 1 " fname "\047")
+    next
+  }
+  nw = split(l, w)
+  if (nw == 0) next
+  if (w[1] == "#" && nw >= 2 && w[2] == "remove") {
+    if (nw != 3 || w[3] !~ /^[0-9]+$/ || length(w[3]) > 10) die("a bad \047# remove\047 key (line " ln ")")
+    k = nozero(w[3])
+    if (k in seen) die("the key " k " twice")
+    seen[k] = 1; rm[k] = 1
+    next
+  }
+  if (substr(l, 1, 1) == "#") next
+  bad = "line " ln ": an entry is \047<item number><TAB><chance>\047, the chance with a dot"
+  if (l !~ /^[0-9]+\t[0-9]+(\.[0-9]+)?$/) die(bad)
+  split(l, e, "\t"); n = split(e[2], p, ".")
+  if (length(e[1]) > 10 || length(p[1]) > 3 || (n == 2 && length(p[2]) > 6)) die(bad)
+  if (!(e[2] + 0 > 0 && e[2] + 0 <= 100)) die("line " ln ": the chance " e[2] " must be over 0 and at most 100")
+  k = nozero(e[1])
+  if (k in seen) die("the key " k " twice")
+  seen[k] = 1; ov[k] = k "\t" e[2]; ne++; order[ne] = k
+  next
+}
+{
+  override_done()
+  k = keyof(strip($0))
+  if (k != "" && (k in ov)) {
+    if (!(k in done)) { print ov[k]; done[k] = 1 }
+    next
+  }
+  if (k != "" && (k in rm)) next
+  print
+}
+END {
+  if (dead) exit 3
+  override_done()
+  if (dead) exit 3
+  for (i = 1; i <= ne; i++) if (!(order[i] in done)) print ov[order[i]]
+}
+'
+
 merge() { # merge <file> <original> <override>  -> stdout
+  if [ "$(kind_of "$1")" = etc ]; then
+    awk -v fname="$1" "$merge_etc_awk" "$3" "$2"
+    return
+  fi
   awk -v kind="$(kind_of "$1")" -v fname="$1" "$merge_awk" "$3" "$2"
 }
 
@@ -373,7 +454,7 @@ cmd_fallback() {
   # The boot's own words (input_db.cpp, item_manager_read_tables.cpp,
   # text_file_loader.cpp), written after this start's apply.
   hit=$(tail -c +"$((offe + 1))" "$dir/syserr" 2>/dev/null \
-        | grep -a -m 1 -E 'cannot load (SpecialItemGroup|MOBDropItemFile)|ReadSpecialDropItemFile|ReadMonsterDropItemGroup|ReadmonsterDropItemGroup|Invalid group syntax|must have a value' \
+        | grep -a -m 1 -E 'cannot load (SpecialItemGroup|MOBDropItemFile|ETCDropItem)|ReadSpecialDropItemFile|ReadMonsterDropItemGroup|ReadmonsterDropItemGroup|Invalid group syntax|must have a value' \
         | one_line)
   # And the file the core was reading when it stopped: a crash inside the
   # reader writes no syserr line, but the last LoadLocaleFile line names it.
@@ -381,11 +462,13 @@ cmd_fallback() {
   case "$hit" in
     *SpecialItemGroup*|*ReadSpecialDropItemFile*) which=special_item_group.txt ;;
     *MOBDropItemFile*|*ReadMonsterDropItemGroup*|*ReadmonsterDropItemGroup*) which=mob_drop_item.txt ;;
+    *ETCDropItem*) which=etc_drop_item.txt ;;
   esac
   if [ -z "$which" ]; then
     case "$last" in
       *SpecialItemGroup) which=special_item_group.txt ;;
       *MOBDropItemFile) which=mob_drop_item.txt ;;
+      *ETCDropItem) which=etc_drop_item.txt ;;
     esac
     [ -n "$hit" ] || hit="the core stopped while it read the file (${last:-no log line})"
   fi

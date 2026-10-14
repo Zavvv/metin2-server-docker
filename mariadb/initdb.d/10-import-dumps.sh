@@ -110,6 +110,23 @@ ALTER TABLE account.account ADD COLUMN IF NOT EXISTS mileage INT NOT NULL DEFAUL
 ALTER TABLE account.account ADD COLUMN IF NOT EXISTS jackpot INT NOT NULL DEFAULT 0;
 SQL
 
+# Which world this database is (Iwakura x Tyrion Patch 19, point 11): made
+# here, so fresh. The migrator resets the GM list of a fresh world once, and
+# the game container removes the old world's exports from its state volume
+# when the id is not the one they were written for (m2-new-world). The same
+# table is made by patch19_contracts.sql, which adopts an older world as not
+# fresh.
+echo "[initdb] naming this world (player.web_m2p_world)"
+mysql_do <<'SQL'
+CREATE TABLE IF NOT EXISTS player.web_m2p_world (
+ singleton TINYINT PRIMARY KEY, world_id CHAR(32) NOT NULL,
+ created_at DATETIME NOT NULL, fresh TINYINT NOT NULL DEFAULT 0,
+ reset_done DATETIME NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT IGNORE INTO player.web_m2p_world (singleton, world_id, created_at, fresh)
+ VALUES (1, REPLACE(UUID(), '-', ''), NOW(), 1);
+SQL
+
 # 20-log-schema.sql (the log tables the engine writes that the dump lacks) is
 # run by the image itself right after this script, in name order.
 

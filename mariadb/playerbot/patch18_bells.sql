@@ -24,6 +24,19 @@ CREATE TABLE IF NOT EXISTS web_m2p_bell_status(
  state VARCHAR(32) NOT NULL,seen_at DATETIME NOT NULL
 ) ENGINE=InnoDB;
 ALTER TABLE web_m2p_bell_migration ADD COLUMN IF NOT EXISTS ready_until DATETIME NULL;
+-- Patch 19, 2D: every claim of a line is an attempt; after three a line that
+-- still stands is an error, set aside so the rest goes on.
+ALTER TABLE web_m2p_bell_migration ADD COLUMN IF NOT EXISTS attempts INT UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE web_m2p_bell_status ADD COLUMN IF NOT EXISTS removed BIGINT NOT NULL DEFAULT 0;
+ALTER TABLE web_m2p_bell_status ADD COLUMN IF NOT EXISTS errors BIGINT NOT NULL DEFAULT 0;
+ALTER TABLE web_m2p_bell_status ADD COLUMN IF NOT EXISTS done TINYINT NOT NULL DEFAULT 0;
+-- Patch 19, 1H: a market line the Plan buys a base from, claimed for one bot
+-- across every core and channel; free again after five minutes or when the
+-- purchase fails (playerbot_patch19_surplus.h; the core makes it too).
+CREATE TABLE IF NOT EXISTS web_m2p_offer_claim(
+ item_id INT UNSIGNED PRIMARY KEY,pid INT UNSIGNED NOT NULL,
+ claimed_at DATETIME NOT NULL,KEY(pid)
+) ENGINE=InnoDB;
 DELIMITER $$
 CREATE PROCEDURE IF NOT EXISTS pb18_snapshot_bells()
 proc: BEGIN
@@ -87,17 +100,24 @@ proc: BEGIN
  DECLARE picked INT UNSIGNED DEFAULT 0;DECLARE picked_owner INT UNSIGNED DEFAULT 0;
  DECLARE picked_units INT DEFAULT 0;DECLARE pending INT DEFAULT 0;
  DECLARE cleanup_version INT DEFAULT 0;
+ DECLARE errored BIGINT DEFAULT 0;
  DECLARE EXIT HANDLER FOR SQLEXCEPTION BEGIN ROLLBACK;RESIGNAL;END;
  START TRANSACTION;
  SELECT family INTO locked FROM web_m2p_bell_lock WHERE family=fam FOR UPDATE;
  IF fam NOT IN (5030,5040) THEN ROLLBACK;SELECT 0 AS item_id;LEAVE proc;END IF;
  DELETE r FROM web_m2p_bell_removal r LEFT JOIN item i ON i.id=r.item_id
   WHERE r.family=fam AND (i.id IS NULL OR i.`window`<>'IKASHOP_OFFLINESHOP' OR i.ikashop_data IS NULL OR i.ikashop_data='');
+ -- Patch 19, 2D: a claim ten minutes old is a failed attempt whatever its
+ -- core (a visit's own deadline is ninety seconds); a live core used to keep
+ -- it for ever, and the queued units held the migration short of its end.
  DELETE r FROM web_m2p_bell_removal r
-  LEFT JOIN web_m2p_population_runtime c ON c.channel=r.channel AND c.port=r.port
-  WHERE r.family=fam AND r.claimed_at<NOW()-INTERVAL 10 MINUTE
-  AND (c.channel IS NULL OR c.seen_at<NOW()-INTERVAL 120 SECOND OR c.boot_at>r.claimed_at);
- SELECT COALESCE(SUM(i.`count`),0),COALESCE(SUM(m.reserved IS NULL),0) INTO actual,pending
+  WHERE r.family=fam AND r.claimed_at<NOW()-INTERVAL 10 MINUTE;
+ -- Patch 19, 2D: a line three attempts could not take down is an error,
+ -- set aside; the others go on and the end is marked without it.
+ UPDATE web_m2p_bell_migration m LEFT JOIN web_m2p_bell_removal r ON r.item_id=m.item_id
+  SET m.state='error' WHERE m.vnum BETWEEN fam AND fam+9 AND m.state='ordinary' AND m.attempts>=3 AND r.item_id IS NULL;
+ SELECT COALESCE(SUM(i.`count`),0),COALESCE(SUM(m.reserved IS NULL),0),COALESCE(SUM(IF(m.state='error',i.`count`,0)),0)
+ INTO actual,pending,errored
  FROM item i JOIN ikashop_offlineshop s ON s.owner=i.owner_id AND s.duration>0
  JOIN common.playerbot_seed_state b ON b.pid=i.owner_id AND b.seed_version=1 AND b.state IN ('complete','adopted')
  LEFT JOIN web_m2p_bell_migration m ON m.item_id=i.id
@@ -111,20 +131,21 @@ proc: BEGIN
  SELECT COALESCE(MAX(value),0) INTO cleanup_version FROM web_m2p_contract_state
   WHERE name=CONCAT('bell_cleanup',fam);
  IF cleanup_version=18 THEN COMMIT;SELECT 0 AS item_id;LEAVE proc;END IF;
- IF actual<=5 AND queued=0 AND pending=0 THEN
+ IF actual-errored<=5 AND queued=0 AND pending=0 THEN
   INSERT INTO web_m2p_contract_state(name,value) VALUES(CONCAT('bell_cleanup',fam),18)
    ON DUPLICATE KEY UPDATE value=18,updated_at=NOW();
   COMMIT;SELECT 0 AS item_id;LEAVE proc;
  END IF;
  -- An offline/unclassified owner cannot hold up known safe goods. Its
  -- holdings remain untouched and prevent the final completion marker.
- IF actual-queued<=5 THEN COMMIT;SELECT 0 AS item_id;LEAVE proc;END IF;
+ IF actual-queued-errored<=5 THEN COMMIT;SELECT 0 AS item_id;LEAVE proc;END IF;
  SELECT i.id,i.owner_id,i.`count` INTO picked,picked_owner,picked_units
  FROM item i JOIN ikashop_offlineshop s ON s.owner=i.owner_id AND s.duration>0
  JOIN web_m2p_bell_migration m ON m.item_id=i.id AND m.pid=i.owner_id AND m.reserved=0 AND m.state='ordinary'
  JOIN common.playerbot_seed_state b ON b.pid=i.owner_id AND b.seed_version=1 AND b.state IN ('complete','adopted')
  LEFT JOIN web_m2p_bell_removal r ON r.item_id=i.id
  WHERE i.vnum BETWEEN fam AND fam+9 AND i.`window`='IKASHOP_OFFLINESHOP' AND r.item_id IS NULL
+ AND m.attempts<3
  AND m.checked_at>=NOW()-INTERVAL 5 MINUTE
  AND m.ready_until>=NOW()
  AND i.ikashop_data IS NOT NULL AND i.ikashop_data<>''
@@ -135,6 +156,7 @@ proc: BEGIN
  ORDER BY m.value_yang/GREATEST(i.`count`,1) DESC,m.snapshot_at ASC,i.id ASC LIMIT 1;
  IF picked>0 AND picked_owner=who THEN
   INSERT INTO web_m2p_bell_removal VALUES(picked,who,fam,picked_units,ch,core_port,NOW());
+  UPDATE web_m2p_bell_migration SET attempts=attempts+1 WHERE item_id=picked;
  ELSE SET picked=0;
  END IF;
  COMMIT;SELECT picked AS item_id;
@@ -146,12 +168,25 @@ proc: BEGIN
  DECLARE queued BIGINT DEFAULT 0;DECLARE version INT DEFAULT 0;
  DECLARE picked INT UNSIGNED DEFAULT 0;DECLARE owner_pid INT UNSIGNED DEFAULT 0;
  DECLARE status_name VARCHAR(32) DEFAULT 'waiting';
+ DECLARE error_units BIGINT DEFAULT 0;DECLARE removed_lines BIGINT DEFAULT 0;
  DECLARE EXIT HANDLER FOR SQLEXCEPTION BEGIN ROLLBACK;RESIGNAL;END;
  START TRANSACTION;
  SELECT family INTO locked FROM web_m2p_bell_lock WHERE family=fam FOR UPDATE;
+ DELETE r FROM web_m2p_bell_removal r LEFT JOIN item i ON i.id=r.item_id
+  WHERE r.family=fam AND (i.id IS NULL OR i.`window`<>'IKASHOP_OFFLINESHOP' OR i.ikashop_data IS NULL OR i.ikashop_data='');
+ -- Patch 19, 2D: a claim ten minutes old is a failed attempt whatever its
+ -- core (a visit's own deadline is ninety seconds); a live core used to keep
+ -- it for ever, and the queued units held the migration short of its end.
+ DELETE r FROM web_m2p_bell_removal r
+  WHERE r.family=fam AND r.claimed_at<NOW()-INTERVAL 10 MINUTE;
+ -- Patch 19, 2D: three failed attempts set a line aside as an error.
+ UPDATE web_m2p_bell_migration m LEFT JOIN web_m2p_bell_removal r ON r.item_id=m.item_id
+  SET m.state='error' WHERE m.vnum BETWEEN fam AND fam+9 AND m.state='ordinary' AND m.attempts>=3 AND r.item_id IS NULL;
  SELECT COALESCE(SUM(i.`count`),0),COALESCE(SUM(IF(m.reserved IS NULL,i.`count`,0)),0),
-  COALESCE(SUM(IF(m.reserved=1,i.`count`,0)),0),COALESCE(SUM(IF(m.reserved=0,i.`count`,0)),0)
- INTO actual,pending,protected_units,ordinary_units
+  COALESCE(SUM(IF(m.reserved=1,i.`count`,0)),0),
+  COALESCE(SUM(IF(m.reserved=0 AND m.state<>'error',i.`count`,0)),0),
+  COALESCE(SUM(IF(m.state='error',i.`count`,0)),0)
+ INTO actual,pending,protected_units,ordinary_units,error_units
  FROM item i JOIN ikashop_offlineshop s ON s.owner=i.owner_id AND s.duration>0
  JOIN common.playerbot_seed_state b ON b.pid=i.owner_id AND b.seed_version=1 AND b.state IN ('complete','adopted')
  LEFT JOIN web_m2p_bell_migration m ON m.item_id=i.id
@@ -161,29 +196,27 @@ proc: BEGIN
   OR (i.attrtype2=int_type AND i.attrvalue2 IN (8,12)) OR (i.attrtype3=int_type AND i.attrvalue3 IN (8,12))
   OR (i.attrtype4=int_type AND i.attrvalue4 IN (8,12)) OR (i.attrtype5=int_type AND i.attrvalue5 IN (8,12))
   OR (i.attrtype6=int_type AND i.attrvalue6 IN (8,12)));
- DELETE r FROM web_m2p_bell_removal r LEFT JOIN item i ON i.id=r.item_id
-  WHERE r.family=fam AND (i.id IS NULL OR i.`window`<>'IKASHOP_OFFLINESHOP' OR i.ikashop_data IS NULL OR i.ikashop_data='');
- DELETE r FROM web_m2p_bell_removal r
-  LEFT JOIN web_m2p_population_runtime c ON c.channel=r.channel AND c.port=r.port
-  WHERE r.family=fam AND r.claimed_at<NOW()-INTERVAL 10 MINUTE
-  AND (c.channel IS NULL OR c.seen_at<NOW()-INTERVAL 120 SECOND OR c.boot_at>r.claimed_at);
  SELECT COALESCE(SUM(units),0) INTO queued FROM web_m2p_bell_removal WHERE family=fam;
+ SELECT COUNT(*) INTO removed_lines FROM web_m2p_bell_migration WHERE vnum BETWEEN fam AND fam+9 AND state='removed';
  SELECT COALESCE(MAX(value),0) INTO version FROM web_m2p_contract_state WHERE name=CONCAT('bell_cleanup',fam);
- IF version=18 THEN SET status_name=IF(actual<=5,'complete',
-  IF(pending=0 AND ordinary_units=0,'complete_protected_exception','post_migration_excess'));
- ELSEIF pending=0 AND queued=0 AND (actual<=5 OR ordinary_units=0) THEN
+ IF version=18 THEN SET status_name=IF(error_units>0,'complete_with_errors',IF(actual<=5,'complete',
+  IF(pending=0 AND ordinary_units=0,'complete_protected_exception','post_migration_excess')));
+ ELSEIF pending=0 AND queued=0 AND (actual-error_units<=5 OR ordinary_units=0) THEN
   -- Protected holdings have precedence over liquidation. A finished pass
-  -- records their excess explicitly, rather than claiming a strict five.
-  SET status_name=IF(actual>5,'complete_protected_exception','complete');
+  -- records their excess explicitly, rather than claiming a strict five;
+  -- a line set aside as an error does not hold the end (Patch 19, 2D).
+  SET status_name=IF(error_units>0,'complete_with_errors',IF(actual>5,'complete_protected_exception','complete'));
   INSERT INTO web_m2p_contract_state(name,value) VALUES(CONCAT('bell_cleanup',fam),18)
    ON DUPLICATE KEY UPDATE value=18,updated_at=NOW();
- ELSEIF actual-queued>5 THEN
+  SET version=18;
+ ELSEIF actual-queued-error_units>5 THEN
   SELECT i.id,i.owner_id INTO picked,owner_pid FROM item i
   JOIN ikashop_offlineshop s ON s.owner=i.owner_id AND s.duration>0
   JOIN web_m2p_bell_migration m ON m.item_id=i.id AND m.pid=i.owner_id AND m.reserved=0 AND m.state='ordinary'
   JOIN common.playerbot_seed_state b ON b.pid=i.owner_id AND b.seed_version=1 AND b.state IN ('complete','adopted')
   LEFT JOIN web_m2p_bell_removal r ON r.item_id=i.id
   WHERE i.vnum BETWEEN fam AND fam+9 AND i.`window`='IKASHOP_OFFLINESHOP' AND r.item_id IS NULL
+  AND m.attempts<3
   AND m.checked_at>=NOW()-INTERVAL 5 MINUTE
   AND m.ready_until>=NOW()
   AND i.ikashop_data IS NOT NULL AND i.ikashop_data<>''
@@ -195,9 +228,11 @@ proc: BEGIN
   SET status_name=IF(picked>0,'service_pending',IF(pending>0,'classification_pending','owner_unavailable'));
  ELSE SET status_name=IF(queued>0,'native_ack_pending','classification_pending');
  END IF;
- INSERT INTO web_m2p_bell_status VALUES(fam,actual,pending,protected_units,ordinary_units,queued,status_name,NOW())
+ INSERT INTO web_m2p_bell_status(family,actual,unclassified,protected,ordinary,queued,state,seen_at,removed,errors,done)
+  VALUES(fam,actual,pending,protected_units,ordinary_units,queued,status_name,NOW(),removed_lines,error_units,IF(version=18,1,0))
   ON DUPLICATE KEY UPDATE actual=VALUES(actual),unclassified=VALUES(unclassified),protected=VALUES(protected),
-   ordinary=VALUES(ordinary),queued=VALUES(queued),state=VALUES(state),seen_at=VALUES(seen_at);
+   ordinary=VALUES(ordinary),queued=VALUES(queued),state=VALUES(state),seen_at=VALUES(seen_at),
+   removed=VALUES(removed),errors=VALUES(errors),done=VALUES(done);
  COMMIT;
  SELECT picked AS item_id,owner_pid AS pid,actual,pending AS unclassified,protected_units AS protected,status_name AS state;
 END$$

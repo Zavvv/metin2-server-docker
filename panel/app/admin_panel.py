@@ -711,6 +711,18 @@ BOT_GOAL_LABELS = {
         4: "Stok yenileme", 5: "EQ yükseltme", 6: "Beceri geliştirme", 7: "Metin avı",
         8: "Grupla güçlü hedefler", 9: "Biyolog görevi", 10: "Av görevi", 11: "At geliştirme"},
 }
+# What goal 0 (levels) means for a bot whose experience is blocked now
+# (Metalurji, 13 October: "728 want leveling" on a world where most bots were
+# held). The core keeps such a bot on goal 0 on purpose - it farms on where it
+# stands - so this is the panel's word for the same id, not a new goal: the
+# goal ids are playerbot_types.h's interface, and Iwakura's export keeps the
+# raw one.
+BOT_GOAL_EXP_HELD_LABEL = {
+    "pl": "Farmienie (blokada EXP)",
+    "en": "Farming (EXP held)",
+    "de": "Farmen (EXP gesperrt)",
+    "tr": "Kasılıyor (EXP kilitli)",
+}
 # The action id a keeper reports while its stall stands. Must match
 # BOT_ACTION_STALL in playerbot_types.h - the id travels in the status file, so
 # the two enumerations are one interface.
@@ -1028,10 +1040,20 @@ def playerbot_live_labels(entry, language):
         "daily_goal": playerbot_daily_goal_label(entry, language) if persona is not None else "",
         "ambition": BOT_AMBITION_LABELS[language].get(
             entry.get("ambition_id"), BOT_AMBITION_LABELS[language][0]),
-        "goal": BOT_GOAL_LABELS[language].get(
-            entry.get("goal_id"), BOT_GOAL_LABELS[language][0]),
+        "goal": playerbot_goal_label(entry, language),
         "action": localize_playerbot_status(entry, language),
     }
+
+
+def playerbot_goal_label(entry, language):
+    """The live goal's name. Goal 0 on a bot the status file says is blocked now,
+    and not unlocked by the operator, is farming rather than levelling: its
+    personality holds it there. A core from before the exp_block column says
+    None and keeps the old word."""
+    goal_id = entry.get("goal_id")
+    if (goal_id or 0) == 0 and entry.get("exp_block") and not entry.get("exp_unlock"):
+        return BOT_GOAL_EXP_HELD_LABEL.get(language, BOT_GOAL_EXP_HELD_LABEL["en"])
+    return BOT_GOAL_LABELS[language].get(goal_id, BOT_GOAL_LABELS[language][0])
 
 
 SKILL_GROUP_NAMES = {
@@ -2087,7 +2109,9 @@ def read_ai_weights():
                     # without regard to case).
                     vals["QUEST_OFF_" + parts[0][10:]] = 1 if parts[1].strip() not in ("0", "off", "no") else 0
                     continue
-                if name.startswith("P8_"):
+                # Structured chat timings/counts use their own bounds, never
+                # the goal weights' 25..250 (including the newer P17 controls).
+                if name.startswith(("P8_", "P17_")):
                     for key, default, low, high, pl, en in PATCH8_CONTROLS:
                         if name == key:
                             try:
@@ -2350,7 +2374,24 @@ CHEST_SWITCH = os.path.join(AI_SPOOL, "playerbot_chest_switch.tsv")
 # panel writes, the core stats the file every five seconds. The core answers
 # with playerbot_events_status.tsv beside its playerbot_status.tsv.
 EVENTS_FILE = os.path.join(AI_SPOOL, "playerbot_events.tsv")
-EVENT_KINDS = ("chest", "exp", "drop", "yang", "tanaka", "zuo")
+# The Hexagonal Chest event (Kiciamol, 14 October): one more kind of this page,
+# run by the mt2009 image's quest (hexagonal_event.quest) rather than by a core's
+# playerbot_events.h, so hexagonal_events.py writes the quest its own file from
+# the same rows and lines (write_events). Loaded as english_names.py is: a
+# stager that left the sibling out costs the event, not the panel. r40250 has
+# no such quest and does not show it.
+try:
+    import importlib.util as _hexagonal_util
+    _hexagonal_spec = _hexagonal_util.spec_from_file_location(
+        __name__ + "_hexagonal_events", os.path.join(os.path.dirname(os.path.abspath(__file__)), "hexagonal_events.py"))
+    _hexagonal = _hexagonal_util.module_from_spec(_hexagonal_spec)
+    _hexagonal_spec.loader.exec_module(_hexagonal)
+except Exception:  # noqa: BLE001
+    _hexagonal = None
+HEXAGONAL_EVENT = ENGINE_MT2009 and _hexagonal is not None
+EVENT_KINDS = ("chest", "exp", "drop", "yang", "tanaka", "zuo") + (("hexagonal",) if HEXAGONAL_EVENT else ())
+# The kinds whose rows and lines carry no value: a chest window is a window.
+EVENT_VALUELESS = ("chest", "hexagonal")
 # Tanaka and Zuo put something into the world (playerbot_world_events.h): their
 # value is a count - pirates at once, Metin stones a wave - and they carry a
 # map, 0 letting the event pick. The core holds the same bounds
@@ -2448,6 +2489,19 @@ def event_now_key(kind, map_id=0):
     if kind in EVENT_WORLD_KINDS:
         return "%s@%d" % (kind, int(map_id))
     return kind
+
+
+def chest_event_drop_state():
+    """Saved drop overrides and the independent switch, never guessed CONFIG."""
+    weights = read_ai_weights()
+    switch = read_chest_switch()
+    kill, stone = weights.get("CHEST"), weights.get("CHEST_STONE")
+    off = bool(switch[0])
+    zero = kill is not None and stone is not None and kill == stone == 0
+    return {"blocked": off or zero, "off": off, "zero": zero,
+            "unknown": kill is None or stone is None,
+            "kill_pct": None if kill is None else kill / 10.0,
+            "stone_pct": None if stone is None else stone / 10.0}
 
 
 def read_event_settings():
@@ -2556,6 +2610,10 @@ def write_events(rows, nows, settings=None):
     with open(tmp, "w", encoding="utf-8") as fh:
         fh.write("\n".join(body) + "\n")
     os.replace(tmp, EVENTS_FILE)
+    if HEXAGONAL_EVENT:
+        # The quest's own copy of the hexagonal rows and line, after the file
+        # the cores read; an OSError here is the caller's ev_failed too.
+        _hexagonal.write_state(AI_SPOOL, rows, nows)
 
 
 def event_status_row(f):
@@ -4248,6 +4306,18 @@ T = {
                   "de":"Alle Sprachen liegen bereits im Ordner, es muss also nichts erneut heruntergeladen werden. Das Spiel muss dabei geschlossen sein.",
                   "tr":"Bütün diller zaten klasörde, bu yüzden hiçbir şeyi yeniden indirmek gerekmez. Bunu yaparken oyun kapalı olmalı."},
  "dl_lang":      {"pl":"Gra jest w języku: {lang}.","en":"The game is in {lang}.","de":"Das Spiel ist auf {lang}.","tr":"Oyun {lang} dilinde."},
+ # The 2.x line (mt2009) has no server language to switch: its image carries no
+ # m2-lang, so a request written to the spool was read by nobody (Moris and
+ # NxcK_Os, 12 October). There every reader has the language of their own
+ # client, and the server answers each in it.
+ "lang_client":  {"pl":"Na tej wersji serwera nie ma jednego języka gry: każdy gracz ma język swojego klienta. Wybiera się go na ekranie logowania klienta (launcher pyta o niego przy uruchomieniu gry). Serwer odpowiada każdemu w języku jego klienta — po polsku albo po angielsku.",
+                  "en":"This version of the server has no single game language: every player has the language of their own client. It is chosen on the client's login screen (the launcher asks about it when it starts the game). The server answers each player in their client's language — Polish or English.",
+                  "de":"Diese Serverversion hat keine gemeinsame Spielsprache: Jeder Spieler hat die Sprache seines eigenen Clients. Sie wird im Anmeldebildschirm des Clients gewählt (der Launcher fragt beim Spielstart danach). Der Server antwortet jedem in der Sprache seines Clients — Polnisch oder Englisch.",
+                  "tr":"Sunucunun bu sürümünde tek bir oyun dili yoktur: her oyuncu kendi istemcisinin dilini kullanır. Dil, istemcinin giriş ekranında seçilir (başlatıcı oyunu başlatırken bunu sorar). Sunucu herkese kendi istemcisinin dilinde yanıt verir — Lehçe veya İngilizce."},
+ "lang_client_only": {"pl":"Na tej wersji serwera język wybiera każdy gracz w swoim kliencie (ekran logowania lub launcher), więc nic nie zmieniono.",
+                  "en":"On this version of the server every player chooses the language in their own client (the login screen or the launcher), so nothing was changed.",
+                  "de":"Auf dieser Serverversion wählt jeder Spieler die Sprache in seinem eigenen Client (Anmeldebildschirm oder Launcher), es wurde also nichts geändert.",
+                  "tr":"Sunucunun bu sürümünde her oyuncu dili kendi istemcisinde seçer (giriş ekranı veya başlatıcı), bu yüzden hiçbir şey değiştirilmedi."},
  # Deliberately NOT "tip_lang": that one belongs to the switcher at the top of
  # the page, which changes this panel and nothing else. Two settings with almost
  # the same name is exactly how somebody ends up restarting a server they only
@@ -5165,7 +5235,7 @@ T.update({
  "gl_exp_note":  {"en":"Exp received counts what the bots have offered since the cores started; the guild's own exp column in the game is the same number, kept by the DB.","pl":"„Otrzymany exp” liczy, co boty oddały od startu rdzeni; kolumna expa gildii w grze to ta sama liczba, trzymana przez bazę.","de":"„Erhaltene Erfahrung“ zählt, was die Bots seit dem Start der Kerne gegeben haben; die Erfahrungsspalte der Gilde im Spiel ist dieselbe Zahl, von der Datenbank geführt.","tr":"„Alınan tecrübe“ çekirdekler başladığından beri botların verdiğini sayar; oyundaki lonca tecrübe sütunu veritabanının tuttuğu aynı sayıdır."},
  "ev_dash_hint": {"en":"Timed windows: Moonlight chests drop only while their event runs; more experience, drop or yang at chosen hours. \u201cActivate now\u201d switches an event on for a number of minutes.","pl":"Okna czasowe: Szkatu\u0142ki Blasku Ksi\u0119\u017cyca dropi\u0105 tylko wtedy, gdy trwa ich event; wi\u0119cej expa, dropu albo yang o wybranych porach. \u201eAktywuj teraz\u201d w\u0142\u0105cza event na podan\u0105 liczb\u0119 minut.","de":"Zeitfenster: Mondschein-Truhen fallen nur w\u00e4hrend ihres Events; mehr Erfahrung, Drop oder Yang zu gew\u00e4hlten Stunden. \u201eJetzt aktivieren\u201c schaltet ein Event f\u00fcr einige Minuten ein.","tr":"Zaman pencereleri: Ay I\u015f\u0131\u011f\u0131 Sand\u0131klar\u0131 yaln\u0131zca etkinlik s\u00fcrerken d\u00fc\u015fer; se\u00e7ilen saatlerde daha fazla tecr\u00fcbe, drop veya yang. \u201c\u015eimdi etkinle\u015ftir\u201d bir etkinli\u011fi belirli dakika a\u00e7ar."},
  "ev_intro":     {"en":"A row is a weekly window: which days, from what hour to what hour, and for a rate how many percent over the server's own rates (50 = +50%). The game core reads this within five seconds; nothing restarts. A window past midnight (22:00-02:00) runs into the next day.","pl":"Wiersz to okno tygodniowe: w jakie dni, od kt\u00f3rej do kt\u00f3rej, a dla rat o ile procent ponad ustawione raty serwera (50 = +50%). Rdze\u0144 gry odczytuje to w pi\u0119\u0107 sekund; nic si\u0119 nie restartuje. Okno przez p\u00f3\u0142noc (22:00-02:00) trwa do nast\u0119pnego dnia.","de":"Eine Zeile ist ein w\u00f6chentliches Fenster: welche Tage, von wann bis wann, und bei einer Rate wie viel Prozent \u00fcber den Serverraten (50 = +50%). Der Spielkern liest das binnen f\u00fcnf Sekunden; nichts startet neu. Ein Fenster \u00fcber Mitternacht (22:00-02:00) l\u00e4uft in den n\u00e4chsten Tag.","tr":"Bir sat\u0131r haftal\u0131k bir penceredir: hangi g\u00fcnler, saat ka\u00e7tan ka\u00e7a ve oran i\u00e7in sunucu oranlar\u0131n\u0131n y\u00fczde ka\u00e7 \u00fcst\u00fc (50 = +%50). Oyun \u00e7ekirde\u011fi bunu be\u015f saniyede okur; hi\u00e7bir \u015fey yeniden ba\u015flamaz. Gece yar\u0131s\u0131n\u0131 ge\u00e7en pencere (22:00-02:00) ertesi g\u00fcne sarkar."},
- "ev_chest_note":{"en":"Once a single chest window is in the schedule, the chests drop only inside the windows; the two sliders on the bot behaviour page say how often they drop then.","pl":"Gdy w harmonogramie jest cho\u0107 jedno okno szkatu\u0142ek, poza oknami szkatu\u0142ki nie dropi\u0105 wcale; dwa suwaki na stronie zachowania bot\u00f3w m\u00f3wi\u0105, jak cz\u0119sto dropi\u0105 w oknie.","de":"Sobald ein Truhenfenster im Plan steht, fallen die Truhen nur innerhalb der Fenster; die zwei Regler auf der Seite Bot-Verhalten sagen, wie oft sie dann fallen.","tr":"Planda tek bir sand\u0131k penceresi bile varsa sand\u0131klar yaln\u0131zca pencereler i\u00e7inde d\u00fc\u015fer; bot davran\u0131\u015f\u0131 sayfas\u0131ndaki iki kayd\u0131r\u0131c\u0131 o s\u0131rada ne s\u0131kl\u0131kta d\u00fc\u015ft\u00fc\u011f\u00fcn\u00fc s\u00f6yler."},
+ "ev_chest_note": {"pl": "Szkatu\u0142ki wypadaj\u0105 tylko w aktywnym oknie blask\u00f3w; dwa suwaki na stronie zachowania bot\u00f3w okre\u015blaj\u0105 szanse dropu w tym oknie.", "en": "Chests drop only while a chest event window is active; the two sliders on the bot behaviour page set their chances within that window.", "de": "Truhen fallen nur w\u00e4hrend eines aktiven Truhen-Event-Fensters; die zwei Regler auf der Seite Bot-Verhalten bestimmen die Drop-Chancen in diesem Fenster.", "tr": "Sand\u0131klar yaln\u0131zca sand\u0131k etkinli\u011fi penceresi a\u00e7\u0131kken d\u00fc\u015fer; bot davran\u0131\u015f\u0131 sayfas\u0131ndaki iki kayd\u0131r\u0131c\u0131 bu penceredeki d\u00fc\u015f\u00fc\u015f \u015fanslar\u0131n\u0131 belirler."},
  "ev_notice_note":{"en":"The chat gets a notice when an event starts, every fifteen minutes while it runs, and when it ends.","pl":"Na czacie pojawia si\u0119 og\u0142oszenie na pocz\u0105tku eventu, co pi\u0119tna\u015bcie minut w jego trakcie i na ko\u0144cu.","de":"Der Chat bekommt eine Meldung zum Start eines Events, alle f\u00fcnfzehn Minuten w\u00e4hrenddessen und zum Ende.","tr":"Etkinlik ba\u015flad\u0131\u011f\u0131nda, s\u00fcrerken her on be\u015f dakikada ve bitti\u011finde sohbete duyuru d\u00fc\u015fer."},
  "ev_status_title":{"en":"Right now","pl":"Teraz","de":"Gerade jetzt","tr":"\u015eu anda"},
  "ev_status_stale":{"en":"The game core has not written an event status yet (it does so within a minute of starting with this version).","pl":"Rdze\u0144 gry nie zapisa\u0142 jeszcze statusu event\u00f3w (robi to w ci\u0105gu minuty od startu z t\u0105 wersj\u0105).","de":"Der Spielkern hat noch keinen Event-Status geschrieben (er tut es binnen einer Minute nach dem Start mit dieser Version).","tr":"Oyun \u00e7ekirde\u011fi hen\u00fcz etkinlik durumu yazmad\u0131 (bu s\u00fcr\u00fcmle ba\u015flad\u0131ktan bir dakika i\u00e7inde yazar)."},
@@ -5194,6 +5264,17 @@ T.update({
  "ev_now_minutes":{"en":"for minutes","pl":"na minut","de":"f\u00fcr Minuten","tr":"dakika boyunca"},
  "ev_now_value": {"en":"+%","pl":"+%","de":"+%","tr":"+%"},
  "ev_now_go":    {"en":"Activate now","pl":"Aktywuj teraz","de":"Jetzt aktivieren","tr":"\u015eimdi etkinle\u015ftir"},
+ "ev_chest_drop_title": {"pl": "Drop Szkatu\u0142ek Blasku Ksi\u0119\u017cyca", "en": "Moonlight Treasure Chest drops", "de": "Mondschein-Schatztruhen-Drop", "tr": "Ay I\u015f\u0131\u011f\u0131 Sand\u0131\u011f\u0131 d\u00fc\u015f\u00fc\u015f\u00fc"},
+ "ev_chest_drop_off": {"pl": "Globalny wy\u0142\u0105cznik dropu jest zaznaczony. Uruchomienie eventu nie zmienia tego ustawienia.", "en": "The global drop switch is checked. Starting an event does not change this setting.", "de": "Der globale Drop-Schalter ist markiert. Ein Event-Start \u00e4ndert diese Einstellung nicht.", "tr": "Genel d\u00fc\u015f\u00fc\u015f kapatma anahtar\u0131 i\u015faretli. Etkinli\u011fi ba\u015flatmak bu ayar\u0131 de\u011fi\u015ftirmez."},
+ "ev_chest_drop_zero": {"pl": "Obie zapisane szanse wynosz\u0105 0%. Podczas eventu szkatu\u0142ki nie wypadn\u0105.", "en": "Both saved chances are 0%. No chests will drop during the event.", "de": "Beide gespeicherten Chancen sind 0%. W\u00e4hrend des Events fallen keine Truhen.", "tr": "Kaydedilen iki \u015fans da %0. Etkinlik s\u0131ras\u0131nda sand\u0131k d\u00fc\u015fmez."},
+ "ev_chest_drop_unknown": {"pl": "Cz\u0119\u015b\u0107 szans pochodzi z konfiguracji serwera; panel nie zna tych warto\u015bci.", "en": "Some chances come from server configuration; this panel does not know those values.", "de": "Einige Chancen kommen aus der Serverkonfiguration; dieses Panel kennt diese Werte nicht.", "tr": "Baz\u0131 \u015fanslar sunucu yap\u0131land\u0131rmas\u0131ndan gelir; panel bu de\u011ferleri bilmiyor."},
+ "ev_chest_drop_ready": {"pl": "Zapisane szanse pozwalaj\u0105 na drop. Szkatu\u0142ki wypadaj\u0105 tylko w aktywnym oknie blask\u00f3w.", "en": "Saved chances allow drops. Chests drop only during an active chest event window.", "de": "Die gespeicherten Chancen erlauben Drops. Truhen fallen nur w\u00e4hrend eines aktiven Truhen-Events.", "tr": "Kaydedilen \u015fanslar d\u00fc\u015f\u00fc\u015fe izin veriyor. Sand\u0131klar yaln\u0131zca sand\u0131k etkinli\u011fi a\u00e7\u0131kken d\u00fc\u015fer."},
+ "ev_chest_drop_help": {"pl": "Harmonogram i ustawienia dropu s\u0105 niezale\u017cne. Uruchomienie eventu nie zmienia wy\u0142\u0105cznika ani zapisanych szans.", "en": "The schedule and drop settings are independent. Starting an event does not change the switch or saved chances.", "de": "Zeitplan und Drop-Einstellungen sind unabh\u00e4ngig. Ein Event-Start \u00e4ndert weder den Schalter noch die gespeicherten Chancen.", "tr": "Zaman \u00e7izelgesi ve d\u00fc\u015f\u00fc\u015f ayarlar\u0131 ba\u011f\u0131ms\u0131zd\u0131r. Etkinli\u011fi ba\u015flatmak anahtar\u0131 veya kaydedilen \u015fanslar\u0131 de\u011fi\u015ftirmez."},
+ "ev_chest_drop_link": {"pl": "Sprawd\u017a wy\u0142\u0105cznik i szanse w ustawieniach AI", "en": "Check the switch and chances in AI settings", "de": "Schalter und Chancen in den KI-Einstellungen pr\u00fcfen", "tr": "AI ayarlar\u0131nda anahtar\u0131 ve \u015fanslar\u0131 kontrol et"},
+ "ev_chest_drop_kill": {"pl": "Z potwora", "en": "Per monster", "de": "Pro Monster", "tr": "Canavar ba\u015f\u0131na"},
+ "ev_chest_drop_stone": {"pl": "Z Metina", "en": "Per Metin stone", "de": "Pro Metinstein", "tr": "Metin ta\u015f\u0131 ba\u015f\u0131na"},
+ "ev_chest_from_config": {"pl": "z konfiguracji serwera", "en": "from server configuration", "de": "aus der Serverkonfiguration", "tr": "sunucu yap\u0131land\u0131rmas\u0131ndan"},
+ "ev_chest_now_blocked": {"pl": "Okno blask\u00f3w zapisane na %d minut, ale ustawienia dropu wymagaj\u0105 uwagi. Sprawd\u017a wy\u0142\u0105cznik i szanse w ustawieniach AI.", "en": "Chest event window saved for %d minutes, but the drop settings need attention. Check the switch and chances in AI settings.", "de": "Truhen-Event-Fenster f\u00fcr %d Minuten gespeichert, aber die Drop-Einstellungen m\u00fcssen gepr\u00fcft werden. Schalter und Chancen in den KI-Einstellungen pr\u00fcfen.", "tr": "Sand\u0131k etkinli\u011fi penceresi %d dakika i\u00e7in kaydedildi, ancak d\u00fc\u015f\u00fc\u015f ayarlar\u0131n\u0131 kontrol etmek gerekiyor. AI ayarlar\u0131nda anahtar\u0131 ve \u015fanslar\u0131 kontrol et."},
  "ev_now_started":{"en":"Event switched on for %d minutes; the chat is told within seconds.","pl":"Event w\u0142\u0105czony na %d minut; czat dowie si\u0119 w kilka sekund.","de":"Event f\u00fcr %d Minuten eingeschaltet; der Chat erf\u00e4hrt es binnen Sekunden.","tr":"Etkinlik %d dakikal\u0131\u011f\u0131na a\u00e7\u0131ld\u0131; sohbet saniyeler i\u00e7inde \u00f6\u011frenir."},
  "ev_stop":      {"en":"End now","pl":"Zako\u0144cz","de":"Jetzt beenden","tr":"\u015eimdi bitir"},
  "ev_stopped":   {"en":"The event switched on by hand is over.","pl":"Event w\u0142\u0105czony r\u0119cznie zako\u0144czony.","de":"Das von Hand eingeschaltete Event ist beendet.","tr":"Elle a\u00e7\u0131lan etkinlik bitti."},
@@ -5864,6 +5945,94 @@ def lang():
             return remembered
     return "pl"
 
+# The Hexagonal Chest event's card on /events (Kiciamol, 14 October).
+T.update({
+ "ev_kind_hexagonal": {"pl": "Heksagonalne szkatułki", "en": "Hexagonal chests",
+                       "de": "Sechseckige Truhen", "tr": "Altıgen sandıklar"},
+ "hex_title": {"pl": "Heksagonalne szkatułki - ulepszacze z mapy",
+               "en": "Hexagonal chests - refine materials of the map",
+               "de": "Sechseckige Truhen - Verfeinerungsmaterial der Karte",
+               "tr": "Altıgen sandıklar - haritanın yükseltme malzemeleri"},
+ "hex_intro": {"pl": "Podczas eventu z Metina rozbitego przez gracza może wypaść szkatułka mapy, na której go rozbito. Po otwarciu daje 1 losowy ulepszacz ekwipunku tej mapy, po 1 sztuce; każdy przedmiot puli ma tę samą szansę. Szkatułka zachowuje swoją pulę po teleporcie i handlu. Zwykłe potwory jej nie dropią, a Metiny rozbite przez boty też nie.",
+               "en": "While the event runs, a Metin stone a player breaks may drop the chest of the map it was broken on. Opened, it gives 1 random equipment refine material of that map, 1 piece; every item of the pool has the same chance. A chest keeps its pool through a teleport and a trade. Ordinary monsters never drop it, and neither do the stones bots break.",
+               "de": "Während des Events kann ein Metinstein, den ein Spieler zerstört, die Truhe der Karte fallen lassen, auf der er zerstört wurde. Geöffnet gibt sie 1 zufälliges Verfeinerungsmaterial dieser Karte, 1 Stück; jeder Gegenstand der Liste hat dieselbe Chance. Eine Truhe behält ihre Liste nach Teleport und Handel. Normale Monster lassen sie nie fallen, und auch die Steine nicht, die Bots zerstören.",
+               "tr": "Etkinlik sürerken oyuncunun kırdığı bir Metin taşı, kırıldığı haritanın sandığını düşürebilir. Açıldığında o haritanın rastgele 1 ekipman yükseltme malzemesini verir, 1 adet; listedeki her eşyanın şansı aynıdır. Sandık listesini ışınlanma ve ticaretten sonra da korur. Sıradan canavarlar onu asla düşürmez, botların kırdığı taşlar da düşürmez."},
+ "hex_chance_label": {"pl": "Szansa dropu z Metina (%)", "en": "Drop chance per Metin stone (%)",
+                      "de": "Drop-Chance pro Metinstein (%)", "tr": "Metin taşı başına düşme şansı (%)"},
+ "hex_chance_save": {"pl": "Zapisz szansę", "en": "Save the chance", "de": "Chance speichern", "tr": "Şansı kaydet"},
+ "hex_chance_default": {"pl": "(domyślna, jeszcze nie zapisana)", "en": "(the default, not saved yet)",
+                        "de": "(Standard, noch nicht gespeichert)", "tr": "(varsayılan, henüz kaydedilmedi)"},
+ "hex_chance_help": {"pl": "0% wyłącza drop. Sama szansa nie uruchamia eventu: użyj „Aktywuj teraz” albo harmonogramu poniżej. Gra odczytuje zmiany w ciągu 5 sekund.",
+                     "en": "0% switches the drop off. The chance alone does not start the event: use \"Activate now\" or the schedule below. The game reads a change within 5 seconds.",
+                     "de": "0 % schaltet den Drop ab. Die Chance allein startet das Event nicht: „Jetzt aktivieren“ oder der Zeitplan unten. Das Spiel liest eine Änderung binnen 5 Sekunden.",
+                     "tr": "%0 düşmeyi kapatır. Şans tek başına etkinliği başlatmaz: \"Şimdi etkinleştir\" veya aşağıdaki zaman çizelgesini kullanın. Oyun değişikliği 5 saniye içinde okur."},
+ "hex_saved": {"pl": "Zapisano szansę dropu heksagonalnych szkatułek: %s%%.",
+               "en": "The hexagonal chests' drop chance is saved: %s%%.",
+               "de": "Die Drop-Chance der sechseckigen Truhen ist gespeichert: %s %%.",
+               "tr": "Altıgen sandıkların düşme şansı kaydedildi: %%%s."},
+ "hex_chance_bad": {"pl": "Podaj szansę od 0 do 100%, z dokładnością do 0,1%.",
+                    "en": "Give a chance from 0 to 100%, in steps of 0.1%.",
+                    "de": "Gib eine Chance von 0 bis 100 % in Schritten von 0,1 % an.",
+                    "tr": "0 ile %100 arasında, 0,1'lik adımlarla bir şans girin."},
+ "hex_chance_range": {"pl": "Szansa musi mieścić się w zakresie 0-100%.", "en": "The chance must be within 0-100%.",
+                      "de": "Die Chance muss zwischen 0 und 100 % liegen.", "tr": "Şans %0-100 aralığında olmalıdır."},
+ "hex_chance_step": {"pl": "Dozwolona dokładność to 0,1%.", "en": "The chance goes in steps of 0.1%.",
+                     "de": "Die Chance geht in Schritten von 0,1 %.", "tr": "Şans 0,1'lik adımlarla girilir."},
+ "hex_client": {"pl": "Szkatułki 55000-55020 to nowe przedmioty: klient gry musi znać ich dane (klient wydany z tym eventem albo pobrane dane klienta).",
+                "en": "The chests 55000-55020 are new items: the game client must know their data (a client released with this event, or the client data downloaded here).",
+                "de": "Die Truhen 55000-55020 sind neue Gegenstände: Der Spielclient muss ihre Daten kennen (ein mit diesem Event veröffentlichter Client oder die hier geladenen Clientdaten).",
+                "tr": "55000-55020 sandıkları yeni eşyalardır: oyun istemcisi verilerini bilmelidir (bu etkinlikle yayınlanan istemci veya buradan indirilen istemci verileri)."},
+ "hex_runtime_some": {"pl": "Skrypt eventu odpowiada z %d rdzeni gry (szkatułki od ich startu: %d, zabite Metiny w aktywnym evencie: %d).",
+                      "en": "The event's script answers from %d game cores (chests since they started: %d, Metins broken during the event: %d).",
+                      "de": "Das Skript des Events antwortet von %d Spielkernen (Truhen seit ihrem Start: %d, während des Events zerstörte Metinsteine: %d).",
+                      "tr": "Etkinlik betiği %d oyun çekirdeğinden yanıt veriyor (başlangıçlarından beri sandık: %d, etkinlik sırasında kırılan Metin: %d)."},
+ "hex_runtime_none": {"pl": "Żaden rdzeń gry nie odpowiada jeszcze skryptem eventu (wymaga obrazu gry z tym eventem i jednego logowania gracza po starcie).",
+                      "en": "No game core answers with the event's script yet (it needs a game image with this event and one player login after the start).",
+                      "de": "Noch kein Spielkern antwortet mit dem Skript des Events (es braucht ein Spiel-Image mit diesem Event und eine Spieleranmeldung nach dem Start).",
+                      "tr": "Henüz hiçbir oyun çekirdeği etkinlik betiğiyle yanıt vermiyor (bu etkinliği içeren bir oyun imajı ve başlangıçtan sonra bir oyuncu girişi gerekir)."},
+ "hex_contents": {"pl": "Zawartość szkatułek według map (%d wariantów)", "en": "The chests' contents by map (%d variants)",
+                  "de": "Inhalt der Truhen nach Karte (%d Varianten)", "tr": "Haritaya göre sandık içerikleri (%d çeşit)"},
+ "hex_materials": {"pl": "ulepszaczy", "en": "refine materials", "de": "Verfeinerungsmaterialien", "tr": "yükseltme malzemesi"},
+ "hex_maps": {"pl": "Mapy", "en": "Maps", "de": "Karten", "tr": "Haritalar"},
+ "hex_no_metin": {"pl": "na tych mapach nie stoją Metiny, więc ta szkatułka nie wypada",
+                  "en": "no Metin stone stands on these maps, so this chest does not drop",
+                  "de": "auf diesen Karten steht kein Metinstein, also fällt diese Truhe nicht",
+                  "tr": "bu haritalarda Metin taşı yok, bu yüzden bu sandık düşmez"},
+ "hex_skipped_title": {"pl": "Mapy bez szkatułki", "en": "Maps with no chest", "de": "Karten ohne Truhe", "tr": "Sandığı olmayan haritalar"},
+ "hex_skipped_help": {"pl": "Tabele dropu tych map nie wskazują ulepszaczy ekwipunku; event nie tworzy dla nich pustych szkatułek.",
+                      "en": "These maps' drop tables name no equipment refine material; the event makes no empty chest for them.",
+                      "de": "Die Drop-Tabellen dieser Karten nennen kein Verfeinerungsmaterial; das Event macht für sie keine leere Truhe.",
+                      "tr": "Bu haritaların düşme tablolarında ekipman yükseltme malzemesi yok; etkinlik onlar için boş sandık yapmaz."},
+})
+
+
+def hexagonal_card():
+    """What the hexagonal card shows, in the reader's language: the chance,
+    the cores that answer, and every chest with its maps and materials."""
+    language = lang()
+    english = reads_english(language)
+    settings = _hexagonal.read_settings(AI_SPOOL)
+    runtime = _hexagonal.runtime_status()
+    chests = []
+    for box in _hexagonal.catalog().get("chests", []):
+        materials = []
+        for item in box.get("materials", []):
+            name = item.get("name", "")
+            if english:
+                name = english_game_name("i", int(item["vnum"]), name) or name
+            materials.append({"vnum": item["vnum"], "name": name})
+        chests.append({"vnum": box["vnum"],
+                       "name": box.get("name_en") if english else box.get("name"),
+                       "maps": [{"id": m["id"], "name": m.get("name_en") if english else m.get("name")}
+                                for m in box.get("maps", [])],
+                       "materials": materials, "metins": box.get("metins", [])})
+    skipped = [{"id": m["map_id"], "name": m.get("name_en") if english else m.get("name")}
+               for m in _hexagonal.catalog().get("skipped", [])]
+    return {"settings": settings, "runtime": runtime,
+            "drops": sum(r["drops"] for r in runtime), "kills": sum(r["kills"] for r in runtime),
+            "chests": chests, "skipped": skipped,
+            "client_link": url_for("client_data_home") if "client_data_home" in app.view_functions else ""}
+
 def t(key):
     return T.get(key, {}).get(lang(), T.get(key, {}).get("en", key))
 
@@ -5998,6 +6167,10 @@ def inject_i18n():
             # front page uses it too, next to the download button, so it goes in
             # the shared context rather than into one route.
             "game_langs": GAME_LANGS,
+            # The 2.x line has no server language to switch (no m2-lang in its
+            # image): every page that shows or changes "the game's language"
+            # asks this. The same value the routes that pass it themselves give.
+            "engine_mt2009": ENGINE_MT2009,
             "game_lang": game_lang(),
             "game_lang_name": game_lang_name(),
             "lang_state": (lang_status().get("state") or ""),
@@ -7254,7 +7427,7 @@ setInterval(function(){
 {# Which language the game itself is in. Worth a line of its own on the page a
    player arrives at: it is the one thing about this server they cannot see
    until they have downloaded a gigabyte and started it. #}
-<p class="muted" style="font-size:13px;margin:6px 0 0">🌍 {{t('dl_lang').format(lang=game_lang_name)}}</p>
+{% if not engine_mt2009 %}<p class="muted" style="font-size:13px;margin:6px 0 0">🌍 {{t('dl_lang').format(lang=game_lang_name)}}</p>{% endif %}
 <ol class="steps">
 <li>{{t('dl_st1')}}{% if dlsize %} ({{dlsize}}){% endif %}</li>
 <li>{{t('dl_st2')}}</li>
@@ -7388,7 +7561,7 @@ TPL_REG_DONE = BASE.replace("__BODY__", """
 {% else %}
 <a class="btn big" href="{{ client_url if client_url else url_for('download') }}"
    title="{{t('tip_download')}}" {% if client_url %}rel="noopener noreferrer"{% endif %}>{{t('download')}}</a>
-<p class="muted" style="font-size:13px;margin:6px 0 0">🌍 {{t('dl_lang').format(lang=game_lang_name)}}</p>
+{% if not engine_mt2009 %}<p class="muted" style="font-size:13px;margin:6px 0 0">🌍 {{t('dl_lang').format(lang=game_lang_name)}}</p>{% endif %}
 {% endif %}
 </div>
 {% endmacro %}
@@ -7620,6 +7793,16 @@ TPL_DASH = BASE.replace("__BODY__", """
 <h2 class="sect">🛠️ {{t('sect_setup')}}</h2>
 <p class="muted sect-hint">{{t('sect_setup_hint')}}</p>
 
+{# The 2.x line has no server language (no m2-lang in its image): a switch here
+   wrote a request nobody read. Each reader has their own client's language.
+   Iwakura's theme finds this card for /panel/jezyk-gry by #lang-client-note
+   (SECTION_HAS in files/panel_theme/m2_theme_src.py), as it finds the
+   switch's card by its form. #}
+{% if engine_mt2009 %}
+<div class="card"><h3>{{t('lang_title')}}</h3>
+<p class="muted" id="lang-client-note">{{t('lang_client')}}</p>
+</div>
+{% else %}
 <div class="card"><h3 class="help" title="{{t('tip_gamelang')}}">{{t('lang_title')}}</h3>
 <p><b>{{t('lang_now').format(lang=game_lang_name)}}</b></p>
 <p class="muted">{{t('lang_intro')}}</p>
@@ -7648,6 +7831,7 @@ TPL_DASH = BASE.replace("__BODY__", """
 <p class="muted">{{t('lang_cl_3')}}</p>
 {% endif %}
 </div>
+{% endif %}
 
 {# Its own card rather than a paragraph inside the introduction above: that one
    can be hidden for good with one click, and a way back into your own panel
@@ -8178,6 +8362,42 @@ TPL_SEASON = BASE.replace("__BODY__", """
 # a number, not a control. No %-formatting anywhere in here: BASE is full of
 # CSS percentages and would eat it.
 TPL_EVENTS = BASE.replace("__BODY__", """
+<div class="card" id="moonlight-drop-status" role="status">
+<h3>{{t('ev_chest_drop_title')}}</h3>
+<p{% if chest_drop.blocked %} style="color:#d8ab60;font-weight:bold"{% endif %}>{% if chest_drop.off %}{{t('ev_chest_drop_off')}}{% elif chest_drop.zero %}{{t('ev_chest_drop_zero')}}{% elif chest_drop.unknown %}{{t('ev_chest_drop_unknown')}}{% else %}{{t('ev_chest_drop_ready')}}{% endif %}</p>
+<p>{{t('ev_chest_drop_kill')}}: {% if chest_drop.kill_pct is none %}{{t('ev_chest_from_config')}}{% else %}{{'%g'|format(chest_drop.kill_pct)}}%{% endif %} · {{t('ev_chest_drop_stone')}}: {% if chest_drop.stone_pct is none %}{{t('ev_chest_from_config')}}{% else %}{{'%g'|format(chest_drop.stone_pct)}}%{% endif %}</p>
+<p class="muted">{{t('ev_chest_drop_help')}}</p>
+<p><a href="{{url_for('ai_weights')}}">{{t('ev_chest_drop_link')}}</a></p>
+</div>
+{% if hex %}
+<div class="card" id="hexagonal-event-settings">
+<h3>{{t('hex_title')}}</h3>
+<p>{{t('hex_intro')}}</p>
+<form method="post" style="display:flex;flex-wrap:wrap;gap:12px;align-items:end">
+<input type="hidden" name="_csrf" value="{{csrf_token}}">
+<input type="hidden" name="action" value="hexagonal_settings">
+<label>{{t('hex_chance_label')}}<br><input type="number" name="hexagonal_percent" min="0" max="100" step="0.1" required value="{{hex.settings.percent}}" style="width:110px"></label>
+<button class="btn" type="submit">{{t('hex_chance_save')}}</button>
+{% if not hex.settings.saved %}<small class="muted">{{t('hex_chance_default')}}</small>{% endif %}
+</form>
+<p class="muted">{{t('hex_chance_help')}}</p>
+<p class="muted">{{t('hex_client')}}{% if hex.client_link %} <a href="{{hex.client_link}}">{{t('cd_nav')}}</a>{% endif %}</p>
+{% if hex.runtime %}<p class="muted">{{t('hex_runtime_some')|format(hex.runtime|length, hex.drops, hex.kills)}}</p>
+{% else %}<p class="muted">{{t('hex_runtime_none')}}</p>{% endif %}
+<details><summary>{{t('hex_contents')|format(hex.chests|length)}}</summary>
+{% for box in hex.chests %}
+<details style="margin:10px 0"><summary><b>{{box.name}}</b> &middot; #{{box.vnum}} &middot; {{box.materials|length}} {{t('hex_materials')}}</summary>
+<p>{{t('hex_maps')}}: {% for m in box.maps %}{{m.name}} (#{{m.id}}){% if not loop.last %}, {% endif %}{% endfor %}{% if not box.metins %} &middot; <i>{{t('hex_no_metin')}}</i>{% endif %}</p>
+<p>{% for item in box.materials %}{{item.name}} (#{{item.vnum}}){% if not loop.last %} &middot; {% endif %}{% endfor %}</p>
+</details>{% endfor %}
+</details>
+{% if hex.skipped %}<details><summary>{{t('hex_skipped_title')}}</summary>
+<p class="muted">{{t('hex_skipped_help')}}</p>
+<p>{% for m in hex.skipped %}{{m.name}} (#{{m.id}}){% if not loop.last %} &middot; {% endif %}{% endfor %}</p>
+</details>{% endif %}
+</div>
+{% endif %}
+
 <p><a href="{{url_for('dash')}}">{{t('back_players')}}</a></p>
 <div class="card">
 <h3>{{t('ev_nav')}}</h3>
@@ -8189,7 +8409,7 @@ TPL_EVENTS = BASE.replace("__BODY__", """
 
 <div class="card">
 <h3>{{t('ev_status_title')}}</h3>
-{% if not status %}<p class="muted">{{t('ev_status_stale')}}</p>{% endif %}
+{% if status_stale %}<p class="muted">{{t('ev_status_stale')}}</p>{% endif %}
 <table>
 {% for k in kinds %}{% set s = status.get(k) %}{% set runs = world_runs.get(k, []) %}
 <tr>
@@ -8208,9 +8428,9 @@ TPL_EVENTS = BASE.replace("__BODY__", """
 </div>{% endfor %}
 {% elif s and s.active and k in world_kinds %}<span class="badge">{{t('ev_active')}} {{s.until_text}} ({{map_name(s.map)}})</span>
 {% if s.host %}<br><small>{{t('ev_world_alive')}}: {{s.alive}} &middot; {{t('ev_world_killed')}}: {{s.killed}} &middot; {{t('ev_world_bots')}}: {{s.bots}}{% if s.phase == 'stones' %} &middot; {{t('ev_phase_stones')}}{% elif s.phase == 'bosses' %} &middot; {{t('ev_phase_bosses')}}{% endif %}</small>{% endif %}
-{% elif s and s.active %}<span class="badge">{{t('ev_active')}} {{s.until_text}}{% if s.value and k != 'chest' %} (+{{s.value}}%){% endif %}</span>
+{% elif s and s.active %}<span class="badge">{{t('ev_active')}} {{s.until_text}}{% if s.value and k not in valueless %} (+{{s.value}}%){% endif %}</span>
 {% elif s and s.next_start and k in world_kinds %}{{t('ev_next')}}: {{s.next_start_text}} ({{map_name(s.next_map)}})
-{% elif s and s.next_start %}{{t('ev_next')}}: {{s.next_start_text}}{% if s.next_value and k != 'chest' %} (+{{s.next_value}}%){% endif %}
+{% elif s and s.next_start %}{{t('ev_next')}}: {{s.next_start_text}}{% if s.next_value and k not in valueless %} (+{{s.next_value}}%){% endif %}
 {% elif s and s.scheduled %}{{t('ev_inactive')}}
 {% elif s %}{{t('ev_none')}}
 {% else %}-{% endif %}
@@ -8224,7 +8444,7 @@ TPL_EVENTS = BASE.replace("__BODY__", """
 <select name="minutes">{% for m in minutes %}<option value="{{m}}" {% if m == 60 %}selected{% endif %}>{{m}}</option>{% endfor %}</select>
 {% if k in world_kinds %}{{t('ev_now_' + k)}} <input type="number" name="value" min="1" max="{{world_max[k]}}" value="{{world_default[k]}}" style="width:60px">
 <select name="map">{% for m in maps %}<option value="{{m[0]}}">{{map_name(m[0])}}</option>{% endfor %}</select>
-{% elif k != 'chest' %}{{t('ev_now_value')}} <input type="number" name="value" min="1" max="1000" value="50" style="width:70px">{% endif %}
+{% elif k not in valueless %}{{t('ev_now_value')}} <input type="number" name="value" min="1" max="1000" value="50" style="width:70px">{% endif %}
 <button class="btn" type="submit">{{t('ev_now_go')}}</button>
 </form>
 {% if k in world_kinds %}<br><small class="muted">{{t('ev_world_many')}}</small>{% endif %}
@@ -8599,7 +8819,7 @@ TPL_AI = BASE.replace("__BODY__", """
         {% for h in (1, 2, 3, 4) %}<option value="{{h}}" {% if cur.get('WAR_HOURS', 2) == h %}selected{% endif %}>{{h}} {{t('ai_war_hour_unit')}}</option>{% endfor %}
       </select></label>
     {% if engine_mt2009 %}<label>{{t('ai_war_kills')}}
-      <input type="number" name="WAR_KILLS" min="0" max="1000" step="10" style="width:80px" value="{{cur.get('WAR_KILLS', 100)}}"> {{t('ai_war_kills_unit')}}</label>{% endif %}
+      <input type="number" name="WAR_KILLS" min="0" max="1000" step="1" style="width:80px" value="{{cur.get('WAR_KILLS', 100)}}"> {{t('ai_war_kills_unit')}}</label>{% endif %}
   </div>
   <p class="muted" style="margin:6px 0 0">{{t('ai_war_len_help')}}</p>
 </div>
@@ -8674,7 +8894,7 @@ TPL_AI = BASE.replace("__BODY__", """
   <div style="margin-top:8px;display:flex;gap:14px;flex-wrap:wrap;align-items:center">
     <label><input type="checkbox" name="SUPPLY_SCALE" value="1" {% if cur.get('SUPPLY_SCALE', 0) %}checked{% endif %}> {{t('ai_supply_scale_on')}}</label>
     <label>{{t('ai_supply_ref')}}
-      <input type="number" name="SUPPLY_REF_BOTS" min="{{supply_ref_min}}" max="{{supply_ref_max}}" step="50" style="width:90px"
+      <input type="number" name="SUPPLY_REF_BOTS" min="{{supply_ref_min}}" max="{{supply_ref_max}}" step="1" style="width:90px"
              value="{{cur.get('SUPPLY_REF_BOTS', supply_ref_default)}}"> {{t('ai_supply_ref_unit')}}</label>
   </div>
   <p class="muted" style="margin:6px 0 0">{{t('ai_supply_scale_help')}}</p>
@@ -13979,6 +14199,8 @@ DECISION_RULES = {
  8: {"pl": "broń awaryjna", "en": "an emergency weapon", "de": "eine Notfallwaffe", "tr": "acil silah"},
  9: {"pl": "broń nie pasuje do profesji", "en": "the weapon does not fit the profession", "de": "die Waffe passt nicht zur Lehre", "tr": "silah beceri grubuna uymuyor"},
  10: {"pl": "unikat, którego bot nigdy nie nosi", "en": "a unique the bot never wears", "de": "ein Unikat, das der Bot nie trägt", "tr": "botun asla takmadığı eşsiz eşya"},
+ 11: {"pl": "hełm lub tarcza z progu Planu (P19 1G)", "en": "the Plan's threshold helmet or shield (P19 1G)",
+      "de": "Helm oder Schild der Plan-Schwelle (P19 1G)", "tr": "Planın eşik miğferi veya kalkanı (P19 1G)"},
 }
 DECISION_CONTEXTS = {
  0: {"pl": "bez szczególnych okoliczności", "en": "no particular moment", "de": "kein besonderer Moment", "tr": "özel bir an değil"},
@@ -14077,6 +14299,10 @@ DECISION_TERMS = {
  37: (1, {"pl": "Udział zwykłych uderzeń", "en": "Plain-hit share", "de": "Anteil normaler Treffer", "tr": "Normal vuruş payı"}),
  38: (1, {"pl": "Udział umiejętności", "en": "Skill share", "de": "Fertigkeitsanteil", "tr": "Beceri payı"}),
  40: (1, {"pl": "Linie wg stopni (ocena)", "en": "Tiered lines score", "de": "Zeilenwert nach Stufen", "tr": "Kademeli satır puanı"}),
+ 41: (1, {"pl": "Kontekst rasy (rasa + 1, 0 brak)", "en": "Race context (race + 1, 0 none)", "de": "Rassenkontext (Rasse + 1, 0 keine)", "tr": "Irk bağlamı (ırk + 1, 0 yok)"}),
+ 42: (1, {"pl": "Udział rasy w kontekście %", "en": "Race context share %", "de": "Anteil der Rasse im Kontext %", "tr": "Bağlamdaki ırk payı %"}),
+ 43: (1, {"pl": "Źródło kontekstu (0 neutralny, 1 zabicia 60 min, 2 expowisko)", "en": "Context source (0 neutral, 1 kills of 60 min, 2 hunting ground)",
+       "de": "Kontextquelle (0 neutral, 1 Kills 60 Min, 2 Jagdgebiet)", "tr": "Bağlam kaynağı (0 nötr, 1 son 60 dk öldürmeler, 2 av alanı)"}),
 }
 DECISION_BLOW_TERMS = frozenset(range(20, 39))
 # The terms that add up to a score, and of the blow the ones that move it: the
@@ -14154,6 +14380,7 @@ DECISION_CODE_NAMES = {
   1: "RULE_SCORE_UPGRADE", 2: "RULE_EMPTY_SLOT", 3: "RULE_OWNER_PIN", 4: "RULE_OLD_LOW_WEAPON_BANNED",
   5: "RULE_ARCHER_STONE_SWITCH", 6: "RULE_EMPTY_HAND_BEST", 7: "RULE_EMPTY_HAND_LOW_FALLBACK",
   8: "RULE_EMERGENCY_WEAPON", 9: "RULE_PROFESSION_MISMATCH", 10: "RULE_UNIQUE_NEVER_WORN",
+  11: "RULE_HEAD_SHIELD_THRESHOLD",
  },
  "CONTEXT": {
   0: "CONTEXT_NONE", 1: "CONTEXT_AFTER_BLACKSMITH", 2: "CONTEXT_AFTER_BURN", 3: "CONTEXT_AFTER_SPAWN",
@@ -14178,6 +14405,7 @@ DECISION_CODE_NAMES = {
   25: "TERM_ATT_PCT", 26: "TERM_RACE_PCT", 27: "TERM_AVG_PCT", 28: "TERM_SKILL_PCT", 29: "TERM_CRIT_PCT",
   30: "TERM_PEN_PCT", 31: "TERM_LEVEL_BONUS_PCT", 32: "TERM_ATTACK", 33: "TERM_MOB_DEFENCE", 34: "TERM_HIT",
   35: "TERM_SKILL_HIT", 36: "TERM_STYLE", 37: "TERM_HIT_SHARE", 38: "TERM_SKILL_SHARE", 40: "TERM_LINES_TIERED",
+  41: "TERM_RACE_CONTEXT", 42: "TERM_RACE_CONTEXT_PCT", 43: "TERM_RACE_CONTEXT_SOURCE",
  },
  "EFLAG": {
   1: "EFLAG_PLUS_DOWN", 2: "EFLAG_LEVEL_DOWN", 4: "EFLAG_LINES_WORSE", 8: "EFLAG_SMALL_GAIN", 16: "EFLAG_FLIP_FLOP",
@@ -21499,6 +21727,18 @@ def events_page():
     if request.method == "POST":
         # (the global before_request hook has already checked the CSRF token)
         action = request.form.get("action", "")
+        if action == "hexagonal_settings" and HEXAGONAL_EVENT:
+            # The chance alone; the event's windows and lines are the rows'.
+            try:
+                permille = _hexagonal.save_settings(AI_SPOOL, request.form.get("hexagonal_percent", ""))
+                _hexagonal.write_state(AI_SPOOL, rows, nows)
+            except _hexagonal.ChanceError as exc:
+                flash(t(exc.key), "error")
+            except (OSError, ValueError):
+                flash(t("ev_failed"), "error")
+            else:
+                flash(t("hex_saved") % _hexagonal.percent_text(permille))
+            return redirect(url_for("events_page"))
         if action == "bots":
             try:
                 bots = max(0, min(100, int(request.form.get("bots") or 0)))
@@ -21539,7 +21779,7 @@ def events_page():
                     if map_id not in EVENT_MAP_IDS:
                         map_id = 0
                 new_rows.append({"kind": kind, "days": days, "start": start, "end": end,
-                                 "value": 0 if kind == "chest" else value,
+                                 "value": 0 if kind in EVENT_VALUELESS else value,
                                  "on": bool(request.form.get("r%d_on" % i)), "map": map_id})
             try:
                 write_events(new_rows, nows)
@@ -21571,14 +21811,17 @@ def events_page():
             # second map is a second event beside the first, the same map
             # again starts that one over.
             nows[event_now_key(kind, map_id)] = {"kind": kind, "until": started + minutes * 60,
-                                                "value": 0 if kind == "chest" else value,
+                                                "value": 0 if kind in EVENT_VALUELESS else value,
                                                 "map": map_id, "since": started}
             try:
                 write_events(rows, nows)
             except OSError:
                 flash(t("ev_failed"), "error")
                 return redirect(url_for("events_page"))
-            flash(t("ev_now_started") % minutes)
+            if kind == "chest" and chest_event_drop_state()["blocked"]:
+                flash(t("ev_chest_now_blocked") % minutes, "warning")
+            else:
+                flash(t("ev_now_started") % minutes)
             return redirect(url_for("events_page"))
         if action == "stop":
             if kind in EVENT_WORLD_KINDS and request.form.get("map", "") != "":
@@ -21603,8 +21846,18 @@ def events_page():
     # Two empty rows after the saved ones: a new window needs no script.
     shown = list(rows) + [{"kind": "", "days": list(range(1, 8)), "start": "20:00",
                            "end": "21:00", "value": 50, "on": True, "map": 0} for _ in range(2)]
+    status = read_events_status()
+    status_stale = not status
+    hex_card = None
+    if HEXAGONAL_EVENT:
+        # No core writes this kind's status: the panel works it out from the
+        # same rows and line the quest reads.
+        status["hexagonal"] = event_status_texts(_hexagonal.status(rows, nows))
+        hex_card = hexagonal_card()
     return render_template_string(TPL_EVENTS, rows=shown, nows=nows, kinds=EVENT_KINDS,
-                                  status=read_events_status(), minutes=EVENT_NOW_MINUTES,
+                                  chest_drop=chest_event_drop_state(), hex=hex_card,
+                                  valueless=EVENT_VALUELESS, status_stale=status_stale,
+                                  status=status, minutes=EVENT_NOW_MINUTES,
                                   world_runs=event_world_runs(nows, read_world_events_status()),
                                   day_names=t("ev_days").split(","), now_epoch=int(time.time()),
                                   world_kinds=EVENT_WORLD_KINDS, world_default=EVENT_WORLD_DEFAULT,
@@ -24306,6 +24559,14 @@ def set_language():
     downloads are built to match; anyone who already has the game renames one
     file, which is what the page says after a switch.
     """
+    if ENGINE_MT2009:
+        # The 2.x line's image has no m2-lang: a request written here would sit
+        # in the spool unread while the page said "switching" (Moris and
+        # NxcK_Os, 12 October). There the language is each reader's client's.
+        # A request an older panel wrote is left where it is: nothing reads it.
+        flash(t("lang_client_only"), "error")
+        return redirect(url_for("dash"))
+
     code = (request.form.get("lang", "") or "").strip().lower()
     if code not in GAME_LANG_NAMES:
         flash(t("act_novalue"), "error")
@@ -25350,7 +25611,7 @@ def _ix_part_events(ex, _cur):
             text = "%s %s-%s" % (days, r["start"], r["end"])
             if kind in EVENT_WORLD_KINDS:
                 text += " x%d map %d" % (int(r.get("value") or 0), int(r.get("map") or 0))
-            elif kind != "chest":
+            elif kind not in EVENT_VALUELESS:
                 text += " +%d%%" % int(r.get("value") or 0)
             texts.append(text if r.get("on", True) else "(off) " + text)
         live = [n for key, n in nows.items() if n.get("kind") == kind and int(n.get("until") or 0) > now]
@@ -26087,13 +26348,42 @@ def _ix_part_patch18(ex, _cur):
         ("pvp_plan.tsv", "playerbot_pvp_plan.tsv", "#PB18PVP2",
          ("unix_ts", "pid", "enabled", "share", "min_level", "budget_percent", "actual_pve_minimum",
           "free_adds", "free_changes", "place", "part_minimum_plus", "phase_reason", "actual_refines",
-          "part_item_id", "part_vnum", "part_plus", "part_target_plus", "refine_reason", "bonus_reason")))
+          "part_item_id", "part_vnum", "part_plus", "part_target_plus", "refine_reason", "bonus_reason")),
+        # Patch 19, point 1D: the copy as a spare and the step's way; a file
+        # of its own beside eq_plan.tsv, whose width the bot card reads.
+        ("eq_plan_p19.tsv", "playerbot_eq_plan_p19.tsv", "#PB19EQ1",
+         ("unix_ts", "pid", "slot", "project_id", "project_worn", "copy1_id", "copy1_usable",
+          "copy1_reason", "usable_spares", "step_way", "plain_verdict", "window_elapsed_ms",
+          "window_attempts")))
     for part, filename, magic, columns in definitions:
         found, rows = _ix_core_tsv(ex, part, filename, magic, len(columns))
         if not found:
             ex.problem(part, "Native Patch 18 snapshot unavailable; this is not evidence of an empty world.")
         ex.table(part, ("channel", "core") + columns,
                  ((channel, core) + tuple(values) for channel, core, values in rows))
+
+
+def _ix_part_bell_migration(ex, cur):
+    """Patch 19, 2D: the one-time bell migration of Patch 18, 8A - its state
+    (waiting / done / error) and the offers it changed, a row a family."""
+    cur.execute("SELECT s.family, s.state, s.done, s.actual, s.unclassified, s.protected, s.ordinary, "
+                "s.queued, s.removed, s.errors, s.seen_at, COALESCE(c.value, 0) AS marker "
+                "FROM player.web_m2p_bell_status s LEFT JOIN player.web_m2p_contract_state c "
+                "ON c.name = CONCAT('bell_cleanup', s.family) ORDER BY s.family")
+    rows = []
+    for r in cur.fetchall():
+        done = int(r.get("marker") or 0) == 18
+        errors = int(r.get("errors") or 0)
+        word = ("done_with_errors" if errors else "done") if done else (
+            "waiting" if int(r.get("queued") or 0) or int(r.get("unclassified") or 0) or not errors else "error")
+        rows.append((r.get("family"), word, r.get("state"), r.get("actual"), r.get("unclassified"),
+                     r.get("protected"), r.get("ordinary"), r.get("queued"), r.get("removed"), errors,
+                     str(r.get("seen_at") or "")))
+    if not rows:
+        ex.problem("bell_migration.tsv", "no core has written player.web_m2p_bell_status yet")
+    ex.table("bell_migration.tsv", ("family", "migration", "native_state", "listed_units", "unclassified",
+                                    "protected", "ordinary", "queued", "offers_removed", "error_units",
+                                    "seen_at"), rows, enforce_time=False)
 
 
 def _ix_part_price_index(ex, _cur):
@@ -27958,6 +28248,8 @@ def build_iwakura_export(language):
     ex.run("price_index.tsv", _ix_part_price_index, needs_db=False)
     ex.run("bot_investment.tsv", _ix_part_patch17, needs_db=False)
     ex.run("build_identity.tsv", _ix_part_patch18, needs_db=False)
+    if ENGINE_MT2009:
+        ex.run("bell_migration.tsv", _ix_part_bell_migration)
     ex.run("no_upgrade_reason.tsv", _ix_part_no_upgrade)
     ex.run("chat_misses.tsv", _ix_part_chat_misses)
     ex.run("meetings.tsv", _ix_part_meetings)

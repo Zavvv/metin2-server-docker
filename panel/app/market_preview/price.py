@@ -433,8 +433,10 @@ def listing_quote(composed, c9, policy, *, floor=0, count=1, extra=100, spread=1
             reasons.append('price_missing_cohort')
     conflict = capped < D(floor)
     if conflict:
+        # Patch 19, 2B: the cap never goes under the floor - the floor wins
+        # and the line is listed (playerbot_price_override_rules.h BoundUnit).
         reasons.insert(0, 'price_floor_cap_conflict')
-        capped = before_cap
+        capped = D(floor)
     unit_yang = max(1, int((capped+D('0.5')).to_integral_value(rounding=ROUND_FLOOR)))
     total=unit_yang*max(1, int(count))
     if counter_ceiling > 0:

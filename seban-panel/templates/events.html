@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}Eventy · {{ panel_brand }}{% endblock %}
 {% block content %}
+<section class="panel" id="moonlight-drop-status" role="status">
+<h2>Drop Szkatułek Blasku Księżyca</h2>
+<p{% if chest_drop.blocked %} style="color:#d8ab60;font-weight:bold"{% endif %}>{% if chest_drop.off %}Globalny wyłącznik dropu jest zaznaczony. Uruchomienie eventu nie zmienia tego ustawienia.{% elif chest_drop.zero %}Obie zapisane szanse wynoszą 0%. Podczas eventu szkatułki nie wypadną.{% elif chest_drop.unknown %}Część szans pochodzi z konfiguracji serwera; panel nie zna tych wartości.{% else %}Zapisane szanse pozwalają na drop. Szkatułki wypadają tylko w aktywnym oknie blasków.{% endif %}</p>
+<p><span>Z potwora:</span> {% if chest_drop.kill_pct is none %}<span>z konfiguracji serwera</span>{% else %}{{'%g'|format(chest_drop.kill_pct)}}%{% endif %} · <span>Z Metina:</span> {% if chest_drop.stone_pct is none %}<span>z konfiguracji serwera</span>{% else %}{{'%g'|format(chest_drop.stone_pct)}}%{% endif %}</p>
+<p class="muted">Harmonogram i ustawienia dropu są niezależne. Uruchomienie eventu nie zmienia wyłącznika ani zapisanych szans.</p>
+<p><a href="{{url_for('manage')}}">Sprawdź wyłącznik i szanse w ustawieniach zachowania</a></p>
+</section>
 {% if settings.theme == 'laka' %}{% include '_laka_events.html' %}{% else %}
 <p class="eyebrow">PLAYERBOTS · NA ŻYWO</p>
 <div class="events-heading"><div><h1>🎉 Planer eventów</h1><p class="muted">Uruchamiaj eventy od razu albo ustawiaj ich tygodniowy harmonogram. Rdzeń Playerbots odczytuje zmianę w ciągu pięciu sekund — restart nie jest potrzebny.</p></div><div class="events-core"><span>RDZEŃ</span><b>{{ 'połączony' if status else 'czeka na status' }}</b></div></div>

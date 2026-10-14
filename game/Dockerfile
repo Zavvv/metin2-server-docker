@@ -83,7 +83,10 @@ RUN set -eux; \
     # (web_admin; 2.2.37).
     # pc.warp_to_pid for a GM's panel teleport onto the character itself, its
     # dungeon instance included (web_admin; 7 October).
-    for fn in item.can_trash pc.send_whisper q.getcurrentquestindex game.open_safebox mysql_direct_query pc.equip_slot pc.unequip_slot item.set_attr item.get_max_stack item.use pc.open_special_shop affect.add_new affect.remove_new pc.is_playerbot affect.get_duration pc.has_affect pc.warp_channel pc.warp_to_pid m2_biologist.reward; do \
+    # npc.get_type (the engine's alias of npc.get_type0, ENABLE_NEWSTUFF) and
+    # m2_hex_event's three for the Hexagonal Chest event (hexagonal_event;
+    # Kiciamol, 14 October; m2_hexagonal_event.lua).
+    for fn in item.can_trash pc.send_whisper q.getcurrentquestindex game.open_safebox mysql_direct_query pc.equip_slot pc.unequip_slot item.set_attr item.get_max_stack item.use pc.open_special_shop affect.add_new affect.remove_new pc.is_playerbot affect.get_duration pc.has_affect pc.warp_channel pc.warp_to_pid m2_biologist.reward npc.get_type m2_hex_event.start_clock m2_hex_event.refresh m2_hex_event.kill; do \
       grep -qx "$fn" /tmp/qc-work/quest_functions || echo "$fn" >> /tmp/qc-work/quest_functions; \
     done; \
     # pony_levelup is the package's own stable-keeper quest with the 18-hour
@@ -142,7 +145,10 @@ RUN set -eux; \
     # person's kill - Dragon Stone material and a Kupon SM by the victim's
     # level - while M2_EXTRA_DS_DROP or M2_EXTRA_COUPON_DROP is above 0
     # (Jeremus-Sama, 1 October; the rules are m2_difficulty.lua's).
-    for q in item_trash remote_storekeeper switchbot_notify web_admin speed_boost starter_chest starter_kit pony_levelup gm_profile new_quest_lv19 teleport_ring pony_buy horse_upgrade horse_upgrade2 horse_levelup deviltower_zone fishing_pass_shop collect_herb_lv4 collect_herb_lv7 collect_herb_lv10 collect_herb_lv15 collect_herb_lv20 collect_herb_lv25 collect_quest_lv30 collect_quest_lv40 collect_quest_lv50 collect_quest_lv60 collect_quest_lv70 collect_quest_lv80 collect_quest_lv85 collect_quest_lv90 towarzysz devilcatacomb_zone check_trans_ticket heavens_cave_keyquest tanaka_ears autohunt_time antiexp_ring seon_pyeong flea_market playerbot_lang subquest_21 subquest_39 oxevent_manager dragon_soul dragon_soul_refine dragon_soul_shop dragon_soul_switch world_drops; do \
+    # hexagonal_event drops the hexagonal chest of the map a person broke a
+    # Metin stone on while the panel's Events page runs the event (Kiciamol,
+    # 14 October; the rules are m2_hexagonal_event.lua's).
+    for q in item_trash remote_storekeeper switchbot_notify web_admin speed_boost starter_chest starter_kit pony_levelup gm_profile new_quest_lv19 teleport_ring pony_buy horse_upgrade horse_upgrade2 horse_levelup deviltower_zone fishing_pass_shop collect_herb_lv4 collect_herb_lv7 collect_herb_lv10 collect_herb_lv15 collect_herb_lv20 collect_herb_lv25 collect_quest_lv30 collect_quest_lv40 collect_quest_lv50 collect_quest_lv60 collect_quest_lv70 collect_quest_lv80 collect_quest_lv85 collect_quest_lv90 towarzysz devilcatacomb_zone check_trans_ticket heavens_cave_keyquest tanaka_ears autohunt_time antiexp_ring seon_pyeong flea_market playerbot_lang subquest_21 subquest_39 oxevent_manager dragon_soul dragon_soul_refine dragon_soul_shop dragon_soul_switch world_drops hexagonal_event; do \
       [ -f "/quest-add/$q.quest" ] || continue; \
       sed 's/\r$//' "/quest-add/$q.quest" > "/tmp/qc-work/$q.quest"; \
       ( cd /tmp/qc-work && /usr/local/bin/qc "$q.quest" ); \
@@ -274,6 +280,43 @@ RUN set -eu; L=/opt/metin2/share/locale/poland/quest/libs/other/_otherModuleLoad
  && LC_ALL=C grep -q 'other/m2_difficulty.lua' "$L" \
  && test -s /opt/metin2/share/locale/poland/quest/libs/other/m2_difficulty.lua \
  && echo "share: difficulty hooked into the quest libraries"
+
+# The NPC crafting windows from the database (port/shareify.py renders this
+# step; Iwakura x Tyrion Patch 19, point 10): m2_crafting_windows.lua is
+# dofile'd right after crafting_data.lua and puts each window of
+# world.crafting_window in place of the package's list, so a recipe added to a
+# window survives an update. A missing or empty table keeps the file's lists.
+COPY quest/m2_crafting_windows.lua /opt/metin2/share/locale/poland/quest/libs/crafting/m2_crafting_windows.lua
+RUN set -eu; L=/opt/metin2/share/locale/poland/quest/libs/crafting/_craftingModuleLoader.lua \
+ && LC_ALL=C grep -q 'crafting/crafting_data.lua' "$L" \
+ && LC_ALL=C sed -i 's/\r$//' "$L" \
+ && LC_ALL=C sed -i 's#^\(dofile( *LIBDIR *\.\. *"crafting/crafting_data.lua")\)$#\1\ndofile( LIBDIR .. "crafting/m2_crafting_windows.lua")#' "$L" \
+ && test "$(LC_ALL=C grep -c 'crafting/m2_crafting_windows.lua' "$L")" -eq 1 \
+ && test -s /opt/metin2/share/locale/poland/quest/libs/crafting/m2_crafting_windows.lua \
+ && echo "share: crafting windows read from world.crafting_window"
+
+# The Hexagonal Chest event (Kiciamol, 14 October; port/shareify.py renders
+# this step): m2_hexagonal_event.lua is dofile'd after the quest libraries -
+# hexagonal_event.quest, compiled above, calls it at a person's Metin kill -
+# and the chests' groups (special_item_group.hexagonal.txt) take the place of
+# the package's group of 50037, its Hexagonal Treasure Chest, now the M1 one.
+# An operator's own group of one of them (the panel's drop editor, kept in the
+# spool by m2-drop-tables) still wins when the container starts.
+COPY quest/m2_hexagonal_event.lua /opt/metin2/share/locale/poland/quest/libs/other/m2_hexagonal_event.lua
+COPY share-add/special_item_group.hexagonal.txt /tmp/share-hex/
+RUN set -eu; L=/opt/metin2/share/locale/poland; Q="$L/quest/libs/other/_otherModuleLoader.lua"; H=/tmp/share-hex/special_item_group.hexagonal.txt \
+ && LC_ALL=C grep -q 'other/m2_difficulty.lua' "$Q" \
+ && LC_ALL=C sed -i 's/\r$//' "$Q" \
+ && printf '\ndofile( LIBDIR .. "other/m2_hexagonal_event.lua")\n' >> "$Q" \
+ && test "$(LC_ALL=C grep -c 'other/m2_hexagonal_event.lua' "$Q")" -eq 1 \
+ && sed -i '1s/^\xEF\xBB\xBF//; s/\r$//; s/$/\r/' "$H" \
+ && f="$L/special_item_group.txt" \
+ && awk 'BEGIN{keep=1} /^Group/{blk=""; keep=1} {blk=blk $0 "\n"} /Vnum[\t ]+(50037|55000|55001|55002|55003|55004|55005|55006|55007|55008|55009|55010|55011|55012|55013|55014|55015|55016|55017|55018|55019|55020)([^0-9]|$)/{keep=0} /^}/{ if (keep) printf "%s", blk; blk=""; keep=1 }' "$f" > "$f.new" \
+ && grep -v '^#' "$H" >> "$f.new" \
+ && mv "$f.new" "$f" \
+ && test "$(LC_ALL=C grep -c -E '^[[:blank:]]*Vnum[[:blank:]]+(50037|55000|55001|55002|55003|55004|55005|55006|55007|55008|55009|55010|55011|55012|55013|55014|55015|55016|55017|55018|55019|55020)([^0-9]|$)' "$f")" -eq 22 \
+ && rm -rf /tmp/share-hex \
+ && echo "share: the hexagonal chests (22 groups) and their quest library"
 
 # The monkey curse (port/shareify.py renders this step): the package's
 # monkey_curse quest turned anybody 55 minutes into a Monkey Dungeon (35 on

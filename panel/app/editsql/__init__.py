@@ -510,19 +510,23 @@ def _preview(module_id, spec, pk_values):
     token = safety.stash({"module": module_id, "db": spec["db"], "table": spec["table"],
                           "pk": pk_values, "logical_key": _logical(spec),
                           "changes": changes})
+    # Iwakura P19: tryb szybki – zapis od razu, bez osobnego kroku podglądu (te same
+    # walidacje i blokady co przy zapisie z podglądu; zmiana trafia do Historii zmian).
+    if _fast_mode():
+        _apply_payload(safety.take(token), back)
+        return _redirect(back)
     return _redirect(back + "?preview=" + token)
 
 
-def _save(module_id, spec, pk_values):
-    panel = db.ns()
-    request = panel.request
-    back = _detail_url(module_id, spec, pk_values)
-    token = request.form.get("token") or ""
-    payload = safety.take(token)
-    if not _payload_ok(payload, module_id, spec, "update") or payload.get("pk") != pk_values:
-        _put_message("error", T("Podgląd wygasł (albo został już użyty) - powtórz edycję.",
-                                "The preview has expired (or was used already) - make the edit again."))
-        return _redirect(back)
+def _fast_mode():
+    """Iwakura P19: the theme's switch (POST /editsql-fast, under the panel's CSRF)."""
+    try:
+        return bool(db.ns().session.get("esq_fast"))
+    except Exception:                              # noqa: BLE001
+        return False
+
+
+def _apply_payload(payload, back):
     try:
         count = safety.apply_changes(payload["db"], payload["table"], payload["pk"],
                                      payload["changes"], pages._admin_name(),
@@ -540,6 +544,19 @@ def _save(module_id, spec, pk_values):
         _put_message("error", T("Nie mogę zapisać: %s", "Cannot save: %s") % exc)
     except Exception as exc:                       # noqa: BLE001
         _put_message("error", T("Błąd zapisu: %s", "Save error: %s") % exc)
+
+
+def _save(module_id, spec, pk_values):
+    panel = db.ns()
+    request = panel.request
+    back = _detail_url(module_id, spec, pk_values)
+    token = request.form.get("token") or ""
+    payload = safety.take(token)
+    if not _payload_ok(payload, module_id, spec, "update") or payload.get("pk") != pk_values:
+        _put_message("error", T("Podgląd wygasł (albo został już użyty) - powtórz edycję.",
+                                "The preview has expired (or was used already) - make the edit again."))
+        return _redirect(back)
+    _apply_payload(payload, back)
     return _redirect(back)
 
 
@@ -553,6 +570,44 @@ def _child_add(spec, pk_values):
         _put_message("error", T("Nie ma tabeli world.shop_item.", "There is no world.shop_item table."))
         return _redirect(back)
     shop_vnum = pk_values[0]
+    bulk = (request.form.get("bulk") or "").strip()
+    if bulk:
+        # Iwakura P19: kilka pozycji naraz – linie „vnum [ilość]”.
+        # Every line passes the single form's checks: the column's own bounds,
+        # an item the world has, a count above zero and no duplicate row.
+        added, failed = 0, []
+        items = schema.table("world", "item_proto")
+        shop_col = schema.table(child_db, child_table)["by_name"]
+        if items is None:
+            _put_message("error", T("Nie ma tabeli przedmiotów, nie mogę sprawdzić vnumu.",
+                                    "There is no item table, so the vnum cannot be checked."))
+            return _redirect(back)
+        for line in bulk.splitlines()[:100]:
+            parts = line.replace(",", " ").replace("x", " ").replace("X", " ").split()
+            if not parts:
+                continue
+            try:
+                _, iv, _ = safety.validate(shop_col["item_vnum"], parts[0])
+                _, cnt, _ = safety.validate(shop_col["count"], parts[1] if len(parts) > 1 else "1")
+            except (safety.Invalid, KeyError, ValueError):
+                failed.append(line.strip()[:40]); continue
+            if len(parts) > 2 or not iv or not cnt or cnt < 1 or not db.scalar(
+                    "SELECT COUNT(*) AS n FROM %s WHERE %s=%%s"
+                    % (db.qt(items["db"], items["name"]), db.qi("vnum")), (iv,), 0):
+                failed.append(line.strip()[:40]); continue
+            if db.scalar("SELECT COUNT(*) AS n FROM %s WHERE `shop_vnum`=%%s AND `item_vnum`=%%s AND `count`=%%s"
+                         % db.qt(child_db, child_table), (shop_vnum, iv, cnt), 0):
+                failed.append(line.strip()[:40]); continue
+            try:
+                safety.insert_row(child_db, child_table, {"shop_vnum": shop_vnum, "item_vnum": iv, "count": cnt},
+                                  pages._admin_name(), note="pozycja sklepu %s" % shop_vnum)
+                added += 1
+            except Exception:                      # noqa: BLE001
+                failed.append(line.strip()[:40])
+        _put_message("ok" if added else "error",
+                     T("Dodano %d pozycji do sklepu %s.", "Added %d entries to shop %s.") % (added, shop_vnum)
+                     + ((" " + T("Pominięte: ", "Skipped: ") + ", ".join(failed[:10])) if failed else ""))
+        return _redirect(back)
     raw_item = (request.form.get("item_vnum") or "").strip()
     raw_count = (request.form.get("count") or "1").strip()
     shop_col = schema.table(child_db, child_table)["by_name"]

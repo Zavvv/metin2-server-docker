@@ -26,6 +26,9 @@ def valid(key, value):
         low, high = 0, 10000000
     elif key == '__median_wealth_40__':
         low, high = 0, 9000000000000000
+    elif key.startswith('bonus:') and key.endswith((':lvfrom', ':lvto')):
+        # Patch 19, 2E: a bonus row's level band, a BYTE in the native table.
+        low, high = 0, 255
     elif key.startswith(('bonus:', 'avg:', 'skilltier:')):
         low, high = 0, 65535
     elif key.startswith(('sockcnt:', 'sockstone:')):

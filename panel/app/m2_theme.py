@@ -33,7 +33,7 @@ from markupsafe import escape
 from market_preview import overrides as _price_overrides
 from market_preview import population as _population
 
-THEME_VERSION = "2.6.0-p18"
+THEME_VERSION = "2.7.0-p19-hex1"
 # Neither currently supported core handles PERSONASET. Do not enqueue an
 # unexecutable mutation; enable only together with a reviewed native handler.
 PERSONA_CHANGE_SUPPORTED = True
@@ -77,6 +77,7 @@ L = {
     "ai":         {"pl": "Zachowanie botów", "en": "Bot behaviour", "de": "Bot-Verhalten", "tr": "Bot davranışı"},
     "ai_items":   {"pl": "Przedmioty botów", "en": "Bot items", "de": "Bot-Gegenstände", "tr": "Bot eşyaları"},
     "events":     {"pl": "Eventy", "en": "Events", "de": "Events", "tr": "Etkinlikler"},
+    "fun":        {"pl": "Fun™", "en": "Fun™", "de": "Fun™", "tr": "Fun™"},
     "editsql":    {"pl": "Edytor bazy danych", "en": "Database editor", "de": "Datenbank-Editor", "tr": "Veritabanı editörü"},
     "drops":      {"pl": "Edytor dropu", "en": "Drop editor", "de": "Drop-Editor", "tr": "Drop düzenleyici"},
     "client":     {"pl": "Dane dla klienta", "en": "Client data", "de": "Client-Daten", "tr": "İstemci verileri"},
@@ -113,7 +114,8 @@ SECTION_HAS = {
     "players": "#ptable",
     "export": 'form[action*="iwakura"]',
     "reset": 'form[action*="resetlink"]',
-    "gamelang": 'form[action$="/language"]',
+    # Na mt2009 nie ma przelacznika jezyka serwera, tylko notka (#lang-client-note).
+    "gamelang": 'form[action$="/language"],#lang-client-note',
     "pass": 'form[action$="/passphrase"]',
 }
 
@@ -287,6 +289,7 @@ def _context(mod):
                 {"key": "population", "label": "Populacja botów" if lang == "pl" else "Bot population", "href": "/panel/populacja", "active": request.endpoint == "m2p_population", "ext": False, "new": False, "tip": ""},
                 item("ai_items", "ai_item_policy"),
                 item("events", "events_page"),
+                item("fun", "m2p_fun"),
                 item("editsql", "editsql_home", prefix="editsql"),
                 item("drops", "drops_home", prefix="drops_",
                      when=bool(getattr(mod, "DROPS_ENABLED", False))),
@@ -421,13 +424,52 @@ ESQ_PAL = ("<script>(function(){var f=document.getElementById('footer');if(!f)re
            "f.appendChild(d)})()</script>")
 
 
+def _esq_extras(mod, html):
+    """Iwakura P19: w edytorze bazy – przełącznik trybu szybkiego (zapis bez podglądu) i odnośniki
+    do zawartości skrzynki / dropu potwora (pliki special_item_group / mob_drop_item).
+    The switch is a POST form: it changes how every later save behaves, so it
+    goes under the panel's CSRF check like any other change."""
+    try:
+        from flask import request as _rq, session as _ss
+        path = _rq.path or ""
+        fast = bool(_ss.get("esq_fast"))
+        pl = (mod.lang() if hasattr(mod, "lang") else "pl") == "pl"
+        token = mod.csrf_token()
+    except Exception:  # noqa: BLE001
+        return html
+    if "m2p-esq-fast" in html or "<h2>" not in html:
+        return html
+    bar = ('<form method="post" action="/editsql-fast" class="m2p-esq-fast">%s '
+           '<input type="hidden" name="_csrf" value="%s"><input type="hidden" name="on" value="%d">'
+           '<input type="hidden" name="next" value="%s"><button type="submit" class="%s">%s</button></form>'
+           % (("Tryb szybki (zapis bez podglądu):" if pl else "Fast mode (save without preview):"),
+              escape(token), 0 if fast else 1, escape(path), "on" if fast else "",
+              ("WŁĄCZONY – wyłącz" if pl else "ON – switch off") if fast else ("wyłączony – włącz" if pl else "off – switch on")))
+    m = re.match(r"^/editsql/(chests|drops|mobs)/[^/]+/(\d+)", path)
+    if m and "drops_home" in mod.app.view_functions:
+        kind, vnum = m.group(1), m.group(2)
+        if kind == "chests":
+            bar += ('<div class="esq-note esq-note-info"><b><a href="/drops/chests/g/%s">%s →</a></b> %s</div>'
+                    % (vnum, "Edytuj zawartość tej skrzynki" if pl else "Edit this chest's contents",
+                       "(przedmioty w środku, szanse, ilości – edytor „Skrzynki i drop”)." if pl else
+                       "(the items inside, chances, counts – the “Chests and drops” editor)."))
+        else:
+            bar += ('<div class="esq-note esq-note-info"><b><a href="/drops/mobs?q=%s">%s →</a></b> %s</div>'
+                    % (vnum, "Edytuj drop tego potwora" if pl else "Edit this monster's drop",
+                       "(grupy dropu mob_drop_item – edytor „Skrzynki i drop”). Tu zmieniasz tylko kolumnę drop_item." if pl else
+                       "(mob_drop_item's drop groups – the “Chests and drops” editor). Here you change only the drop_item column."))
+    return html.replace("<h2>", bar + "<h2>", 1)
+
+
 def _esq_palette(html):
     if "m2p-esq-pal" in html or "</body>" not in html:
         return html
     css = ("<style id=\"m2p-esq-pal\">#footer .m2p-pal{margin-top:6px;font-size:11px;color:#c9b48a;text-align:center}"
            "#footer .m2p-pal a{cursor:pointer;margin:0 4px;color:#e8d49a}"
            "#footer .m2p-pal a.on{color:#fff1b8;font-weight:bold;text-decoration:underline}</style>")
-    return html.replace("</body>", css + ESQ_PAL + "</body>", 1)
+    spark = ("<script>[].forEach.call(document.querySelectorAll('.col-1 .boxes-middle,.m2p-boxes-mid'),function(e){"
+             "e.style.setProperty('--m2p-sd',(4.5+Math.random()*5).toFixed(2)+'s');e.style.setProperty('--m2p-sdl',(Math.random()*6).toFixed(2)+'s')})</script>")
+    return html.replace("</body>", css + ESQ_PAL + spark + "</body>", 1)
 
 
 # ---------------------------------------------------------------------------
@@ -891,7 +933,8 @@ _P18_EQ_REASONS = (
     ("Zakładanie teraz niedostępne", "Equipment window closed"), ("Chronione zajęcie", "Protected activity"),
     ("Limit czasu wizyty", "Visit time limit"), ("Limit prób wizyty", "Visit attempt limit"),
     ("Limit Bojowej na dobę", "Daily Battle Shield limit"), ("Limit budżetu kategorii", "Category budget limit"),
-    ("Minimum ceny przekracza limit", "Price floor exceeds cap"))
+    ("Minimum ceny przekracza limit", "Price floor exceeds cap"),
+    ("Kupuję bazę z rynku", "Buying the base from the market"))
 
 
 def _p18_eq_runtime(mod, pid, now=None):
@@ -1014,13 +1057,14 @@ def _bucket(span, n=160, low=60):
 
 
 # ---- ulepszenia +7 / +8 / +9 ----
-def refine_data(mod, ok, lang, limit=150):
+def refine_data(mod, ok, lang, limit=150, plus=0):
     names, _base = _proto(mod)
     by_name = {}
     for v, n in names.items():
         by_name.setdefault(n, v)
     rows = _q(mod, "SELECT r.pid, r.item_id, CAST(r.item_name AS BINARY) AS item_name, r.step, r.time, CAST(r.setType AS BINARY) AS set_type FROM log.refinelog r "
-                   "WHERE r.is_success=%s AND r.step IN (6,7,8) ORDER BY r.time DESC LIMIT %s",
+                   "WHERE r.is_success=%s AND r.step IN (" + (str(int(plus) - 1) if plus in (7, 8, 9) else "6,7,8") + ") "
+                   "ORDER BY r.time DESC LIMIT %s",
               (1 if ok else 0, int(limit)))
     who = _names_by_pid(mod, [r["pid"] for r in rows])
     try:
@@ -1529,6 +1573,59 @@ QUEST_TITLES = {"black_steel_crafting": "Przysługa dla Min-Sun","find_brother_a
 QUEST_TITLES_EN = {'black_steel_crafting': 'A favour for Min-Sun', 'find_brother_article': 'Mirine’s brother’s keepsake', 'find_squareguard': 'Village Guard', 'main_quest_lv1': 'Welcome to Metin2 Singleplayer', 'main_quest_lv10': 'Go to the Captain', 'main_quest_lv12': 'Go to the Captain', 'main_quest_lv14': 'Go to the Captain', 'main_quest_lv15': 'Find the Captain', 'main_quest_lv16': 'Catch the spy', 'main_quest_lv2': 'Letter from the City Guard', 'main_quest_lv27': 'Destroy the Metin Stones', 'main_quest_lv3': 'News from the City Guard', 'main_quest_lv30': 'The secret of the Metin Stones', 'main_quest_lv32': 'The mysterious book', 'main_quest_lv40': 'Pages of the mysterious book', 'main_quest_lv47': 'Pages of the mysterious book', 'main_quest_lv50': 'Pages of the mysterious book', 'main_quest_lv55': 'Search for monuments', 'main_quest_lv6': 'Go to the City Guard', 'main_quest_lv7': 'Another favour', 'main_quest_lv9': 'Talk to the City Guard', 'new_quest_lv17': 'A gift for Chaegirab', 'new_quest_lv19': 'Investigate the cursed animals', 'new_quest_lv22': 'The sick guard', 'new_quest_lv26': 'The deserter', 'new_quest_lv28': 'Bear hunting', 'new_quest_lv29': 'Broken porcelain', 'new_quest_lv42': 'Angry sea monsters', 'new_quest_lv43': 'The orphan', 'new_quest_lv52': 'Letter from the Captain', 'new_quest_lv7': 'The daughter’s wedding', 'subquest_1': 'Find Yonah the potter', 'subquest_10': 'Find the hairpin', 'subquest_11': 'Find my brother', 'subquest_12': 'Kill Mi-Jung of the White Oath', 'subquest_13': 'Search for materials', 'subquest_15': 'Eun-Jung of the White Oath', 'subquest_16': 'Armed cavalry', 'subquest_17': 'Talk to the General Store', 'subquest_18': 'Find Soon', 'subquest_19': 'Obtain wolf skin', 'subquest_2': 'Find the Armour Dealer', 'subquest_20': 'Javelins', 'subquest_21': 'A medicine for Balso', 'subquest_22': 'Deokbae’s golden axe', 'subquest_23': 'Find Yu-Hwan', 'subquest_24': 'The stolen rice cake', 'subquest_25': 'Go to Ariyoung', 'subquest_26': 'Go to Octavio', 'subquest_27': 'Go to Aranyo', 'subquest_3': 'A medicine ingredient', 'subquest_30': 'Ore for a new weapon', 'subquest_31': 'Ore for new armour', 'subquest_32': 'The dealer’s request', 'subquest_33': 'Treasure map', 'subquest_34': 'Kill the Black Wind Gang’s generals', 'subquest_36': 'The horses are in trouble', 'subquest_37': 'The secret of celadon porcelain', 'subquest_38': 'The hunter’s treasure', 'subquest_39': 'Go to Baek-Go', 'subquest_4': 'Letter from the Blacksmith', 'subquest_40': 'War support', 'subquest_41': 'Spider-eye delicacy', 'subquest_42': 'Let the fallen rest', 'subquest_44': 'Spider with a bell', 'subquest_45': 'Temple of Darkness', 'subquest_46': 'Celadon porcelain', 'subquest_48': 'Meet the spy', 'subquest_49': 'What is Bingsu?', 'subquest_5': 'Help Soon', 'subquest_6': 'An armour order', 'subquest_7': 'The best cookbook', 'subquest_8': 'Rice cake', 'subquest_9': 'Find the golden axe'}
 
 
+# Iwakura P19: krótkie opisy osobowości (dymek przy wyborze, max 3 zdania).
+PERSONA_DESC = {
+    0: "Expi bez przerwy na najlepszym dla siebie expowisku. Handluje tylko tym, co musi.",
+    1: "Goni postęp: questy, nowe mapy i lepszy sprzęt. Rzadko zostaje długo w jednym miejscu.",
+    2: "Żyje z handlu. Skupuje taniej, sprzedaje drożej i pilnuje swojego straganu.",
+    3: "Kuje przedmioty na ryzyko, licząc na wysokie plusy. Wydaje dużo yang u kowala.",
+    4: "Dopieszcza własny ekwipunek. Ulepsza i bonuje do skutku.",
+    5: "Poluje na Kamienie Metin na swoim progu. Z dropu żyje i na nim zarabia.",
+    6: "Kopie rudy i sprzedaje urobek. Spokojna, stała praca.",
+    7: "Łowi ryby, wymienia je i sprzedaje. Dużo czasu spędza nad wodą.",
+    8: "Dołącza do grup tam, gdzie go potrzebują. Pomaga innym w zamian za łup.",
+    9: "Gra w drużynie i trzyma się grupy. Dzieli exp i pilnuje kolegów.",
+    10: "Rzadka: specjalista od Metinów. Bije je seriami, dzień w dzień.",
+    11: "Rzadka: gra bez odpoczynku. Bardzo długie sesje.",
+    12: "Rzadka: eksperymentuje z ulepszaniem i bonusami. Nieprzewidywalny.",
+    13: "Rzadka: poluje na graczy w PvP. Nosi zestaw PvP i szuka walki.",
+    14: "Rzadka: łowi bez końca. Ryby to całe jego życie.",
+    15: "Hazardzista: kuje na ryzyko do 80% gotówki.",
+    16: "Hazardzista: kuje na ryzyko do 70% gotówki.",
+    17: "Hazardzista: kuje na ryzyko do 60% gotówki.",
+    18: "Hazardzista: kuje na ryzyko do 90% gotówki. Często kończy bez grosza.",
+    19: "Zbiera zioła i warzy mikstury. Sprzedaje to, czego sam nie zużyje.",
+    20: "Bonuje sprzęt do dobrych linii. Zmienia bonusy, aż trafi.",
+    21: "Przegląda rynek i kupuje okazje taniej niż zwykle. Potem odsprzedaje.",
+    22: "Przez 2 godziny realizuje jedno zadanie (Cel Dnia). Potem wraca do swojej osobowości.",
+}
+PERSONA_DESC_EN = {
+    0: "Levels without a break on the best hunting ground for it. Trades only what it must.",
+    1: "Chases progress: quests, new maps and better gear. Rarely stays long in one place.",
+    2: "Lives off trade. Buys cheaper, sells dearer and minds its stall.",
+    3: "Refines items at a risk, hoping for high pluses. Spends a lot of yang at the blacksmith.",
+    4: "Polishes its own equipment. Refines and bonuses it until it is right.",
+    5: "Hunts Metin Stones of its tier. Lives and earns off their drop.",
+    6: "Mines ores and sells the output. Calm, steady work.",
+    7: "Fishes, exchanges the fish and sells them. Spends a lot of time by the water.",
+    8: "Joins groups where it is needed. Helps others in return for loot.",
+    9: "Plays in a party and sticks to the group. Shares experience and looks after its mates.",
+    10: "Rare: a Metin specialist. Breaks them in series, day after day.",
+    11: "Rare: plays without a rest. Very long sessions.",
+    12: "Rare: experiments with refining and bonuses. Unpredictable.",
+    13: "Rare: hunts players in PvP. Wears a PvP set and looks for a fight.",
+    14: "Rare: fishes without end. Fish are its whole life.",
+    15: "Gambler: refines at a risk with up to 80% of its cash.",
+    16: "Gambler: refines at a risk with up to 70% of its cash.",
+    17: "Gambler: refines at a risk with up to 60% of its cash.",
+    18: "Gambler: refines at a risk with up to 90% of its cash. Often ends up penniless.",
+    19: "Gathers herbs and brews potions. Sells what it does not use itself.",
+    20: "Bonuses gear to good lines. Changes bonuses until it hits.",
+    21: "Watches the market and buys bargains below the usual price. Then resells them.",
+    22: "Works on one task for 2 hours (Daily Goal). Then returns to its own personality.",
+}
+
+
 _M2P_CACHE = {}
 
 
@@ -1649,6 +1746,7 @@ def world_stats(mod):
 # pkt 3. Nadpisania: player.web_m2p_price_override (k, v), historia: player.web_m2p_price_history.
 # Panel (Podgląd rynku, wyceny) stosuje je od razu; rdzeń czyta tę samą tabelę (pkt 6 patcha).
 # Klucze: gear:<baza>:<plus>, bonus:<nr wiersza>:max|other, mat:<vnum>, book:<skill>,
+# bonus:<nr wiersza>:lvfrom|lvto (P19: zakres poziomu przedmiotu wiersza, BYTE w rdzeniu),
 # forget:<skill>, marble:<mob>, soul:<rodzaj>:<stopień>, soulgrade:<i>, sockcnt:<i>,
 # sockstone:<rodzaj>:<stopień>, avg:<i>, skilltier:<i>, glob:<nazwa>.
 # ---------------------------------------------------------------------------
@@ -1656,9 +1754,9 @@ PRICE_SLOT_NAMES = ((1, "Hełm"), (2, "Zbroja"), (4, "Tarcza"), (8, "Buty"), (16
                     (32, "Naszyjnik"), (64, "Kolczyki"), (128, "Broń"))
 PRICE_GLOBALS = (
     ("bonus_boost_pct", 0, "Podniesienie mnożników bonusów (%): nowy = 1 + (stary − 1) × (1 + X/100)"),
-    ("cap_full", 10000, "Cap: iloczyn mnożników liczony w całości do (×, setne)"),
+    ("cap_full", 10000, "Cap: iloczyn mnożników liczony w całości do (×)"),
     ("cap_excess_pct", 0, "Cap: nadwyżka ponad próg liczona w (%)"),
-    ("cap_vs_plus9", 0, "Cena max względem ceny +9 bez bonusów (×, setne)"),
+    ("cap_vs_plus9", 0, "Cena max względem ceny +9 bez bonusów (×)"),
     ("young_world_days", 0, "Młody świat: liczba dni z dodatkowym capem"),
     ("young_cap_pct", 0, "Młody świat: cena max (% referencyjnego majątku aktywnych botów 40+)"),
     ("moonlight_pct", 0, "Szkatułka Blasku Księżyca: zmiana ceny (%)"),
@@ -1684,6 +1782,8 @@ def _price_defaults():
     for i, row in enumerate(sheet.BONUS_ROWS):
         d["bonus:%d:max" % i] = int(row[2])
         d["bonus:%d:other" % i] = int(row[3])
+        d["bonus:%d:lvfrom" % i] = int(row[4])
+        d["bonus:%d:lvto" % i] = int(row[5])
         d["bonusq:%d:max" % i] = _price_overrides.migrated_multiplier(int(row[2]))
         d["bonusq:%d:other" % i] = _price_overrides.migrated_multiplier(int(row[3]))
     d['glob:patch18'] = 18
@@ -1730,6 +1830,7 @@ def _price_supported_defaults(mod):
     end = len(d['__orig_bonus_rows__'])
     excluded = {'%s:%d:%s' % (prefix, i, field) for i in range(end-3, end)
                 for field in ('max', 'other') for prefix in ('bonus', 'bonusq')}
+    excluded |= {'bonus:%d:%s' % (i, field) for i in range(end-3, end) for field in ('lvfrom', 'lvto')}
     return {k:v for k,v in d.items() if k not in excluded}
 
 
@@ -1761,7 +1862,8 @@ def _price_apply(ovr):
             val('bonus:%d:%s' % (i, field)), val('glob:bonus_boost_pct'))
     for base, (mask, prices) in d["__orig_gear__"].items():
         sheet.GEAR[base] = (mask, tuple(val("gear:%d:%d" % (base, i)) for i in range(len(prices))))
-    sheet.BONUS_ROWS = tuple((r[0], r[1], line(i, 'max'), line(i, 'other')) + tuple(r[4:])
+    sheet.BONUS_ROWS = tuple((r[0], r[1], line(i, 'max'), line(i, 'other'),
+                              val("bonus:%d:lvfrom" % i), val("bonus:%d:lvto" % i)) + tuple(r[6:])
                              for i, r in enumerate(d["__orig_bonus_rows__"]))
     for name, table in (("mat", sheet.MATERIALS), ("book", sheet.BOOKS), ("forget", sheet.FORGET_SCROLLS), ("marble", sheet.MARBLES)):
         for k in list(table):
@@ -1855,8 +1957,8 @@ def _price_rows(mod, lang):
     except Exception:  # noqa: BLE001
         apply_label = None
     d = _price_defaults()
-    def cell(k):
-        return {"k": k, "d": d[k], "v": int(_PRICE_OVR.get(k, d[k]))}
+    def cell(k, scale=1):
+        return {"k": k, "d": d[k], "v": int(_PRICE_OVR.get(k, d[k])), "s": scale}
     def iname(v):
         try:
             return mod.localized_item_name(int(v), lang)
@@ -1868,7 +1970,7 @@ def _price_rows(mod, lang):
     for base in sorted(d["__orig_gear__"]):
         n = len(d["__orig_gear__"][base][1])
         rows.append({"label": iname(base), "sub": "vnum %d" % base, "cells": [cell("gear:%d:%d" % (base, i)) for i in range(n)]})
-    out.append({"id": "gear", "title": "Ceny bazowe broni i zbroi (+0…+9)", "cols": ["+%d" % i for i in range(10)], "rows": rows})
+    out.append({"id": "gear", "title": "Ceny broni i zbroi", "cols": ["+%d" % i for i in range(10)], "rows": rows})
     rows = []
     supported = _price_supported_defaults(mod)
     for i, r in enumerate(d["__orig_bonus_rows__"]):
@@ -1881,40 +1983,49 @@ def _price_rows(mod, lang):
             bn = mod.apply_name(attr, lang)
         except Exception:  # noqa: BLE001
             bn = "Bonus %d" % r[1]
-        lv = "lvl %d–%d" % (r[4], r[5]) if (r[4], r[5]) != (0, 255) else ""
-        rows.append({"label": bn, "sub": slots + ((" · " + lv) if lv else "") + (" · własny max %d" % r[6] if r[6] else ""),
-                     "cells": [cell("%s:%d:max" % ('bonusq' if _PRICE_OVR.get('glob:patch18')==18 else 'bonus', i)),
-                               cell("%s:%d:other" % ('bonusq' if _PRICE_OVR.get('glob:patch18')==18 else 'bonus', i))]})
+        # Patch 18's precise multipliers are ten-thousandths (24500 = ×2.4500), the
+        # older ones hundredths (230 = ×2.30); the page shows both as ×.
+        precise = _PRICE_OVR.get('glob:patch18') == 18
+        rows.append({"label": bn, "sub": slots + (" · własny max %d" % r[6] if r[6] else ""),
+                     "cells": [cell("%s:%d:max" % ('bonusq' if precise else 'bonus', i), 10000 if precise else 100),
+                               cell("%s:%d:other" % ('bonusq' if precise else 'bonus', i), 10000 if precise else 100),
+                               cell("bonus:%d:lvfrom" % i), cell("bonus:%d:lvto" % i)]})
+    rows.sort(key=lambda x: (x["label"].lower(), x["sub"]))
     precise = _PRICE_OVR.get('glob:patch18') == 18
     if precise:
         for name, title in (('shield', 'INT: tarcza'), ('shaman_weapon', 'INT: broń szamana')):
-            rows.append({'label': title, 'sub': '', 'cells': [cell('intq:%s:%s' % (name, f)) for f in ('max', 'other')]})
-    out.append({"id": "bonus", "title": "Mnożniki bonusów (24500 = ×2,4500)" if precise else "Mnożniki bonusów (230 = ×2,30)", "cols": ["max", "inna"], "rows": rows})
-    out.append({"id": "mat", "title": "Ulepszacze i materiały", "cols": ["cena"],
+            rows.append({'label': title, 'sub': '', 'cells': [cell('intq:%s:%s' % (name, f), 10000) for f in ('max', 'other')] + [None, None]})
+    out.append({"id": "bonus", "title": "Mnożniki bonusów", "cols": ["× max", "× inna", "lvl od", "lvl do"], "rows": rows,
+                "note": "Mnożnik „max” – bonus z najwyższą wartością, „inna” – każda niższa. Wiersz obowiązuje dla wymienionych miejsc i przedmiotów z poziomem od–do (255 = bez górnej granicy)."})
+    out.append({"id": "mat", "title": "Ulepszacze", "cols": ["cena"],
                 "rows": [{"label": iname(k), "sub": "vnum %d" % k, "cells": [cell("mat:%d" % k)]} for k in sorted(sheet.MATERIALS)]})
-    out.append({"id": "book", "title": "Księgi Umiejętności", "cols": ["cena"],
+    out.append({"id": "book", "title": "Księgi", "cols": ["cena"],
                 "rows": [{"label": skills.get(k) or "#%d" % k, "sub": "umiejętność %d" % k, "cells": [cell("book:%d" % k)]} for k in sorted(sheet.BOOKS)]})
-    out.append({"id": "forget", "title": "Zwoje / Księgi Zapomnienia", "cols": ["cena"],
+    out.append({"id": "forget", "title": "Zwoje zapomnienia", "cols": ["cena"],
                 "rows": [{"label": skills.get(k) or "#%d" % k, "sub": "umiejętność %d" % k, "cells": [cell("forget:%d" % k)]} for k in sorted(sheet.FORGET_SCROLLS)]})
     def mob(k):
         try:
             return mod.localized_mob_name(int(k), lang)
         except Exception:  # noqa: BLE001
             return "#%d" % k
-    out.append({"id": "marble", "title": "Marmury Polimorfii", "cols": ["cena"],
+    out.append({"id": "marble", "title": "Marmury", "cols": ["cena"],
                 "rows": [{"label": mob(k), "sub": "potwór %d" % k, "cells": [cell("marble:%d" % k)]} for k in sorted(sheet.MARBLES)]})
     rows = [{"label": iname(28000 + kind + 100 * grade), "sub": "rodzaj %d · +%d" % (kind, grade),
-             "cells": [cell("soul:%d:%d" % (kind, grade)), cell("sockstone:%d:%d" % (kind, grade)) if ("sockstone:%d:%d" % (kind, grade)) in d else None]}
+             "cells": [cell("soul:%d:%d" % (kind, grade)), cell("sockstone:%d:%d" % (kind, grade), 100) if ("sockstone:%d:%d" % (kind, grade)) in d else None]}
             for (kind, grade) in sorted(sheet.SOUL_STONES)]
-    out.append({"id": "soul", "title": "Kamienie Duszy", "cols": ["cena", "% w gnieździe"], "rows": rows})
-    rows = [{"label": "Stopień +%d" % i, "sub": "Kamień Duszy bez własnej ceny", "cells": [cell("soulgrade:%d" % i)]} for i in range(len(d["__orig_grades__"]))]
-    rows += [{"label": "%d %s" % (i, "gniazdo" if i == 1 else "gniazda"), "sub": "% ceny za liczbę gniazd", "cells": [cell("sockcnt:%d" % i)]} for i in range(len(d["__orig_sockcnt__"]))]
-    out.append({"id": "sock", "title": "Gniazda i stopnie kamieni", "cols": ["wartość"], "rows": rows})
-    rows = [{"label": "ŚR od %d%%" % lv, "sub": "% ceny", "cells": [cell("avg:%d" % i)]} for i, (lv, _v) in enumerate(d["__orig_avg__"])]
-    rows += [{"label": "UM od %d%%" % lv, "sub": "% ceny", "cells": [cell("skilltier:%d" % i)]} for i, (lv, _v) in enumerate(d["__orig_skill__"])]
-    out.append({"id": "dmg", "title": "Średnie Obrażenia (ŚR) i Obrażenia Umiejętności (UM)", "cols": ["% ceny"], "rows": rows})
-    out.append({"id": "glob", "title": "Parametry globalne cen", "cols": ["wartość"],
-                "rows": [{"label": t, "sub": "glob:" + n, "cells": [cell("glob:" + n)]} for n, _v, t in PRICE_GLOBALS]})
+    out.append({"id": "soul", "title": "Kamienie Duszy", "cols": ["cena (yang)", "× w gnieździe"], "rows": rows,
+                "note": "Cena samego kamienia i mnożnik ceny przedmiotu, w którego gnieździe ten kamień siedzi (×1.40 = przedmiot droższy o 40%)."})
+    rows = [{"label": "Kamień Duszy +%d" % i, "sub": "cena kamienia bez własnej ceny w tabeli (yang)", "cells": [cell("soulgrade:%d" % i)]} for i in range(len(d["__orig_grades__"]))]
+    out.append({"id": "soulgrade", "title": "Kamienie – stopnie", "cols": ["cena (yang)"], "rows": rows})
+    rows = [{"label": "%d %s" % (i, "gniazdo" if i == 1 else "gniazd" if i == 0 else "gniazda"), "sub": "mnożnik ceny przedmiotu za liczbę gniazd",
+             "cells": [cell("sockcnt:%d" % i, 100)]} for i in range(len(d["__orig_sockcnt__"]))]
+    out.append({"id": "sock", "title": "Gniazda", "cols": ["×"], "rows": rows})
+    rows = [{"label": "Średnie Obrażenia od %d%%" % lv, "sub": "mnożnik ceny broni", "cells": [cell("avg:%d" % i, 100)]} for i, (lv, _v) in enumerate(d["__orig_avg__"])]
+    rows += [{"label": "Obrażenia Umiejętności od %d%%" % lv, "sub": "mnożnik ceny broni", "cells": [cell("skilltier:%d" % i, 100)]} for i, (lv, _v) in enumerate(d["__orig_skill__"])]
+    out.append({"id": "dmg", "title": "ŚR / UM", "cols": ["×"], "rows": rows})
+    out.append({"id": "glob", "title": "Globalne", "cols": ["wartość"],
+                "rows": [{"label": t, "sub": "", "cells": [cell("glob:" + n, 100 if n in ("cap_full", "cap_vs_plus9") else 1)]} for n, _v, t in PRICE_GLOBALS],
+                "note": "Te parametry liczy rdzeń gry (Patch 18 pkt 3)."})
     for sec in out:
         for r in sec["rows"]:
             r["cells"] = [c for c in r["cells"]] if all(r["cells"]) else [c or {"k": "", "d": None, "v": None} for c in r["cells"]]
@@ -1922,9 +2033,11 @@ def _price_rows(mod, lang):
         for sec in out:
             sec["title"] = _price_text_en(sec["title"])
             sec["cols"] = [_price_text_en(c) for c in sec["cols"]]
+            if sec.get("note"):
+                sec["note"] = _price_text_en(sec["note"])
             for row in sec["rows"]:
                 row["sub"] = _price_text_en(row["sub"])
-                if sec["id"] in ("sock", "dmg", "glob"):
+                if sec["id"] in ("sock", "dmg", "glob", "soulgrade") or row["label"].startswith("INT: "):
                     row["label"] = _price_text_en(row["label"])
     return out
 
@@ -1948,21 +2061,29 @@ PRICES_BODY = """<div class="card m2p-pr"><h3>{{ m2p_pg.title }}</h3>
   var q=(document.getElementById('prQ').value||'').toLowerCase().trim(), only=document.getElementById('prChanged').checked;
   var rows=sec.rows.filter(function(r){ if(q&&(r.label+' '+r.sub).toLowerCase().indexOf(q)<0) return false;
    if(only&&!r.cells.some(function(c){ return c&&c.k&&(c.v!==c.d||dirty[c.k]!==undefined); })) return false; return true; });
-  var h='<table class="m2p-pr-t"><tr><th>Pozycja</th>'+sec.cols.map(function(c){ return '<th>'+esc(c)+'</th>'; }).join('')+'<th></th></tr>';
+  var h=(sec.note?'<p class="muted m2p-pr-note">'+esc(sec.note)+'</p>':'')+'<table class="m2p-pr-t"><tr><th>Pozycja</th>'+sec.cols.map(function(c){ return '<th>'+esc(c)+'</th>'; }).join('')+'<th></th></tr>';
   h+=rows.slice(0,800).map(function(r){ return '<tr><td><b>'+esc(r.label)+'</b><br><small class="muted">'+esc(r.sub)+'</small></td>'+r.cells.map(function(c){
     if(!c||!c.k) return '<td></td>';
-    var v=invalid[c.k]!==undefined?invalid[c.k]:(dirty[c.k]!==undefined?dirty[c.k]:c.v), ch=v!==c.d;
-    return '<td><input '+(D.editable?'':'disabled ')+'class="m2p-pr-in'+(ch?' ch':'')+(dirty[c.k]!==undefined?' dirty':'')+'" data-k="'+c.k+'" data-d="'+c.d+'" value="'+esc(v)+'" inputmode="numeric" title="domyślnie: '+fmt(c.d)+'"></td>'; }).join('')+
+    var sc=c.s||1, v=dirty[c.k]!==undefined?dirty[c.k]:c.v, ch=v!==c.d, sh=invalid[c.k]!==undefined?invalid[c.k]:shown(v,sc);
+    return '<td><input '+(D.editable?'':'disabled ')+'class="m2p-pr-in'+(sc>1?' x':'')+(ch?' ch':'')+(dirty[c.k]!==undefined?' dirty':'')+'" data-k="'+c.k+'" data-d="'+c.d+'" data-s="'+sc+'" value="'+esc(sh)+'" inputmode="'+(sc>1?'decimal':'numeric')+'" title="domyślnie: '+(sc>1?'×'+shown(c.d,sc):fmt(c.d))+'"></td>'; }).join('')+
     '<td><button type="button" '+(D.editable?'':'disabled ')+'class="m2p-pr-rst" data-r="'+r.cells.map(function(c){ return c?c.k:''; }).join(',')+'" title="Przywróć domyślne">↺</button></td></tr>'; }).join('')+'</table>';
   if(rows.length>800) h+='<p class="muted">Pokazano 800 z '+rows.length+' – zawęź wyszukiwanie.</p>';
   document.getElementById('prBody').innerHTML=h; mark();
  }
+ // Iwakura P19: a multiplier is typed as × (2.3 or 2,30) and stored in its scale's
+ // integer (hundredths or ten-thousandths); a plain value stays an integer.
+ function places(sc){ return sc>=10000?4:2; }
+ function shown(v,sc){ return sc>1?(v/sc).toFixed(places(sc)):v; }
+ function parsed(t,sc){ t=String(t).trim().replace(',','.');
+  if(sc>1){ if(!/^[0-9]+([.][0-9]+)?$/.test(t)) return null; var n=Math.round(parseFloat(t)*sc); return Number.isSafeInteger(n)?n:null; }
+  if(!/^-?[0-9]+$/.test(t)||!Number.isSafeInteger(Number(t))) return null; return Number(t); }
  function mark(){ var n=Object.keys(dirty).length, bad=Object.keys(invalid).length; document.getElementById('prDirty').textContent=bad?('Błędne wartości: '+bad):(n?('Niezapisane zmiany: '+n):''); document.getElementById('prSave').disabled=!D.editable||!n||!!bad; }
  document.getElementById('prTabs').addEventListener('click',function(e){ var b=e.target.closest('button[data-s]'); if(!b) return; CUR=b.getAttribute('data-s'); tabs(); draw(); });
  document.getElementById('prQ').addEventListener('input',draw); document.getElementById('prChanged').addEventListener('change',draw);
- document.getElementById('prBody').addEventListener('input',function(e){ var i=e.target.closest('.m2p-pr-in'); if(!i) return; var v=i.value.trim(), k=i.getAttribute('data-k');
-  if(!/^-?[0-9]+$/.test(v)||!Number.isSafeInteger(Number(v))){ invalid[k]=v; mark(); return; }
-  delete invalid[k]; dirty[k]=Number(v); i.classList.add('dirty'); i.classList.toggle('ch',Number(v)!==Number(i.getAttribute('data-d'))); mark(); });
+ document.getElementById('prBody').addEventListener('input',function(e){ var i=e.target.closest('.m2p-pr-in'); if(!i) return; var k=i.getAttribute('data-k');
+  var n=parsed(i.value,parseInt(i.getAttribute('data-s')||'1',10));
+  if(n===null){ invalid[k]=i.value; mark(); return; }
+  delete invalid[k]; dirty[k]=n; i.classList.add('dirty'); i.classList.toggle('ch',n!==Number(i.getAttribute('data-d'))); mark(); });
  document.getElementById('prBody').addEventListener('click',function(e){ var b=e.target.closest('.m2p-pr-rst'); if(!b) return;
   b.getAttribute('data-r').split(',').forEach(function(k){ if(!k) return; delete invalid[k]; var c=find(k); if(c) dirty[k]=c.d; }); draw(); });
  function find(k){ for(var i=0;i<D.sections.length;i++){ var s=D.sections[i]; for(var j=0;j<s.rows.length;j++){ var r=s.rows[j]; for(var x=0;x<r.cells.length;x++){ if(r.cells[x]&&r.cells[x].k===k) return r.cells[x]; } } } return null; }
@@ -1980,7 +2101,7 @@ PRICES_BODY = """<div class="card m2p-pr"><h3>{{ m2p_pg.title }}</h3>
 </script>"""
 
 
-PRICE_TEXT_EN = {'Ceny bazowe broni i zbroi (+0…+9)': 'Weapon and armour base prices (+0…+9)', 'Mnożniki bonusów (×, w setnych: 230 = ×2,30)': 'Bonus multipliers (hundredths: 230 = ×2.30)', 'Ulepszacze i materiały': 'Refine materials', 'Księgi Umiejętności': 'Skill Books', 'Zwoje / Księgi Zapomnienia': 'Forgetfulness Scrolls / Books', 'Marmury Polimorfii': 'Polymorph Marbles', 'Kamienie Duszy': 'Spirit Stones', 'Gniazda i stopnie kamieni': 'Sockets and stone grades', 'Średnie Obrażenia (ŚR) i Obrażenia Umiejętności (UM)': 'Average Damage and Skill Damage', 'Parametry globalne cen': 'Global price parameters', 'Hełm': 'Helmet', 'Zbroja': 'Armour', 'Tarcza': 'Shield', 'Buty': 'Shoes', 'Bransoleta': 'Bracelet', 'Naszyjnik': 'Necklace', 'Kolczyki': 'Earrings', 'Broń': 'Weapon', 'cena': 'price', 'inna': 'other', 'wartość': 'value', '% w gnieździe': '% in socket', 'umiejętność': 'skill', 'potwór': 'monster', 'rodzaj': 'type', 'własny max': 'own maximum', 'Stopień': 'Grade', 'Kamień Duszy bez własnej ceny': 'Spirit Stone without an individual price', '% ceny za liczbę gniazd': '% price by socket count', '% ceny': '% price', 'gniazda': 'sockets', 'gniazdo': 'socket', 'ŚR od': 'Average damage from', 'UM od': 'Skill damage from', 'Podniesienie mnożników bonusów (%): nowy = 1 + (stary − 1) × (1 + X/100)': 'Bonus multiplier increase (%): new = 1 + (old − 1) × (1 + X/100)', 'Cap: iloczyn mnożników liczony w całości do (×, setne)': 'Cap: full multiplier product up to (×, hundredths)', 'Cap: nadwyżka ponad próg liczona w (%)': 'Cap: excess above the threshold counted at (%)', 'Cena max względem ceny +9 bez bonusów (×, setne)': 'Maximum price relative to +9 without bonuses (×, hundredths)', 'Młody świat: liczba dni z dodatkowym capem': 'Young world: days with an additional cap', 'Młody świat: cena max (% mediany gotówki botów 40+)': 'Young world: maximum price (% median cash of level 40+ bots)', 'Szkatułka Blasku Księżyca: zmiana ceny (%)': 'Moonlight Treasure Chest: price change (%)'}
+PRICE_TEXT_EN = {'Ceny broni i zbroi': 'Weapon and armour prices', 'Mnożniki bonusów': 'Bonus multipliers', 'Ulepszacze': 'Refine materials', 'Księgi': 'Books', 'Zwoje zapomnienia': 'Forgetting scrolls', 'Marmury': 'Marbles', 'Kamienie – stopnie': 'Stones – grades', 'Gniazda': 'Sockets', 'ŚR / UM': 'Avg. / skill damage', 'Globalne': 'Global', '× max': '× max', '× inna': '× other', 'lvl od': 'lvl from', 'lvl do': 'lvl to', 'cena (yang)': 'price (yang)', '× w gnieździe': '× in socket', 'Mnożnik „max” – bonus z najwyższą wartością, „inna” – każda niższa. Wiersz obowiązuje dla wymienionych miejsc i przedmiotów z poziomem od–do (255 = bez górnej granicy).': 'The “max” multiplier is for a bonus at its highest value, “other” for any lower one. A row applies to the slots it lists and to items whose level is from–to (255 = no upper limit).', 'Cena samego kamienia i mnożnik ceny przedmiotu, w którego gnieździe ten kamień siedzi (×1.40 = przedmiot droższy o 40%).': 'The price of the stone itself and the multiplier of the price of an item that has this stone in a socket (×1.40 = the item is 40% dearer).', 'Kamień Duszy +': 'Spirit Stone +', 'cena kamienia bez własnej ceny w tabeli (yang)': 'price of a stone without its own price in the table (yang)', 'mnożnik ceny przedmiotu za liczbę gniazd': 'item price multiplier by socket count', 'gniazd': 'sockets', 'Średnie Obrażenia od': 'Average damage from', 'Obrażenia Umiejętności od': 'Skill damage from', 'mnożnik ceny broni': 'weapon price multiplier', 'Te parametry liczy rdzeń gry (Patch 18 pkt 3).': 'The game core computes these parameters (Patch 18, point 3).', 'Cap: iloczyn mnożników liczony w całości do (×)': 'Cap: full multiplier product up to (×)', 'Cena max względem ceny +9 bez bonusów (×)': 'Maximum price relative to +9 without bonuses (×)', 'INT: tarcza': 'INT: shield', 'INT: broń szamana': 'INT: shaman weapon', 'Ceny bazowe broni i zbroi (+0…+9)': 'Weapon and armour base prices (+0…+9)', 'Mnożniki bonusów (×, w setnych: 230 = ×2,30)': 'Bonus multipliers (hundredths: 230 = ×2.30)', 'Ulepszacze i materiały': 'Refine materials', 'Księgi Umiejętności': 'Skill Books', 'Zwoje / Księgi Zapomnienia': 'Forgetfulness Scrolls / Books', 'Marmury Polimorfii': 'Polymorph Marbles', 'Kamienie Duszy': 'Spirit Stones', 'Gniazda i stopnie kamieni': 'Sockets and stone grades', 'Średnie Obrażenia (ŚR) i Obrażenia Umiejętności (UM)': 'Average Damage and Skill Damage', 'Parametry globalne cen': 'Global price parameters', 'Hełm': 'Helmet', 'Zbroja': 'Armour', 'Tarcza': 'Shield', 'Buty': 'Shoes', 'Bransoleta': 'Bracelet', 'Naszyjnik': 'Necklace', 'Kolczyki': 'Earrings', 'Broń': 'Weapon', 'cena': 'price', 'inna': 'other', 'wartość': 'value', '% w gnieździe': '% in socket', 'umiejętność': 'skill', 'potwór': 'monster', 'rodzaj': 'type', 'własny max': 'own maximum', 'Stopień': 'Grade', 'Kamień Duszy bez własnej ceny': 'Spirit Stone without an individual price', '% ceny za liczbę gniazd': '% price by socket count', '% ceny': '% price', 'gniazda': 'sockets', 'gniazdo': 'socket', 'ŚR od': 'Average damage from', 'UM od': 'Skill damage from', 'Podniesienie mnożników bonusów (%): nowy = 1 + (stary − 1) × (1 + X/100)': 'Bonus multiplier increase (%): new = 1 + (old − 1) × (1 + X/100)', 'Cap: iloczyn mnożników liczony w całości do (×, setne)': 'Cap: full multiplier product up to (×, hundredths)', 'Cap: nadwyżka ponad próg liczona w (%)': 'Cap: excess above the threshold counted at (%)', 'Cena max względem ceny +9 bez bonusów (×, setne)': 'Maximum price relative to +9 without bonuses (×, hundredths)', 'Młody świat: liczba dni z dodatkowym capem': 'Young world: days with an additional cap', 'Młody świat: cena max (% mediany gotówki botów 40+)': 'Young world: maximum price (% median cash of level 40+ bots)', 'Szkatułka Blasku Księżyca: zmiana ceny (%)': 'Moonlight Treasure Chest: price change (%)'}
 
 def _price_text_en(text):
     for pl, en in sorted(PRICE_TEXT_EN.items(), key=lambda x: -len(x[0])):
@@ -1990,6 +2111,79 @@ def _price_text_en(text):
 PRICES_BODY_EN = PRICES_BODY
 for _pl, _en in {'Szukaj (nazwa / vnum)…': 'Search (name / vnum)…', 'tylko zmienione': 'only changed', 'Zapisz zmiany': 'Save changes', 'Historia zmian': 'Change history', 'Pozycja': 'Entry', 'domyślnie:': 'default:', 'Przywróć domyślne': 'Restore defaults', 'Pokazano 800 z': 'Showing 800 of', 'zawęź wyszukiwanie.': 'narrow your search.', 'Niezapisane zmiany:': 'Unsaved changes:', 'Błędne wartości:': 'Invalid values:', 'Błąd zapisu:': 'Save failed:', 'Kiedy': 'When', 'Kto': 'Who', 'Było': 'Before', 'Jest': 'After', 'Brak zmian.': 'No changes.', 'pl-PL': 'en-GB'}.items():
     PRICES_BODY_EN = PRICES_BODY_EN.replace(_pl, _en)
+
+
+# ---------------------------------------------------------------------------
+# Iwakura P19: „Opcje 4fun” (eksperymentalne). Panel zapisuje rozkaz do player.web_admin_queue
+# (player_name = '' – cały świat, cmd = FUN_*); wykonuje go rdzeń botów (Patch 19). Przedmiot
+# i yang dla wszystkich botów panel rozsyła sam (rozkazy ITEM / GOLD na każdego bota – działa dziś).
+# ---------------------------------------------------------------------------
+FUN_ACTIONS = (
+    ("FUN_PERFECT", "Wszyscy Perfekcjonistami", "Każdy bot dostaje osobowość Perfekcjonista, idzie do M1 i ulepsza swój ekwipunek.",
+     (("min", "Na ile minut (0 = na stałe)", 120),)),
+    ("FUN_ANARCHY", "Anarchia u kowala", "Boty ulepszają cały ekwipunek bez zastępstwa i bez limitów. Brakujące ulepszacze kupują z rynku – ulepszają, póki mają yang.",
+     (("min", "Na ile minut", 60),)),
+    ("FUN_FISHERS", "RYBKOOOO!", "Wylosowane boty rzucają wszystko i idą łowić ryby.",
+     (("pct", "Ile botów (%)", 30), ("hours", "Na ile godzin", 2))),
+    ("FUN_BRAWL", "Bitwa na Górze Sohan", "Wszystkie boty porzucają zadania i biją się na środku Góry Sohan. Licznik zabójstw (TOP 10) poniżej.",
+     (("min", "Ile minut (1–360)", 30),)),
+    ("FUN_WEAPON30", "Broń 30 lvl +9 dla każdego", "Każdy bot dostaje broń 30 lvl +9 dla swojej klasy z losowymi ŚR.", ()),
+    ("GIVE_ITEM", "Przedmiot dla wszystkich botów", "Każdy bot dostaje wskazany przedmiot.",
+     (("vnum", "VNUM przedmiotu", 27001), ("qty", "Ilość", 1))),
+    ("GIVE_GOLD", "Deszcz yang", "Każdy bot dostaje wskazaną ilość yang.", (("gold", "Yang na bota", 100000),)),
+    ("FUN_KILL", "Wszystkie boty umierają", "Każdy bot, który jest w grze, od razu ginie. Kara za śmierć jak zwykle.", ()),
+    ("FUN_CHAT", "Wszyscy piszą na globalu", "Każdy bot pisze na czacie globalnym podany tekst (z małym rozrzutem w czasie).",
+     (("text", "Tekst", "!bp"),)),
+    ("FUN_WIPE", "Wielka wyprzedaż magazynów", "Każdy bot traci cały zapas: plecak, sklep i magazyn. Zostaje tylko założony ekwipunek.", ()),
+    ("FUN_GATHER", "Zbiórka w M1", "Wszystkie boty zbierają się na placu M1 swojego królestwa, rozmawiają i robią emotki.",
+     (("min", "Ile minut", 15),)),
+    ("FUN_SALE", "Wyprzedaż na straganach", "Boty przeceniają wszystko na straganach o podany procent.",
+     (("pct", "Przecena (%)", 30), ("hours", "Na ile godzin", 3))),
+)
+
+# Every FUN_* of Patch 19 is carried by the cores since the night of 13/14
+# October (playerbot_fun_rules.h); a command a core does not know is still
+# greyed out here instead of being sent.
+FUN_CORE_UNSUPPORTED = frozenset()
+# The core's own limits (playerbot_fun_rules.h Parse), refused here first.
+FUN_BOUNDS = {
+    ("FUN_PERFECT", "min"): (0, 10080),
+    ("FUN_FISHERS", "pct"): (1, 100), ("FUN_FISHERS", "hours"): (1, 24),
+    ("FUN_SALE", "pct"): (1, 90), ("FUN_SALE", "hours"): (1, 168),
+    ("FUN_BRAWL", "min"): (1, 360),
+    ("FUN_ANARCHY", "min"): (1, 1440), ("FUN_GATHER", "min"): (1, 360),
+    ("GIVE_ITEM", "vnum"): (1, 0xffffffff), ("GIVE_ITEM", "qty"): (1, 200),
+    ("GIVE_GOLD", "gold"): (1, 2000000000),
+}
+
+FUN_BODY = """<div class="card m2p-fun"><h3>{{ m2p_pg.title }}</h3>
+<div class="m2p-fun-warn">⚠ UWAGA: tych akcji NIE DA SIĘ COFNĄĆ bez ręcznego backupu bazy danych. Każda działa na wszystkie boty naraz.</div>
+<div class="m2p-fun-grid" id="funGrid">…</div>
+<div class="card m2p-fun-side"><h4>Bitwa na Górze Sohan – TOP 10 zabójstw</h4><div id="funTop" class="muted">–</div>
+<h4 style="margin-top:12px">Ostatnie akcje</h4><div id="funLog" class="muted">–</div></div>
+<input type="hidden" id="funCsrf" value="{{ csrf_token }}"></div>
+<script>
+(function(){
+ function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+ var grid=document.getElementById('funGrid');
+ function load(){ fetch('/m2p/api/fun',{credentials:'same-origin',cache:'no-store'}).then(function(r){ return r.json(); }).then(function(j){
+  if(!grid.getAttribute('data-ok')){ grid.setAttribute('data-ok','1');
+   grid.innerHTML=j.actions.map(function(a){ return '<div class="m2p-fun-card'+(a.off?' off':'')+'" data-c="'+a.cmd+'"><b>'+esc(a.title)+'</b><p>'+esc(a.desc)+'</p>'+
+    (a.off?'<p class="muted"><i>Rdzeń tej wersji jeszcze tego nie wykonuje.</i></p>':a.params.map(function(p){ return '<label>'+esc(p[1])+' <input name="'+p[0]+'" value="'+esc(p[2])+'"></label>'; }).join(''))+
+    '<button type="button" class="btn"'+(a.off?' disabled':'')+'>Uruchom</button><small class="m2p-fun-st"></small></div>'; }).join(''); }
+  document.getElementById('funTop').innerHTML=j.top&&j.top.length?j.top.map(function(t,i){ return (i+1)+'. <a href="/player/'+(+t.pid)+'">'+esc(t.name)+'</a> <a class="m2p-purse" href="/player/'+(+t.pid)+'" title="Ekwipunek, magazyn i sklep">💰</a> – '+(+t.kills); }).join('<br>'):'brak bitwy';
+  document.getElementById('funLog').innerHTML=j.log&&j.log.length?j.log.map(function(l){ return esc(l.at)+' · '+esc(l.cmd)+' '+esc(l.arg)+' → <b>'+esc(l.status==='await'?'czeka na rdzeń':l.status)+'</b>'; }).join('<br>'):'brak';
+ }); }
+ grid.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; var c=b.closest('.m2p-fun-card'), cmd=c.getAttribute('data-c');
+  var ans=prompt('Akcji „'+c.querySelector('b').textContent+'” NIE DA SIĘ COFNĄĆ bez ręcznego backupu.\\nWpisz TAK, aby uruchomić.'); if(ans!=='TAK') return;
+  var fd=new URLSearchParams(); fd.set('_csrf',document.getElementById('funCsrf').value); fd.set('cmd',cmd);
+  c.querySelectorAll('input').forEach(function(i){ fd.set(i.name,i.value); });
+  var st=c.querySelector('.m2p-fun-st'); st.textContent='…';
+  fetch('/m2p/api/fun',{method:'POST',body:fd,credentials:'same-origin'}).then(function(r){ return r.json(); }).then(function(k){
+   st.textContent=k&&k.ok?('wysłano'+(k.count?' ('+k.count+' botów)':'')):('błąd: '+((k&&k.error)||'')); load(); }); });
+ load(); setInterval(load,15000);
+})();
+</script>"""
 
 
 PAGES2 = (
@@ -2034,7 +2228,8 @@ def install_pages2(mod, app):
 
     routes = {
         "refines": lambda: refine_data(mod, request.args.get("kind", "ok") != "fail", lang(),
-                                       max(20, min(500, int(request.args.get("limit", "150") or 150)))),
+                                       max(10, min(1000, int(request.args.get("limit", "150") or 150))),
+                                       int(request.args.get("plus", "0") or 0)),
         "itemshop": lambda: itemshop_data(mod, lang()),
         "items": lambda: items_data(mod, lang(), request.args.get("q", "")),
         "item_history": lambda: {"ok": True, "pts": item_history(mod, int(request.args.get("vnum", "0") or 0), rng())},
@@ -2561,19 +2756,33 @@ def install(mod):
                 queued=cur.fetchone()
                 cur.execute("SELECT at,old_id,new_id,reason,queue_id FROM player.web_m2p_persona_history "
                             "WHERE pid=%s ORDER BY at DESC,id DESC LIMIT 50", (pid,))
-                history=[{"at":r["at"].strftime("%d.%m.%Y %H:%M") if r.get("at") else "",
+                # Iwakura P19: ?q=<queue id> answers the status the core gave that
+                # PERSONASET row ('done' after the status snapshot, or 'failed');
+                # only this bot's own PERSONASET rows can be asked about.
+                qstat=None
+                try:
+                    qid=int(request.args.get("q") or 0)
+                except (TypeError, ValueError):
+                    qid=0
+                if 0<qid<=0xffffffff:
+                    cur.execute("SELECT status FROM player.web_admin_queue WHERE id=%s AND player_id=%s AND cmd='PERSONASET'", (qid,pid))
+                    qrow=cur.fetchone()
+                    qstat=qrow["status"] if qrow else None
+                history=[{"oid":r["old_id"],"nid":r["new_id"],
+                          "at":r["at"].strftime("%d.%m.%Y %H:%M") if r.get("at") else "",
                           "old":labels.get(r["old_id"],str(r["old_id"])) if r["old_id"] is not None else "—",
                           "new":labels.get(r["new_id"],str(r["new_id"])),"reason":r["reason"],"job":r["queue_id"]}
                          for r in cur.fetchall()]
             return jsonify({"ok":True,"now":_persona_now(pid),"can_set":ready,
-                            "list":[[k,v] for k,v in catalog.items()],"history":history,
+                            "list":[[k,v] for k,v in catalog.items()],"history":history,"queue":qstat,
+                            "desc":PERSONA_DESC if lang_=="pl" else PERSONA_DESC_EN,
                             "profile":profile,"request":queued,"csrf":mod.csrf_token()})
         except Exception:
             mod.app.logger.exception("m2_theme: persona contract unavailable")
             return jsonify({"ok":False,"error":"persona_data_unavailable"}),503
     app.add_url_rule("/m2p/api/persona", "m2p_persona", _persona, methods=["GET", "POST"])
 
-    # Ranking "Przedmiot +9 (30+ lv)": ranking +9 przefiltrowany po poziomie przedmiotu.
+    # Ranking "Przedmiot +9 (21+ lv)": ranking +9 przefiltrowany po poziomie przedmiotu.
     # Iwakura P18: tła map jak w grze (atlas klienta, static/maps/<indeks>.webp, zasięg 1:1 z
     # PLAYERBOT_MAP_BOUNDS – sprawdzone nałożeniem na server_attr). Brak pliku = stary podkład.
     _maps_dir = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "static", "maps")
@@ -2598,6 +2807,16 @@ def install(mod):
     if orig_rank is not None:
         def _rankings():
             if request.args.get("type") == "armor":
+                plus_a = request.args.get("plus", "")
+                want_a = None
+                if plus_a in ("7-9", "7", "8", "9"):
+                    try:
+                        want_a = max(15, min(5000, int(request.args.get("limit", "15"))))
+                    except (TypeError, ValueError):
+                        want_a = 15
+                    args = request.args.to_dict()
+                    args.update(limit="5000")
+                    request.args = ImmutableMultiDict(args)
                 resp = orig_rank()
                 resp = resp[0] if isinstance(resp, tuple) else resp
                 data = resp.get_json(silent=True) or {}
@@ -2610,6 +2829,10 @@ def install(mod):
                             + ",".join("%s" for _ in ids) + ")", tuple(ids))}
                         for r in rows:
                             r["armor_vnum"] = got.get(int(r.get("id") or 0), 0)
+                        if want_a is not None:
+                            ok_plus = (7, 8, 9) if plus_a == "7-9" else (int(plus_a),)
+                            data["rankings"] = [r for r in rows if r.get("armor_vnum") and int(r["armor_vnum"]) % 10 in ok_plus][:want_a]
+                            data.update(limit=want_a, plus=plus_a)
                         return jsonify(data)
                     except Exception:  # noqa: BLE001
                         pass
@@ -2653,7 +2876,7 @@ def install(mod):
                 pass
             base = getattr(mod, "ITEM_BASE", {}) or {}
             rows = [r for r in data.get("rankings") or []
-                    if (base.get(int(r.get("weapon_vnum") or 0)) or {}).get("level", 0) >= 30]
+                    if (base.get(int(r.get("weapon_vnum") or 0)) or {}).get("level", 0) >= 21]
             data["rankings"] = rows[:want]
             data.update(type="plus9_30", limit=want)
             return jsonify(data)
@@ -2679,7 +2902,7 @@ def install(mod):
             message = L("Kontrakt populacji jest niedostępny. Sprawdź wersję rdzenia i migrację.", "Population contract unavailable. Check the engine version and migration.")
         body = '''<div class="card"><h3>{{ title }}</h3><p>{{ note }}</p><p>{{ message }}</p>
 <p>{{ pool }}: {{ state.pool if state.pool is not none else '?' }} · {{ online }}: {{ state.online if state.online is not none else '?' }}</p>
-<p>{{ pending }}: {{ yes if state.pending_restart else no if state.available else '?' }} · {{ source }}: {{ state.source or '?' }}</p>
+<p>{{ pending }}: {{ yes if state.pending_restart else no if state.available else '?' }} · {{ source_label }}: {{ state.source or '?' }}</p>
 <form method="post"><input type="hidden" name="_csrf" value="{{ csrf_token }}">
 <label>{{ target }} <input type="number" name="desired" min="0" max="2500" required value="{{ state.desired if state.desired is not none else '' }}" {% if not state.available %}disabled{% endif %}></label>
 <button {% if not state.available %}disabled{% endif %}>{{ save }}</button></form></div>'''
@@ -2687,7 +2910,7 @@ def install(mod):
             title=L("Populacja botów", "Bot population"),
             note=L("Cel dotyczy podstawowej populacji. Świeże kohorty i dropperzy medali są osobnymi ustawieniami. Zapis nie odtwarza kontenera i nie resetuje postaci ani AI.", "The target covers the base population. Fresh cohorts and medal droppers have separate settings. Saving does not recreate the container or reset characters or AI."),
             pool=L("Pula", "Pool"), online=L("Online", "Online"), pending=L("Oczekuje na restart", "Pending restart"),
-            source=L("Źródło", "Source"), target=L("Cel", "Target"), save=L("Zapisz", "Save"), yes=L("tak", "yes"), no=L("nie", "no"))
+            source_label=L("Źródło", "Source"), target=L("Cel", "Target"), save=L("Zapisz", "Save"), yes=L("tak", "yes"), no=L("nie", "no"))
     app.add_url_rule("/panel/populacja", "m2p_population", _population_page, methods=["GET", "POST"])
 
     @mod.login_required
@@ -2732,6 +2955,119 @@ def install(mod):
         return render_template_string(mod.BASE.replace("__BODY__", RANK_BODY), m2p_pg=txt,
                                       engine_mt2009=bool(getattr(mod, "ENGINE_MT2009", False)))
     app.add_url_rule("/panel/rankingi", "m2p_rankings", _rankings_page)
+
+    @mod.login_required
+    def _fun_page():
+        return render_template_string(mod.BASE.replace("__BODY__", FUN_BODY), m2p_pg={"title": "Fun™"})
+    app.add_url_rule("/panel/4fun", "m2p_fun", _fun_page)
+
+    @mod.login_required
+    def _fun_api():
+        acts = {a[0]: a for a in FUN_ACTIONS}
+        if request.method == "POST":
+            cmd = request.form.get("cmd", "")
+            if cmd not in acts:
+                return jsonify({"ok": False, "error": "unknown"})
+            if cmd in FUN_CORE_UNSUPPORTED:
+                return jsonify({"ok": False, "error": "core_unsupported"})
+            vals = []
+            for key, _label, default in acts[cmd][3]:
+                v = (request.form.get(key) or str(default)).strip()[:120]
+                if key != "text":
+                    try:
+                        n = int(v)
+                    except ValueError:
+                        return jsonify({"ok": False, "error": "bad %s" % key})
+                    low, high = FUN_BOUNDS.get((cmd, key), (0, 0xffffffff))
+                    if not low <= n <= high:
+                        return jsonify({"ok": False, "error": "%s: %d–%d" % (key, low, high)})
+                    v = str(n)
+                vals.append(v)
+            try:
+                with mod.db() as c, c.cursor() as cur:
+                    if cmd in ("GIVE_ITEM", "GIVE_GOLD"):
+                        # Every bot in the game now, as the core reports it: a row
+                        # for a resting bot would wait as 'pending' until the
+                        # quest's sweep calls it player_offline. A player's
+                        # companion is its owner's, not the world's.
+                        try:
+                            online = sorted(int(k) for k in (mod.read_playerbot_live_status() or {}))
+                        except Exception:  # noqa: BLE001
+                            online = []
+                        if not online:
+                            return jsonify({"ok": False, "error": "no_bots_online"})
+                        if cmd == "GIVE_ITEM":
+                            names_, _base = _proto(mod)
+                            if names_ and int(vals[0]) not in names_:
+                                return jsonify({"ok": False, "error": "no_such_item"})
+                        companions = set()
+                        try:
+                            cur.execute("SELECT sidekick_pid FROM player.playerbot_sidekick")
+                            companions = {int(r["sidekick_pid"]) for r in cur.fetchall()}
+                        except Exception:  # noqa: BLE001 - no companions on this engine
+                            companions = set()
+                        online = [pid for pid in online if pid not in companions]
+                        names = []
+                        for i in range(0, len(online), 500):
+                            part = online[i:i + 500]
+                            if not part:
+                                break
+                            cur.execute(mod.bot_sql("SELECT p.name FROM player.player p WHERE p.id IN (" + ",".join(["%s"] * len(part)) +
+                                                    ") AND <<BOT_P_2>> AND p.level > 0"), tuple(part))
+                            names += [r["name"] for r in cur.fetchall()]
+                        if cmd == "GIVE_ITEM":
+                            rows = [(n, "ITEM", vals[0], vals[1]) for n in names]
+                        else:
+                            rows = [(n, "GOLD", vals[0], "") for n in names]
+                        if rows:
+                            cur.executemany("INSERT INTO player.web_admin_queue (player_name,cmd,arg1,arg2) VALUES (%s,%s,%s,%s)", rows)
+                        cur.execute("INSERT INTO player.web_admin_queue (player_name,cmd,arg1,arg2,status) VALUES ('',%s,%s,%s,'done')",
+                                    (cmd, ",".join(vals), "%d bots" % len(names)))
+                        mod.app.logger.info("m2_theme: fun %s %s for %d bot(s)", cmd, ",".join(vals), len(names))
+                        return jsonify({"ok": True, "count": len(names)})
+                    # A world command has no player: written 'await', so the
+                    # web_admin quest's 30-second sweep (which turns any old
+                    # 'pending' row into player_offline) never takes it; every
+                    # core with bots reads 'pending' and 'await' FUN_* rows.
+                    cur.execute("INSERT INTO player.web_admin_queue (player_name,cmd,arg1,arg2,status) VALUES ('',%s,%s,%s,'await')",
+                                (cmd, vals[0] if vals else "", ",".join(vals[1:])))
+                    mod.app.logger.info("m2_theme: fun %s queued as %s", cmd, getattr(cur, "lastrowid", "?"))
+            except Exception as exc:  # noqa: BLE001
+                mod.app.logger.warning("m2_theme: fun %s failed (%s)", cmd, type(exc).__name__)
+                return jsonify({"ok": False, "error": "save_failed"})
+            return jsonify({"ok": True})
+        log, top = [], []
+        try:
+            for r in _q(mod, "SELECT cmd, arg1, arg2, status, id FROM player.web_admin_queue WHERE player_name='' "
+                             "AND (cmd LIKE 'FUN\\\\_%%' OR cmd LIKE 'GIVE\\\\_%%') ORDER BY id DESC LIMIT 12"):
+                log.append({"at": "#%d" % r["id"], "cmd": r["cmd"], "arg": (r["arg1"] or "") + (" " + r["arg2"] if r["arg2"] else ""),
+                            "status": r["status"] or "czeka"})
+        except Exception:  # noqa: BLE001
+            pass
+        try:
+            for r in _q(mod, "SELECT l.who, COUNT(*) AS n FROM log.log l WHERE l.how='FUN_BRAWL_KILL' "
+                             "AND l.time >= NOW() - INTERVAL 6 HOUR GROUP BY l.who ORDER BY n DESC LIMIT 10"):
+                top.append({"pid": int(r["who"]), "kills": int(r["n"])})
+            nm = _names_by_pid(mod, [t["pid"] for t in top])
+            for t in top:
+                t["name"] = (nm.get(t["pid"]) or {}).get("name") or ("pid %d" % t["pid"])
+        except Exception:  # noqa: BLE001
+            top = []
+        return jsonify({"ok": True, "log": log, "top": top,
+                        "actions": [{"cmd": a[0], "title": a[1], "desc": a[2], "params": [list(p) for p in a[3]],
+                                     "off": a[0] in FUN_CORE_UNSUPPORTED} for a in FUN_ACTIONS]})
+    app.add_url_rule("/m2p/api/fun", "m2p_fun_api", _fun_api, methods=["GET", "POST"])
+
+    @mod.login_required
+    def _esq_fast():
+        # POST only: the panel's before_request has checked _csrf already.
+        session["esq_fast"] = request.form.get("on") == "1"
+        nxt = request.form.get("next") or "/editsql"
+        if not re.match(r"^/editsql(/[A-Za-z0-9_./-]*)?$", nxt) or "//" in nxt:
+            nxt = "/editsql"
+        from flask import redirect as _redir
+        return _redir(nxt)
+    app.add_url_rule("/editsql-fast", "m2p_esq_fast", _esq_fast, methods=["POST"])
 
     _price_load(mod)
 
@@ -2782,6 +3118,17 @@ def install(mod):
                     try:
                         cur.execute("SELECT k, v FROM player.web_m2p_price_override ORDER BY k FOR UPDATE")
                         latest = {r["k"]: int(r["v"]) for r in cur.fetchall()}
+                        # Iwakura P19: a bonus row's band must stay from <= to, read
+                        # against what is stored now, or the row would price nothing.
+                        for k in changes:
+                            if k.startswith("bonus:") and k.endswith((":lvfrom", ":lvto")):
+                                row = k.rsplit(":", 1)[0]
+                                def band(f):
+                                    kk = row + ":" + f
+                                    return int(changes.get(kk, latest.get(kk, _price_defaults()[kk])))
+                                if band("lvfrom") > band("lvto"):
+                                    c.rollback()
+                                    return jsonify({"ok": False, "error": "level_band_inverted"}), 400
                         for k, v in changes.items():
                             old = int(latest.get(k, _price_defaults()[k]))
                             if v == old:
@@ -2957,6 +3304,7 @@ def install(mod):
                 html = resp.get_data(as_text=True)
                 if 'class="editsql-body"' in html:
                     new = _patch_editsql(mod, html) or html
+                    new = _esq_extras(mod, new)
                     # Edytor ma staly uklad 930 px: na telefonie cala strona miesci sie na szerokosc ekranu.
                     new = new.replace('<meta name="viewport" content="width=device-width, initial-scale=1" />',
                                       '<meta name="viewport" content="width=1000" />', 1)
@@ -3028,6 +3376,15 @@ background:linear-gradient(90deg,transparent,#c99a48 20%,#c99a48 80%,transparent
 :is(body.m2p-side-dark,body.m2p-side-red,body.m2p-side-blue,body.m2p-side-green) .m2p-box-bot{padding-top:18px}
 body.m2p-side-dark .m2p-box h3,body.m2p-side-red .m2p-box h3{color:#f2d68f;
 background:linear-gradient(90deg,transparent,#c99a48 20%,#c99a48 80%,transparent) no-repeat 0 100%/100% 1px}
+.m2p-esq-fast{float:right;font-size:11px;margin:2px 0 4px}.m2p-esq-fast button{font:inherit;font-weight:700;background:none!important;border:0!important;padding:0!important;color:inherit;text-decoration:underline;cursor:pointer}.m2p-esq-fast button.on{color:#16a34a!important}
+/* Iwakura P19: duży kryształek między pudełkami menu – losowy delikatny błysk (sparkle) */
+@keyframes m2pSpark{0%,62%,100%{opacity:0;transform:scale(.2) rotate(0deg)}70%{opacity:1;transform:scale(1) rotate(45deg)}78%{opacity:.35;transform:scale(.6) rotate(90deg)}}
+.m2p-boxes-mid,.col-1 .boxes-middle{position:relative}
+.m2p-boxes-mid::before,.col-1 .boxes-middle::before{content:"";position:absolute;left:61px;top:4px;width:12px;height:12px;pointer-events:none;opacity:0;
+background:radial-gradient(circle,#fff 0,rgba(255,255,255,.9) 18%,rgba(255,220,220,0) 60%),
+linear-gradient(0deg,transparent 45%,rgba(255,255,255,.95) 50%,transparent 55%),linear-gradient(90deg,transparent 45%,rgba(255,255,255,.95) 50%,transparent 55%);
+animation:m2pSpark var(--m2p-sd,6s) ease-in-out infinite;animation-delay:var(--m2p-sdl,0s);filter:drop-shadow(0 0 3px rgba(255,180,180,.9))}
+@media (prefers-reduced-motion:reduce){.m2p-boxes-mid::before,.col-1 .boxes-middle::before{animation:none}}
 /* edytor bazy w kolorowym motywie: okna jak w reszcie panelu (Iwakura P18 pkt 6H) */
 body.editsql-body.m2p-red{--e-a:#5c140c;--e-m:#430f09;--e-b:#2e0905;--e-line:#8a3a22;--e-h1:#b52c1b;--e-h2:#6a120a;--e-in:#1f0604;background-color:#1b0906}
 body.editsql-body.m2p-red.m2p-hue-blue{--e-a:#122d55;--e-m:#0d213e;--e-b:#08162a;--e-line:#294d82;--e-h1:#265aa9;--e-h2:#113162;--e-in:#06101f;background-color:#0b1424}
@@ -3059,6 +3416,19 @@ body.editsql-body:is(.m2p-red,.m2p-brown) #page .esq-content input:not([type=che
 body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content input:not([type=checkbox]):not([type=radio]),body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content select,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-content textarea{background:var(--e-in)!important;color:#f3e6cc!important;border-color:var(--e-line)!important}
 body.editsql-body:is(.m2p-red,.m2p-brown) #page .esq-content input::placeholder{color:#a88a70!important}
 body.editsql-body:is(.m2p-red,.m2p-brown) .esq-toolbar,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-pager,body.editsql-body:is(.m2p-red,.m2p-brown) .esq-actions{background:rgba(0,0,0,.22)!important;border-color:rgba(255,190,140,.18)!important}
+/* .yxzi (14 October): the editor's badges kept the parchment's dark text on the dark theme
+   ("after a restart of the cores" unreadable), and the notes' 16 px GIF icons, matted for a
+   light page, frayed on it - light badges and vector icons instead. */
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-badge{background:rgba(242,214,143,.16)!important;border-color:#d6a24a!important;color:#f6e3a8!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-badge-ok{background:rgba(74,222,128,.14)!important;border-color:#4ade80!important;color:#bbf7d0!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-badge-bad{background:rgba(248,113,113,.16)!important;border-color:#f87171!important;color:#fecaca!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-note{background-repeat:no-repeat!important;background-size:16px 16px!important;background-position:9px 8px!important;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3.5' fill='%23f2d68f'/%3E%3C/svg%3E")!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-note-ok{border-color:rgba(74,222,128,.45)!important;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2.5 8.5l3.5 3.5 7.5-8' fill='none' stroke='%234ade80' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-note-warn{border-color:rgba(242,193,78,.5)!important;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 1.5L15 14H1z' fill='%23f2c14e'/%3E%3Cpath d='M8 6v4' stroke='%233a1a05' stroke-width='1.8' stroke-linecap='round'/%3E%3Ccircle cx='8' cy='12' r='1' fill='%233a1a05'/%3E%3C/svg%3E")!important}
+body.editsql-body:is(.m2p-red,.m2p-brown) .esq-note a{color:#f2d68f!important}
 
 .m2p-nav a.m2p-new::after{content:"";display:inline-block;width:7px;height:7px;margin:0 0 1px 6px;border-radius:50%;
 background:#9be05a;box-shadow:0 0 6px #9be05a;vertical-align:middle}
@@ -3108,10 +3478,33 @@ box-shadow:0 2px 6px rgba(0,0,0,.6);user-select:none}
 .m2p-wip{display:flex;align-items:center;justify-content:center;min-height:260px;font:700 28px/1.2 Georgia,serif;letter-spacing:.12em;color:#b8860b;text-shadow:0 1px 2px rgba(0,0,0,.4);text-align:center}
 #mapViewport.m2p-fit{margin:0 auto}
 .m2p-pr-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 10px}.m2p-pr-bar #prQ{min-width:240px}
-.m2p-pr-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.m2p-pr-tabs button{padding:4px 10px!important;font-size:12px!important;opacity:.75}.m2p-pr-tabs button.on{opacity:1;outline:2px solid #d6a24a}
+.m2p-pr-tabs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin:4px 0 12px}.m2p-pr-tabs button{width:100%;height:34px;margin:0!important;padding:0 8px!important;font-size:12px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.8}.m2p-pr-tabs button.on{opacity:1;box-shadow:inset 0 0 0 2px #f2d68f!important}.m2p-pr-bar button{height:34px;margin:0!important}.m2p-pr-bar label{display:flex;align-items:center;gap:5px;margin:0}.m2p-pr-bar #prQ{flex:1 1 260px;margin:0!important}.m2p-pr-in.x{width:72px}.m2p-pr-note{margin:0 0 8px;font-size:12px}
 #prBody{overflow-x:auto}.m2p-pr-t{width:100%;border-collapse:collapse;font-size:12px}.m2p-pr-t td,.m2p-pr-t th{padding:3px 5px;border-bottom:1px solid rgba(140,100,50,.25);vertical-align:middle}
 .m2p-pr-in{width:92px;padding:2px 5px!important;font-size:12px!important;text-align:right}.m2p-pr-in.ch{border-color:#d97706!important;font-weight:700}.m2p-pr-in.dirty{background:#fff3c4!important;color:#3a1a05!important}
 .m2p-pr-rst{padding:1px 7px!important;font-size:13px!important}#prHist{margin-top:14px}
+.m2p-pp{position:relative;display:inline-block}
+.m2p-pp-btn{min-width:190px;text-align:left;padding:3px 26px 3px 9px!important;font-size:12.5px!important;position:relative}
+.m2p-pp-btn::after{content:"▾";position:absolute;right:9px;top:50%;transform:translateY(-50%)}
+.m2p-pp-list{position:absolute;z-index:200;left:0;top:100%;margin-top:2px;min-width:220px;max-height:320px;overflow:auto;background:#1a120b;border:1px solid #c99a48;border-radius:3px;box-shadow:0 6px 18px rgba(0,0,0,.6)}
+.m2p-pp-it{padding:5px 10px;font-size:12.5px;color:#ead9bf;cursor:pointer;white-space:nowrap}.m2p-pp-it:hover{background:#5c140c;color:#fff}.m2p-pp-it.on{color:#f2d68f;font-weight:700}
+#m2pPpTip{position:fixed;z-index:10060;max-width:280px;padding:8px 11px;background:rgba(18,15,10,.96);border:1px solid #c99a48;border-radius:6px;color:#eee;font-size:12px;line-height:1.4;box-shadow:0 8px 24px rgba(0,0,0,.85);pointer-events:none}
+#m2pPpTip b{display:block;color:#f2d68f;margin-bottom:3px}
+.m2p-fun-warn{margin:6px 0 12px;padding:10px 14px;border:2px solid #dc2626;border-radius:4px;background:rgba(220,38,38,.12);color:#dc2626;font-weight:800}
+.m2p-fun-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.m2p-fun-card{display:flex;flex-direction:column;gap:6px;padding:10px 12px;border:1px solid rgba(140,100,50,.45);border-radius:4px;background:rgba(0,0,0,.05)}
+.m2p-fun-card p{margin:0;font-size:12px}.m2p-fun-card label{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px}
+.m2p-fun-card.off{opacity:.55}.m2p-fun-card input{width:120px}.m2p-fun-card button{align-self:flex-start;margin-top:auto}.m2p-fun-side{margin-top:14px}
+.m2p-pc-norm{color:#7c3aed}.m2p-pc-rare{color:#dc2626}.m2p-pc-gamb{color:#9333ea}.m2p-pc-goal{color:#2563eb}
+body.m2p-red .m2p-pc-norm,body.m2p-brown .m2p-pc-norm{color:#c084fc}body.m2p-red .m2p-pc-rare,body.m2p-brown .m2p-pc-rare{color:#f87171}body.m2p-red .m2p-pc-gamb,body.m2p-brown .m2p-pc-gamb{color:#d8b4fe}body.m2p-red .m2p-pc-goal,body.m2p-brown .m2p-pc-goal{color:#60a5fa}
+/* Iwakura P19: statystyki pod mapą – box do dołu strony, równe kolumny i paski przewijania */
+body.m2p-ep-live_map .wrap div[style*="grid-template-columns:1fr 340px"]{align-items:stretch!important}
+.m2p-mapcol{display:flex;flex-direction:column}.m2p-mapcol>.card:first-child{flex:none}
+.m2p-mapcol>.m2p-world{flex:1 0 auto;display:flex;flex-direction:column;margin-bottom:0}
+.m2p-world .m2p-wgrid{flex:1 0 auto;min-height:280px;grid-auto-rows:1fr}
+.m2p-world .m2p-wgrid>div{display:flex;flex-direction:column;align-items:stretch;min-height:0;text-align:left}
+.m2p-world .m2p-wgrid h4{min-height:2.6em;display:flex!important;align-items:flex-end;justify-content:flex-start!important;text-align:left!important;line-height:1.25;width:100%}
+.m2p-world .m2p-bars{width:100%;box-sizing:border-box}
+.m2p-world .m2p-bars{flex:1 0 240px;max-height:none!important;min-height:240px;height:240px}
 /* ---- Iwakura P18: kółko ładowania ---- */
 @keyframes m2pspin{to{transform:rotate(360deg)}}
 #m2pPage:empty{min-height:220px;position:relative}
@@ -3251,6 +3644,7 @@ body.m2p-ep-dash .m2p-main>.wrap>.card:has(#ptable),
 body.m2p-ep-dash .m2p-main>.wrap>.card:has(form[action*="iwakura"]),
 body.m2p-ep-dash .m2p-main>.wrap>.card:has(form[action*="resetlink"]),
 body.m2p-ep-dash .m2p-main>.wrap>.card:has(form[action$="/language"]),
+body.m2p-ep-dash .m2p-main>.wrap>.card:has(#lang-client-note),
 body.m2p-ep-dash .m2p-main>.wrap>.card:has(form[action$="/passphrase"]),
 body.m2p-ep-dash .m2p-main>.wrap>.sect,body.m2p-ep-dash .m2p-main>.wrap>.sect-hint{display:none!important}
 /* ---- osobne strony: tylko ich karta (i komunikaty) ---- */
@@ -4196,6 +4590,9 @@ JS = r"""
    if(tried<list.length){ e.stopPropagation(); im.setAttribute('data-m2p-try',tried+1); im.src='/static/icons/'+list[tried]; }
   },true);
  })();
+ // Iwakura P19: losowy rytm błysku kryształków w menu
+ [].forEach.call(d.querySelectorAll('.m2p-boxes-mid,.col-1 .boxes-middle'),function(el){
+  el.style.setProperty('--m2p-sd',(4.5+Math.random()*5).toFixed(2)+'s'); el.style.setProperty('--m2p-sdl',(Math.random()*6).toFixed(2)+'s'); });
  // Iwakura P18: kółko ładowania zamiast „…” / „Wczytuję...” (statystyki świata, wycena, questy, inne okna)
  (function(){
   var RX=/^\s*(…|\.\.\.|Wczytuję\.*|Wczytywanie\.*|Ładowanie\.*|Loading\.*|Lädt\.*|Yükleniyor\.*)\s*$/i, INL=/^(SPAN|B|SMALL|I|EM|STRONG|A|LABEL)$/;
@@ -4355,35 +4752,147 @@ JS = r"""
      return '<tr><td>'+qEsc(x.slot)+'</td><td>'+(x.worn?qEsc(x.worn)+' <small class="muted">('+x.worn_lv+' lvl)</small>':'—')+'</td><td>'+(x.floor?x.floor+'+ lvl':'—')+' / +'+x.min_plus+'</td><td><b style="color:'+st[1]+'">'+st[0]+'</b></td><td>'+(x.base?qEsc(x.base)+' <small class="muted">('+x.base_lv+' lvl, '+(x.base_where==='SAFEBOX'?T2('magazyn','storage'):T2('torba','bag'))+')</small>':'—')+'</td></tr>'; }).join('')+'</table>';
   }).catch(function(){ el.textContent=T2('Brak danych.','No data.'); });
  }
- var P_WHY={panel:T2('zmiana z panelu','set from the panel'),auto:T2('losowanie / rozwój','draw / growth'),start:T2('pierwszy odczyt','first seen')};
+ // kolory osobowości jak nad głową bota: rzadkie czerwone, hazardziści fioletowi, Cel Dnia niebieski
+ function pcol(id,name){ var c=id==null?'':(id>=10&&id<=14?'m2p-pc-rare':(id>=15&&id<=18?'m2p-pc-gamb':(id===22?'m2p-pc-goal':'m2p-pc-norm')));
+  return '<b class="'+c+'">'+qEsc(name)+'</b>'; }
+ var P_WHY={panel:T2('zmiana z panelu','set from the panel'),auto:T2('losowanie / rozwój','draw / growth'),start:T2('pierwszy odczyt','first seen'),
+  draw:T2('losowanie','draw'),development:T2('rozwój','growth'),fun:'Fun™',auto_restore:T2('powrót do automatycznej','back to automatic')};
  function personaUi(box,pid,histEl){
   var row=null; [].some.call(box.querySelectorAll('b'),function(bb){ if(/^(Osobowość|Personality|Persönlichkeit|Kişilik)\s*:?$/.test(bb.textContent.trim())){ row=bb.parentNode; return true; } return false; });
   if(!row){ if(histEl) histEl.textContent=T2('Brak danych.','No data.'); return; }
-  fetch('/m2p/api/persona?pid='+pid,{credentials:'same-origin',cache:'no-store'}).then(function(r){ return r.json(); }).then(function(j){
-   if(!j||!j.ok) return;
+  // A card owns its requests. Detached/rebuilt cards cannot overwrite a new
+  // selection, and the saved profile is not an acknowledgement of execution.
+  var owner={}; box._m2pPersonaOwner=owner;
+  var timer=0, sequence=0, polls=0, pending=null, asked=0, deadline=Date.now()+75000;
+  function alive(){ var modal=box.closest('#botModal'); return box._m2pPersonaOwner===owner&&row.isConnected&&(!modal||modal.style.display!=='none'); }
+  function stop(){ if(timer){ clearTimeout(timer); timer=0; } }
+  function request(options){
+   var abort=new AbortController(), timeout=setTimeout(function(){ abort.abort(); },8000);
+   options=options||{}; options.credentials='same-origin'; options.cache='no-store'; options.signal=abort.signal;
+   return fetch('/m2p/api/persona'+(options.method==='POST'?'':'?pid='+pid+(pending?'&q='+pending.id:'')),options)
+    .then(function(r){ return r.json(); }).finally(function(){ clearTimeout(timeout); });
+  }
+  request().then(function(j){
+   if(!alive()||!j||!j.ok) return;
    var wrap=d.createElement('div'); wrap.className='m2p-persona';
-   var sel=d.createElement('select'); sel.innerHTML='<option value="AUTO">'+T2('Automatyczna osobowość','Automatic personality')+'</option>'+j.list.map(function(e){ return '<option value="'+e[0]+'"'+(e[0]===j.now?' selected':'')+'>'+qEsc(e[1])+'</option>'; }).join('');
-   if(j.profile&&j.profile.persona_id!=null) sel.value=j.profile.persona_id;
-   if(j.now==null&&!j.profile){ var o=d.createElement('option'); o.value=''; o.textContent='—'; o.selected=true; sel.insertBefore(o,sel.firstChild); }
+   // Iwakura P19: a list of our own with each personality's description in a
+   // tooltip; it keeps the select's value/disabled/onchange shape below.
+   var names={AUTO:T2('Automatyczna osobowość','Automatic personality')}; j.list.forEach(function(e){ names[String(e[0])]=e[1]; });
+   var sel=d.createElement('div'); sel.className='m2p-pp'; sel.value='AUTO'; sel.disabled=false;
+   var btn=d.createElement('button'); btn.type='button'; btn.className='m2p-pp-btn';
+   var list=d.createElement('div'); list.className='m2p-pp-list'; list.hidden=true; list.setAttribute('role','listbox');
+   list.innerHTML=[['AUTO',names.AUTO]].concat(j.list).map(function(e){ return '<div class="m2p-pp-it" role="option" data-v="'+qEsc(String(e[0]))+'">'+qEsc(e[1])+'</div>'; }).join('');
+   sel.appendChild(btn); sel.appendChild(list);
+   function setSel(v){ sel.value=String(v); btn.textContent=names[sel.value]||'—'; btn.disabled=!!sel.disabled;
+    [].forEach.call(list.children,function(it){ it.classList.toggle('on',it.getAttribute('data-v')===sel.value); }); }
+   var tip=d.getElementById('m2pPpTip'); if(!tip){ tip=d.createElement('div'); tip.id='m2pPpTip'; tip.hidden=true; b.appendChild(tip); }
+   function hideList(){ list.hidden=true; tip.hidden=true; }
+   function outside(e){ if(!alive()){ d.removeEventListener('click',outside); hideList(); return; } if(!sel.contains(e.target)) hideList(); }
+   d.addEventListener('click',outside);
+   btn.onclick=function(e){ e.stopPropagation(); if(sel.disabled) return; list.hidden=!list.hidden; tip.hidden=true; };
+   list.addEventListener('mousemove',function(e){ var it=e.target.closest('.m2p-pp-it'); if(!it){ tip.hidden=true; return; }
+    var v=it.getAttribute('data-v'), ds=(j.desc||{})[v]; if(!ds){ tip.hidden=true; return; }
+    tip.innerHTML='<b>'+qEsc(names[v])+'</b><div>'+qEsc(ds)+'</div>'; tip.hidden=false;
+    var x=e.clientX+18, y=e.clientY+10; if(x+tip.offsetWidth>innerWidth-8) x=e.clientX-tip.offsetWidth-14; if(y+tip.offsetHeight>innerHeight-8) y=innerHeight-tip.offsetHeight-8;
+    tip.style.left=x+'px'; tip.style.top=y+'px'; });
+   list.addEventListener('mouseleave',function(){ tip.hidden=true; });
+   list.addEventListener('click',function(e){ var it=e.target.closest('.m2p-pp-it'); if(!it) return; hideList();
+    var v=it.getAttribute('data-v'); if(v===sel.value||sel.disabled) return; var was=sel.value; setSel(v); sel.onchange(was); });
    var msg=d.createElement('span'); msg.className='m2p-pmsg muted';
-   sel.disabled=!j.can_set;
-   if(!j.can_set) msg.textContent=T2('Zmiana niedostępna w tej wersji.','Changing personality is unavailable in this version.');
+   msg.setAttribute('role','status'); msg.setAttribute('aria-live','polite');
    var hist=histEl||d.createElement('div');
-   hist.innerHTML=j.history.length?'<table class="m2p-qt"><tr><th>'+T2('Kiedy','When')+'</th><th>'+T2('Było','From')+'</th><th>'+T2('Jest','To')+'</th><th>'+T2('Powód','Reason')+'</th></tr>'+j.history.map(function(x){
-     return '<tr><td>'+x.at+'</td><td>'+qEsc(x.old)+'</td><td>'+qEsc(x.new)+'</td><td>'+qEsc(P_WHY[x.reason]||x.reason)+(x.queue&&x.queue!=='done'?' <small class="muted">('+qEsc(x.queue)+')</small>':'')+'</td></tr>'; }).join('')+'</table>':'<div class="muted">'+T2('Brak zapisanych zmian.','No changes recorded.')+'</div>';
-   sel.onchange=function(){ if(!j.can_set||sel.value==='') return;
-    if(!confirm(T2('Wymusić osobowość „','Force personality "')+sel.options[sel.selectedIndex].text+T2('” temu botowi?','" on this bot?'))){ sel.value=j.now==null?'':j.now; return; }
-    var fd=new URLSearchParams(); fd.set('_csrf',j.csrf); fd.set('pid',pid); fd.set('persona',sel.value);
-    msg.textContent='…';
-    fetch('/m2p/api/persona',{method:'POST',body:fd,credentials:'same-origin'}).then(function(r){ return r.json(); }).then(function(k){
-     if(k&&k.ok){ msg.textContent=T2('Polecenie oczekuje na wykonanie.','The command is waiting for execution.'); if(window.openBotModal){ try{ window.openBotModal(+pid); }catch(_){} } return; }
-     msg.textContent=T2('błąd: ','error: ')+((k&&k.error)||''); })
-     .catch(function(){ msg.textContent=T2('błąd zapisu','save failed'); }); };
+   function history(data){ hist.innerHTML=data.history.length?'<table class="m2p-qt"><tr><th>'+T2('Kiedy','When')+'</th><th>'+T2('Było','From')+'</th><th>'+T2('Jest','To')+'</th><th>'+T2('Powód','Reason')+'</th></tr>'+data.history.map(function(x){
+     return '<tr><td>'+x.at+'</td><td>'+pcol(x.oid,x.old)+'</td><td>'+pcol(x.nid,x.new)+'</td><td>'+qEsc(P_WHY[x.reason]||x.reason)+(x.queue&&x.queue!=='done'?' <small class="muted">('+qEsc(x.queue)+')</small>':'')+'</td></tr>'; }).join('')+'</table>':'<div class="muted">'+T2('Brak zapisanych zmian.','No changes recorded.')+'</div>';
+   }
+   var displayed='AUTO';
+   function render(data){
+    j=data; history(j);
+    var profile=j.profile, job=j.request, profileId=profile?Number(profile.queue_id)||0:0;
+    var value=profile&&profile.persona_id!=null?String(profile.persona_id):'AUTO';
+    var waiting=false, text='';
+    // A just-enqueued choice wins over a GET taken before that transaction.
+    if(pending&&(!job||Number(job.id)<pending.id)){
+     value=pending.value; waiting=true;
+     text=T2('Polecenie oczekuje na wykonanie.','The command is waiting for execution.');
+    } else if(job){
+     var jobId=Number(job.id), status=String(job.status||'');
+     if(status==='pending'||status==='await'||status.charAt(0)==='w'){
+      value=String(job.arg1); waiting=true; pending={id:jobId,value:value};
+      text=T2('Polecenie oczekuje na wykonanie.','The command is waiting for execution.');
+     } else if(status==='done'){
+      if(profileId>=jobId){
+       waiting=(Number(profile.applied_queue)||0)<profileId;
+       text=waiting?T2('Zapisano wybór; bot czeka na zastosowanie.','Choice saved; waiting for the bot to apply it.'):
+        T2('Bot zastosował wybór.','The bot has applied the choice.');
+      } else {
+       value=String(job.arg1); waiting=true;
+       text=T2('Sprawdzam zapis wyboru…','Checking the saved choice…');
+      }
+      pending=waiting?{id:jobId,value:value}:null;
+     } else {
+      pending=null;
+      var errors={not_allowed:T2('Bot nie może teraz zmienić osobowości.','This bot cannot change personality now.'),
+       cancelled:T2('Polecenie anulowano.','The command was cancelled.'),
+       superseded:T2('Polecenie zastąpiono nowszym wyborem.','The command was replaced by a newer choice.'),
+       persist_failed:T2('Nie udało się zapisać wyboru.','The choice could not be saved.'),
+       bad_args:T2('Wybrana osobowość jest niedostępna.','The selected personality is unavailable.'),
+       failed:T2('Rdzeń odrzucił polecenie: tej osobowości nie ma w tej wersji.','The core refused the command: this version has no such personality.'),
+       gone:T2('Bot jest niedostępny.','The bot is unavailable.')};
+      text=errors[status]||T2('Nie udało się zastosować wyboru.','The choice could not be applied.');
+     }
+    } else if(profileId&&(Number(profile.applied_queue)||0)<profileId){
+     waiting=true; text=T2('Zapisano wybór; bot czeka na zastosowanie.','Choice saved; waiting for the bot to apply it.');
+    }
+    displayed=value; sel.disabled=!j.can_set; setSel(value);
+    msg.textContent=j.can_set?text:T2('Zmiana niedostępna w tej wersji.','Changing personality is unavailable in this version.');
+    // Iwakura P19: the card reloads itself once the core has applied a choice
+    // made here; 'done' comes after the status snapshot, so the row is fresh.
+    if(asked&&!waiting&&job&&Number(job.id)===asked&&String(job.status)==='done'){
+     asked=0; if(window.openBotModal&&box.closest('#botModal')){ setTimeout(function(){ if(alive()){ try{ window.openBotModal(+pid); }catch(_){} } },300); }
+    }
+    return waiting&&j.can_set;
+   }
+   function schedule(){
+    stop(); if(!alive())return;
+    if(polls>=38||Date.now()>=deadline){ msg.textContent+=T2(' Bot zmieni osobowość, gdy wróci do gry; odśwież kartę później.',' The bot switches when it is back in the game; reopen the card later.'); return; }
+    var ownSequence=sequence;
+    timer=setTimeout(function(){
+     timer=0; if(!alive()||ownSequence!==sequence)return; ++polls;
+     request().then(function(data){
+      if(!alive()||ownSequence!==sequence)return;
+      if(!data||!data.ok)throw new Error('unavailable');
+      if(render(data))schedule();
+     }).catch(function(){
+      if(!alive()||ownSequence!==sequence)return;
+      msg.textContent=T2('Nie mogę potwierdzić wykonania; sprawdzam ponownie.','Unable to confirm execution; checking again.'); schedule();
+     });
+    },2000);
+   }
+   sel.onchange=function(){ if(!alive()||!j.can_set||sel.value==='') return;
+    var chosen=sel.value;
+    if(!confirm(T2('Wymusić osobowość „','Force personality "')+(names[chosen]||chosen)+T2('” temu botowi?','" on this bot?'))){ setSel(displayed); return; }
+    stop(); var ownSequence=++sequence; polls=0; deadline=Date.now()+75000; displayed=chosen; sel.disabled=true; setSel(chosen);
+    var fd=new URLSearchParams(); fd.set('_csrf',j.csrf); fd.set('pid',pid); fd.set('persona',chosen);
+    msg.textContent=T2('Zapisuję wybór…','Saving the choice…');
+    request({method:'POST',body:fd}).then(function(k){
+     if(!alive()||ownSequence!==sequence)return;
+     sel.disabled=!j.can_set; setSel(chosen);
+     if(k&&k.ok&&Number(k.queued)>0){
+      pending={id:Number(k.queued),value:chosen}; asked=pending.id;
+      msg.textContent=T2('Polecenie oczekuje na wykonanie.','The command is waiting for execution.'); schedule(); return;
+     }
+     if(render(j))schedule(); msg.textContent=T2('Nie udało się zapisać wyboru.','The choice could not be saved.');
+    }).catch(function(){
+     if(!alive()||ownSequence!==sequence)return;
+     sel.disabled=!j.can_set; setSel(displayed);
+     msg.textContent=T2('Nie mogę potwierdzić zapisu. Odśwież kartę przed ponowną próbą.','Unable to confirm the save. Reopen the card before trying again.');
+    }); };
    var frow=d.createElement('div'); frow.style.gridColumn='1 / -1'; frow.className='m2p-persona-row';
    frow.innerHTML='<b>'+T2('Wymuś osobowość','Force personality')+':</b> ';
    wrap.appendChild(sel); wrap.appendChild(msg); frow.appendChild(wrap);
    var after=row.nextElementSibling&&/Charakter|Character/.test(row.nextElementSibling.textContent)?row.nextElementSibling:row;
    after.parentNode.insertBefore(frow,after.nextSibling);
+   if(render(j))schedule();
   }).catch(function(){});
  }
  var BOT_TAB=0;
@@ -4464,12 +4973,12 @@ JS = r"""
  }
 
 
- // ---- mapa: ranking "Przedmiot +9 (30+ lv)" i dluzsza lista ----
+ // ---- mapa: ranking "Przedmiot +9 (21+ lv)" i dluzsza lista ----
  var p9=d.querySelector('.rank-tab[onclick*="\'plus9\'"]');
  if(p9&&!d.querySelector('.rank-tab[onclick*="plus9_30"]')){
   var p30=p9.cloneNode(true);
   p30.setAttribute('onclick',"setRankCategory('plus9_30', this)"); p30.classList.remove('active');
-  p30.textContent=({pl:'Przedmiot +9 (30+ lv)',en:'Item +9 (lv 30+)',de:'Gegenstand +9 (Lv 30+)',tr:'+9 Eşya (30+ sv)'})[LANG]||'Item +9 (lv 30+)';
+  p30.textContent=({pl:'Przedmiot +9 (21+ lv)',en:'Item +9 (lv 21+)',de:'Gegenstand +9 (Lv 21+)',tr:'+9 Eşya (21+ sv)'})[LANG]||'Item +9 (lv 21+)';
   p9.parentNode.insertBefore(p30,p9.nextSibling);
  }
  if(typeof window.renderRankings==='function'){
@@ -4491,7 +5000,7 @@ JS = r"""
  function fmtN(n){ return Number(n||0).toLocaleString('pl-PL').replace(/ /g,' '); }
  var mapCard=d.querySelector('#mapViewport'); mapCard=mapCard&&mapCard.closest('.card');
  if(W&&mapCard&&mapCard.parentNode){
-  var col=d.createElement('div'); col.style.minWidth='0';
+  var col=d.createElement('div'); col.style.minWidth='0'; col.className='m2p-mapcol';
   mapCard.parentNode.insertBefore(col,mapCard); col.appendChild(mapCard);
   var ws=d.createElement('div'); ws.className='card m2p-world';
   ws.innerHTML='<div class="m2p-kpis">'+
@@ -4733,9 +5242,9 @@ JS = r"""
  // ---- rankingi ----
  var rkBox=d.getElementById('m2pRank');
  if(rkBox){
-  var RL={pl:{level:'Poziom',gold:'Yang',weapon30:'Bronie 30 lv',weapon:'Broń',armor:'Zbroja',items:'Przedmioty',horse:'Koń',biologist:'Biolog',hunting:'Polowanie',shops:'Otwarte sklepy',skills:'Umiejętności',plus9:'Przedmiot +9',plus9_30:'Przedmiot +9 (30+ lv)',
+  var RL={pl:{level:'Poziom',gold:'Yang',weapon30:'Bronie 30 lv',weapon:'Broń',armor:'Zbroja',items:'Przedmioty',horse:'Koń',biologist:'Biolog',hunting:'Polowanie',shops:'Otwarte sklepy',skills:'Umiejętności',plus9:'Przedmiot +9',plus9_30:'Przedmiot +9 (21+ lv)',
      pos:'#',who:'Postać',cls:'Klasa',lvl:'Poziom',score:'Wynik',none:'Brak danych.',eq:'założone',bag:'w plecaku',note:'Boty i gracze razem: 👤 oznacza postać gracza, postaci GM-ów nie są liczone. Kliknij nick, aby otworzyć kartę postaci.',items_short:'przedm.',horse:'Koń',open:'otwarty',avg:'śr.',skill:'um.'},
-   en:{level:'Level',gold:'Yang',weapon30:'Lv 30 weapons',weapon:'Weapon',armor:'Armour',items:'Items',horse:'Horse',biologist:'Biologist',hunting:'Hunting',shops:'Open shops',skills:'Skills',plus9:'Item +9',plus9_30:'Item +9 (lv 30+)',
+   en:{level:'Level',gold:'Yang',weapon30:'Lv 30 weapons',weapon:'Weapon',armor:'Armour',items:'Items',horse:'Horse',biologist:'Biologist',hunting:'Hunting',shops:'Open shops',skills:'Skills',plus9:'Item +9',plus9_30:'Item +9 (lv 21+)',
      pos:'#',who:'Character',cls:'Class',lvl:'Level',score:'Score',none:'No data.',eq:'worn',bag:'in bag',note:'Bots and players together: 👤 marks a player, GM characters are not counted. Click a name to open the character.',items_short:'items',open:'open',avg:'avg',skill:'sk.'}}[LANG]||null;
   if(!RL) RL={}; var RLe={pl:1};
   var CATS=['level','gold','weapon30','weapon','armor','items','horse','biologist','shops','skills','plus9','plus9_30'];
@@ -4773,7 +5282,7 @@ JS = r"""
   function draw(){
    cats.querySelectorAll('button').forEach(function(bt){ bt.classList.toggle('on',bt.getAttribute('data-c')===CAT); });
    d.getElementById('rkTitle').textContent=RL[CAT]||CAT;
-   rkPB.style.display=CAT==='weapon'?'':'none'; rkPB.querySelectorAll('button').forEach(function(bt){ bt.classList.toggle('on',bt.getAttribute('data-p')===RKPLUS); });
+   rkPB.style.display=(CAT==='weapon'||CAT==='armor')?'':'none'; rkPB.querySelectorAll('button').forEach(function(bt){ bt.classList.toggle('on',bt.getAttribute('data-p')===RKPLUS); });
    var q=(d.getElementById('rkSearch').value||'').toLowerCase().trim();
    var rows=rkData.map(function(r,i){ r._i=i+1; return r; }).filter(function(r){ return !q||((r.name||'')+' '+(r.job||'')).toLowerCase().indexOf(q)>=0; });
    var el=d.getElementById('rkTable');
@@ -4787,7 +5296,7 @@ JS = r"""
   function loadRk(){
    var lim=d.getElementById('rkLimit').value, ppl=d.getElementById('rkPeople').checked;
    d.getElementById('rkTable').innerHTML='<p class="muted">…</p>';
-   fetch('/api/bot_rankings?type='+CAT+'&limit='+lim+(ppl?'&people=1':'')+(CAT==='weapon'&&RKPLUS?'&plus='+RKPLUS:''),{credentials:'same-origin'}).then(function(r){ return r.json(); }).then(function(j){
+   fetch('/api/bot_rankings?type='+CAT+'&limit='+lim+(ppl?'&people=1':'')+((CAT==='weapon'||CAT==='armor')&&RKPLUS?'&plus='+RKPLUS:''),{credentials:'same-origin'}).then(function(r){ return r.json(); }).then(function(j){
     rkData=(j&&j.ok&&j.rankings)||[]; d.getElementById('rkPeopleL').style.display=(j&&j.people===false)?'none':''; draw(); }).catch(function(){ rkData=[]; draw(); });
   }
   d.getElementById('rkTable').addEventListener('click',function(e){ var a=e.target.closest('.m2p-purse'); if(!a) return; e.preventDefault(); botFrame(a.getAttribute('data-pid')); });
@@ -5067,9 +5576,10 @@ JS = r"""
 
  // ===== Ulepszenia +7/+8/+9 =====
  if(PG==='refines'){
-  setNote(T2('Udane i nieudane ulepszenia na +7, +8 i +9 - najnowsze na górze. Sposób: kowal albo zwój użyty do ulepszenia.','Successful and failed +7/+8/+9 upgrades, newest first.'));
+  setNote(T2('Udane i nieudane ulepszenia na +7, +8 i +9 - najnowsze na górze. Liczba pozycji: 10–1000.','Successful and failed +7/+8/+9 upgrades, newest first.'));
   var RK='ok'; try{ RK=localStorage.getItem('m2p_rf')||'ok'; }catch(e){}
-  pg.innerHTML='<div class="m2p-ms-kpis" id="rfK"></div><div class="card"><div class="m2p-rk-cats" id="rfTabs"><button type="button" data-k="ok">'+T2('Ulepszone','Upgraded')+'</button><button type="button" data-k="fail">'+T2('Spalone (nieudane)','Burned (failed)')+'</button></div><div class="m2p-rk-cats m2p-rf-plus" id="rfPlus"><button type="button" data-p="0">'+T2('Wszystkie','All')+'</button><button type="button" data-p="7">+7</button><button type="button" data-p="8">+8</button><button type="button" data-p="9">+9</button></div><div id="rfT"></div></div>';
+  pg.innerHTML='<div class="m2p-ms-kpis" id="rfK"></div><div class="card"><div class="m2p-rk-cats" id="rfTabs"><button type="button" data-k="ok">'+T2('Ulepszone','Upgraded')+'</button><button type="button" data-k="fail">'+T2('Spalone (nieudane)','Burned (failed)')+'</button></div><div class="m2p-rk-cats m2p-rf-plus" id="rfPlus"><button type="button" data-p="0">'+T2('Wszystkie','All')+'</button><button type="button" data-p="7">+7</button><button type="button" data-p="8">+8</button><button type="button" data-p="9">+9</button></div><div class="m2p-rk-cats m2p-rf-lim" id="rfLim">'+[10,50,100,200,500,1000].map(function(n){ return '<button type="button" data-l="'+n+'">'+n+'</button>'; }).join('')+'</div><div id="rfT"></div></div>';
+  var RL2=100; try{ RL2=+(localStorage.getItem('m2p_rfl')||100)||100; }catch(e){}
   var RP=0; try{ RP=+(localStorage.getItem('m2p_rfp')||0)||0; }catch(e){}
   function method(r){ var ic=r.method_vnum?icoImg(r.method_vnum,'m2p-ico sm'):(r.kind==='POWER'?'<span class="m2p-ico sm m2p-ico-txt">🔨</span>':(r.kind==='GUILD'?'<span class="m2p-ico sm m2p-ico-txt">🏰</span>':''));
    return '<span class="m2p-ms-item">'+ic+esc(r.method)+'</span>'; }
@@ -5077,8 +5587,9 @@ JS = r"""
   function loadRf(){
    d.querySelectorAll('#rfTabs button').forEach(function(b){ b.classList.toggle('on',b.getAttribute('data-k')===RK); });
    d.querySelectorAll('#rfPlus button').forEach(function(b){ b.classList.toggle('on',+b.getAttribute('data-p')===RP); });
+   d.querySelectorAll('#rfLim button').forEach(function(b){ b.classList.toggle('on',+b.getAttribute('data-l')===RL2); });
    d.getElementById('rfT').innerHTML='<p class="muted">…</p>';
-   get2('/m2p/api/refines?kind='+RK+'&limit=400').then(function(j){
+   get2('/m2p/api/refines?kind='+RK+'&limit='+RL2+'&plus='+RP).then(function(j){
     if(!j||!j.ok){ d.getElementById('rfT').innerHTML='<p class="muted">'+T2('Brak dziennika ulepszeń (log.refinelog).','No refine log.')+'</p>'; return; }
     var st={}; (j.stats||[]).forEach(function(r){ st[r[0]]=st[r[0]]||[0,0]; st[r[0]][r[1]?0:1]+=r[2]; });
     d.getElementById('rfK').innerHTML=[7,8,9].map(function(n){ var a=st[n]||[0,0],tot=a[0]+a[1];
@@ -5096,6 +5607,7 @@ JS = r"""
    row.innerHTML='<td colspan="5">'+j.a.map(function(l){ return '<span class="m2p-stat at">'+esc(l)+'</span>'; }).join('')+j.s.map(function(l){ return '<span class="m2p-stat sk">◆ '+esc(l)+'</span>'; }).join('')+'</td>';
    tr.parentNode.insertBefore(row,tr.nextSibling); bt.classList.add('on'); });
   d.getElementById('rfPlus').addEventListener('click',function(e){ var b=e.target.closest('button[data-p]'); if(!b) return; RP=+b.getAttribute('data-p'); try{ localStorage.setItem('m2p_rfp',RP); }catch(_){} loadRf(); });
+  d.getElementById('rfLim').addEventListener('click',function(e){ var b=e.target.closest('button[data-l]'); if(!b) return; RL2=+b.getAttribute('data-l'); try{ localStorage.setItem('m2p_rfl',RL2); }catch(_){} loadRf(); });
   d.getElementById('rfTabs').addEventListener('click',function(e){ var b=e.target.closest('button[data-k]'); if(!b) return; RK=b.getAttribute('data-k'); try{ localStorage.setItem('m2p_rf',RK); }catch(_){} loadRf(); });
   loadRf(); setInterval(loadRf,30000);
  }
@@ -5204,7 +5716,7 @@ JS = r"""
  // ===== Eventy: planer tygodnia =====
  var evForm=d.querySelector('form input[name="action"][value="save"]'); evForm=evForm&&evForm.form;
  if(b.classList.contains('m2p-ep-events_page')&&evForm){
-  var EVC={chest:'#b8862a',exp:'#3d5f86',drop:'#4f7a3a',yang:'#9a6a1a',tanaka:'#6a4a8a',zuo:'#9c2a1a'};
+  var EVC={hexagonal:'#1d827b',chest:'#b8862a',exp:'#3d5f86',drop:'#4f7a3a',yang:'#9a6a1a',tanaka:'#6a4a8a',zuo:'#9c2a1a'};
   var DN=PL?['Pn','Wt','Śr','Cz','Pt','Sb','Nd']:['Mo','Tu','We','Th','Fr','Sa','Su'];
   var DNL=PL?['Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota','Niedziela']:['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
   var kindSel=evForm.querySelector('select[name$="_kind"]'), KN={};
@@ -5235,7 +5747,7 @@ JS = r"""
     evs.forEach(function(c){ var r=c[2], w=100/lanes;
      var hgt=Math.max(16,(c[1]-c[0])/60*H-2), small=hgt<30;
      html+='<div class="m2p-plan-ev'+(r.on?'':' off')+(small?' tight':'')+(lanes>2&&hgt>=90?' narrow':'')+'" data-i="'+r.i+'" style="top:'+(c[0]/60*H+1)+'px;height:'+hgt+'px;left:calc('+(c.lane*w)+'% + 2px);width:calc('+w+'% - 4px);--evc:'+EVC[r.kind]+'" title="'+esc((KN[r.kind]||r.kind)+' '+r.start+'–'+r.end+(r.on?'':' ('+T2('wyłączony','off')+')'))+'">'+
-      '<b>'+esc(KN[r.kind]||r.kind)+'</b><small>'+r.start+'–'+r.end+(r.value&&r.kind!=='chest'?' · '+r.value+(r.kind==='tanaka'||r.kind==='zuo'?'':'%'):'')+'</small></div>'; });
+      '<b>'+esc(KN[r.kind]||r.kind)+'</b><small>'+r.start+'–'+r.end+(r.value&&r.kind!=='chest'&&r.kind!=='hexagonal'?' · '+r.value+(r.kind==='tanaka'||r.kind==='zuo'?'':'%'):'')+'</small></div>'; });
     if(di===wd) html+='<div class="m2p-plan-now" style="top:'+((now.getHours()*60+now.getMinutes())/60*H)+'px"></div>';
     html+='</div></div>';
    }
@@ -5264,7 +5776,7 @@ JS = r"""
   // historia zakonczonych eventow
   get2('/m2p/api/event_history').then(function(j){ if(!j||!j.ok) return; var hc=d.createElement('div'); hc.className='card';
    hc.innerHTML='<h3>'+T2('Ostatnio zakończone','Recently finished')+'</h3>'+tbl2([T2('Event','Event'),T2('Od','From'),T2('Do','To'),T2('Czas','Duration'),T2('Wartość','Value'),T2('Wynik','Result')],(j.rows||[]).map(function(r){
-    return ['<span class="m2p-ev-dot" style="background:'+(EVC[r.kind]||'#888')+'"></span>'+esc(r.label),r.start,r.end,r.mins+' min',r.value&&r.kind!=='chest'?r.value+(r.kind==='tanaka'||r.kind==='zuo'?'':'%'):'–',esc(r.result||'–')]; }),T2('Żaden event jeszcze się nie zakończył.','No finished events yet.'));
+    return ['<span class="m2p-ev-dot" style="background:'+(EVC[r.kind]||'#888')+'"></span>'+esc(r.label),r.start,r.end,r.mins+' min',r.value&&r.kind!=='chest'&&r.kind!=='hexagonal'?r.value+(r.kind==='tanaka'||r.kind==='zuo'?'':'%'):'–',esc(r.result||'–')]; }),T2('Żaden event jeszcze się nie zakończył.','No finished events yet.'));
    (d.querySelector('.m2p-main > .wrap')||pg).appendChild(hc); }).catch(function(){});
  }
 
