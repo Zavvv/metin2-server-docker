@@ -150,9 +150,9 @@ def _shop_write(tx, table, values, insert):
                                    "Expected exactly one changed row."))
 
 
-def insert_row(db_name, table_name, values, admin, note=''):
+def insert_row(db_name, table_name, values, admin, note='', windows=()):
     if (db_name, table_name) == CRAFTING:
-        return _crafting_insert(values, admin, note)
+        return _crafting_insert(values, admin, note, windows)
     if (db_name, table_name) == ITEMSHOP:
         return _itemshop_insert(values, admin, note)
     table = _table(db_name, table_name, insert=True)
@@ -308,15 +308,24 @@ def _crafting_take(tx, table, expected, what):
     return current
 
 
-def _crafting_insert(values, admin, note):
+def _crafting_insert(values, admin, note, windows=()):
+    """A new recipe, and with `windows` its place at the end of those NPC windows.
+
+    Both go in one transaction under one txid, so a recipe never stands in a
+    window without its row, and one undo takes both back together."""
     table = _crafting(_table(CRAFTING[0], CRAFTING[1], insert=True))
+    windows = sorted({int(w) for w in windows or ()})
+    wtable = _window(_table(WINDOW[0], WINDOW[1], insert=True)) if windows else None
     values = _crafting_values(table, values)
+    txid = uuid.uuid4().hex
     with db.Tx() as tx:
         stored = _crafting_put(tx, table, values, strict=True)
         db.record_history(admin, CRAFTING[0], CRAFTING[1],
                           safety.pk_json(table, stored, CRAFTING_KEY),
-                          [(safety.ROW_COLUMN, None, _row_json(table, stored))], uuid.uuid4().hex,
+                          [(safety.ROW_COLUMN, None, _row_json(table, stored))], txid,
                           operation='insert', note=note, tx=tx)
+        for window_id in windows:
+            _window_insert(tx, wtable, window_id, stored['vnum'], admin, note, txid)
     return True
 
 
@@ -326,8 +335,16 @@ def delete_rows(db_name, table_name, rows, admin, note=''):
     Recipes (world.crafting_proto) and ItemShop offers (common.itemshop_items);
     any other table is refused by the recipe's own schema check."""
     kind = _ROW_KINDS.get((db_name, table_name), _ROW_KINDS[CRAFTING])
+    if kind is _ROW_KINDS[WINDOW]:
+        raise safety.Denied(_say("Wiersze okien usuwa się pojedynczo / Window rows are removed one at a time.",
+                                 "Window rows are removed one at a time."))
     table = kind['check'](_table(db_name, table_name))
     kind['prepare']()
+    # A recipe deleted leaves its NPC windows in the same transaction: the
+    # game skips a number crafting_proto lacks anyway, and a window row the
+    # recipe's own page no longer shows would only wait there for a later
+    # recipe of that number. The rows come back with the recipe at its undo.
+    wtable = _window_table_if_any() if (table['db'], table['name']) == CRAFTING else None
     names = set(table['by_name'])
     key = kind['key'][0]
     if not rows or len(rows) > CRAFTING_BATCH_MAX:
@@ -347,14 +364,40 @@ def delete_rows(db_name, table_name, rows, admin, note=''):
                               safety.pk_json(table, current, kind['key']),
                               [(safety.ROW_COLUMN, _row_json(table, current), None)], txid,
                               operation='delete', note=note, tx=tx)
+        if wtable is not None:
+            _window_drop_recipes(tx, wtable, sorted(int(k) for k in keys), admin, note, txid)
     return len(rows)
 
 
 def _undo_whole_rows(entry_id, operation, admin, kind):
-    """Undo a whole-row insert or delete together with the rest of its batch (same txid)."""
-    database, name = kind['table']
-    table = kind['check'](_table(database, name, insert=(operation == 'delete')))
-    kind['prepare']()
+    """Undo a whole-row insert or delete together with the rest of its batch (same txid).
+
+    The batch is every whole-row entry of the txid in the kind's family
+    (_FAMILY): a recipe added with its window, or deleted with its windows,
+    comes back or goes in one transaction - recipes put back before their
+    window rows, window rows taken before their recipes."""
+    family = _FAMILY.get(kind['table'], (kind['table'],))
+    # Which of the family's tables the batch wrote, read before the
+    # transaction: a table's dated snapshot is DDL and has to come first. The
+    # transaction reads the batch again under its locks and refuses a table
+    # this did not prepare.
+    entry = db.history_get(entry_id)
+    if not entry or entry.get('undone'):
+        raise safety.Conflict(_say("Zmiana już cofnięta / Change was already undone.",
+                                   "Change was already undone."))
+    txid = db.decode(entry['txid']) or ''
+    wrote = {kind['table']}
+    if txid:
+        wrote |= {(db.decode(r['d']), db.decode(r['t'])) for r in db.query(
+            'SELECT DISTINCT db_name AS d, table_name AS t FROM player.editsql_history '
+            'WHERE txid=%s AND operation=%s AND undone=0', (txid, operation))}
+    tables = {}
+    for member in family:
+        if member in wrote:
+            member_kind = _ROW_KINDS[member]
+            tables[member] = member_kind['check'](_table(member[0], member[1],
+                                                         insert=(operation == 'delete')))
+            member_kind['prepare']()
     undo_txid = uuid.uuid4().hex
     with db.Tx() as tx:
         locked = tx.query('SELECT * FROM player.editsql_history WHERE id=%s FOR UPDATE',
@@ -365,38 +408,58 @@ def _undo_whole_rows(entry_id, operation, admin, kind):
         txid = db.decode(locked[0]['txid']) or ''
         group = locked
         if txid:
-            group = tx.query('SELECT * FROM player.editsql_history WHERE txid=%s AND db_name=%s '
-                             'AND table_name=%s AND operation=%s AND undone=0 ORDER BY id FOR UPDATE',
-                             (txid, database, name, operation))
+            where = ' OR '.join(['(db_name=%s AND table_name=%s)'] * len(family))
+            group = tx.query('SELECT * FROM player.editsql_history WHERE txid=%%s AND (%s) '
+                             'AND operation=%%s AND undone=0 ORDER BY id FOR UPDATE' % where,
+                             tuple([txid] + [part for member in family for part in member]
+                                   + [operation]))
         if int(entry_id) not in [int(entry['id']) for entry in group]:
             raise safety.Conflict(_say("Wpis historii nie pasuje / History entry does not match.",
                                        "History entry does not match."))
-        done = []
+        rank = {member: (i if operation == 'delete' else -i) for i, member in enumerate(family)}
+        group = sorted(group, key=lambda e: (rank.get((db.decode(e['db_name']),
+                                                        db.decode(e['table_name'])), 0), int(e['id'])))
+        done, touched = [], set()
         for entry in group:
+            member = (db.decode(entry['db_name']), db.decode(entry['table_name']))
+            if member not in tables:
+                raise safety.Conflict(_say("Operacja zmieniła się w trakcie cofania - spróbuj jeszcze "
+                                           "raz / The operation changed during the undo - try again.",
+                                           "The operation changed during the undo - try again."))
+            member_kind, table = _ROW_KINDS[member], tables[member]
             if db.decode(entry['column_name']) != safety.ROW_COLUMN:
                 raise safety.Denied(_say("Wpis nie opisuje całego wiersza / Entry is not a whole row.",
                                          "Entry is not a whole row."))
             text = db.decode(entry['new_value'] if operation == 'insert' else entry['old_value'])
             expected = _row_from_json(table, text)
             if operation == 'insert':
-                kind['take'](tx, table, expected,
-                             ("po dodaniu - najpierw cofnij późniejsze zmiany",
-                              "after it was added - undo the later changes first"))
+                member_kind['take'](tx, table, expected,
+                                    ("po dodaniu - najpierw cofnij późniejsze zmiany",
+                                     "after it was added - undo the later changes first"))
                 columns = [(safety.ROW_COLUMN, text, None)]
             else:
-                stored = kind['put'](tx, table, expected, strict=False)
+                stored = member_kind['put'](tx, table, expected, strict=False)
                 columns = [(safety.ROW_COLUMN, None, _row_json(table, stored))]
-            db.record_history(admin, database, name, db.decode(entry['pk_json']), columns,
+            db.record_history(admin, member[0], member[1], db.decode(entry['pk_json']), columns,
                               undo_txid, operation='undo', note='Undo #%s' % entry['id'], tx=tx,
                               undo_of=int(entry['id']))
             done.append(int(entry['id']))
+            touched.add(member)
+        if operation == 'insert' and WINDOW in touched:
+            _window_keeps_rows(tx, tables[WINDOW])
         tx.execute('UPDATE player.editsql_history SET undone=1 WHERE id IN (%s)'
                    % ','.join(['%s'] * len(done)), tuple(done))
+    done.sort()
     count = len(done)
     if count == 1:
         return True, _say("Cofnięto zmianę / Change undone: #%s" % done[0],
                           "Change undone: #%s" % done[0])
-    return True, kind['say']['together'](count, ", ".join("#%d" % i for i in done))
+    ids = ", ".join("#%d" % i for i in done)
+    if len(touched) == 1:
+        return True, _ROW_KINDS[touched.pop()]['say']['together'](count, ids)
+    return True, _say("Cofnięto razem %d %s z jednej operacji / Undone %d rows together: %s"
+                      % (count, "wiersze" if _few(count) else "wierszy", count, ids),
+                      "Undone %d rows together: %s" % (count, ids))
 
 
 def _few(count):
@@ -576,12 +639,255 @@ def _itemshop_insert(values, admin, note):
     return True
 
 
+# --- The NPC crafting windows (world.crafting_window, mt2009): a row a recipe of a window ---
+#
+# Patch 19, point 10 moved each NPC window's list of recipes out of the
+# package's crafting_data.lua into this table (mariadb/playerbot/
+# crafting_windows.sql seeds it once), and quest/m2_crafting_windows.lua reads
+# it when a core loads its quests - so a window is changed here, and the
+# change shows at the NPC after a restart of the cores. A row is (window_id,
+# recipe_id, sort_order), keyed by the first two, and goes the recipe's way:
+# the whole row as JSON in one history entry, its undo only while the row is
+# still what was written. A recipe added with its window, or deleted with its
+# windows, is one transaction under one txid and one undo (_FAMILY). A move
+# numbers the window 1..n again and writes each row whose place changed as an
+# ordinary 'update' of sort_order.
+#
+# The table never goes empty from here: an empty table is the quest's sign to
+# read every window from the package's file (_window_keeps_rows).
+WINDOW = ('world', 'crafting_window')
+WINDOW_KEY = ('window_id', 'recipe_id')
+WINDOW_COLUMNS = ('window_id', 'recipe_id', 'sort_order')
+_INT_TYPES = ('tinyint', 'smallint', 'mediumint', 'int', 'bigint')
+
+_WINDOW_SAY = {
+    'batch': lambda most: _say("Od 1 do %d wierszy okien naraz / Between 1 and %d window rows at once."
+                               % (most, most), "Between 1 and %d window rows at once." % most),
+    'whole': lambda: _say("Wymagany pełny wiersz okna / Complete window row required.",
+                          "Complete window row required."),
+    'twice': lambda: _say("Wiersz okna podany dwa razy / Duplicate window row in the batch.",
+                          "Duplicate window row in the batch."),
+    'together': lambda count, ids: _say(
+        "Cofnięto razem %d %s okien z jednej operacji / Undone %d window rows together: %s"
+        % (count, "wiersze" if _few(count) else "wierszy", count, ids),
+        "Undone %d window rows together: %s" % (count, ids)),
+}
+
+
+def _window(table):
+    """Only the reviewed window schema: (window_id, recipe_id) key, three integer columns."""
+    if (table['db'], table['name']) != WINDOW:
+        raise safety.Denied(_say("Wiersze okien tylko w world.crafting_window / "
+                                 "Window rows are limited to world.crafting_window.",
+                                 "Window rows are limited to world.crafting_window."))
+    if tuple(table['pk']) != WINDOW_KEY or set(table['by_name']) != set(WINDOW_COLUMNS):
+        raise safety.Denied(_say("Nieobsługiwany schemat crafting_window / "
+                                 "Unsupported crafting_window schema.",
+                                 "Unsupported crafting_window schema."))
+    for col in table['columns']:
+        if (col['auto'] or col.get('extra', '').startswith('on update')
+                or col['data_type'] not in _INT_TYPES):
+            raise safety.Denied(_say("Nieobsługiwana kolumna crafting_window / Unsupported "
+                                     "crafting_window column: ", "Unsupported crafting_window column: ")
+                                + col['name'])
+    return table
+
+
+def _window_table_if_any():
+    """The window table when this world has one the editor may write, else None (DDL first)."""
+    if schema.table(WINDOW[0], WINDOW[1]) is None or not db.is_transactional(*WINDOW):
+        return None
+    return _window(_table(WINDOW[0], WINDOW[1]))
+
+
+def _window_values(table, values):
+    if set(values) != set(WINDOW_COLUMNS):
+        raise safety.Denied(_WINDOW_SAY['whole']())
+    out = {}
+    for name in WINDOW_COLUMNS:
+        _, value, _ = safety.validate(safety.column(table, name), values[name])
+        if value is None or value < (0 if name == 'sort_order' else 1):
+            raise safety.Invalid(_say("Numer okna i przepisu od 1 / Window and recipe numbers start at 1.",
+                                      "Window and recipe numbers start at 1."))
+        out[name] = value
+    return out
+
+
+def _window_put(tx, table, values, strict):
+    """Insert one window row; `strict` (not a restore) wants the recipe in crafting_proto."""
+    key = (values['window_id'], values['recipe_id'])
+    if tx.query('SELECT window_id FROM %s WHERE %s FOR UPDATE'
+                % (db.qt(table['db'], table['name']), _where(WINDOW_KEY)), key):
+        raise safety.Conflict(_say("Przepis #%s już jest w oknie %s / Recipe #%s is already in window %s."
+                                   % (key[1], key[0], key[1], key[0]),
+                                   "Recipe #%s is already in window %s." % (key[1], key[0])))
+    if strict:
+        recipes = schema.table(CRAFTING[0], CRAFTING[1])
+        found = tx.query('SELECT vnum FROM %s WHERE vnum=%%s LOCK IN SHARE MODE'
+                         % db.qt(CRAFTING[0], CRAFTING[1]), (key[1],)) if recipes else []
+        if len(found) != 1:
+            raise safety.Conflict(_say("Nie ma przepisu #%s w crafting_proto / No recipe #%s in crafting_proto."
+                                       % (key[1], key[1]), "No recipe #%s in crafting_proto." % key[1]))
+    changed = tx.execute('INSERT INTO %s (%s) VALUES (%%s,%%s,%%s)' % (
+        db.qt(table['db'], table['name']), ','.join(db.qi(n) for n in WINDOW_COLUMNS)),
+        tuple(values[n] for n in WINDOW_COLUMNS))
+    if changed != 1:
+        raise safety.Conflict(_say("Oczekiwano jednego wiersza / Expected exactly one changed row.",
+                                   "Expected exactly one changed row."))
+    return _row(tx, table, WINDOW_KEY, list(key))
+
+
+def _window_take(tx, table, expected, what):
+    """`what` = (Polish, English): when the row was expected unchanged."""
+    key = [expected['window_id'], expected['recipe_id']]
+    current = _row(tx, table, WINDOW_KEY, key)
+    for col in table['columns']:
+        if not safety._same(current.get(col['name']), _history_value(expected[col['name']], col)):
+            raise safety.Conflict(_say("Wiersz okna %s / przepisu #%s zmienił się %s (%s) / Window row changed: %s"
+                                       % (key[0], key[1], what[0], col['name'], col['name']),
+                                       "The row of window %s / recipe #%s changed %s (%s)"
+                                       % (key[0], key[1], what[1], col['name'])))
+    changed = tx.execute('DELETE FROM %s WHERE %s' % (db.qt(table['db'], table['name']),
+                                                      _where(WINDOW_KEY)), tuple(key))
+    if changed != 1:
+        raise safety.Conflict(_say("Oczekiwano jednego wiersza / Expected exactly one changed row.",
+                                   "Expected exactly one changed row."))
+    return current
+
+
+def _window_rows(tx, table, window_id):
+    """The window's rows in its order, locked (with the gap after them) to the commit."""
+    return [safety.decode_row(table, row) for row in tx.query(
+        'SELECT * FROM %s WHERE %s=%%s ORDER BY %s, %s FOR UPDATE'
+        % (db.qt(table['db'], table['name']), db.qi('window_id'), db.qi('sort_order'),
+           db.qi('recipe_id')), (window_id,))]
+
+
+def _window_keeps_rows(tx, table):
+    """Refuse a write that would leave the table empty: the quest then reads every window from the file."""
+    left = tx.query('SELECT COUNT(*) AS n FROM %s FOR UPDATE' % db.qt(table['db'], table['name']))
+    if not left or int(left[0]['n']) < 1:
+        raise safety.Conflict(_say(
+            "To ostatni wiersz tabeli okien - pusta tabela przełącza wszystkie okna NPC z powrotem na "
+            "listy z pliku paczki. Nic nie zmieniono. / This is the last row of the window table - an "
+            "empty table sends every NPC window back to the package file's lists. Nothing was changed.",
+            "This is the last row of the window table - an empty table sends every NPC window back "
+            "to the package file's lists. Nothing was changed."))
+
+
+def _window_insert(tx, table, window_id, recipe_id, admin, note, txid):
+    """Put a recipe at the end of a window, inside the caller's transaction, with its history entry."""
+    rows = _window_rows(tx, table, window_id)
+    end = max([int(r['sort_order']) for r in rows] or [0]) + 1
+    values = _window_values(table, {'window_id': window_id, 'recipe_id': recipe_id, 'sort_order': end})
+    stored = _window_put(tx, table, values, strict=True)
+    db.record_history(admin, WINDOW[0], WINDOW[1], safety.pk_json(table, stored, WINDOW_KEY),
+                      [(safety.ROW_COLUMN, None, _row_json(table, stored))], txid,
+                      operation='insert', note=note, tx=tx)
+    return stored
+
+
+def _window_drop_recipes(tx, table, recipes, admin, note, txid):
+    """Take every window row of these recipes, inside the caller's transaction."""
+    taken = 0
+    for recipe_id in recipes:
+        for row in [safety.decode_row(table, r) for r in tx.query(
+                'SELECT * FROM %s WHERE %s=%%s ORDER BY %s FOR UPDATE'
+                % (db.qt(table['db'], table['name']), db.qi('recipe_id'), db.qi('window_id')),
+                (recipe_id,))]:
+            current = _window_take(tx, table, row, ("w trakcie usuwania", "during the deletion"))
+            db.record_history(admin, WINDOW[0], WINDOW[1], safety.pk_json(table, current, WINDOW_KEY),
+                              [(safety.ROW_COLUMN, _row_json(table, current), None)], txid,
+                              operation='delete', note=note, tx=tx)
+            taken += 1
+    if taken:
+        _window_keeps_rows(tx, table)
+    return taken
+
+
+def window_add(window_id, recipe_id, admin, note=''):
+    """Add a recipe at the end of an NPC window. Returns its sort_order."""
+    table = _window(_table(WINDOW[0], WINDOW[1], insert=True))
+    with db.Tx() as tx:
+        if not tx.query('SELECT %s FROM %s LIMIT 1 LOCK IN SHARE MODE'
+                        % (db.qi('window_id'), db.qt(table['db'], table['name']))):
+            # An empty table: the quest reads every window from the file, and
+            # a first row would empty every other window the names table owns.
+            raise safety.Conflict(_say(
+                "Tabela okien jest pusta - okna NPC czytają listy z pliku paczki i edytor ich nie "
+                "zmienia. / The window table is empty - the NPC windows read the package file's "
+                "lists, and the editor does not change them.",
+                "The window table is empty - the NPC windows read the package file's lists, and "
+                "the editor does not change them."))
+        stored = _window_insert(tx, table, window_id, recipe_id, admin, note, uuid.uuid4().hex)
+    return int(stored['sort_order'])
+
+
+def window_remove(window_id, recipe_id, admin, note=''):
+    """Take a recipe out of an NPC window (the recipe itself stays in crafting_proto)."""
+    table = _window(_table(WINDOW[0], WINDOW[1]))
+    with db.Tx() as tx:
+        rows = [safety.decode_row(table, r) for r in tx.query(
+            'SELECT * FROM %s WHERE %s FOR UPDATE' % (db.qt(table['db'], table['name']), _where(WINDOW_KEY)),
+            (window_id, recipe_id))]
+        if len(rows) != 1:
+            raise safety.Conflict(_say("Przepisu #%s nie ma w oknie %s / Recipe #%s is not in window %s."
+                                       % (recipe_id, window_id, recipe_id, window_id),
+                                       "Recipe #%s is not in window %s." % (recipe_id, window_id)))
+        current = _window_take(tx, table, rows[0], ("w trakcie usuwania", "during the removal"))
+        _window_keeps_rows(tx, table)
+        db.record_history(admin, WINDOW[0], WINDOW[1], safety.pk_json(table, current, WINDOW_KEY),
+                          [(safety.ROW_COLUMN, _row_json(table, current), None)], uuid.uuid4().hex,
+                          operation='delete', note=note, tx=tx)
+    return True
+
+
+def window_move(window_id, recipe_id, step, admin, note=''):
+    """Move a recipe one place up (-1) or down (+1); returns how many rows changed place."""
+    if step not in (-1, 1):
+        raise safety.Denied(_say("Nieznany kierunek / Unknown direction.", "Unknown direction."))
+    table = _window(_table(WINDOW[0], WINDOW[1]))
+    txid = uuid.uuid4().hex
+    changed = 0
+    with db.Tx() as tx:
+        rows = _window_rows(tx, table, window_id)
+        order = [int(r['recipe_id']) for r in rows]
+        if int(recipe_id) not in order:
+            raise safety.Conflict(_say("Przepisu #%s nie ma w oknie %s / Recipe #%s is not in window %s."
+                                       % (recipe_id, window_id, recipe_id, window_id),
+                                       "Recipe #%s is not in window %s." % (recipe_id, window_id)))
+        here = order.index(int(recipe_id))
+        there = here + step
+        if not 0 <= there < len(order):
+            return 0
+        order[here], order[there] = order[there], order[here]
+        by_recipe = {int(r['recipe_id']): r for r in rows}
+        for place, recipe in enumerate(order, 1):
+            row = by_recipe[recipe]
+            if int(row['sort_order']) == place:
+                continue
+            if tx.execute('UPDATE %s SET %s=%%s WHERE %s' % (
+                    db.qt(table['db'], table['name']), db.qi('sort_order'), _where(WINDOW_KEY)),
+                    (place, window_id, recipe)) != 1:
+                raise safety.Conflict(_say("Zapis nie zmienił jednego wiersza / Write did not change one row.",
+                                           "Write did not change one row."))
+            db.record_history(admin, WINDOW[0], WINDOW[1], safety.pk_json(table, row, WINDOW_KEY),
+                              [('sort_order', row['sort_order'], place)], txid, note=note, tx=tx)
+            changed += 1
+    return changed
+
+
 _ROW_KINDS = {
     CRAFTING: {'table': CRAFTING, 'key': CRAFTING_KEY, 'check': _crafting, 'prepare': lambda: None,
                'put': _crafting_put, 'take': _crafting_take, 'say': _CRAFTING_SAY},
     ITEMSHOP: {'table': ITEMSHOP, 'key': ITEMSHOP_KEY, 'check': _itemshop, 'prepare': _itemshop_marks,
                'put': _itemshop_put, 'take': _itemshop_take, 'say': _ITEMSHOP_SAY},
+    WINDOW: {'table': WINDOW, 'key': WINDOW_KEY, 'check': _window, 'prepare': lambda: None,
+             'put': _window_put, 'take': _window_take, 'say': _WINDOW_SAY},
 }
+# Tables whose whole-row entries of one txid are undone together, in this
+# order when put back and in the reverse when taken away.
+_FAMILY = {CRAFTING: (CRAFTING, WINDOW), WINDOW: (CRAFTING, WINDOW), ITEMSHOP: (ITEMSHOP,)}
 
 
 def _restore(col, text):

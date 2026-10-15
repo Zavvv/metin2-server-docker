@@ -1,0 +1,60 @@
+-- "Pomin misje konia" (RapLow's "Handle the horse quests", Tieru, 14 October):
+-- the world's choice in the launcher's new-world window (M2_SKIP_HORSE_QUESTS;
+-- the migrator writes the event flag m2_skip_horse_quests at every start).
+-- While it is 1, a player's new character starts where the stable keeper's
+-- first three errands would have left it at thirty-five: a horse of level
+-- eleven - grade 2, the Armed Horse that can fight - and the Armed Horse Book
+-- (50052) that calls it. The errands it stands in for are the package's own:
+-- pony_buy (the pony at 25, horse level 1, the Horse Picture 50051),
+-- pony_levelup (levels 1-10, the medal rides between the points) and
+-- horse_upgrade (the desert's hundred archers at 35, level 11, the picture
+-- traded for 50052). Every one of them opens only on its own grade
+-- (horse.get_grade() 0, 1, and 1 at level 10), and their states are all
+-- still "start" on a new character, so a grade-2 horse leaves nothing of
+-- them to offer and nothing half done; horse_levelup (11-20) and
+-- horse_upgrade2 (the Demon Tower trial at 50) are the stable keeper's as
+-- before. horse.set_level is the engine's own (SetHorseLevel: the level, full
+-- health and stamina, the riding skill 130, the horse info packet), the call
+-- the package's beta_server quest and our gm_profile make.
+--
+-- Once, at a login of a character still at level one with no horse at all,
+-- never a bot's or a companion's (pc.is_playerbot(): every bot descriptor,
+-- the companions' too - their horse is the AI's stable pass,
+-- ManagePlayerBotHorse). A character that logs in while the flag is 0 is not
+-- marked, so a world that switches it on later gives it to the characters
+-- still at one, as starter_kit does; a character past level one, or one whose
+-- horse somebody already raised (a GM), is left as it is.
+--
+-- Calling the Armed Horse is still the game's own rule (horse_summon.quest):
+-- 200 SP a call and the Horse Taming skill's chance, so a character a few
+-- levels old may have to wait for its SP. The note says so, in the player's
+-- language, a few seconds after the login - by then playerbot_lang.quest has
+-- heard which language the client reads.
+quest horse_skip begin
+	state start begin
+		function t(pl, en)
+			if pc.getf("playerbot_lang", "en") == 1 then
+				return en
+			end
+			return pl
+		end
+
+		when login with pc.getqf("given") == 0 and pc.get_level() == 1 and not pc.is_playerbot() and
+				game.get_event_flag("m2_skip_horse_quests") > 0 and horse.get_level() == 0 begin
+			horse.set_level(11)
+			if pc.count_item(50052) < 1 then
+				pc.give_item2(50052, 1)
+			end
+			pc.setqf("given", 1)
+			char_log(0, "HORSE_SKIP", "horse level 11, 50052")
+			timer("horse_skip_note", 5)
+		end
+
+		when horse_skip_note.timer begin
+			syschat(horse_skip.t("Stajenny: misje konia sa w tym swiecie pominiete - masz Konia Bojowego (poziom 11).",
+				"Stable Boy: the horse quests are skipped in this world - you have an Armed Horse (level 11)."))
+			syschat(horse_skip.t("Przywolasz go Ksiega Opancerzonego Konia z ekwipunku (potrzeba 200 Punktow Energii).",
+				"Call it with the Armed Horse Book in your inventory (it takes 200 SP)."))
+		end
+	end
+end

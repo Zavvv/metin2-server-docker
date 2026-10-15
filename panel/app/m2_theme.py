@@ -933,8 +933,12 @@ _P18_EQ_REASONS = (
     ("Zakładanie teraz niedostępne", "Equipment window closed"), ("Chronione zajęcie", "Protected activity"),
     ("Limit czasu wizyty", "Visit time limit"), ("Limit prób wizyty", "Visit attempt limit"),
     ("Limit Bojowej na dobę", "Daily Battle Shield limit"), ("Limit budżetu kategorii", "Category budget limit"),
-    ("Minimum ceny przekracza limit", "Price floor exceeds cap"),
-    ("Kupuję bazę z rynku", "Buying the base from the market"))
+    # 16 is written by nothing (Tyrion's proposals of 14 October, E3): a step's
+    # price is never a floor over a cap. The code keeps its place so 17 and 18
+    # keep theirs.
+    ("Kod 16 (nieużywany)", "Code 16 (unused)"),
+    ("Kupuję bazę z rynku", "Buying the base from the market"),
+    ("Kupuję materiał z rynku", "Buying the material from the market"))
 
 
 def _p18_eq_runtime(mod, pid, now=None):

@@ -11,6 +11,14 @@
 -- an empty or unreadable table changes nothing. A change takes effect at the
 -- next start of the cores.
 --
+-- Since 14 October (Adijhos) the quest owns every window this table has a row
+-- for or crafting_window_name names - all of the package's, below - so a
+-- window emptied in the panel stays empty; a number written into
+-- crafting_data.lua by hand, off the package's list, still goes at the end of
+-- its window. The panel's editor changes the table (/editsql/crafting/windows)
+-- and never leaves it empty: an empty table is the quest's sign to read every
+-- window from the file.
+--
 -- window_id is the window's number in crafting_data.lua: 101..110 for the
 -- package's named windows (CRAFTING_BLACKSMITH = 101 ... CRAFTING_BUM = 110,
 -- opened by their NPCs' quests), and the NPC's own vnum for the guild

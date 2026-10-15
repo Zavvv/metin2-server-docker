@@ -547,7 +547,7 @@ LOGICAL_KEYS = {
 WRITE_TABLES = {
     'world': {'item_proto', 'mob_proto', 'refine_proto', 'item_attr', 'item_attr_rare',
               'shop', 'shop_item', 'land', 'object_proto', 'skill_proto',
-              'crafting_proto', 'quest_reward_proto'},
+              'crafting_proto', 'crafting_window', 'quest_reward_proto'},
     'common': {'exp_table', 'itemshop_items', 'gmlist'},
 }
 
@@ -555,7 +555,8 @@ WRITE_TABLES = {
 # Tabele, w ktorych edytor dodaje i usuwa CALE wiersze. Kazda ma w writes.py
 # wlasna, przejrzana sciezke (schemat, referencje, historia, cofanie) - nie ma
 # tu ogolnego INSERT/DELETE dla dowolnej tabeli z WRITE_TABLES.
-ROW_TABLES = {('world', 'shop_item'), ('world', 'crafting_proto'), ('common', 'itemshop_items')}
+ROW_TABLES = {('world', 'shop_item'), ('world', 'crafting_proto'), ('world', 'crafting_window'),
+              ('common', 'itemshop_items')}
 
 
 def logical_key(db_name, table_name):

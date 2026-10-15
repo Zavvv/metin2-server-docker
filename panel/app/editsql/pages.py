@@ -21,7 +21,9 @@ RESTART_TABLES = {
     "world": ("item_proto", "mob_proto", "refine_proto", "item_attr", "item_attr_rare",
               "skill_proto", "shop", "shop_item", "shop_special", "shop_special_proto",
               "object_proto", "crafting_proto", "quest_reward_proto", "banword",
-              "land", "offlineshop_limit", "name_reservation"),
+              "land", "offlineshop_limit", "name_reservation",
+              # The quests read these when a core loads them (m2_crafting_windows.lua).
+              "crafting_window", "crafting_window_name"),
     "common": ("exp_table", "locale", "itemshop_items", "gmlist"),
 }
 LIVE_TABLES = {
@@ -415,6 +417,10 @@ def _row_link(row):
     except ValueError:
         return None
     module_id = _module_for(row.get("db_name"), row.get("table_name"))
+    # A row of an NPC window: the window's page, whatever was done to it.
+    if (row.get("db_name"), row.get("table_name")) == ("world", "crafting_window") \
+            and str(data.get("window_id", "")).isdigit():
+        return "/editsql/crafting/windows/%s" % data["window_id"]
     if not module_id or row.get("operation") in ("insert", "delete"):
         if row.get("table_name") == "shop_item" and "shop_vnum" in data:
             return "/editsql/shops/world/%s" % data["shop_vnum"]
@@ -461,8 +467,9 @@ def history_page(page_no=1, per_page=50, messages_list=(), table_filter=""):
         table_rows = []
         # Dodanie albo usuniecie przepisow jest jedna operacja: jedno "Cofnij"
         # cofa wszystkie wiersze z tej samej transakcji (writes._undo_whole_rows);
-        # ItemShop offers too.
-        whole = ("crafting_proto", "itemshop_items")
+        # ItemShop offers too, and an NPC window's rows - with the recipe a
+        # window row was added or deleted with (writes._FAMILY).
+        whole = ("crafting_proto", "itemshop_items", "crafting_window")
         try:
             groups = db.history_open_groups(
                 [r.get("txid") for r in rows if r.get("table_name") in whole

@@ -237,6 +237,8 @@ def _module(module_id):
                                  "in the list to edit it.")))
     if module_id == "itemshop":
         body.append(modules.itemshop_broken_note(spec))
+    if module_id == "crafting":
+        body.append(modules.crafting_windows_box())
     select_form = None
     if _row_spec(module_id) is not None:
         select_form = ROWS_FORM
@@ -753,10 +755,13 @@ ROW_KINDS = {
         "select": P("Zaznacz przepisy do usunięcia.", "Select the recipes to delete."),
         "at_most": P("Najwyżej %d przepisów naraz.", "%d recipes at most at once."),
         "missing": P("Nie ma przepisów: %s - odśwież listę.", "No such recipes: %s - reload the list."),
-        "new_notes": lambda values: (modules.crafting_window_note(values.get("vnum")),),
+        "new_notes": lambda values, windows=(): (
+            modules.crafting_window_note(values.get("vnum"), chosen=windows),),
         "delete_notes": lambda rows: "".join(modules.crafting_window_note(r.get("vnum"), deleting=True)
                                              for r in rows),
         "rows_table": lambda rows: modules.crafting_rows_table(rows),
+        # A new recipe's NPC window (world.crafting_window), chosen on its form.
+        "windows": True,
     },
     "itemshop": {
         "key": "index",
@@ -817,8 +822,8 @@ ROW_KINDS = {
         "select": P("Zaznacz pozycje do usunięcia.", "Select the offers to delete."),
         "at_most": P("Najwyżej %d pozycji naraz.", "%d offers at most at once."),
         "missing": P("Nie ma pozycji: %s - odśwież listę.", "No such offers: %s - reload the list."),
-        "new_notes": lambda values: (modules.itemshop_page_note(values.get("index"),
-                                                                 _text(values.get("currency"))),),
+        "new_notes": lambda values, windows=(): (modules.itemshop_page_note(values.get("index"),
+                                                                             _text(values.get("currency"))),),
         "delete_notes": lambda rows: modules.itemshop_delete_note(rows),
         "rows_table": lambda rows: modules.itemshop_rows_table(rows),
     },
@@ -905,12 +910,13 @@ def _blank_row(spec, source=None):
     return row
 
 
-def _row_new_form(module_id, spec, base, row, invalid=(), messages=None, notes=()):
+def _row_new_form(module_id, spec, base, row, invalid=(), messages=None, notes=(), window=None):
     words = ROW_KINDS[module_id]
     new = tr(words["new"])
+    extra = modules.crafting_window_picker(window) if words.get("windows") else ""
     return render.page(new,
                        editor.insert_form_html(spec, row, base, invalid, notes,
-                                               preview_label=tr(words["preview_new"])),
+                                               preview_label=tr(words["preview_new"]), extra=extra),
                        active=module_id,
                        messages_list=_take_messages() if messages is None else messages,
                        crumbs=[(spec["title"], "/editsql/%s" % module_id), (new, None)],
@@ -938,7 +944,8 @@ def _row_new(module_id):
                           if isinstance(value, (bytes, bytearray)) else value)
                    for name, value in payload["values"].items()}
             return _row_new_form(module_id, spec, base, row,
-                                 messages=[("info", tr(words["not_added"]))])
+                                 messages=[("info", tr(words["not_added"]))],
+                                 window=(payload.get("windows") or [None])[0])
         if action == "preview":
             return _row_new_preview(module_id, spec, base)
         return _redirect(base)
@@ -952,7 +959,8 @@ def _row_new(module_id):
         number = payload["values"].get(words["key"])
         body = (pages.effect_html(spec["db"], spec["table"]) +
                 editor.insert_preview_html(spec, payload["values"], base, token,
-                                           notes=words["new_notes"](payload["values"]),
+                                           notes=words["new_notes"](payload["values"],
+                                                                    payload.get("windows") or ()),
                                            save_label=tr(words["save_add"])))
         return render.page(tr(words["preview_title"]), body,
                            active=module_id, messages_list=_take_messages(), subtitle="#%s" % number,
@@ -966,14 +974,17 @@ def _row_new(module_id):
                                T("Dodanie można cofnąć w Historii zmian.",
                                  "The addition can be undone in the Change history."))))
 
-    source, notes = None, ()
+    source, notes, window = None, (), None
     from_key = request.args.get("from")
     if from_key and safety._DIGITS.match(str(from_key)):
         source = safety.fetch_row(spec["tbl"], [int(from_key)], (words["key"],))
         if source is not None:
             notes = ('<div class="esq-note esq-note-info">%s</div>'
                      % (tr(words["copy"]) % render._esc(from_key)),)
-    return _row_new_form(module_id, spec, base, _blank_row(spec, source), notes=notes)
+            if words.get("windows"):
+                # A copy goes into the first window its source is in.
+                window = (modules.crafting_windows_of(from_key) or [None])[0]
+    return _row_new_form(module_id, spec, base, _blank_row(spec, source), notes=notes, window=window)
 
 
 def _row_new_preview(module_id, spec, base):
@@ -989,16 +1000,28 @@ def _row_new_preview(module_id, spec, base):
     ok, reason = schema.writable(spec["db"], spec["table"], for_insert=True)
     if not ok:
         errors.append(T("tabela: %s", "table: %s") % reason)
+    windows, window = [], None
+    if ROW_KINDS[module_id].get("windows"):
+        window = (request.form.get("esq_window") or "").strip() or None
+        if window is not None:
+            state = modules.crafting_windows_state()
+            if not state["writable"]:
+                errors.append(T("okno NPC: okien NPC nie można teraz zmieniać z panelu",
+                                "NPC window: the NPC windows cannot be changed from the panel now"))
+            elif not safety._DIGITS.match(window) or int(window) not in modules.editable_window_ids(state):
+                errors.append(T("okno NPC: nie ma takiego okna", "NPC window: there is no such window"))
+            else:
+                windows = [int(window)]
     if errors:
         # Formularz wraca z wpisanymi wartosciami, bledne pola sa zaznaczone.
         submitted = {col["name"]: request.form.get(col["name"]) for col in table["columns"]}
         return _row_new_form(module_id, spec, base, submitted,
                              invalid=[e.split(":", 1)[0] for e in errors],
                              messages=[("error", T("Popraw zaznaczone pola: ", "Correct the marked fields: ")
-                                        + "; ".join(errors[:6]))])
+                                        + "; ".join(errors[:6]))], window=window)
     token = safety.stash({"module": module_id, "db": spec["db"], "table": spec["table"],
                           "op": "insert", "pk": [values.get(ROW_KINDS[module_id]["key"])],
-                          "values": values})
+                          "values": values, "windows": windows})
     return _redirect(base + "?preview=" + token)
 
 
@@ -1013,7 +1036,7 @@ def _row_new_save(module_id, spec, base):
     try:
         # The note is history data and stays as it has always been written.
         safety.insert_row(spec["db"], spec["table"], payload["values"], pages._admin_name(),
-                          note=words["note_new"] % number)
+                          note=words["note_new"] % number, windows=payload.get("windows") or ())
     except safety.Conflict as exc:
         _put_message("error", T("Nie dodano: %s", "Not added: %s") % exc)
         return _redirect(base)
@@ -1025,6 +1048,10 @@ def _row_new_save(module_id, spec, base):
         return _redirect(base)
     render.invalidate_names()
     _put_message("ok", tr(words["added"]) % number)
+    for window_id in payload.get("windows") or ():
+        _put_message("ok", T("Przepis #%s jest na końcu okna NPC „%s”.",
+                             "Recipe #%s is at the end of the NPC window “%s”.")
+                     % (number, modules.window_title(window_id)))
     return _redirect(_detail_url(module_id, spec, [number]))
 
 
@@ -1129,6 +1156,128 @@ def _row_delete(module_id):
     token = safety.stash({"module": module_id, "db": spec["db"], "table": spec["table"],
                           "op": "delete", "pk": keys, "rows": [found[k] for k in keys]})
     return _redirect(base + "?preview=" + token)
+
+
+# -----------------------------------------------------------------------------
+#  Okna NPC wytwarzania (world.crafting_window, Patch 19 pkt 10)
+#
+#  GET  /editsql/crafting/windows          -- lista okien
+#  GET  /editsql/crafting/windows/<okno>   -- przepisy okna po kolei
+#  POST /editsql/crafting/windows          -- add / remove / up / down
+#
+#  Jak pozycja sklepu: jeden wiersz z dwoma liczbami, wiec bez osobnego
+#  podgladu - CSRF panelu, potwierdzenie przy usuwaniu, zapis w transakcji
+#  z wpisem w historii i cofanie z Historii zmian (writes.window_*).
+# -----------------------------------------------------------------------------
+_CRAFTING_BACK = __import__("re").compile(r"^/editsql/crafting(/[A-Za-z0-9_]+)*\Z")
+
+
+def _crafting_windows():
+    spec = editor.module_spec("crafting")
+    if spec is None or not spec.get("available"):
+        return _missing_module()
+    request = db.ns().request
+    if str(request.method).upper() == "POST":
+        return _crafting_windows_post()
+    title = T("Okna NPC", "NPC windows")
+    return render.page(title, modules.crafting_windows_list_html(), active="crafting",
+                       messages_list=_take_messages(), subtitle="world.crafting_window",
+                       crumbs=[(spec["title"], "/editsql/crafting"), (title, None)],
+                       side=render.side_help(T("Okna NPC", "NPC windows"), (
+                           T("Każde okno to lista przepisów, którą pokazuje NPC wytwarzania - "
+                             "kliknij okno, żeby ją zmienić.",
+                             "Every window is the list of recipes a crafting NPC shows - click a "
+                             "window to change it."),
+                           T("Przepis do okna dodasz też na stronie przepisu albo od razu przy jego "
+                             "dodawaniu.",
+                             "You can also add a recipe to a window on the recipe's page, or right "
+                             "when you add it."))))
+
+
+def _crafting_window(window_id):
+    spec = editor.module_spec("crafting")
+    if spec is None or not spec.get("available"):
+        return _missing_module()
+    state = modules.crafting_windows_state()
+    if window_id not in modules.window_ids(state):
+        return render.page(T("Okna NPC", "NPC windows"),
+                           '<div class="esq-note esq-note-warn">%s</div>'
+                           % render._esc(T("Nie ma takiego okna NPC (%s).", "There is no such NPC window (%s).")
+                                         % window_id),
+                           active="crafting", messages_list=_take_messages()), 404
+    title = modules.window_title(window_id)
+    windows = T("Okna NPC", "NPC windows")
+    return render.page(title, modules.crafting_window_html(window_id), active="crafting",
+                       messages_list=_take_messages(), subtitle="world.crafting_window · %s" % window_id,
+                       crumbs=[(spec["title"], "/editsql/crafting"), (windows, modules.WINDOWS_URL),
+                               (title, None)])
+
+
+def _crafting_windows_post():
+    from . import writes
+    request = db.ns().request
+    form = request.form
+    action = str(form.get("action") or "")
+    raw_window, raw_recipe = str(form.get("window") or "").strip(), str(form.get("recipe") or "").strip()
+    window_id = int(raw_window) if safety._DIGITS.match(raw_window) else None
+    back = str(form.get("back") or "")
+    if not _CRAFTING_BACK.match(back) or "//" in back:
+        back = "%s/%s" % (modules.WINDOWS_URL, window_id) if window_id else modules.WINDOWS_URL
+    state = modules.crafting_windows_state()
+    if window_id is None or window_id not in modules.window_ids(state):
+        _put_message("error", T("Nie ma takiego okna NPC.", "There is no such NPC window."))
+        return _redirect(modules.WINDOWS_URL)
+    if not safety._DIGITS.match(raw_recipe) or int(raw_recipe) < 1:
+        _put_message("error", T("Podaj numer przepisu.", "Give the recipe's number."))
+        return _redirect(back)
+    recipe_id = int(raw_recipe)
+    if not state["writable"]:
+        _put_message("error", T("Okien NPC nie można teraz zmieniać z panelu - zobacz notę nad listą.",
+                                "The NPC windows cannot be changed from the panel now - see the note "
+                                "above the list."))
+        return _redirect(back)
+    if window_id not in modules.editable_window_ids(state):
+        # The table does not own this window: the game reads it from the
+        # file, and a first row here would take that whole list away.
+        _put_message("error", T("Tego okna gra nie czyta z tabeli, tylko z pliku paczki - panel go nie "
+                                "zmienia.",
+                                "The game reads this window from the package file, not from the table "
+                                "- the panel does not change it."))
+        return _redirect(back)
+    name = modules.window_title(window_id)
+    # The note is history data, written in Polish as the history always is.
+    note = "Okno wytwarzania %s" % window_id
+    try:
+        if action == "add":
+            place = writes.window_add(window_id, recipe_id, pages._admin_name(), note=note)
+            _put_message("ok", T("Dodano przepis #%s do okna „%s” (miejsce %d). U NPC pokaże się po "
+                                 "restarcie rdzeni („Zastosuj”).",
+                                 "Recipe #%s added to the window “%s” (place %d). It shows at the NPC "
+                                 "after a restart of the cores (“Apply”).") % (recipe_id, name, place))
+        elif action == "remove":
+            writes.window_remove(window_id, recipe_id, pages._admin_name(), note=note)
+            _put_message("ok", T("Usunięto przepis #%s z okna „%s”. Sam przepis został w bazie; "
+                                 "cofniesz to w Historii zmian.",
+                                 "Recipe #%s removed from the window “%s”. The recipe itself stays in "
+                                 "the database; the Change history can undo it.") % (recipe_id, name))
+        elif action in ("up", "down"):
+            moved = writes.window_move(window_id, recipe_id, -1 if action == "up" else 1,
+                                       pages._admin_name(), note=note)
+            if moved:
+                _put_message("ok", T("Przesunięto przepis #%s w oknie „%s”.",
+                                     "Recipe #%s moved in the window “%s”.") % (recipe_id, name))
+            else:
+                _put_message("info", T("Przepis #%s jest już na skraju okna.",
+                                       "Recipe #%s is at the edge of the window already.") % recipe_id)
+        else:
+            _put_message("error", T("Nieznana operacja.", "Unknown operation."))
+    except safety.Conflict as exc:
+        _put_message("error", T("Nie zmieniono okna: %s", "The window was not changed: %s") % exc)
+    except (safety.Denied, safety.Invalid) as exc:
+        _put_message("error", T("Nie mogę zmienić okna: %s", "Cannot change the window: %s") % exc)
+    except Exception as exc:                       # noqa: BLE001
+        _put_message("error", T("Błąd zapisu: %s", "Save error: %s") % exc)
+    return _redirect(back)
 
 
 def _url_quote(value):
@@ -1327,6 +1476,10 @@ def init(module):
     add("/editsql/history", "editsql_history", _history, ("GET", "POST"))
     add("/editsql/apply", "editsql_apply", _apply, ("GET", "POST"))
     add("/editsql/labels", "editsql_labels", _labels, ("GET", "POST"))
+    # The NPC crafting windows: static parts, so they win over the module's
+    # own /<module_id>/<db_name>/<pk> (werkzeug ranks static rules first).
+    add("/editsql/crafting/windows", "editsql_crafting_windows", _crafting_windows, ("GET", "POST"))
+    add("/editsql/crafting/windows/<int:window_id>", "editsql_crafting_window", _crafting_window)
     add("/editsql/<module_id>", "editsql_module", _module)
     # Tylko moduly z spec["rows"]; reszta dostaje 404 (_row_spec).
     add("/editsql/<module_id>/new", "editsql_row_new", _row_new, ("GET", "POST"))

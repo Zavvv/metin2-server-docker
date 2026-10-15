@@ -423,7 +423,12 @@ quest devilcatacomb_zone begin
 						d.setf("devilcatacomb_floor2_stone_clicked", 1)
 						d.setqf2("devilcatacomb_zone","last_exit_time", get_global_time())
 						d.set_item_group ("reapers_credit", 3, setting.reapers_credit3, 1, setting.reapers_credit2, 1, setting.reapers_credit1, 1)
-						d.say_diff_by_item_group("reapers_credit", gameforge.devilcatacomb_zone._250_say, gameforge.devilcatacomb_zone._260_say)
+						-- Each member reads its own language: the two keys are said
+						-- to every member, so the package's table leaves them
+						-- Polish, and the engine hands a member whose client reads
+						-- English the twins after them, Gameforge's own English
+						-- (playerbotify apply_dungeon_say_diff_in).
+						d.say_diff_by_item_group("reapers_credit", gameforge.devilcatacomb_zone._250_say, gameforge.devilcatacomb_zone._260_say, "You own the Shrunken Head and are now being[ENTER]teleported onto the 3rd floor. ", "You do not own a Shrunken Head. Thus you will now[ENTER]be teleported out of the Devil's Catacomb. ")
 						server_timer ("devilcatacomb_floor3_enter_timer", 7, d.get_map_index())
 					end
 				end
@@ -432,13 +437,29 @@ quest devilcatacomb_zone begin
 			end
 		end
 
+		-- The members without a Dried Head go out first, and the floor moves a
+		-- second later in a timer of its own. Sending out a bot - a person's
+		-- companion carries no head unless it is given one - is a move the
+		-- core makes at once, inside this call, and it left the call without
+		-- its dungeon: every d.* after it said "no dungeon", the level stayed
+		-- 2, the rock answered "You will be teleported at any moment" and the
+		-- party stood on the second floor for the rest of its hour (Deranfan,
+		-- 14 October). A server timer of its own selects the dungeon afresh
+		-- whatever the exits did (and WarpBot keeps the call's context too).
 		when devilcatacomb_floor3_enter_timer.server_timer begin
 			if not d.select(get_server_timer_arg()) then
 				return
 			end
-			local setting = devilcatacomb_zone.setting()
 			d.set_warp_location (65, 5914, 992)
 			d.exit_all_by_item_group ("reapers_credit")
+			server_timer ("devilcatacomb_floor3_jump_timer", 1, get_server_timer_arg())
+		end
+
+		when devilcatacomb_floor3_jump_timer.server_timer begin
+			if not d.select(get_server_timer_arg()) then
+				return
+			end
+			local setting = devilcatacomb_zone.setting()
 			d.delete_item_in_item_group_from_all ("reapers_credit")
 			d.purge ()
 			d.jump_all (setting.floor3_entry.x + setting.base.x , setting.floor3_entry.y + setting.base.y)

@@ -17,6 +17,21 @@ every version here.
 
 ---
 
+## 2.2.97 — 2026-10-15
+
+Nowy filtr Auto Łowów, szkatułki bossów i poprawki po 2.2.95. Klient 2.0.103 x64.
+
+- Auto Łowy: nowy filtr podnoszenia z kategoriami, pojedynczymi przedmiotami, Kuponami SM i zapisanymi zestawami; dotychczasowe ustawienia przechodzą do niego same (Colide).
+- Boty zawsze zbierają szkatułki bossów i cały drop z bossa, także z trudnego terenu i z Wieży Demonów (sosen, Tieru).
+- Boty: znów mieszają średnie obrażenia broni 30 lvl (sosen), plan rozwoju ekwipunku sprawniej pracuje u kowala, a stoiska wystawiają więcej towaru (Tyrion, Iwakura).
+- Katakumby Diabła: przejście na 3. piętro z Towarzyszem w drużynie (Deranfan); Towarzysz zbiera drop w walce (NxcK_Os).
+- Nowy świat: opcja „Pomiń misje konia” (RapLow); poprawny rekord obrażeń (Seban, GorącyDelfin, Matthaeus).
+- Klient: [PW] przed nickiem na czacie i skróty kanałów X / X+1-4 (Uxìĕ [DSO]), liczba sztuk tylko przy stosie (blipu, Dekri), poprawki bonusera i otwieracza (blasty).
+- Panel WWW: okna wytwarzania w edytorze (Adijhos). Launcher proponuje aktualizację klienta, gdy serwer jest już najnowszy.
+
+Zaktualizuj serwer i launcher do 2.2.97, uruchom ponownie launcher, następnie zaktualizuj klienta do 2.0.103 (64-bit). Klient i serwer muszą być w tej samej wersji.
+Postacie i ustawienia zostają zachowane. Wydanie chronione. Błędy prosimy zgłaszać przez launcher („Zgłoś błąd”) z opisem.
+
 ## 2.2.96 — 2026-10-14
 
 Poprawka zapisanych kont w kliencie. Klient 2.0.102 x64.

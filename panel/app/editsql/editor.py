@@ -1292,7 +1292,7 @@ def preview_html(spec, row, changes, action, token):
 #  Nowy wiersz (tylko moduly z spec["rows"] - dzis Wytwarzanie)
 # -----------------------------------------------------------------------------
 def insert_form_html(spec, row, action, invalid=(), notes=(),
-                     preview_label=None):
+                     preview_label=None, extra=""):
     """Formularz NOWEGO wiersza. Jak edycja: "Podglad" niczego jeszcze nie zapisuje."""
     if preview_label is None:
         preview_label = T("Podgląd nowego wiersza", "Preview the new row")
@@ -1305,6 +1305,8 @@ def insert_form_html(spec, row, action, invalid=(), notes=(),
                  for name in names]
         if cells:
             parts.append(render.section(title, "".join(cells), hint))
+    # What the new row brings beside its columns (a recipe's NPC window).
+    parts.append(extra)
     parts.append(render.actions(
         ((preview_label, "primary", 'name="action" value="preview"'),
          (T("Przywróć wartości", "Reset values"), "reset", ""),

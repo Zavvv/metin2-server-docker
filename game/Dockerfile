@@ -133,6 +133,9 @@ RUN set -eux; \
     # starter_kit dresses a player's new character in the world's starter
     # kit, M2_STARTER_KIT (the operator, 30 September); the seed dresses
     # the bots it makes.
+    # horse_skip gives a player's new character the Armed Horse (level 11)
+    # and its book while M2_SKIP_HORSE_QUESTS is on, in place of the stable
+    # keeper's first three errands (RapLow and Tieru, 14 October).
     # dragon_soul, dragon_soul_refine and dragon_soul_shop are the Dragon
     # Stone Alchemy at the Alchemist (20001) - the letter at thirty, the
     # shards, the refine window and his shop - from quest/_unused, offered
@@ -148,7 +151,7 @@ RUN set -eux; \
     # hexagonal_event drops the hexagonal chest of the map a person broke a
     # Metin stone on while the panel's Events page runs the event (Kiciamol,
     # 14 October; the rules are m2_hexagonal_event.lua's).
-    for q in item_trash remote_storekeeper switchbot_notify web_admin speed_boost starter_chest starter_kit pony_levelup gm_profile new_quest_lv19 teleport_ring pony_buy horse_upgrade horse_upgrade2 horse_levelup deviltower_zone fishing_pass_shop collect_herb_lv4 collect_herb_lv7 collect_herb_lv10 collect_herb_lv15 collect_herb_lv20 collect_herb_lv25 collect_quest_lv30 collect_quest_lv40 collect_quest_lv50 collect_quest_lv60 collect_quest_lv70 collect_quest_lv80 collect_quest_lv85 collect_quest_lv90 towarzysz devilcatacomb_zone check_trans_ticket heavens_cave_keyquest tanaka_ears autohunt_time antiexp_ring seon_pyeong flea_market playerbot_lang subquest_21 subquest_39 oxevent_manager dragon_soul dragon_soul_refine dragon_soul_shop dragon_soul_switch world_drops hexagonal_event; do \
+    for q in item_trash remote_storekeeper switchbot_notify web_admin speed_boost starter_chest starter_kit horse_skip pony_levelup gm_profile new_quest_lv19 teleport_ring pony_buy horse_upgrade horse_upgrade2 horse_levelup deviltower_zone fishing_pass_shop collect_herb_lv4 collect_herb_lv7 collect_herb_lv10 collect_herb_lv15 collect_herb_lv20 collect_herb_lv25 collect_quest_lv30 collect_quest_lv40 collect_quest_lv50 collect_quest_lv60 collect_quest_lv70 collect_quest_lv80 collect_quest_lv85 collect_quest_lv90 towarzysz devilcatacomb_zone check_trans_ticket heavens_cave_keyquest tanaka_ears autohunt_time antiexp_ring seon_pyeong flea_market playerbot_lang subquest_21 subquest_39 oxevent_manager dragon_soul dragon_soul_refine dragon_soul_shop dragon_soul_switch world_drops hexagonal_event; do \
       [ -f "/quest-add/$q.quest" ] || continue; \
       sed 's/\r$//' "/quest-add/$q.quest" > "/tmp/qc-work/$q.quest"; \
       ( cd /tmp/qc-work && /usr/local/bin/qc "$q.quest" ); \

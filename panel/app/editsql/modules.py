@@ -399,49 +399,208 @@ def related_refine_items(spec, row):
 
 
 # -----------------------------------------------------------------------------
-#  Wytwarzanie: okna NPC z paczki gry
+#  Wytwarzanie: okna NPC (world.crafting_window)
 #
-#  Okno wytwarzania NPC wymienia przepisy PO NUMERZE w pliku serwera
-#  quest/libs/crafting/crafting_data.lua (mt2009), ktorego panel nie widzi.
-#  Ponizej jest lista z paczki - tylko do ostrzezen: nowy przepis bez numeru na
-#  liscie okna nie pojawi sie w grze, a usuniety numer, ktory lista dalej
-#  wymienia, przerywa quest okna (crafting.send_avail/send_recipes czytaja
-#  przepis bez sprawdzenia, czy jest). Edytor niczego tu nie blokuje.
+#  Okno wytwarzania NPC wymienia przepisy PO NUMERZE. Paczka gry trzyma te
+#  listy w quest/libs/crafting/crafting_data.lua; od Patcha 19 (pkt 10) gra
+#  czyta je z tabeli world.crafting_window (mariadb/playerbot/
+#  crafting_windows.sql zasiewa ja raz listami z paczki, a
+#  quest/m2_crafting_windows.lua czyta ja, gdy rdzen laduje questy). Tabela
+#  posiada kazde okno, ktore wymienia - wierszem albo nazwa w
+#  world.crafting_window_name - wiec okno oproznione tutaj zostaje puste. Plik
+#  liczy sie jeszcze w dwoch razach: gdy tabeli nie ma albo jest pusta (wtedy
+#  wszystkie okna sa z pliku, a panel pokazuje listy z paczki ponizej i niczego
+#  nie zmienia), i dla numerow dopisanych do pliku recznie, spoza listy paczki,
+#  ktore gra dokłada na koniec okna (Adijhos, 14 pazdziernika) - tych panel nie
+#  widzi. Przepis, ktorego nie ma w crafting_proto, gra pomija.
 # -----------------------------------------------------------------------------
 CRAFTING_DATA_FILE = "quest/libs/crafting/crafting_data.lua"
+WINDOW_TABLE = ("world", "crafting_window")
+WINDOW_NAME_TABLE = ("world", "crafting_window_name")
+WINDOWS_URL = "/editsql/crafting/windows"
 _GUILD_SMELTING = P("Przetapianie gildii", "Guild smelting")
+# (numer okna, nazwa, NPC, przepisy z paczki). Numer okna jest numerem z
+# crafting_data.lua: 101..110 dla okien nazwanych (CRAFTING_BLACKSMITH = 101
+# ... CRAFTING_BUM = 110), vnum NPC dla alchemikow gildii. Te same listy sa w
+# crafting_windows.sql i w m2_crafting_windows.lua (PACKAGE) -
+# tests/crafting_windows_lists_test.py pilnuje, zeby byly jednakowe.
 CRAFTING_WINDOWS = (
-    (P("Kowal", "Blacksmith"), (20016,), tuple(range(1, 7))),
-    (P("Baek-Go (zielarstwo)", "Baek-Go (herbalism)"), (20018,),
+    (101, P("Kowal", "Blacksmith"), (20016,), tuple(range(1, 7))),
+    (102, P("Baek-Go (zielarstwo)", "Baek-Go (herbalism)"), (20018,),
      tuple(range(11, 58)) + (67, 68, 71, 72, 73, 74) + tuple(range(78, 89)) + (92, 93, 94, 95)),
-    (P("Kucharz", "Cook"), (20008,), (90, 91)),
-    ("Heuk-Young", (20090,), (100, 101, 102, 103)),
-    (P("Stajenny", "Stable keeper"), (20349,), (151, 152)),
-    (P("Strzały", "Arrows"), (11001, 11003, 11005), tuple(range(8001, 8006))),
-    (P("Czarna stal", "Black steel"), (20402,), (201, 202, 203, 204)),
-    ("Nakajima", (20364,), (301, 302, 303)),
-    (P("Alchemik (rudy)", "Alchemist (ores)"), (20001,), tuple(range(351, 363))),
-    (P("Włóczęga", "Wanderer"), (20041,), (221,)),
-    (_GUILD_SMELTING, (20060,), (50621,)),
-) + tuple((_GUILD_SMELTING, (npc,), (50623 + npc - 20062,)) for npc in range(20062, 20073))
+    (103, P("Kucharz", "Cook"), (20008,), (90, 91)),
+    (104, "Heuk-Young", (20090,), (100, 101, 102, 103)),
+    (105, P("Stajenny", "Stable keeper"), (20349,), (151, 152)),
+    (106, P("Strzały", "Arrows"), (11001, 11003, 11005), tuple(range(8001, 8006))),
+    (107, P("Czarna stal", "Black steel"), (20402,), (201, 202, 203, 204)),
+    (108, "Nakajima", (20364,), (301, 302, 303)),
+    (109, P("Alchemik (rudy)", "Alchemist (ores)"), (20001,), tuple(range(351, 363))),
+    (110, P("Włóczęga", "Wanderer"), (20041,), (221,)),
+    (20060, _GUILD_SMELTING, (20060,), (50621,)),
+) + tuple((npc, _GUILD_SMELTING, (npc,), (50623 + npc - 20062,)) for npc in range(20062, 20073))
+_WINDOWS_BY_ID = {entry[0]: entry for entry in CRAFTING_WINDOWS}
 
 
-def crafting_windows_of(vnum):
-    """[(nazwa okna, (npc,...))] z paczki, ktore wymieniaja ten numer przepisu."""
+def package_windows():
+    """{numer okna: [przepisy]} - listy z paczki gry (stan pliku, gdy tabeli nie ma)."""
+    return {entry[0]: list(entry[3]) for entry in CRAFTING_WINDOWS}
+
+
+def crafting_windows_state():
+    """Okna NPC tak, jak przeczyta je quest przy starcie rdzeni (m2_crafting_windows.lua).
+
+    source "table": okna sa z tabeli (te, ktore tabela posiada); "package":
+    gra czyta wszystko z pliku, a "why" mowi czemu - "missing", "empty",
+    "unreadable". "writable": czy panel moze zmieniac tabele.
+    """
+    state = {"source": "package", "why": None, "windows": package_windows(), "owned": set(),
+             "writable": False, "error": ""}
+    table = schema.table(*WINDOW_TABLE)
+    if table is None:
+        state["why"] = "missing"
+        return state
+    try:
+        rows = db.query("SELECT %s AS w, %s AS r FROM %s ORDER BY %s, %s, %s"
+                        % (db.qi("window_id"), db.qi("recipe_id"), db.qt(*WINDOW_TABLE),
+                           db.qi("window_id"), db.qi("sort_order"), db.qi("recipe_id")))
+    except Exception as exc:                       # noqa: BLE001 - stan na ekran
+        state["why"], state["error"] = "unreadable", str(exc)
+        return state
+    if not rows:
+        state["why"] = "empty"
+        return state
+    names = set()
+    if schema.table(*WINDOW_NAME_TABLE) is not None:
+        try:
+            names = {int(row["w"]) for row in db.query("SELECT %s AS w FROM %s"
+                                                        % (db.qi("window_id"), db.qt(*WINDOW_NAME_TABLE)))}
+        except Exception:                          # noqa: BLE001 - quest tez wtedy liczy same wiersze
+            names = set()
+    windows = {}
+    for row in rows:
+        windows.setdefault(int(row["w"]), []).append(int(row["r"]))
+    owned = set(windows) | names
+    effective = state["windows"]
+    for window_id in owned:
+        effective[window_id] = windows.get(window_id, [])
+    from . import writes
+    try:
+        writes._window(table)
+        writable = schema.writable(*WINDOW_TABLE)[0]
+    except safety.Denied:
+        writable = False
+    state.update(source="table", owned=owned, writable=writable)
+    return state
+
+
+def window_ids(state):
+    """Okna do pokazania: z paczki w jej kolejnosci, potem inne okna tabeli."""
+    ids = [entry[0] for entry in CRAFTING_WINDOWS]
+    return ids + sorted(w for w in state["owned"] if w not in _WINDOWS_BY_ID)
+
+
+def window_title(window_id):
+    entry = _WINDOWS_BY_ID.get(window_id)
+    return tr(entry[1]) if entry else T("Okno %s", "Window %s") % window_id
+
+
+def window_npcs(window_id):
+    entry = _WINDOWS_BY_ID.get(window_id)
+    return entry[2] if entry else ()
+
+
+def _window_link(window_id):
+    npcs = window_npcs(window_id)
+    return ('<a href="%s/%s">%s</a>%s'
+            % (WINDOWS_URL, render._esc(window_id), render._esc(window_title(window_id)),
+               (" (%s)" % " ".join(render.link_mob(n) for n in npcs)) if npcs else ""))
+
+
+def crafting_windows_of(vnum, state=None):
+    """Numery okien NPC, w ktorych ten przepis jest (wg tabeli albo paczki)."""
     try:
         number = int(vnum)
     except (TypeError, ValueError):
         return []
-    return [(title, npcs) for title, npcs, numbers in CRAFTING_WINDOWS if number in numbers]
+    state = state or crafting_windows_state()
+    return [w for w in window_ids(state) if number in state["windows"].get(w, ())]
 
 
 def _windows_text(windows):
-    return ", ".join("%s (%s)" % (render._esc(title), " ".join(render.link_mob(n) for n in npcs))
-                     for title, npcs in windows)
+    return ", ".join(_window_link(w) for w in windows)
 
 
-def crafting_window_note(vnum, deleting=False):
-    windows = crafting_windows_of(vnum)
+def crafting_source_note(state, short=False):
+    """Skad gra bierze okna NPC - nota nad listami i formularzami wytwarzania."""
+    if state["source"] == "table":
+        if short:
+            return ""
+        return ('<div class="esq-note esq-note-info">%s</div>'
+                % (T('Okna NPC czytają swoje przepisy z tabeli <b>world.crafting_window</b> - '
+                     'zmiana pokaże się u NPC po restarcie rdzeni (<a href="/editsql/apply">'
+                     '„Zastosuj”</a>). Numery dopisane ręcznie do %s (spoza listy paczki) gra '
+                     'nadal dokłada na koniec okna; panel ich nie widzi - przenieś je tutaj, bo '
+                     'aktualizacja serwera może nadpisać ten plik.',
+                     'The NPC windows read their recipes from the table '
+                     '<b>world.crafting_window</b> - a change shows at the NPC after a restart of '
+                     'the cores (<a href="/editsql/apply">“Apply”</a>). Numbers added to %s by '
+                     'hand (off the package\'s list) are still put at the end of the window by '
+                     'the game; the panel cannot see them - move them here, because a server '
+                     'update may overwrite that file.') % CRAFTING_DATA_FILE))
+    why = state.get("why")
+    if why == "missing":
+        text = T('Ten świat nie ma jeszcze tabeli <b>world.crafting_window</b>, więc okna NPC '
+                 'czytają listy z pliku %s. Panel pokazuje listy z paczki gry i nie może ich '
+                 'zmienić; tabelę zakłada migracja bazy przy starcie świata po aktualizacji '
+                 'serwera.',
+                 'This world has no <b>world.crafting_window</b> table yet, so the NPC windows '
+                 'read their lists from the file %s. The panel shows the game package\'s lists '
+                 'and cannot change them; the table is made by the database migration when the '
+                 'world starts after a server update.') % CRAFTING_DATA_FILE
+    elif why == "empty":
+        text = T('Tabela <b>world.crafting_window</b> jest pusta, więc okna NPC czytają listy '
+                 'z pliku %s. Panel pokazuje listy z paczki gry i nie wypełnia pustej tabeli: '
+                 'pierwszy wiersz zostawiłby pozostałe okna puste.',
+                 'The table <b>world.crafting_window</b> is empty, so the NPC windows read '
+                 'their lists from the file %s. The panel shows the game package\'s lists and '
+                 'does not fill an empty table: a first row would leave the other windows '
+                 'empty.') % CRAFTING_DATA_FILE
+    else:
+        text = (T('Nie mogę przeczytać tabeli <b>world.crafting_window</b> (%s) - pokazuję listy '
+                  'z paczki gry i niczego nie zmieniam.',
+                  'Cannot read the table <b>world.crafting_window</b> (%s) - showing the game '
+                  'package\'s lists and changing nothing.') % render._esc(state.get("error")))
+    return '<div class="esq-note esq-note-warn">%s</div>' % text
+
+
+def crafting_window_note(vnum, deleting=False, chosen=None, state=None):
+    state = state or crafting_windows_state()
+    windows = crafting_windows_of(vnum, state)
+    if state["source"] == "table":
+        if deleting:
+            if not windows:
+                return ""
+            return ('<div class="esq-note esq-note-warn">%s</div>'
+                    % (T('Przepis <b>#%s</b> jest w oknie wytwarzania %s. Usunięcie zdejmie go też '
+                         'z tego okna, w tej samej operacji - jedno „Cofnij” w Historii zmian '
+                         'przywróci przepis razem z oknem.',
+                         'Recipe <b>#%s</b> is in the crafting window %s. The deletion takes it '
+                         'out of that window too, in the same operation - one “Undo” in the '
+                         'Change history brings the recipe back together with its window.')
+                       % (render._esc(vnum), _windows_text(windows))))
+        if chosen:
+            return ('<div class="esq-note esq-note-info">%s</div>'
+                    % (T('Przepis <b>#%s</b> trafi na koniec okna wytwarzania %s - pojawi się tam '
+                         'po restarcie rdzeni.',
+                         'Recipe <b>#%s</b> goes at the end of the crafting window %s - it shows '
+                         'there after a restart of the cores.')
+                       % (render._esc(vnum), _windows_text(chosen))))
+        return ('<div class="esq-note esq-note-warn">%s</div>'
+                % (T('Nie wybrano okna NPC: przepis <b>#%s</b> będzie w bazie, ale gracz zobaczy go '
+                     'dopiero w oknie, do którego go dodasz (na stronie przepisu albo w „Okna NPC”).',
+                     'No NPC window chosen: recipe <b>#%s</b> will be in the database, but a player '
+                     'sees it only in a window you add it to (on the recipe\'s page or under '
+                     '“NPC windows”).') % render._esc(vnum)))
     if deleting:
         if not windows:
             return ""
@@ -473,23 +632,245 @@ def crafting_window_note(vnum, deleting=False):
                % (render._esc(vnum), CRAFTING_DATA_FILE)))
 
 
+def editable_window_ids(state):
+    """Okna, ktore panel moze zmieniac: tylko te, ktore tabela juz posiada.
+
+    Okno, ktorego tabela nie wymienia, gra czyta z pliku; jego pierwszy wiersz
+    w tabeli zabralby mu cala liste z pliku i zostawil ten jeden przepis."""
+    if not state["writable"]:
+        return []
+    return [w for w in window_ids(state) if w in state["owned"]]
+
+
+def _window_choices(state, leave_out=()):
+    """[(numer okna, etykieta)] dla listy wyboru okna."""
+    ids = editable_window_ids(state)
+    render.prefetch_names("mob", [n for w in ids for n in window_npcs(w)])
+    out = []
+    for window_id in ids:
+        if window_id in leave_out:
+            continue
+        npcs = ", ".join(render.mob_name(n) or str(n) for n in window_npcs(window_id))
+        out.append((window_id, "%s%s" % (window_title(window_id), (" - %s" % npcs) if npcs else "")))
+    return out
+
+
+def _window_post(action, window_id, recipe_id, label, kind="small", back="", confirm=""):
+    """Jeden przycisk zmiany okna (POST z CSRF na /editsql/crafting/windows)."""
+    return ('<form method="post" action="%s" class="esq-inline-form">%s'
+            '<input type="hidden" name="action" value="%s" />'
+            '<input type="hidden" name="window" value="%s" />'
+            '<input type="hidden" name="recipe" value="%s" />%s'
+            '<button class="esq-btn esq-btn-small%s" type="submit"%s>%s</button></form>'
+            % (WINDOWS_URL, render.csrf_input(), render._esc(action), render._esc(window_id),
+               render._esc(recipe_id),
+               ('<input type="hidden" name="back" value="%s" />' % render._esc(back)) if back else "",
+               (" esq-btn-" + kind) if kind != "small" else "",
+               (' data-confirm="%s"' % render._esc(confirm)) if confirm else "",
+               render._esc(label)))
+
+
+def crafting_window_picker(selected=None, state=None):
+    """Wybor okna NPC w formularzu NOWEGO przepisu (tylko gdy panel zmienia tabele)."""
+    state = state or crafting_windows_state()
+    if not state["writable"]:
+        return crafting_source_note(state)
+    choices = [("", T("— żadne —", "— none —"))] + _window_choices(state)
+    return render.section(
+        T("Okno NPC", "NPC window"),
+        render.field("esq_window", P("Dodaj do okna", "Add to the window"), selected,
+                     widget="select", choices=choices),
+        T("Przepis trafi na koniec wybranego okna w tej samej operacji co dodanie. Do kolejnych "
+          "okien dodasz go na jego stronie.",
+          "The recipe goes at the end of the chosen window in the same operation as the "
+          "addition. You add it to further windows on its page."))
+
+
 def related_crafting_window(spec, row):
-    """Dla przepisu wytwarzania: w ktorym oknie NPC go widac."""
-    windows = crafting_windows_of(row.get("vnum"))
-    body = (_kv([(T("Okno NPC", "NPC window"), _windows_text(windows))]) if windows else
-            '<p class="esq-empty">%s</p>' % render._esc(T(
-                "Żadne okno wytwarzania z paczki gry nie wymienia tego numeru - gracz go nie zobaczy.",
-                "No crafting window of the game package lists this number - a player will not see it.")))
-    return render.box(T("Okno wytwarzania", "Crafting window"), body,
-                      T("Lista okien pochodzi z %s w paczce gry; panel nie widzi tego pliku na "
-                        "serwerze.",
-                        "The list of windows comes from %s in the game package; the panel cannot "
-                        "see that file on the server.") % CRAFTING_DATA_FILE)
+    """Dla przepisu wytwarzania: w ktorych oknach NPC go widac - i zmiana tego."""
+    state = crafting_windows_state()
+    vnum = row.get("vnum")
+    windows = crafting_windows_of(vnum, state)
+    if state["source"] != "table":
+        body = (_kv([(T("Okno NPC", "NPC window"), _windows_text(windows))]) if windows else
+                '<p class="esq-empty">%s</p>' % render._esc(T(
+                    "Żadne okno wytwarzania z paczki gry nie wymienia tego numeru - gracz go nie zobaczy.",
+                    "No crafting window of the game package lists this number - a player will not see it.")))
+        return render.box(T("Okno wytwarzania", "Crafting window"), crafting_source_note(state) + body)
+    here = "/editsql/crafting/world/%s" % render._esc(vnum)
+    body = []
+    for window_id in windows:
+        listed = state["windows"].get(window_id, [])
+        place = listed.index(int(vnum)) + 1
+        act = (_window_post("remove", window_id, vnum, T("Usuń z okna", "Remove from the window"),
+                            "danger", here,
+                            T("Usunąć przepis #%s z okna %s? Sam przepis zostaje w bazie.",
+                              "Remove recipe #%s from the window %s? The recipe itself stays in "
+                              "the database.") % (vnum, window_title(window_id)))
+               if window_id in editable_window_ids(state) else "")
+        body.append(("", [_window_link(window_id),
+                          ("esq-c-num", render._esc(T("%d. z %d", "%d of %d") % (place, len(listed)))),
+                          ("esq-c-act", act)]))
+    html = render.table([T("Okno NPC", "NPC window"), T("Miejsce", "Place"), ""], body,
+                        empty=T("Żadne okno NPC nie wymienia tego przepisu - gracz go nie zobaczy.",
+                                "No NPC window lists this recipe - a player will not see it."))
+    if state["writable"]:
+        choices = _window_choices(state, leave_out=windows)
+        if choices:
+            html += ('<form method="post" action="%s" class="esq-toolbar esq-add-form">%s'
+                     '<input type="hidden" name="action" value="add" />'
+                     '<input type="hidden" name="recipe" value="%s" />'
+                     '<input type="hidden" name="back" value="%s" />'
+                     '<div class="esq-tb-field"><label for="add_window">%s</label>'
+                     '<select id="add_window" name="window">%s</select></div>'
+                     '<div class="esq-tb-buttons"><button class="esq-btn esq-btn-small esq-btn-go" '
+                     'type="submit">%s</button></div></form>'
+                     % (WINDOWS_URL, render.csrf_input(), render._esc(vnum), here,
+                        render._esc(T("Okno NPC", "NPC window")),
+                        "".join('<option value="%s">%s</option>' % (render._esc(w), render._esc(label))
+                                for w, label in choices),
+                        render._esc(T("Dodaj do okna", "Add to the window"))))
+    return render.box(T("Okno wytwarzania", "Crafting window"), html,
+                      T("Okna NPC czytają przepisy z tabeli world.crafting_window; zmiana pokaże się "
+                        "u NPC po restarcie rdzeni. Każde dodanie i usunięcie trafia do Historii zmian.",
+                        "The NPC windows read their recipes from the table world.crafting_window; a "
+                        "change shows at the NPC after a restart of the cores. Every addition and "
+                        "removal goes into the Change history."))
+
+
+def crafting_windows_box():
+    """Na liscie przepisow: odnosnik do okien NPC i skad je gra czyta."""
+    state = crafting_windows_state()
+    count = len(window_ids(state))
+    return render.box(T("Okna NPC", "NPC windows"),
+                      crafting_source_note(state) +
+                      '<p><a class="esq-btn esq-btn-small" href="%s">%s</a></p>'
+                      % (WINDOWS_URL, render._esc(T("Okna NPC (%d) - które przepisy pokazuje każdy NPC",
+                                                    "NPC windows (%d) - which recipes each NPC shows")
+                                                  % count)))
+
+
+def _crafting_rows_of(vnums):
+    """{przepis: wiersz crafting_proto} dla podanych numerow (bez blokad)."""
+    wanted = sorted({int(v) for v in vnums})
+    table = schema.table("world", "crafting_proto")
+    if table is None or not wanted:
+        return {}
+    rows = db.query("SELECT * FROM %s WHERE %s IN (%s)"
+                    % (db.qt("world", "crafting_proto"), db.qi("vnum"), ",".join(["%s"] * len(wanted))),
+                    tuple(wanted))
+    return {int(row["vnum"]): safety.decode_row(table, row) for row in rows}
+
+
+def crafting_windows_list_html():
+    """Strona "Okna NPC": kazde okno, jego NPC i przepisy."""
+    state = crafting_windows_state()
+    ids = window_ids(state)
+    render.prefetch_names("mob", [n for w in ids for n in window_npcs(w)])
+    recipes = _crafting_rows_of([r for w in ids for r in state["windows"].get(w, ())[:6]])
+    render.prefetch_names("item", [row.get("item_vnum") for row in recipes.values()])
+    body = []
+    for window_id in ids:
+        listed = state["windows"].get(window_id, [])
+        shown = []
+        for recipe in listed[:6]:
+            row = recipes.get(recipe)
+            shown.append(render.link_item(row.get("item_vnum"), show_vnum=False) if row else
+                         '<span class="esq-dim">#%s</span>' % render._esc(recipe))
+        if len(listed) > 6:
+            shown.append('<span class="esq-dim">%s</span>'
+                         % render._esc(T("i %d więcej", "and %d more") % (len(listed) - 6)))
+        source = (T("tabela", "table") if state["source"] == "table" and window_id in state["owned"]
+                  else T("plik paczki", "package file"))
+        body.append(("", [
+            ("esq-c-key", '<a href="%s/%s">%s</a>' % (WINDOWS_URL, render._esc(window_id),
+                                                       render._esc(window_title(window_id)))),
+            " ".join(render.link_mob(n) for n in window_npcs(window_id)) or
+            '<span class="esq-dim">—</span>',
+            ("esq-c-num", render._esc(len(listed))),
+            ("esq-c-ref", " ".join(shown) or '<span class="esq-dim">%s</span>'
+             % render._esc(T("puste", "empty"))),
+            render.badge(source)]))
+    return crafting_source_note(state) + render.table(
+        [T("Okno", "Window"), "NPC", T("Przepisy", "Recipes"), T("Pierwsze przepisy", "First recipes"),
+         T("Źródło", "Source")], body)
+
+
+def crafting_window_html(window_id):
+    """Strona jednego okna: przepisy po kolei, przesuwanie, usuwanie i dodawanie."""
+    state = crafting_windows_state()
+    listed = state["windows"].get(window_id, [])
+    recipes = _crafting_rows_of(listed)
+    render.prefetch_names("item", [row.get("item_vnum") for row in recipes.values()])
+    render.prefetch_names("mob", window_npcs(window_id))
+    writable = state["writable"] and window_id in state["owned"]
+    here = "%s/%s" % (WINDOWS_URL, window_id)
+    body = []
+    for place, recipe in enumerate(listed, 1):
+        row = recipes.get(recipe)
+        acts = ""
+        if writable:
+            acts = "".join([
+                _window_post("up", window_id, recipe, "↑") if place > 1 else "",
+                _window_post("down", window_id, recipe, "↓") if place < len(listed) else "",
+                _window_post("remove", window_id, recipe, T("Usuń z okna", "Remove from the window"),
+                             "danger", here,
+                             T("Usunąć przepis #%s z okna %s? Sam przepis zostaje w bazie.",
+                               "Remove recipe #%s from the window %s? The recipe itself stays in "
+                               "the database.") % (recipe, window_title(window_id)))])
+        if row is None:
+            result = ('<span class="esq-ref esq-ref-missing">%s</span>'
+                      % render._esc(T("nie ma takiego przepisu w crafting_proto - gra go pomija",
+                                      "no such recipe in crafting_proto - the game skips it")))
+            count = chance = ""
+        else:
+            result = render.link_item(row.get("item_vnum"))
+            count, chance = render._esc(row.get("count")), "%s%%" % render._esc(row.get("chance"))
+        body.append(("", [("esq-c-num", render._esc(place)),
+                          ("esq-c-key", '<a href="/editsql/crafting/world/%s">#%s</a>'
+                           % (render._esc(recipe), render._esc(recipe))),
+                          ("esq-c-ref", result), ("esq-c-num", count), ("esq-c-num", chance),
+                          ("esq-c-act", acts)]))
+    npcs = window_npcs(window_id)
+    note = crafting_source_note(state)
+    if state["source"] == "table" and window_id not in state["owned"]:
+        note += ('<div class="esq-note esq-note-warn">%s</div>'
+                 % render._esc(T("Tabela nie wymienia tego okna, więc gra czyta je z pliku paczki - "
+                                 "poniżej lista z paczki; panel jej nie zmienia.",
+                                 "The table does not name this window, so the game reads it from "
+                                 "the package file - below is the package's list; the panel does not "
+                                 "change it.")))
+    html = [note,
+            _kv([(T("Okno", "Window"), render._esc(window_id)),
+                 ("NPC", " ".join(render.link_mob(n) for n in npcs) or "—")]),
+            render.table([T("Poz.", "Pos."), T("Przepis", "Recipe"), T("Wynik", "Result"),
+                          T("Ilość", "Count"), T("Szansa", "Chance"), ""], body,
+                         empty=T("Okno jest puste - NPC nie pokaże żadnego przepisu.",
+                                 "The window is empty - the NPC shows no recipe."))]
+    if writable:
+        html.append('<form method="post" action="%s" class="esq-toolbar esq-add-form">%s'
+                    '<input type="hidden" name="action" value="add" />'
+                    '<input type="hidden" name="window" value="%s" />'
+                    '<div class="esq-tb-field"><label for="add_recipe">%s</label>'
+                    '<input type="number" min="1" id="add_recipe" name="recipe" required /></div>'
+                    '<div class="esq-tb-buttons"><button class="esq-btn esq-btn-small esq-btn-go" '
+                    'type="submit">%s</button></div></form>'
+                    % (WINDOWS_URL, render.csrf_input(), render._esc(window_id),
+                       render._esc(T("Numer przepisu", "Recipe number")),
+                       render._esc(T("Dodaj na koniec okna", "Add at the end of the window"))))
+    return render.box(T("Przepisy w oknie (%d)", "Recipes in the window (%d)") % len(listed),
+                      "".join(html),
+                      T("Kolejność to kolejność w oknie gry. Każda zmiana trafia do Historii zmian, "
+                        "skąd można ją cofnąć; u NPC pokaże się po restarcie rdzeni.",
+                        "The order is the order in the game's window. Every change goes into the "
+                        "Change history, where it can be undone; it shows at the NPC after a "
+                        "restart of the cores."))
 
 
 def crafting_rows_table(rows):
     """Przepisy do usuniecia, z tym, co robia - na ekranie potwierdzenia."""
     from . import editor
+    state = crafting_windows_state()
     render.prefetch_names("item", [r.get("item_vnum") for r in rows] +
                           [v for r in rows for v in editor._pairs(r.get("recipe"))[0::2]])
     body = []
@@ -498,7 +879,7 @@ def crafting_rows_table(rows):
         mats = "".join('<span class="esq-mat">%s<b>&times;%s</b></span>'
                        % (render.link_item(v, show_vnum=False), render._esc(c))
                        for v, c in zip(numbers[0::2], numbers[1::2]))
-        windows = crafting_windows_of(row.get("vnum"))
+        windows = crafting_windows_of(row.get("vnum"), state)
         body.append(("", [
             ("esq-c-key", '<a href="/editsql/crafting/world/%s">#%s</a>'
              % (render._esc(row.get("vnum")), render._esc(row.get("vnum")))),
@@ -511,7 +892,7 @@ def crafting_rows_table(rows):
             '<span class="esq-dim">%s</span>' % render._esc(T("żadne", "none"))]))
     return render.table([T("Przepis", "Recipe"), T("Wynik", "Result"), T("Ilość", "Count"), "Yang",
                          T("Szansa", "Chance"), T("Składniki", "Ingredients"),
-                         T("Okno NPC (paczka)", "NPC window (package)")], body)
+                         T("Okno NPC", "NPC window")], body)
 
 
 # -----------------------------------------------------------------------------

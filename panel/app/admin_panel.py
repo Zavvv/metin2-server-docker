@@ -26351,10 +26351,16 @@ def _ix_part_patch18(ex, _cur):
           "part_item_id", "part_vnum", "part_plus", "part_target_plus", "refine_reason", "bonus_reason")),
         # Patch 19, point 1D: the copy as a spare and the step's way; a file
         # of its own beside eq_plan.tsv, whose width the bot card reads.
-        ("eq_plan_p19.tsv", "playerbot_eq_plan_p19.tsv", "#PB19EQ1",
+        # #PB19EQ2 (14 October): whether the smith takes this slot's step now
+        # (front), whether it has everything (resourced), what holds it
+        # (blocker: deferred / not_front / yang / material_bag / way /
+        # bag_candidate / pvp_phase / attempts / not_eligible / none) and what
+        # has the bot at the smith (smith_task: plan / sale / gambler /
+        # perfectionist / curiosity / bonus / other / none).
+        ("eq_plan_p19.tsv", "playerbot_eq_plan_p19.tsv", "#PB19EQ2",
          ("unix_ts", "pid", "slot", "project_id", "project_worn", "copy1_id", "copy1_usable",
           "copy1_reason", "usable_spares", "step_way", "plain_verdict", "window_elapsed_ms",
-          "window_attempts")))
+          "window_attempts", "front", "resourced", "blocker", "smith_task")))
     for part, filename, magic, columns in definitions:
         found, rows = _ix_core_tsv(ex, part, filename, magic, len(columns))
         if not found:
@@ -27494,6 +27500,75 @@ def _ix_part_meetings(ex, cur):
                               "y", "outcome_code", "outcome", "minutes", "furthest", "reason"), out)
 
 
+# Tyrion's audit of 14 October, part 2 (S6 and S7): every core's
+# playerbot_shop_visits.tsv (#PB19V1, its last 40 000 rows), a row a bot's
+# visit at its counter - the stall pass opening a stand (open), an offline
+# stand's service chain of add steps (service), an expired stand's renewal
+# (renew): what the scan looked at, what it handed on, what went up, and for
+# every bag item that stayed the one reason why (playerbot_shop_visit_rules.h,
+# whose FILE_HEADER the columns are, and whose EReject numbers never change).
+# shop_visits_hourly.tsv adds them up by hour, kind, end and liquidation.
+IWAKURA_SHOP_VISIT_FIELDS = 25
+IWAKURA_SHOP_VISIT_REJECTS = ("plan", "protected", "held", "antiflag", "supplies", "biologist", "gear_keep",
+                              "policy", "reserve", "kantor", "scorer", "line_cap", "no_slot")
+IWAKURA_SHOP_VISIT_KINDS = ("open", "service", "renew")
+IWAKURA_SHOP_VISIT_ENDS = ("opened", "open_refused", "nothing", "added", "none", "renewed", "renew_refused")
+# EPlayerBotShopReason (playerbot_types.h) by its number; 0 is none/unknown.
+IWAKURA_SHOP_OPEN_REASONS = ("unknown", "merchant", "poor", "bag_full", "dropper_pressure", "books",
+                             "dropper_roll", "roll", "spare", "hoard")
+
+
+def _ix_part_shop_visits(ex, cur):
+    """Every visit a bot made at its counter, as the cores wrote them, and
+    the visits added up by the hour."""
+    found, rows = _ix_core_tsv(ex, "shop_visits.tsv", "playerbot_shop_visits.tsv", "#PB19V1",
+                               IWAKURA_SHOP_VISIT_FIELDS)
+    if not found:
+        ex.problem("shop_visits.tsv", "no core has written playerbot_shop_visits.tsv yet")
+    parsed, bad = [], 0
+    for channel, core, f in rows:
+        numbers = [f[0], f[2], f[3], f[5], f[6], f[7], f[8], f[9], f[10]] + f[12:]
+        kind, end = f[4].strip(), f[11].strip()
+        if (not all(re.match(r"^\d+$", n.strip()) for n in numbers) or kind not in IWAKURA_SHOP_VISIT_KINDS or
+                end not in IWAKURA_SHOP_VISIT_ENDS):
+            bad += 1
+            continue
+        ts, row_channel, pid, reason, liquidating, scanned, candidates, listed, steps = (
+            int(n) for n in numbers[:9])
+        rejects = [int(n) for n in f[12:]]
+        parsed.append((channel, core, ts, row_channel, pid, kind, reason, liquidating, scanned, candidates, listed,
+                       steps, end, rejects))
+    if bad:
+        ex.problem("shop_visits.tsv", "%d rows with a field that is not a number or a known word left out" % bad)
+    try:
+        ex.who(cur, [p[4] for p in parsed])
+    except Exception as e:
+        ex.problem("shop_visits.tsv", "names (player.player): %s" % str(e)[:300])
+    parsed.sort(key=lambda p: (p[2], p[4]))
+    out, hourly = [], {}
+    for (channel, core, ts, row_channel, pid, kind, reason, liquidating, scanned, candidates, listed, steps, end,
+         rejects) in parsed:
+        reason_word = IWAKURA_SHOP_OPEN_REASONS[reason] if reason < len(IWAKURA_SHOP_OPEN_REASONS) else "unknown"
+        out.append((channel, core, _ix_epoch_text(ts), ts, pid, ex.people.get(pid, ("", ""))[0], kind, reason,
+                    reason_word, liquidating, scanned, candidates, listed, steps, end) + tuple(rejects))
+        key = (ts // 3600 * 3600, kind, end, liquidating)
+        sums = hourly.setdefault(key, [0, 0, 0, 0] + [0] * len(IWAKURA_SHOP_VISIT_REJECTS))
+        sums[0] += 1
+        sums[1] += listed
+        sums[2] += scanned
+        sums[3] += candidates
+        for i, n in enumerate(rejects):
+            sums[4 + i] += n
+    rejects_header = tuple("rej_" + r for r in IWAKURA_SHOP_VISIT_REJECTS)
+    ex.table("shop_visits.tsv", ("channel", "core", "time", "unix_ts", "pid", "name", "kind", "open_reason_code",
+                                 "open_reason", "liquidating", "scanned", "candidates", "listed", "steps", "end")
+             + rejects_header, out)
+    ex.table("shop_visits_hourly.tsv", ("time", "unix_ts", "kind", "end", "liquidating", "visits", "listed",
+                                        "scanned", "candidates") + rejects_header,
+             [(_ix_epoch_text(hour), hour, kind, end, liquidating) + tuple(sums)
+              for (hour, kind, end, liquidating), sums in sorted(hourly.items())])
+
+
 # Patch 11, point 21's pvp_sets.tsv (phase 2b): every core's newest
 # playerbot_pvp_sets.tsv (#PB11P1), the snapshot the core writes with its
 # PvP set census every ten minutes while the PVP_SET key is on - a row a bot
@@ -27881,6 +27956,24 @@ meetings.tsv - każde spotkanie rozmowy handlowej (Punkt 16): barter bota z bote
   miejsca do końca; gdy miejsca nie ustalono - od początku rozmowy), furthest (najdalszy etap rozmowy:
   cena / miejsce / dojscie / handel) i reason (powód zakończenia, np. meet_no_answer, bought_at_stand,
   stand_named; puste w wierszach sprzed Patcha 14).
+shop_visits.tsv - każda wizyta bota przy jego stoisku (uwagi Tyriona z 14.10, S6/S7), z
+  playerbot_shop_visits.tsv każdego rdzenia (#PB19V1, ostatnie 40 000): channel, core, time, unix_ts,
+  pid, name, kind (open - stoisko otwierane przy straganie; service - wizyta obsługi stoiska offline,
+  łańcuch kroków dokładania; renew - odnowienie wygasłego stoiska), open_reason_code i open_reason
+  (powód otwarcia stoiska: merchant, poor, bag_full, dropper_pressure, books, dropper_roll, roll, spare,
+  hoard; unknown, gdy rdzeń go nie znał), liquidating (1 - bot w trybie upłynniania Patcha 17),
+  scanned (przedmioty torby, które skan obejrzał), candidates (ile z nich przeszło do wyboru linii,
+  przed limitami), listed (linie wystawione), steps (kroki wizyty; przy renew - ile miejsc
+  sprawdzono), end (opened, open_refused, nothing - nic wartego stoiska, added, none - łańcuch nic
+  nie dołożył, renewed, renew_refused) i po jednej kolumnie rej_* na powód, dla którego przedmiot
+  został w torbie: plan (przedmiot Planu P18/P19), protected (nigdy na ladę: projekt +9, zestaw PvP,
+  przedmiot Towarzysza, przedmiot questowy, LPP, kopia kuźni), held (barter, Bonowacz, zestaw
+  buffów), antiflag, supplies (mikstury bota), biologist, gear_keep (broń/zbroja potrzebna botowi),
+  policy (słowo operatora inne niż „wystaw”), reserve (materiał pod rezerwę kowala), kantor
+  (materiał zatrzymany tylko dla partii Kantoru), scorer (inne „nie” oceny lady), line_cap (limity
+  lady: niski sprzęt, linie jednego rodzaju, marmury, stół), no_slot (brak pola na ladzie).
+shop_visits_hourly.tsv - shop_visits.tsv zsumowane: time, unix_ts (pełna godzina), kind, end,
+  liquidating, visits, listed, scanned, candidates i sumy rej_*.
 pvp_sets.tsv - zestaw PvP każdego bota, który go ma albo został wylosowany do budowy (Punkt 21),
   z najnowszej migawki każdego rdzenia (playerbot_pvp_sets.tsv, #PB11P1, co 10 minut przy włączonym
   EQ PvP botów): channel, core, time, unix_ts, pid, name, level, job, builder (1 - buduje teraz),
@@ -28131,6 +28224,24 @@ meetings.tsv - every meeting of a trade talk (point 16): a bot's barter with a b
   was agreed), furthest (the furthest stage of the talk: cena / miejsce / dojscie / handel) and
   reason (the word it ended for, e.g. meet_no_answer, bought_at_stand, stand_named; empty in rows
   written before Patch 14).
+shop_visits.tsv - every visit of a bot at its counter (Tyrion's audit of 14 October, S6/S7), from
+  every core's playerbot_shop_visits.tsv (#PB19V1, the last 40 000): channel, core, time, unix_ts,
+  pid, name, kind (open - a stand opened by the stall pass; service - an offline stand's service
+  chain of add steps; renew - an expired stand's renewal), open_reason_code and open_reason (merchant,
+  poor, bag_full, dropper_pressure, books, dropper_roll, roll, spare, hoard; unknown where the core
+  did not know it), liquidating (1 - the bot in Patch 17's liquidation), scanned (bag items the scan
+  looked at), candidates (those handed on to the choice of lines, before the caps), listed (lines put
+  up), steps (the visit's steps; for renew, the spots tried), end (opened, open_refused, nothing -
+  nothing worth a stand, added, none - the chain put nothing up, renewed, renew_refused) and a rej_*
+  column for each reason an item stayed in the bag: plan (the P18/P19 Plan's piece), protected (never
+  on a counter: the +9 project, the PvP set, a companion's piece, a quest item, the LPP, a forge copy),
+  held (barter, Bonowacz, buff set), antiflag, supplies (the bot's potions), biologist, gear_keep (a
+  weapon or armour the bot needs), policy (an operator's word other than "stall"), reserve (a material
+  under the anvil's reserve), kantor (a material held only for the Kantor's batch), scorer (the
+  counter's scorer's other "no"), line_cap (the counter's caps: low gear, lines of a kind, marbles,
+  the table), no_slot (no cell on the counter).
+shop_visits_hourly.tsv - shop_visits.tsv added up: time, unix_ts (the full hour), kind, end,
+  liquidating, visits, listed, scanned, candidates and the rej_* sums.
 pvp_sets.tsv - the PvP set of every bot that has one or was drawn to build one (point 21), from every
   core's newest snapshot (playerbot_pvp_sets.tsv, #PB11P1, every 10 minutes while the bots' PvP set is
   on): channel, core, time, unix_ts, pid, name, level, job, builder (1 - building now), mode (pve /
@@ -28253,6 +28364,8 @@ def build_iwakura_export(language):
     ex.run("no_upgrade_reason.tsv", _ix_part_no_upgrade)
     ex.run("chat_misses.tsv", _ix_part_chat_misses)
     ex.run("meetings.tsv", _ix_part_meetings)
+    # Tyrion's audit of 14 October, S7: a bot's visits at its counter.
+    ex.run("shop_visits.tsv", _ix_part_shop_visits)
     ex.run("pvp_sets.tsv", _ix_part_pvp_sets)
     # Iwakura's Patch 15, point 16 (9 October): the Daily Goals by kind and
     # difficulty (16B.6) and the capes bought and refused (16A.2 and 5).

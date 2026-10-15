@@ -220,6 +220,10 @@ COLUMN_INFO = {
                                   "recipe_vnum": (P("Receptura (numer postępu nauki)",
                                                     "Recipe book (learning progress number)"), None),
                                   "comment": (P("Komentarz", "Comment"), None)},
+    # The NPC crafting windows (Patch 19, point 10): a row a recipe of a window.
+    ("world", "crafting_window"): {"window_id": (P("Okno NPC", "NPC window"), None),
+                                   "recipe_id": (P("Numer przepisu", "Recipe number"), None),
+                                   "sort_order": (P("Kolejność w oknie", "Order in the window"), None)},
     ("world", "quest_reward_proto"): {"quest_name": ("Quest", None),
                                       "exp": (P("Doświadczenie", "Experience"), None),
                                       "gold": ("Yang", None),

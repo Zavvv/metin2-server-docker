@@ -1813,6 +1813,30 @@ else
     echo "[playerbot-migrate] WARNING: could not write the starter kit flag; the cores keep the last one" >&2
 fi
 
+# The horse quests skipped (RapLow's "Handle the horse quests", Tieru,
+# 14 October): .env's M2_SKIP_HORSE_QUESTS, which the launcher's new-world
+# window writes, is the event flag m2_skip_horse_quests - 1 gives a player's
+# new character the Armed Horse (level 11) and its book at its first login
+# (horse_skip.quest), 0 leaves the stable keeper's errands as they are. Bots
+# and companions keep their own stable pass either way.
+skiphorse=$(printf '%s' "${M2_SKIP_HORSE_QUESTS:-0}" | tr 'A-Z' 'a-z' | tr -d ' \r')
+case "$skiphorse" in
+    ''|0|off|no|false) skiphorse=0 ;;
+    1|on|yes|true) skiphorse=1 ;;
+    *)
+        echo "[playerbot-migrate] WARNING: M2_SKIP_HORSE_QUESTS=$skiphorse is not 0 or 1; the horse quests stay" >&2
+        skiphorse=0 ;;
+esac
+if db_retry -e "REPLACE INTO player.quest (dwPID, szName, szState, lValue) VALUES (0, 'm2_skip_horse_quests', '', $skiphorse);"; then
+    if [ "$skiphorse" = "1" ]; then
+        echo "[playerbot-migrate] horse quests: skipped - a new character starts with the Armed Horse (level 11)"
+    else
+        echo "[playerbot-migrate] horse quests: as the game has them"
+    fi
+else
+    echo "[playerbot-migrate] WARNING: could not write the horse quests flag; the cores keep the last one" >&2
+fi
+
 # The Cor Draconis a day at the Alchemist (Kuszaa and the operator, 1 October):
 # the Power of the Dragon Eye a new day's talk gives, and one fewer on the day
 # of the first hand-in, whose own box is the first. .env's M2_DS_EYES_PER_DAY,
