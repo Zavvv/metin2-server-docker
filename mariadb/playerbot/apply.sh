@@ -821,6 +821,12 @@ db_retry -e "UPDATE world.item_proto SET flag = flag | 4 WHERE vnum = 70031 AND 
 # changed by hand is kept (INSERT IGNORE), and one deleted in the database
 # editor stays deleted (common.m2_itemshop_removed). Idempotent.
 db_retry -e "CREATE TABLE IF NOT EXISTS common.m2_itemshop_removed (\`index\` INT NOT NULL PRIMARY KEY, removed_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB; INSERT IGNORE INTO common.itemshop_items (\`index\`, vnum, count, price, currency, minLevel) SELECT s.i, s.v, s.c, s.p, s.cur, s.lv FROM (SELECT 201 AS i, 70301 AS v, 1 AS c, 19 AS p, 'DRAGON_COIN' AS cur, 25 AS lv UNION ALL SELECT 202, 11901, 1, 49, 'DRAGON_COIN', 25 UNION ALL SELECT 203, 11903, 1, 49, 'DRAGON_COIN', 25 UNION ALL SELECT 204, 50201, 1, 9, 'DRAGON_COIN', 25 UNION ALL SELECT 205, 71068, 1, 29, 'DRAGON_COIN', 25 UNION ALL SELECT 206, 71069, 1, 39, 'DRAGON_COIN', 25 UNION ALL SELECT 207, 71070, 1, 39, 'DRAGON_COIN', 25 UNION ALL SELECT 208, 71071, 1, 39, 'DRAGON_COIN', 25 UNION ALL SELECT 209, 71072, 1, 39, 'DRAGON_COIN', 25 UNION ALL SELECT 210, 71073, 1, 39, 'DRAGON_COIN', 25 UNION ALL SELECT 211, 71074, 1, 39, 'DRAGON_COIN', 25) AS s WHERE s.i NOT IN (SELECT \`index\` FROM common.m2_itemshop_removed);" || echo "[playerbot-migrate] WARNING: could not fill the ItemShop's marriage page" >&2
+# The package's pet cages and boxes (53501-53517, a giftbox of one pet
+# seal each) stack to the 200 their rows say: ANTI_STACK goes and
+# ITEM_FLAG_STACKABLE is set, on the package's own row only (antiflag
+# 106880, flag 0) - the other restrictions stay (iahgod, 13 October).
+# The client mirrors it (port/protoify.py). PROTO_FROM_DB; idempotent.
+db_retry -e "UPDATE world.item_proto SET antiflag = antiflag & ~32768, flag = flag | 4 WHERE vnum BETWEEN 53501 AND 53517 AND type = 23 AND antiflag = 106880 AND flag = 0;" || echo "[playerbot-migrate] WARNING: could not make the pet cages stack" >&2
 # Twenty change stones (Zaczarowanie Przedmiotu, 71084) for 1035 Dragon
 # Coins - the four-pack's price a stone (608: four for 207) - on the
 # scrolls and books page (601-699): the line blasty's bonus switcher buys

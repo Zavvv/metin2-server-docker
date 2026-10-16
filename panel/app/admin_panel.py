@@ -14137,6 +14137,23 @@ DECISION_STEPS = {
        "en": "the sheet × {a} (world > 48 h), a cut of {b} at {c} on the kingdom's market → {value}",
        "de": "Liste × {a} (Welt > 48 h), Abschlag {b} bei {c} Stück auf dem Markt des Reichs → {value}",
        "tr": "liste × {a} (dünya > 48 sa), krallık pazarında {c} adette {b} indirim → {value}"}),
+ # Patch 18's caps on a sheet piece's precise price (Tyrion, 15 October: the
+ # precise path wrote only step 52 before): a = bits, 1 the +9 row's share,
+ # 2 a young world's share of the median wallet; c = 1 when the floor won.
+ 57: ("yang", {"a": "int", "b": "yang", "c": "int"},
+      {"pl": "Limit ceny (Patch 18)", "en": "Price cap (Patch 18)", "de": "Preisgrenze (Patch 18)",
+       "tr": "Fiyat sınırı (Patch 18)"},
+      {"pl": "z {b} do {value} (limit {a}: 1 = udział +9, 2 = młody świat; {c} = 1: wygrała podłoga)",
+       "en": "from {b} to {value} (cap {a}: 1 = the +9 share, 2 = a young world; {c} = 1: the floor won)",
+       "de": "von {b} auf {value} (Grenze {a}: 1 = Anteil +9, 2 = junge Welt; {c} = 1: die Untergrenze gewann)",
+       "tr": "{b} değerinden {value} değerine (sınır {a}: 1 = +9 payı, 2 = genç dünya; {c} = 1: taban kazandı)"}),
+ # Patch 19, 2A: a line of what an NPC sells, under 95% of the NPC's price.
+ 58: ("yang", {"a": "yang", "b": "yang"},
+      {"pl": "Pod ceną NPC", "en": "Under the NPC's price", "de": "Unter dem NPC-Preis", "tr": "NPC fiyatının altında"},
+      {"pl": "NPC sprzedaje po {a} za sztukę: z {b} do {value}",
+       "en": "an NPC sells it at {a} a unit: from {b} to {value}",
+       "de": "ein NPC verkauft es für {a} das Stück: von {b} auf {value}",
+       "tr": "bir NPC tanesini {a} değerine satıyor: {b} değerinden {value} değerine"}),
 }
 
 # The listing flags (LFLAG_*), bit: texts.
@@ -14366,7 +14383,8 @@ DECISION_CODE_NAMES = {
   41: "STEP_SLIP_PUT_RIGHT", 42: "STEP_RAISED_TO_FLOOR", 43: "STEP_CATALOGUE_ROW", 44: "STEP_WRB",
   45: "STEP_SUPPLY", 46: "STEP_GEAR_EXTRA", 47: "STEP_HUMAN_ROUND", 48: "STEP_MARKDOWN_TIER", 49: "STEP_WRB_FLOOR",
   50: "STEP_AVERAGE_BASE_ROW", 51: "STEP_BONUS_BASE", 52: "STEP_AVERAGE_RANK", 53: "STEP_PRICE_CEILING",
-  54: "STEP_AVERAGE_PRICE", 55: "STEP_YOUNG_WORLD_CHEST", 56: "STEP_LEVEL30_CUT",
+  54: "STEP_AVERAGE_PRICE", 55: "STEP_YOUNG_WORLD_CHEST", 56: "STEP_LEVEL30_CUT", 57: "STEP_PATCH18_CAP",
+  58: "STEP_NPC_CAP",
  },
  "LFLAG": {
   1: "LFLAG_UNDER_MERCHANT", 2: "LFLAG_FLOOR_BOUND", 4: "LFLAG_UNDER_SHEET_HALF", 8: "LFLAG_OVER_SHEET_3X",
@@ -26835,7 +26853,7 @@ def _ix_refine_purposes(ex, cur, attempts):
                     "ORDER BY time DESC LIMIT %s", (IWAKURA_EXPORT_LOG_DAYS, IWAKURA_EXPORT_LOG_ROWS))
         for r in cur.fetchall() or ():
             hint = log_text(r.get("hint"))
-            purpose = re.search(r"(?:^| )purpose=(own_worn|copy|for_sale|mass|gambler|battle_to6)(?: |$)", hint)
+            purpose = re.search(r"(?:^| )purpose=(own_worn|bag_project|copy|for_sale|mass|gambler|battle_to6)(?: |$)", hint)
             plus = re.search(r"(?:^| )plus=(\d+)(?: |$)", hint)
             worn = re.search(r"(?:^| )own_worn=([01])(?: |$)", hint)
             if not purpose or not plus or not worn:
@@ -27898,7 +27916,8 @@ exchange_log.tsv - każda wymiana ulepszaczy w Kantorze: time, hour_epoch, pid, 
 refine_log.tsv - każda próba u kowala: time, pid, name, class, item_id, vnum, item_name,
   from_plus, to_plus, outcome (success; burned - spłonął; downgraded - spadł o plus; kept -
   porażka bez straty, np. Zwój Boga Smoków), way i way_label (POWER kowal, GUILD kowal gildii,
-  DEVILTOWER kowal w Wieży, SCROLL:vnum zwój), purpose (own_worn, copy, for_sale, mass, gambler,
+  DEVILTOWER kowal w Wieży, SCROLL:vnum zwój), purpose (own_worn, bag_project - projekt Planu EQ
+  ulepszany w torbie, po 2.2.99; wcześniej zapisany jako for_sale, copy, for_sale, mass, gambler,
   battle_to6). Cel pochodzi z jednoznacznego zapisu PLAYERBOT_REFINE_PURPOSE obok rzeczywistej
   próby; starsze i niejednoznaczne próby mają puste pole. Na mt2009 z log.refinelog (wiersz na próbę) i log.log (czy
   spłonął, vnum); na r40250 tylko z log.log (log.refinelog nie ma tam indeksu): bez way
@@ -28179,7 +28198,8 @@ exchange_log.tsv - every material exchange at the Kantor: time, hour_epoch, pid,
 refine_log.tsv - every attempt at an anvil: time, pid, name, class, item_id, vnum, item_name,
   from_plus, to_plus, outcome (success; burned; downgraded - lost a plus; kept - failed and lost
   nothing, e.g. a Dragon God scroll), way and way_label (POWER a blacksmith, GUILD the guild's,
-  DEVILTOWER the Demon Tower's, SCROLL:vnum a scroll), purpose (own_worn, copy, for_sale, mass,
+  DEVILTOWER the Demon Tower's, SCROLL:vnum a scroll), purpose (own_worn, bag_project - an EQ Plan
+  project raised in the bag, after 2.2.99; written for_sale before, copy, for_sale, mass,
   gambler, battle_to6) from a unique PLAYERBOT_REFINE_PURPOSE mark beside a real attempt;
   older or ambiguous attempts stay blank. On mt2009 from log.refinelog (a row an attempt) and log.log
   (burned or not, the vnum); on r40250 from log.log alone (its log.refinelog has no index): no

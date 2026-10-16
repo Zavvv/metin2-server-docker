@@ -2125,7 +2125,7 @@ for _pl, _en in {'Szukaj (nazwa / vnum)…': 'Search (name / vnum)…', 'tylko z
 FUN_ACTIONS = (
     ("FUN_PERFECT", "Wszyscy Perfekcjonistami", "Każdy bot dostaje osobowość Perfekcjonista, idzie do M1 i ulepsza swój ekwipunek.",
      (("min", "Na ile minut (0 = na stałe)", 120),)),
-    ("FUN_ANARCHY", "Anarchia u kowala", "Boty ulepszają cały ekwipunek bez zastępstwa i bez limitów. Brakujące ulepszacze kupują z rynku – ulepszają, póki mają yang.",
+    ("FUN_ANARCHY", "Anarchia u kowala", "Boty ulepszają cały założony ekwipunek bez zastępstwa i bez limitów. Brakujące ulepszacze kupują z rynku. Yang wydają w tempie wydarzenia: godzina anarchii może zabrać cały, krótsza tylko jego część.",
      (("min", "Na ile minut", 60),)),
     ("FUN_FISHERS", "RYBKOOOO!", "Wylosowane boty rzucają wszystko i idą łowić ryby.",
      (("pct", "Ile botów (%)", 30), ("hours", "Na ile godzin", 2))),
@@ -2144,6 +2144,42 @@ FUN_ACTIONS = (
     ("FUN_SALE", "Wyprzedaż na straganach", "Boty przeceniają wszystko na straganach o podany procent.",
      (("pct", "Przecena (%)", 30), ("hours", "Na ile godzin", 3))),
 )
+
+# The same actions in English, for every reader but a Polish one (RapLow's
+# English panel showed the Polish cards, 15 October): title, description and
+# the field labels in FUN_ACTIONS' order. German and Turkish read English, as
+# the rest of the panel's newer pages do.
+FUN_ACTIONS_EN = {
+    "FUN_PERFECT": ("Everybody a Perfectionist", "Every bot becomes a Perfectionist, goes to its first village and upgrades its equipment.",
+                    ("For how many minutes (0 = for good)",)),
+    "FUN_ANARCHY": ("Anarchy at the blacksmith", "The bots upgrade all their worn equipment with no spare and no limits, buying the missing materials "
+                    "from the market. They spend their yang at the pace of the event: an hour of anarchy may take all of it, a shorter one its share.",
+                    ("For how many minutes",)),
+    "FUN_FISHERS": ("FISHIES!", "The bots drawn drop everything and go fishing.", ("How many bots (%)", "For how many hours")),
+    "FUN_BRAWL": ("Battle on Mount Sohan", "All bots leave their tasks and fight in the middle of Mount Sohan. The kill counter (TOP 10) is below.",
+                  ("How many minutes (1-360)",)),
+    "FUN_WEAPON30": ("A level 30 +9 weapon for everybody", "Every bot gets a level 30 +9 weapon of its class with a random average damage.", ()),
+    "GIVE_ITEM": ("An item for every bot", "Every bot gets the item given.", ("Item VNUM", "Count")),
+    "GIVE_GOLD": ("Yang rain", "Every bot gets the amount of yang given.", ("Yang per bot",)),
+    "FUN_KILL": ("All bots die", "Every bot in the game dies at once. The usual death penalty applies.", ()),
+    "FUN_CHAT": ("Everybody writes on the global chat", "Every bot writes the text given on the global chat (spread a little in time).", ("Text",)),
+    "FUN_WIPE": ("The great storage sale", "Every bot loses all it holds: bag, shop and storage. Only the worn equipment stays.", ()),
+    "FUN_GATHER": ("Gathering in the first village", "All bots gather in the square of their kingdom's first village, talk and use emotes.",
+                   ("How many minutes",)),
+    "FUN_SALE": ("Sale at the stalls", "The bots mark everything on their stalls down by the percent given.", ("Markdown (%)", "For how many hours")),
+}
+
+
+def fun_actions(lang):
+    """FUN_ACTIONS as the reader reads them: Polish for pl, English otherwise."""
+    out = []
+    for cmd, title, desc, params in FUN_ACTIONS:
+        if lang != "pl" and cmd in FUN_ACTIONS_EN:
+            title, desc, labels = FUN_ACTIONS_EN[cmd]
+            params = tuple((q[0], labels[i] if i < len(labels) else q[1], q[2]) for i, q in enumerate(params))
+        out.append((cmd, title, desc, params))
+    return tuple(out)
+
 
 # Every FUN_* of Patch 19 is carried by the cores since the night of 13/14
 # October (playerbot_fun_rules.h); a command a core does not know is still
@@ -2188,6 +2224,29 @@ FUN_BODY = """<div class="card m2p-fun"><h3>{{ m2p_pg.title }}</h3>
  load(); setInterval(load,15000);
 })();
 </script>"""
+
+# The page's own words in English (RapLow, 15 October); the cards come from
+# /m2p/api/fun in the reader's language (fun_actions).
+FUN_BODY_EN = FUN_BODY
+for _pl, _en in (
+        ('⚠ UWAGA: tych akcji NIE DA SIĘ COFNĄĆ bez ręcznego backupu bazy danych. Każda działa na wszystkie boty naraz.',
+         '⚠ WARNING: these actions CANNOT BE UNDONE without a manual backup of the database. Each one acts on all bots at once.'),
+        ('Bitwa na Górze Sohan – TOP 10 zabójstw', 'Battle on Mount Sohan – TOP 10 kills'),
+        ('Ostatnie akcje', 'Recent actions'),
+        ('Rdzeń tej wersji jeszcze tego nie wykonuje.', "This version's core does not carry it out yet."),
+        ('>Uruchom<', '>Run<'),
+        ('title="Ekwipunek, magazyn i sklep"', 'title="Equipment, storage and shop"'),
+        (":'brak bitwy';", ":'no battle';"),
+        ("'czeka na rdzeń'", "'waiting for the core'"),
+        (".join('<br>'):'brak';", ".join('<br>'):'none';"),
+        ("NIE DA SIĘ COFNĄĆ bez ręcznego backupu.\\nWpisz TAK, aby uruchomić.'); if(ans!=='TAK') return;",
+         "CANNOT BE UNDONE without a manual backup.\\nType YES to run it.'); if(ans!=='YES') return;"),
+        ("prompt('Akcji „'+c.querySelector('b').textContent+'” ", "prompt('The action \u201c'+c.querySelector('b').textContent+'\u201d "),
+        ("('wysłano'+(k.count?' ('+k.count+' botów)':''))", "('sent'+(k.count?' ('+k.count+' bots)':''))"),
+        ("('błąd: '+", "('error: '+"),
+):
+    assert _pl in FUN_BODY_EN, _pl
+    FUN_BODY_EN = FUN_BODY_EN.replace(_pl, _en)
 
 
 PAGES2 = (
@@ -2962,7 +3021,8 @@ def install(mod):
 
     @mod.login_required
     def _fun_page():
-        return render_template_string(mod.BASE.replace("__BODY__", FUN_BODY), m2p_pg={"title": "Fun™"})
+        body = FUN_BODY if _pg_lang() == "pl" else FUN_BODY_EN
+        return render_template_string(mod.BASE.replace("__BODY__", body), m2p_pg={"title": "Fun™"})
     app.add_url_rule("/panel/4fun", "m2p_fun", _fun_page)
 
     @mod.login_required
@@ -3041,11 +3101,12 @@ def install(mod):
                 return jsonify({"ok": False, "error": "save_failed"})
             return jsonify({"ok": True})
         log, top = [], []
+        pl = _pg_lang() == "pl"
         try:
             for r in _q(mod, "SELECT cmd, arg1, arg2, status, id FROM player.web_admin_queue WHERE player_name='' "
                              "AND (cmd LIKE 'FUN\\\\_%%' OR cmd LIKE 'GIVE\\\\_%%') ORDER BY id DESC LIMIT 12"):
                 log.append({"at": "#%d" % r["id"], "cmd": r["cmd"], "arg": (r["arg1"] or "") + (" " + r["arg2"] if r["arg2"] else ""),
-                            "status": r["status"] or "czeka"})
+                            "status": r["status"] or ("czeka" if pl else "waiting")})
         except Exception:  # noqa: BLE001
             pass
         try:
@@ -3059,7 +3120,7 @@ def install(mod):
             top = []
         return jsonify({"ok": True, "log": log, "top": top,
                         "actions": [{"cmd": a[0], "title": a[1], "desc": a[2], "params": [list(p) for p in a[3]],
-                                     "off": a[0] in FUN_CORE_UNSUPPORTED} for a in FUN_ACTIONS]})
+                                     "off": a[0] in FUN_CORE_UNSUPPORTED} for a in fun_actions("pl" if pl else "en")]})
     app.add_url_rule("/m2p/api/fun", "m2p_fun_api", _fun_api, methods=["GET", "POST"])
 
     @mod.login_required

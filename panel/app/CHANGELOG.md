@@ -17,6 +17,48 @@ every version here.
 
 ---
 
+## 2.2.100 — 2026-10-15
+
+Boty znów wystawiają pełne lady, poprawki tarcz, zwojów i ksiąg. Klient 2.0.105 x64.
+
+- Stoiska botów: wizyta przy ladzie wystawia znowu kilka linii zamiast jednej, a boty, które akurat walczą, nie tracą kolejki (NxcK_Os, frozen.time); księgi innych klas wracają z magazynu na ladę, także u botów z drugiego kanału (sosen), a nadmiar ksiąg znów trafia na stoiska (Tyrion).
+- Księgi pomocnicze (np. Polimorfii) i medale stoją wyżej w kolejce wystawiania.
+- Tarcze i hełmy: bot nie zakłada już słabiej broniącej sztuki niż noszona, poza projektem planu od +7, i nie przerzuca ich w kółko (Tyrion).
+- Ulepszanie (decyzje Tyriona po zgłoszeniach sosena): przy nadmiarze zwojów noszone rzeczy poniżej +6 idą pod zwój zamiast czekać na zapas, nadmiar zwojów trafia na ladę, za zapas liczy się tylko podobny przedmiot, a po spaleniu noszonej rzeczy zapas jest chroniony do końca wizyty.
+- Ścieżka umiejętności nowych botów nie zależy już od płci (Drip) - wymiesza się to tylko na nowym świecie, istniejące boty zostają przy swoich ścieżkach.
+- Pomocnik Eventów (/eventhelper 1) zostaje na wszystkich kanałach i po restarcie (Neutro).
+- Launcher widzi uruchomionego klienta x64 przed aktualizacją klienta (IRON); Nożyk Zielarza i zdejmowana broń nie tracą gwiazdki ulubionych (magicznytomasz).
+
+Zaktualizuj serwer i launcher do 2.2.100, uruchom ponownie launcher, następnie zaktualizuj klienta do 2.0.105 (64-bit). Klient i serwer muszą być w tej samej wersji.
+Postacie i ustawienia zostają zachowane. Wydanie chronione. Błędy prosimy zgłaszać przez launcher („Zgłoś błąd”) z opisem.
+
+## 2.2.99 — 2026-10-15
+
+Launcher może chować się do zasobnika, poprawki Wieży Demonów, filtra Auto Łowów i wydarzeń Fun. Klient 2.0.104 x64.
+
+- Launcher: opcja chowania do zasobnika po zamknięciu okna - przy pierwszym zamknięciu launcher zapyta, wybór można zmienić w ustawieniach (charliee9239).
+- Wieża Demonów: boty nie tracą kolejki do kowala, gdy po zabiciu króla walczą z resztą potworów albo się leczą, a zabójstwa liczą się do kamieni otwarcia także przy otwartym oknie zadania (sosen).
+- Auto Łowy: „Gear: min.” nie liczy już średnich obrażeń i obrażeń umiejętności broni jako bonusów (DaTemox), a okno wyboru przedmiotów pokazuje nazwy w języku klienta (RapLow).
+- Panel WWW: strona Fun po angielsku (RapLow); „Anarchia u kowala” rozkłada wydawanie yang na czas trwania wydarzenia (_dumitrualexandru).
+- Klatki i skrzynie zwierzaków łączą się w stosy także w kliencie (iahgod); nazwa odłamka Smoczego Kamienia w języku gracza (RapLow).
+
+Zaktualizuj serwer i launcher do 2.2.99, uruchom ponownie launcher, następnie zaktualizuj klienta do 2.0.104 (64-bit). Klient i serwer muszą być w tej samej wersji.
+Postacie i ustawienia zostają zachowane. Wydanie chronione. Błędy prosimy zgłaszać przez launcher („Zgłoś błąd”) z opisem.
+
+## 2.2.98 — 2026-10-15
+
+Poprawki botów po zgłoszeniach: tarcze i hełmy, rajdy na bossów, księgi i zwoje. Tylko serwer, klient bez zmian (2.0.103).
+
+- Boty zakładają tarczę i hełm z planu rozwoju tylko wtedy, gdy dają przynajmniej tyle obrony co noszone (sosen, Tieru).
+- Rajdy na bossów: boty z Lochów Pająków i z innych map nie są ściągane do bossów cudzych map, a po rajdzie wracają tam, gdzie expiły; koniec ciągłych teleportów pod Skalistą Małpą (sosen, Tieru).
+- Księgi umiejętności: boty trzymają mniej ksiąg na zapas, a nadmiar szybciej trafia na stoiska - także księgi umiejętności już na Wielkim Mistrzu (sosen, Tyrion).
+- Ulepszanie: boty używają innych zwojów błogosławieństwa z torby, zamiast czekać na zakup zwykłego (sosen).
+- Klatki i skrzynie zwierzaków łączą się w stosy na serwerze (iahgod).
+- Launcher: ramka okna w Windows 11 w kolorze skórki zamiast białej (Tieru).
+
+Zaktualizuj serwer i launcher do 2.2.98 i uruchom ponownie launcher. Klient zostaje w wersji 2.0.103.
+Postacie i ustawienia zostają zachowane. Wydanie chronione. Błędy prosimy zgłaszać przez launcher („Zgłoś błąd”) z opisem.
+
 ## 2.2.97 — 2026-10-15
 
 Nowy filtr Auto Łowów, szkatułki bossów i poprawki po 2.2.95. Klient 2.0.103 x64.
