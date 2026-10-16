@@ -2789,9 +2789,18 @@ def install(mod):
                 ready = PERSONA_CHANGE_SUPPORTED and mod.ENGINE_MT2009 and int((cur.fetchone() or {}).get("value") or 0) == 18
                 cur.execute("SELECT id,native_name FROM player.web_m2p_persona_catalog WHERE contract_version=18 ORDER BY id")
                 catalog = {int(r["id"]): labels.get(int(r["id"]), r["native_name"]) for r in cur.fetchall()}
+                # A player's companion is no bot of the population: the core
+                # never gives it one of these personalities (P18CanChangePersona
+                # refuses every sidekick pid, playerbot_patch18_persona.h), so
+                # the card says so instead of queueing a row the core can only
+                # answer 'not_allowed' (magicznytomasz, 83674812, 15 October).
+                companion_fn = getattr(mod, "_is_companion_pid", None)
+                companion = bool(companion_fn(cur, pid)) if companion_fn else False
                 if request.method == "POST":
                     if not ready:
                         return jsonify({"ok": False, "error": "persona_change_unavailable"}), 503
+                    if companion:
+                        return jsonify({"ok": False, "error": "companion"}), 409
                     raw = request.form.get("persona", "")
                     automatic = raw == "AUTO"
                     try:
@@ -2836,7 +2845,8 @@ def install(mod):
                           "old":labels.get(r["old_id"],str(r["old_id"])) if r["old_id"] is not None else "—",
                           "new":labels.get(r["new_id"],str(r["new_id"])),"reason":r["reason"],"job":r["queue_id"]}
                          for r in cur.fetchall()]
-            return jsonify({"ok":True,"now":_persona_now(pid),"can_set":ready,
+            return jsonify({"ok":True,"now":_persona_now(pid),"can_set":ready and not companion,
+                            "companion":companion,
                             "list":[[k,v] for k,v in catalog.items()],"history":history,"queue":qstat,
                             "desc":PERSONA_DESC if lang_=="pl" else PERSONA_DESC_EN,
                             "profile":profile,"request":queued,"csrf":mod.csrf_token()})
@@ -4896,7 +4906,8 @@ JS = r"""
       pending=waiting?{id:jobId,value:value}:null;
      } else {
       pending=null;
-      var errors={not_allowed:T2('Bot nie może teraz zmienić osobowości.','This bot cannot change personality now.'),
+      var errors={not_allowed:j.companion?T2('To Towarzysz gracza - osobowości populacji go nie dotyczą.','This is a companion of a player - the personalities of the population do not apply to it.'):
+        T2('Bot nie może teraz zmienić osobowości: jest najemnikiem z kontraktem, klientem najemnika, ma zamrożony ekwipunek albo jest w lochu, na wojnie gildii lub na umówionym spotkaniu. Spróbuj później.','This bot cannot change personality now: it is a mercenary on a contract, a client of a mercenary, its gear is frozen, or it is in a dungeon, a guild war or an agreed meeting. Try again later.'),
        cancelled:T2('Polecenie anulowano.','The command was cancelled.'),
        superseded:T2('Polecenie zastąpiono nowszym wyborem.','The command was replaced by a newer choice.'),
        persist_failed:T2('Nie udało się zapisać wyboru.','The choice could not be saved.'),
@@ -4909,7 +4920,8 @@ JS = r"""
      waiting=true; text=T2('Zapisano wybór; bot czeka na zastosowanie.','Choice saved; waiting for the bot to apply it.');
     }
     displayed=value; sel.disabled=!j.can_set; setSel(value);
-    msg.textContent=j.can_set?text:T2('Zmiana niedostępna w tej wersji.','Changing personality is unavailable in this version.');
+    msg.textContent=j.can_set?text:(j.companion?T2('To Towarzysz gracza: kieruje nim właściciel (okno Towarzysza, /towarzysz), nie osobowości populacji - dlatego zmiana jest niedostępna.','This is a companion of a player: its owner directs it (the companion window, /towarzysz), not the personalities of the population - so it cannot be changed here.'):
+     T2('Zmiana niedostępna w tej wersji.','Changing personality is unavailable in this version.'));
     // Iwakura P19: the card reloads itself once the core has applied a choice
     // made here; 'done' comes after the status snapshot, so the row is fresh.
     if(asked&&!waiting&&job&&Number(job.id)===asked&&String(job.status)==='done'){

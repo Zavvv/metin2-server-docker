@@ -17,6 +17,22 @@ every version here.
 
 ---
 
+## 2.2.101 — 2026-10-16
+
+Auto Łowy nie stają pod strzałami, loch małp, Towarzysz, okno kowala i Magazyn kolekcjonera. Klient 2.0.106 x64 z nowym plikiem gry.
+
+- Auto Łowy: zwykła strzała potwora nie zatrzymuje już automatycznego biegu postaci (pomysł, projekt i test: Colide).
+- Loch małp: boty nie giną już w kółko w dalszych komnatach, a po kilku śmierciach z rzędu wracają na jakiś czas do wioski (Virgo, prokupat).
+- Boty reagują walką, gdy potwora zabiera im ktoś z innego królestwa; wobec własnego królestwa zachowują się jak dotąd (RapLow).
+- Mniej botów stoi bezczynnie przy kowalach (djariczek, javierwxw, antycheat2).
+- Ulepszanie: zwój dla noszonej rzeczy bez zapasu tylko dla przedmiotów od 21 poziomu (Iwakura).
+- Towarzysz: filtr zbierania słucha nowego filtra Auto Łowów właściciela, a podpowiedź wyjaśnia pole „Ekwipunek: min.” (DaTemox); karta Towarzysza w panelu mówi, dlaczego nie można mu wybrać osobowości (magicznytomasz).
+- Okno kowala: Enter zatwierdza ulepszenie i pytanie, nowe pole „Ulepszaj dalej”; Magazyn kolekcjonera: przycisk „Dołóż pasujące” (RapLow).
+- Launcher: zgłoszenie błędu podaje plik gry, którego używa klient (michauke).
+
+Zaktualizuj serwer i launcher do 2.2.101, uruchom ponownie launcher, następnie zaktualizuj klienta do 2.0.106 (64-bit) - launcher podmieni też plik gry metin2client.exe. Klient i serwer muszą być w tej samej wersji.
+Postacie i ustawienia zostają zachowane. Wydanie chronione. Błędy prosimy zgłaszać przez launcher („Zgłoś błąd”) z opisem.
+
 ## 2.2.100 — 2026-10-15
 
 Boty znów wystawiają pełne lady, poprawki tarcz, zwojów i ksiąg. Klient 2.0.105 x64.
