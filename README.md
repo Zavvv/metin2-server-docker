@@ -55,13 +55,16 @@ esplicita.
 
 Le percentuali personalizzate sono versionate in
 `config/dragon-soul-refine.json`. Attualmente sia
-`grade_success_percent` sia `step_success_percent` sono `100`: ogni
-raffinamento di grado e ogni avanzamento di chiarezza hanno un solo esito
+`grade_success_percent`, `step_success_percent` e
+`green_bean_strength_success_percent` sono `100`: ogni raffinamento di grado,
+ogni avanzamento di chiarezza e ogni aumento di livello effettuato con il
+Chicco del Drago Verde (`MATERIAL_DS_REFINE_NORMAL`) hanno un solo esito
 possibile, con probabilita' del 100%.
 
 Lo script `scripts/sync-dragon-soul-refine.ps1` genera in modo deterministico i
-blocchi `RefineGradeTables` e `RefineStepTables` dentro `game/Dockerfile` e li
-puo' anche verificare senza modificarli:
+blocchi `RefineGradeTables` e `RefineStepTables`, e normalizza la riga del
+Chicco Verde in `RefineStrengthTables`, dentro `game/Dockerfile`. Puo' anche
+verificare tutto senza modificare i file:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts\sync-dragon-soul-refine.ps1 -Mode Apply

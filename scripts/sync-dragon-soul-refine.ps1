@@ -18,7 +18,7 @@ if (-not (Test-Path -LiteralPath $dockerfilePath -PathType Leaf)) {
 }
 
 $config = Get-Content -LiteralPath $configPath -Raw | ConvertFrom-Json
-foreach ($property in @('grade_success_percent', 'step_success_percent')) {
+foreach ($property in @('grade_success_percent', 'step_success_percent', 'green_bean_strength_success_percent')) {
     $value = $config.$property
     if ($null -eq $value -or $value -lt 0 -or $value -gt 100) {
         throw "Valore non valido per ${property}: $value"
@@ -69,6 +69,7 @@ $lines.Add(('\t\t' + (New-RefineRow -Name 'STEP_HIGH' -NeedCount 2 -Fee 50000 -C
 $lines.Add('\t}')
 $lines.Add('}')
 $expectedBlock = $lines -join '\n'
+$greenBeanStrengthValues = ((1..6 | ForEach-Object { $config.green_bean_strength_success_percent }) -join '\t')
 
 $dockerfile = [System.IO.File]::ReadAllText($dockerfilePath)
 $pattern = '(?s)Group RefineGradeTables\\n\{.*?\}\\nGroup RefineStepTables\\n\{.*?\}(?=\\nGroup RefineStrengthTables)'
@@ -88,4 +89,25 @@ if ($matches.Count -ne 1 -or $matches[0].Value -ne $expectedBlock) {
     throw "Il Dockerfile non contiene le percentuali personalizzate. Esegui: powershell -ExecutionPolicy Bypass -File scripts\\sync-dragon-soul-refine.ps1 -Mode Apply"
 }
 
-Write-Output "Dragon Soul refining verificato: grade=$($config.grade_success_percent)% step=$($config.step_success_percent)%"
+$strengthPattern = '(?s)(?<prefix>Group RefineStrengthTables\\n\{.*?MATERIAL_DS_REFINE_NORMAL\\t)(?<fee>\d+)(?:\\t\d+){6}'
+$strengthMatches = [regex]::Matches($dockerfile, $strengthPattern)
+if ($strengthMatches.Count -ne 1) {
+    throw "Attesa una sola riga MATERIAL_DS_REFINE_NORMAL in RefineStrengthTables, trovate $($strengthMatches.Count)."
+}
+
+$greenBeanExpectedPattern = 'MATERIAL_DS_REFINE_NORMAL\\t\d+(?:\\t' + [regex]::Escape([string]$config.green_bean_strength_success_percent) + '){6}$'
+if ($Mode -eq 'Apply' -and -not [regex]::IsMatch($strengthMatches[0].Value, $greenBeanExpectedPattern)) {
+    $dockerfile = [regex]::Replace($dockerfile, $strengthPattern, [System.Text.RegularExpressions.MatchEvaluator]{
+        param($match)
+        $match.Groups['prefix'].Value + $match.Groups['fee'].Value + '\t' + $greenBeanStrengthValues
+    }, 1)
+    [System.IO.File]::WriteAllText($dockerfilePath, $dockerfile, [System.Text.UTF8Encoding]::new($false))
+    $dockerfile = [System.IO.File]::ReadAllText($dockerfilePath)
+    $strengthMatches = [regex]::Matches($dockerfile, $strengthPattern)
+}
+
+if ($strengthMatches.Count -ne 1 -or -not [regex]::IsMatch($strengthMatches[0].Value, $greenBeanExpectedPattern)) {
+    throw "Il Dockerfile non contiene la percentuale personalizzata del Chicco del Drago Verde. Esegui: powershell -ExecutionPolicy Bypass -File scripts\\sync-dragon-soul-refine.ps1 -Mode Apply"
+}
+
+Write-Output "Dragon Soul refining verificato: grade=$($config.grade_success_percent)% step=$($config.step_success_percent)% chicco-verde=$($config.green_bean_strength_success_percent)%"
