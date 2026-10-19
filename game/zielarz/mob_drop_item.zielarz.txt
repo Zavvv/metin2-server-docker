@@ -1,0 +1,111 @@
+# Zielarz (Said / saido_0, 17 October): rare herbs on the monsters of the level bands
+# that had none, 0.2-0.5% a kill. mt2009's reader merges a second drop group of one
+# monster into its first, so each is a group of its own.
+Group	Zielarz_632
+{
+	Mob	632	-- Elite Orc Scout (lv 36)
+	Type	drop
+	1	50733	1	0.2	-- Amber Petal
+}
+Group	Zielarz_633
+{
+	Mob	633	-- Elite Orc Fighter (lv 39)
+	Type	drop
+	1	50733	1	0.2	-- Amber Petal
+}
+Group	Zielarz_5103
+{
+	Mob	5103	-- Weak Ape Fighter (lv 27)
+	Type	drop
+	1	50736	1	0.5	-- Cave Mushroom
+}
+Group	Zielarz_5104
+{
+	Mob	5104	-- Weak Ape General (lv 29)
+	Type	drop
+	1	50736	1	0.5	-- Cave Mushroom
+}
+Group	Zielarz_5113
+{
+	Mob	5113	-- Apefighter (lv 39)
+	Type	drop
+	1	50736	1	0.5	-- Cave Mushroom
+}
+Group	Zielarz_5114
+{
+	Mob	5114	-- Apegeneral (lv 40)
+	Type	drop
+	1	50736	1	0.5	-- Cave Mushroom
+}
+Group	Zielarz_705
+{
+	Mob	705	-- Esoteric Executioner (lv 48)
+	Type	drop
+	1	50734	1	0.3	-- Pearl Panicles
+}
+Group	Zielarz_706
+{
+	Mob	706	-- Dark Tormentor (lv 49)
+	Type	drop
+	1	50734	1	0.3	-- Pearl Panicles
+}
+Group	Zielarz_736
+{
+	Mob	736	-- Elite Esoteric Tormentor (lv 56)
+	Type	drop
+	1	50734	1	0.3	-- Pearl Panicles
+}
+Group	Zielarz_2105
+{
+	Mob	2105	-- Scorpion Archer (lv 47)
+	Type	drop
+	1	50735	1	0.3	-- Snake Root
+}
+Group	Zielarz_2106
+{
+	Mob	2106	-- Snake Swordsman (lv 48)
+	Type	drop
+	1	50735	1	0.4	-- Snake Root
+}
+Group	Zielarz_1101
+{
+	Mob	1101	-- Enchanted Ice (lv 62)
+	Type	drop
+	1	50732	1	0.3	-- Snowflower
+}
+Group	Zielarz_1104
+{
+	Mob	1104	-- Ice Lion (lv 64)
+	Type	drop
+	1	50732	1	0.3	-- Snowflower
+}
+Group	Zielarz_1105
+{
+	Mob	1105	-- Frosty Ice Man (lv 65)
+	Type	drop
+	1	50732	1	0.3	-- Snowflower
+}
+Group	Zielarz_2303
+{
+	Mob	2303	-- Dryad (lv 69)
+	Type	drop
+	1	50729	1	0.2	-- Dandelion
+}
+Group	Zielarz_2305
+{
+	Mob	2305	-- Evil Tree (lv 71)
+	Type	drop
+	1	50729	1	0.3	-- Dandelion
+}
+Group	Zielarz_2312
+{
+	Mob	2312	-- Red Ghost Stump (lv 76)
+	Type	drop
+	1	50731	1	0.2	-- Night Star
+}
+Group	Zielarz_2313
+{
+	Mob	2313	-- Red Dryad (lv 77)
+	Type	drop
+	1	50731	1	0.2	-- Night Star
+}

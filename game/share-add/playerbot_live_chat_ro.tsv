@@ -1,0 +1,1574 @@
+# id	category	channel	gate	nastroj	text
+# ro twin of playerbot_live_chat_en.tsv (16.10.2026), same ids and placeholders. ASCII (no diacritics), like the English.
+# Placeholders filled from English data ({mapa_gdzie}, {mapa_dokad}, {klasa}, {krol}...) need ro variants in the engine.
+A_001	A	global	refine9	radosc	+9 {skrot}!!!
+A_002	A	global	refine9	radosc	am luat +9 {skrot} xD
+A_007	A	global	refine8	radosc	fierarul e bine dispus, am luat +8
+A_008	A	global	refine9	radosc	+9 {skrot}, invidiosi deja xd
+A_010	A	global	refine8	radosc	pfiu +8, credeam ca se sparge
+A_025	A	global	refine9	radosc	{skrot}+9 e al meu :D
+A_029	A	global	refine7	radosc	doar +7 dar il iau
+C_001	C	global	reaction_success	radosc	gz
+C_002	C	global	reaction_success	radosc	felicitari
+C_003	C	global	reaction_success	radosc	felicitari :D
+C_004	C	global	reaction_success	radosc	gg
+C_005	C	global	reaction_success	radosc	invidie
+C_007	C	global	reaction_success	radosc	arata-l
+C_008	C	global	reaction_success	radosc	poze sau nu s-a intamplat xD
+C_014	C	global	reaction_success	radosc	norocos
+C_020	C	global	reaction_success	radosc	wow
+C_030	C	global	reaction_failure	smutek	rip
+C_032	C	global	reaction_failure	smutek	au
+C_034	C	global	reaction_failure	smutek	tine-te tare
+C_044	C	global	reaction_failure	smutek	ups
+C_045	C	global	reaction_failure	smutek	ghinion
+L_001	L	global	ambient	neutralny	yo
+L_002	L	global	ambient	neutralny	salut lume
+L_003	L	global	ambient	neutralny	e cineva aici?
+L_004	L	global	ambient	neutralny	ma plictisesc
+L_005	L	global	ambient	neutralny	plictiseala maxima
+L_009	L	global	ambient	neutralny	ce faceti
+L_029	L	global	silence	neutralny	chatul e mort
+L_030	L	global	silence	neutralny	traieste cineva?
+L_038	L	global	ambient	neutralny	si acum? idei?
+L_055	L	global	ambient	neutralny	cine joaca sura?
+L_056	L	global	ambient	neutralny	solo sau grup?
+Q_004	Q	global	greeting	neutralny	hei hei
+Q_005	Q	global	greeting	neutralny	salut tuturor
+Q_006	Q	global	greeting	neutralny	salut
+S_004	S	global	level	radosc	lvl {lvl}!
+B_001	B	global	burn	smutek	+8 picat...
+B_002	B	global	burn	smutek	nuuuuu
+B_007	B	global	burn	smutek	picat. nu intrebati
+B_011	B	global	burn	smutek	iar picat
+B_012	B	global	burn	smutek	inapoi de la zero...
+B_015	B	global	burn	smutek	naiba +8 picat
+B_020	B	global	burn	smutek	fara cuvinte
+B_024	B	global	burn	smutek	of
+B_025	B	global	burn	smutek	NUUUUU
+L_017	L	global	ambient	neutralny	vineri seara si eu joc metin xd
+L_020	L	global	ambient	neutralny	cea mai buna harta e {mapa} sincer
+L_021	L	global	ambient	neutralny	ii place cuiva desertul? nu? asa credeam
+L_022	L	global	ambient	neutralny	golemii sunt cel mai rau lucru din joc
+L_025	L	global	ambient	neutralny	cate niveluri azi?
+L_026	L	global	ambient	neutralny	cine are cel mai mare nivel aici?
+L_028	L	global	ambient	neutralny	vreun loc bun pentru lvl {lvl}?
+L_032	L	global	ambient	neutralny	de ce fug ninja mereu xd
+L_033	L	global	ambient	neutralny	sura cea mai buna clasa, punct
+L_034	L	global	ambient	neutralny	samanii doar pentru buffuri xd
+L_035	L	global	ambient	neutralny	razboinic cu doua maini totusi
+L_040	L	global	ambient	neutralny	de ce nu dormiti xd
+L_041	L	global	ambient	neutralny	cine mai e treaz?
+L_042	L	global	ambient	neutralny	buna dimineata xd
+S_001	S	global	level	radosc	lvl 30, timpul pentru fms xd
+S_003	S	global	level	radosc	35 in sfarsit
+S_005	S	global	level	radosc	cine sarbatoreste lvl {lvl} cu mine? xd
+E_005	E	global	pk_warning	zlosc	atentie la {nick} {mapa_gdzie}
+D_002	D	global	boss_down	radosc	{boss} jos, a vazut cineva prada?
+D_027	D	global	chief_down	radosc	seful orcilor jos, cat pana la urmatorul?
+F_001	F	global	war_declared	neutralny	{gildia} vs {gildia_wroga}, cine vine?
+F_008	F	global	war_declared	neutralny	{gildia_wroga} ne-a declarat razboi? bine
+W_001	W	global	event_start	neutralny	eveniment {event}!
+W_007	W	global	event_start	neutralny	stie cineva cat dureaza evenimentul?
+W_008	W	global	event_start	neutralny	eveniment pornit, toata lumea la locuri
+W_026	W	global	event_end	neutralny	eveniment terminat ;/
+W_028	W	global	event_end	neutralny	cand e urmatorul eveniment?
+W_030	W	global	event_end	neutralny	pacat ca a fost asa scurt
+T_014	T	local	encounter	neutralny	o {nick}, ce faci aici xd
+E_006	E	local	pk_repeat	zlosc	iar tu {nick}?
+E_030	E	local	pk_repeat	zlosc	{nick} te tin minte
+J_039	J	party	party_idle	neutralny	unde sunteti?
+J_042	J	party	party_idle	neutralny	are cineva potiuni?
+J_043	J	party	party_idle	neutralny	ok gata
+K_012	K	guild	guild_idle	neutralny	merge cineva din breasla la grind?
+J_001	J	global	lfg_open	neutralny	caut grup {mapa_dokad} {lvl}-{lvl2}, vine cineva?
+J_003	J	global	lfg_open	neutralny	caut grup {mapa_dokad} {lvl}-{lvl2}, vine cineva?
+J_012	J	global	lfg_open	neutralny	caut grup {mapa_dokad} {lvl}-{lvl2}, vine cineva?
+J_013	J	global	lfg_open	neutralny	caut grup {mapa_dokad} {lvl}-{lvl2}, vine cineva?
+J_014	J	global	lfg_open	neutralny	caut grup {mapa_dokad} {lvl}-{lvl2}, vine cineva?
+J_020	J	global	lfg_retry	neutralny	inca caut pt {mapa_gdzie}
+J_021	J	global	lfg_retry	neutralny	nimeni? serios?
+J_022	J	global	lfg_empty	neutralny	nimeni? atunci merg solo
+J_024	J	global	lfg_reply	neutralny	eu
+J_025	J	global	lfg_reply	neutralny	+1
+J_026	J	global	lfg_reply	neutralny	inv
+J_031	J	whisper	lfg_private	neutralny	da-mi inv
+J_033	J	whisper	lfg_private	neutralny	as vrea sa intru
+J_037	J	party	party_join	neutralny	salut
+J_038	J	party	party_join	neutralny	sunt aici
+D_008	D	global	mob_weapon	neutralny	am luat {skrot} cu {sr} avg de la un mob xd
+D_009	D	global	drop40	radosc	a picat {skrot} cu {sr} avg, nu-mi vine sa cred
+V_001	V	global	drop40	radosc	a picat {skrot} {sr} avg!!!
+V_002	V	global	drop40	radosc	{skrot} {sr} avg din drop, nu se poate
+V_003	V	global	mob40	neutralny	baieti {skrot} {sr}%, de la un mob xd
+V_004	V	global	drop40	radosc	{sr} avg pe {skrot}, vand sau urc?
+V_005	V	global	drop40	radosc	DROP {skrot} {sr} AVG
+V_006	V	global	drop40	radosc	{sr} avg din drop, noroc azi
+V_007	V	global	drop40	radosc	are cineva {skrot} mai bun de {sr} avg? xd
+V_009	V	global	drop40	radosc	{skrot} {sr} avg, acum doar sa nu-l ard la +9...
+W_010	W	global	moon_pickup	neutralny	cate cufere ale luminii lunii aveti?
+W_016	W	global	moon_pickup	neutralny	cuferele sunt loterie dar creeaza dependenta xd
+W_017	W	global	moon_pickup	neutralny	a scos cineva ceva bun din cufere?
+Z_001	Z	global	m3_drop	radosc	{skrot} picat pe m3
+Z_004	Z	global	m3_good	neutralny	m3 plateste azi
+Z_009	Z	global	m3_drop	radosc	{skrot} pe m3 e loterie
+T_010	T	local	ks_boss	zlosc	ks...
+D_024	D	local	ks_boss	zlosc	eu l-am lovit primul!!
+T_011	T	local	ks_stone	zlosc	metinul ala era al meu, eu l-am lovit primul
+F_014	F	global	war_won	radosc	gg {gildia_wroga}, poate data viitoare
+F_027	F	global	war_won	radosc	am castigat!!!
+F_028	F	global	war_won	radosc	{gildia} > {gildia_wroga}, punct
+F_017	F	global	war_lost	smutek	cum am pierdut...
+F_030	F	global	war_lost	smutek	e jenant sa pierzi cu ei ;/
+F_021	F	guild	war_thanks	zlosc	multumesc echipa, razboi bun
+H_001	H	global	trade_gear	neutralny	WTS {skrot} +{plus} {cena}, pm
+H_003	H	global	trade_gear	neutralny	vand {skrot} +{plus}, {cena}, pm
+H_023	H	global	trade_material	neutralny	vand {ulep} x{ile}, {cena} bucata
+H_025	H	global	trade_sold	neutralny	vandut, mersi
+H_031	H	whisper	trade_offer	neutralny	ofer {cena_mniej}
+H_036	H	whisper	trade_refuse	neutralny	pretul e fix
+H_037	H	whisper	trade_counter	neutralny	pret final {cena}
+H_038	H	whisper	trade_accept	neutralny	ok, il iau
+N_034	N	global	loan_ask	neutralny	imi imprumuta cineva 1kk? dau inapoi maine
+N_036	N	whisper	loan_answer	neutralny	pot eu, unde esti?
+N_038	N	whisper	loan_here	neutralny	sunt aici, deschide trade
+N_041	N	whisper	loan_cancel	neutralny	atunci maine, acum nu pot
+N_042	N	whisper	loan_repay	neutralny	{nick} am banii, unde esti?
+N_043	N	whisper	loan_returned	neutralny	mersi, am dat inapoi
+N_044	N	whisper	loan_human_thanks	zlosc	mersi {gracz}, iti dau inapoi maine
+N_035	N	global	loan_reminder	neutralny	{nick} da inapoi banii imprumutati!!
+N_016	N	global	rumour_defend	zlosc	nu se poate, {nick} e ok
+N_013	N	global	rumour_watch	zlosc	serios?
+N_015	N	global	rumour_watch	zlosc	screen?
+N_017	N	global	rumour_watch	zlosc	drama de telenovela lol
+N_018	N	global	rumour_watch	zlosc	popcorn
+N_051	N	global	chronicle_debt	neutralny	tineti minte drama aia cu {nick}? lol
+N_058	N	global	chronicle_refine	radosc	tineti minte {skrot} +9 al lui {nick}?
+N_059	N	global	chronicle_dragon	neutralny	tineti minte cand {nick} a omorat dragonul?
+N_060	N	global	chronicle_war	neutralny	tineti minte seria de razboaie a {gildia}?
+N_061	N	global	fame_rise	zdziwienie	{nick} devine foarte cunoscut aici
+N_062	N	global	chronicle_rank	zdziwienie	tineti minte {nick} cu ala top1 {skrot}, {sr}avg?
+N_063	N	global	chronicle_pk	zlosc	tineti minte {nick} si ala {ile} pk?
+N_064	N	global	fame_legend	zdziwienie	{nick}? toata lumea trebuie sa stie numele asta lol
+F_018	F	global	war_streak	neutralny	victoria numarul {ile} la rand, cine urmeaza?
+W_004	W	global	event_yang	neutralny	eveniment de yang, nu-l irositi
+W_005	W	global	event_drop	radosc	dropul e marit sau mi se pare?
+W_006	W	global	event_chest	neutralny	cuferele luminii lunii s-au intors xd
+W_025	W	global	event_last_hour	neutralny	ultima ora de eveniment, grabiti-va
+A_003	A	global	refine9	radosc	AM LUAT +9
+A_013	A	global	refine9	radosc	cine ar fi zis ca fierarul poate fi dragut
+A_016	A	global	refine9	radosc	mama uite +9 xD
+A_020	A	global	refine9	radosc	am luat +9 si acum mi-e frica sa-l echipez xd
+A_021	A	global	refine9	radosc	stii ce e mai frumos decat +9? nimic
+A_027	A	global	refine9	radosc	ok am +9, pot sa mor fericit acum
+A_030	A	global	refine7	radosc	in sfarsit a mers ceva azi
+B_008	B	global	burn	smutek	fierarul are ceva personal cu mine
+B_016	B	global	burn	smutek	de ce mi se intampla mereu mie
+B_017	B	global	burn	smutek	nu, am terminat cu fierarul asta
+B_021	B	global	burn	smutek	vrea cineva ce a ramas din demnitatea mea xd
+B_027	B	global	burn	smutek	si asta ar trebui sa fie noroc? -.-
+C_016	C	global	reaction_success	radosc	poate am si eu noroc
+C_017	C	global	reaction_success	radosc	frumos frumos
+C_021	C	global	reaction_success	radosc	o naiba
+C_024	C	global	reaction_success	radosc	felicitari
+C_031	C	global	reaction_failure	smutek	F
+C_033	C	global	reaction_failure	smutek	se intampla oricui
+C_035	C	global	reaction_failure	smutek	asa e fierarul
+C_040	C	global	reaction_failure	smutek	nasol
+C_041	C	global	reaction_failure	smutek	sfat pro: nu urca noaptea xd
+C_042	C	global	reaction_failure	smutek	stii ca fierarul citeste chatul?
+C_043	C	global	reaction_failure	smutek	heh
+D_015	D	global	boss_down	radosc	ce e in cufarul de la {boss}?
+D_018	D	global	dragon_down	neutralny	dragon jos!! stii daca ai fost acolo
+D_023	D	local	boss_claim	neutralny	{nick} lasa bossul ala, e al meu
+J_027	J	global	lfg_reply	neutralny	trimite inv
+J_032	J	global	lfg_count_question	neutralny	inca mai cautati?
+P_010	P	global	rod_upgrade	neutralny	in sfarsit undita +{plus}
+T_002	T	local	ks_boss	zlosc	asta e locul meu
+T_003	T	local	ks_boss	zlosc	hei eu ma bateam aici
+U_012	U	local	duel_won	neutralny	gg
+U_013	U	local	duel_won	neutralny	gg wp
+U_014	U	local	duel_won	neutralny	ez
+U_015	U	local	duel_lost	smutek	revansa?
+U_018	U	local	duel_lost	smutek	ok esti mai bun
+V_010	V	global	reroll40	radosc	am scos {sr}avg pe {skrot} :D
+V_013	V	global	reroll40	radosc	in sfarsit {sr}avg pe {skrot}, gata cu schimbatul
+V_014	V	global	reroll40	radosc	piatra de schimbare a dat {sr}avg, il pastrez
+X_010	X	global	rod_upgrade	neutralny	cat costa urmatorul nivel de undita?
+X_019	X	global	rod_upgrade	neutralny	undita +{plus}!!!
+J_002	J	global	lfg_open	neutralny	caut grup {mapa_dokad} {lvl}-{lvl2}, vine cineva?
+J_006	J	global	lfg_buff	neutralny	caut buff {mapa_gdzie}
+J_015	J	global	lfg_buff	neutralny	caut saman pentru pt
+J_028	J	global	lfg_reply	neutralny	pot? {lvl} {klasa}
+J_035	J	global	lfg_reply	neutralny	am buffuri, inv
+J_044	J	party	party_buff	neutralny	buff pls xd
+J_045	J	party	party_buff	neutralny	buff saman!!
+J_051	J	party	party_end	neutralny	mersi pentru pt
+J_052	J	party	party_end	neutralny	la fel maine?
+H_045	H	whisper	trade_avoid	neutralny	nu cumpar de la tine
+N_010	N	global	rumour_apology	zlosc	ok scuze, dau inapoi
+N_011	N	global	rumour_deny	zlosc	lol habar n-am ce se intampla
+O_001	O	global	emotion_burn	smutek	f***
+O_002	O	global	emotion_burn	smutek	o f***
+O_003	O	global	emotion_burn	smutek	r***
+O_004	O	global	emotion_burn	smutek	ce m***
+O_005	O	global	emotion_burn	smutek	ffs
+O_006	O	global	emotion_burn	smutek	la naiba cu asta
+O_010	O	global	emotion_burn	smutek	naiba
+O_011	O	global	emotion_burn	smutek	ptiu
+O_012	O	global	emotion_burn	smutek	iad
+O_013	O	global	emotion_burn	smutek	ce nasol
+O_014	O	global	emotion_burn	smutek	nu mai pot
+O_015	O	global	emotion_burn	smutek	of omule
+O_016	O	global	emotion_burn	smutek	doamne
+O_017	O	global	emotion_burn	smutek	o doamne
+O_019	O	global	emotion_burn	smutek	ei bine
+O_020	O	global	emotion_burn	smutek	super...
+C_006	C	global	refine_question	radosc	frumos, cate pergamente de binecuvantare?
+C_028	C	global	reaction_tease	neutralny	si ce
+C_036	C	global	reaction_tease	neutralny	nu e fierarul, esti tu lol
+C_039	C	global	burn_question	smutek	ce avg avea?
+C_049	C	global	reaction_tease	neutralny	asa-ti trebuie
+C_051	C	global	reaction_tease	neutralny	bine
+C_052	C	global	reaction_tease	neutralny	hahaha
+M_003	M	global	tangent	neutralny	ce sa pun pe bratara?
+M_007	M	global	tangent	neutralny	ce e mai bun, fms sau rib?
+M_012	M	global	tangent	neutralny	ce e avg?
+M_014	M	global	tangent	neutralny	cum faci bani in jocul asta lol
+M_024	M	global	topic_unknown	neutralny	sincer habar n-am
+M_026	M	global	topic_unknown	neutralny	depinde ce joci
+M_029	M	global	average_explain	radosc	avg inseamna daune medii, mai mult ajuta la mobi
+M_031	M	global	topic_unknown	neutralny	asteapta pe cineva mai destept lol
+O_018	O	global	tease_reply	neutralny	glumesti
+E_001	E	local	pk_local	zlosc	{nick} de ce ma lovesti
+E_002	E	local	pk_local	zlosc	hei ce faci
+E_008	E	local	pk_repeat	zlosc	{nick} omorul numarul {ile}, raportez lol
+E_010	E	local	pk_local	zlosc	ok {nick}, revansa maine
+E_012	E	global	revenge	zlosc	tii minte ca m-ai omorat {mapa_gdzie}? acum esti jos
+E_014	E	local	revenge	zlosc	haha {nick} e jos
+E_015	E	global	revenge	zlosc	{nick} gg, data viitoare nu ma mai abtin
+E_020	E	local	pk_local	zlosc	{nick} pleaca
+E_021	E	local	pk_local	zlosc	usor {nick}, doar fac grind
+E_022	E	local	pk_local	zlosc	{nick} vrei mai bine un duel?
+E_033	E	local	pk_local	zlosc	ok {nick}, armistitiu? m-am saturat de asta
+V_020	V	global	bracelet_maxcrit	radosc	in sfarsit 2k hp si 10 crit pe bratara
+V_021	V	global	necklace_maxpierce	radosc	am scos 2k hp + strapungere max pe colier
+V_022	V	global	shoes_maxattack	radosc	cizme cu 2k hp si viteza de atac max, le pastrez
+V_024	V	global	max_bonus	radosc	am scos 2k hp si {bon}, ajunge
+W_012	W	global	moon_reward	neutralny	am luat {item} dintr-un cufar al luminii lunii :D
+X_001	X	global	fishing_trip	neutralny	merg la pescuit
+X_002	X	global	fishing_trip	neutralny	merg la pescuit, am nevoie de o pauza
+X_003	X	global	fish_caught	neutralny	am prins {ryba} xd
+X_004	X	global	fish_caught	neutralny	am prins {ryba}, e rar?
+X_011	X	global	fishing_trip	neutralny	pescuieste cineva? e plictisitor singur xd
+X_012	X	global	fishing_trip	neutralny	unde e cel mai bun loc de pescuit?
+X_013	X	global	fishing_trip	neutralny	pescuitul e cea mai buna parte a jocului, serios
+X_015	X	global	fishing_trip	neutralny	faci peste la gratar sau cum merge asta xd
+X_016	X	global	fishing_trip	neutralny	toti cresc in nivel si eu pescuiesc
+X_020	X	global	fishing_trip	neutralny	pescuitul e pensia mea
+M_035	M	global	price_quote	neutralny	{cena} sau pe acolo
+M_036	M	global	price_quote	neutralny	in jur de {cena}, depinde de bonusuri
+M_037	M	global	price_quote	neutralny	poate {cena}, uita-te si prin magazine
+Q_007	Q	global	logout	neutralny	pa
+Q_008	Q	global	logout	neutralny	bb
+Q_009	Q	global	logout	neutralny	pa pa
+Q_011	Q	global	logout	neutralny	plec, pa tuturor
+P_005	P	global	rare_metin	neutralny	caut metine, ati vazut vreunul {mapa_gdzie}?
+P_011	P	global	rare_fishing	neutralny	pescuitul e singurul lucru care ma calmeaza aici
+P_019	P	global	rare_addict	neutralny	ori +9 ori nimic
+P_022	P	global	rare_gamble	neutralny	fierarul ma stie pe nume
+P_026	P	global	rare_gamble	neutralny	ma duc sa-mi incerc norocul la fierar
+P_027	P	global	rare_executor	zlosc	am chef de pvp azi
+P_028	P	global	rare_books	zlosc	are cineva carte de {skill}?
+M_017	M	global	exp_answer	neutralny	la {lvl}, {mapa} e cel mai bun
+M_032	M	global	exp_guess	neutralny	pai poate {mapa}?
+M_038	M	global	human_unknown	neutralny	ce?
+M_039	M	global	human_unknown	neutralny	nu stiu ce vrei sa zici
+M_040	M	global	human_calm	neutralny	hei calmeaza-te xd
+M_041	M	global	human_calm	neutralny	usor prietene
+T_019	T	local	encounter	neutralny	alo? esti acolo?
+C_018	C	global	reaction_success	radosc	{nick} cum faci asta
+C_019	C	global	reaction_success	radosc	tu ai mereu noroc
+C_025	C	global	reaction_success	radosc	bravo {nick} :D
+T_008	T	local	defence_thanks	zlosc	mersi de ajutor
+R_009	R	whisper	human_guild_invite	neutralny	{gracz} vrei sa intri in breasla?
+R_010	R	global	human_buff	neutralny	{gracz} ai buffuri?
+H_046	H	whisper	trade_human_offer	neutralny	{item} ofer {cena}, batem palma?
+H_047	H	whisper	trade_human_agree	neutralny	ok fie {cena}, astept 10 min
+H_048	H	whisper	trade_human_last	neutralny	max {cena}, ultima oferta
+H_049	H	whisper	trade_human_repeat	neutralny	ofer {cena}, batem palma?
+H_050	H	whisper	trade_human_giveup	neutralny	nu pot mai mult, pa
+H_051	H	whisper	trade_human_decline	neutralny	ok, succes la vanzare
+R_003	R	whisper	human_item	neutralny	{gracz} vinzi {skrot}?
+I_002	I	global	market_expensive	neutralny	{ulep} pe {cena}? xd
+I_004	I	global	market_cheap	neutralny	{ulep} se ieftineste, cine vinde atatea?
+Y_004	Y	global	medal_locked	neutralny	blochez exp si fac medalii
+Y_006	Y	global	medal_goal	neutralny	medaliile nu se strang singure
+Y_009	Y	global	trade_medal	neutralny	WTS medalii de cal x{ile}, {cena}/buc, pm
+Y_013	Y	global	medal_goal	neutralny	maimutele sunt a doua mea casa
+Y_016	Y	global	medal_goal	neutralny	vreun loc bun la maimute?
+I_017	I	global	market_visit	neutralny	{ulep} pe {cena}, merita?
+A_004	A	global	refine9	radosc	nu-mi vine sa cred, +9 din prima
+A_005	A	global	refine9	radosc	in sfarsit {skrot} +9, a luat 4 binecuvantari dar a meritat
+A_009	A	global	refine9	radosc	a treia incercare si +9 :D
+A_011	A	global	refine9	radosc	{skrot} +9 {sr} avg gata, urmeaza bonusurile
+A_014	A	global	refine9	radosc	+7 +8 +9 la rand, e loterie xD
+A_017	A	global	refine9	radosc	hei +9 fara binecuvantare
+A_018	A	global	refine9	radosc	al treilea +9 saptamana asta, vreun bug xd
+A_028	A	global	refine9	radosc	{skrot} +9 dupa 5 arderi, nu renunta niciodata xd
+B_003	B	global	burn	smutek	fierarul mi-a mancat iar {skrot}
+B_004	B	global	burn	smutek	{skrot} +8 dus
+B_009	B	global	burn	smutek	nu-mi vine sa cred, a treia incercare pentru +8
+B_010	B	global	burn	smutek	{cena} pe apa sambetei
+B_019	B	global	burn	smutek	starea mea: distrusa. {skrot}-ul meu: distrus
+B_029	B	global	burn	smutek	{skrot} {sr} avg ars... puiul meu
+C_053	C	global	refine_scroll_answer	radosc	{ile} binecuvantari
+C_054	C	global	refine_average_answer	radosc	{sr} avg
+C_055	C	global	refine_question	radosc	cat avg?
+U_001	U	local	duel_invite	neutralny	duel?
+U_002	U	local	duel_invite	neutralny	{nick} duel? xd
+U_004	U	local	duel_invite	neutralny	r?
+U_009	U	local	duel_invite	neutralny	fara pergamente de binecuvantare sau potiuni ok?
+J_007	J	global	lfg_metin	neutralny	caut pt pentru metine, {lvl}+
+J_008	J	global	lfg_monkey_medium	neutralny	merge cineva la maimute? fac medalii, grup {lvl}-{lvl2}
+J_010	J	global	lfg_ezo	neutralny	pt la ezoterici? {lvl}-{lvl2}
+J_016	J	global	lfg_sohan	neutralny	vine cineva la sohan?
+Y_001	Y	global	lfg_monkey	neutralny	merge cineva la maimute? fac medalii, grup {lvl}-{lvl2}
+Y_002	Y	global	lfg_monkey_medium	neutralny	merge cineva la maimute? fac medalii, grup {lvl}-{lvl2}
+Y_003	Y	global	lfg_monkey_buff	neutralny	merge cineva la maimute? fac medalii, grup {lvl}-{lvl2}
+Z_008	Z	global	lfg_m3	neutralny	face cineva m3? pt?
+H_002	H	global	trade_average	radosc	vand {skrot}+{plus} {sr}avg {cena}
+H_004	H	global	trade_average	radosc	S> {skrot} +{plus} {sr}% oferta {cena}
+H_009	H	global	trade_book_three	neutralny	vand carte {skill} x3, {cena}/buc, pm
+H_010	H	global	trade_ebony	neutralny	S> abanos +{plus} {bon}, {cena}, pm
+H_011	H	global	trade_bracelet	neutralny	S> {skrot} +{plus} {bon}, {cena}, pm
+H_024	H	global	trade_rod	neutralny	S> {skrot} +{plus}, {cena}, pm
+X_014	X	global	trade_fish	neutralny	S> {skrot} x{ile}, {cena}/buc, pm
+W_014	W	global	trade_moon	neutralny	S> cufere ale luminii lunii x{ile}, {cena}/buc pm
+H_052	H	global	trade_item	neutralny	S> {skrot} x{ile}, {cena}/buc pm
+H_022	H	global	trade_need_material	neutralny	cumpar {ulep} x{ile} cu {cena}/buc, pm
+H_053	H	global	trade_need_material	neutralny	B> {ulep} x{ile}, pana la {cena}/buc pm
+N_045	N	global	loan_public_returned	neutralny	ok {nick} mi-a dat banii inapoi, scuze pentru drama
+N_071	N	global	loan_ask	neutralny	imi poate imprumuta cineva {cena}? dau inapoi maine
+N_072	N	whisper	loan_funded	neutralny	mersi, am primit {cena}
+W_009	W	global	lfg_exp_event	neutralny	grup pentru evenimentul de exp, cineva?
+D_003	D	global	lfg_boss	neutralny	{boss} {mapa_gdzie} e viu, cine vine?
+J_011	J	global	lfg_boss	neutralny	caut oameni pentru {boss}
+J_005	J	global	lfg_tower	neutralny	cine vine la DT? am nevoie de buff
+J_060	J	global	lfg_tower	neutralny	adunare DT la intrare, cine vine?
+J_061	J	guild	tower_gather	neutralny	adunare DT la parter langa piatra
+J_062	J	guild	tower_stone	neutralny	spargem piatra, veniti
+H_005	H	global	trade_need_scroll	neutralny	B> pergamente de binecuvantare, platesc {cena}/buc, pm
+H_006	H	global	trade_need_gear	neutralny	cumpar {skrot} +{plus} pana la {cena}
+P11_BUY_K1	H	global	trade_need_gear	neutralny	WTB {skrot} +{plus}, platesc {cena}, pm
+H_007	H	global	trade_need_book	neutralny	WTB carte {skill}, {cena}, pm
+H_008	H	global	trade_need_forget	neutralny	WTB {item}, {cena}, pm
+H_013	H	global	trade_need_gear	neutralny	cumpar {skrot} +{plus} cu hp, pana la {cena}, pm
+H_020	H	global	trade_need_scroll	neutralny	cumpar pergamente de binecuvantare cu {cena}/buc, pm
+H_021	H	global	trade_need_gear	neutralny	ofer {cena} pe abanos +7
+W_015	W	global	trade_need_moon	neutralny	B> cufere ale luminii lunii, platesc {cena}/buc
+Y_010	Y	global	trade_need_medal	neutralny	B> medalii de cal, platesc {cena}/buc
+H_054	H	global	trade_need_item	neutralny	B> {item} x{ile}, {cena} in total pm
+R_030	R	global	human_gz_thanks	zlosc	mersi
+U_019	U	local	duel_lost	smutek	{ile}:{ile}, mai jucam?
+U_020	U	local	duel_lost	smutek	{nick} m-a batut de {ile} ori, nu mai fac duel cu el xd
+U_021	U	local	duel_lost	smutek	sura vs ninja, mereu acelasi lucru...
+U_022	U	local	duel_lost	smutek	duelurile cu samani sunt o pedeapsa
+R_016	R	global	human_pk_repeat	zlosc	{gracz} te tin minte, {ile}:0 pentru tine, ti-o intorc
+R_017	R	global	human_pk_repeat	zlosc	{gracz} iar tu? xd
+U_030	U	local	duel_lost	smutek	{score}, revansa?
+U_031	U	local	duel_won	neutralny	{score}, gg
+E_060	E	local	revenge	zlosc	{score}
+H_055	H	whisper	trade_interest	neutralny	vinzi {item}?
+A_024	A	global	refine8	radosc	fierar 1 : eu 0... stai, a mers xD
+A_031	A	global	refine9	radosc	scut +9 xD nimeni nu urca scuturi, dar eu da
+A_032	A	global	refine9	radosc	abanos +9, acum am hp ca un tanc
+B_005	B	global	burn	smutek	4 binecuvantari si tot a picat, fierarul asta e un escroc
+B_014	B	global	burn	smutek	vreun {skrot} ieftin? l-am ars pe al meu
+C_009	C	global	reaction_tease	neutralny	minti
+C_010	C	global	reaction_success	radosc	cat vrei pe el?
+C_011	C	global	reaction_success	radosc	il vinzi?
+C_012	C	global	reaction_success	radosc	pune-l in magazin
+C_015	C	global	reaction_success	radosc	atunci tu faci cinste
+D_014	D	global	drop_book	radosc	a picat o carte de {skill}, are cineva nevoie?
+J_050	J	party	party_end	neutralny	plec acum, pa
+L_013	L	global	logout	neutralny	ma duc la culcare, pa
+L_014	L	global	logout	neutralny	noapte buna oameni buni
+L_039	L	global	fishing_trip	neutralny	merg la pescuit, iau o pauza xd
+L_043	L	global	reaction_success	radosc	haha
+L_044	L	global	reaction_success	radosc	felicitari
+L_045	L	global	reaction_success	radosc	da
+L_046	L	global	reaction_success	radosc	aha
+L_047	L	global	reaction_failure	smutek	serios?
+L_048	L	global	reaction_failure	smutek	nu se poate
+L_049	L	global	reaction_success	radosc	tare
+L_052	L	global	reaction_failure	smutek	lol
+L_053	L	global	reaction_failure	smutek	ce?
+L_054	L	global	topic_unknown	neutralny	habar n-am
+M_001	M	global	question_exp	neutralny	unde sa cresc in nivel la {lvl}?
+M_004	M	global	question_price	neutralny	cat costa acum un pergament de binecuvantare?
+M_008	M	global	question_skill	neutralny	ce abilitate sa cresc prima?
+M_020	M	global	blessing_quote	neutralny	binecuvantarile sunt cam {cena} acum
+M_023	M	global	skill_advice	neutralny	eu as creste intai {skill}
+M_025	M	global	market_unknown	neutralny	uita-te prin magazine
+D_001	D	global	boss_chest	neutralny	am luat un cufar de la {boss} :D
+D_005	D	local	ks_boss	zlosc	cineva mi-a furat {boss}, frumos
+D_032	D	global	drop30	radosc	a picat {skrot} {sr}avg :D
+N_019	N	global	rumour_watch	zlosc	mersi de info, nu fac schimb cu el
+N_020	N	global	rumour_watch	zlosc	e tipul ala care a pus ceva la cale recent?
+N_073	N	global	rumour_reject	zlosc	nu-l cred
+K_010	K	global	guild_left	neutralny	plec din {gildia}, mersi pentru tot
+K_013	K	guild	guild_welcome	neutralny	{nick} bun venit in breasla xd
+K_016	K	whisper	human_guild_invite	neutralny	vrei sa intri in {gildia}?
+P_003	P	global	rare_metin_daily	neutralny	15 metine sparte azi
+P_006	P	global	rare_fish_caught	neutralny	am prins {ryba}!
+P_008	P	global	rare_fish_stock	neutralny	vrea cineva peste? am vreo 200
+P_014	P	global	rare_book_failure	neutralny	cartea de abilitate a picat de 5 ori la rand
+P_016	P	global	rare_book_failure	neutralny	citesc intruna si nimic
+P_002	P	global	rare_metin_stolen	neutralny	cine mi-a furat metinul ala
+P_004	P	global	rare_metin_found	neutralny	metin {mapa_gdzie}, primul venit primul servit
+O_009	O	global	emotion_burn	smutek	fierarul asta ma e***** de cap
+M_006	M	global	question_rod	neutralny	de unde pot cumpara o undita?
+M_022	M	global	rod_vendor	neutralny	undita la pescar
+M_015	M	global	question_guild	neutralny	cum intru intr-o breasla?
+K_002	K	global	question_guild	neutralny	caut breasla, {lvl} {klasa}, activ
+K_003	K	global	question_guild	neutralny	cine ma poate lua intr-o breasla?
+M_042	M	global	guild_advice	neutralny	intreaba-l pe liderul {gildia}
+V_016	V	global	reroll40	radosc	am scos {sr}avg dar daunele abilitatilor s-au inrautatit
+V_025	V	global	bracelet_maxcrit	radosc	bratara gata, 2k hp + {bon}
+V_026	V	global	achievement_question	neutralny	cat?? arata
+V_030	V	global	reaction_tease	neutralny	screen sau nu s-a intamplat xd
+V_031	V	global	reaction_success	radosc	invidie
+V_033	V	global	mix_question	neutralny	cate pietre de schimbare?
+V_034	V	global	reaction_tease	neutralny	minti xd
+V_036	V	global	reaction_success	radosc	doar nu urca noaptea xd
+V_037	V	global	bonus_answer	neutralny	{bon}
+W_011	W	global	moon_potions50	neutralny	am deschis 50 de cufere si nimic interesant
+W_013	W	global	moon_book	neutralny	cufarul mi-a dat o carte de {skill}, are cineva nevoie?
+W_018	W	global	moon_open100	neutralny	am deschis deja 100 de cufere...
+W_019	W	global	moon_potions	neutralny	numai potiuni in cuferele alea -.-
+P_007	P	global	rare_fish_hours	neutralny	6h de pescuit, nu ma judecati
+P_009	P	global	fish_empty	neutralny	pestii nu musca azi
+X_005	X	global	fish_empty	neutralny	pestii nu musca azi
+X_006	X	global	fish_empty	neutralny	pescuiesc de o ora si nimic
+N_001	N	global	item_scam	zlosc	{nick} m-a jefuit, nu aveti incredere in el!!
+N_002	N	global	item_scam	zlosc	atentie la {nick}, a luat banii si n-a dat obiectul
+N_003	N	global	item_scam	zlosc	{nick} m-a tepuit la schimb, nu faceti afaceri cu el
+N_004	N	global	item_scam	zlosc	nu-mi dau seama cine e mai rau, {nick} sau fierarul xd
+N_005	N	global	item_scam	zlosc	{nick} e un escroc, atentie
+N_006	N	global	rumour_deny	zlosc	eu?? n-am furat nimic, minte
+N_008	N	global	rumour_deny	zlosc	a fost o gluma xd
+H_056	H	whisper	item_promise	neutralny	plateste {cena}, iti dau {item}
+H_057	H	whisper	item_prepay	neutralny	ok platesc acum
+F_003	F	global	war_declared	neutralny	{gildia_wroga} incepeti sa plangeti de acum
+F_004	F	global	war_declared	neutralny	ii zdrobim ca data trecuta
+F_005	F	global	war_declared	neutralny	am castigat data trecuta, la fel si acum xd
+F_006	F	global	war_declared	neutralny	va amintiti infrangerea de saptamana trecuta? acum razbunare
+F_007	F	global	war_declared	neutralny	ne-au batut data trecuta, nu si acum
+F_012	F	guild	war_prepare	neutralny	impartiti potiuni cu cei care n-au
+F_015	F	global	war_lost	smutek	am pierdut, dar a fost aproape
+F_020	F	global	war_lost	smutek	fara revansa?
+F_022	F	global	war_won	radosc	aduceti mai multi oameni data viitoare
+F_023	F	global	war_declared	neutralny	{gildia_wroga} aveti macar un buffer? xd
+F_031	F	global	war_lost	smutek	pierderea asta m-a e****** de tot
+F_032	F	guild	war_guild_lost	smutek	cum am pierdut...
+F_033	F	guild	war_guild_won	neutralny	am castigat xd
+N_031	N	global	drop_books_three	zlosc	am gasit 3 carti de abilitate deodata, am castigat la loterie
+Y_005	Y	global	medal_daily	neutralny	{ile} medalii azi xd
+Z_002	Z	global	m3_drop	radosc	inca un {skrot} de pe m3, {sr} avg ehh
+Z_010	Z	global	m3_good	neutralny	in sfarsit peste 30 avg de pe m3
+J_046	J	party	party_afk_start	neutralny	brb 2 min
+J_047	J	party	party_afk_back	neutralny	m-am intors
+L_011	L	global	afk_start	neutralny	brb
+L_012	L	global	afk_back	neutralny	revin
+N_057	N	global	afk_back	neutralny	mi-am lasat caracterul aici, m-am intors viu, minune
+M_002	M	global	question_weapon30	neutralny	ce arma de nivel 30 pentru {klasa}?
+M_009	M	global	question_metin	neutralny	unde sunt metine pentru nivelul {lvl}?
+Y_011	Y	global	question_medal_price	neutralny	cat costa acum medaliile de cal?
+M_043	M	global	weapon30_advice	neutralny	la 30 uita-te la {item}
+M_044	M	global	metin_advice	neutralny	metine {mapa_gdzie}
+Y_019	Y	global	medal_quote	neutralny	medaliile cam {cena} bucata
+V_011	V	global	reroll40	radosc	{ile} schimbari si in sfarsit {sr} avg
+V_015	V	global	reroll40	radosc	ultima schimbare si {sr} avg xD
+V_023	V	global	max_bonus	radosc	dupa 30 de schimbari 2k hp si {bon} xd
+V_038	V	global	mix_count_answer	neutralny	am folosit {ile} schimbari
+V_017	V	global	top_rank	neutralny	cred ca {skrot}-ul meu e cel mai bun de pe server xd
+V_018	V	global	top_rank	neutralny	{skrot} {sr} avg, top 1 pe server
+V_019	V	global	top_rank	neutralny	are cineva {skrot} mai bun? ma indoiesc
+N_074	N	global	chronicle_rank_burn	zdziwienie	tineti minte cand {nick} a ars top1 {skrot} {sr} avg incercand +9?
+M_010	M	global	question_soul_stone	neutralny	ce fac cu pietrele spirituale?
+M_011	M	global	question_npc_sale	neutralny	merita sa vand la NPC?
+M_013	M	global	question_ebony	neutralny	merita sa urc cerceii de abanos?
+M_045	M	global	soul_stone_advice	neutralny	pietrele spirituale intra in soclurile armelor si armurilor
+M_046	M	global	npc_sale_advice	neutralny	NPC-ul da {cena} bucata pe {item}
+M_047	M	global	ebony_advice	neutralny	abanos +0: {ile} HP, uita-te la bonusuri
+M_005	M	global	question_v2	neutralny	cum ajung la v2?
+M_016	M	global	question_boss	neutralny	unde e {boss}?
+M_048	M	global	v2_route_advice	neutralny	drumul meu spre paianjeni trece prin {mapa}
+M_049	M	global	boss_location_advice	neutralny	{boss} e {mapa_gdzie}
+U_005	U	local	duel_invite	neutralny	gata
+U_006	U	local	duel_invite	neutralny	hai
+U_007	U	local	duel_invite	neutralny	haide
+X_009	X	global	rod_upgrade	neutralny	pescarul mi-a urcat undita la +{plus}
+Z_005	Z	global	m3_drop	radosc	al treilea {skrot} de pe m3, tot daune medii mici
+L_050	L	global	reaction_success	radosc	adevarat
+L_051	L	global	reaction_success	radosc	exact
+M_033	M	global	topic_unknown	neutralny	cauta pe google xd
+I_007	I	global	trade_need_material	neutralny	b> {ulep} x{ile}, platesc {cena}/buc, pm
+H_030	H	whisper	trade_offer	neutralny	prea scump
+H_033	H	whisper	trade_offer	neutralny	poti lasa mai jos?
+H_035	H	whisper	trade_offer	neutralny	cumpar daca lasi la {cena_mniej}
+H_026	H	global	trade_sold	neutralny	nu mai e disponibil
+H_040	H	global	trade_sold	neutralny	scuze, deja vandut
+H_043	H	global	trade_sold	neutralny	gata, mersi
+C_023	C	global	reaction_tease	neutralny	sa vedem cat rezista xd
+C_029	C	global	reaction_tease	neutralny	urmatoarea urcare il arde xd
+C_046	C	global	reaction_failure	smutek	binecuvantarile nu ajuta niciodata, va zic eu
+Y_012	Y	global	monkey_third_day	neutralny	a treia zi la maimute, nu merg nicaieri altundeva xd
+Y_014	Y	global	monkey_again	neutralny	iar maimute, m-am saturat de ele
+Y_017	Y	global	medal_daily	neutralny	medaliile cad ca nebunele azi
+S_002	S	global	trade_need_gear	neutralny	nivel 30, cumpar {skrot} +{plus} pana la {cena}, pm
+S_009	S	global	level	radosc	{lvl} si tot fara cal de lupta ;/
+J_034	J	global	lfg_reply	neutralny	pot, dar am cateva niveluri mai putin
+U_003	U	local	duel_invite	neutralny	cine vrea duel? {lvl} {klasa}
+E_013	E	global	revenge	zlosc	ti-am zis ca ma intorc
+E_023	E	local	duel_invite	neutralny	r?
+E_024	E	local	duel_invite	neutralny	hai
+E_025	E	local	duel_won	neutralny	gg wp
+E_026	E	local	duel_lost	smutek	mort xd
+A_006	A	global	refine8	radosc	+8 a intrat, incerc +9 tineti-mi pumnii
+A_012	A	global	review	neutralny	in sfarsit {skrot} +9, doua zile de farm
+A_015	A	global	review	neutralny	armura +9 in sfarsit, acum pot merge {mapa_dokad}
+A_019	A	global	refine8	radosc	+8 gata, acum nu-mi permit +9 ;/
+A_022	A	global	review	neutralny	ok +9 gata, ma culc fericit
+A_023	A	global	review	neutralny	ok +8 gata, incerc +9 maine
+A_026	A	global	trade_new_nine	neutralny	+9 direct in magazin, cine il vrea? xd
+B_006	B	global	review	neutralny	ok gata, nu mai urc nimic azi
+B_013	B	global	burn	smutek	deci acum alerg cu +5 xd
+B_018	B	global	review	neutralny	am ars +9, ies putin la aer
+B_022	B	global	review	neutralny	o saptamana de economii dusa intr-o secunda
+B_023	B	global	burn	smutek	era singurul meu {skrot} ;(
+B_026	B	global	review	neutralny	ok merg la pescuit sa ma calmez
+B_028	B	global	review	neutralny	data viitoare urc dimineata xd
+B_030	B	global	emotion_burn	smutek	f****** am ars +9
+B_031	B	global	emotion_burn	smutek	pe naiba iar
+B_032	B	global	emotion_burn	smutek	f***, +9 dus
+C_013	C	global	reaction_success	radosc	al meu a picat la +8 de trei ori ;/
+C_022	C	global	reaction_success	radosc	ok ma duc si eu sa urc
+C_026	C	global	review	neutralny	{nick} acum tu ma cari in pt xd
+C_027	C	global	review	neutralny	pff eu am +9 de o saptamana
+C_037	C	global	reaction_failure	smutek	si mie mi s-a intamplat ieri
+C_038	C	global	reaction_failure	smutek	relaxeaza-te, eu am ars doua +9 intr-o zi
+C_047	C	global	loan_friend_offer	neutralny	tine-te tare, iti pot imprumuta ceva
+C_048	C	global	review	neutralny	{nick} nu-ti face griji, facem altul nou in pt
+C_050	C	global	reaction_tease	neutralny	karma pentru asta xd
+D_004	D	global	review	neutralny	cine a omorat {boss}? am asteptat 20 de minute
+D_006	D	local	ks_boss	zlosc	iar ks la boss...
+D_007	D	global	boss_spawn	neutralny	{boss} a aparut {mapa_gdzie}
+D_010	D	global	review	neutralny	primul drop bun dintr-un metin vreodata
+D_011	D	global	review	neutralny	ezotericii au dat trei pietre azi
+D_012	D	global	review	neutralny	doua ore la paianjeni si niciun drop
+D_013	D	global	m3_drop	radosc	dropul e slab azi
+D_016	D	global	review	neutralny	am deschis un cufar si... nimic xd
+D_017	D	global	boss_fast_buff	neutralny	{boss} jos intr-un minut cu buffuri xd
+D_019	D	global	boss_party_thanks	zlosc	mersi pentru pt la boss, a fost fain
+D_020	D	global	review	neutralny	metinul a dat doar potiuni -.-
+D_021	D	global	review	neutralny	zece metine si nicio piatra, cum
+D_022	D	global	review	neutralny	am un permis, merg la v2
+D_025	D	local	lfg_local_reply	neutralny	ok impartim?
+D_026	D	local	drop_roomless	radosc	ia-l, oricum am desaga plina
+D_028	D	global	review	neutralny	regina paianjenilor mi-a omorat jumatate din pt xd
+D_029	D	global	review	neutralny	iar noua cozi la sohan? unde era
+D_030	D	global	review	neutralny	vinde cineva materiale de {boss}? cumpar
+D_031	D	global	boss_box_potions	neutralny	cufar de {boss}, il deschid... nimic bun
+E_003	E	global	pk_warning	zlosc	mod liber la un loc de farm, serios?
+E_004	E	global	review	neutralny	{nick} omoara pe toata lumea {mapa_gdzie}, atentie
+E_007	E	global	pk_twice_today	zlosc	{nick} a doua oara azi, o sa tin minte
+E_009	E	global	review	neutralny	asteapta doar sa cresc in nivel
+E_011	E	global	pk_warning	zlosc	ok {nick}, {score}
+E_016	E	global	review	neutralny	de ce {krol_wroga} fac mereu pk la locurile de farm
+E_017	E	guild	review	neutralny	{gildia} ajutor, {nick} ma loveste {mapa_gdzie}
+E_018	E	global	vendetta_search	neutralny	poate cineva sa-l bata pe {nick}? e prea puternic
+E_019	E	global	review	neutralny	m-a omorat si a luat bossul, super
+E_027	E	global	review	neutralny	un {klasa} {mapa_gdzie} omoara nivelurile mici
+E_028	E	global	review	neutralny	am mers doar sa cumpar potiuni...
+E_029	E	global	review	neutralny	ma intorc la locul meu si iar {nick} ;/
+E_031	E	global	vendetta_seen	neutralny	{nick} te vad {mapa_gdzie}, vin dupa tine
+E_032	E	global	vendetta_search	neutralny	l-a vazut cineva pe {nick}? am treaba cu el
+E_034	E	global	mob_death	smutek	m-a omorat un golem, nu intrebati
+E_035	E	global	near_death	smutek	am fost la un hp de moarte xD
+E_036	E	global	review	neutralny	am scapat pe cal cu 50 hp haha
+E_037	E	global	review	neutralny	lag nenorocit, am murit din cauza lui
+E_038	E	global	executor_kill	zlosc	inca unul
+E_039	E	global	executor_kill	zlosc	urmatorul va rog
+E_040	E	global	executor_kill	zlosc	{krol} conduce
+E_041	E	global	executor_kill	zlosc	cine urmeaza xd
+E_042	E	global	executor_kill	zlosc	nu plange
+E_043	E	global	executor_kill	zlosc	prea usor
+E_044	E	global	review	neutralny	{klasa} {lvl} {krol_wroga} face pk {mapa_gdzie}, ajutor?
+E_045	E	global	review	neutralny	veniti {mapa_dokad}, il batem impreuna
+E_046	E	global	review	neutralny	l-am batut xD
+E_047	E	global	review	neutralny	lasul a fugit
+F_002	F	guild	review	neutralny	razboi cu {gildia_wroga} la 20:00, toti prezenti
+F_009	F	global	review	neutralny	cati sunteti? noi suntem doisprezece
+F_010	F	global	review	neutralny	{gildia} gata
+F_011	F	global	war_muster	neutralny	incepem curand
+F_013	F	guild	war_prepare	neutralny	samanii, buff la toti inainte sa incepem
+F_016	F	global	review	neutralny	{nick} de la {gildia_wroga} are prea mult hp xd
+F_019	F	global	review	neutralny	{gildia_wroga} fugiti?
+F_024	F	guild	review	neutralny	toti din {gildia} {mapa_dokad}, acum!
+F_025	F	guild	review	neutralny	cine a lipsit e dat afara xd
+F_026	F	guild	review	neutralny	{nick} unde ai fost? am avut razboi
+F_029	F	global	review	neutralny	{gildia_wroga} toti afk
+G_001	G	global	review	neutralny	rosii stau iar la sohan
+G_002	G	global	review	neutralny	strumfii la desert, ca de obicei
+G_003	G	global	review	neutralny	galbenii fara buffuri ca intotdeauna xd
+G_004	G	global	ambient	neutralny	{krol} cei mai buni, sfarsitul discutiei
+G_005	G	global	review	neutralny	de ce toti {krol_wroga} au +9 si noi nu
+G_006	G	global	review	neutralny	albastrii fug mereu xd
+G_007	G	global	review	neutralny	sfeclele au luat iar locul de metine
+G_008	G	global	review	neutralny	vreun {krol} {mapa_gdzie}? avem nevoie de oameni
+G_009	G	global	review	neutralny	{krol_wroga} dati-ne inapoi sohanul
+G_010	G	global	ambient	neutralny	n-am nimic cu {krol_wroga}, lasati-i sa faca exp
+H_012	H	global	review	neutralny	am multe pietre pretioase de vanzare, pm
+H_014	H	global	question_owned_price	neutralny	PC {skrot}+{plus} {sr}avg?
+H_015	H	global	question_price	neutralny	cat costa acum {item}?
+H_016	H	global	question_owned_price	neutralny	cat pe {skrot}+{plus} {sr}%?
+H_017	H	global	review	neutralny	schimb {skrot} pe {skrot} plus yang
+H_018	H	global	trade_shop_cheap	neutralny	magazin in m1 la fierar, ieftin
+H_019	H	global	trade_material	neutralny	materiale ieftine in magazinul meu din m1
+H_027	H	global	trade_repeat	neutralny	inca disponibil
+H_028	H	global	trade_top	neutralny	S> {skrot}+{plus} {sr}avg {cena}, top pe server, pret fix
+H_029	H	whisper	trade_offer	neutralny	cat?
+H_032	H	global	trade_public_interest	neutralny	ok pm
+H_034	H	global	trade_public_interest	neutralny	mai ieftin in magazine xd
+H_039	H	whisper	trade_offer	neutralny	inca il ai?
+H_041	H	global	trade_public_interest	neutralny	ai si armura?
+H_042	H	whisper	trade_offer	neutralny	stai, imi numar yang-ul
+H_044	H	global	review	neutralny	{nick} mi-ai vandut abanos inainte, a fost bun :D
+I_001	I	global	review	neutralny	cine a cumparat toate binecuvantarile? {cena} bucata e furt
+I_003	I	global	review	neutralny	preturile materialelor sunt nebune azi
+I_005	I	global	review	neutralny	pietrele pretioase au inundat piata, doar {cena} acum
+I_006	I	global	review	neutralny	nicio carte de {skill} pe piata
+I_008	I	global	review	neutralny	fms cu avg bun costa o avere acum
+I_009	I	global	human_shop_expensive	neutralny	am vazut {skrot} {sr}avg pe {cena}, cine cumpara asa ceva xd
+I_010	I	global	review	neutralny	preturile au scazut, moment bun de cumparat
+I_011	I	global	review	neutralny	caut {ulep} de ieri, nimic
+I_012	I	global	review	neutralny	nimeni nu vinde iar fan? a, s-a terminat xd
+I_013	I	global	review	neutralny	bratarile cu hp s-au scumpit
+I_014	I	global	review	neutralny	binecuvantarile erau odata 100k
+I_015	I	global	review	neutralny	potiunile se scumpesc
+I_016	I	global	ambient	neutralny	nici potiuni nu-mi mai permit xd
+J_004	J	global	lfg_partial	neutralny	pt {mapa_gdzie}, un loc liber, pm
+J_009	J	global	review	neutralny	pt pentru paianjeni v2, am permis
+J_017	J	global	lfg_partial	neutralny	doua locuri in pt {mapa_gdzie}
+J_018	J	global	review	neutralny	pt pentru {boss}, ne vedem la intrare
+J_019	J	global	review	neutralny	caut un buffer, dau potiuni xd
+J_023	J	global	lfg_full	neutralny	pt {mapa_gdzie} plin, mersi
+J_029	J	global	review	neutralny	pot, dar in cinci minute
+J_030	J	global	lfg_count_question	neutralny	cati sunteti deja?
+J_036	J	global	review	neutralny	nu tu xd
+J_040	J	party	party_idle	neutralny	vin
+J_041	J	party	review	neutralny	asteptati la intrare
+J_048	J	party	review	neutralny	exp bun aici
+J_049	J	party	party_idle	neutralny	nu sunt multi mobi aici
+J_053	J	party	party_idle	neutralny	{nick} stai acolo si nu lovesti xd
+J_054	J	party	party_idle	neutralny	atentie, boss
+J_055	J	party	party_idle	neutralny	a murit cineva?
+J_056	J	party	party_idle	neutralny	ajutor la metinul asta?
+K_001	K	global	review	neutralny	{gildia} recruteaza {lvl}+, activi, pm
+K_004	K	global	review	neutralny	{gildia} cauta un saman
+K_005	K	global	review	neutralny	razboaie in fiecare seara, dati-ne pm
+K_006	K	global	review	neutralny	nu primim afk-isti xd
+K_007	K	global	guild_global	neutralny	e cineva din {gildia} aici?
+K_008	K	global	review	neutralny	m-au dat afara din breasla pentru nimic ;/
+K_009	K	global	guild_global	neutralny	{gildia} cea mai buna breasla de pe server
+K_011	K	guild	review	neutralny	toti {mapa_gdzie} diseara la 21:00
+K_014	K	guild	guild_idle	neutralny	{nick} de ce asa tacut, traiesti?
+K_015	K	global	guild_global	neutralny	liderul iar afk
+L_006	L	global	review	neutralny	lag groaznic azi
+L_007	L	global	review	neutralny	m-a dat afara, ce s-a intamplat
+L_008	L	global	review	neutralny	mai are cineva lag?
+L_010	L	global	review	neutralny	merg sa mananc, brb
+L_015	L	global	review	neutralny	scoala maine ehh
+L_016	L	global	review	neutralny	munca maine, pa
+L_018	L	global	review	neutralny	mai joaca cineva cat mine? xd
+L_019	L	global	review	neutralny	pe vremuri faceam dt la nivel 40
+L_023	L	global	review	neutralny	de ce nu sunt metine cand merg eu acolo
+L_024	L	global	review	neutralny	trei ore la locul asta, m-am saturat
+L_027	L	global	review	neutralny	{nick} unde ai fost ieri?
+L_031	L	global	chat_revived	neutralny	ok chatul traieste iar
+L_036	L	global	review	neutralny	calul meu e mai rapid decat internetul meu
+L_037	L	global	review	neutralny	fac yang toata ziua azi
+L_057	L	global	review	neutralny	poate schimb clasa xd
+L_058	L	global	review	neutralny	trei caractere si tot nu-mi aleg clasa
+L_059	L	global	potions_empty	neutralny	ehh iar fara potiuni
+L_060	L	global	review	neutralny	am uitat potiunile si am murit xd
+L_061	L	global	ambient	neutralny	mi-a vazut cineva calul? a, uite-l xd
+L_062	L	global	review	neutralny	cel mai rau e cand exp-ul sta la 99.9% o ora
+L_063	L	global	review	neutralny	metinul ala avea vreun milion de hp
+M_018	M	global	review	neutralny	fms pentru sura sau ninja, rib pentru razboinic
+M_019	M	global	review	neutralny	pune intai hp pe bratara
+M_021	M	global	review	neutralny	un permis si apoi v2, permisul vine din drop
+M_027	M	global	review	neutralny	asa am facut si a mers
+M_028	M	global	review	neutralny	nu-l asculta, {mapa} e mai bun
+M_030	M	global	ebony_advice	neutralny	abanosul merita mereu
+M_034	M	global	knowledge_private_offer	neutralny	da-mi pm si iti explic
+N_007	N	global	loan_paid_public	neutralny	{nick} ti-am dat banii inapoi, uita-te in desaga
+N_009	N	global	review	neutralny	nici nu-l cunosc
+N_012	N	global	rumour_deny	zlosc	{nick} mai vorbim noi
+N_014	N	global	rumour_watch	zlosc	m-a tepuit si pe mine inainte
+N_021	N	global	review	neutralny	{nick} sigur bot, opt ore intr-un loc
+N_022	N	global	review	neutralny	{nick} nu doarme niciodata se pare
+N_023	N	global	bot_joke	neutralny	{nick} esti bot?
+N_024	N	global	bot_joke_reply	neutralny	nu sunt bot xD
+N_025	N	global	bot_joke_reply	neutralny	un bot n-ar scrie asta ;p
+N_026	N	global	drop_roomless	radosc	a pierdut cineva {skrot} {mapa_gdzie}? e pe jos xd
+N_027	N	global	review	neutralny	dau {skrot}+{plus} gratis, primul venit
+N_028	N	global	review	neutralny	vrea cineva potiuni gratis? stau in m1
+N_029	N	global	review	neutralny	azi e ziua mea :D
+N_030	N	global	review	neutralny	un an de cand joc pe serverul asta azi
+N_032	N	global	review	neutralny	am vandut din greseala {skrot} la npc...
+N_033	N	global	review	neutralny	am pus {ulep} la de zece ori pretul, am reparat xd
+N_037	N	whisper	loan_location	neutralny	m1 la fierar, veniti
+N_039	N	whisper	loan_waiting	neutralny	astept
+N_040	N	whisper	loan_waiting	neutralny	nu te vad, unde stai?
+N_046	N	global	review	neutralny	chat gresit ups
+N_047	N	global	review	neutralny	scuze fereastra gresita
+N_048	N	global	review	neutralny	jjjjjjjjjjjjjjjjjj scuze, pisica pe tastatura
+N_049	N	global	review	neutralny	am o intrebare... a, m-am prins
+N_050	N	global	chronicle_dragon	neutralny	tineti minte primul dragon omorat aici?
+N_052	N	global	review	neutralny	cade serverul azi? lagul e ciudat
+N_053	N	global	review	neutralny	jur ca metinul ala avea mai mult hp decat trebuia
+N_054	N	global	review	neutralny	de ce stau ninja mereu in tufisuri xd
+N_055	N	global	gm_seen	neutralny	a vazut cineva un gm?
+N_056	N	global	review	neutralny	merg la masa, nu ma omorati
+P_001	P	global	review	neutralny	{mapa} curatat de metine, merg mai departe
+P_012	P	global	review	neutralny	am cumparat toate cartile de {skill}, scuze xd
+P_013	P	global	skill_master	neutralny	{skill} la M acum
+P_015	P	global	review	neutralny	cumpar orice cantitate de carti {skill}
+P_017	P	global	review	neutralny	urc tot ce am azi
+P_018	P	global	review	neutralny	cumpar mai multe {skrot}+0
+P_020	P	global	trade_refined_full	radosc	magazin plin de +7 si +8, treceti pe aici
+P_021	P	global	rare_gamble_finance	neutralny	am ramas fara yang dar am doua +9 xd
+P_023	P	global	review	neutralny	inca o incercare... ultima
+P_024	P	global	review	neutralny	nu-mi permit potiuni dar binecuvantari da
+P_025	P	global	review	neutralny	Calau, vezi 12E
+Q_001	Q	global	review	neutralny	hei {nick}, nu te-am vazut de mult
+Q_002	Q	global	review	neutralny	o, {nick} s-a intors
+Q_003	Q	global	greeting	neutralny	{nick} ce faci
+Q_010	Q	global	review	neutralny	ne vedem maine
+Q_012	Q	global	review	neutralny	{nick} pa, pt maine?
+Q_013	Q	local	encounter	neutralny	{nick} pleaca
+Q_014	Q	global	review	neutralny	o nu, {nick} s-a intors xd
+R_001	R	global	greeting	neutralny	{gracz} bun venit
+R_002	R	global	reaction_success	radosc	{gracz} gz
+R_004	R	global	greeting	neutralny	{gracz} ce nivel ai?
+R_005	R	global	greeting	neutralny	{gracz} esti in {gildia}?
+R_006	R	global	human_party_thanks	zlosc	{gracz} mersi pentru pt
+R_007	R	global	greeting	neutralny	{gracz} tu m-ai omorat ieri? xd
+R_008	R	global	review	neutralny	atentie la {gracz} {mapa_gdzie}, omoara pe toata lumea
+R_011	R	global	human_boss_help	neutralny	{gracz} ajuti la {boss}?
+R_012	R	whisper	human_party_invite	neutralny	{gracz} te vad {mapa_gdzie}, vino in pt
+R_013	R	global	human_bought	neutralny	{gracz} am cumparat {skrot} de la tine, mersi
+R_014	R	global	human_shop_expensive	neutralny	{gracz} magazinul tau e scump xd
+R_015	R	global	greeting	neutralny	{gracz} ala cu {skrot}+9?
+S_006	S	global	ambient	neutralny	inca doua niveluri pana la {lvl2}
+S_007	S	global	ambient	neutralny	exp-ul la {lvl} e un cosmar
+S_008	S	global	experience_slow	neutralny	un procent de exp pe ora... ehh
+S_010	S	global	review	neutralny	am ajuns {lvl}, merg {mapa_dokad}
+T_001	T	local	boss_claim	neutralny	ocupat
+T_004	T	local	encounter	neutralny	du-te in alta parte
+T_005	T	local	lfg_local_reply	neutralny	putem face farm impreuna?
+T_006	T	local	lfg_local_invite	neutralny	ok lovim impreuna
+T_007	T	local	review	neutralny	scuze, nu te-am vazut
+T_009	T	local	boss_incoming	neutralny	atentie, vine bossul
+T_012	T	local	lfg_local_reply	neutralny	impartim?
+T_013	T	local	review	neutralny	{nick} iar la locul meu
+T_015	T	local	lfg_local_invite	neutralny	{nick} intra in pt, e mai repede impreuna
+T_016	T	local	review	neutralny	nu sunt destui mobi pentru doi aici
+T_017	T	local	review	neutralny	plec, locul e al tau
+T_018	T	local	review	neutralny	cineva sta afk aici de o ora
+T_020	T	local	review	neutralny	pleaca d***** de la locul meu
+U_008	U	local	review	neutralny	nu acum, fac exp
+U_010	U	local	review	neutralny	primul la trei victorii?
+U_011	U	local	duel_lost	smutek	n-am chef xd
+U_016	U	local	duel_invite	neutralny	inca o data
+U_017	U	local	review	neutralny	am avut lag, nu se pune xd
+U_023	U	local	duel_lost	smutek	ok gata, merg la exp
+V_008	V	global	review	neutralny	primul drop cu {sr}avg vreodata
+V_012	V	global	reroll40	radosc	{skrot} {sr}avg schimbat, merg sa-l urc
+V_027	V	global	trade_public_interest	neutralny	il vinzi?
+V_028	V	global	trade_public_interest	neutralny	cat vrei pe el
+V_029	V	global	review	neutralny	iti dau {cena}
+V_032	V	global	review	neutralny	gz, schimb de o saptamana si nimic
+V_035	V	global	reaction_success	radosc	acum +9 si esti un zeu
+W_002	W	global	event_start	neutralny	eveniment {event}, merg la farm
+W_003	W	global	review	neutralny	eveniment de exp? merg {mapa_dokad}
+W_020	W	global	review	neutralny	eveniment de yang si niciun drop pentru mine
+W_021	W	global	event_exp_progress	neutralny	exp-ul zboara
+W_022	W	global	event_drop_progress	radosc	dropul chiar e mai bun azi
+W_023	W	global	review	neutralny	fac farm de la inceputul evenimentului, sunt terminat xd
+W_024	W	global	event_last_hour	neutralny	evenimentul se termina intr-o ora, farm
+W_027	W	global	review	neutralny	eveniment terminat, ma culc xd
+W_029	W	global	event_end	neutralny	a fost un eveniment bun
+X_007	X	global	review	neutralny	iar gunoi in undita
+X_008	X	global	fish_no_bait	neutralny	am ramas fara momeala
+X_017	X	global	review	neutralny	am prins ceva ciudat, habar n-am ce
+X_018	X	global	review	neutralny	primul peste vreodata :D
+Y_007	Y	global	review	neutralny	inca cateva medalii si armura +9
+Y_008	Y	global	review	neutralny	in sfarsit bani de {skrot}+9 din medalii
+Y_015	Y	global	review	neutralny	maimutele usoare sunt prea usoare, merg la medii
+Y_018	Y	global	review	neutralny	nicio medalie de o ora, ce se intampla
+Z_003	Z	global	review	neutralny	fac farm de {skrot} pe m3, sper la avg bun
+Z_006	Z	global	review	neutralny	m3 are cele mai bune dropuri de nivel 30
+Z_007	Z	global	review	neutralny	S> {skrot} de pe m3, {sr}avg, ieftin
+Z_011	Z	global	review	neutralny	m3 plin de oameni, n-ai loc sa lovesti
+Z_012	Z	global	review	neutralny	merg pe m3 dupa propriul {skrot}
+O_007	O	global	review	neutralny	pleaca d***** de la locul meu
+O_008	O	global	review	neutralny	lag nenorocit
+E_048	E	guild	vendetta_help	neutralny	{gildia}, cine poate ajuta cu {nick} {mapa_gdzie}?
+E_049	E	guild	vendetta_help	neutralny	te tin minte {nick}, breasla, poate ajuta cineva?
+E_050	E	global	mob_death	smutek	{mob} m-a omorat, prea puternic ;/
+E_051	E	global	mob_death	smutek	{mob} m-a batut xd
+M_050	M	global	owned_item_appraisal	neutralny	evaluare in jur de {cena}, uita-te si prin magazine
+J_063	J	global	lfg_count_answer	neutralny	{ile} in grup pana acum
+D_033	D	whisper	human_ks	zlosc	hei, eu loveam mobul ala primul
+D_034	D	whisper	human_ks	zlosc	pe urmatorul lasa-mi-l mie, da?
+D_035	D	whisper	human_ks	zlosc	fara ks va rog, ma luptam cu el
+D_036	D	whisper	human_ks	zlosc	hei, lasa-ma sa-mi termin mobul
+P8_F01	A	global	p8_rare_fish	radosc	Am prins un {ryba}
+P8_F02	A	global	p8_rare_fish	radosc	O, un {ryba}. Captura rara pentru mine
+P8_F03	A	party	fish_caught	neutralny	Am un {ryba}
+P8_LFG_001	J	party	p8_lfg_depart	neutralny	Merg {mapa_dokad}, veniti.
+P8_LFG_002	J	party	p8_lfg_arrived	neutralny	Sunt {mapa_gdzie}, langa intrare.
+P8_LFG_003	J	party	p8_lfg_wait	neutralny	Mai esti acolo? Mai astept putin.
+P8_GM_greeting_0	G	global	ogloszenie_gm	radosc	wow GM
+P8_GM_greeting_1	G	global	ogloszenie_gm	radosc	hei GM
+P8_GM_greeting_2	G	global	ogloszenie_gm	radosc	o, GM e aici
+P8_GM_greeting_3	G	global	ogloszenie_gm	radosc	buna GM
+P8_GM_greeting_4	G	global	ogloszenie_gm	radosc	salut GM
+P8_GM_greeting_5	G	global	ogloszenie_gm	radosc	hei GM
+P8_GM_greeting_6	G	global	ogloszenie_gm	radosc	o wow GM pe server
+P8_GM_greeting_7	G	global	ogloszenie_gm	radosc	bun venit GM
+P8_GM_greeting_8	G	global	ogloszenie_gm	radosc	GM ce mai faci
+P8_GM_greeting_9	G	global	ogloszenie_gm	radosc	salutare
+P8_GM_greeting_10	G	global	ogloszenie_gm	radosc	GM ai un moment?
+P8_GM_greeting_11	G	global	ogloszenie_gm	radosc	ooo
+P8_GM_restart_0	G	global	ogloszenie_gm	neutralny	cat va dura pauza?
+P8_GM_restart_1	G	global	ogloszenie_gm	neutralny	termin
+P8_GM_restart_2	G	global	ogloszenie_gm	neutralny	mai e timp de o piatra?
+P8_GM_restart_3	G	global	ogloszenie_gm	neutralny	bine, notat
+P8_GM_restart_4	G	global	ogloszenie_gm	neutralny	ok, mersi de avertizare
+P8_GM_restart_5	G	global	ogloszenie_gm	neutralny	sper sa fie repede
+P8_GM_restart_6	G	global	ogloszenie_gm	neutralny	exista o lista de schimbari?
+P8_GM_restart_7	G	global	ogloszenie_gm	neutralny	sper sa mearga repede
+P8_GM_restart_8	G	global	ogloszenie_gm	neutralny	timpul pentru o pauza de cafea
+P8_GM_restart_9	G	global	ogloszenie_gm	neutralny	unde vor fi noutatile?
+P8_GM_event_0	G	global	ogloszenie_gm	podekscytowanie	EVENIMENT
+P8_GM_event_1	G	global	ogloszenie_gm	podekscytowanie	ce eveniment?
+P8_GM_event_2	G	global	ogloszenie_gm	podekscytowanie	cat dureaza evenimentul?
+P8_GM_event_3	G	global	ogloszenie_gm	podekscytowanie	unde sunt infos despre eveniment?
+P8_GM_event_4	G	global	ogloszenie_gm	podekscytowanie	bine, citesc despre eveniment
+P8_GM_event_5	G	global	ogloszenie_gm	podekscytowanie	ooo eveniment
+P8_GM_event_6	G	global	ogloszenie_gm	podekscytowanie	ce vom putea farma?
+P8_GM_event_7	G	global	ogloszenie_gm	podekscytowanie	GM da-ne detalii
+P8_GM_event_end_0	G	global	ogloszenie_gm	neutralny	ok, evenimentul s-a terminat
+P8_GM_event_end_1	G	global	ogloszenie_gm	neutralny	mersi pentru eveniment
+P8_GM_event_end_2	G	global	ogloszenie_gm	neutralny	bine, inapoi la grind
+P8_GM_event_end_3	G	global	ogloszenie_gm	neutralny	cand e urmatorul?
+P8_GM_event_end_4	G	global	ogloszenie_gm	neutralny	ok, mersi
+P8_GM_question_0	G	global	ogloszenie_gm	neutralny	ce vrei sa zici exact?
+P8_GM_question_1	G	global	ogloszenie_gm	neutralny	stai, citesc
+P8_GM_question_2	G	global	ogloszenie_gm	neutralny	raspund imediat
+P8_GM_question_3	G	global	ogloszenie_gm	neutralny	poti sa clarifici?
+P8_GM_question_4	G	global	ogloszenie_gm	neutralny	vad intrebarea de la GM
+P8_GM_info_0	G	global	ogloszenie_gm	neutralny	ok
+P8_GM_info_1	G	global	ogloszenie_gm	neutralny	mersi de info
+P8_GM_info_2	G	global	ogloszenie_gm	neutralny	frumos
+P8_GM_info_3	G	global	ogloszenie_gm	neutralny	sigur
+P8_GM_info_4	G	global	ogloszenie_gm	neutralny	bine
+P8_GM_info_5	G	global	ogloszenie_gm	neutralny	bine, citesc
+P8_GM_info_6	G	global	ogloszenie_gm	neutralny	ok, mersi
+P8_GM_info_7	G	global	ogloszenie_gm	neutralny	bine de stiut
+P8_GM_info_8	G	global	ogloszenie_gm	neutralny	am primit info
+P8_GM_info_9	G	global	ogloszenie_gm	neutralny	mersi GM
+P8_GM_info_10	G	global	ogloszenie_gm	neutralny	am inteles
+P8_GM_info_11	G	global	ogloszenie_gm	neutralny	notat
+P10S2_Q01	M	global	trade_pytanie_o_cene	neutralny	cu cat sa vand asta? {link}
+P10S2_Q02	M	global	trade_pytanie_o_cene	neutralny	cat valoreaza asta? {link}
+P10S2_Q03	M	global	trade_pytanie_o_cene	neutralny	ce ati da pe asta? {link}
+P10S2_Q04	M	global	trade_pytanie_o_cene	neutralny	stie cineva cu cat se vinde {przedmiot}?
+P10S2_Q05	M	global	trade_pytanie_o_cene	neutralny	cu cat merge acum {przedmiot} pe piata?
+P10S2_Q06	M	global	trade_pytanie_o_cene	neutralny	la ce pret sa-l pun? {link}
+P10S2_Q07	M	global	trade_pytanie_o_cene	neutralny	{link} cat ar putea valora
+P10S2_Q08	M	global	review	neutralny	mi-a picat ceva de genul asta, cat? {link}
+P10S2_Q09	M	global	trade_pytanie_o_cene	neutralny	vand sau pastrez? {link}
+P10S2_Q10	M	global	trade_pytanie_o_cene	neutralny	valoreaza ceva asta? {link}
+P10S2_Q11	M	global	trade_pytanie_o_cene	neutralny	care e pretul pentru asta? {link}
+P10S2_Q12	M	global	trade_pytanie_o_cene	neutralny	cat pe {przedmiot} {sr} avg?
+P10S2_Q13	M	global	trade_pytanie_o_cene	neutralny	cat pe {przedmiot} +{plus}?
+P10S2_Q14	M	global	trade_pytanie_o_cene	neutralny	habar n-am la ce pret sa pun {przedmiot}, ajutor xd
+P10S2_Q15	M	global	trade_pytanie_o_cene	neutralny	stie cineva preturile? {link}
+P10S2_Q16	M	global	trade_pytanie_o_cene	neutralny	cat ati plati pe {przedmiot}?
+P10S2_Q17	M	global	trade_pytanie_o_cene	neutralny	care e maximul pentru asta? {link}
+P10S2_Q18	M	global	trade_pytanie_o_cene	neutralny	e bun sau gunoi? {link}
+P10S2_A01	M	global	trade_cena_odpowiedz	neutralny	{cena} usor
+P10S2_A02	M	global	trade_cena_odpowiedz	neutralny	o sa iei {cena}
+P10S2_A03	M	global	trade_cena_odpowiedz	neutralny	{cena} max
+P10S2_A04	M	global	trade_cena_odpowiedz	neutralny	pune-l la {cena}, se vinde
+P10S2_A05	M	global	trade_cena_odpowiedz	neutralny	{cena} sau pe acolo
+P10S2_A06	M	global	trade_cena_odpowiedz	neutralny	eu as da {cena}
+P10S2_A07	M	global	trade_cena_sklepy	neutralny	le-am vazut la {cena}
+P10S2_A08	M	global	trade_cena_widelki	neutralny	{cena} - {cena_wyzsza}
+P10S2_A09	M	global	trade_cena_sklepy	neutralny	in magazine e la {cena}
+P10S2_A10	M	global	trade_cena_odpowiedz	neutralny	nu mai mult de {cena}
+P10S2_R01	M	global	trade_cena_zostaw_lepsze	neutralny	nu-l vinde, e mai bun decat ce porti
+P10S2_R02	M	global	trade_cena_zostaw_top	neutralny	pastreaza-l, nu mai cumperi unul asa
+P10S2_R03	M	global	trade_cena_zostaw_top	podekscytowanie	e de top, nu-l vinde ieftin
+P10S2_R04	M	global	trade_cena_zostaw_lepsze	neutralny	pastreaza-l
+P10S2_R05	M	global	trade_cena_zostaw_top	neutralny	pastreaza-l
+P10S2_R06	M	global	trade_cena_npc	ironia	da-l la npc xd
+P10S2_R07	M	global	trade_cena_npc	neutralny	e gunoi, scuze
+P10S2_R08	M	global	trade_cena_npc	neutralny	probabil nu-l cumpara nimeni
+P10S2_R09	M	global	trade_cena_pokaz	neutralny	depinde de bonusuri, arata-l
+P10S2_O01	M	global	trade_cena_oferta	neutralny	iti dau {cena}
+P10S2_O02	M	global	trade_cena_oferta	neutralny	iti dau {cena_nizsza}, pm
+P10S2_O03	M	global	trade_cena_oferta	neutralny	mi-l vinzi? pm
+P10S2_J01	M	global	trade_cena_zart	ironia	un milion de dolari xd
+P10S2_J02	M	global	trade_cena_zart	ironia	nepretuit xd
+P10S2_J03	M	global	trade_cena_zart	ironia	pentru tine 1 yang xd
+P10S2_K01	M	global	trade_cena_reakcja	radosc	ok mersi
+P10S2_K02	M	global	trade_cena_reakcja	neutralny	mersi, il pun la vanzare
+P10S2_K03	M	global	trade_cena_reakcja_malo	smutek	doar atat?
+P10S2_K04	M	global	trade_cena_reakcja_duzo	zdziwienie	chiar atat?
+P10S2_K05	M	global	trade_cena_reakcja_zostaw	neutralny	ok, il pastrez
+P10S2_K06	M	global	review	ironia	ok atunci la npc xd
+P10S2_K07	M	global	trade_cena_reakcja_pw	neutralny	{nick} pm
+P10S2_K08	M	global	trade_cena_reakcja	neutralny	ok il pun la {cena}
+P10S4_U01	H	global	trade_podciecie_szt	neutralny	WTS {przedmiot} {cena_nizsza}/buc, mai ieftin
+P10S4_U02	H	global	trade_podciecie	neutralny	eu am {przedmiot} la {cena_nizsza}
+P10S4_U03	H	global	trade_podciecie	neutralny	al meu e {cena_nizsza}
+P10S4_U04	H	global	trade_podciecie	neutralny	{przedmiot} {cena_nizsza}, nu platiti prea mult
+P10S4_U05	H	global	trade_podciecie	neutralny	mai ieftin la mine, {cena_nizsza}
+P10S4_U06	H	global	trade_podciecie	ironia	de ce {cena} cand al meu e {cena_nizsza} xd
+P10S4_U07	H	global	trade_podciecie	neutralny	{przedmiot} {cena_nizsza} pm, repede
+P10S4_U08	H	global	trade_podciecie	neutralny	il am mai ieftin: {cena_nizsza}
+P10S4_U09	H	global	trade_podciecie_najtaniej	neutralny	WTS {przedmiot} {cena_nizsza} - cel mai ieftin
+P10S4_F01	H	global	trade_podciecie_runda	neutralny	atunci al meu {cena_nizsza}
+P10S4_F02	H	global	trade_podciecie_wyrownanie	neutralny	bine, si al meu {cena_nizsza}
+P10S4_F03	H	global	trade_podciecie_docinka	zlosc	strici piata
+P10S4_F04	H	global	trade_podciecie_docinka	ironia	ok ia clientii xd
+P10S4_F05	H	global	trade_podciecie_znowu	zlosc	{nick} iar tu?
+P10S4_F06	H	global	trade_podciecie_docinka	ironia	curand o sa-l dai gratis xd
+P10S4_F07	H	global	trade_podciecie_docinka	zlosc	hei nu mai scadea pretul
+P10S4_F08	H	global	trade_podciecie_zmowa	neutralny	ok sa nu ne mai taiem preturile, amandoi la {cena}
+P10S4_C01	H	global	trade_podciecie_komentarz	ironia	razboi al preturilor xd
+P10S4_C02	H	global	trade_podciecie_komentarz	ironia	popcorn
+P10S4_C03	H	global	trade_podciecie_komentarz	radosc	continuati, cumpar eu xd
+P10S4_C04	H	global	trade_podciecie_komentarz	ironia	inca putin si o sa fie gratis
+P10B_AD_01	H	global	trade_barter	neutralny	schimb {przedmiot} pe {zyczenie}
+P10B_AD_02	H	global	trade_barter	neutralny	schimb {skrot} +{plus} pe {zyczenie}, pm
+P10B_AD_03	H	global	trade_barter	neutralny	schimb: dau {przedmiot}, caut {zyczenie}
+P10B_AD_04	H	global	trade_barter_topup	neutralny	{przedmiot} pe {zyczenie}? pot adauga yang
+P10B_AD_05	H	global	trade_barter	neutralny	ce-mi dai pe {przedmiot}? doar schimburi
+P10B_AD_06	H	global	trade_barter	neutralny	caut {zyczenie}, dau {przedmiot}
+P10B_AD_07	H	global	trade_barter	neutralny	{przedmiot} pe {zyczenie}, dati-mi pm
+P10B_AD_08	H	global	trade_barter	neutralny	are cineva {zyczenie}? dau {przedmiot}
+P10B_AD_09	H	global	trade_barter	neutralny	{przedmiot} de schimb, vreau {zyczenie}
+P10B_ASK_01	H	whisper	barter_ask	neutralny	arata-mi
+P10B_ASK_02	H	whisper	barter_ask	neutralny	ce bonusuri?
+P10B_ASK_03	H	whisper	barter_ask	neutralny	da link
+P10B_SHOW_01	H	whisper	barter_show	neutralny	uite: {przedmiot}
+P10B_SHOW_02	H	whisper	barter_show	neutralny	{przedmiot}, tu ce ai?
+P10B_SHOW_03	H	whisper	barter_show	neutralny	{przedmiot}, ce oferi?
+P10B_OFFER_01	H	whisper	barter_offer	neutralny	dau {przedmiot}
+P10B_OFFER_02	H	whisper	barter_offer	neutralny	am {przedmiot}, e bun?
+P10B_ACC_01	H	whisper	barter_accept	radosc	ok batem palma, unde esti?
+P10B_ACC_02	H	whisper	barter_accept	radosc	bine, s-a facut
+P10B_CNT_01	H	whisper	barter_counter	neutralny	adaugi {doplata}?
+P10B_CNT_02	H	whisper	barter_counter	neutralny	doar daca adaugi {doplata}
+P10B_TOP_01	H	whisper	barter_topup_yes	neutralny	ok, adaug {doplata}
+P10B_MAX_01	H	whisper	barter_topup_max	neutralny	pot adauga maxim {doplata}
+P10B_REF_01	H	whisper	barter_refuse	neutralny	scuze, prea slab
+P10B_REF_02	H	whisper	barter_refuse	neutralny	eu totusi vreau {zyczenie}
+P10B_GIVE_01	H	whisper	barter_give_up	neutralny	ok nu ne intelegem xd
+P10B_PLACE_01	H	whisper	barter_place	neutralny	ne vedem la fierar {mapa_gdzie}
+P10B_PLACE_02	H	whisper	barter_place	neutralny	vino la fierar {mapa_gdzie}
+P10B_WALK_01	H	whisper	barter_place_walk	neutralny	vin la tine
+P10B_WALK_02	H	whisper	barter_place_walk	neutralny	sunt pe drum, asteapta
+P10B_WAIT_01	H	whisper	barter_place_wait	neutralny	sunt {mapa_gdzie}, vino
+P10B_COME_01	H	whisper	barter_coming	neutralny	vin, aproape am ajuns
+P10B_HERE_01	H	whisper	barter_here	neutralny	aici, deschide trade
+P10B_OK_01	H	whisper	barter_accept_window	neutralny	apasa accept
+P10B_WRONG_01	H	whisper	barter_wrong	zdziwienie	nu asta ai zis
+P10B_BONUS_01	H	whisper	barter_no_bonus	zdziwienie	unde sunt bonusurile?
+P10B_TOPUP_01	H	whisper	barter_no_topup	zdziwienie	lipseste yang-ul
+P10B_CHEAT_01	H	whisper	barter_cheat	zlosc	fara tepe, nu fac schimb cu tine
+P10B_DONE_01	H	whisper	barter_done	radosc	mersi, afacere buna :D
+P10B_STALE_01	H	whisper	barter_stale	neutralny	ok, lasa
+P10B_NOSHOW_01	H	whisper	barter_no_show	ironia	n-ai mai aparut xd
+P10B_NONE_01	H	whisper	barter_none	neutralny	n-am nimic de schimb
+P10B_NONE_02	H	whisper	barter_none	neutralny	nu schimb asta
+P10B_BUSY_01	H	whisper	barter_busy	neutralny	nu acum, fac deja un schimb
+P11_BARTER_Y1	H	whisper	barter_yang	neutralny	diferenta prea mare pentru schimb, doar yang
+P11_BARTER_Y2	H	whisper	barter_yang	neutralny	asa nu schimb, dar cu yang merge
+P10_CD_LVL_1	L	global	p10_goal_level	neutralny	scopul de azi: un nivel
+P10_CD_LVL_2	L	global	p10_goal_level	neutralny	scopul azi e un nivel, ma duc la grind
+P10_CD_LVL_3	L	global	p10_goal_level	radosc	cresc in nivel azi, fara mila xd
+P10_CD_EXP_1	L	global	p10_goal_exp	neutralny	scopul de azi: {ile}% exp
+P10_CD_EXP_2	L	global	p10_goal_exp	neutralny	am nevoie de {ile}% exp azi
+P10_CD_LV2_1	L	global	p10_goal_levels	radosc	scopul de azi: 2 niveluri xd
+P10_CD_LV2_2	L	global	p10_goal_levels	neutralny	2 niveluri azi sau nimic
+P10_CD_PT_1	L	global	p10_goal_party	neutralny	azi doar exp in grup
+P10_CD_PT_2	L	global	p10_goal_party	neutralny	scopul azi e exp in grup, nu merg solo
+P10_CD_YANG_1	L	global	p10_goal_yang	neutralny	ma duc sa fac yang, am nevoie de {cena}
+P10_CD_YANG_2	L	global	p10_goal_yang	neutralny	scopul de azi: {cena} profit curat
+P10_CD_MAT_1	L	global	p10_goal_material	neutralny	fac {ulep} azi, {ile} bucati
+P10_CD_MAT_2	L	global	p10_goal_material	neutralny	am nevoie de {ile}x {ulep}, merg la farm
+P10_CD_MET_1	L	global	p10_goal_metins	neutralny	azi doar metine
+P10_CD_MET_2	L	global	p10_goal_metins	neutralny	scopul de azi: {ile} metine
+P10_CD_BOSS_1	L	global	p10_goal_boss	neutralny	azi omor {boss}
+P10_CD_BOSS_2	L	global	p10_goal_boss	neutralny	scopul de azi: {boss}
+P10_CD_MED_1	L	global	p10_goal_medals	neutralny	merg la maimute, scopul e {ile} medalii
+P10_CD_MED_2	L	global	p10_goal_medals	neutralny	fac medalii azi, {ile} bucati
+P10_CD_REF_1	L	global	p10_goal_refine	neutralny	imi urc {skrot}-ul azi
+P10_CD_REF_2	L	global	p10_goal_refine	neutralny	scopul de azi: +1 pe {skrot}
+P10_CD_BUY_1	L	global	p10_goal_buy	neutralny	azi cumpar ceva mai bun pentru echipament
+P10_CD_BUY_2	L	global	p10_goal_buy	neutralny	caut echipament mai bun pe piata azi
+P10_CD_SELL_1	L	global	p10_goal_sell	neutralny	trebuie sa vand de {cena} azi
+P10_CD_SELL_2	L	global	p10_goal_sell	neutralny	scopul de azi: {cena} din magazin
+P10_CD_BOOK_1	L	global	p10_goal_books	neutralny	citesc carti azi, {ile} trebuie sa intre
+P10_CD_BOOK_2	L	global	p10_goal_books	neutralny	scopul: {ile} carti de abilitate reusite azi
+P10_CD_BUFF_1	L	global	p10_goal_buff	neutralny	dau buff oricui pot azi, {ile} oameni
+P10_CD_BUFF_2	L	global	p10_goal_buff	neutralny	scopul de azi: buff la {ile} oameni
+P10_CD_HALF_1	L	global	p10_goal_half	radosc	jumatate gata
+P10_CD_HALF_2	L	global	p10_goal_half	radosc	scopul pe jumatate gata
+P10_CD_SLOW_1	L	global	p10_goal_slow	smutek	merge prost ;/
+P10_CD_SLOW_2	L	global	p10_goal_slow	smutek	nu merge bine azi
+P10_CD_FAIL_1	L	global	p10_goal_failed	smutek	nimic nu-mi iese azi
+P10_CD_FAIL_2	L	global	p10_goal_failed	zlosc	scop ratat -.-
+P10_FS_KID_1	S	global	p10_first_kid	podekscytowanie	PRIMUL {lvl} PE SERVER NOOBILOR
+P10_FS_KID_2	S	global	p10_first_kid	radosc	{lvl} FACUT PRIMUL xD
+P10_FS_KID_3	S	global	p10_first_kid	podekscytowanie	{lvl} PRIMUL EZ
+P10_FS_KID_4	S	global	p10_first_kid	podekscytowanie	cine a luat primul {lvl}? EU!!!
+P10_FS_KID_5	S	global	p10_first_kid	radosc	{lvl} si nimeni mai sus, scuze noobi xd
+P10_FS_KID_6	S	global	p10_first_kid	radosc	primul {lvl} ez, mai alergati dupa mine xd
+P10_FS_KID_7	S	global	p10_first_kid	podekscytowanie	{lvl} PRIMUL, TINETI MINTE NUMELE MEU
+P10_FS_KID_8	S	global	p10_first_kid	radosc	ati ramas toti in urma, primul {lvl} e al meu :P
+P10_FS_PLAIN_1	S	global	p10_first_plain	radosc	primul {lvl} ez
+P10_FS_PLAIN_2	S	global	p10_first_plain	radosc	{lvl} primul pe server :D
+P10_FS_PLAIN_3	S	global	p10_first_plain	radosc	da! primul {lvl}
+P10_FS_PLAIN_4	S	global	p10_first_plain	podekscytowanie	am luat {lvl} primul, nu-mi vine sa cred xd
+P10_FS_PLAIN_5	S	global	p10_first_plain	radosc	primul {lvl}, a fost un grind lung
+P10_FS_PLAIN_6	S	global	review	radosc	{lvl} primul, ma culc fericit xd
+P10_FS_PLAIN_7	S	global	p10_first_plain	zdziwienie	{lvl}, primul pe server cred?
+P10_FS_PLAIN_8	S	global	review	radosc	primul {lvl} :D timpul pentru o pauza
+P10_FS_CALM_1	S	global	p10_first_calm	radosc	{lvl} gata, primul cred :)
+P10_FS_CALM_2	S	global	p10_first_calm	radosc	{lvl} lvl :)
+P10_FS_CALM_3	S	global	p10_first_calm_party	radosc	primul {lvl}, multumita grupului
+P10_FS_CALM_4	S	global	p10_first_calm_party	radosc	deci {lvl} primul, bravo echipa
+P10_FS_REACT_1	S	global	p10_first_react	radosc	gz
+P10_FS_REACT_2	S	global	p10_first_react	radosc	felicitari :D
+P10_FS_REACT_3	S	global	p10_first_react	ironia	nolife xd
+P10_FS_REACT_4	S	global	p10_first_react	zdziwienie	cat joci pe zi?
+P10_FS_REACT_5	S	global	p10_first_react	radosc	gg, eu sunt doar {lvl2}
+P10_FS_REACT_6	S	global	p10_first_react	ironia	invidie
+P10_FS_REACT_7	S	global	p10_first_react	ironia	ok, vin dupa tine
+P10_FS_REACT_8	S	global	p10_first_react	radosc	respect
+P10_FS_REACT_9	S	global	p10_first_react	ironia	tu macar dormi? xd
+P10_FS_REACT_10	S	global	p10_first_react	neutralny	te prind eu intr-o zi
+P10_FS_ENEMY_1	S	global	p10_first_react_enemy	zlosc	si ce
+P10_FS_DISLIKE_1	S	global	p10_first_react_dislike	ironia	probabil numai grup si buffuri xd
+P10_FS_FRIEND_1	S	global	p10_first_react_friend	radosc	bravo {nick} :D
+P10_FS_SECOND_1	S	global	p10_first_second	radosc	al doilea {lvl}, asa aproape xd
+P10_FS_SECOND_2	S	global	p10_first_second	neutralny	{lvl} al doilea, data viitoare primul
+P10_FS_THIRD_1	S	global	p10_first_third	radosc	al treilea {lvl}, tot se pune :P
+P10_FS_BEATEN_1	S	global	p10_first_beaten	smutek	o ora in urma lui {nick} ;/
+P10_FS_AFTER_1	S	global	p10_first_after_human	neutralny	al doilea {lvl} imediat dupa {gracz}, tot se pune
+P10_FS_HUMAN_1	S	global	p10_first_human	radosc	gz {gracz} primul {lvl}!
+P10_FS_HUMAN_2	S	global	p10_first_human	zdziwienie	{gracz} cum ai facut asa repede xd
+P10_FS_HUMAN_3	S	global	p10_first_human	ironia	{gracz} nolife xd gz
+P10_FS_HUMAN_4	S	global	p10_first_human	neutralny	{gracz} vin dupa tine
+P10_FS_CHRON_1	N	global	chronicle_first	neutralny	tineti minte primul {lvl} pe server? {nick} xd
+P10_FS_CHRON_2	N	global	chronicle_first	neutralny	{nick} a fost odata cel mai sus aici, si acum?
+P11_BOSS_Q1	D	global	boss_down	neutralny	ce dropeaza {boss}?
+P11_BOSS_Q2	D	global	boss_down	radosc	{boss} jos, ce dropeaza?
+P11_METIN_Q1	D	global	metin_question	neutralny	ce pica din {metin}?
+P11_METIN_Q2	D	global	metin_question	neutralny	merita sa lovesti {metin}?
+P11_MAP_Q1	D	global	map_question	neutralny	ce vanati {mapa_gdzie}?
+P11_MAP_Q2	D	global	map_question	neutralny	cum merge grindul {mapa_gdzie}?
+P11_MERC_1	J	local	merc_advert	neutralny	ofer pt {mapa_dokad}, {cena}/h, pm
+P11_MERC_2	J	local	merc_advert	neutralny	mercenar de inchiriat, pt {mapa_dokad} pentru {cena}/h
+P11_MERC_3	J	local	merc_advert	neutralny	grup de inchiriat, {cena}/h, dati-mi pm
+P11_BARTER_Z1	H	global	trade_barter	neutralny	WTT {skrot} +{plus} pe {zyczenie}, pm
+P11_TRADER_G1	H	global	trade_trader_gear	neutralny	vand {skrot}+{plus} {cena} pm
+P11_TRADER_G2	H	global	trade_trader_gear	neutralny	vand {skrot} +{plus}, {cena}, pm
+P11_TRADER_G3	H	global	trade_trader_gear	neutralny	wts {skrot}+{plus} {cena} pm pm
+P11_TRADER_G4	H	global	trade_trader_gear	neutralny	{skrot} +{plus} de vanzare, {cena}
+P11_TRADER_G5	H	global	trade_trader_gear	neutralny	cine vrea {skrot}+{plus}? {cena}, pm
+P11_TRADER_G6	H	global	trade_trader_gear	radosc	vand {skrot}+{plus} cu {cena}, chilipir
+P11_TRADER_A1	H	global	trade_trader_average	neutralny	vand {skrot}+{plus} {sr}%avg {cena} pm
+P11_TRADER_A2	H	global	trade_trader_average	neutralny	wts {skrot}+{plus} {sr}avg, {cena}, pm
+P11_TRADER_A3	H	global	trade_trader_average	neutralny	vand {skrot} +{plus} {sr} avg cu {cena}
+P11_TRADER_S1	H	global	trade_trader_stack	neutralny	vand {ulep} x{ile}, {cena}/buc pm
+P11_TRADER_S2	H	global	trade_trader_stack	neutralny	wts {ulep} x{ile} cu {cena}/buc
+P11_TRADER_S3	H	global	trade_trader_stack	neutralny	am {ulep} x{ile}, {cena} bucata, pm
+P11_TRADER_S4	H	global	trade_trader_stack	neutralny	magazin: {ulep} x{ile} ieftin, {cena}/buc
+P11M_PLACE_1	H	whisper	meet_place	neutralny	ch{kanal}, {miejsce} {punkt}
+P11M_PLACE_2	H	whisper	meet_place	neutralny	ne vedem pe ch{kanal}, {miejsce} {punkt}
+P11M_PLACE_3	H	whisper	meet_place	neutralny	{miejsce} {punkt}, ch{kanal}, vino
+P11M_SPOT_1	H	whisper	meet_spot	neutralny	sunt aproape, vin
+P11M_SPOT_2	H	whisper	meet_spot	neutralny	sunt prin preajma, ajung imediat
+P11M_FAR_1	H	whisper	meet_unreachable	neutralny	nu pot ajunge acolo, ne vedem la {miejsce} {punkt}?
+P11M_FAR_2	H	whisper	meet_unreachable	neutralny	nu reusesc sa ajung acolo, poate {miejsce} {punkt}?
+P11M_HERE_1	H	whisper	meet_here	neutralny	aici, unde stai?
+P11M_HERE_2	H	whisper	meet_here	neutralny	sunt aici
+P11M_HERE_3	H	whisper	meet_here	neutralny	aici, unde esti?
+P11M_SEE_1	H	whisper	meet_see	neutralny	te vad
+P11M_SEE_2	H	whisper	meet_see	neutralny	o te vad, vin
+P11M_LATE_1	H	whisper	meet_late	neutralny	scuze, aproape am ajuns
+P11M_LATE_2	H	whisper	meet_late	neutralny	vin, 2 min
+P11M_LATE_3	H	whisper	meet_late	neutralny	inca o secunda, sunt pe drum
+P11M_NUDGE_1	H	whisper	meet_nudge	neutralny	esti acolo?
+P11M_NUDGE_2	H	whisper	meet_nudge	neutralny	alo?
+P11M_CANCEL_1	H	whisper	meet_cancel	neutralny	scuze, trebuie sa plec
+P11M_CANCEL_2	H	whisper	meet_cancel	neutralny	am luat deja unul in alta parte
+P11M_CANCEL_3	H	whisper	meet_cancel	neutralny	schimbare de planuri, scuze
+P11M_CANCEL_4	H	whisper	meet_cancel	neutralny	lasa
+P11M_NOSHOW_1	H	whisper	meet_no_show	neutralny	nu esti aici, plec
+P11M_NOSHOW_2	H	whisper	meet_no_show	neutralny	nu e nimeni aici, plec
+P11M_SILENT_1	H	whisper	meet_no_answer	neutralny	ok atunci pa
+P11M_SILENT_2	H	whisper	meet_no_answer	neutralny	ok, niciun raspuns, pa
+P11M_CH_1	H	whisper	meet_channel	neutralny	trec pe ch{kanal}, o secunda
+P11M_CH_2	H	whisper	meet_channel	neutralny	ok, vin pe ch{kanal}
+P11M_OWNCH_1	H	whisper	meet_own_channel	neutralny	sunt pe ch{kanal}, poti veni?
+P11M_OWNCH_2	H	whisper	meet_own_channel	neutralny	nu pot schimba canalul, vino pe ch{kanal}
+P11M_CHHERE_1	H	whisper	meet_channel_arrived	neutralny	acum sunt pe ch{kanal}, da-mi pm
+P11M_CHHERE_2	H	whisper	meet_channel_arrived	neutralny	ok, sunt pe ch{kanal}
+P11M_AGAIN_1	H	whisper	meet_cooldown	neutralny	tocmai am incercat asta, poate mai tarziu
+P11M_DONE_1	H	whisper	barter_done	radosc	mersi, pa
+P11M_DONE_2	H	whisper	barter_done	radosc	mersi
+P11M_DONE_3	H	whisper	barter_done	radosc	ms
+P11D_SQ_1	H	whisper	deal_sale_quote	neutralny	{przedmiot} cu {cena}, ok?
+P11D_SQ_2	H	whisper	deal_sale_quote	neutralny	am {przedmiot} in desaga, {cena}
+P11D_SQ_3	H	whisper	deal_sale_quote	neutralny	iti pot da {przedmiot} cu {cena}
+P11D_SC_1	H	whisper	deal_sale_counter	neutralny	pot lasa la {cena}
+P11D_SC_2	H	whisper	deal_sale_counter	neutralny	bine, {cena}, nu mai jos
+P11D_SA_1	H	whisper	deal_sale_accept	radosc	ok, {cena}, unde esti?
+P11D_SA_2	H	whisper	deal_sale_accept	radosc	bine, vandut cu {cena}
+P11D_SR_1	H	whisper	deal_sale_refuse	neutralny	scuze, prea putin
+P11D_SR_2	H	whisper	deal_sale_refuse	neutralny	nu vand cu atat, minim {cena}
+P11D_BYE_1	H	whisper	deal_bye	neutralny	ok, lasa
+P11D_BYE_2	H	whisper	deal_bye	neutralny	nicio problema, pa
+P11D_KA_1	H	whisper	deal_skup_ask	neutralny	cate ai? platesc {cena} bucata
+P11D_KA_2	H	whisper	deal_skup_ask	neutralny	{cena} bucata, cate?
+P11D_KO_1	H	whisper	deal_skup_offer	neutralny	am {ile}, vand cu {cena} bucata
+P11D_KO_2	H	whisper	deal_skup_offer	neutralny	pot da {ile} cu {cena}
+P11D_KK_1	H	whisper	deal_skup_accept	radosc	iau {ile}, {suma} in total, unde esti?
+P11D_KK_2	H	whisper	deal_skup_accept	radosc	ok, {ile} pentru {suma}
+P11D_KN_1	H	whisper	deal_skup_none	neutralny	nu-mi mai trebuie, scuze
+P11D_KN_2	H	whisper	deal_skup_none	neutralny	am deja, mersi
+P11D_WR_1	H	whisper	deal_wrong	zdziwienie	nu asa ne-am inteles
+P11D_NY_1	H	whisper	deal_no_yang	zdziwienie	lipseste yang, era {cena}
+P11D_CNT_1	H	whisper	deal_count	zdziwienie	erau {ile} buc
+P11D_ROOM_1	H	whisper	deal_no_room	neutralny	scuze, n-am loc in desaga
+P11P_CALL_1	U	global	pvp_duel_call	neutralny	cineva 1v1 m1?
+P11P_CALL_2	U	global	pvp_duel_call	neutralny	cineva 1v1 in m1? {lvl} {klasa}
+P11P_CALL_3	U	global	pvp_duel_call	neutralny	1v1 m1 cineva? ma plictisesc
+P11P_CALL_4	U	global	pvp_duel_call	neutralny	cine vrea duel m1? {klasa} {lvl}
+P11P_ANSWER_1	U	global	pvp_duel_answer	neutralny	{nick} eu
+P11P_ANSWER_2	U	global	pvp_duel_answer	neutralny	{nick} sigur, vin
+P11P_ANSWER_3	U	global	pvp_duel_answer	neutralny	pot 1v1
+P11P_ANSWER_4	U	global	pvp_duel_answer	neutralny	{nick} accept, vin
+P15_A_001	Q	local	p15_quest_doing	ironia	fac misiunea {quest} dar e plictisitoare
+P15_A_002	Q	local	p15_quest_doing	ironia	ehh misiunea asta {quest}... plictisitoare
+P15_A_003	Q	local	p15_quest_doing	neutralny	{ile}/{ile_max} inca putin
+P15_A_004	Q	local	p15_quest_doing	neutralny	inca {reszta} si o predau
+P15_A_005	Q	local	p15_quest_doing	neutralny	aproape gata cu {quest}
+P15_A_006	Q	local	p15_quest_doing	neutralny	aproape, mai sunt {reszta} {item}
+P15_A_007	Q	local	p15_quest_doing	zlosc	cat poti sa faci farm la {mob} astia
+P15_A_008	Q	local	p15_quest_doing	smutek	{item} pur si simplu nu pica...
+P15_A_009	Q	local	p15_quest_doing	zlosc	30 {mob} si tot nimic
+P15_A_010	Q	local	p15_quest_doing	ironia	rata de drop la {item} e o gluma
+P15_A_011	Q	local	p15_quest_doing	ironia	cine a inventat misiunea asta
+P15_A_012	Q	local	p15_quest_doing	neutralny	fac misiuni pentru ca exp-ul la loc e slab
+P15_A_013	Q	local	p15_quest_doing	neutralny	fac {quest}, mai face cineva?
+P15_A_014	Q	local	p15_quest_doing	neutralny	cand termin {quest} ma intorc la grind
+P15_A_015	Q	local	p15_quest_doing	ironia	mai bine as lovi metine decat sa fac misiunea asta
+P15_A_016	Q	local	p15_quest_doing	smutek	{quest} dureaza o vesnicie
+P15_A_017	Q	local	p15_quest_doing	neutralny	ok mai trebuie doar s-o predau
+P15_A_018	Q	local	p15_quest_doing	smutek	iar alerg la {npc}...
+P15_A_019	Q	local	p15_quest_doing	ironia	npc-ul asta ma trimite peste toata harta
+P15_A_020	Q	local	p15_quest_doing	zlosc	de ce sta {npc} atat de departe
+P15_A_021	Q	local	p15_quest_doing	neutralny	{ile}/{ile_max}... incet
+P15_A_022	Q	local	p15_quest_doing	neutralny	jumatate gata
+P15_A_023	Q	local	p15_quest_doing	neutralny	ok, jumatate din {quest} gata
+P15_A_024	Q	local	p15_quest_doing	neutralny	deja {ile}, ma apropii
+P15_A_025	Q	local	p15_quest_doing	neutralny	inca cativa {mob} din astia
+P15_A_026	Q	local	p15_quest_doing	zlosc	urasc misiunile cu drop
+P15_A_027	Q	local	p15_quest_doing	ironia	cred ca dropul asta e buguit
+P15_A_028	Q	local	p15_quest_doing	ironia	1 {item} la 20 de mobi, super
+P15_A_029	Q	local	p15_quest_doing	zlosc	{mob} astia ma innebunesc
+P15_A_030	Q	local	p15_quest_doing	neutralny	merg sa predau misiunea, brb
+P15_A_031	Q	local	p15_quest_doing	ironia	misiune misiune misiune... si nivelul meu sta pe loc
+P15_A_032	Q	local	p15_quest_doing	smutek	fac {quest} de o ora
+P15_A_033	Q	local	p15_quest_doing	smutek	de ce e misiunea asta atat de lunga
+P15_A_034	Q	local	p15_quest_doing	ironia	{npc} cere mult prea mult
+P15_A_035	Q	local	p15_quest_doing	ironia	{npc} iar vrea ceva
+P15_A_036	Q	local	p15_quest_doing	neutralny	ok inca un pas
+P15_A_037	Q	local	p15_quest_doing	smutek	inca un pas din {quest}, nu se mai termina
+P15_A_038	Q	local	p15_quest_doing	neutralny	alerg intre {mapa} si oras
+P15_A_039	Q	local	p15_quest_doing	ironia	teleport, misiune, teleport, misiune...
+P15_A_040	Q	local	p15_quest_doing	neutralny	fac {mob} pentru o misiune, nu furati va rog
+P15_A_041	Q	local	p15_quest_doing	neutralny	va rog nu loviti {mob} de langa mine, fac o misiune
+P15_A_042	Q	local	p15_quest_doing	neutralny	linistiti-va, iau doar {mob} pentru o misiune
+P15_A_043	Q	local	p15_quest_doing	neutralny	{ile} {item} in desaga, mai sunt {reszta}
+P15_A_044	Q	local	p15_quest_doing	neutralny	ok acum stiu unde sa merg
+P15_A_045	Q	local	p15_quest_doing	smutek	credeam ca misiunea asta o sa fie rapida
+P15_A_046	Q	local	p15_quest_doing	ironia	atatea misiuni la {lvl} ca n-am timp de grind
+P15_A_047	Q	local	p15_quest_doing	radosc	misiune + exp, doi iepuri dintr-un foc
+P15_A_048	Q	local	p15_quest_doing	neutralny	fac o misiune in timp ce fac grind
+P15_A_049	Q	local	p15_quest_doing	zlosc	{mob} peste tot inafara de unde am nevoie
+P15_A_050	Q	local	p15_quest_doing	neutralny	merg mai departe cu misiunea asta
+P15_A_051	Q	local	p15_quest_doing	podekscytowanie	inca putin si vine recompensa
+P15_A_052	Q	local	p15_quest_doing	zdziwienie	ma intreb ce da misiunea asta
+P15_A_053	Q	local	p15_quest_doing	neutralny	sper sa merite recompensa
+P15_A_054	Q	local	p15_quest_doing	ironia	n-as zice nu la un pergament ca recompensa
+P15_A_055	Q	local	p15_quest_doing	ironia	sper sa nu fie doar potiuni
+P15_B_001	Q	local	p15_quest_done	radosc	in sfarsit predata
+P15_B_002	Q	local	p15_quest_done	radosc	{quest} gata :)
+P15_B_003	Q	local	p15_quest_done	smutek	am predat {quest}, recompensa slaba
+P15_B_004	Q	local	p15_quest_done	radosc	am predat {quest}, recompensa chiar decenta
+P15_B_005	Q	local	p15_quest_done	radosc	am primit {nagroda_przedmiot} din misiune
+P15_B_006	Q	local	p15_quest_done	neutralny	misiune gata, urmatoarea
+P15_B_007	Q	local	p15_quest_done	radosc	pfiu, gata cu {mob}
+P15_B_008	Q	local	p15_quest_done	ironia	gata, niciodata misiunea asta din nou
+P15_B_009	Q	local	p15_quest_done	radosc	{nagroda_exp} exp din misiune, nu-i rau
+P15_B_010	Q	local	p15_quest_done	neutralny	ok am primit, merg mai departe
+P15_B_011	Q	local	p15_quest_done	radosc	da, {quest} terminata
+P15_B_012	Q	local	p15_quest_done	radosc	suferinta s-a terminat
+P15_B_013	Q	local	p15_quest_done	radosc	in sfarsit
+P15_B_014	Q	local	p15_quest_done	neutralny	ok, {quest} am scapat de ea
+P15_B_015	Q	local	p15_quest_done	neutralny	misiune predata, inapoi la grind
+P15_B_016	Q	local	p15_quest_done	radosc	exp frumos din misiunea asta
+P15_B_017	Q	local	p15_quest_done	ironia	si asta e tot
+P15_B_018	Q	local	p15_quest_done	smutek	recompensa... ma rog, speram la mai mult
+P15_B_019	Q	local	p15_quest_done	ironia	au dat potiuni, wow... xd
+P15_B_020	Q	local	p15_quest_done	radosc	{nagroda_przedmiot}, o sa prinda bine
+P15_B_021	Q	local	p15_quest_done	neutralny	{nagroda_przedmiot} merge la vanzare probabil
+P15_B_022	Q	local	p15_quest_done	radosc	{npc} e fericit, si eu
+P15_B_023	Q	local	p15_quest_done	zdziwienie	gata mai repede decat credeam
+P15_B_024	Q	local	p15_quest_done	radosc	credeam ca o sa fie mai rau
+P15_B_025	Q	local	p15_quest_done	radosc	misiune usoara
+P15_B_026	Q	local	p15_quest_done	radosc	asta chiar a fost distractiva
+P15_B_027	Q	local	p15_quest_done	podekscytowanie	cea mai buna misiune pana acum
+P15_B_028	Q	local	p15_quest_done	neutralny	{quest} gata
+P15_B_029	Q	local	p15_quest_done	radosc	gg {quest}
+P15_B_030	Q	local	p15_quest_done	neutralny	ok urmatoarea misiune de pe lista
+P15_B_031	Q	local	p15_quest_done	neutralny	am terminat {quest}, are cineva nevoie de ajutor cu ea?
+P15_B_032	Q	local	p15_quest_done	neutralny	daca face cineva {quest} sa-mi spuna, ajut
+P15_C_001	Q	global	p15_quest_frustration	zlosc	urasc misiunile astea, mor intruna
+P15_C_002	Q	global	p15_quest_frustration	zlosc	misiunea asta e un cosmar, am murit de 7 ori
+P15_C_003	Q	global	p15_quest_frustration	zlosc	{mob} ma mananca de viu, cine a facut misiunea asta?
+P15_C_004	Q	global	p15_quest_frustration	smutek	iar mort... {quest} nu e pentru mine
+P15_C_005	Q	global	p15_quest_frustration	smutek	am nevoie de echipament mai bun, nu pot face {quest}
+P15_C_006	Q	global	p15_quest_frustration	zlosc	merg la fierar, {mob} astia ma distrug
+P15_C_007	Q	global	p15_quest_frustration	smutek	ajutor, ma ajuta cineva cu {quest}? mor intruna
+P15_C_008	Q	global	p15_quest_frustration	zlosc	renunt la misiunea asta, e imposibila
+P15_C_009	Q	global	p15_quest_frustration	zlosc	de cate ori poti muri la o singura misiune
+P15_C_010	Q	global	p15_quest_frustration	smutek	echipamentul meu e prea slab pentru {quest}, merg sa fac yang
+P15_C_011	Q	global	p15_quest_frustration	zlosc	cine da asemenea misiuni la nivelul meu
+P15_C_012	Q	global	p15_quest_frustration	ironia	7 morti in 15 min, felicitari mie
+P15_C_013	Q	global	p15_quest_frustration	zlosc	o nu, iar
+P15_C_014	Q	global	p15_quest_frustration	zlosc	serios, inca o moarte
+P15_C_015	Q	global	p15_quest_frustration	zlosc	{mob} asta loveste ca un boss
+P15_C_016	Q	global	p15_quest_frustration	zlosc	cine a echilibrat misiunea asta
+P15_C_017	Q	global	p15_quest_frustration	smutek	am ramas fara potiuni si misiunea tot nu e gata
+P15_C_018	Q	global	p15_quest_frustration	ironia	am dat mai mult pe potiuni decat valoreaza recompensa
+P15_C_019	Q	global	p15_quest_frustration	neutralny	ok, iau echipament mai bun si revin
+P15_C_020	Q	global	p15_quest_frustration	smutek	se pare ca nivelul meu e prea mic pentru {quest}
+P15_C_021	Q	global	p15_quest_frustration	neutralny	data viitoare cu un grup
+P15_C_022	Q	global	p15_quest_frustration	neutralny	solo nu pot, cine vine?
+P15_C_023	Q	global	p15_quest_frustration	zlosc	{mob} x3 pe mine si sunt terminat
+P15_C_024	Q	global	p15_quest_frustration	zlosc	nervi, renunt la misiune
+P15_C_025	Q	global	p15_quest_frustration	ironia	e timpul sa urc echipament in loc de misiuni
+P15_C_026	Q	global	p15_quest_frustration	smutek	scuze pentru spam dar misiunea asta ma omoara
+P15_C_027	Q	global	p15_quest_frustration	smutek	merg la pescuit, m-am saturat de misiuni
+P15_C_028	Q	global	p15_quest_frustration	zlosc	urasc {mapa}
+P15_C_029	Q	global	p15_quest_frustration	zlosc	cine a facut {mob} sa loveasca asa tare
+P15_C_030	Q	global	p15_quest_frustration	smutek	o fac maine, azi n-am putere
+P15_C_031	Q	global	p15_quest_frustration	smutek	zero sanse solo la {quest}
+P15_C_032	Q	global	p15_quest_frustration	ironia	-1 echipament, -potiuni, misiunea tot sta in picioare
+P15_C_033	Q	global	p15_quest_frustration	zlosc	moarte dupa moarte
+P15_C_034	Q	global	p15_quest_frustration	smutek	se pare ca o iau de la capat cu echipament mai bun
+P15_C_035	Q	global	p15_quest_frustration	zlosc	ok, gata
+P15_H_001	Q	local	p15_quest_abandon	neutralny	renunt la {quest}, pierdere de timp
+P15_H_002	Q	local	p15_quest_abandon	neutralny	lasa misiunea asta
+P15_H_003	Q	local	p15_quest_abandon	neutralny	fac {quest} cand am nivel mai mare
+P15_H_004	Q	local	p15_quest_abandon	neutralny	misiune in asteptare, merg la grind
+P15_H_005	Q	local	p15_quest_abandon	neutralny	nu merita, renunt
+P15_H_006	Q	local	p15_quest_abandon	neutralny	poate ma intorc la {quest} candva
+P15_H_007	Q	local	p15_quest_abandon	neutralny	prea lunga
+P15_H_008	Q	local	p15_quest_abandon	smutek	recompensa nu merita efortul
+P15_H_009	Q	local	p15_quest_abandon	smutek	renunt la {quest}
+P15_H_010	Q	local	p15_quest_abandon	neutralny	misiune pentru mai tarziu
+P15_H_011	Q	local	p15_quest_abandon	neutralny	intai nivelul, misiunile mai tarziu
+P15_H_012	Q	local	p15_quest_abandon	zlosc	n-am rabdare pentru misiunea asta
+P15_H_013	Q	local	p15_quest_abandon	neutralny	misiunea poate astepta
+P15_G_001	L	global	p15_goal_quests	neutralny	scopul de azi: {ile} misiuni de facut
+P15_G_002	L	global	p15_goal_quests	neutralny	planul de azi: sa termin {ile} misiuni
+P15_G_003	L	global	p15_goal_quests	podekscytowanie	azi fac misiuni, {ile} trebuie terminate
+P15_G_101	L	global	p15_goal_quest	neutralny	scopul de azi: sa termin misiunea {quest}
+P15_G_102	L	global	p15_goal_quest	neutralny	planul de azi: {quest} pana la capat
+P15_G_103	L	global	p15_goal_quest	podekscytowanie	azi termin in sfarsit {quest}
+P15D_MOB_1	Q	local	p15_ask_mob	neutralny	unde gasesc {mob}?
+P15D_MOB_2	Q	local	p15_ask_mob	neutralny	{mob} sunt pe {mapa} sau in alta parte?
+P15D_MOB_3	Q	local	p15_ask_mob	neutralny	unde sunt {mob}, caut de 10 min
+P15D_DUN_1	Q	local	p15_ask_dungeon	zdziwienie	{mob} sunt cei din temnita?
+P15D_ITEM_1	Q	local	p15_ask_item	neutralny	stie cineva de unde pica {item}?
+P15D_ITEM_2	Q	local	p15_ask_item	neutralny	din ce pica {item}?
+P15D_ITEM_3	Q	local	p15_ask_item	neutralny	cati {item} pentru {quest}?
+P15D_NPC_1	Q	local	p15_ask_npc	neutralny	unde e {npc}?
+P15D_NPC_2	Q	local	p15_ask_npc	neutralny	unde e {npc} in regatul meu?
+P15D_NPC_3	Q	local	p15_ask_npc	neutralny	a facut cineva {quest}? ce urmeaza dupa {npc}?
+P15D_NPC_4	Q	local	p15_ask_npc	neutralny	unde merg in {quest}? mi-a disparut sageata
+P15D_REW_1	Q	local	p15_ask_reward	neutralny	care e recompensa pentru {quest}?
+P15D_WORTH_1	Q	local	p15_ask_worth	neutralny	merita facuta {quest}?
+P15D_SOLO_1	Q	local	p15_ask_solo	neutralny	{quest} se poate face solo?
+P15D_SOLO_2	Q	local	p15_ask_solo	neutralny	cum se face {quest}?
+P15D_SOLO_3	Q	local	p15_ask_solo	neutralny	cat dureaza {quest}?
+P15D_LVL_1	Q	local	p15_ask_level	neutralny	ce nivel pentru {quest}?
+P15D_OPT_1	Q	local	p15_ask_option	neutralny	ce-i raspund lui {npc}?
+P15D_OPT_2	Q	local	p15_ask_option	neutralny	ce aleg la {npc}, nu vreau sa stric misiunea
+P15D_MON_1	Q	local	p15_ask_monument	neutralny	stie cineva unde e monumentul din {quest}?
+P15E_MOB_1	Q	local	p15_answer_where_mob	neutralny	{mob} sunt pe {mapa}, cel mai bine {miejsce}
+P15E_MOB_2	Q	local	p15_answer_where_mob	neutralny	{mob} pe {mapa}, dar atentie, lovesc tare
+P15E_MOB_3	Q	local	p15_answer_where_mob	neutralny	{mob} apar {miejsce}, cei mai multi acolo
+P15E_MOB_4	Q	local	p15_answer_where_mob	neutralny	nu tin minte exact, dar cred ca {mapa}
+P15E_MOB_5	Q	local	p15_answer_where_mob	neutralny	cel mai repede e teleportul {mapa_dokad}
+P15E_MOB_6	Q	local	p15_answer_where_mob	neutralny	e pe wiki, dar {mapa}
+P15E_NPC_1	Q	local	p15_answer_where_npc	neutralny	{npc} sta in {mapa}, {miejsce}
+P15E_NPC_2	Q	local	p15_answer_where_npc	neutralny	sageata iti arata {npc}, urmeaz-o
+P15E_NPC_3	Q	local	p15_answer_where_npc	neutralny	iti pot arata, sunt pe ch{kanal}
+P15E_NPC_4	Q	local	p15_answer_where_npc	neutralny	am facut-o, du-te la {npc} pentru recompensa
+P15E_DROP_1	Q	local	p15_answer_drop	neutralny	{item} pica de la {mob}, dar rar
+P15E_DROP_2	Q	local	p15_answer_drop	neutralny	ai nevoie de {ile_max} {item}, dropul e prost
+P15E_DUNNO_1	Q	local	p15_answer_dunno	neutralny	nu tin minte, scuze
+P15E_DUNNO_2	Q	local	p15_answer_dunno	neutralny	intreaba pe altcineva, am facut-o demult
+P15E_DUNNO_3	Q	local	p15_answer_dunno	neutralny	am cautat-o si eu o ora xd
+P15E_SOLO_1	Q	local	p15_answer_solo	neutralny	solo merge cu o arma +7
+P15E_PARTY_1	Q	local	p15_answer_party	neutralny	mai bine cu pt, solo e tortura
+P15E_LVL_1	Q	local	p15_answer_level	neutralny	cu {lvl}+ e usor
+P15E_WGOOD_1	Q	local	p15_answer_worth_good	neutralny	merita, da mult exp
+P15E_WGOOD_2	Q	local	p15_answer_worth_good	neutralny	recompensa e asa si asa, dar exp-ul e bun
+P15E_WWEAK_1	Q	local	p15_answer_worth_weak	neutralny	nu merita, mai bine grind
+P15E_OPT_1	Q	local	p15_answer_option	neutralny	alege prima optiune la {npc}, restul e renuntare
+P15E_OPT_2	Q	local	p15_answer_option	neutralny	nu da clic pe nu stiu, ca o iei de la capat
+P15E_MON_1	Q	local	p15_answer_monument	neutralny	monumentul e in {mapa}, {miejsce}
+P15E_THX_1	Q	local	p15_answer_thanks	radosc	mersi, merg acolo
+P15E_THX_2	Q	local	p15_answer_thanks	radosc	o, mersi
+P15E_THX_3	Q	local	p15_answer_thanks	radosc	ms, sunt pe drum
+P15F_SEEK_1	Q	global	p15_party_seek	neutralny	pt pentru {quest} {lvl}+, cine are misiunea asta?
+P15F_SEEK_2	Q	global	p15_party_seek	neutralny	face cineva {quest}? ne putem uni
+P15F_SEEK_3	Q	global	p15_party_seek	neutralny	caut pt la {mob} pentru o misiune
+P15F_SEEK_4	Q	global	p15_party_seek	neutralny	strang pt pentru {quest}, ch{kanal} {mapa}
+P15F_SEEK_5	Q	global	p15_party_seek	neutralny	vrea cineva cu {quest} un pt? e mai repede
+P15F_SEEK_6	Q	global	p15_party_seek	neutralny	pt {quest} {ile}/8, intrati
+P15F_LAST_1	Q	global	p15_party_last	neutralny	pt {quest} mai trebuie 1
+P15F_WAIT_1	Q	global	p15_party_wait	neutralny	mai astept 5 min un pt, apoi merg solo
+P15F_WAIT_2	Q	global	p15_party_wait	neutralny	pt are un loc liber, cine are {quest}
+P15F_NONE_1	Q	global	p15_party_none	smutek	nimeni nu face {quest}? trist
+P15F_JOIN_1	Q	party	p15_party_join	neutralny	am {quest}, intru in pt
+P15F_JOIN_2	Q	party	p15_party_join	neutralny	in pt e de 3x mai repede
+P15F_HELP_1	Q	party	p15_party_help	neutralny	pot ajuta cu {quest}, am facut-o deja
+P15F_PROG_1	Q	party	p15_party_progress	neutralny	inca {reszta} {item} si o are toata lumea
+P15F_PROG_2	Q	party	p15_party_progress	neutralny	stati impreuna, {mob} loveste tare
+P15F_PROG_3	Q	party	p15_party_progress	neutralny	liderul sa ne duca la {mob}
+P15F_PROG_4	Q	party	p15_party_progress	neutralny	bravo pt, a primit toata lumea?
+P15F_CRED_1	Q	party	p15_party_credit	radosc	cine a omorat {mob}? mi s-a numarat si mie, mersi
+P15F_DONE_1	Q	party	p15_party_done	radosc	mersi pentru pt, misiune gata
+P15F_DONE_2	Q	party	p15_party_done	radosc	mersi pentru ajutor la {quest} :)
+P15F_MDONE_1	Q	party	p15_party_member_done	neutralny	am primit, merg s-o predau, mersi pt
+P15F_MDONE_2	Q	party	p15_party_member_done	neutralny	pt-ul se destrama, eu am deja misiunea
+P15K_1	Q	global	p15_quest_skup	neutralny	cumpar {item} pentru o misiune
+P15K_2	Q	global	p15_quest_skup	neutralny	are cineva {ile} {item}? platesc
+P15K_3	Q	global	p15_quest_skup	neutralny	b> {item} pentru o misiune, pm
+P15K_4	Q	global	p15_quest_skup	neutralny	b> {ile}x {item}, pret bun
+P15K_5	Q	global	p15_quest_skup	neutralny	caut {item}, am nevoie pentru o misiune
+P15K_6	Q	global	p15_quest_skup	neutralny	vinde cineva {item}? urgent
+P15K_7	Q	global	p15_quest_skup	neutralny	b> {item} sau dau ceva la schimb
+P15K_8	Q	global	p15_quest_skup	neutralny	imi lipsesc {reszta} {item}, cineva?
+P15K_9	Q	global	p15_quest_skup	neutralny	cumpar {item} repede, ma asteapta misiunea
+P15I_DID_1	Q	local	p15_human_done_did	neutralny	haha si eu, credeam ca nu se mai termina
+P15I_DID_2	Q	local	p15_human_done_did	neutralny	bun venit in club xd
+P15I_DID_3	Q	local	p15_human_done_did	neutralny	cat ti-a luat? mie aproape 2h
+P15I_DID_4	Q	local	p15_human_done_did	neutralny	eu am lasat-o la jumatate xd
+P15I_DID_5	Q	local	p15_human_done_did	neutralny	cea mai proasta misiune din joc dupa mine
+P15I_DID_6	Q	local	p15_human_done_did	neutralny	si eu, iar recompensa e asa si asa
+P15I_DID_7	Q	local	p15_human_done_did	neutralny	respect, eu mureau intruna acolo
+P15I_DID_8	Q	local	p15_human_done_did	neutralny	eu am facut-o in pt, a mers repede
+P15I_DID_9	Q	local	p15_human_done_did	neutralny	da, misiunea aia e tortura, gg
+P15I_DID_10	Q	local	p15_human_done_did	neutralny	eu am terminat-o ieri, m-am enervat si eu
+P15I_DID_11	Q	local	p15_human_done_did	neutralny	bine ca s-a terminat, urmatoarele sunt mai bune
+P15I_DID_12	Q	local	p15_human_done_did	neutralny	ai facut-o solo? respect
+P15I_DOING_1	Q	local	p15_human_done_doing	neutralny	felicitari, eu inca sufar
+P15I_DOING_2	Q	local	p15_human_done_doing	neutralny	noroc, eu am {ile}/{ile_max}
+P15I_DOING_3	Q	local	p15_human_done_doing	neutralny	abia o incep, o sa doara?
+P15I_DOING_4	Q	local	p15_human_done_doing	neutralny	bun venit in club xd
+P15I_WDUNNO_1	Q	local	p15_human_where_dunno	neutralny	nu stiu, caut si eu
+P15I_WDUNNO_2	Q	local	p15_human_where_dunno	neutralny	n-am facut-o inca, scuze
+P15I_WDUNNO_3	Q	local	p15_human_where_dunno	neutralny	intreaba pe ch1, sunt mai multi oameni acolo
+P15I_WGOOD_1	Q	local	p15_human_worth_good	neutralny	merita, da {nagroda_exp} exp
+P15I_WGOOD_2	Q	local	p15_human_worth_good	neutralny	daca ai timp fa-o, exp-ul e ok
+P15I_WWEAK_1	Q	local	p15_human_worth_weak	neutralny	asa si asa, recompensa e slaba
+P15I_WWEAK_2	Q	local	p15_human_worth_weak	neutralny	pierdere de timp, mai bine grind pe {mapa}
+P15I_WITEM_1	Q	local	p15_human_worth_item	neutralny	merita pentru {nagroda_przedmiot}
+P15I_WPARTY_1	Q	local	p15_human_worth_party	neutralny	doar cu pt, solo e pierdere de hp
+P15I_STUCK_1	Q	local	p15_human_stuck	neutralny	nu e vina ta, misiunea aia e grea
+P15I_STUCK_2	Q	local	p15_human_stuck	neutralny	urca-ti arma, apoi merge
+P15I_STUCK_3	Q	local	p15_human_stuck	neutralny	fa-o in pt, e mai usor
+P15I_STUCK_4	Q	local	p15_human_stuck	neutralny	si eu mor, nu-ti face griji
+P15I_STUCK_5	Q	local	p15_human_stuck	neutralny	pot ajuta, ce nivel ai?
+P15I_STUCK_6	Q	local	p15_human_stuck	neutralny	ia mai multe potiuni si vino din lateral
+P15I_STUCK_7	Q	local	p15_human_stuck	neutralny	loveste-i pe rand, nu trage mai multi
+P15I_OFFER_1	Q	local	p15_human_stuck_offer	neutralny	vrei pt? te ajut cu {quest}
+P15I_REW_1	Q	local	p15_human_reward	neutralny	{nagroda_exp} exp si {nagroda_przedmiot}
+P15I_RGOOD_1	Q	local	p15_human_reward_good	neutralny	recompensa buna, merita
+P15I_RWEAK_1	Q	local	p15_human_reward_weak	neutralny	da ceva, nimic special
+P15I_RDUNNO_1	Q	local	p15_human_reward_dunno	neutralny	nu tin minte exact, yang si potiuni cred
+P15I_OPT_1	Q	local	p15_human_option	neutralny	alege {opcja}
+P15I_OGEN_1	Q	local	p15_human_option_generic	neutralny	prima optiune, nu da clic pe renunt
+P15I_OGEN_2	Q	local	p15_human_option_generic	neutralny	daca gresesti te intorci, atentie
+P15I_ODUNNO_1	Q	local	p15_human_option_dunno	neutralny	nu tin minte, scuze
+P15I_OCARE_1	Q	local	p15_human_option_careful	neutralny	daca gresesti te intorci, atentie
+P15I_PHAVE_1	Q	local	p15_human_party_have	neutralny	o am si eu, intru
+P15I_PHELP_1	Q	local	p15_human_party_help	neutralny	pot ajuta, invita-ma
+P15I_PNONE_1	Q	local	p15_human_party_none	neutralny	n-am misiunea aia, scuze
+P15I_PLOW_1	Q	local	p15_human_party_low	neutralny	nivelul meu e prea mic pentru asta
+P15I_BRAG_1	Q	local	p15_human_brag	radosc	felicitari!
+P15I_BRAG_2	Q	local	p15_human_brag	radosc	o frumos, mie nu mi-a picat
+P15I_BRAG_3	Q	local	p15_human_brag	radosc	noroc
+P15I_BRAG_4	Q	local	p15_human_brag	radosc	am primit la fel, nimic special xd
+P15I_BRAG_5	Q	local	p15_human_brag	radosc	da-mi-l mie xd
+P15I_MOAN_1	Q	local	p15_human_complain	ironia	misiunile sunt rele xd
+P15I_MOAN_2	Q	local	p15_human_complain	ironia	ce sa faci, trebuie exp
+P15I_MOAN_3	Q	local	p15_human_complain	ironia	mie chiar imi plac misiunile
+P15I_MOAN_4	Q	local	p15_human_complain	ironia	macar se intampla ceva
+P15I_MOAN_5	Q	local	p15_human_complain	ironia	mai bine as lovi metine
+P15I_MOAN_6	Q	local	p15_human_complain	ironia	{npc} ala vrea mereu ceva
+P15J_001	Q	local	p15_q_find_squareguard	neutralny	prima misiune, potiuni de la vanzatoare
+P15J_002	Q	local	p15_q_main_quest_lv1	neutralny	bun venit bun venit, garda asteapta
+P15J_003	Q	local	p15_q_main_quest_lv2	neutralny	caini de omorat pentru garda, usor
+P15J_004	Q	local	p15_q_main_quest_lv2	neutralny	{mob} se ascund si garda asteapta
+P15J_005	Q	local	p15_q_main_quest_lv3	neutralny	alerg de la un negustor la altul
+P15J_006	Q	local	p15_q_main_quest_lv6	neutralny	fierar, depozitar, fierar... tur prin sat
+P15J_007	Q	local	p15_q_subquest_1	neutralny	o sticla goala pentru magazin, o samanta de la mistreti
+P15J_008	Q	local	p15_q_subquest_1	neutralny	{mob} nu dau samanta
+P15J_009	Q	local	p15_q_main_quest_lv7	neutralny	o undita pentru pescar, fierarul are treaba
+P15J_010	Q	local	p15_q_new_quest_lv7	neutralny	un buchet de flori... deschid o florarie xd
+P15J_011	Q	local	p15_q_new_quest_lv7	neutralny	lupii flamanzi au florile, serios
+P15J_012	Q	local	p15_q_subquest_2	neutralny	cina pentru negustor, ce mananca el
+P15J_013	Q	local	p15_q_subquest_3	neutralny	ficat de lup pentru leac, iac
+P15J_014	Q	local	p15_q_main_quest_lv9	neutralny	garda cheama iar, merg
+P15J_015	Q	local	p15_q_subquest_4	neutralny	o scrisoare de la fierar, sunt postas
+P15J_016	Q	local	p15_q_main_quest_lv10	neutralny	capitanul cheama, ma intreb ce acum
+P15J_017	Q	local	p15_q_subquest_18	neutralny	o caut pe soon, a vazut-o cineva?
+P15J_018	Q	local	p15_q_subquest_5	neutralny	evantaie pentru soon, ordinea conteaza
+P15J_019	Q	local	p15_q_subquest_6	neutralny	o comanda de armura, fierarul vrea materiale
+P15J_020	Q	local	p15_q_main_quest_lv12	neutralny	lupi gri pentru capitan, o groaza
+P15J_021	Q	local	p15_q_subquest_7	neutralny	o carte de bucate... si eu nu stiu sa gatesc
+P15J_022	Q	local	p15_q_subquest_19	neutralny	blana de lup, lupii fug cand am nevoie de ei
+P15J_023	Q	local	p15_q_main_quest_lv14	neutralny	metinul luptei pentru misiune, cine ajuta?
+P15J_024	Q	local	p15_q_main_quest_lv15	neutralny	capitanul si un muzicant, misiune ciudata
+P15J_025	Q	local	p15_q_subquest_8	neutralny	o prajitura de orez, serios, o misiune intreaga pentru o prajitura
+P15J_026	Q	local	p15_q_main_quest_lv16	neutralny	spioni peste tot xd
+P15J_027	Q	local	p15_q_main_quest_lv16	neutralny	scrisoarea spionului, juratii o au
+P15J_028	Q	local	p15_q_subquest_9	neutralny	toporul de aur nu pica
+P15J_029	Q	local	p15_q_new_quest_lv17	neutralny	blana de mu-rang pentru chaegirab
+P15J_030	Q	local	p15_q_subquest_10	neutralny	o agrafa, arcasii o au
+P15J_031	Q	local	p15_q_new_quest_lv19	neutralny	animale blestemate, o haita intreaga
+P15J_032	Q	local	p15_q_subquest_11	neutralny	il caut pe fratele lui mirine, unde a disparut
+P15J_033	Q	local	p15_q_subquest_12	neutralny	mi-jung e pe aici, atentie
+P15J_034	Q	local	p15_q_subquest_13	neutralny	pachetul lui uriel, tigrii il au
+P15J_035	Q	local	p15_q_new_quest_lv22	neutralny	simptome... durere de cap sau de gat? xd
+P15J_036	Q	local	p15_q_find_brother_article	neutralny	amintirea fratelui, maniacul o are
+P15J_037	Q	local	p15_q_subquest_15	neutralny	eun-jung de omorat, a vazut-o cineva?
+P15J_038	Q	local	p15_q_subquest_33	neutralny	am o harta a comorii, merg sa caut
+P15J_039	Q	local	p15_q_subquest_33	neutralny	comoara? 4 harti si o caseta... vom vedea
+P15J_040	Q	local	p15_q_subquest_16	neutralny	cavaleria, alerg prin tot orasul
+P15J_041	Q	local	p15_q_new_quest_lv26	neutralny	un dezertor, spioni peste tot xd
+P15J_042	Q	local	p15_q_main_quest_lv27	neutralny	unde e metinul intunericului?
+P15J_043	Q	local	p15_q_main_quest_lv27	neutralny	metinul misiunii jos
+P15J_044	Q	local	p15_q_subquest_17	neutralny	inelul lui ariyoung, goo-pae il are
+P15J_045	Q	local	p15_q_new_quest_lv28	neutralny	labele de urs nu pica
+P15J_046	Q	local	p15_q_new_quest_lv28	neutralny	bera ma urmareste pe mine in loc sa-l urmaresc eu
+P15J_047	Q	local	p15_q_new_quest_lv29	neutralny	portelan spart, fan pentru cai... ce
+P15J_048	Q	local	p15_q_main_quest_lv30	neutralny	monumente peste tot, merg ca un turist
+P15J_049	Q	local	p15_q_subquest_20	neutralny	sulitele salbaticilor, merge greu
+P15J_050	Q	local	p15_q_subquest_25	neutralny	flori pentru ariyoung, romantic
+P15J_051	Q	local	p15_q_main_quest_lv32	neutralny	inca o pagina de carte, cate sunt
+P15J_052	Q	local	p15_q_subquest_30	neutralny	scot minereu pentru o misiune, acum sunt miner
+P15J_053	Q	local	p15_q_subquest_31	neutralny	minereu pentru armura, iar sap
+P15J_054	Q	local	p15_q_subquest_22	neutralny	toporul de aur al lui deokbae, generalul il are
+P15J_055	Q	local	p15_q_subquest_23	neutralny	il caut pe yu-hwan, unde a disparut
+P15J_056	Q	local	p15_q_subquest_44	neutralny	caut paianjenul cu clopotel, l-a vazut cineva?
+P15J_057	Q	local	p15_q_subquest_44	neutralny	aud clopotelul dar nu vad paianjenul xd
+P15J_058	Q	local	p15_q_subquest_27	neutralny	cartea templului, fanaticii o au
+P15J_059	Q	local	p15_q_subquest_24	neutralny	o prajitura de orez, serios, o misiune intreaga pentru o prajitura
+P15J_060	Q	local	p15_q_main_quest_lv40	neutralny	13 pagini... cine a scris asta
+P15J_061	Q	local	p15_q_main_quest_lv40	neutralny	inca o pagina de carte, cate sunt
+P15J_062	Q	local	p15_q_subquest_34	neutralny	unde sunt generalii vantului negru?
+P15J_063	Q	local	p15_q_subquest_34	neutralny	3 generali, 1 e jos
+P15J_064	Q	local	p15_q_subquest_32	neutralny	100 de dinti de orc, serios?
+P15J_065	Q	local	p15_q_subquest_32	neutralny	dinti de orc, tigri, fire... negustorul deschide magazin
+P15J_066	Q	local	p15_q_new_quest_lv42	neutralny	un harpon de balene? pe harta asta?
+P15J_067	Q	local	p15_q_new_quest_lv43	neutralny	misiune trista ;/
+P15J_068	Q	local	p15_q_subquest_38	neutralny	maimutele ma lovesc si tot niciun arc
+P15J_069	Q	local	p15_q_subquest_42	neutralny	hwang nu e loc de plimbare
+P15J_070	Q	local	p15_q_main_quest_lv47	neutralny	pagini de carte in desert, e cald
+P15J_071	Q	local	p15_q_subquest_36	neutralny	10 baloti de fan pentru o misiune, cineva?
+P15J_072	Q	local	p15_q_subquest_36	neutralny	fan pentru cai, si credeam ca o sa fiu erou
+P15J_073	Q	local	p15_q_subquest_21	neutralny	leac, planta, leac... sunt farmacist
+P15J_074	Q	local	p15_q_subquest_41	neutralny	100 de ochi de paianjen... cine a inventat asta?
+P15J_075	Q	local	p15_q_subquest_41	neutralny	{ile}/100 ochi, omorati-ma
+P15J_076	Q	local	p15_q_subquest_41	neutralny	ochii de paianjen pica cum curge apa din piatra
+P15J_077	Q	local	p15_q_main_quest_lv50	neutralny	inca o pagina de carte, cate sunt
+P15J_078	Q	local	p15_q_subquest_47	neutralny	parola pentru mesajul secret, ma gandesc
+P15J_079	Q	local	p15_q_subquest_37	neutralny	portelan portelan... cat mai dureaza
+P15J_080	Q	local	p15_q_new_quest_lv52	neutralny	o scrisoare de la capitan, razbunare pe ezoterici
+P15J_081	Q	local	p15_q_subquest_46	neutralny	50 de minereuri de cristal pentru o misiune, vinde cineva?
+P15J_082	Q	local	p15_q_subquest_46	neutralny	portelan portelan... cat mai dureaza
+P15J_083	Q	local	p15_q_main_quest_lv55	neutralny	monumente peste tot, merg ca un turist
+P15J_084	Q	local	p15_q_subquest_39	neutralny	leac, planta, leac... sunt farmacist
+P15J_085	Q	local	p15_q_subquest_40	neutralny	arcasii infectati dor
+P15J_086	Q	local	p15_q_subquest_40	neutralny	atatea varfuri de sageti, si trag in mine
+P15J_087	Q	local	p15_q_subquest_26	neutralny	pulpe de broasca pentru octavio, pofta buna
+P15J_088	Q	local	p15_q_subquest_48	neutralny	spioni peste tot xd
+P15J_089	Q	local	p15_q_subquest_49	neutralny	bingsu... nici nu stiu ce e asta
+P15J_090	Q	local	p15_q_subquest_49	neutralny	50 de bucati de gheata, mi-e frig
+P15J_091	Q	local	p15_q_subquest_49	neutralny	inghetata cu sirop, acum mi-e foame
+P15J_092	Q	local	p15_q_subquest_45	neutralny	invocatorii din templu ma omoara intruna
+P15J_093	Q	local	p15_q_black_steel_crafting	neutralny	o favoare pentru min-sun, unde e ea
+P20_GZ_01	S	global	level_gz	radosc	gz
+P20_GZ_02	S	global	level_gz	radosc	gg
+P20_GZ_03	S	global	level_gz	radosc	wp
+P20_GZ_04	S	global	level_gz	radosc	felicitari
+P20_GZ_05	S	global	level_gz	radosc	felicitari!
+P20_GZ_06	S	global	level_gz	radosc	nu e rau
+P20_GZ_07	S	global	level_gz	radosc	grats
+P20_GZ_08	S	global	level_gz	radosc	gj
+P20_GZ_09	S	global	level_gz	radosc	bravo
+P20_GZ_10	S	global	level_gz	radosc	a mers repede
+P20_GZ_11	S	global	level_gz	radosc	gz {lvl}
+P20_GZ_12	S	global	level_gz	radosc	deja {lvl}?
+P20_GZ_13	S	global	level_gz	radosc	ia uite, lvl {lvl}
+P20_GZ_14	S	global	level_gz	radosc	felicitari pentru {lvl}
+P20_GZ_15	S	global	level_gz	radosc	gz, tot asa
+P20_GZ_16	S	global	level_gz	radosc	oh, {lvl}? gz
+P20_GZT_01	S	global	level_gz_thanks	radosc	mersi
+P20_GZT_02	S	global	level_gz_thanks	radosc	ms
+P20_GZT_03	S	global	level_gz_thanks	radosc	ty all
+P20_GZT_04	S	global	level_gz_thanks	radosc	thx
+P20_GZT_05	S	global	level_gz_thanks	radosc	mersi oameni buni
+P20_GZT_06	S	global	level_gz_thanks	radosc	multumesc tuturor

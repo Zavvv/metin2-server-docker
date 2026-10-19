@@ -598,6 +598,22 @@ def apply_page(messages_list=(), result=None):
                               render._esc(db_name), render._esc(", ".join(names))]))
     body.append(render.table([T("Kiedy działa", "When it takes effect"), T("Baza", "Database"),
                               T("Tabele", "Tables")], rows))
+    if db.ns().get("CLIENT_DATA_ENABLED", False):
+        body.append('<div class="esq-note esq-note-warn"><b>%s</b> %s '
+                    '<a href="/client-data">%s</a></div>'
+                    % (render._esc(T("Dane przedmiotów i potworów w kliencie:",
+                                     "Item and monster data in the client:")),
+                       render._esc(T("Sam restart rdzeni nie odświeża opisów w grze. Po zmianie stałych "
+                                     "bonusów, ataku, cen lub poziomów: zrestartuj rdzenie, zamknij grę "
+                                     "i w launcherze wybierz OTWÓRZ PANEL WWW → „Synchronizuj dane "
+                                     "przedmiotów z klientem”. Dla znajomego lub klienta na VPS "
+                                     "pobierz paczkę danych tego świata.",
+                                     "Restarting the cores alone does not refresh the game's tooltips. "
+                                     "After editing fixed bonuses, attack, prices or levels: restart the "
+                                     "cores, close the game and in the launcher choose OPEN WEB PANEL → "
+                                     "“Synchronize item data to the client”. For a friend or a client "
+                                     "on a VPS, download this world's data package.")),
+                       render._esc(T("Dane dla klienta", "Client data"))))
     if result:
         body.append('<div class="esq-note esq-note-info">%s</div>' % render._esc(" · ".join(result)))
     body.append('<div id="register"><form method="post" action="/editsql/apply" '

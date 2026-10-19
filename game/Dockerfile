@@ -86,7 +86,10 @@ RUN set -eux; \
     # npc.get_type (the engine's alias of npc.get_type0, ENABLE_NEWSTUFF) and
     # m2_hex_event's three for the Hexagonal Chest event (hexagonal_event;
     # Kiciamol, 14 October; m2_hexagonal_event.lua).
-    for fn in item.can_trash pc.send_whisper q.getcurrentquestindex game.open_safebox mysql_direct_query pc.equip_slot pc.unequip_slot item.set_attr item.get_max_stack item.use pc.open_special_shop affect.add_new affect.remove_new pc.is_playerbot affect.get_duration pc.has_affect pc.warp_channel pc.warp_to_pid m2_biologist.reward npc.get_type m2_hex_event.start_clock m2_hex_event.refresh m2_hex_event.kill; do \
+    # gm_quest_admin_lib's three and gm_possess_lib's two for the GM's quest
+    # skip and "Przemiana" (Kiciamol, 16-17 October; gm_quest_admin.lua,
+    # gm_possess.lua).
+    for fn in item.can_trash pc.send_whisper q.getcurrentquestindex game.open_safebox mysql_direct_query pc.equip_slot pc.unequip_slot item.set_attr item.get_max_stack item.use pc.open_special_shop affect.add_new affect.remove_new pc.is_playerbot affect.get_duration pc.has_affect pc.warp_channel pc.warp_to_pid m2_biologist.reward npc.get_type m2_hex_event.start_clock m2_hex_event.refresh m2_hex_event.kill gm_quest_admin_lib.poll gm_quest_admin_lib.apply_pending gm_quest_admin_lib.command gm_possess_lib.login gm_possess_lib.request; do \
       grep -qx "$fn" /tmp/qc-work/quest_functions || echo "$fn" >> /tmp/qc-work/quest_functions; \
     done; \
     # pony_levelup is the package's own stable-keeper quest with the 18-hour
@@ -100,6 +103,10 @@ RUN set -eux; \
     # bear skins (Pabloo, from Dixdros' report, 2.0.47).
     # teleport_ring answers the use of Pierscien Teleportacji (70058), which the
     # package drops and no stock quest handled (2.0.48).
+    # map_warp is the package's Teleporter (9012) with one line for a player
+    # in a village under 60: what its second page holds - Doyyumhwaji among
+    # them - and that it opens at 60 (report cf152e0c, 17 October); its object
+    # files land over the stock ones.
     # pony_buy, horse_upgrade, horse_upgrade2 and horse_levelup are the
     # package's stable-keeper quests with the wait for the horse taken out:
     # twelve hours for the pony and each upgrade, twenty-one between two
@@ -123,7 +130,8 @@ RUN set -eux; \
     # piece of level 65-66 into its level-80 successor (cube.seon_pyeong.txt,
     # appended to the share's cube.txt below; NerrVoVy, 27 September).
     # flea_market is the Dom Towarowy's two options at the miscellaneous
-    # merchant in M1, offered only while M2_FLEA_MARKET is on (Uxie [DSO]).
+    # merchant in M1 and M2, offered only while M2_FLEA_MARKET is on (Uxie
+    # [DSO]; the second villages since 16 October, Dekri).
     # playerbot_lang asks a player's client at every login which language it
     # reads, and our quests and the AI answer in it (playerbot_language.h).
     # oxevent_manager is the package's OX quiz with the level window from
@@ -151,7 +159,15 @@ RUN set -eux; \
     # hexagonal_event drops the hexagonal chest of the map a person broke a
     # Metin stone on while the panel's Events page runs the event (Kiciamol,
     # 14 October; the rules are m2_hexagonal_event.lua's).
-    for q in item_trash remote_storekeeper switchbot_notify web_admin speed_boost starter_chest starter_kit horse_skip pony_levelup gm_profile new_quest_lv19 teleport_ring pony_buy horse_upgrade horse_upgrade2 horse_levelup deviltower_zone fishing_pass_shop collect_herb_lv4 collect_herb_lv7 collect_herb_lv10 collect_herb_lv15 collect_herb_lv20 collect_herb_lv25 collect_quest_lv30 collect_quest_lv40 collect_quest_lv50 collect_quest_lv60 collect_quest_lv70 collect_quest_lv80 collect_quest_lv85 collect_quest_lv90 towarzysz devilcatacomb_zone check_trans_ticket heavens_cave_keyquest tanaka_ears autohunt_time antiexp_ring seon_pyeong flea_market playerbot_lang subquest_21 subquest_39 oxevent_manager dragon_soul dragon_soul_refine dragon_soul_shop dragon_soul_switch world_drops hexagonal_event; do \
+    # gm_quest_admin is a GM's quest skip from F9, the target board and the
+    # panel, gm_possess a GM playing a bot of the population ("Przemiana";
+    # Kiciamol, 16-17 October; gm_quest_*.lua and gm_possess.lua below).
+    # herbalism_onboarding is Baek-Go's introduction as Said rewrote it (the
+    # first knife, the completed flag at 3) and zielarz the Herbalist's Path -
+    # its ranks, the Workshop (window 111) and the order of the day (Said /
+    # saido_0, 17 October; players only); the first's object files land over
+    # the stock ones.
+    for q in item_trash remote_storekeeper switchbot_notify web_admin speed_boost starter_chest starter_kit horse_skip pony_levelup gm_profile new_quest_lv19 teleport_ring map_warp pony_buy horse_upgrade horse_upgrade2 horse_levelup deviltower_zone fishing_pass_shop collect_herb_lv4 collect_herb_lv7 collect_herb_lv10 collect_herb_lv15 collect_herb_lv20 collect_herb_lv25 collect_quest_lv30 collect_quest_lv40 collect_quest_lv50 collect_quest_lv60 collect_quest_lv70 collect_quest_lv80 collect_quest_lv85 collect_quest_lv90 towarzysz devilcatacomb_zone check_trans_ticket heavens_cave_keyquest tanaka_ears autohunt_time antiexp_ring seon_pyeong flea_market playerbot_lang subquest_21 subquest_39 oxevent_manager dragon_soul dragon_soul_refine dragon_soul_shop dragon_soul_switch world_drops hexagonal_event gm_quest_admin gm_possess herbalism_onboarding zielarz; do \
       [ -f "/quest-add/$q.quest" ] || continue; \
       sed 's/\r$//' "/quest-add/$q.quest" > "/tmp/qc-work/$q.quest"; \
       ( cd /tmp/qc-work && /usr/local/bin/qc "$q.quest" ); \
@@ -320,6 +336,27 @@ RUN set -eu; L=/opt/metin2/share/locale/poland; Q="$L/quest/libs/other/_otherMod
  && test "$(LC_ALL=C grep -c -E '^[[:blank:]]*Vnum[[:blank:]]+(50037|55000|55001|55002|55003|55004|55005|55006|55007|55008|55009|55010|55011|55012|55013|55014|55015|55016|55017|55018|55019|55020)([^0-9]|$)' "$f")" -eq 22 \
  && rm -rf /tmp/share-hex \
  && echo "share: the hexagonal chests (22 groups) and their quest library"
+
+# The GM's quest skip and "Przemiana" (Kiciamol, 16-17 October): his catalog of
+# the package's quests, the queue's helper, the full skip and the possession's
+# account handover, dofile'd after the quest libraries in that order -
+# gm_quest_admin.quest and gm_possess.quest, compiled above, call them. And
+# quest_book.lua marks each new scroll quest's cycle, so a skip queued for the
+# last one is refused in the next (the key quest marks its own in its source).
+COPY quest/gm_quest_catalog.lua quest/gm_quest_admin.lua quest/gm_quest_full_skip.lua quest/gm_possess.lua /opt/metin2/share/locale/poland/quest/libs/other/
+RUN set -eu; L=/opt/metin2/share/locale/poland/quest/libs; Q="$L/other/_otherModuleLoader.lua"; B="$L/quest_book/quest_book.lua" \
+ && LC_ALL=C grep -q 'other/m2_hexagonal_event.lua' "$Q" \
+ && LC_ALL=C sed -i 's/\r$//' "$Q" \
+ && for f in gm_quest_catalog gm_quest_admin gm_quest_full_skip gm_possess; do \
+      printf '\ndofile( LIBDIR .. "other/%s.lua")\n' "$f" >> "$Q"; \
+      test "$(LC_ALL=C grep -c "other/$f\.lua" "$Q")" -eq 1; \
+    done \
+ && test "$(LC_ALL=C grep -c 'pc.setf("quest_book_manage", "quest_index", quest_index)' "$B")" -eq 1 \
+ && ! LC_ALL=C grep -q '"quest_book_kill", "qa_cycle"' "$B" \
+ && LC_ALL=C sed -i 's/^\([[:blank:]]*\)pc\.setf("quest_book_manage", "quest_index", quest_index)\(\r\{0,1\}\)$/\1pc.setf("quest_book_kill", "qa_cycle", pc.getf("quest_book_kill", "qa_cycle")+1)\2\n&/' "$B" \
+ && test "$(LC_ALL=C grep -c '"quest_book_kill", "qa_cycle"' "$B")" -eq 1 \
+ && chmod 0644 "$Q" "$B" "$L"/other/gm_quest_*.lua "$L/other/gm_possess.lua" \
+ && echo "share: the GM's quest skip and possession"
 
 # The monkey curse (port/shareify.py renders this step): the package's
 # monkey_curse quest turned anybody 55 minutes into a Monkey Dungeon (35 on
@@ -521,6 +558,72 @@ RUN set -eu; F=/opt/metin2/share/locale/poland/dragon_soul_table.txt \
  && printf '%b' '# Kiciamol, 3 October: official Dragon Stone balance.\nGroup VnumMapper\n{\n\t#--#\tDragonSoulName\tType\n\t1\tdiamond\t11\n\t2\truby\t12\n\t3\tjade\t13\n\t4\tsapphire\t14\n\t5\tgarnet\t15\n\t6\tonyx\t16\n}\nGroup BasicApplys\n{\n\tGroup diamond\n\t{\n\t\t#--#\tApply_Type\tApply_value\n\t\t1\t15\t16\n\t\t2\t44\t21\n\t}\n\tGroup ruby\n\t{\n\t\t#--#\tApply_Type\tApply_value\n\t\t1\t12\t16\n\t\t2\t53\t21\n\t}\n\tGroup jade\n\t{\n\t\t#--#\tApply_Type\tApply_value\n\t\t1\t8\t500\n\t\t2\t45\t21\n\t}\n\tGroup sapphire\n\t{\n\t\t#--#\tApply_Type\tApply_value\n\t\t1\t14\t16\n\t\t2\t48\t21\n\t}\n\tGroup garnet\n\t{\n\t\t#--#\tApply_Type\tApply_value\n\t\t1\t6\t1500\n\t\t2\t47\t21\n\t}\n\tGroup onyx\n\t{\n\t\t#--#\tApply_Type\tApply_value\n\t\t1\t13\t16\n\t\t2\t19\t28\n\t}\n}\nGroup AdditionalApplys\n{\n\tGroup diamond\n\t{\n\t\t#--#\tApply_Type\tApply_value\tProb\n\t\t1\t97\t16\t10\n\t\t2\t98\t16\t10\n\t\t3\t121\t16\t10\n\t\t4\t123\t14\t10\n\t}\n\tGroup ruby\n\t{\n\t\t#--#\tApply_Type\tApply_value\tProb\n\t\t1\t95\t207\t10\n\t\t2\t96\t152\t10\n\t\t3\t122\t16\t10\n\t\t4\t124\t16\t10\n\t}\n\tGroup jade\n\t{\n\t\t#--#\tApply_Type\tApply_value\tProb\n\t\t1\t6\t2777\t10\n\t\t2\t32\t10\t10\n\t\t3\t63\t10\t10\n\t\t4\t87\t5\t10\n\t\t5\t119\t20\t10\n\t}\n\tGroup sapphire\n\t{\n\t\t#--#\tApply_Type\tApply_value\tProb\n\t\t1\t43\t21\t10\n\t\t2\t160\t14\t10\n\t}\n\tGroup garnet\n\t{\n\t\t#--#\tApply_Type\tApply_value\tProb\n\t\t1\t8\t1500\t10\n\t\t2\t33\t10\t10\n\t\t3\t64\t10\t10\n\t\t4\t82\t5\t10\n\t\t5\t120\t20\t10\n\t}\n\tGroup onyx\n\t{\n\t\t#--#\tApply_Type\tApply_value\tProb\n\t\t1\t67\t10\t10\n\t\t2\t121\t14\t10\n\t\t3\t79\t10\t10\n\t\t4\t136\t10\t10\n\t\t5\t137\t10\t10\n\t}\n}\nGroup ApplyNumSettings\n{\n\tGroup Default\n\t{\n\t\t#--#\tGRADE_NORMAL\tGRADE_BRILLIANT\tGRADE_RARE\tGRADE_ANCIENT\tGRADE_LEGENDARY\tGRADE_MYTH\n\t\tbasis\t1\t1\t1\t2\t2\t2\n\t\tadd_min\t0\t0\t0\t0\t0\t0\n\t\tadd_max\t0\t1\t2\t2\t3\t3\n\t}\n}\nGroup WeightTables\n{\n\tGroup Default\n\t{\n\t\tGroup GRADE_NORMAL\n\t\t{\n\t\t\t#--#\t0\t1\t2\t3\t4\t5\t6\n\t\t\tSTEP_LOWEST\t1\t1\t2\t0\t0\t0\t0\n\t\t\tSTEP_LOW\t1\t2\t2\t0\t0\t0\t0\n\t\t\tSTEP_MID\t2\t2\t3\t4\t0\t0\t0\n\t\t\tSTEP_HIGH\t2\t3\t4\t4\t0\t0\t0\n\t\t\tSTEP_HIGHEST\t3\t4\t4\t5\t6\t0\t0\n\t\t}\n\t\tGroup GRADE_BRILLIANT\n\t\t{\n\t\t\t#--#\t0\t1\t2\t3\t4\t5\t6\n\t\t\tSTEP_LOWEST\t2\t2\t3\t4\t0\t0\t0\n\t\t\tSTEP_LOW\t2\t3\t4\t5\t0\t0\t0\n\t\t\tSTEP_MID\t3\t4\t5\t6\t0\t0\t0\n\t\t\tSTEP_HIGH\t4\t5\t6\t7\t9\t0\t0\n\t\t\tSTEP_HIGHEST\t5\t6\t7\t9\t12\t0\t0\n\t\t}\n\t\tGroup GRADE_RARE\n\t\t{\n\t\t\t#--#\t0\t1\t2\t3\t4\t5\t6\n\t\t\tSTEP_LOWEST\t4\t4\t5\t7\t9\t0\t0\n\t\t\tSTEP_LOW\t4\t5\t7\t9\t12\t0\t0\n\t\t\tSTEP_MID\t5\t7\t9\t12\t15\t0\t0\n\t\t\tSTEP_HIGH\t7\t9\t12\t15\t18\t0\t0\n\t\t\tSTEP_HIGHEST\t9\t12\t15\t18\t24\t0\t0\n\t\t}\n\t\tGroup GRADE_ANCIENT\n\t\t{\n\t\t\t#--#\t0\t1\t2\t3\t4\t5\t6\n\t\t\tSTEP_LOWEST\t6\t7\t9\t11\t12\t0\t0\n\t\t\tSTEP_LOW\t7\t9\t11\t12\t15\t0\t0\n\t\t\tSTEP_MID\t9\t11\t12\t15\t21\t0\t0\n\t\t\tSTEP_HIGH\t11\t12\t15\t21\t24\t0\t0\n\t\t\tSTEP_HIGHEST\t12\t15\t21\t24\t36\t48\t0\n\t\t}\n\t\tGroup GRADE_LEGENDARY\n\t\t{\n\t\t\t#--#\t0\t1\t2\t3\t4\t5\t6\n\t\t\tSTEP_LOWEST\t18\t21\t24\t27\t30\t0\t0\n\t\t\tSTEP_LOW\t21\t24\t27\t30\t33\t0\t0\n\t\t\tSTEP_MID\t24\t27\t30\t33\t39\t0\t0\n\t\t\tSTEP_HIGH\t27\t30\t33\t39\t45\t54\t0\n\t\t\tSTEP_HIGHEST\t30\t33\t39\t45\t54\t63\t72\n\t\t}\n\t\tGroup GRADE_MYTH\n\t\t{\n\t\t\t#--#\t0\t1\t2\t3\t4\t5\t6\n\t\t\tSTEP_LOWEST\t18\t21\t24\t27\t30\t0\t0\n\t\t\tSTEP_LOW\t21\t24\t27\t30\t33\t0\t0\n\t\t\tSTEP_MID\t24\t27\t30\t33\t39\t0\t0\n\t\t\tSTEP_HIGH\t27\t30\t33\t39\t45\t54\t0\n\t\t\tSTEP_HIGHEST\t30\t33\t39\t45\t54\t63\t72\n\t\t}\n\t}\n}\nGroup RefineGradeTables\n{\n\tGroup Default\n\t{\n\t\t#--#\tNEED_COUNT\tFEE\tGRADE_NORMAL\tGRADE_BRILLIANT\tGRADE_RARE\tGRADE_ANCIENT\tGRADE_LEGENDARY\tGRADE_MYTH\n\t\tGRADE_NORMAL\t2\t30000\t15\t85\t0\t0\t0\t0\n\t\tGRADE_BRILLIANT\t2\t50000\t0\t30\t70\t0\t0\t0\n\t\tGRADE_RARE\t2\t70000\t0\t0\t45\t55\t0\t0\n\t\tGRADE_ANCIENT\t2\t100000\t0\t0\t0\t65\t35\t0\n\t\tGRADE_LEGENDARY\t2\t150000\t0\t0\t0\t0\t0\t100\n\t}\n}\nGroup RefineStepTables\n{\n\tGroup Default\n\t{\n\t\t#--#\tNEED_COUNT\tFEE\tSTEP_LOWEST\tSTEP_LOW\tSTEP_MID\tSTEP_HIGH\tSTEP_HIGHEST\n\t\tSTEP_LOWEST\t2\t20000\t45\t55\t0\t0\t0\n\t\tSTEP_LOW\t2\t30000\t0\t50\t50\t0\t0\n\t\tSTEP_MID\t2\t40000\t0\t0\t55\t45\t0\n\t\tSTEP_HIGH\t2\t50000\t0\t0\t0\t64\t36\n\t}\n}\nGroup RefineStrengthTables\n{\n\tGroup Default\n\t{\n\t\t#--#\tFEE\t0\t1\t2\t3\t4\t5\n\t\tMATERIAL_DS_REFINE_NORMAL\t10000\t100\t80\t70\t55\t45\t30\n\t\tMATERIAL_DS_REFINE_BLESSED\t20000\t100\t88\t77\t60\t50\t35\n\t\tMATERIAL_DS_REFINE_HOLLY\t30000\t100\t90\t80\t65\t55\t40\n\t}\n}\nGroup DragonHeartExtTables\n{\n\tGroup Default\n\t{\n\t\t#--#\t1\t2\t3\t4\t5\n\t\tCHARGING\t0\t5\t15\t30\t50\n\t\tGRADE_NORMAL\t50\t35\t12\t2\t1\n\t\tGRADE_BRILLIANT\t35\t40\t20\t4\t1\n\t\tGRADE_RARE\t20\t35\t30\t12\t3\n\t\tGRADE_ANCIENT\t15\t30\t35\t15\t5\n\t\tGRADE_LEGENDARY\t10\t20\t40\t20\t10\n\t\tGRADE_MYTH\t10\t20\t40\t20\t10\n\t}\n}\nGroup DragonSoulExtTables\n{\n\tGroup Default\n\t{\n\t\t#--#\tProb\tByProduct\n\t\tGRADE_NORMAL\t50\t30270\n\t\tGRADE_BRILLIANT\t40\t30270\n\t\tGRADE_RARE\t30\t30270\n\t\tGRADE_ANCIENT\t30\t30270\n\t\tGRADE_LEGENDARY\t20\t30270\n\t\tGRADE_MYTH\t20\t30270\n\t}\n}\n' > "$F" \
  && echo "share: the Dragon Stone table checked"
 
+# The ore veins (port/shareify.py renders ore_veins/ and this step; Tieru,
+# after Dekri, 17 October): the package spawns no ore vein anywhere, so the
+# frontier maps' stone.txt takes ore_veins/<map>.txt - one vein of a race at a
+# random point of a square round a hunting hub, put back on the line's own
+# clock after the engine's 7-15 minutes have taken it away.
+COPY ore_veins/ /tmp/vein-add/
+RUN set -eu; L=/opt/metin2/share/locale/poland; n=0 \
+ && for f in /tmp/vein-add/*.txt; do m=$(basename "$f" .txt); S="$L/map/$m/stone.txt"; test -d "$L/map/$m"; [ -e "$S" ] || : > "$S"; if grep -q -E '[[:blank:]]20(04[7-9]|05[0-9])[[:space:]]*$' "$S"; then echo "share: $m already spawns an ore vein" >&2; exit 1; fi; sed -i 's/\r$//; s/$/\r/' "$f"; { [ ! -s "$S" ] || [ -z "$(tail -c 1 "$S")" ] || printf '\r\n' >> "$S"; }; cat "$f" >> "$S"; n=$((n + $(grep -c -E '^m[[:blank:]].*[[:blank:]]20(04[7-9]|05[0-9])[[:space:]]*$' "$S"))); done \
+ && rm -rf /tmp/vein-add \
+ && test "$n" -eq 20 \
+ && echo "share: ore vein lines in 3 frontier maps' stone.txt ($n)"
+
+# Quartz Sand and Magic Seeds drop again (port/shareify.py renders this step;
+# Deranfan, 1fb7a43e, 16 October): the level-80 armours' +5 -> +6 and +6 -> +7 take
+# Piasek Kwarcowy (30195) and Magiczne Nasiona (30197), whose package lines were
+# commented out for the herbs. The sand on the Ghost Wood's monsters (the
+# golems that dropped it stand on no hosted map), the seeds on the Red Forest's
+# trees again, each the next index of the monster's drop group.
+RUN set -eu; F=/opt/metin2/share/locale/poland/mob_drop_item.txt \
+ ; A='2301:30195:0.5:Piasek_Kwarcowy 2302:30195:0.5:Piasek_Kwarcowy 2303:30195:0.5:Piasek_Kwarcowy 2304:30195:0.5:Piasek_Kwarcowy 2311:30197:0.2:Magiczne_Nasiona 2312:30197:0.2:Magiczne_Nasiona 2313:30197:0.2:Magiczne_Nasiona 2314:30197:0.2:Magiczne_Nasiona' \
+ && awk -v add="$A" ' \
+      BEGIN { n = split(add, a, " "); for (i = 1; i <= n; i++) { split(a[i], f, ":"); want[f[1]] = f[2] ":" f[3] ":" f[4] } } \
+      { s = $0; cr = (s ~ /\r$/); sub(/\r$/, "", s) } \
+      s ~ /^Group([ \t]|$)/ { mob = ""; typ = ""; last = 0; seen = 0 } \
+      s ~ /^[ \t]*Mob[ \t]+[0-9]/ { t = s; sub(/^[ \t]*Mob[ \t]+/, "", t); sub(/[^0-9].*$/, "", t); mob = t } \
+      s ~ /^[ \t]*Type[ \t]+/ { t = s; sub(/^[ \t]*Type[ \t]+/, "", t); sub(/[ \t].*$/, "", t); typ = tolower(t) } \
+      s ~ /^[ \t]*[0-9]+[ \t]+[0-9]+/ { t = s; sub(/^[ \t]+/, "", t); split(t, w, /[ \t]+/); if (w[1] + 0 > last) last = w[1] + 0; if (mob in want) { split(want[mob], g, ":"); if (w[2] == g[1]) seen = 1 } } \
+      s ~ /^}/ && typ == "drop" && (mob in want) && !(mob in done) { split(want[mob], g, ":"); if (!seen) { gsub(/_/, " ", g[3]); printf "\t%d\t%s\t1\t%s\t-- %s%s\n", last + 1, g[1], g[2], g[3], (cr ? "\r" : "") } done[mob] = 1 } \
+      { print } \
+      END { for (m in want) if (!(m in done)) { print "share: no drop group of mob " m > "/dev/stderr"; exit 1 } } \
+      ' "$F" > "$F.new" \
+ && mv "$F.new" "$F" \
+ && test "$(grep -c -E '^[[:blank:]]+[0-9]+[[:blank:]]+30195[[:blank:]]+1[[:blank:]]+[0-9.]+' "$F")" -eq 4 \
+ && test "$(grep -c -E '^[[:blank:]]+[0-9]+[[:blank:]]+30197[[:blank:]]+1[[:blank:]]+[0-9.]+' "$F")" -eq 4 \
+ && echo "share: Quartz Sand and Magic Seeds drop (4 + 4 monsters)"
+
+# The Herbalist's Path (Said / saido_0, 17 October; quest/zielarz.quest,
+# docs/notes/gathering.md), the share's half: the herbalist bushes as respawn
+# lines of ten maps' stone.txt (zielarz/<map>.stone.txt; the package's `r'
+# lines are group_groups that already grow all sixteen kinds, these add the
+# Blossoming Peach round the first villages and the rare ones where their level
+# band is), the order of the day's rewards (groups 10712-10716), the rare herbs
+# on eighteen monsters, and six herb mixes of group_group.txt reweighted - one
+# line each, the bush the map lacked most. Not port/shareify.py's: this step is
+# kept by hand.
+COPY zielarz/ /tmp/zielarz-add/
+RUN set -eu; L=/opt/metin2/share/locale/poland; Z=/tmp/zielarz-add; n=0 \
+ && for f in "$Z"/*.stone.txt; do m=$(basename "$f" .stone.txt); S="$L/map/$m/stone.txt"; test -d "$L/map/$m"; [ -e "$S" ] || : > "$S"; sed -i 's/\r$//; s/$/\r/' "$f"; { [ ! -s "$S" ] || [ -z "$(tail -c 1 "$S")" ] || printf '\r\n' >> "$S"; }; cat "$f" >> "$S"; n=$((n + $(grep -c '^m[[:blank:]]' "$f"))); done \
+ && test "$n" -eq 52 \
+ && f="$L/special_item_group.txt"; if grep -q -E '^[[:blank:]]*Vnum[[:blank:]]+1071[2-6][[:blank:]]*' "$f"; then echo "share: special_item_group.txt already has a group 10712-10716" >&2; exit 1; fi \
+ && { [ -z "$(tail -c 1 "$f")" ] || printf '\r\n' >> "$f"; } && cat "$Z/special_item_group.zielarz.txt" >> "$f" \
+ && f="$L/mob_drop_item.txt"; { [ -z "$(tail -c 1 "$f")" ] || printf '\r\n' >> "$f"; } && cat "$Z/mob_drop_item.zielarz.txt" >> "$f" \
+ && test "$(grep -c '^Group[[:blank:]]Zielarz_' "$f")" -eq 18 \
+ && f="$L/group_group.txt" \
+ && awk -v want='map1_herbs:1:20601:3 orc_herbs:6:20613:2 desert_herbs:6:20615:3 sohan_herbs:5:20612:2 temple_herbs:5:20614:3 red_forest_herbs:6:20611:3' ' \
+      BEGIN { n = split(want, a, " "); for (i = 1; i <= n; i++) { split(a[i], w, ":"); key[w[1] ":" w[2]] = w[3] ":" w[4] } } \
+      { s = $0; cr = (s ~ /\r$/); sub(/\r$/, "", s) } \
+      s ~ /^Group[ \t]/ { g = s; sub(/^Group[ \t]+/, "", g); sub(/[ \t].*$/, "", g) } \
+      s ~ /^[ \t]*[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+[ \t]*$/ { t = s; sub(/^[ \t]+/, "", t); split(t, w, /[ \t]+/); k = g ":" w[1]; if (k in key) { split(key[k], v, ":"); if (w[2] != v[1]) { print "share: group_group " k " is not " v[1] > "/dev/stderr"; exit 1 } printf "\t%s\t%s\t%s%s\n", w[1], w[2], v[2], (cr ? "\r" : ""); done++; next } } \
+      { print } \
+      END { if (done != n) { print "share: group_group herb mixes changed " done " of " n > "/dev/stderr"; exit 1 } } \
+      ' "$f" > "$f.new" \
+ && mv "$f.new" "$f" \
+ && rm -rf "$Z" \
+ && echo "share: the Herbalist's Path ($n bush lines, 5 reward groups, 18 herb drops, 6 herb mixes)"
+
 # The official English names of this world's items and monsters, rendered by
 # tools/generate_english_names.py from Gameforge's own tables: what the core
 # names an item, a monster or an NPC by for a person whose client reads English
@@ -528,6 +631,9 @@ RUN set -eu; F=/opt/metin2/share/locale/poland/dragon_soul_table.txt \
 # (playerbot_language.h). Read once from here by every core; without it every
 # name is the proto's Polish one.
 COPY share-add/playerbot_names_en.tsv /opt/metin2/share/playerbot_names_en.tsv
+# The market searches the same names as each non-PL/EN client's item_names.
+# Keep the client ANSI bytes; the matcher selects their code page per reader.
+COPY share-add/playerbot_market_search_names.tsv /opt/metin2/share/playerbot_market_search_names.tsv
 COPY share-add/playerbot_live_chat_*.tsv /opt/metin2/share/
 
 # The official English of the engine's own lines (LC_TEXT), rendered by
@@ -538,6 +644,22 @@ COPY share-add/playerbot_live_chat_*.tsv /opt/metin2/share/
 # apply_engine_english_table); without it every engine line is the table's
 # Polish.
 COPY share-add/locale_string_en.tsv /opt/metin2/share/locale/poland/locale_string_en.tsv
+
+# The same lines in German, French, Portuguese and Romanian (Tyrion, 16
+# October; tools/generate_engine_languages.py from data/engine_texts_*.tsv),
+# for a person whose client names the language: each core reads them after the
+# English one (playerbotify.py, apply_engine_language_tables), and a line a
+# table lacks, or a core without the files, says the English. Our own quests'
+# texts in the four (tools/generate_quest_languages.py), which
+# quest_language.lua reads for every t(pl, en) of ours. And Turkish (Said,
+# saido_0, 17 October): its engine lines the same way, our quests' texts in the
+# same file, and the package's quests in Turkish beside their English
+# (quest/quest_texts_tr.lua, his tr-build's render; quest_language.lua builds a
+# Turkish reader's twin over the English one, and a missing or broken file
+# leaves the English).
+COPY share-add/locale_string_de.tsv share-add/locale_string_fr.tsv share-add/locale_string_pt.tsv share-add/locale_string_ro.tsv share-add/locale_string_tr.tsv /opt/metin2/share/locale/poland/
+COPY quest/playerbot_quest_texts.lua /opt/metin2/share/locale/poland/quest/libs/other/playerbot_quest_texts.lua
+COPY quest/quest_texts_tr.lua /opt/metin2/share/locale/poland/quest/libs/other/quest_texts_tr.lua
 
 # The OX quiz's questions (Malina, 29 September: "pytania sa chyba po
 # niemiecku"): Polish, each with its English twin - add_ox_quiz's fourth

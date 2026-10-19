@@ -186,7 +186,7 @@ quest devilcatacomb_zone begin
 	-- Our own lines, in the reader's language (playerbot_lang.quest's flag).
 	function t(pl, en)
 		if pc.getf("playerbot_lang", "en") == 1 then
-			return en
+			return playerbot_quest_text ~= nil and playerbot_quest_text(en) or en
 		end
 		return pl
 	end
@@ -373,6 +373,31 @@ quest devilcatacomb_zone begin
 			end
 		end
 	
+	-- How many of the second floor's four doors still stand: a door is down
+	-- once either of its two sets of pieces is (is_dc2_doors_clear below).
+	-- The turtle rock says it with its refusal: the server stops nobody at a
+	-- door, the wall is the door's model in the client, and a person who ran
+	-- past one before the client showed it reached the rock
+	-- with "The door is still locked" and no word of which or how many
+	-- (Deranfan, 1fb7a43e, 16 October, on a core 92% behind).
+	function dc2_doors_standing ()
+		local setting = devilcatacomb_zone.setting()
+		local standing = 0
+		for i = 1, 4 do
+			local set_size = setting.dc2_door_set_size[i]
+			local down1 = true
+			local down2 = true
+			for j = 1, set_size do
+				down1 = down1 and d.is_unique_dead (i.."_1_"..j)
+				down2 = down2 and d.is_unique_dead (i.."_2_"..j)
+			end
+			if not down1 and not down2 then
+				standing = standing + 1
+			end
+		end
+		return standing
+	end
+
 	function is_dc2_doors_clear ()
 		local setting = devilcatacomb_zone.setting()
 		local clear = true
@@ -406,6 +431,8 @@ quest devilcatacomb_zone begin
 				if not devilcatacomb_zone.is_dc2_doors_clear () then
 					if not pc.is_playerbot() then
 						say(gameforge.devilcatacomb_zone._220_say)
+						local standing = devilcatacomb_zone.dc2_doors_standing ()
+						say(string.format(devilcatacomb_zone.t("Drzwi, ktore wciaz stoja na tym pietrze: %d z 4. Rozbij je, a skala cie przepusci.", "Doors still standing on this floor: %d of 4. Break them and the rock will let you through."), standing))
 						wait ()
 					end
 					return

@@ -36,6 +36,10 @@
 			if (hash_equals($expected, $sas)) {
 				$_SESSION['id'] = $row['login'];
 				$_SESSION['acc_id'] = $row['account_id'];
+				// Turkish patch: the shop in the language the player's client speaks
+				// (the quest flag playerbot_lang.code the client sets at login).
+				require_once(__DIR__ . "/../itemshop/lang_tr.php");
+				$_SESSION['ishop_lang'] = itemshop_player_lang($sqlServ, $pid);
 				$ok = true;
 			} else {
 				$failReason = 'sas mismatch for pid=' . $pid . ' aid=' . $row['account_id'];

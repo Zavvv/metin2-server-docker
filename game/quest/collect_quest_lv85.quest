@@ -46,6 +46,7 @@ quest collect_quest_lv85  begin
 	state go_to_disciple begin
 		when letter begin
 			send_letter(gameforge.collect_quest_lv85._080_send_letter)
+			collect_data.send_delay()
 
 		end
 		when button or info begin
@@ -53,6 +54,7 @@ quest collect_quest_lv85  begin
 			say(gameforge.collect_quest_lv85._100_say)
 			say_item_vnum(30167)
 			say_reward(gameforge.collect_quest_lv85._105_1_say_reward	.." "..pc.getqf("collect_count")..gameforge.collect_quest_lv85._105_2_say_reward)
+			collect_data.say_delay()
 		end
 
 		when 2311.kill or 2312.kill or 2313.kill or 2314.kill or 2315.kill begin
@@ -67,6 +69,7 @@ quest collect_quest_lv85  begin
 			if collect_data.is_wait() then
 				say_title(gameforge.collect_quest_lv85._185_say)
 				say(gameforge.collect_quest_lv85._190_say)
+				collect_data.say_delay()
 				return
 			end
 

@@ -42,6 +42,7 @@ MOB = "m"
 # playerbot_names::NAME_MAX_LEN: longer than any official name, shorter than
 # anything a stray line of another file would be.
 NAME_MAX_LEN = 48
+NAME_MAX_LEN_UTF8 = 64
 _HEX = frozenset("0123456789abcdef")
 
 
@@ -68,13 +69,17 @@ def polish_bytes(name, codec="cp1250"):
         return None
 
 
-def parse_line(line):
+def parse_line(line, utf8=False):
     """(kind, vnum, name, hash) of one line (bytes or str), or None - for a
     comment, a blank line and anything that is not exactly what the generator
-    writes, as playerbot_names::ParseNameLine reads it."""
+    writes, as playerbot_names::ParseNameLine reads it.
+
+    utf8 (Turkish patch): a panel-only table in UTF-8 with real letters
+    (static/i18n/playerbot_names_tr.tsv); the core never reads that one, so
+    its names may hold any printable character and be a little longer."""
     if isinstance(line, (bytes, bytearray)):
         try:
-            line = bytes(line).decode("ascii")
+            line = bytes(line).decode("utf-8" if utf8 else "ascii")
         except UnicodeDecodeError:
             return None
     line = line.rstrip("\r\n")
@@ -89,8 +94,8 @@ def parse_line(line):
     number = int(vnum)
     if number <= 0 or number > 100000000:
         return None
-    if (not name or len(name) > NAME_MAX_LEN or name[0] == " " or name[-1] == " "
-            or any(ord(c) < 0x20 or ord(c) > 0x7E for c in name)):
+    if (not name or len(name) > (NAME_MAX_LEN_UTF8 if utf8 else NAME_MAX_LEN) or name[0] == " " or name[-1] == " "
+            or any(ord(c) < 0x20 or (ord(c) > 0x7E and not utf8) or ord(c) == 0x7F for c in name)):
         return None
     if len(digest) != 8 or any(c not in _HEX for c in digest):
         return None
@@ -101,8 +106,9 @@ class EnglishNames(object):
     """One file's names, read once and kept for the life of the panel (a new
     file comes with a new panel image)."""
 
-    def __init__(self, path):
+    def __init__(self, path, utf8=False):
         self.path = path
+        self.utf8 = utf8
         self._lock = threading.Lock()
         self._lines = None              # {(kind, vnum): (name, hash)}
         self._folded = None             # {kind: [(lowered name, vnum, hash)]}
@@ -117,14 +123,14 @@ class EnglishNames(object):
                 try:
                     with open(self.path, "rb") as handle:
                         for raw in handle:
-                            parsed = parse_line(raw)
+                            parsed = parse_line(raw, self.utf8)
                             if parsed is not None:
                                 found[(parsed[0], parsed[1])] = (parsed[2], parsed[3])
                 except OSError:
                     found = {}
                 folded = {ITEM: [], MOB: []}
                 for (kind, vnum), (name, digest) in sorted(found.items()):
-                    folded[kind].append((name.lower(), vnum, digest))
+                    folded[kind].append((fold_name(name) if self.utf8 else name.lower(), vnum, digest))
                 self._folded = folded
                 self._lines = found
             return self._lines
@@ -151,7 +157,7 @@ class EnglishNames(object):
         """{vnum: hash} of the lines whose English name holds `text`, any case.
         The caller checks each against the world's current name (the hash)
         before it counts as found."""
-        needle = str(text or "").strip().lower()
+        needle = fold_name(text) if self.utf8 else str(text or "").strip().lower()
         if not needle:
             return {}
         self._table()
@@ -162,6 +168,18 @@ class EnglishNames(object):
         """Whether `polish` is the name a line of this hash was matched to."""
         raw = polish_bytes(polish, codec)
         return bool(raw) and fnv1a(raw) == digest
+
+
+_TURKISH_I = {ord("İ"): "i", ord("I"): "i", ord("ı"): "i", ord("ł"): "l", ord("Ł"): "l"}
+
+
+def fold_name(text):
+    """A search key for a name in any language (Turkish patch): Turkish case
+    rules first (dotted and dotless I are one letter here), then lower case
+    without the letters' marks, so "KILIÇ", "kılıç" and "kilic" are one key."""
+    import unicodedata
+    value = unicodedata.normalize("NFKD", str(text or "").translate(_TURKISH_I).casefold())
+    return "".join(ch for ch in value if not unicodedata.combining(ch)).strip()
 
 
 def default_path():

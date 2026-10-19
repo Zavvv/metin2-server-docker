@@ -1,0 +1,72 @@
+# Zielarz (Said / saido_0, 17 October): the rewards of Baek-Go's order of the day,
+# pc.give_item_from_special_item_group(10711 + the order's rank) in zielarz.quest:
+# one line by weight (a group of the normal type). Plain vnums only.
+Group	Zielarz_Zlecenie_R1
+{
+	Vnum	10712
+	1	50901	10	30	-- Empty Bottle (S) x10 (30%)
+	2	50902	5	15	-- Empty Bottle (M) x5 (15%)
+	3	50721	10	15	-- Peach Blossom x10 (15%)
+	4	50722	10	15	-- Bellflower x10 (15%)
+	5	30360	1	10	-- Magic Dust x1 (10%)
+	6	50911	1	5	-- Recipe: Purple Potion x1 (5%)
+	7	50912	1	5	-- Recipe: Green Potion x1 (5%)
+	8	50908	1	5	-- Herbalist's Marble x1 (5%)
+}
+Group	Zielarz_Zlecenie_R2
+{
+	Vnum	10713
+	1	50902	5	25	-- Empty Bottle (M) x5 (25%)
+	2	50903	3	15	-- Empty Bottle (L) x3 (15%)
+	3	50725	10	15	-- Lilac x10 (15%)
+	4	50726	10	15	-- Tue Fungus x10 (15%)
+	5	30360	2	10	-- Magic Dust x2 (10%)
+	6	50736	3	6	-- Cave Mushroom x3 (6%)
+	7	50913	1	3	-- Recipe: Orange Brew x1 (3%)
+	8	50914	1	3	-- Recipe: Yellow Brew x1 (3%)
+	9	50920	1	3	-- Recipe: Red Brew x1 (3%)
+	10	50908	1	5	-- Herbalist's Marble x1 (5%)
+}
+Group	Zielarz_Zlecenie_R3
+{
+	Vnum	10714
+	1	50903	5	25	-- Empty Bottle (L) x5 (25%)
+	2	50727	10	15	-- Alpine Rose x10 (15%)
+	3	50728	10	15	-- Mulberry x10 (15%)
+	4	30360	3	10	-- Magic Dust x3 (10%)
+	5	30379	1	8	-- Smelted Ore x1 (8%)
+	6	50733	3	8	-- Amber Petal x3 (8%)
+	7	50735	3	8	-- Snake Root x3 (8%)
+	8	50922	1	3	-- Recipe: Crimson Brew x1 (3%)
+	9	50923	1	3	-- Recipe: Grey Brew x1 (3%)
+	10	50908	1	5	-- Herbalist's Marble x1 (5%)
+}
+Group	Zielarz_Zlecenie_R4
+{
+	Vnum	10715
+	1	50903	10	25	-- Empty Bottle (L) x10 (27%)
+	2	30360	4	15	-- Magic Dust x4 (16%)
+	3	30379	2	10	-- Smelted Ore x2 (11%)
+	4	50732	3	10	-- Snowflower x3 (11%)
+	5	50734	3	10	-- Pearl Panicles x3 (11%)
+	6	50731	2	8	-- Night Star x2 (9%)
+	7	50908	2	6	-- Herbalist's Marble x2 (6%)
+	8	51782	1	3	-- Genius Potion x1 (3%)
+	9	50924	1	3	-- Recipe: Enchantment Potion x1 (3%)
+	10	50925	1	3	-- Recipe: Durability Potion x1 (3%)
+}
+Group	Zielarz_Zlecenie_R5
+{
+	Vnum	10716
+	1	50903	10	20	-- Empty Bottle (L) x10 (22%)
+	2	30360	5	15	-- Magic Dust x5 (16%)
+	3	30379	3	10	-- Smelted Ore x3 (11%)
+	4	50729	5	10	-- Dandelion x5 (11%)
+	5	50730	5	10	-- Thistle x5 (11%)
+	6	50731	3	10	-- Night Star x3 (11%)
+	7	50908	3	8	-- Herbalist's Marble x3 (9%)
+	8	51782	1	4	-- Genius Potion x1 (4%)
+	9	51783	1	2	-- Determination Potion x1 (2%)
+	10	50932	1	2	-- Recipe: Genius Potion x1 (2%)
+	11	50930	1	1	-- Recipe: Wisdom Potion x1 (1%)
+}

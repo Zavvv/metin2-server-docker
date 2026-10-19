@@ -46,11 +46,31 @@ quest teleport_ring begin
             return options, map_list, cancel_index
         end
 
+        -- The second page opens at 60, and a player under it is told what it
+        -- holds, as at the Teleporter (map_warp.quest's high_level_hint;
+        -- report cf152e0c, a character of 55 that missed Doyyumhwaji).
+        function high_level_hint(current_page)
+            if current_page ~= 1 or pc.get_level() >= 60 then
+                return
+            end
+            if not (is_player_in_any_m1() or is_player_in_any_m2()) then
+                return
+            end
+            local high_level = teleport_ring.data().high_level
+            local names = {}
+            for i = 1, table.getn(high_level) do
+                table.insert(names, translate.general.map_names[high_level[i]])
+            end
+            say_split(translate.map_warp.high_level)
+            say_split(table.concat(names, ", "), say_reward)
+        end
+
         function process_teleport_list(current_page, page_count, base_price)
             local price = base_price * (current_page == 1 and 1 or 3)
             say_title(item_name(70058))
             say_split(translate.map_warp.talk2)
             say_reward(string.format(translate.map_warp.price, parse_number(price)))
+            teleport_ring.high_level_hint(current_page)
             local select_list, map_list, cancel_index = teleport_ring.get_teleport_list(current_page)
             local x = select_table(select_list)
             if x == cancel_index then

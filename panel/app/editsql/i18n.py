@@ -42,9 +42,30 @@ def lang():
     return "pl" if code == "pl" else "en"
 
 
+def reader_lang():
+    """The panel's own language code ('pl', 'en', 'de', 'tr'), 'pl' outside a request."""
+    try:
+        return db.ns().lang()
+    except Exception:                              # noqa: BLE001 - no request, no panel
+        return "pl"
+
+
+def turkish(en):
+    """Turkish patch: for a reader whose panel language is Turkish, the
+    Turkish of an English text (the panel's panel_tr, static/i18n/panel_tr.json),
+    else the English as it is. German readers keep the English."""
+    if reader_lang() != "tr":
+        return en
+    try:
+        lookup = db.ns().get("panel_tr")
+        return lookup(en) if lookup else en
+    except Exception:                              # noqa: BLE001
+        return en
+
+
 def T(pl, en):
     """The text in the reader's language."""
-    return pl if lang() == "pl" else en
+    return pl if lang() == "pl" else turkish(en)
 
 
 class P(object):
@@ -62,7 +83,7 @@ class P(object):
         self.en = en
 
     def __str__(self):
-        return self.pl if lang() == "pl" else self.en
+        return self.pl if lang() == "pl" else turkish(self.en)
 
     def __repr__(self):
         return "P(%r, %r)" % (self.pl, self.en)
@@ -88,12 +109,15 @@ def bilingual(text, en):
     A Polish reader keeps it whole, as it always read; an English reader gets
     the English half alone.
     """
-    return text if lang() == "pl" else en
+    return text if lang() == "pl" else turkish(en)
 
 
 def plural(n, pl_forms, en_forms):
-    """The word for n things: pl_forms = (one, few, many), en_forms = (one, many)."""
+    """The word for n things: pl_forms = (one, few, many), en_forms = (one, many).
+    Turkish (Turkish patch) keeps the singular after a number."""
     if lang() != "pl":
+        if reader_lang() == "tr":
+            return turkish(en_forms[0])
         return en_forms[0] if abs(int(n)) == 1 else en_forms[1]
     n = abs(int(n))
     if n == 1:
@@ -116,7 +140,9 @@ def english_name(kind, vnum, polish, codec="cp1250"):
     if polish in (None, "", b""):
         return None
     try:
-        lookup = db.ns().get("english_game_name")
+        # Turkish patch: the reader's name (Turkish for a Turkish reader) when
+        # the panel has it, else the official English one.
+        lookup = db.ns().get("reader_game_name") or db.ns().get("english_game_name")
     except Exception:                              # noqa: BLE001 - no panel
         return None
     if lookup is None:

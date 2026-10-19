@@ -1,0 +1,1025 @@
+# The engine's own lines (LC_TEXT) in Turkish, for a player whose client names
+# the language (the fourth word of /playerbot_lang) - rendered by
+# tools/generate_engine_languages.py from Said's (saido_0) translation of 17 October
+# (data/engine_texts_tr.tsv, from locale_string_en.tsv's English), DO NOT
+# EDIT, re-run it. The English file's layout: the FNV-1a of the Polish the
+# English was matched to, the key, the Turkish text in CP1254, "hand" or "gameforge". A key not
+# here is said in English.
+#
+# 1016 of the English file's 1016 keys
+a09af30f	Everyone will be teleported into the city shortly.	Herkes þehre ýþýnlanacak.	gameforge
+b36155b5	This item does not exist.	Bu eþya mevcut deðil.	gameforge
+405d1557	The box suddenly exploded! You have lost Hit Points (HP).	Kutu patladý! HP seviyen düþtü.	gameforge
+912a2dc7	If you inhale the green smoke that is coming out of the box, the poison will spread through your body!	Eðer kutudan gelen yeþil dumaný solursan, zehirlenirsin!	hand
+f178436c	You have received %s, %d units.	%s : %d adet kazandýn.	gameforge
+6f0f078c	The box contains %s.	Kutuda %s var.	gameforge
+7f404243	This key does not seem to fit the lock.	Bu anahtar kilide uygun görünmüyor.	gameforge
+ca3115e6	You have not received anything.	Hiç bir þey kazanamadýn.	gameforge
+7f7d468a	You do not have enough Yang to use this item.	Bu eþyayý kullanmak için yeterli Yang'a sahip deðilsin.	hand
+5cfddc53	You have lowered your Skill Level.	Beceri seviyeni düþürdün.	gameforge
+b2c6d644	You cannot lower your Skill Level.	Beceri seviyeni düþüremezsin.	gameforge
+e24884a8	This effect is already activated.	Bu etki zaten çalýþýyor.	gameforge
+b949c454	This item can only be used in an Internet cafe.	Bu nesne sadece internet cafede kullanýlabilir.	gameforge
+c9da8b8b	That is over the limit.	Bu limitin üzerinde.	gameforge
+3dd9b60e	Unfortunately you don't have enough space in your inventory.	Ne yazýkki envanterinde yeterince yer yok.	gameforge
+7f8859a6	Used Moon Cake or Seed.	Tohum ya da ay pastasý kullanýldý.	gameforge
+bdd9bdef	You cannot wear a Wedding Ring if you are not married.	Evli deðilsen nikah yüzüðü takamazsýn.	gameforge
+47c85423	You cannot use the Event Detector from this position.	Etkinlik Dedektörünü bu pozisyondayken kullanamazsýn.	gameforge
+74dbff14	This item cannot be absorbed.	Bu eþya emilemez.	hand
+b9af7c91	The Event Detector vanished in a mysterious light.	Etkinlik Dedektörü gizemli bir ýþýkla birlikte yok oldu.	gameforge
+a0169e44	The Event Detector has vanished.	Etkinlik Dedektörü kayboldu.	gameforge
+acf0fc42	The Compass for Metin Stones does not work in dungeons.	Metin Taþý Dedektörü zindanda çalýþmýyor.	gameforge
+23877dba	The Compass for Metin Stones has vanished in the mysterious light.	Metin Taþý Dedektörü gizemli ýþýkla birlikte kayboldu.	gameforge
+539c2687	Receive: %s - %d	Al: %s - %d	gameforge
+9c47cc3d	The Compass for Metin Stones has vanished.	Metin Taþý Dedektörü kayboldu.	gameforge
+f5716abf	You find a simple Piece of Stone in the Clam.	Ýstiridyenin içinde sadece sýradan bir taþ parçasý var.	gameforge
+67e6a9e3	The Clam has vanished.	Ýstiridye kayboldu.	gameforge
+f6c4b8cb	There is a White Pearl inside the Clam.	Ýstiridyenin içinde Beyaz bir inci var.	gameforge
+44570c84	There is a Blue Pearl inside the Clam.	Ýstiridyenin içinde Mavi bir inci var.	gameforge
+26dd6a04	There is a Blood-Red Pearl inside the Clam.	Ýstiridyenin içinde kan kýrmýzý bir inci var.	gameforge
+44ebcda4	It isn't easy to understand this book.	Bu kitabý anlamak kolay deðil.	gameforge
+d1afbd74	This book will not help you.	Bu kitap sana yardým etmeyecek.	gameforge
+7dc1797c	You need to have a minimum level of 30 to understand this book.	Bu kitabý anlaman için 30.Seviyede olman gerekiyor.	gameforge
+7cd0c3f1	You need a minimum level of 50 to understand this book.	Bu kitabý anlaman için 50.Seviyede olman gerekiyor.	gameforge
+14cd35dd	You need a minimum level of %d to understand this book.	Bu kitabý anlaman için en az %d. seviyede olman gerekiyor.	hand
+670e42b3	You can't train any more Combos.	Daha fazla kombo geliþtiremezsin.	gameforge
+e8ac1ecd	%s has captured the flag of %s!	%s Loncasý %s Loncasýnýn bayraðýný ele geçirdi!	gameforge
+1c7234e5	You already understand this language.	Bu dili zaten anlýyorsun.	gameforge
+d4c869ef	You have to improve your Level to read this Book.	Bu kitabý anlayabilmek için seviyeni yükseltmelisin.	gameforge
+522bd4c8	The book is too hard for practising.	Kitabýn öðrenilmesi zor.	gameforge
+8c21a7d0	You cannot train with this Book any more.	Bu kitapla daha fazla eðitim yapamazsýn.	gameforge
+0e5f2e22	Taxes are set to %d%%.	Vergi %%%d olarak ayarlandý.	gameforge
+ed86562d	You need a minimum level of 50 to get riding training.	Binicilik Eðitimi almak için 50'inci seviyeye ulaþmýþ olman gerekiyor.	gameforge
+00f64c16	You have escaped the evil ghost curse with the help of an Exorcism Scroll.	Kötü ruhlarýn lanetinden Kötü Ruh Kovma Kaðýdýnýn yardýmýyla kurtuldun.	gameforge
+34f78acf	You cannot read any more Riding Guides.	Daha fazla Binicilik Rehberi okuyamazsýn.	gameforge
+a880dec0	You read the Horse Riding Manual and received a Riding Point.	Binicilik Kýlavuzu'nu okudun ve bir tane Binicilik Puaný kazandýn.	gameforge
+d9acd9f1	You can use this point to improve your riding skill!	Bu puaný Biniciliðini geliþtirmek için kullanabilirsin!	gameforge
+ee664336	The guild %s's flag has been stolen by player %s.	%s loncasýnýn bayraðý, %s tarafýndan çalýndý.	gameforge
+6a13e7e7	You did not understand the riding guide.	Binicilik Rehberini anlamadýn.	gameforge
+c7cfa253	Your mind is clear. You can concentrate really well now.	Zihnin açýk. Þimdi iyi konsantre olabilirsin.	gameforge
+ba164034	Your rank has increased by %d points.	Sýralaman %d puan yükseldi.	hand
+38c28216	You cannot dye or bleach your current hairstyle.	Þu anki saç stilini beyazlatamaz veya boyayamazsýn.	gameforge
+f30c8ba9	You need to have reached level %d to be able to dye your hair again.	Saçýný tekrar boyayabilmek için %d. seviyeye ulaþman gerekli.	gameforge
+16102d5f	This item can only be opened by the another gender.	Bu eþya sadece karþý cins tarafýndan açýlabilir.	gameforge
+42a67e31	You cannot use this from your current position.	Þu anki pozisyonunda bunu kullanamazsýn.	gameforge
+46170ea4	You are ready to warp, so you cannot use the Scroll of the Location.	Iþýnlanmaya hazýrsýn, bu nedenle geri dönüþ kaðýdýný kullanamazsýn.	gameforge
+758d8fe0	You are being brought back to the place of origin.	Baþlangýç yerine geri gönderiliyorsun.	gameforge
+9e65da68	%s%s cannot be used in a dungeon.	%s%s zindanda kullanýlamaz.	gameforge
+9dec600f	[Quest] You have already received your reward.	[Görev] Ödülünü aldýn zaten.	hand
+b40eb21c	the	the	gameforge
+773364f6	There aren't any Soul Stones available for extraction.	Çýkartýlacak Zihin Taþý yok.	hand
+6e3d54ef	There aren't any Pieces of Broken Stone available for removal.	Silinecek taþ parçasý kýrýklarý yok.	gameforge
+0cdaeca2	You cannot change the upgrade of this item.	Bu eþyanýn geliþtirilmesini deðiþtiremezsin.	gameforge
+2d1beec4	There is no upgrade that you can change.	Deðiþtirebileceðin hiçbir geliþtirme yok.	gameforge
+85af4782	You can only do this %d minutes after an upgrade. (%d minutes left)	Bunu bir geliþtirmeden en az %d dakika sonra yapabilirsin. (%d dakika kaldý)	gameforge
+9331dd3f	You have changed the upgrade.	Geliþtirmeyi deðiþtirdin.	gameforge
+05d061e9	Upgrade successfully added.	Geliþtirme baþarýyla eklendi.	gameforge
+7777d20f	No upgrade added.	Geliþtirme eklenmedi.	gameforge
+4fd1bfce	You must use the Blessing Marble in order to add another bonus to this item.	Kutsama Küresini bu eþyaya baþka bir bonus eklemek için kullanmalýsýn.	gameforge
+69fb4bfb	You cannot use this on war map.	Bunu savaþ haritasýnda kullanamazsýn.	hand
+0bff4934	You cannot summon horse here.	Burada at çaðýramazsýn.	hand
+2ad7a0fd	You cannot use this in the duel arena.	Bunu arenada kullanamazsýn.	gameforge
+fcb6758e	This item can no longer be improved. The maximum number of bonuses has been reached.	Bu eþya geliþtirilemez. Maksimum bonus sayýsýna ulaþýldý.	gameforge
+3c446b65	You can only use the Blessing Marble with an item which already has 4 bonuses.	Kutsama Küresini üzerinde zaten 4 bonus olan eþyalar için kullanabilirsiniz.	gameforge
+502a67ab	Socket successfully added.	Slot baþarýyla eklendi.	gameforge
+4b4b5ae8	No socket added.	Slot eklenmedi.	gameforge
+3ec9c5f5	No additional sockets could be added to this item.	Bu nesneye daha fazla slot eklenmiyor.	gameforge
+6b0b6cf0	You cannot add a socket to this item.	Bu nesneye slot eklenmiyor.	gameforge
+a4260b34	Arming successful.	Silahlanma baþarýlý.	gameforge
+9e318710	Arming has failed.	Silahlanma baþarýsýz.	gameforge
+b02c1e36	You have to add a socket first. Use a diamond in order to do this.	Ýlk önce bir slot eklemen gerekiyor. Bunu yapmak için bir elmas kullan.	gameforge
+46b7f64f	There are no sockets for gemstones in this item.	Bu nesnede mücevher slotu yok.	gameforge
+a96a8ae1	You can do this when you wear an Emotion Mask.	Bunu Duygu Maskesi taktýðýnda yapabilirsin.	gameforge
+44c12adb	EMOTIONS_ONLY_PREMIUM	Duygu ifadeleri yalnýzca Premium Abonelere açýktýr.	hand
+1f61341a	You have to add a socket if you want to use a Diamond.	Elmas kullanmak istiyorsan bir slot eklemen gerekiyor.	gameforge
+9b23fdbb	No more gems can be added to this item.	Bu nesneye daha fazla mücevher eklenemiyor.	gameforge
+a0e1e03d	These items cannot be used together.	Bu nesneler birleþtirilerek kullanýlmýyor.	gameforge
+307134d5	You cannot change the Bait whilst fishing.	Balýk tutarken yemi deðiþtiremezsin.	gameforge
+b8b35504	You are exchanging the current Bait for %s.	Þu anki yemi %s ile deðiþtirdin.	gameforge
+77381559	You attached %s to the hook as bait.	Çengele yem olarak %s taktýn.	gameforge
+4801db11	You are missing some ingredients to make the potion.	Ýksir hazýrlamak için tüm malzemelere sahip deðilsin.	gameforge
+e238cc72	You do not have enough material (%s).	Yeterli malzemen yok (%s).	gameforge
+3e227e0e	You do not have enough empty bottles.	Yeterince boþ þiþen yok.	gameforge
+23e64617	The potion production has failed.	Ýksir hazýrlama iþlemi baþarýsýz.	gameforge
+dd3cb204	Only women can do this.	Bunu sadece bayanlar yapabilir.	gameforge
+56236ce5	You cannot attach several stones of the same type.	Ayný türden çok sayýda zihin taþý ekleyemezsin.	gameforge
+24a21b1e	This Spirit Stone cannot be attached to this type of item.	Bu zihin taþý böyle bir nesneye eklenemez.	gameforge
+41b00f40	You cannot attach this Spirit Stone to a weapon.	Bu zihin taþýný silaha takamazsýn.	gameforge
+0e6162c3	You have attached the Spirit Stone successfully.	Zihin taþýný baþarýyla taktýn.	gameforge
+cf803543	The Spirit Stone broke while being attached.	Zihin taþý yerleþtirirken kýrýldý.	gameforge
+1da0bc82	No slot free.	Boþ yer yok.	gameforge
+3f8242e7	This function is not available right now.	Bu özellik þu anda kullanýlamýyor.	hand
+3b4e78b4	You cannot teleport your partner currently.	Þu anda eþinize teleport olamazsýnýz.	gameforge
+7c309a65	You cannot save position here.	Burada konum kaydedemezsin.	hand
+adff6a6c	You cannot use this item here.	Eþyayý burada kullanamazsýn.	gameforge
+c9ca97aa	You cannot use a Scroll of the Location whilst taking part in a kingdom battle.	Katýlmýþ olduðun bir krallýk savaþý devam ederken geri dönüþ kaðýdý kullanamazsýn.	gameforge
+a4195688	After opening the Storeroom you cannot use a Scroll of the Location for %d seconds.	Depoyu açtýktan sonra %d saniye boyunca geri dönüþ kaðýdý kullanamazsýn.	gameforge
+aee579fc	You cannot use a Scroll of the Location while another window is open.	Baþka pencere açýk olduðu sürece geri dönüþ kaðýdý kullanamazsýn.	gameforge
+18d90ee9	This person does not exist.	Kiþi bulunamadý.	gameforge
+e6aaf714	WAIT_BEFORE_NEXT_REFINE	Bir sonraki geliþtirme için biraz bekle.	hand
+49925d70	After a trade, you cannot use a scroll for another %d seconds.	Ticaretten sonra %d saniye Parþömen kullanamazsýn.	gameforge
+a4195688	After opening a storeroom you cannot use a Scroll of the Location for another %d seconds.	Depoyu açtýktan sonra %d saniye boyunca geri dönüþ kaðýdý kullanamazsýn.	gameforge
+7564dc1a	You cannot use the Scroll of the Location because the distance is too small.	Mesafe çok yakýn olduðu için geri dönüþ kaðýdý kullanamazsýn.	gameforge
+eea37950	After a trade you cannot use a Scroll of the Location for %d seconds.	Ticaretten sonra %d saniye boyunca geri dönüþ kaðýdý kullanamazsýn.	gameforge
+420f478d	You cannot open the Storeroom if another window is already open.	Baþka bir pencere açýkken depo açamazsýn.	gameforge
+43de791b	You cannot drop this item.	Bu eþyayý düþüremezsin.	gameforge
+e4aeeddc	The dropped item will vanish in %d minutes.	Düþürülen eþya %d dakika sonra kaybolacak.	hand
+5d41d6e7	%s received	%s Kazandýn.	gameforge
+1dfa263c	%s %d received	%s (%d adet) aldýn.	hand
+47222386	%s received (Horse Inventory)	%s aldýn (At Envanteri)	hand
+004e9bb3	%s %d received (Horse Inventory)	%s (%d adet) aldýn (At Envanteri)	hand
+8aa5fab4	Owner has too many items in his inventory.	Eþyanýn sahibinin envanteri çok dolu.	hand
+a8b13c22	You have too many items in your inventory.	Çok fazla eþya taþýyorsun.	gameforge
+909a8d32	%s receives %s.	%s þunu kazandý: %s.	gameforge
+f0ccd091	You are too near.	Çok yakýnsýn.	gameforge
+1281e9cc	Item Trade: %s, %s	Eþya Ticareti:  %s, %s	gameforge
+86839325	You cannot change the equipped item while you are transformed.	Dönüþüm esnasýnda ekipmanýný deðiþtiremezsin.	gameforge
+8438eb9e	You have to stand still to equip the item.	Eþya giyebilmek için hareketsiz olman gerekli.	gameforge
+999025d8	Monkey Herbs cannot be fed to living horses. It is used to revive dead horses.	Maymun Bitkisi yem olarak kullanýlamaz. Ölmüþ atlarý canlandýrmak için kullanýlýr.	gameforge
+40120cb8	You cannot feed a dead Horse.	Ölü Atý besleyemezsin.	gameforge
+4a206984	You fed the Horse with Herbs.	Atý otlarla beslediniz.	gameforge
+45f5296c	You have fed the Horse.	Atý besledin.	gameforge
+6f1263ab	Your level is too low to wear this Hairstyle.	Bu saç þekli için seviyen çok düþük.	gameforge
+6bd788f5	You already have this Hairstyle.	Zaten bu saç þekline sahipsin.	gameforge
+562598f7	You have already transformed.	Dönüþmüþ haldesin zaten.	gameforge
+227f2083	You are too far away.	Çok uzaksýn.	gameforge
+bee8793b	That's the wrong trading item.	Bu yanlýþ ticaret eþyasý.	gameforge
+b2aff223	You cannot transform into a monster who has a higher level than you.	Kendinden daha yüksek seviyeli bir canavara dönüþemezsin.	gameforge
+3568bba1	Your level is too low to equip this item.	Seviyen çok düþük olduðu için bu nesneyi kullanamýyorsun.	gameforge
+c4af512b	You are not strong enough to equip yourself with this item.	Bu nesneyi kullanmak için yeterli güce sahip deðilsin.	gameforge
+f1dc35d2	Your intelligence is too low to equip yourself with this item.	Zekân çok düþük olduðu için bu nesneyi kullanamýyorsun.	gameforge
+fcfcdc40	Your dexterity is too low to equip yourself with this item.	Bu nesneyi kullanabilmek için yeterli çevikliðe sahip deðilsin.	gameforge
+0371d746	Your vitality is too low to equip yourself with this item.	Bu nesneyi kullanmak için yeterli canlýlýða sahip deðilsin.	gameforge
+42bbfcc6	You cannot use this item because you are not married.	Evli olmadýðýn için bu eþyayý kullanamazsýn.	gameforge
+983a9407	You cannot equip this item twice.	2.kez bu eþyayý giyemezsin.	gameforge
+b7905351	Time left until the removal of the socket of %s: %d	%s eþyasýndaki slotun silinmesine kalan süre: %d	hand
+4b92b668	This action can only be done with another gender.	Bu sadece diðer cinsiyetle birlikte yapýlabilen bir aksiyon.	gameforge
+8b55b89a	A gem socketed in the %s has vanished.	%s eþyasýndaki bir mücevher kayboldu.	hand
+8005d896	[Guild] This guild name is invalid.	[Lonca] Lonca adý hatalý.	hand
+93a8058d	[Guild] This guild name is already taken.	[Lonca] Bu Lonca adý zaten kullanýlýyor.	hand
+d40549a6	[Guild] You cannot found a guild.	[Lonca] Lonca kuramazsýn.	hand
+076e0e5e	The guild %s has declared war on %s!	%s, %s loncasýna karþý savaþ ilan etti!	gameforge
+8d45777f	[Guild] %s has refused the Guild war.	[Lonca] %s Lonca savaþýný reddetti.	hand
+174eb60e	<Guild> The player is busy.	<Lonca> Oyuncu meþgul.	hand
+b2753cea	The guild war between %s and %s will start in a few seconds!	%s ile %s arasýndaki lonca savaþý birkaç saniye içinde baþlayacak!	hand
+0d433b93	The guild war between %s and %s has begun!	%s ile %s arasýnda lonca savaþý baþladý!	gameforge
+54ab5b6b	The guild war between %s and %s has ended in a draw.	%s ile %s arasýndaki lonca savaþý berabere sonuçlandý!	gameforge
+26ac5735	%s has won the guild war against %s.	Lonca savaþýnda %s, %s loncasýna karþý kazandý.	gameforge
+007ce44e	You need your fellow player's approval for this.	Bunun için eþinin onayý gerekli.	gameforge
+b3b0a39d	[Guild] The guild war has been cancelled.	[Lonca] Lonca savaþý iptal oldu.	hand
+b10731d5	The guild war between %s and %s has been cancelled.	%s ile %s arasýndaki lonca savaþý iptal oldu!	gameforge
+028a3609	Close	Kapat	gameforge
+a4f6cdf7	Action cancelled. You have entered a battle.	Hareket iptal edildi. Bir savaþa girdin.	gameforge
+53590541	Someone has logged into your account. You will be disconnected from the server.	Biri hesabýnýza giriþ yaptý. Baðlantýnýz kesilecek.	gameforge
+4fbec6cc	A mysterious light appears from the tree.	Aðaçtan gizemli bir ýþýk yayýlýyor.	gameforge
+f7159b58	%d Playtime added to your account. (Payment number %d)	%d oyun süresi hesabýnýza eklendi. (Ödeme Numarasý %d)	gameforge
+19ebf2fb	You can participate in the guild battle in viewer mode.	Lonca savaþýna izleyici olarak katýlabilirsin.	gameforge
+e5f533b9	While choosing a character, an icon appears.	Bir karakter seçerken <izlemeyi bitir> butonu görünür.	gameforge
+625dfd37	There are no opponents.	Burada düþman yok.	gameforge
+20402a05	The battle with %s has begun!	%s ile olan savaþ baþladý!	gameforge
+8532c205	If no enemy can be found, the guild war will be ended automatically.	Eðer düþman bulunamazsa Lonca Savaþý otomatik olarak biter.	gameforge
+c6665a7e	Because the guild war finished early, the result will judged as a draw.	Lonca Savaþý vaktinden önce bittiði için sonuç berabere sayýlýyor.	gameforge
+d9386506	The energy is reflected because of the Emperors Blessing.	Ýmparatorlarýn Kutsamasý nedeniyle enerji yansýtýldý.	gameforge
+d3c59975	After %d seconds you can use the Emperors Blessing.	%d saniye sonra Ýmparator Kutsamasýný kullanabilirsin.	gameforge
+0f202ddf	Not enough tax income : %d.	Yetersiz vergi geliri : %d	gameforge
+a93b6149	[TEST_ONLY]Tax : %d	[TEST_ONLY]Vergi : %d	gameforge
+c6001b06	Transformation error.	Dönüþüm sýrasýnda hata oluþtu.	gameforge
+6553fe72	You learned the transmutation completely.	Dönüþümü tamamen öðrendin.	gameforge
+86b478dc	Please call your Horse first.	Lütfen önce atýný çaðýr.	gameforge
+28c5153e	You have sent your horse away.	Atýný gönderdin.	gameforge
+a0b6540b	%s challenged you to a battle!	%s seni savaþa davet ediyor!	gameforge
+289ab6fd	You have to get off your Horse.	Atýndan inmelisin.	gameforge
+cee3b913	You cannot feed your Horse whilst sitting on it.	Atýnýn üzerinde otururken onu besleyemezsin.	gameforge
+5a0f48cd	You have fed the Horse with %s%s.	Ata %s%s yedirdin.	gameforge
+33af84ac	You need %s.	%s gerekli.	gameforge
+cf41a835	%d seconds until Exit.	%d saniye sonra oyun kapanacak.	gameforge
+40d91249	The game will be closed in %d seconds.	Oyun %d saniye sonra kapanacak.	gameforge
+a277b791	Your logout has been cancelled.	Çýkýþýnýz iptal edildi.	gameforge
+c0ef82e9	Back to login window. Please wait.	Giriþ ekranýna dön. Lütfen bekleyin.	gameforge
+4571bec5	You have been disconnected from the server. Please wait.	Serverla olan baðlantýnýz kesiliyor. Lütfen bekleyin.	gameforge
+8d0078ed	You have challenged %s to a battle.	%s adlý oyuncuyu savaþa davet ettin.	hand
+716b82b8	You are changing character. Please wait.	Karakteri deðiþtirdiniz. Lütfen bekleyin.	gameforge
+30973976	A new start is not possible at the moment. Please wait %d seconds.	Yeniden dirilme henüz mümkün deðil. %d saniye bekle.	gameforge
+30973976	You cannot restart yet. Please wait another %d seconds.	Yeniden dirilme henüz mümkün deðil. %d saniye bekle.	gameforge
+d2740855	You cannot restart in the city yet. Wait another %d seconds.	Þehirde yeniden dirilme henüz mümkün deðil. %d saniye bekle.	gameforge
+bcd6be31	The waiting time has expired. You will be revived in the city.	Bekleme süresi doldu. Þehirde yeniden diriltileceksin.	gameforge
+68197d55	You cannot change your status while you are transformed.	Dönüþmüþ durumda olduðunuz sürece statünüzü deðiþtiremezsiniz.	gameforge
+e2100fad	You cannot learn while you are transformed.	Dönüþmüþ durumdayken öðrenemezsin.	hand
+249a77b0	This player is currently fighting.	Oyuncu zaten dövüþüyor.	gameforge
+5e65ac63	[Guild] It does not belong to the guild.	[Lonca] Bu Loncaya ait deðil.	hand
+6d087168	[Guild] You do not have the authority to change the level of the guild skills.	[Lonca] Lonca Becerilerinin Seviyesini deðiþtiremezsin.	hand
+5ff2b25e	Your choice is incorrect.	Seçiminiz yanlýþ.	gameforge
+796e166c	[Storeroom] You have entered an incorrect password.	[Depo] Yanlýþ þifre girdin.	hand
+079ae79d	[Storeroom] The Storeroom is already open.	[Depo] Depo zaten açýk.	hand
+bf309b45	[Storeroom] You have to wait 10 seconds before you can open the Storeroom again.	[Depo] Yeniden depo açmak için 10 saniye beklemelisin.	hand
+ae0cd10f	[Storeroom] You are too far away to open the storeroom.	[Depo] Depoya uzak olduðun için açamýyorsun.	hand
+26165609	[Group] The server cannot execute this group request.	[Grup] Sunucu grup isteðini gerçekleþtiremedi.	hand
+5e06b398	[Group] You cannot leave a group while you are in a dungeon.	[Grup] Zindandayken gruptan ayrýlamazsýn.	hand
+841d1a6a	[Group] You have left the group.	[Grup] Gruptan ayrýldýn.	hand
+5128d85e	[Guild] Your guild is already participating in another war.	[Lonca] Loncanýz zaten baþka bir savaþa katýlýyor.	hand
+ae2c434d	[Guild] No one is entitled to a guild war.	[Lonca] Lonca savaþý için kimse yetkilendirilmedi.	hand
+5fc089ca	[Guild] No guild with this name exists.	[Lonca] Bu isimde bir Lonca bulunamadý.	hand
+ec9191a9	There already is a candidacy.	Zaten bir aday var.	gameforge
+9562d05c	[Guild] This guild is already participating in a war.	[Lonca] Bu Lonca zaten bir savaþa katýlýyor.	hand
+b087a463	[Guild] Not enough Yang to participate in a guild war.	[Lonca] Lonca savaþýna katýlmak için yeterli Yang yok.	hand
+0ba15df7	[Guild] The guild does not have enough Yang to participate in a guild war.	[Lonca] Bu Lonca, Lonca savaþý yapmak için yeterli Yang'a sahip deðil.	hand
+44983751	[Guild] This Guild is already scheduled for another war.	[Lonca] Bu Lonca zaten baþka bir Lonca savaþý için kayýt edilmiþ.	hand
+93d80fec	[Guild] This guild is already participating in another war.	[Lonca] Loncanýz zaten baþka bir savaþa katýlýyor.	hand
+2e505e03	[Guild] A minimum of %d players are needed to participate in a guild war.	[Lonca] Lonca savaþýna en az %d oyuncu katýlmasý gerekiyor.	hand
+0c514984	[Guild] The guild does not have enough points to participate in a guild war.	[Lonca] Lonca bir savaþta yer almak için yeterli Sýralama Puanýna sahip deðil.	hand
+2c129e4c	[Guild] The guild does not have enough members to participate in a guild war.	[Lonca] Lonca, Lonca Savaþýna katýlabilmek için yeterli üyeye sahip deðil.	hand
+7cd35260	Your level has to be higher than 20 to register a cell phone number.	Cep telefonu numarasý kaydedebilmek için 20.Seviyeden yüksek olmalýsýn.	gameforge
+9bf8d474	You do not have the emperor qualification.	Ýmparator olmak için gerekli özelliklere sahip deðilsin.	gameforge
+82ed8cea	%s declined the invitation.	%s daveti reddetti.	gameforge
+3b532208	You cannot accept the invitation because you are already in the group.	Daveti kabul edemezsin, zaten bir grubun var.	gameforge
+741c4b6b	Only the emperor can use this.	Bunu sadece Ýmparator kullanabilir.	gameforge
+b400e9da	Cooldown time for approximately %d seconds	Dinlenme Süresi yaklaþýk %d saniye	gameforge
+5673a5d3	Lack of Taxes. Current Capital : %u Missing Capital : %u	Vergi eksikliði. Mevcut Sermaye : %u Eksik Sermaye : %u	gameforge
+cc4d4f0d	Command: warpto <character name>	Komut: warpto <karakter adý>	hand
+0cd209f0	You cannot be warped to an unknown player.	Bilinmeyen bir oyuncuya nakledemezsiniz.	gameforge
+584131b9	Adding player %d into the channel. (Present channel %d)	Oyuncu %d kanala ekleniyor. (Bulunulan kanal: %d)	gameforge
+8d33583d	Warp to player %s.	%s yanýna naklet.	gameforge
+e703b5f1	You cannot call unknown players.	Bilinmeyen bir oyuncuyu yanýna çaðýramazsýn.	hand
+90a88dfb	[Guild] There are no experience points for hunting during a guild war.	[Lonca] Lonca savaþý sýrasýnda avlanma, Tecrübe Puaný kazandýrmýyor.	hand
+cc1535a0	When the Blessing of the Emperor is used %s the HP and SP are restored again.	Ýmparator kutsamasý kullanýldýðý zaman %s HP ve SP yeniden yüklenir.	gameforge
+8144203c	My information about the emperor	Benim Ýmparatorluk Bilgim	gameforge
+42752f11	[%sMonarch] : %s Yang owned %lld	[%sHükümdar] : %s Yang Sahip olunan %lld	gameforge
+fe0843ca	[%sMonarch] : %s	[%sHükümdar] : %s	gameforge
+d814c04f	Information about the emperor	Ýmparator Bilgisi	gameforge
+ed5e15e7	Only an emperor can use this.	Bunu sadece bir Ýmparator kullanabilir.	gameforge
+9404fe6c	Choose a number between 1 and 50.	1 - 50 arasýnda bir rakam seç.	gameforge
+4d308c68	The Monster cannot be called. Check the Mob Number.	Canavar çaðrýlamaz. Mob numarasýný kontrol ediniz.	gameforge
+c5994231	Hit Points +%d	Hayat Puanlarý +%d	gameforge
+8c1644dd	Spell Points +%d	Mana Puaný +%d	gameforge
+07344eac	The Emperor Blessing is activated.	Ýmparator Kutsamasý aktif.	gameforge
+d705a214	Endurance +%d	Dayanýklýlýk +%d	gameforge
+e5d474d8	Intelligence +%d	Zeka +%d	gameforge
+206d6d0d	Strength +%d	Güç +%d	gameforge
+7dae761d	Dexterity +%d	Çeviklik +%d	gameforge
+f4f482f3	Attack Speed +%d	Saldýrý Hýzý +%d	gameforge
+b22a9147	Movement Speed %d	Hareket Hýzý %d	gameforge
+25b92ab1	Cooldown Time -%d	Dinlenme Süresi -%d	gameforge
+dc0b02a9	Energy Recovery +%d	Geri Kazanýlan Enerji +%d	gameforge
+e1593f95	Spell Point Recovery +%d	Geri Kazanýlan SP +%d	gameforge
+5931d3fd	Poison Attack %d	Zehirli Saldýrý %d	gameforge
+114d9d3a	Star +%d	Yýldýz +%d	hand
+bb43ce3c	Speed Reduction +%d	Hýz azalmasý +%d	gameforge
+1ec33e5b	Critical Attack with a chance of %d%%	Kritik saldýrý þansý %%%d	gameforge
+636693c3	Chance of a Speared Attack of %d%%	Delici saldýrý þansý %%%d	gameforge
+9592da54	Player's Attack Power against Monsters +%d%%	Yaratýklara karþý oyuncunun saldýrý gücü +%%%d	gameforge
+3f3e47e0	Horse's Attack Power against Monsters +%d%%	Yaratýklara karþý Atýn saldýrý gücü +%%%d	gameforge
+fff154f5	Attack Boost against Wonggui + %d%%	Wonggui karþýsýnda saldýrý artýþý  +%%%d	gameforge
+ca577c84	Attack Boost against Milgyo + %d%%	Milgyo karþýsýnda saldýrý artýþý +%%%d	gameforge
+e0f29d77	Attack boost against zombies + %d%%	Ölümsüzlere karþý saldýrý artýþý: +%%%d	gameforge
+88a5b8e6	Attack boost against devils + %d%%	Þeytanlara karþý saldýrý artýþý: +%%%d	gameforge
+dbe35f81	Due to Emperor Sa-Za-Hu, the player %s will receive an attack power increase of 10 %% for 3 minutes in this area.	Ýmparator Sa-Za-Hu sayesinde %s adlý oyuncu bu alanda 3 dakika boyunca %%10 daha fazla saldýrý gücü kazandý.	hand
+9d0ff2f1	Absorbing of Energy %d%% while attacking.	Saldýrý sýrasýnda %%%d enerji emildi.	gameforge
+307cd54f	Absorption of Spell Points (SP) %d%% while attacking.	Saldýrý sýrasýnda %%%d SP emildi.	gameforge
+6f640aac	With a chance of %d%% Spell Points (SP) will be taken from the enemy.	%%%d oranýnda SP düþmandan çalma þansý.	gameforge
+4108401f	Absorbing of Spell Points (SP) with a chance of %d%%	SP emme þansý %%%d	hand
+3e931d50	%d%% Chance of blocking a close-combat attack	Yakýn dövüþ saldýrýsýný engelleme þansý %%%d	gameforge
+73f0f3ed	%d%% Chance of blocking a long range attack	Uzak dövüþ saldýrýsýný engelleme þansý %%%d	gameforge
+88b7f5dd	One-Handed Sword defence %d%%	Kýlýç Savunmasý %%%d	gameforge
+bf4096fc	Two-Handed Sword Defence %d%%	Çift-El Savunmasý %%%d	gameforge
+561e6b03	Bell Defence %d%%	Çan Savunmasý %%%d	gameforge
+c5ad2be6	By the Emperor Geum-Gang-Gwon the player %s gets 10 %% more armour for 3 minutes.	Ýmparator Geum-Gang-Gwon sayesinde, oyuncu %s 3 dakika süreyle %%10 daha fazla savunma aldý.	gameforge
+fc8c70d7	Fan Defence %d%%	Yelpaze Savunmasý %%%d	gameforge
+79128992	Distant Attack Resistance %d%%	Uzak Dövüþ Direnci %%%d	gameforge
+71bfecc7	Fire Resistance %d%%	Ateþe dayanýklýlýk %%%d	gameforge
+e88f478d	Lightning Resistance %d%%	Þimþeðe dayanýklýlýk %%%d	gameforge
+8244dfa6	Magic Resistance %d%%	Büyü Savunmasý %%%d	gameforge
+cd6652a1	Wind Resistance %d%%	Rüzgara Dayanýklýlýk %%%d	gameforge
+b8c86f69	Reflect Direct Hit: %d%%	Doðrudan Vuruþ Yansýtma: %%%d	gameforge
+efb45389	Reflect Curse: %d%%	Lanet Yansýtma: %%%d	gameforge
+7e1a2e90	Poison Resistance %d%%	Zehire karþý koyma %%%d	gameforge
+89fb179d	Spell Points (SP) will be increased by %d%% if you win.	Eðer kazanýrsan SP %%%d artacak.	gameforge
+971a156f	The event is already running. (Flag: %d)	Etkinlik baþladý bile. (Flag: %d)	gameforge
+75239f24	Experience increases by %d%% if you win against an opponent.	Eðer kazanýrsan tecrübe %%%d artacak.	gameforge
+57f252e5	Increase of Yang up to %d%% if you win.	Eðer kazanýrsan Yang %%%d artacak.	gameforge
+91ef8c07	Increase of captured Items up to %d%% if you win.	Eðer kazanýrsan ele geçirilen nesne %%%d artacak.	gameforge
+92d16200	Power increase of up to %d%% after taking the potion.	Ýksir kullandýðýn zaman güç %%%d artacak.	gameforge
+e3fa23eb	%d%% Chance of filling up Hit Points after a victory.	Kazandýktan sonra hayat puanýn %%%d oranýnda artacak.	gameforge
+b52993ec	No Dizziness %d%%	Baþ dönmesi yok %%%d	gameforge
+8f7f0a60	No Slowing Down %d%%	Yavaþlama yok %%%d	gameforge
+d5c1e2f6	No falling down %d%%	Düþmek yok %%%d	gameforge
+097eac89	Attack Power + %d	Saldýrý gücü + %d	gameforge
+2c5bdb22	Armour + %d	Zýrh + %d	gameforge
+1f5c720a	OX quiz script could not be loaded.	OX Quiz metni yüklenemedi.	gameforge
+ae082a46	Magical Attack + %d	Büyülü Saldýrý + %d	gameforge
+c42fd97c	Magical Defence + %d	Büyü Savunmasý + %d	gameforge
+896ca0a4	Maximum Endurance + %d	Max. Dayanýklýlýk + %d	gameforge
+ddde1a1e	Strong against Warriors + %d%%	Savaþçýlara karþý güçlü +%%%d	gameforge
+2f6230c6	Strong against Ninjas + %d%%	Ninjalara karþý güçlü +%%%d	gameforge
+ab1f86f7	Strong against Sura + %d%%	Suralara karþý güçlü +%%%d	gameforge
+65d3c3e6	Strong against Shamans + %d%%	Þamanlara karþý güçlü +%%%d	gameforge
+da426983	Strength against monsters + %d%%	Canavarlara karþý güçlü +%%%d	gameforge
+0b62f896	Attack + %d%%	Saldýrý +%%%d	gameforge
+d31c5660	Defence + %d%%	Savunma +%%%d	gameforge
+ca3d15f0	OX quiz script has loaded.	OX Quiz metni yüklendi.	gameforge
+8f68911c	Experience %d%%	Tecrübe %%%d	gameforge
+4550cc79	Chance to find an Item %. 1f	Eþya bulma þansý %.1f	hand
+cf25c27b	Chance to find Yang %. 1f	Yang bulma þansý %.1f	hand
+3eef5f74	Maximum Energy +%d%%	Enerji üst sýnýrý +%%%d	gameforge
+e1802f63	Skill Damage %d%%	Beceri Hasarý %%%d	gameforge
+1c02a034	Hit Damage %d%%	Vuruþ Hasarý %%%d	gameforge
+ce27cbdf	Resistance against Skill Damage %d%%	Beceri hasarýna dayanýklýlýk %%%d	gameforge
+a1f91aed	Resistance against Hits %d%%	Vuruþ direnci %%%d	gameforge
+9663a553	%d%% Resistance against Warrior Attacks	Savaþçý ataklarýnda %%%d dayanýklýlýk	gameforge
+3f2e668c	Welcome to Metin2.	Metin2'ye Hoþgeldin.	gameforge
+50728718	%d%% Resistance against Ninja Attacks	Ninja ataklarýnda %%%d dayanýklýlýk	gameforge
+fe9c32cd	%d%% Resistance against Sura Attacks	Sura ataklarýnda %%%d dayanýklýlýk	gameforge
+de9d3aab	%d%% Resistance against Shaman Attacks	Þaman ataklarýnda %%%d dayanýklýlýk	gameforge
+c5e31a88	(Procedure: %d y- %d m - %d d)	(Prosedür: %d y- %d m - %d d)	gameforge
+fd9fa7c8	Your chat is blocked.	Sohbetiniz engellendi.	gameforge
+e4e3208e	You need a higher level to be able to call.	Çaðýrmak için daha yüksek seviyede olman gerekiyor.	gameforge
+4962d17f	You need a minimum level of %d to be able to call.	Çaðýrmak için en az %d. seviyede olman gerekiyor.	gameforge
+921fcc1c	You are not in this Group.	Bu Grupta deðilsin.	gameforge
+cd1a2f1e	You did not join this Guild.	Loncaya katýlamadýn.	gameforge
+ce42f06a	The player has rejected your request to add him to your friend list.	Oyuncu, arkadaþ listene eklenmeyi reddetti.	gameforge
+a3b61471	OX Event has started.	OX Etkinlik baþladý.	gameforge
+0132fa0c	[Friends] You cannot add a GM to your list.	[Arkadaþlar] Listene bir GM ekleyemezsin.	hand
+4be99dd6	%s is not online.	%s çevrimiçi deðil.	gameforge
+56b03020	After a trade, you have to wait %d seconds before you can open a shop.	Ticaret yaptýktan %d saniye sonra dükkân açabilirsin.	gameforge
+0dde1995	You can trade again in %d seconds.	%d saniye içinde tekrar ticaret yapabilirsin.	gameforge
+86cedc3d	You have more than 2 Billion Yang. You cannot trade.	2 milyardan fazla Yang'ýn var. Ticaret yapamazsýn.	hand
+daf16021	You cannot open a private shop while another window is open.	Baþka bir pencere açýkken özel dükkan açamazsýn.	gameforge
+200124bf	The player has more than 2 Billion Yang. You cannot trade with him.	Oyuncunun 2 milyardan fazla Yang'ý var. Bu oyuncuyla ticaret yapamazsýn.	hand
+9f4152fe	[Storeroom] No movement possible.	[Depo] Hareket mümkün deðil.	hand
+733ab2f2	[Storeroom] The item cannot be stored.	[Depo] Eþya depolanamaz.	hand
+692f376b	[Group] The player who invited you is not online.	[Grup] Davet edilen oyuncu çevrimiçi deðil.	hand
+2c8a78d3	Uriel allowed to enter.	Uriel girmene izin verdi.	gameforge
+4df0787f	[Group] Only the group leader can change this.	[Grup] Bunu sadece Grup Lideri deðiþtirebilir.	hand
+7a90cc4f	[Group] The target is not a member of your group.	[Grup] Hedef grubunuzun üyesi deðil.	hand
+e66a53ff	[Group] You cannot kick out a player while you are in a dungeon.	[Grup] Zindandayken oyuncu atamazsýn.	hand
+c7ca8c05	[Group] You have been out kicked of the group.	[Grup] Gruptan atýldýn.	hand
+6768b3d1	[Group] You cannot kick out group members.	[Grup] Grup üyelerini atamazsýn.	hand
+f7ec2486	[Guild] After disbanding a guild, you cannot create a new one for %d days.	[Lonca] Lonca silindikten sonra, %d gün yeni Lonca kuramazsýn.	hand
+3e4ec7e6	[Guild] After leaving a guild, you cannot create a new one for %d days.	[Lonca] Bir Loncadan ayrýldýktan sonra  %d gün yeni Lonca kuramazsýn.	hand
+ddad1338	This guild name is invalid.	Lonca ismi geçersiz.	gameforge
+163bf840	We request the participation of a lot of players.	Katýlým için birçok oyuncu arýyoruz.	gameforge
+7913ada9	[Guild] [%s] guild has been created.	[Lonca] [%s] Lonca kuruldu.	hand
+6898cced	[Guild] Creation of the guild has failed.	[Lonca] Lonca kurulamadý.	hand
+c3cb63de	[Group] Only the group leader can use group skills.	[Grup] Grup Becerilerini sadece grup lideri kullanabilir.	hand
+d3ea9d8b	[Group] The target has not been found.	[Grup] Hedef bulunamadý.	hand
+4c8987f1	[Guild] That is not the correct amount of Yang.	[Lonca] Yanlýþ Yang toplamý.	hand
+49aa9c0b	[Guild] You do not have enough Yang.	[Lonca] Yeterli Yang yok.	hand
+2c5699b6	[Guild] The person you were searching for cannot be found.	[Lonca] Ýstenen oyuncu bulunamadý.	hand
+61947d3c	[Guild] This person is not in the same guild.	[Lonca] Oyuncu ayný Loncada deðil.	hand
+83109163	[Guild] You do not have the authority to kick out guild members.	[Lonca] Lonca Üyelerini atamazsýn.	hand
+d93bdf21	[Guild] The guild member %s has been kicked out of the Guild.	[Lonca] Lonca Üyesi %s Loncadan atýldý.	hand
+ec222095	OX The Event has not ended yet. An error has occurred. (flag: %d)	OX Etkinlik henüz bitmedi. Hatalar oluþtu. (Flag: %d)	gameforge
+c6575105	[Guild] You have kicked a guild member out.	[Lonca] Lonca üyesini attýn.	hand
+fa34f765	[Guild] You do not have the authority to change your rank name.	[Lonca] Rütbe ismini deðiþtiremezsin.	hand
+32ed0be2	[Guild] The guild leader's rights cannot be changed.	[Lonca] Lonca Liderinin gücü deðiþtirilemez.	hand
+bd5b3ac4	[Guild] This rank name is invalid.	[Lonca] Bu rütbe ismi geçersiz.	hand
+1e4a480e	[Guild] You do not have the authority to change your position.	[Lonca] Pozisyonunu deðiþtiremezsin.	hand
+9b4eb5a0	[Guild] The rights of the guild leader cannot be changed.	[Lonca] Lonca Liderinin yetkileri deðiþtirilemez.	hand
+802c8104	[Guild] %u experience points used.	[Lonca] %u Tecrübe kullanýldý.	hand
+ad388eac	[Guild] Experience usage has failed.	[Lonca] Tecrübe kullanýmý baþarýsýz oldu.	hand
+cee15e7b	[Guild] Insufficient Yang in the guild treasury.	[Lonca] Lonca kasasýnda yeterli Yang yok.	gameforge
+ab7a774e	[Guild] Dragon ghost was not restored.	[Lonca] Ejderha hayaleti yüklenemedi.	hand
+87a82f04	The OX Event will be restarted shortly.	Kýsa süre içinde OX Etkinlik tekrar baþlayacak.	gameforge
+ecd004a4	[Guild] You do not have the authority to make an announcement.	[Lonca] Duyuru yapamazsýn.	hand
+4c395785	[Guild] You do not have the authority to change the position.	[Lonca] Pozisyonunu deðiþtiremezsin.	hand
+1ff8602b	[Guild] The guild leader's position cannot be changed.	[Lonca] Lonca liderinin rütbesi deðiþtirilemez.	hand
+d63caf5b	[Guild] You cannot make yourself guild leader.	[Lonca] Kendini Lonca lideri yapamazsýn.	hand
+8921cb7e	[Guild] You do not have the authority to choose the guild leader.	[Lonca] Lideri seçemezsin.	hand
+712d0a7d	[Guild] You cannot choose any more guild leaders.	[Lonca] Daha fazla Lider seçemezsin.	hand
+edcfc939	You cannot trade this item.	Bu nesneyle ticaret yapamazsýn.	gameforge
+538989d5	Illegal software has been detected. The game is being shut down.	Yasadýþý yazýlým tespit edildi. Oyun kapatýlacak.	gameforge
+86cedc3d	You have more than 2 Billion Yang with you. You cannot trade.	2 milyardan fazla Yang sahibisiniz. Ticaret yapamazsýnýz.	gameforge
+04c65388	Invalid Yang.	Geçersiz Yang.	gameforge
+6f019c6b	The present event is limited to one area.	Geçerli etkinlik bir alanla kýsýtlý.	gameforge
+ba30ffaa	Start Item Roulette.	Nesne Ruleti Baþlat.	gameforge
+beb75e07	Start Yang Roulette.	Yang Ruleti Baþlat.	gameforge
+07af46bb	The player is online. Please use whisper to chat.	Oyuncu online. Lütfen fýsýltý kullanýn.	gameforge
+c4f63e7b	The cell phone number is not registered.	Cep telefonu numarasý kayýtlý deðil.	gameforge
+f3ee48b8	You need to be at least on level 20 to be able to send text messages.	Yazýlý mesaj yollayabilmek için en az 20.Seviye olman gerekli.	gameforge
+efdd387c	You need 2000 DT to send a text message.	Yazýlý mesaj yollamak için 2000 Yang gerekli.	gameforge
+ee32652f	Your text message has been sent.	Yazýlý mesajýnýz yollandý.	gameforge
+e1ca7c40	%s of the Guild %s raised up to %d%% !	%s (%s loncasý) %%%d seviyesine yükseldi!	hand
+89eb1dec	%s of the Guild %s normal again.	%s (%s loncasý) tekrar normal.	hand
+8d8ded16	%s: %s has increased by %d%%!	%s: %s, %%%d oranýnda yükseldi!	gameforge
+fad55044	%s 's %s normal again.	%s: %s tekrar normal.	hand
+b88538c4	Your mining points have reached their maximum. (%d)	Madencilik Puanýn maksimuma ulaþtý. (%d)	gameforge
+853698d9	Your mining points have reached their maximum level.	Madencilik Puanlarýnýz en üst Seviyeye ulaþtý.	gameforge
+d3fe7637	You can get lumberjack Deokbae to upgrade your Pickaxe.	Kazmaný, oduncu Deokbae'nin yardýmýyla geliþtirebilirsin.	gameforge
+5c612904	Your Mining Points have increased! (%d/%d)	Madencilik Puanlarýn arttý! (%d/%d)	gameforge
+5f795a91	You cannot mine without a Pick.	Kazma olmadan madencilik yapamazsýn.	gameforge
+048ef12c	Nothing to mine here.	Burada maden yok.	gameforge
+5ec85802	The mining has been successful.	Madencilik baþarýlý.	gameforge
+b6520004	The mining has failed.	Madencilik baþarýsýz.	gameforge
+9f014e25	[Friends] You have added %s as a friend.	[Arkadaþlar] %s arkadaþ olarak eklendi.	hand
+2d3f4bca	The player will be teleported into the city shortly.	Kýsa süre içinde oyuncu þehre ýþýnlanacak.	gameforge
+a69bc94e	[Friends] You have deleted %s from the list.	[Arkadaþlar] %s listenden silindi.	hand
+3872977d	A critical server error has occurred. The server will restart automatically.	Kritik sunucu hatasý. Sunucu otomatik olarak yeniden baþlatýlacak.	gameforge
+49bb2a8b	You will be disconnected automatically in 10 seconds.	10 saniye içinde baðlantýnýz kesilecek.	gameforge
+c7211a25	You can connect again after 5 minutes.	5 dakika sonra tekrar baðlanabilirsiniz.	gameforge
+6e64c21d	(%s) guild has been created. [Temporary]	(%s) Lonca kuruldu. [Geçici]	hand
+24ad26c0	This guild is at war.	Bu lonca savaþta.	gameforge
+cc24533b	%s: This guild does not exist.	%s: Lonca bulunamadý.	gameforge
+341f0cd6	A guild with this name or number does not exist.	Belirtilen isim veya numarada lonca mevcut deðil.	gameforge
+2c4f19d6	The building does not exist.	Bina mevcut deðil.	gameforge
+4183e753	This type of building can only be erected once.	Bu tip binalar sadece bir kez inþa edilebilir.	gameforge
+3b6c0950	Close the OX event card first. (Flag: %d)	Önce OX Etkinlik haritasýný kapat. (Flag: %d)	gameforge
+168a1fc1	The Main Building has to be erected first.	Önce Ana binayý inþa etmelisin.	hand
+4a92f9da	Building failed because of incorrect pricing.	Yanlýþ fiyat nedeniyle bina inþa edilemedi.	gameforge
+8ae26c8e	Your guild does not have enough Yang to erect this building.	Binayi inþa edebilmek için loncan yeterli Yang'a sahip deðil.	gameforge
+33be22f4	You do not have enough resources to build a building.	Bu binayý inþa edebilmek için yeterli kaynaðýn yok.	gameforge
+246e23fa	You cannot erect a building at this place.	Bu alana bir bina inþa edemezsin.	gameforge
+cce3ee86	This character does not exist.	Karakter bulunamadý.	gameforge
+c0147a48	Duel has not been successfully cancelled.	Düello iptal edilmedi.	gameforge
+f4891d57	Duel cancelled successfully.	Düello iptali baþarýlý.	gameforge
+6fdfee0d	The duel has been successfully started.	Düello baþarýyla baþladý.	gameforge
+a151b267	There is a problem with initiating the duel.	Düellonun baþlamasýyla ilgili bir problem var.	gameforge
+dcf79c40	No errors occurred.	Hata oluþmadý.	gameforge
+a26f818f	There are no combatants.	Burada savaþçý yok.	gameforge
+a8454965	No status points left.	Statü Puaný kalmadý.	gameforge
+e61c8735	Remaining status points are too low.	Kalan Statü puanlarý çok düþük.	gameforge
+fb4d2e5c	You entered an incorrect value.	Yanlýþ deðer girdin.	gameforge
+8b159b2a	Suborder or the Order is incorrect.	Sýralama veya alt sýralama yanlýþ.	gameforge
+996a386c	Broken contract between player %d and player %d.	%d ve %d oyuncularý arasýndaki anlaþma bozuldu.	gameforge
+7d199e21	Turn the Roulette for %d Yang.	%d Yang için rulet çevir.	gameforge
+3703e92a	The Item log placed into the syslog.	Nesne loglarý, sistem loglarýnýn içine yerleþtirildi.	gameforge
+b25d8019	Information for the Kingdoms	Krallýk Bilgileri	gameforge
+ed79e248	Choose the Map Information of the Holy Land %d Entrance %d %d %d	Haritadan kutsal alan bilgisini seç %d Giriþ Yap %d %d %d	gameforge
+de2ee12b	An error has occurred.	Bir hata oluþtu.	gameforge
+c63a8a10	An error has occurred. code %s	Bir hata oluþtu. Kod: %s	hand
+63b8f019	%s killcount %d mobkillcount %d bosskillcount %d Number Holy Land %d	%s öldürülen %d öldürülen mob %d öldürülen lider %d Kutsal alan numarasý %d	gameforge
+a51dbdbd	Information about the status of the kingdom battle	Ýmparatorluk savaþý hakkýnda bilgi	gameforge
+5bdbcebd	Your request is loading. Please wait.	Ýsteðin yükleniyor. Anlayýþýn için teþekkür ederiz.	gameforge
+61f727d5	You cannot open a Storeroom while another window is open.	Baþka bir pencere açýkken depo açamazsýn.	gameforge
+1348c396	[Storeroom] Storeroom password has been changed.	[Depo] Depo þifresi deðiþti.	hand
+b5952787	[Storeroom] You have entered the wrong password.	[Depo] Yanlýþ þifre girdin.	hand
+f3f794e7	Your playing time is going to run out in %d minutes.	Oyun süreniz %d dakika içinde doluyor.	gameforge
+78bbfd30	Regularly voted.	Düzenli olarak oylanýr.	gameforge
+0cfc4ae1	Already voted.	Zaten oy vermiþtin.	gameforge
+8fe2420a	%s player already in the vote.	%s oyuncu zaten oylamada.	gameforge
+875c7321	OX Event is over. No errors occurred. (Flag: %d)	OX Etkinlik bitti. Herhangi bir hata oluþmadý. (Flag: %d)	gameforge
+5317491e	Cannot run for office.	Oylanamaz.	gameforge
+71c99862	%s still has %u Yang available.	%s hala %u Yang sahibi.	gameforge
+c6606489	%s still has %d Yang available.	%s hala %d Yang sahibi	gameforge
+2b96d76e	You do not have enough Yang.	Yeterli Yang'a sahip deðilsin.	gameforge
+6363c1ed	Item price has changed.	Eþya fiyatý deðiþti.	hand
+541fd92f	%s is deleted as an Emperor Candidate.	Ýmparator adayý olarak %s silindi.	gameforge
+864fa256	%s is not a candidate for the emperor elections.	%s Ýmparator olmak için bir aday deðil.	gameforge
+b7afe051	%s has been nominated as emperor.	%s Ýmparator adayý olarak gösterildi.	gameforge
+e87daf08	%s cannot be nominated as emperor.	%s Ýmparatorluða aday olamaz.	gameforge
+c137f46c	The %s Emperor gets driven out.	%s Ýmparatorluk görevini býraktý.	gameforge
+e7cadf9f	The %s Emperor cannot be driven out.	%s Ýmparatoru görevi býrakamaz.	gameforge
+0debe1d5	OX Event is not accepting any more participants.	OX Etkinliðine daha fazla oyuncu katýlamaz.	gameforge
+0526629c	Shinsoo Kingdom	Shinsoo Krallýðý	gameforge
+2737f1ee	Chunjo Kingdom	Chunjo Krallýðý	gameforge
+999dc9e5	Jinno Kingdom	Jinno Krallýðý	gameforge
+17b9ff16	Your fishing points have increased! (%d/%d)	Balýkçýlýk puanýnýz arttý! (%d/%d)	gameforge
+4214316e	You have reached the maximum number of fishing points.	Maksimum Balýkçýlýk Puaný'na ulaþtýn.	gameforge
+55b5b980	Go to the Fisherman and get your Fishing Pole upgraded!	Balýkçýnýn yanýna git ve onun yardýmýyla oltaný geliþtir!	gameforge
+608237ba	You lost your bait to the fish.	Balýk yemini kaybettin.	gameforge
+5e68c75d	You have caught a fish! (%s)	Bir balýk yakaladýn! (%s)	gameforge
+ae3ad6eb	The length of the captured fish is %.2fcm.	Yakalanan balýðýn uzunluðu %.2fcm.	gameforge
+4ac343a1	Fishing Event 'Great Zander'	Balýkçýlýk olayý 'Büyük Sudak Balýðý'	gameforge
+8c6449e4	OX The other event participants are being noted down.	OX Etkinlikteki diðer katýlýmcýlar listelendi.	gameforge
+420045e8	Fishing Event 'Carp'	Balýkçýlýk olayý 'Sazan Balýðý'	gameforge
+04f01bea	%s: %d	%s: %d	gameforge
+f835a5e0	You have caught %d of %d .	%d tane yakaladýn (toplam %d).	hand
+5a7cac3c	The fish vanished in the depths of the water.	Balýk derin suda kayboldu.	gameforge
+9f315c22	There is a Clam inside the Fish.	Balýðýn içinde bir istiridye var.	gameforge
+ef061a33	There is a Worm inside the Fish.	Balýðýn içinde bir solucan var.	gameforge
+0651d804	You are roasting %s over the fire.	Ateþte %s kýzartýyorsun.	gameforge
+a86c6dda	You cannot trade because you are carrying more than 2 billion Yang.	Beraberinde 2 milyardan fazla Yang taþýyorsun. Bu nedenle ticaret yapamazsýn.	gameforge
+8081d607	MONEY_WILL_EXCEED_OVER_LIMIT	Devam edemezsin: Yang miktarýn 2 milyar sýnýrýný aþacak.	hand
+413c8154	You can't give your shop an invalid name.	Dükkanýna geçersiz bir isim veremezsin.	hand
+c15f6405	You can't sell Item-Shop items in a private shop.	Nesne Market eþyalarýný özel markette satamazsýn.	gameforge
+074018f4	OX The other event participants have not been noted down.	OX Etkinlikteki diðer katýlýmcýlar listelenemedi.	gameforge
+ba6ba28c	Mining is finished.	Madencilik bitti.	gameforge
+d8bb6b5c	You need a Pickaxe in order to extract ore!	Maden çýkarmak için bir kazmaya ihtiyacýn var!	gameforge
+577f2f64	Please choose a Fishing Pole.	Lütfen bir olta seç.	gameforge
+bade997e	Place the Bait on the Hook first.	Önce yemi çengele geçir.	gameforge
+0c96e845	You can't go fishing without a fishing pole!	Oltasýz balýða gidemezsin.	gameforge
+cbb4deeb	YOU_CANT_FISH_HERE	Burada balýk tutamazsýn.	gameforge
+06b18236	[Group] You cannot make a request because the group leader is not online.	[Grup] Ýstekte bulunamazsýn çünkü grup lideri çevrim içi deðil.	hand
+9babd704	[Group] You cannot form a group with players from another kingdom.	[Grup] Diðer Krallýktan olan oyuncularla grup oluþturamazsýn.	hand
+a7a51f67	[Group] You cannot invite players while you are in a dungeon.	[Grup] Zindandayken oyuncu davet edemezsin.	hand
+5c2981de	[Group] You cannot invite a player while you are in observer mode.	[Grup] Ýzleyici modundayken oyuncu davet edemezsin.	hand
+c861b7e2	[Group] Only players with a level difference of -30 to +30 can be invited.	[Grup] -30 ile +30 Seviye aralýðýnda olan oyuncularý davet edebilirsin.	hand
+84df24b6	Number of other participants : %d	Diðer Katýlýmcýlarýn sayýsý : %d	gameforge
+dd1f2764	[Group] You cannot invite this player, as their level is too low.	[Grup] Bu oyuncuyu seviyesi çok düþük olduðu için davet edemezsin.	hand
+82c862f4	[Group] You cannot invite this player, as their level is too high.	[Grup] Bu oyuncuyu seviyesi çok yüksek olduðu için davet edemezsin.	hand
+8ca0dd29	[Group] You cannot invite any more players into your group.	[Grup] Gruba daha fazla oyuncu davet edemezsin.	hand
+781e93a4	You want to join %s's group.	%s Grubuna katýlmak istiyor musun?	gameforge
+131497d3	This player is not in this group.	Oyuncu bu grupta deðil.	gameforge
+94bba6cb	[Group] You cannot join this group because it is already full.	[Grup] Bu grup dolu olduðu için katýlamazsýn.	hand
+b732242c	[Group] You do not have the right to invite someone.	[Grup] Birini davet etmek için yetkin yok.	gameforge
+aa424996	[Group] %s has declined your group invitation.	[Grup] %s Grup davetini reddetti.	hand
+c615daed	[Group] %s is already in the group.	[Grup] %s zaten bu grupta.	hand
+aa042c75	[Group] You cannot accept an invitation into a dungeon.	[Grup] Zindandayken davet kabul edemezsin.	hand
+05a1a2ee	OX Event is finishing.	OX Etkinlik bitti.	gameforge
+c9764f61	[Group] You cannot accept the invitation.	[Grup] Daveti kabul edemezsin.	hand
+03a2dc66	[Group] %s has declined your invitation.	[Grup] %s davetini reddetti.	hand
+40b5af1c	[Group] %s has joined your group.	[Grup] %s Grubunuza katýldý.	hand
+b99c7c77	[Group] %s has joined your Group.	[Grup] %s Grubunuza katýldý.	hand
+72132590	You can't use a private shop now.	Þu anda özel dükkan kullanamazsýn.	hand
+b4805a7c	This player is already trading with another player.	Bu oyuncu zaten baþkasýyla ticaret yapýyor.	gameforge
+4b288bff	Metin2 Confirmation Number: %s	Metin2 Onay Numarasý: %s	gameforge
+569253d8	Your Confirmation Number is not correct. Please try again.	Onay Numaranýz doðru deðil. Lütfen tekrar deneyin.	gameforge
+fbb1876a	The mobile phone number is registered.	Cep telefonu numarasý kayýtlý.	gameforge
+d1ab9024	You cannot teleport to the player.	Bu oyuncuya ýþýnlanamazsýn.	gameforge
+fdc376c3	OX The prize has been awarded. ID: %d Quantity: %d	OX Ödül verildi. ID: %d Adet: %d	hand
+5b6a6eee	This player is not online.	Oyuncu çevrimdýþý.	gameforge
+38be71c4	The player is playing on channel %d. (You are on channel %d.)	Oyuncu %d numaralý kanalda. (Sen %d numaralý kanaldasýn.)	gameforge
+45b3b974	After opening the Storeroom, you cannot go anywhere else for %d seconds.	Depo açtýktan sonra %d saniye baþka bir yere gidemezsin.	gameforge
+e5040e10	You cannot go elsewhere for a period of time after the trade.	Ticaretten sonra bir süre bir yere gidemezsin.	gameforge
+d34b6738	After trading you cannot go elsewhere for %d seconds.	Ticaretten sonra %d saniye bir yere gidemezsin.	gameforge
+af967ed5	The duel has finished, because your combatant vanished.	Düello bitti çünkü savaþçýnýz gözden kayboldu.	gameforge
+45c49f26	There is no limit for Potions.	Burada iksirler için herhangi bir sýnýrlama yok.	gameforge
+3587ce40	You can use up to %d potions.	%d iksir kullanabilirsiniz.	gameforge
+61610362	The fight will start in 10 seconds.	Savaþ 10 saniye içerisinde baþlayacak.	gameforge
+d1e5b3b6	The duel has begun.	Düello baþladý.	gameforge
+501b0925	TRUE	DOÐRU	gameforge
+00dc1099	The duel is being finished because there is a problem in the duel arena.	Arenadaki bir problemden dolayý düello bitti.	gameforge
+b9901ebc	The duel has finished because of a timeout.	Süre bittiði için düello sona erdi.	gameforge
+a93e656e	In 10 seconds you will be teleported into the city.	10 Saniye içerisinde þehre ýþýnlanmýþ olacaksýnýz.	gameforge
+9ea75a47	The duel has been stopped because there is a problem in the arena.	Arena ile ilgili bir problem olduðu için düello sona erdi.	gameforge
+d7937cd1	Your combatant has got some problems. The duel is being cancelled.	Savaþçýnýzla ilgili bir problem olduðu için düello sona erdi.	gameforge
+f5219d63	The duel is being cancelled as there is a problem with the combatant.	Savaþçýnýzla ilgili bir problem olduðu için düello sona erdi.	gameforge
+0ca27599	%s has won the duel.	Düelloyu %s kazandý.	gameforge
+1a8b59a4	%s has won.	%s kazandý.	gameforge
+e26a5714	You will be teleported into the city in 10 seconds.	10 saniye içerisinde þehre ýþýnlanmýþ olacaksýnýz.	gameforge
+b22a1dfd	The next round will begin in 10 seconds.	Bir sonraki raund 10 saniye içerisinde baþlayacak.	gameforge
+ee597878	FALSE	YANLIÞ	gameforge
+5ae5e50b	The combatants have been separated. The duel has been stopped.	Savaþçýlar ayrýldý. Düello sona erdi.	gameforge
+baa3ac99	The quota of the Item Drop is at the moment plus %d%%	Düþen nesne yüzdesi þu anda +%%%d	gameforge
+eb4d5b76	The quota of the Yang Drop is at the moment plus %d%%	Düþen Yang yüzdesi þu anda +%%%d	gameforge
+ef56cf7e	The drop rate for Yang rain is currently %d%% higher.	Yang yaðmurunun düþme oraný þu anda artý %%%d.	gameforge
+0d7878ff	The experience bonus is currently an additional %d%%.	Tecrübe puaný bonusu þu anda %%%d oranýnda arttýrýldý.	gameforge
+956d835e	You do not have the correct client version. Please install the normal patch.	Ýstemci versiyonunuz hatalý. Lütfen normal sürümü yükleyin.	gameforge
+92095c53	You cannot trade in the shop while another window is open.	Baþka bir pencere açýkken dükkanda ticaret yapamazsýn.	gameforge
+3e704526	You are too far away from the shop to buy something.	Satýn almak için dükkandan çok uzaksýn.	hand
+ab7f90f2	You are too far away from the shop to sell something.	Satmak için dükkandan çok uzaksýn.	hand
+49c00456	Total number of the Quiz: %d	Toplam Quiz sayýsý: %d	gameforge
+a1a8b729	This sale will be taxed %d%%.	Bu satýþtan %%%d vergi alýnacak (%lld Yang).	hand
+a5106ce8	You cannot ride a Horse while you are transformed.	Dönüþmüþ durumdayken ata binemezsin.	gameforge
+34933335	You cannot ride while you are wearing a Wedding Dress or a Tuxedo.	Gelinlik veya Smokin giyerken ata binemezsin.	gameforge
+882e276e	You do not have a Horse.	Atýn yok.	gameforge
+71887717	Your Horse is dead.	Atýn öldü.	gameforge
+d79a4edc	Your Horse's endurance is too low.	Atýnýn dayanýklýlýðý çok az.	gameforge
+81fe2036	Calling the Horse has failed.	At çaðýrma iþlemi baþarýsýz.	gameforge
+3c526407	's Horse	(At)	hand
+566694c6	The wedding is finishing soon.	Düðün kýsa süre sonra bitecek.	gameforge
+0033cd19	Will be left automatically.	Otomatik olarak ayrýlacaksýn.	hand
+f72f2c2a	The war is already over.	Savaþ çoktan sona erdi.	gameforge
+01d82efb	The result will follow in 10 seconds.	Sonucu 10 saniye içinde alacaksýn.	gameforge
+19b49be3	You cannot trade while observing.	Ýzleme sýrasýnda ticaret yapamazsýn.	gameforge
+9b09a319	If the window is open, you cannot trade with others.	Pencereler açýkken baþkalarý ile ticaret yapamazsýn.	gameforge
+6c4a247e	The other person is currently busy so you cannot trade right now.	Diðer oyuncu þu an meþgul, bu nedenle onunla þimdi ticaret yapamazsýn.	gameforge
+1b072f58	The other person has cancelled the trade.	Diðer oyuncu ticareti iptal etti.	gameforge
+62e36f60	Not enough Yang or not enough space in the inventory.	Yeterli Yang'ýn ya da envanterinde boþ yer yok.	hand
+83f20b7b	The other person does not have enough Yang or does not have any space left in their inventory.	Diðer kiþide yeterli Yang veya envanterinde boþ yer yok.	gameforge
+d406725c	The other person has no space left in their inventory.	Diðer kiþinin envanterinde hiç boþ yer yok.	gameforge
+bba8e617	The trade with %s has been successful.	%s ile olan ticaret baþarýyla gerçekleþti.	gameforge
+bf1e44d3	You did not lose any Experience because of the Blessing of the Dragon God.	Ejderha Tanrýnýn korumasýnda olduðun için tecrübe kaybetmedin.	gameforge
+39c31704	Current score: Shinsoo %d, Chunjo %d, Jinno %d	Mevcut Puan Durumu: Shinsoo %d, Chunjo %d, Jinno %d	gameforge
+29fa8acd	The correct answer is:	Doðru cevap:	gameforge
+8203f534	%s deadcount %d Empire %d killcount %d(Purpose %d) killmobcount %d, RegenFlag %d	%s deadcount %d Empire %d killcount %d(Purpose %d) killmobcount %d, RegenFlag %d	gameforge
+cb12c958	The devil of the hallowed place: [ENTER][ENTER]	Kutsal Yerin Þeytaný: [ENTER][ENTER]	gameforge
+32f902a5	, you don't have any right to be here! The members of your kingdom will leave this hallowed ground in 10 seconds.	, burada olmaya hakkýn yok. 10 saniye içinde krallýðýna baðlý olanlar bu kutsal topraklarý terk edecek.	gameforge
+eb0b0c33	%s has been defeated and drops out of the Kingdom Battle.	%s Krallýðý yenildi ve krallýk savaþýndan çýktý.	gameforge
+6b46d68f	Number of Monsters in the Kingdom Battle:	Krallýk savaþýndaki yaratýklarýn sayýsý:	gameforge
+8dca9d0b	If you defeat the Guard of the Holy Place, you will become the owner of it.	Eðer Kutsal Alanýn Bekçisini öldürürsen, onun sahibi olacaksýn.	gameforge
+5665e663	You did not drop any Item(s) as you are protected by the Dragon God.	Ejderha Tanrýnýn korumasýnda olduðun için hiç bir nesne kaybetmedin.	gameforge
+274787ae	Additional Stabbing Weapon Damage %d	Ek olarak verilen zarar %d	gameforge
+6f4d51a0	%s block! (%d%%)	%s engelledi! (%%%d)	hand
+ce3fb967	%s avoid! (%d%%)	%s saldýrýdan kaçýndý! (%%%d)	hand
+2441a363	Yes (O)	Evet (O)	gameforge
+11207cf9	%s[%d]'s Attack Position: %d %d	%s[%d] Saldýrý pozisyonu: %d %d	gameforge
+b24faf12	Please enter the Order in full length.	Lütfen komutun tamamýný gir.	hand
+c11d5a09	You cannot do this whilst sitting on a Horse.	Bunu at üzerinde yapamazsýnýz.	gameforge
+16d238cb	You cannot do that while you are lying on the ground.	Bunu düþmüþ haldeyken yapamazsýn.	gameforge
+32697ced	In my Dreams? What?	Rüyamda? Ne?	gameforge
+138742af	Get up first.	Önce kalk.	gameforge
+4b3bf36e	This command does not exist.	Böyle bir komut yok.	hand
+1fc161ac	[Group] This group has been disbanded.	[Grup] Grup silindi.	gameforge
+e2417fc1	[Group] You cannot call the target.	[Grup] Hedefi çaðýramazsýn.	gameforge
+6f74a9ad	[Group] You cannot call group members over to your current position.	[Grup] Bulunduðun pozisyonda grup üyelerini çaðýramazsýn.	gameforge
+f94cb58c	No (X)	Hayýr (X)	gameforge
+87319232	Your group works well together, and group members near the group leader will receive an experience bonus.	Grubun iyi bir ortak çalýþma ortaya koyuyor, liderin yakýnýnda bulunan grup üyeleri bir tecrübe bonusu kazanýyor.	gameforge
+04fed051	Leader	Lider	gameforge
+a5842e10	Member	Üye	gameforge
+5a37c511	[Guild] Provided Experience is larger then left Experience.	[Lonca] Verilen tecrübe, kalan tecrübeden fazla.	hand
+13d3fb4b	[Guild] This message cannot be deleted.	[Lonca] Mesaj silinemez.	hand
+c82ddd47	[Guild] Not enough Dragon Ghost. (%d, %d)	[Lonca] Yeterli Ejderha hayaleti yok. (%d, %d)	hand
+ae67300c	[Guild] You cannot use the guild skills yet.	[Lonca] Henüz Lonca Becerilerini kullanamazsýn.	hand
+51f5fae5	[Guild] %d skill has been applied (%d, %d) to %u.	[Lonca] %d becerisi (%d, %d) %u üzerine uygulandý.	hand
+3756b233	[Guild] This player is on channel %d. (Current channel: %d)	[Lonca] Oyuncu þu an %d kanalýnda. (Bulunulan kanal: %d)	hand
+cc1aabb3	[Guild] This player is not online.	[Lonca] Oyuncu çevrim dýþý.	hand
+20633a3d	In 5 sec. everyone who gave an incorrect answer will be removed.	Yanlýþ cevap veren katýlýmcýlar 5 saniye sonra silinecekler.	gameforge
+8bbc627a	[Guild] This guild skill can only be used during war.	[Lonca] Bu Lonca Becerisi sadece savaþlarda kullanýlabilir.	hand
+9e5c4753	[Guild] %u Dragon ghost points have been restored.	[Lonca] %u Ejderha Hayaleti Puaný yüklendi.	hand
+f7005f97	[Guild] Only the guild leader can withdraw Yang.	[Lonca] Sadece Lonca lideri Yang çekebilir.	hand
+52c466d2	[Guild] The player has declined the guild invitation.	[Lonca] Oyuncu Lonca davetini reddetti.	hand
+0ebc99a0	[Guild] You do not have the authority to invite someone to join the guild.	[Lonca] Loncaya birini davet edemezsin.	hand
+c1326d59	[Guild] You cannot invite players from another kingdom into the guild.	[Lonca] Diðer Krallýklardan olan oyuncularý Loncaya davet edemezsin.	hand
+cb82c952	[Guild] This player can be invited again after %d day(s).	[Lonca] Bu oyuncuyu %d gün sonra tekrar davet edebilirsin.	gameforge
+a4909fae	[Guild] After the rearrangement you can invite members again after %d days.	[Lonca] Düzenlemeden sonra üyeleri ancak %d gün sonra tekrar davet edebilirsin.	hand
+b939e464	[Guild] This person is already a member of another Guild.	[Lonca] Bu oyuncu zaten baþka bir Loncaya üye.	hand
+aca48db8	[Guild] The maximum guild capacity has been reached.	[Lonca] Lonca kapasitesi maksimum seviyeye ulaþtý.	hand
+768f1681	Ready for the next question?	Sonraki soru için hazýr mýsýn?	gameforge
+d577a34b	You cannot train this skill.	Bu beceriyi geliþtiremezsiniz.	gameforge
+a49e7290	You cannot train this skill up to Grand Master level.	Bu beceriyi Grand Master seviyesine geliþtiremezsiniz.	gameforge
+94afc0e6	You already are a Master of this skill. You cannot train this skill any further.	Zaten bu beceride master konumundasýn. Onu geliþtiremezsin.	gameforge
+0f037122	Your Skill is not high enough to become a Grand Master.	Becerin Grand Master seviyesi için yeterince yüksek deðil.	gameforge
+b11cdc75	That did not work. Damn!	Çalýþmadý. Lanet olsun!	gameforge
+f623f01a	Training has failed. Please try again later.	Eðitim baþarýsýz. Lütfen sonra tekrar deneyin.	gameforge
+691baf9e	My body is full of energy!	Bedenim güçle dolu!	gameforge
+51bb204d	The training seems to be working already...	Eðitim yavaþ yavaþ fayda ediyor...	gameforge
+02f69d0c	You successfully finished your training with the book.	Kitapla olan eðitimini baþarýyla tamamladýn.	gameforge
+23f7fde9	You cannot read this due to your lack of experience.	Bu kadar tecrübesizken bunu okuyamazsýn.	gameforge
+3a8c7857	Question.	Soru.	gameforge
+1bfde0c5	You cannot train this skill with a Book.	Bu beceriyi kitap okuyarak geliþtiremezsin.	gameforge
+fdece878	This skill's level is not high enough to be trained with a Book.	Bu becerin kitap okuyarak geliþtirebilmek için yeterli seviyede deðil.	gameforge
+1d63419d	I'm making progress, but I still haven't understood everything.	Ýlerleyebiliyorum ama henüz hepsini anlamýþ deðilim.	gameforge
+e5adadf6	These instructions are difficult to understand. I have to carry on studying.	Bu talimatlarý anlamak kolay deðil. Biraz daha çalýþmam gerekiyor.	gameforge
+abbc857b	I understand this chapter. But I've got to carry on working hard.	Bu bölümü anladým. Yine de çok çalýþmam gerekiyor.	gameforge
+02f69d0c	You have successfully finished your training with the Book.	Kitapla olan eðitimini baþarýyla tamamladýn.	gameforge
+756427a9	Teleportation has failed.	Iþýnlama baþarýsýz.	gameforge
+7646b489	No Horse here. Ask the Stable Boy.	Burada at yok. Seyise sor.	gameforge
+5054d15e	Please use an item to call a Horse.	Lütfen at çaðýrma nesnesini kullan.	gameforge
+57f2f7ae	%s FP-Consumption: %d	%s FP Kullanýmý: %d	gameforge
+21403576	If it's correct, then go to O. If it's wrong, go to X.	Doðruysa O'ya git, yanlýþsa X'e git.	gameforge
+2b325970	I am burning inside, but it is calming down my body. My Chi has to stabilise.	Ýçim yanýyor fakat vücudumu sakinleþtiriyor.	gameforge
+88d82cfc	A little slow, but steady... Without stopping!	Yavaþça, fakat sürekli... Ara vermeksizin.	gameforge
+ca91186b	Yes, that feels great. My body is full of Chi.	Evet, bu his mükemmel. Bedenim Chi ile dolu.	gameforge
+3da86a2a	I have read it! Now the Chi will spread through my body.	Okudum! Þimdi Chi tüm vücudumu kaplýyor.	gameforge
+cb02105d	The training is completed.	Eðitim tamamlandý.	gameforge
+b539b1b7	I am on the last page of the book. The training is nearly finished!	Kitabýn son sayfasýndayým. Eðitim neredeyse bitmek üzere!	gameforge
+448f9db0	Nearly finished! Just a little bit more to go!	Nerdeyse bitti! Sadece azýcýk kaldý!	gameforge
+a9157f1b	Eureka! I have nearly finished reading it!	Aydýnlandým! Neredeyse hepsini okudum!	gameforge
+b045efa4	Only a few more pages and then I'll have read everything.	Sadece birkaç sayfa kaldý, onlarý da okuduktan sonra hepsini okumuþ oluyorum.	gameforge
+7f47bf4a	I feel refreshed.	Yenilenmiþ hissediyorum.	gameforge
+1b524bf9	Correct!	Doðru!	gameforge
+48c809d2	Now I understand it!	Þimdi anladým!	gameforge
+029d4f77	Okay I have to stay concentrated!	Tamam, konsantre kalmalýyým!	gameforge
+a78e450d	I keep reading the same line over and over again.	Ayný satýrý tekrar okuyup duruyorum.	gameforge
+cdc453c6	I do not want to learn any more.	Daha fazla bir þey öðrenmek istemiyorum.	gameforge
+bdc1d92b	It is a lot more complicated and more difficult to understand than I thought.	Bu yöntem düþündüðümden çok daha karýþýk.	gameforge
+a5ffd4f3	It's hard for me to concentrate. I should take a break.	Konsantre olamýyorum. Mola vermem gerekiyor.	gameforge
+5b698363	Your chat has been blocked by a GM.	Sohbetiniz GM tarafýndan bloklandý.	gameforge
+9aa87544	Your chat block has been lifted.	Sohbet blokunuz kaldýrýldý.	gameforge
+1cded1fe	The Build window is already open.	Ýnþa penceresi zaten açýk.	gameforge
+072ae5ec	You cannot build something while another trade/storeroom window is open.	Baþka bir Ticaret/Depo penceresi açýkken herhangi birþey inþa edemezsiniz.	gameforge
+bbba9b1f	No further improvements possible.	Daha fazla geliþtirme imkansýz.	gameforge
+bf9a8932	The build window is not open.	Ýnþa penceresi açýk deðil.	gameforge
+7f1e725a	You do not have the right material.	Doðru maddeye sahip deðilsiniz.	gameforge
+5e432777	[Guild] Please try again later.	[Lonca] Lütfen daha sonra tekrar deneyin.	hand
+aad4f65e	You have to read %d more skill books to improve this skill.	Bu beceriyi geliþtirmek için %d Beceri Kitabý daha okumalýsýnýz.	hand
+2b991821	You are only able to use this function while you are at the castle.	Bu özelliði sadece kaledeyken kullanabilirsin.	gameforge
+336a35f0	TEST: The Gold Bar has been paid back to your kingdom's safe.	TEST: Altýn külçe krallýðýnýzýn kasasýna geri ödendi.	gameforge
+c36c5df9	TEST: In your kingdom's safe there are: %d	TEST: Krallýðýnýzýn kasasýnda bulunan: %d	gameforge
+acbd2d7f	TEST: You cannot pay the Gold Bar back into your kingdom's safe.	TEST: Altýn külçeyi krallýðýnýzýn kasasýna gönderme yetkiniz yok.	gameforge
+db7d2a70	[Guild] The guild has reached %d points.	[Lonca] Sýralama %d Puana yükseldi.	hand
+fa66b738	This item cannot be improved.	Bu eþya daha iyi hale gelemez.	gameforge
+b13693ba	REFINE_BONUS_USE_LEVEL_ERROR	Geliþtirme bonusu yalnýzca %d. seviyeye kadar olan eþyalarda kullanýlabilir.	hand
+ef5d0a42	REFINE_BONUS_REFINE_LEVEL_ERROR	Geliþtirme bonusu yalnýzca en fazla +%d olan eþyalarda kullanýlabilir.	hand
+820ae132	REFINE_BONUS_ONLY_ARMOR	Geliþtirme bonusu yalnýzca zýrh, miðfer ve kalkanlarda kullanýlabilir.	hand
+a86cd27f	REFINE_BONUS_ONLY_JEWELRY	Geliþtirme bonusu yalnýzca mücevherlerde kullanýlabilir.	hand
+bd0f30f3	REFINE_BONUS_ONLY_WEAPON	Geliþtirme bonusu yalnýzca silahlarda kullanýlabilir.	hand
+5b295aae	The free weapon improvements can only be used on weapons up to level 20.	Ücretsiz silah geliþtirmeleri ancak seviye 20'ye kadar olan silahlarda kullanýlabilir.	gameforge
+382de93c	You cannot use this item because you do not fulfil all the requirements.	Gerekli özelliklere sahip olmadýðýn için bu eþyayý kullanamazsýn.	gameforge
+75ed320a	You are not able to use that item because you do not have the right gender.	Doðru cinsiyette olmadýðýnýz için bu eþyayý kullanamazsýnýz.	gameforge
+9a94c58e	Use: transfer <name>	Kullan: transfer <name>	gameforge
+d9965b28	This function can only be used by the emperor.	Bu özellik sadece Ýmparator tarafýndan kullanýlabilir.	gameforge
+7ece9d96	You cannot recruit players from another kingdom.	Baþka krallýktan olan oyuncularý birliðine dahil edemezsin.	gameforge
+4d522fb3	The player %s is on channel %d at the moment. (Your channel: %d)	%s þuanda %d kanalýnda. (Kanalýnýz: %d)	gameforge
+cf71b307	You have recruited %s players.	Oyuncularý birliðine kattýn: %s	hand
+44f0ae79	There is no user with this name.	Bu isimde bir kullanýcý yok.	gameforge
+190b714d	You cannot recruit yourself.	Kendini birliðine ekleyemezsin.	gameforge
+87a26765	Your level is too low to use this item.	Seviyeniz eþyanýn yükseltmeden sonraki seviyesinden düþük.	gameforge
+de223429	You cannot upgrade anything while another window is open.	Baþka bir pencere açýkken yükseltme yapamazsýn.	gameforge
+0115da91	The emperor of %s has changed to %s.	%s Ýmparatoru %s oldu.	gameforge
+2b525e94	There are %s wars to inflame the bonfires.	Ateþleri yakmak için %s savaþlarý var.	gameforge
+1e380768	%s has successfully defended.	%s baþarýyla savundu.	gameforge
+41aaa07a	30 minutes from now on the player %s can get a reward because he destroyed the bonfire.	%s ateþi yok ettiði için þu andan itibaren 30 dakika boyunca bir ödül alabilir.	gameforge
+5395d2ea	30 minutes are over. The bonfires have disappeared.	30 dakika doldu. Ateþler yok oldu.	gameforge
+171b3339	A bonfire was inflamed at %s to warn because of a battle.	%s de savaþ yüzünden bir uyarý ateþi yakýldý.	gameforge
+51e6c526	%s has destroyed the bonfire.	%s ateþi yok etti.	gameforge
+492c87b3	%s lost the war as they have not been able to defend the castle.	%s kaleyi koruyamadýðý için savaþý kaybetti.	gameforge
+51e6c526	%s has destroyed all the bonfires.	%s ateþi yok etti.	gameforge
+9d273b58	You can only open the shop if you take off your armour.	Sadece zýrhýnýzý çýkardýðýnýzda bir dükkan açabilirsiniz.	gameforge
+4e255cd0	%d hours %d minutes %d seconds left on your chat block	Sohbet bloklamanýzýn kalkmasýna %d saat %d dakika %d saniye kaldý	gameforge
+54b284ca	%d hours %d seconds left on your chat block	Sohbet bloklamanýzýn kalkmasýna %d saat %d saniye kaldý	gameforge
+33382ab0	%d minutes %d seconds left on your chat block	Sohbet bloklamanýzýn kalkmasýna %d dakika %d saniye kaldý	gameforge
+6d53ec7f	Yang rain drop rate	Yang yaðmuru düþme oraný	gameforge
+22b6b72d	Not the right material for an upgrade.	Yükseltme için yeterli malzeme yok.	gameforge
+233fab22	All kingdoms	Tüm Krallýklar	gameforge
+73e9f987	Item drop rate in percent	Eþya düþürme oran yüzdesi	gameforge
+7d34374e	Yang drop rate in percent	Yang düþürme oraný yüzdesi	gameforge
+089a47d8	Experience percentage	Deneyim yüzdesi	gameforge
+d977df32	%d seconds left on your chat block	Sohbet engelinizin kalkmasýna %d saniye kaldý	gameforge
+64b77fb0	You cannot express emotions whilst riding a horse.	At sürerken duygularýnýzý ifade edemezsiniz.	gameforge
+78e458dd	You cannot use emotions with a player who is riding on a Horse.	At süren bir kiþiye duygularýnýzý ifade edemezsiniz.	gameforge
+f84267d5	[Guild] The enemy's guild leader is offline.	[Lonca] Düþman lonca lideri çevrimdýþý.	gameforge
+3a163ccd	[Guild] This guild is taking part in a battle at the moment.	[Lonca] Bu lonca þu anda savaþta.	gameforge
+a480466b	You're already riding. Get off first.	Zaten bir binektesin. Önce in.	gameforge
+949eaf0a	You cannot upgrade items with this Scroll.	Bu kaðýtla yükseltme yapamazsýnýz.	hand
+4f2ce0aa	You can only be rewarded once for the Demon Tower Quest.	Þeytan Kulesi görevi için sadece bir kez ödüllendirilebilirsiniz.	gameforge
+0bb6c000	Dragon Stone has been removed.	Ejderha taþý baþarýyla çýkarýldý.	gameforge
+7eefa042	You cannot move the item within the refinement window.	Bu nesne, arýndýrma paneli içerisinde sürüklenemez.	gameforge
+caff3802	Dragon Stone remaining duration has been extracted.	Ejderha taþýnda kalan süreyi çýkarma iþlemi baþarýlýydý.	gameforge
+b22d5802	Remaining duration extraction failed.	Kalan süreyi çýkarma iþlemi baþarýsýzdý.	gameforge
+27e52cd0	Removal of Dragon Stone failed. But you have received the following: %s	Ejderha taþý çýkarýlamadý, ama þunu elde ettin: %s	gameforge
+ac6dd864	Removal of Dragon Stone failed.	Ejderha taþý çýkarýlamadý.	gameforge
+334eb0c9	This item is not required for improving the clarity level.	Bu nesneye saflýk derecesini geliþtirmek için ihtiyaç duyulmaz.	gameforge
+bf8bd0fe	This item cannot be advanced this way.	Bu eþya bu þekilde yükseltilemez.	gameforge
+5967694c	Improvement of the clarity level successful.	Saflýk derecesini geliþtirme iþlemi baþarýlýydý.	gameforge
+a2a230f6	Refinement up one class failed.	Arýndýrmayý bir sýnýf daha yükseltme iþlemi baþarýsýzdý.	gameforge
+db8e6f9f	This item is not required for refinement.	Bu nesneye arýndýrmada ihtiyaç duyulmaz.	gameforge
+23f54956	Refinement up one class was successful.	Arýndýrmayý bir sýnýf daha yükseltme iþlemi baþarýlýydý.	gameforge
+9fc280b0	Improvement of the clarity level failed.	Saflýk derecesini geliþtirme iþlemi baþarýsýzdý.	gameforge
+07008d77	You do not own the materials required to strengthen the Dragon Stone.	Ejderha taþýný güçlendirmek için gerekli malzemeye sahip deðilsin.	hand
+ff765d6f	This Dragon Stone cannot be used for strengthening.	Bu ejderha taþý güçlendirmek için kullanýlamaz.	gameforge
+1272a219	Strengthening was successful.	Güçlendirme baþarýlýydý.	gameforge
+b704aa25	Strengthening failed.	Güçlendirme baþarýsýz	gameforge
+cfd4854a	You are already carrying a Dragon Stone of this type.	Üzerinde zaten bu türden bir ejderha taþý bulunuyor.	gameforge
+ae9b38b0	The Dragon Stone cannot be removed.	Ejderha taþý çýkarýlamaz.	gameforge
+c464ddf3	You have already equipped this kind of Dragon Stone.	Böyle bir ejderha taþý kuþandýn bile.	gameforge
+fcfb40af	Before you open the Cor Draconis, you have to complete the Dragon Stone quest and activate the Dragon Stone Alchemy.	Cor Draconis'i açmadan önce Ejderha Taþý görevi tamamlanmýþ olmalý ve Ejderha Taþý Simyasý etkinleþtirilmiþ olmalý.	gameforge
+992ed023	You can only discard the belt when there are no longer any items in its inventory.	Eþyaya ait envanter tamamen boþ olmadýðý sürece kemeri çýkaramazsýn.	gameforge
+09e4c537	You can combine the Blessing Scroll with the Magic Iron Ore.	Kutsama Kaðýdý ve Büyülü Demir Madeni birleþtirebilirsin.	gameforge
+6f2c34ee	You cannot equip this item in your belt inventory.	Bu eþyayý kemer envanterinde donanamazsýn.	gameforge
+4a397e22	[1106-??]No puedes unir esto.	[1106-??]Bunu birleþtiremezsin.	hand
+f409f60d	You have invested %d Yang.	%d Yang yatýrdýn.	gameforge
+ff516bd3	There is no Stone available to take out.	Çýkartýlacak metin taþý yok.	gameforge
+34645587	You cannot store this location.	Bu yeri kaydedemezsin.	gameforge
+5e3b9985	You cannot save location placed in opposite kingdom.	Karþý krallýktaki bir konumu kaydedemezsin.	hand
+c395a8e5	There isn't enough space in your inventory.	Envanterde yeterli boþluk yok.	gameforge
+e43f79f1	You cannot teleport to a safe position in a foreign Kingdom.	Yabancý Krallýkta güvenli bir yere ýþýnlanamazsýn.	gameforge
+c97f2bd4	You don't have enough HP.	Yeterli HP yok.	gameforge
+ec99502c	You don't have enough Spell Points (SP) to use this.	Bunu kullanmak için yeterli manaya sahip deðilsin.	gameforge
+956a5759	You'll reach your destination in %d seconds.	%d saniye içinde hedefte olacaksýn.	gameforge
+321daa51	You can only use a Moon Cake every 5 seconds.	Her 5 saniyede bir Ay Pastasý kullanabilirsin.	gameforge
+acfb4add	You cannot use this item in a duel.	Bu eþyayý düelloda kullanamazsýn.	gameforge
+29e2ea9b	You have won %d Yang.	%d Yang kazandýn.	gameforge
+c879065c	You cannot build a campfire here.	Buraya kamp ateþi yakamazsýn.	gameforge
+8bfc6709	You cannot build a campfire under water.	Suyun altýnda kamp ateþi yakamazsýn.	gameforge
+d8189125	Closed. You should look for the key.	Kapalý. Anahtarý aramalýsýn.	gameforge
+23d2bf85	This item cannot be opened with a key.	Bu eþya bir anahtarla açýlamaz.	gameforge
+5a021c10	That's the right key.	Doðru anahtar.	gameforge
+795c0773	You have received %d Yang.	%d Yang kazandýn.	gameforge
+c9af058d	A mysterious light comes out of the box.	Kutudan gizemli bir ýþýk geliyor.	gameforge
+b486e4a4	You have received %d experience points.	%d Tecrübe Puaný kazandýn.	gameforge
+f34b3943	Look what came out of the box!	Bak kutudan ne çýktý!	gameforge
+471339e2	[Guild] The guild level is too low.	[Lonca] Lonca seviyesi çok düþük.	gameforge
+62781b54	If you inhale the red smoke coming out of the box, your speed will increase!	Eðer kutudan gelen kýrmýzý dumaný solursan, hýzýn artar!	gameforge
+bf9493dd	You cannot add more bonus.	Daha fazla bonus ekleyemezsin.	hand
+8a5e2b56	New bonus added successfully.	Yeni bonus baþarýyla eklendi.	hand
+ddede1f9	You cannot change the bonuses.	Bonuslarý deðiþtiremezsin.	hand
+081f15e9	ITEM_PRISM_NEED	Bir Ýçgörü Küresi veya aktif bir Premium Abonelik gerekli.	hand
+0b2c4198	%s needed.	%s gerekli.	hand
+1ec3a11f	OX-Question: 	OX-Sorusu: 	hand
+71493299	MYSHOP_BUY %d %s %d	Birisi dükkanýndan %d adet %s satýn aldý (%d Yang).	hand
+a08721fb	SHOP_SUCCESS_CLOSE	Dükkan kapatýldý; kalan eþyalar ve kazandýðýn Yang dükkanýn deposunda.	hand
+d0e1cedb	SHOP_MAX_ERR	Daha fazla dükkan açamazsýn.	hand
+2f325678	INVENTORY_FULL_ERROR	Envanterde yeterli alan yok.	gameforge
+e17ce80f	UNKNOW_ERROR	Bir hata oluþtu	hand
+128310da	SHOP_YANG_ADD	Yang dükkan deposundan çekildi.	hand
+a5c96f51	SHOP_YANG_TOO_LOW	Miktar çok düþük.	hand
+78b1b2cf	SHOP_YANG_NO_MONEY	Miktar, kazanýlan Yang'dan fazla.	hand
+a11aa25b	GIFT_ADD_SUCCESS	Eþya envanterine eklendi	hand
+9a766b67	GIFT_ADD_ALL_SUCCESS	Eþyalar envanterine eklendi	hand
+d586be7b	SHOP_REASON	Dükkan kapatýldý	hand
+baf386ea	SHOP_ITEM_REASON	Eþya kaldýrýldý	hand
+0d9ddc8b	SHOP_NAME	#PLAYER_NAME# Dükkaný	hand
+121d9aa9	SHOP_NAME_FORMAT	Dükkan - %s	hand
+58f6513a	SHOP_PRIV_ERROR	Yetki seviyen nedeniyle dükkan açman engellendi!	hand
+ace96459	SHOP_OX_ERROR	Burada dükkan açamazsýn.	hand
+ace96459	SHOP_CANNOT_OPEN_HERE	Burada dükkan açamazsýn.	hand
+eb3a38bc	OFFLINE_SHOP_CANNOT_OPEN_HERE	Burada çevrimdýþý dükkan açamazsýn.	hand
+be1f6f73	OFFLINE_SHOP_REMINDER_CANNOT_OPEN_HERE	Bu haritada çevrimdýþý dükkan kurulamayacaðýný unutma.	hand
+d1e04a24	SHOP_NEED_MONEY	Bu tür bir dükkan açmak için %lld Yang gerekli	hand
+7643e78e	SHOP_MAX_LIMIT_FREE	Bu kanalda çok fazla dükkan var. Ücretsiz sýnýrý aþmak için premium dükkan gerekli.	hand
+80864bd9	SHOP_MAX_LIMIT	Bu kanal çevrimdýþý dükkan sýnýrýna ulaþtý. Dükkan açamazsýn.	hand
+9dc9a216	SHOP_TEMP_OFF 	Dükkan açma þimdilik kapalý	hand
+140e18f1	SHOP_EDIT_SUCCESS	Eþyalar güncellendi.	hand
+bfca709c	Dropped Yang will disappear after %d seconds.	Düþürülen Yang %d saniye sonra kaybolacak.	hand
+5f57ee2f	SHOP_BLOCK_ACTION_TIME	Dükkanda bir sonraki deðiþiklik için %d saniye bekle.	hand
+b1973f6f	SHOP_DIFF_MAP	Dükkanla ayný haritada olmalýsýn.	hand
+65dd0a6d	SHOP_DIFF_CHANNEL	Dükkanla ayný kanalda olmalýsýn.	hand
+5af69b6d	SHOP_TOO_FAR	Dükkanýn yanýnda durmalýsýn.	hand
+b01900b5	SHOP_DOESNT_EXIST	Dükkanýn yok.	hand
+d1ebc236	SHOP_NO_PREMIUM	Premium dükkanýn yok.	hand
+3d60ac84	SHOP_LOCKED_SLOTS	Dükkandaki bazý eþyalar kilitli yuvalarda.	hand
+ddf00e6b	SHOP_WRONG_CONFIGURATION	Dükkandaki bazý eþyalar üst üste biniyor.	hand
+06570b1b	CLEAR_SHOP_DEPOSIT_FIRST	Çevrimdýþý dükkanýnýn deposunda hâlâ eþyalar var.	hand
+4d70bac0	SHOP_NO_CREATION_ITEM	Dükkan açmak için bir Paket gerekli.	hand
+43fa5ead	SHOP_CANNOT_BUY_FROM_MYSELF	Kendi dükkanýndan satýn alamazsýn.	hand
+0c5f931f	SHOP_VALUE_EXCEED_GOLD_MAX	Dükkanýn deðeri ile Yang'ýn toplamý izin verilen Yang miktarýný (2 milyar) aþýyor.	hand
+ebac0509	Moving channel has been interrupted.	Kanal deðiþtirme yarýda kesildi.	hand
+690bfc59	You cannot change channel.	Kanalý deðiþtiremezsin.	gameforge
+9fb6aa7d	Currently, you cannot switch to that channel.	Þu anda o kanala geçemezsin.	hand
+347805b6	Please wait a moment. Changing channel...	Biraz bekle lütfen. Kanal deðiþtiriliyor.	gameforge
+27d666a6	%d seconds till channel change.	Kanal deðiþimine %d saniye kaldý.	hand
+992518ec	You cannot sell equiped items.	Üzerinde olan nesneleri satamazsýn.	gameforge
+a9986c9f	You cannot sell locked items.	Kilitli eþyalarý satamazsýn.	hand
+fd77a766	USE_SKILL_STAMINA%d	%d Dayanýklýlýk gerekli	hand
+34b7b036	USE_SKILL_STAMINA_TOO_HIGH_MOVEMENT%d	Hareket hýzýn yüksekken (>= %d) yaya sprint yapamazsýn.	hand
+7e3a4b58	FISHING_NOTIFY1	Oltaya %s takýlmýþ gibi görünüyor.	hand
+ae44a180	FISHING_NOTIFY2	Oltaya %s takýlmýþ gibi görünüyordu.	hand
+ea0006a8	FISHING_SUCCESS1	%s kazandýn!	hand
+2e1551ae	FISHING_SUCCESS2	%s yakaladýn!	hand
+e9a1e690	FISHING_UNKNOWN	Oltaya bir þey takýldý ama ne olduðunu göremiyorsun.	hand
+b0fa48f1	FISHING_BLOCK_MOUNT	Balýk tutarken binek kullanamazsýn.	hand
+70c86b22	FISHING_MAP_INDEX	Yalnýzca M1'de balýk tutabilirsin.	hand
+e9657652	ITEM_ROD_REFINE_ONLY_FISHER	Olta yalnýzca Balýkçý tarafýndan geliþtirilebilir.	hand
+b8174b73	ITEM_ROD_REFINE_ONLY_HERBALIST	Bitkici Býçaðý yalnýzca Bitkici tarafýndan geliþtirilebilir.	hand
+071b37e9	ITEM_PICKAXE_REFINE_ONLY_DEOKBAE	Kazma yalnýzca Deokbae tarafýndan geliþtirilebilir.	hand
+aa688d93	TOO_FAR_FROM_REFINE_NPC	Demirci'den çok uzaktasýn.	hand
+5083108b	ITEMSHOP_ITEM_AWARD	Envanterinde yer yok. Eþya Nesne Marketi Deposu'na gönderildi.	hand
+4db6270c	ITEMSHOP_AUCTION_NOT_AVAILABLE	Bu müzayede artýk mevcut deðil.	hand
+ff25c6eb	ITEMSHOP_NO_DRAGON_COINS	Yeterli Ejderha Paran yok.	hand
+b50fd128	ITEMSHOP_NO_DRAGON_MARKS	Yeterli Ejderha Markasý yok.	hand
+f77977be	NEXT_ACTION_WAIT	Bir sonraki iþlem için %d saniye bekle.	hand
+96cd39da	NEXT_ACTION_WAIT_NO_FORMAT	Bir sonraki iþlemden önce biraz bekle.	hand
+99f3d134	ITEMSHOP_TIME_AUCTION_ACCOUNT_LIMIT	Bu hesap bu müzayededeki satýn alma hakkýný doldurdu (en fazla %d).	hand
+ad116a3d	ITEMSHOP_TIME_AUCTION_PURCHASE_WOULD_EXCEED_LIMIT	Bu satýn alma, hesap baþýna alým sýnýrýný aþar. Daha az adet al.	hand
+1248b9f3	ITEMSHOP_BUY_VIP_INFO	VIP etkisinin doðru uygulanmasý için tekrar giriþ yap.	hand
+48fb6275	ITEMSHOP_LOW_LEVEL_FOR_ITEM	Bu eþyayý satýn almak için karakterin en az %u. seviyede olmalý.	hand
+39dd1af6	CANNOT_ACTION_WHILE_DEAD	Ölüyken bunu yapamazsýn.	hand
+86cd0f7b	CANNOT_RIDE_WHILE_CARRY_ITEM	Eþya taþýrken binek kullanamazsýn.	hand
+85f0aa78	CANNOT_TELEPORT_WHILE_CARRY_ITEM	Eþya taþýrken ýþýnlanamazsýn.	hand
+46751eb5	CANNOT_SPRINT_WHILE_CARRY_ITEM	Eþya taþýrken sprint yapamazsýn.	hand
+8d4a6a9f	CANNOT_SPRINT_WHILE_SLOW	Yavaþlatýlmýþken sprint yapamazsýn.	hand
+81d5942a	SKILL_ALREADY_MAX_LEVEL%d	Bu beceri zaten en yüksek seviyede (%d).	hand
+609de584	LEARN_NO_FAIL_TIME	Eðitime raðmen yorgun hissetmiyorsun.	hand
+23cbb23b	POTION_COOLDOWN_MINUTE%d	Tekrar kullanmadan önce %d dak. beklemelisin.	hand
+10664d1c	POTION_COOLDOWN_SECOND%d	Tekrar kullanmadan önce %d sn. beklemelisin.	hand
+1e729da7	FISHING_NEED_ONBOARDING	Bu sular çok verimsiz, burada neredeyse hiç balýk yok. Balýkçý ile konuþ.	hand
+f99076c8	CANT_OPEN_SHOP_HERE	Burada dükkan açamazsýn. Baþka bir dükkana çok yakýnsýn.	hand
+94ac60c2	NO_METIN_STONES_HERE	Burasý Metin Taþý istilasýndan arýnmýþ.	hand
+cf46df96	HORSE_IS_HUNGRY_CANNOT_SPRINT	Atýn açlýktan bitkin, bu durumda kendini zorlayamaz.	hand
+b7b09d85	CHANNEL_IS_PREMIUM	Bu kanal yalnýzca Premium hesaplara açýk.	hand
+0c77bf15	BUY_VIP_WITH_SUBSCRIPTION_ACTIVE_ERROR	VIP etkileri Premium Abonelik ile birleþmez. Bu satýn alma iþlemini yapamazsýn.	hand
+8bc8c294	CANNOT_REMOVE_SOCKET_FROM_JEWELRY	Yerleþtirilmiþ taþý çýkaramazsýn.	hand
+97a7e5b2	CANNOT_WEAR_ON_HORSE	Bu eþyayý ata binerken giyemezsin.	hand
+7f17b01e	CANNOT_USE_ON_HORSE	Bu eþyayý ata binerken kullanamazsýn.	hand
+1a96bf5b	CANNOT_UNMOUNT	Þu anda bineðinden inemezsin.	hand
+a8bc25d9	DICE_MYSELF	Zar attýn: %d (%d-%d)	hand
+20279b5a	DICE_OTHER	%s zar attý: %d (%d-%d)	hand
+59dde698	GUILD_CHARGE_SP	[Lonca] %d birim Ejderha Hayaleti yüklendi.	hand
+584d5bdc	GUILD_JOIN_OTHER_IS_BUSY	[Lonca] Davet ettiðin kiþi þu anda meþgul.	hand
+41fb6c9c	GUILD_JOIN_IS_IN_WAR	[Lonca] Lonca savaþta.	hand
+e3746c54	GUILD_REMOVE_MEMBER_IN_WAR	[Lonca] Savaþ sýrasýnda lonca üyesini atamazsýn.	hand
+ed78278c	GUILD_INVITE_LIMIT	[Lonca] Lonca davet sýnýrýna ulaþtý.	hand
+7dbd7d19	GUILD_OFFER_MAX_LEVEL	Lonca en yüksek seviyede, ancak hediyeni kabul edecek.	hand
+2d80e92a	CANNOT_SELL_EQUIPPED_ITEM	Giydiðin eþyayý satamazsýn.	hand
+e13c5233	MESSENGER_ADD_BUSY	Davet ettiðin oyuncu þu anda meþgul.	hand
+8b7bbd2b	LEARN_SKILL_DELAY	Bir sonraki eðitim için %s daha bekle.	hand
+17c43189	WAIT_DELAY_DH	%d gün %d saat	hand
+79804232	WAIT_DELAY_DHM	%d gün %d saat ve %d dakika	hand
+14b0f1a8	WAIT_DELAY_HM	%d saat ve %d dakika	hand
+71388639	WAIT_DELAY_M	%d dakika	hand
+d0e91d33	WORLDBOSS_TRENT2_SPAWN	Ormanda uðursuz bir hýþýrtý yankýlanýyor... Hayalet Aðaç Lordu uykusundan uyanýyor!	hand
+d70fdaa5	WORLDBOSS_TRENT2_POSTKILL_DIALOG1	Kýrmýzý Orman, hiç bilmediðin birçok sýr saklýyor.	hand
+fe653977	WORLDBOSS_TRENT2_POSTKILL_DIALOG2	Ölüm son deðil, yeni bir yolun baþlangýcýdýr.	hand
+576f1f64	WORLDBOSS_TRENT2_POSTKILL_DIALOG3	Düzeltmem gereken bir þey kaldý... asla olmamasý gereken bir þey.	hand
+48dfbfa5	WORLDBOSS_TRENT2_POSTKILL_DIALOG4	Ben deðildim... ama seni seçtiler. Düþündüðünden daha erken tekrar karþýlaþacaðýz.	hand
+85b39622	GIANT_BOSS_START_BATTLE	Ben sana göstermek, bana bulaþmamak!	hand
+8587e8a4	You cannot fish here.	Burada balýk tutamazsýn.	gameforge
+31324940	You cannot sell items you have equipped.	Giydiðin eþyalarý satamazsýn.	hand
+4e559644	%s[%d]s Attack Position: %d %d	%s[%d] Saldýrý Konumu: %d %d	hand
+8cc15270	You cannot ride while falling.	Düþmüþ haldeyken binek kullanamazsýn.	hand
+7b851e6a	Charged for %d seconds	%d saniye süreyle yüklendi	hand
+b01fe1cf	+3 spirit stones can not be upgraded by this item.	+3 Zihin Taþlarý bu eþya ile yükseltilemez.	hand
+9ca56d76	You cannot open a warehouse in this area.	Bu bölgede depo açamazsýn.	hand
+e7a806fc	Not available.	Mevcut deðil.	hand
+34470b0a	The item will disappear in %d minutes.	Eþya %d dakika sonra kaybolacak.	hand
+9a680157	You cannot wear Tuxido on a horse.	Ata binerken Smokin giyemezsin.	hand
+36e15886	This item cannot be used on accesories.	Bu eþya aksesuarlarda kullanýlamaz.	hand
+c7245ce6	You cannot read books while transformed.	Dönüþmüþ durumdayken kitap okuyamazsýn.	hand
+dad0a8c4	No metin stone to take out.	Çýkartýlacak metin taþý yok.	hand
+177a8d3f	Your rank cannot raise any more.	Rütben daha fazla yükselemez.	hand
+452d4147	You can only drop gold once in every 10 seconds.	10 saniyede bir kez Yang düþürebilirsin.	hand
+68ceb671	You can only drop item once in every %d seconds.	%d saniyede bir kez eþya düþürebilirsin.	hand
+03ca4106	You cannot use it now.	Þu anda bunu kullanamazsýn.	hand
+efc2e25c	The spirit stone can not be advanced by this item.	Zihin Taþý bu eþya ile yükseltilemez.	hand
+f2d3763c	You cannot upgrade this item.	Bu eþyayý geliþtiremezsin.	hand
+2ca0d040	This item can only be used on weapons or armor up to level 40.	Bu eþya yalnýzca 40. seviyeye kadar silah ve zýrhlarda kullanýlabilir.	hand
+16454b16	Test server time limit passed	Test sunucusu süre sýnýrý doldu	hand
+9c649021	Your inventory is full.	Envanterin dolu.	gameforge
+739be77e	%s rolled dice and got %d. (%d-%d)	%s zar attý. Sonuç %d (%d-%d)	hand
+23189d62	You rolled dice and got %d. (%d-%d)	Zar attýn. Sonuç %d (%d-%d)	hand
+59797db5	Lack of Taxes. Current Capital : %u Needed Capital : %u	Vergi yetersiz. Mevcut sermaye: %u Gerekli sermaye: %u	hand
+bc9dcfb3	You can use this skill only in your land.	Bu beceriyi yalnýzca kendi krallýðýnda kullanabilirsin.	hand
+ceeee380	Failed to craft.	Üretim baþarýsýz oldu.	hand
+d776ffef	You managed to defeat the dragon in %d seconds!	Ejderhayý %d saniyede yenmeyi baþardýn!	hand
+41fb6c9c	<Guild> The Guild is at war.	<Lonca> Lonca savaþta.	hand
+bc6b5c6c	<Guild> %d Skills used (%d, %d) to %u	<Lonca> %d beceri (%d, %d) %u üzerine uygulandý.	hand
+9e5c4753	<Guild> %u Dragon ghost restored.	<Lonca> %u Ejderha Hayaleti Puaný yüklendi.	hand
+19d9e2b2	<Guild> The Guild has already reached maximum level.	<Lonca> Lonca zaten en yüksek seviyede.	hand
+9090f914	<Guild> During a guild war, you cannot kick out other guild members.	<Lonca> Lonca savaþý sýrasýnda diðer lonca üyelerini atamazsýn.	hand
+8da4f831	<Storage> Cannot move items in safebox.	<Depo> Depodaki eþyalarý taþýyamazsýn.	hand
+fd88288d	Time remaining %d seconds.	Kalan süre %d saniye.	hand
+2c9947c2	The recipient cannot receive friend invitation.	Bu oyuncu arkadaþlýk daveti alamýyor.	hand
+fe5c3b2d	%s is connected on %d channel. (current channel:%d)	%s þu anda %d. kanalda. (Senin kanalýn: %d)	hand
+6b74bbc2	%s is near you.	%s sana yakýn.	hand
+075601b5	Summon request has been sent.	Çaðrý isteði gönderildi.	hand
+787b3000	You cannot sell items you are already equipped.	Giydiðin eþyalarý satamazsýn.	hand
+618504ad	Items you are using cannot be sold in your personal shop.	Kullandýðýn eþyalar özel dükkanýnda satýlamaz.	hand
+715aedbb	The Dragon Soul Stone box is not activated.	Ejderha Taþý kutusu etkinleþtirilmedi.	hand
+37abff8d	The detector was activated, but no spirit stones were detected.	Dedektör etkinleþtirildi ancak hiç zihin taþý algýlanmadý.	hand
+447b7d44	Cannot charge.	Yüklenemiyor.	hand
+bd866f6d	You cannot summon to that area.	O bölgeye çaðýramazsýn.	hand
+83da1e00	<Guild> New membership is currently restricted.	<Lonca> Yeni üyelik þu anda kýsýtlý.	hand
+17e4c161	There may be forced battles on this map.	Bu haritada zorunlu savaþlar olabilir.	hand
+8bd99ec7	If you do not agree to these terms	Bu þartlarý kabul etmiyorsan	hand
+9b3320a3	Please return to your original state and original location.	Lütfen ilk haline ve ilk konumuna geri dön.	hand
+809c7e7c	<Party> The party cannot be disbanded because there are party members inside the dungeon.	<Grup> Zindanda grup üyeleri olduðu için grup daðýtýlamaz.	hand
+b7cb48f1	You cannot move to that area.	O bölgeye gidemezsin.	hand
+cc913734	The server will be closed in 10 minutes due to the maintenance.	Sunucu bakým nedeniyle 10 dakika içinde kapatýlacak.	hand
+5521eef2	FEATURE_UNAVAILABLE	Bu özellik þu anda kullanýlamýyor.	hand
+51d6087b	MYSHOP_NOT_THIS_CHANNEL	Bu kanalda dükkanýn yok. (%d. kanalda bulundu.)	hand
+d4e952c4	MYSHOP_NOT_THIS_MAP	Bu haritada dükkanýn yok.	hand
+8ee647eb	MYSHOP_NOT_FOUND	Açýk bir dükkanýn yok.	hand
+2617ccfc	MYSHOP_POSITION_SENT	Dükkanýnýn konumu bir okla iþaretlendi.	hand
+83b768d0	CANNOT_OPEN_NEW_SHOP	Zaten açýk bir dükkanýn var ya da dükkan deposunda eþya var.	hand
+6e98dfcc	YOU_DONT_MEET_SHOP_REQUIREMENTS	Kendi dükkanýný açmak için gerekli þartlarý karþýlamýyorsun.	hand
+64ed839d	You cannot use this item if you're using quests	Görev penceresi açýkken bu eþyayý kullanamazsýn.	hand
+0d74a6a0	WAIT_AFTER_EXCHANGE	Ticaretten sonra biraz bekle.	hand
+91af5f9b	CANNOT_CONTINUE_WHEN_BUSY	Baþka bir pencere açýkken devam edemezsin.	hand
+e2293f35	You cannot perform this operation right now.	Bu iþlemi þu anda yapamazsýn.	hand
+02d0c950	You need a minimum level of %d to buy this item.	Bu eþyayý satýn almak için en az %d. seviyede olmalýsýn.	hand
+ebc59d2e	You need certain items to buy this item.	Bu eþyayý satýn almak için bazý eþyalara ihtiyacýn var.	hand
+337fb859	Not enough inventory space.	Envanterde yeterli yer yok.	hand
+5d7a7df6	SPECIAL_SHOP_LIMIT_REPUTATION	Bu satýn alma için daha fazla itibar gerekli.	hand
+080f5182	SPECIAL_SHOP_TIME_DELAY	Satýn almadan önce %s daha bekle.	hand
+e5ddc16b	SPECIAL_SHOP_ACCOUNT_LIMIT	Bu hesap bu eþyayý alabileceði azami sayýda satýn aldý.	hand
+da249082	SPECIAL_SHOP_PRICE_NO_REPUTATION	Yeterli itibarýn yok.	hand
+1fefb621	USE_AFFECT_TARGET_NO_TARGET	Bir hedef seçmelisin.	hand
+5eafc9ec	USE_AFFECT_TARGET_PLAYER_CHARACTER	Bu, baþka bir oyuncu üzerinde kullanýlamaz.	hand
+db1c1f99	POISON_ONLY_GIANT_TURTLE	Zehir yalnýzca Dev Çöl Kaplumbaðasý üzerinde kullanýlabilir.	hand
+b4c7158a	REPUTATION_DESERT_REWARD	%d itibar kazandýn (Çöl Oðullarý)	hand
+6ababe48	REPUTATION_ORC_VALLEY_REWARD	%d itibar kazandýn (Kraliyet Muhafýzlarý)	hand
+5e5b0b33	WAIT_%d_BEFORE_USING_ITEM	Bu eþyayý kullanmadan önce %d saniye bekle.	hand
+ea351042	WHILE_FLAG_DELAY%d	Beyaz Bayraðý %d dakikada bir kullanabilirsin.	hand
+8947d60a	YOU_CANNOT_WARP_NOW	Þu anda ýþýnlanamazsýn.	hand
+e0cb9840	CANNOT_WHILE_DEAD	Karakterin ölü olduðu için bunu yapamazsýn.	hand
+3d45d5fa	[Guild] You cannot use guild skills outside the guild war arena.	[Lonca] Lonca becerilerini lonca savaþý arenasý dýþýnda kullanamazsýn.	hand
+1292f9e1	The war between %s and %s will start after %d minutes!	%s ile %s arasýndaki savaþ %d dakika sonra baþlayacak!	hand
+266b78e2	Your group consists of each class, which you will recieve an experience bonus.	Grubunda her sýnýftan biri bulunuyor; tecrübe bonusu alacaksýn.	hand
+2b1290b6	You need room for atleast 3 slot item to open the box.	Kutuyu açmak için envanterinde en az 3 yuvalýk boþ yer olmalý.	hand
+6d24b94e	DAILY_MAP_RESET_PREINFO	5 dakika sonra haritalardaki yaratýklar otomatik olarak yenilenecek!	hand
+bff60534	DAILY_MAP_RESET_INFO	Haritalardaki tüm yaratýklar öldürüldü!	hand
+dffb565c	SPECIAL_SHOP_OFFER_CHANGED	Dükkanýn sunduðu eþyalar deðiþti.	hand
+f79c8734	You cannot pickup this item if you're using quests	Görev penceresi açýkken eþya alamazsýn.	hand
+d480a7d2	You cannot pickup item while busy.	Meþgulken eþya alamazsýn.	hand
+bbaf7ef2	OFFLINE_SHOP_CANNOT_REOPEN	Bu dükkaný açamazsýn. Önce tüm eþyalarýný topla.	hand
+05b203d3	OFFLINE_SHOP_CANNOT_REOPEN_EMPTY	Boþ bir dükkan açamazsýn.	hand
+921e6641	OFFLINE_SHOP_MANAGE_MUST_BE_OPEN	Dükkan yönetim penceresi açýk olmalý.	hand
+4ad1e6bb	OFFLINE_SHOP_IS_CLOSED	Dükkan kapalý.	hand
+738e5bdc	SHOP_ITEM_ERROR	Dükkan açýlýrken bir eþya hatasý oluþtu.	hand
+42e1fc7e	SHOP_ITEM_WRONG_POS	Eþyalardan biri izin verilmeyen bir yerde.	hand
+56280516	SHOP_ITEM_WRONG_PRICE%s	Eþyalardan birinin fiyatýna izin verilmiyor (%s).	hand
+4d70bac0	SHOP_CREATE_NO_ITEM	Dükkan açmak için bir Paket gerekli.	hand
+031d421f	You can't advance this skill further. Use Skill Reset Scroll or Band of Oblivion.	Bu beceriyi daha fazla yükseltemezsin. Beceri Sýfýrlama Kaðýdý veya Unutkanlýk Kitabý kullan.	hand
+41e96e35	You have to wait few seconds before changing channel.	Kanal deðiþtirmeden önce birkaç saniye beklemelisin.	hand
+19e742bb	You cannot warp to this person.	Bu kiþiye ýþýnlanamazsýn.	hand
+f35253fd	AUTOPOTION_IS_EMPTY	Ýksir boþ. Simyacýya doldurt.	hand
+7fb0534f	DUEL_SUMMARY%d/%d(%d%%)	Düelloyu %d/%d (%%%d) HP ile kazandýn!	hand
+ca5329f4	MESSENGER_BLOCK_NO_PLAYER	Bu isimde bir oyuncu bulunamadý.	hand
+758b7e71	MESSENGER_BLOCK_YOURSELF	Kendini engelleyemezsin.	hand
+c8622a53	MESSENGER_BLOCK_IS_FRIEND	Bu kiþi arkadaþ listende.	hand
+04742b80	MESSENGER_ADD_IS_BLOCKED	Engellenmiþ birini arkadaþ olarak ekleyemezsin.	hand
+5c62b7d0	MESSENGER_BLOCK_MAX_LIMIT%d	%d kiþiden fazlasýný engelleyemezsin.	hand
+dcc5ac38	MESSENGER_FRIEND_MAX_LIMIT%d	%d arkadaþtan fazlasýna sahip olamazsýn.	hand
+a85056f1	MESSENGER_BLOCK_SUCCESS%s	%s adlý oyuncu engel listene eklendi.	hand
+f677be1a	MESSENGER_UNBLOCK_SUCCESS%s	%s adlý oyuncu engel listenden çýkarýldý.	hand
+00e5f393	The shop was recently edited by the owner. Please wait a while.	Dükkan kýsa süre önce sahibi tarafýndan düzenlendi. Lütfen biraz bekle.	hand
+f245c8f3	You have to wait %d minutes to use this option again.	Bu seçeneði tekrar kullanmak için %d dakika beklemelisin.	hand
+0a37cfe7	You have to wait a while after combat before using this option.	Bu seçeneði kullanmadan önce savaþtan sonra biraz beklemelisin.	hand
+1ffe307e	You have successfully freed yourself.	Kendini baþarýyla kurtardýn.	hand
+c192e569	You are not stuck.	Sýkýþmýþ deðilsin.	hand
+55e51c85	Searching was stopped. Found above %d shops with specified item.	Arama durduruldu. Belirtilen eþyayý satan %d dükkandan fazlasý bulundu.	hand
+478f82db	Searching ended. Found %d shops.	Arama bitti. %d dükkan bulundu.	hand
+f56e41fe	Wait %s before using the scroll again.	Kaðýdý tekrar kullanmadan önce %s bekle.	hand
+a5f54f35	You are already friends with %s.	%s ile zaten arkadaþsýnýz.	hand
+027bad39	<Party> The party leader is inside a dungeon.	<Grup> Grup lideri bir zindanda.	hand
+f4d42672	<Party> The party can't invite people if members are inside a dungeon.	<Grup> Üyeler zindandayken gruba yeni kiþi davet edilemez.	hand
+92b33bf9	You cannot change PvP mode on war.	Savaþ sýrasýnda PvP modunu deðiþtiremezsin.	hand
+7acebf62	Remaining time: %.2f	Kalan süre: %.2f	hand
+0d0e059b	Remaining time: %.1f	Kalan süre: %.1f	hand
+35720435	Wedding is still ongoing!	Düðün hâlâ devam ediyor!	hand
+defe9215	One of the wedding quests is not ready to leave the wedding.	Düðün misafirlerinden biri düðünden ayrýlmaya hazýr deðil.	hand
+6f7e4a91	Please wait a moment. Leaving the map.	Lütfen biraz bekle. Haritadan çýkýlýyor.	hand
+17e79654	Exit map was interrupted.	Haritadan çýkýþ yarýda kesildi.	hand
+96fbc811	%d seconds till map exit.	Haritadan çýkýþa %d saniye kaldý.	hand
+cf6d0d3c	You have to wait few seconds before exiting the map.	Haritadan çýkmadan önce birkaç saniye beklemelisin.	hand
+e6319170	You cannot do that on special channel.	Bunu özel kanalda yapamazsýn.	hand
+862f69e1	You must wear a wedding dress to equip a bouquet.	Buketi kuþanmak için gelinlik giymelisin.	hand
+424e202b	You must unequip bouquet first.	Önce buketi çýkarmalýsýn.	hand
+1cd4ae19	Summon your horse to get access to horse inventory.	At envanterine eriþmek için atýný çaðýr.	hand
+ad24c3a7	You cannot add items from horse inventory to normal shop.	At envanterindeki eþyalarý normal dükkana ekleyemezsin.	hand
+380e698e	Affects are not loaded yet!	Etkiler henüz yüklenmedi!	hand
+c91032fc	This feature is temporarily unavailable.	Bu özellik geçici olarak kullanýlamýyor.	hand
+beb07a78	The shop is not in edit mode.	Dükkan düzenleme modunda deðil.	hand
+48ea3814	The shop is in edit mode.	Dükkan düzenleme modunda.	hand
+ce0332ac	The shop is open.	Dükkan açýk.	hand
+fb3adee4	Item price edited successfully.	Eþya fiyatý baþarýyla düzenlendi.	hand

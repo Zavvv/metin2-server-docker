@@ -1,6 +1,7 @@
 """Bounds and immutable defaults for the shared native/panel price settings."""
 import threading
 import time
+import re
 
 LOCK = threading.RLock()
 MAX_ROWS = 8192
@@ -8,9 +9,16 @@ MAX_CHANGES = 256
 META = {'__world_started__', '__median_wealth_40__', '__reference_version__'}
 
 
+def custom_key(key):
+    return (isinstance(key, str) and re.fullmatch(r'custom:[1-9][0-9]{0,9}', key) is not None
+            and int(key[7:]) <= 0xffffffff)
+
+
 def valid(key, value):
     if isinstance(value, bool) or not isinstance(value, int):
         return False
+    if key.startswith('custom:'):
+        return custom_key(key) and 1 <= value <= 0xffffffff
     bounds = {
         'glob:patch18': (18, 18),
         'glob:moonlight_pct': (-99, 1000), 'glob:bonus_boost_pct': (0, 500),
@@ -44,7 +52,7 @@ def validate(changes, defaults, allow_meta=False):
     for key, value in changes.items():
         if not isinstance(key, str) or key.startswith('__') and not (allow_meta and key in META):
             raise ValueError('bad_key')
-        if key not in defaults and not (allow_meta and key in META):
+        if key not in defaults and not custom_key(key) and not (allow_meta and key in META):
             raise ValueError('bad_key')
         if not valid(key, value):
             raise ValueError('out_of_range')

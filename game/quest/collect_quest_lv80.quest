@@ -41,12 +41,14 @@ quest collect_quest_lv80  begin
 		when letter begin
 
 			send_letter(gameforge.collect_quest_lv60._220_sendLetter)
+			collect_data.send_delay()
 		end
 		when button or info begin
 			say_title(gameforge.collect_quest_lv80._80_sayTitle)
 			say(gameforge.collect_quest_lv80._90_say)
 			say_item_vnum(30166)
 			say_reward(string.format(gameforge.collect_quest_lv80._100_sayReward, pc.getqf("collect_count")))
+			collect_data.say_delay()
 		end
 
 
@@ -62,6 +64,7 @@ quest collect_quest_lv80  begin
 			if collect_data.is_wait() then
 				say_title(gameforge.collect_quest_lv60._50_sayTitle)
 				say(gameforge.collect_quest_lv70._170_say)
+				collect_data.say_delay()
 				return
 			end
 

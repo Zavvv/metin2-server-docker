@@ -17,6 +17,148 @@ every version here.
 
 ---
 
+## 2.2.110 — 2026-10-18
+
+Wygodniejsze zarządzanie botami, skalowanie interfejsu oraz kolejna porcja poprawek Waszych zgłoszeń. Klient 2.0.114 x64 zawiera nowe EXE.
+
+- F10: wdrożyliśmy rozbudowany panel Uxie z bocznymi zakładkami, podsumowaniem populacji i poziomów, wyszukiwaniem i filtrami botów. Są też przypinanie ulubionych, czytelniejsze logi, wyszukiwarka przedmiotów i potwierdzenie przemiany w wybranego bota.
+- Interfejs: w opcjach systemowych można zmienić skalę UI podczas gry. Przycisk „Domyślne” przywraca 100%, a ikony questów dostosowują pozycje do nowej skali. Rozdzielczość ustawiamy przed uruchomieniem gry — jej zmiana wymaga restartu klienta.
+- Auto Łowy: możesz wybrać priorytet celów — bossy, metiny, zwykłe potwory albo najbliższy cel. Dozwolone rodzaje przeciwników nadal wybierasz osobno, a ustawienie zapisuje się w profilu. Dodaliśmy też eksperymentalny skrót Auto Łowów do paska szybkiego dostępu.
+- Towarzysz: poprawiliśmy zapamiętywanie królestwa właściciela, również gdy Towarzysz gra sam i wraca po restarcie serwera.
+- Ekwipunek i GM: juki działają także na wierzchowcach innych niż koń. W F9 dostępny jest bonus czasu trwania umiejętności. Wpisanie zbyt dużej ilości EXP przy wpłacie gildyjnej poprawnie ogranicza ją do dostępnego doświadczenia.
+- Języki: poprawiliśmy otwieranie części rozmów NPC z tłumaczonymi nazwami oraz wyszukiwanie przedmiotów w Domu Towarowym ze znakami charakterystycznymi dla wybranego języka, w tym tureckiego.
+- Świat botów: dalsze poprawki handlu, obsługi straganów, przygotowania ekwipunku i korzystania z kamieni duszy. Panel otrzymał dodatkowe ustawienia populacji i sesji gry oraz opcję dostarczania Blasków do ekwipunku. Opcjonalna rotacja populacji pozostaje domyślnie wyłączona.
+- Edytor danych wyraźniej informuje o synchronizacji klienta po zmianie właściwości przedmiotów.
+
+Dziękujemy Uxie, Kiciamolowi, Lostkowi, Iwakurze, Tyrionowi i Saidowi oraz wszystkim zgłaszającym i testującym. Dajcie znać szczególnie, jak sprawują się F10, skala UI i priorytety Auto Łowów.
+
+Zamknij grę, zaktualizuj serwer i launcher do 2.2.110, uruchom launcher ponownie i zaktualizuj klienta oraz EXE do 2.0.114. Wydanie chronione; postacie i ustawienia pozostają zachowane. Problemy zgłaszaj z logami przez launcher.
+
+## 2.2.109 — 2026-10-18
+
+Wracamy z poprawkami Waszych zgłoszeń: wygodniejszy filtr Auto Łowów, ustawienia marmurów Towarzysza i kilka napraw questów. Klient 2.0.113 x64.
+
+- Auto Łowy: dodaliśmy osobne minimalne średnie obrażenia oraz obrażenia umiejętności dla zbieranej broni. Możesz zbierać broń z interesującym wynikiem bez traktowania średnich jako zwykłych bonusów. Nowe progi zapisują się razem z filtrami; szczegóły działania są w pomocy okna.
+- Towarzysz: w jego oknie wybierzesz sposób używania marmurów — pytanie po Twojej przemianie, podążanie za nią bez pytania, również samodzielne użycie własnego marmuru w walce albo całkowite wyłączenie.
+- Podgląd skrzyń: wrócił do bocznego panelu i pod mały znak „?” przy skrzyni. Znaczek pojawia się dopiero po krótkim zatrzymaniu kursora, żeby nie przeszkadzał w zwykłym klikaniu i przenoszeniu przedmiotów.
+- Biolog: boty przestrzegają ustawionego w świecie czasu oczekiwania między oddaniami. Przy kolejnych badaniach gracz widzi pozostały czas także w dzienniku i rozmowie z Biologiem.
+- Zielarstwo: ukończenie wprowadzenia przez narzędzia GM poprawnie odblokowuje dalsze rzemiosło. Naprawione jest również wejście postaci, która wcześniej została w ten sposób zablokowana.
+- Konie: poprawiliśmy otrzymywanie właściwej księgi przy zdobyciu konia wojskowego przez bota oraz podczas gry przejętą postacią.
+- Aktualizacja klienta: launcher rozpoznaje proces gry, który pozostał zawieszony po zamknięciu okna. Pozwala go zakończyć za zgodą gracza, aby dokończyć aktualizację bez restartu całego komputera.
+
+Dzięki za zgłoszenia i testy: kaethasger, blipu, sosen, Dekri i Piciu713!
+
+Zaktualizuj serwer i launcher do 2.2.109, uruchom ponownie launcher i zaktualizuj klienta do 2.0.113. Plik EXE gry pozostaje bez zmian. Postacie i ustawienia zostają zachowane; wydanie jest chronione. Jeśli coś nadal nie działa, wyślij opis i logi przez „Zgłoś błąd” w launcherze.
+
+## 2.2.108 — 2026-10-18
+
+Patch 20 od Iwakury: rozwój ekwipunku botów, gratulacje poziomu, nowe narzędzia panelu i edytor bota, oraz Ścieżka Zielarza od Saida. Klient 2.0.112 x64.
+
+- Boty i ekwipunek (Iwakura, Patch 20): nowe zasady ulepszania i rozwoju ekwipunku botów - dojrzałe boty nie inwestują już w najsłabszy sprzęt, nadmiar broni z 30 poziomu trafia do kowala, najbogatsze boty szykują przedmioty na kolejny próg, a przedmioty z własnego magazynu wykorzystują przed zakupem na rynku. Materiały do ulepszania na straganach botów są droższe, a Konar Zelkova w misji Biologa (70 lv) wypada także wtedy, gdy masz już jeden w ekwipunku, i zbiera się w stos.
+- Poziomy (Iwakura, Patch 20): gra ogłasza zdobycie 10, 20, ... 90 poziomu i każdego od 90, graczom tego samego królestwa, a boty z królestwa gratulują na czacie (także na „lvl 50 wbity” gracza); boty nie piszą już „ziom”.
+- Questy i Cele Dnia (Iwakura, Patch 20): w panelu przełącznik „Boty nie robią questów”; Cel Dnia bota losuje się tylko wtedy, gdy da się go wykonać.
+- Panel (Iwakura, Patch 20): z karty bota - wysłanie przedmiotu, blokada i odblokowanie EXP oraz „Edytuj bota” (postać, umiejętności, ekwipunek, magazyn, z cofnięciem zmian); „Zakończ” przy quście w toku, dla gracza i dla bota; poprawione rankingi, kafelki świata i historia ksiąg; ostrzeżenie na mapie, gdy serwer nie nadąża; strona „Statystyki Spec.”.
+- Towarzysz grający bez właściciela wchodzi do gry chwilę po starcie serwera, każdy o innej porze, zamiast wszystkie naraz.
+- Kowal: przytrzymany Enter ulepsza dalej, krok po kroku - opcja w ustawieniach systemowych klienta, domyślnie włączona (Iwakura, Patch 20).
+- Ścieżka Zielarza (Said / saido_0): rangi u Baek-Go, warsztat zielarza i zlecenie dnia, nowe krzaki i rzadkie zioła - dla graczy; boty jeszcze z niej nie korzystają.
+- Klient: w folderze pack plik root.json ze standardowymi kluczami dla PackMakerLite (mkls), a w folderze gry turecki skrót zmiany języka (Turkce-Yap.bat) i turecki poradnik COOP (Said).
+
+Zaktualizuj serwer i launcher do 2.2.108, uruchom ponownie launcher, następnie zaktualizuj klienta do 2.0.112 (plik gry bez zmian). Klient i serwer muszą być w tej samej wersji.
+Postacie i ustawienia zostają zachowane. Wydanie chronione. Błędy prosimy zgłaszać przez launcher („Zgłoś błąd”) z opisem.
+
+## 2.2.107 — 2026-10-18
+
+Turecka wersja gry, poprawki koni, logo gildii, pełnego ekranu i Auto Łowów oraz nowy plik gry. Klient 2.0.111 x64.
+
+- Turecka wersja gry (Said / saido_0): klient po turecku, launcher z trzecim językiem (Türkçe), teksty serwera po turecku (komunikaty gry, questy, rozmowy botów), panel klasyczny, panel Sebana i ItemShop. Język klienta wybrany w launcherze gra teraz naprawdę wczytuje.
+- Konie: szkolenie u Stajennego na poziomach konia 1-10 zalicza się po przejechaniu trasy, bez losowania i powtarzania jazdy (Neutro).
+- Logo gildii: wgrane logo nie jest już szumem ani nie jest odwrócone - wymaga nowego pliku gry, a logo trzeba wgrać ponownie (Dekri).
+- Pełny ekran: gra przełącza ekran z częstotliwością odświeżania monitora i nie przełącza go, gdy już jest w tym trybie - koniec czarnego ekranu przy starcie i przy Alt+Tab na monitorach 144/240 Hz; wymaga nowego pliku gry (.balthasargelt).
+- Auto Łowy: filtr podnoszenia, którego serwer nie potwierdził, jest wysyłany ponownie, zamiast wstrzymywać podnoszenie do końca sesji (Paterczyk).
+- Gwiazdki ulubionych przedmiotów nie znikają już z kolczyków z rudą ani przy szybkim zakładaniu kilku przedmiotów (Dekri).
+- Handlarka: przy zadaniu z poziomów 41-43 jedna opcja sklepu zamiast dwóch (Dekri).
+- Serwer na VPS: aktualizacja przerwana restartem VPS nie jest już zgłaszana jako „aktualna” - launcher ją dokańcza (blipu).
+- Launcher: bezpieczniejsza kolejność zapisu plików przy własnej aktualizacji; hasła w logach i zgłoszeniach są maskowane w każdym języku launchera.
+- Opisy dwóch ksiąg umiejętności, które były ze sobą zamienione, poprawione (Said).
+
+Zaktualizuj serwer i launcher do 2.2.107, uruchom ponownie launcher, następnie zaktualizuj klienta do 2.0.111 (z nowym plikiem gry). Klient i serwer muszą być w tej samej wersji.
+Postacie i ustawienia zostają zachowane. Wydanie chronione. Błędy prosimy zgłaszać przez launcher („Zgłoś błąd”) z opisem.
+
+## 2.2.106 — 2026-10-17
+
+Poprawki Towarzysza, „Przemiany”, Wieży Demonów i rozmów botów, żyły rudy bez kropek na mapach i nowy plik gry. Klient 2.0.110 x64.
+
+- Towarzysz: doświadczenie liczone jest teraz według konta premium właściciela - Towarzysz nie wyprzedza już w poziomach właściciela bez premium (ĹŌŞƬĒĶ).
+- „Przemiana” GM-a w bota (Kiciamol): po odliczaniu klient nie mówi już „zły login lub hasło” i logowanie do bota działa.
+- Teleporter i Pierścień Teleportacji: postać poniżej 60 poziomu w wiosce widzi informację, co jest na drugiej stronie (m.in. Ziemia Ognia) i od którego poziomu się otwiera.
+- Wieża Demonów: od 7. piętra (po kowalu) bieg należy do jednego królestwa - boty innych królestw opuszczają wieżę; boty z drużyny gracza i Towarzysz zostają (sosen).
+- Boty: zaczynają rozmowę szeptem tylko z graczami ze swojego królestwa (na szept gracza z innego królestwa nadal odpowiadają), a przy wołaniu na czacie ogólnym widać flagę królestwa mówiącego (ĹŌŞƬĒĶ).
+- Boty po wydarzeniu „Anarchia u kowala” nie krążą już w kółko między handlarzem zbroją a kowalem po tarczę, której nie mogą kupić.
+- Żyły rudy nie są już widoczne jako kropki ani na dużej mapie, ani na minimapie (Dekri) - minimapa wymaga nowego pliku gry z tego wydania.
+- Panel GM (F9), „Utwórz przedmiot”: bonusy nazwane jak w opisie przedmiotu, z jednostką (np. „Wartość Ataku +x”), a magiczny atak i obrona na przedmiocie nie pokazują już „UNKNOWN_TYPE”.
+- Strona projektu na GitHubie po turecku (said), a także po niemiecku, rumuńsku i portugalsku.
+
+Zaktualizuj serwer i launcher do 2.2.106, uruchom ponownie launcher, następnie zaktualizuj klienta do 2.0.110 (z nowym plikiem gry). Klient i serwer muszą być w tej samej wersji.
+Postacie i ustawienia zostają zachowane. Wydanie chronione. Błędy prosimy zgłaszać przez launcher („Zgłoś błąd”) z opisem.
+
+## 2.2.105 — 2026-10-17
+
+Narzędzia GM-a od Kiciamola, poprawki klienta, żyły rudy jak w grze, baza danych, która nie zapycha dysku logami, i licznik botów w launcherze. Klient 2.0.109 x64.
+
+- GM (Kiciamol): kończenie misji gracza razem z nagrodą - z panelu F9, z okna celu i z panelu w przeglądarce („Misje graczy”); „Przemiana” - GM może zagrać botem z populacji i jednym przyciskiem wrócić do swojej postaci.
+- Klient: paczka roota znów w standardowym formacie (ĹŌŞƬĒĶ, Kiciamol); juki konia otwierają się obok ekwipunku, a panel boczny ekwipunku nie zasłania już pasa, z panelu zniknęło wejście podglądu skrzyni (ĹŌŞƬĒĶ); gwiazdki ulubionych przedmiotów nie znikają po zmianie postaci (NerrVoVy); szósty bonus broni 70 lv jest w opisie tylko raz (hiob_91327).
+- Baza danych: stara historia logów sprząta się sama (30 dni), naprawa uszkodzonej tabeli logów nie zapętla się przy pełnym dysku, a dziennik kontenerów ma limit rozmiaru (ziolek).
+- Żyły rudy pojawiają się w losowych miejscach i odnawiają jak w grze, wyczerpują się po kilku-kilkunastu minutach, a nie znikają w środku kopania (Dekri, magicznytomasz).
+- Biolog: Mikstura Szybkiej Analizy działa także wtedy, gdy wypijesz ją po nieudanym oddaniu, a Aura Miecza nie blokuje już mikstur (blipu).
+- Launcher: okno LICZBA BOTÓW pokazuje sumę botów z podziałem na kanały i szacunek, ilu botów jest w grze, oraz ustawienia „Boty grają jak żywi ludzie” i „Realizm sesji” (_dumitrualexandru, mastersenpayi).
+
+Zaktualizuj serwer i launcher do 2.2.105, uruchom ponownie launcher, następnie zaktualizuj klienta do 2.0.109. Klient i serwer muszą być w tej samej wersji.
+Postacie i ustawienia zostają zachowane. Wydanie chronione. Błędy prosimy zgłaszać przez launcher („Zgłoś błąd”) z opisem.
+
+## 2.2.104 — 2026-10-17
+
+Poprawki po zgłoszeniach: stabilność serwera z dużą liczbą botów, Eliksir Poszukiwacza, materiały do zbroi 80 lv, Katakumby Diabła i boty gildii wzywane na pomoc. Tylko serwer, klient bez zmian (2.0.108).
+
+- Stabilność: kanał z dużą liczbą botów zużywa wyraźnie mniej pamięci i lepiej znosi jej brak (Deranfan).
+- Biolog: Eliksir Poszukiwacza znów zwiększa szansę przy oddawaniu przedmiotów (Deranfan).
+- Ulepszanie: Piasek Kwarcowy i Magiczne Nasiona do zbroi 80 lv znów wypadają - z potworów Lasu Duchów i Czerwonego Lasu (Deranfan).
+- Katakumby Diabła: skała-żółw mówi, ile drzwi na drugim piętrze jeszcze stoi (Deranfan).
+- Boty gildii: wszystkie boty wezwane „Pomocy!” walczą z napastnikami gracza, a bot, który został w tyle, broni się przed potworami (DimitriASM).
+- Launcher: zgłoszenie błędu z komputera, który gra tylko na VPS, podaje wersję serwera na VPS (DimitriASM).
+
+Zaktualizuj serwer i launcher do 2.2.104 i uruchom ponownie launcher. Klient zostaje w wersji 2.0.108.
+Postacie i ustawienia zostają zachowane. Wydanie chronione. Błędy prosimy zgłaszać przez launcher („Zgłoś błąd”) z opisem.
+
+## 2.2.103 — 2026-10-16
+
+Gra po niemiecku, francusku, portugalsku i rumuńsku, nowy plik gry klienta (gra przez Sunshine/Moonlight, poprawne litery w innych językach), boty z Kamieniami Duchowymi i bronią 75 lv, mapy botów od 70 poziomu, konie botów tylko za medale. Klient 2.0.108 x64.
+
+- Tłumaczenia (Tyrion): klient po niemiecku, francusku (nowy język w wyborze na ekranie logowania), portugalsku i rumuńsku; serwer odpowiada w języku klienta - komunikaty gry, nasze misje i czat botów (czego nie przetłumaczono, zostaje po angielsku).
+- Nowy plik gry klienta: można grać przez Sunshine/Moonlight i inne programy zdalnego sterowania (CosTeiiRa, Iwakura), a klient turecki, niemiecki, francuski, hiszpański, włoski i portugalski pokazuje i wpisuje swoje litery poprawnie.
+- Kamienie Duchowe u botów: boty czytają je w kolejności swoich umiejętności i dokupują na rynku Fasolki Zen i Owoce Życia, gdy brakuje im rangi (sosen, Tyrion).
+- Broń 75 lv u botów: boty nie ulepszają jej u zwykłego kowala, stawiają ją na pierwszym miejscu w planie ulepszania i szukają jej na rynku (sosen, Tyrion).
+- Boty od 70 poziomu nie polują tam, gdzie nie dostają doświadczenia: częściej Loch Pająków V2, Doyyumhwaji i Czerwony Las, łowcy Metinów także w Czerwonym Lesie, a większe grupy botów chętniej wybierają V2 i Czerwony Las (sosen, Tyrion, Iwakura).
+- Konie botów: kolejne poziomy tylko za medale u Stajennego, a każda próba zaczyna się od oddania medalu; żaden bot nie dostaje konia za darmo (Drip).
+- Żyły rudy nie znikają już w trakcie kopania (magicznytomasz).
+
+Zaktualizuj serwer i launcher do 2.2.103, uruchom ponownie launcher, następnie zaktualizuj klienta do 2.0.108 (64-bit) - launcher pobierze też nowy plik gry. Klient i serwer muszą być w tej samej wersji.
+Postacie i ustawienia zostają zachowane. Wydanie chronione. Błędy prosimy zgłaszać przez launcher („Zgłoś błąd”) z opisem.
+
+## 2.2.102 — 2026-10-16
+
+Dom Towarowy także w drugiej wiosce, zwoje z Kantoru i lepsze ulepszanie botów, ogłoszenia Heksagonalnych Szkatułek, Wiki z dropem specjalnym. Klient 2.0.107 x64.
+
+- Dom Towarowy działa także u Handlarki Różności w drugiej wiosce (M2): można tam przeglądać oferty i kupować bez wracania do pierwszej wioski (Dekri).
+- Ulepszanie botów (decyzje Tyriona, Iwakura): Kantor wymienia nadmiar rzadko potrzebnych albo zalegających na rynku materiałów na Zwoje Błogosławieństwa, bot kupuje zapasowy przedmiot do ulepszania po zwykłej cenie rynkowej, brakujący materiał zdobywa sam zamiast długo czekać, w wizycie w mieście zagląda na stoiska po materiały, a ulepszanie na sprzedaż wstrzymuje dopiero przy dużych brakach we własnym ekwipunku. Panel pokazuje nowe powody: „Czeka na zapas”, „Kupuję zapas z rynku”, „Poluję na materiał”.
+- Heksagonalne Szkatułki: event ogłasza się na czacie (start, przypomnienie co 15 minut, koniec), a planer eventów w panelu Sebana zna ten event i nie gubi go przy zapisie (_dumitrualexandru).
+- Wiki: drop specjalny potworów i przedmioty z grup dropu z szansami - np. Klejnot Demona; pełniejsze listy dropu u ok. 120 potworów więcej (RapLow).
+- Panel Sebana po angielsku: przetłumaczone powiadomienia i stopka menu (RapLow).
+- Rola droppera M2 tylko dla botów - postać gracza nie dostanie jej ani konia bojowego (Drip).
+- Launcher rozpoznaje uszkodzony obraz Dockera po nieudanej budowie i mówi, jak go naprawić (DaTemox).
+
+Zaktualizuj serwer i launcher do 2.2.102, uruchom ponownie launcher, następnie zaktualizuj klienta do 2.0.107 (64-bit). Klient i serwer muszą być w tej samej wersji.
+Postacie i ustawienia zostają zachowane. Wydanie chronione. Błędy prosimy zgłaszać przez launcher („Zgłoś błąd”) z opisem.
+
 ## 2.2.101 — 2026-10-16
 
 Auto Łowy nie stają pod strzałami, loch małp, Towarzysz, okno kowala i Magazyn kolekcjonera. Klient 2.0.106 x64 z nowym plikiem gry.
@@ -27,7 +169,7 @@ Auto Łowy nie stają pod strzałami, loch małp, Towarzysz, okno kowala i Magaz
 - Mniej botów stoi bezczynnie przy kowalach (djariczek, javierwxw, antycheat2).
 - Ulepszanie: zwój dla noszonej rzeczy bez zapasu tylko dla przedmiotów od 21 poziomu (Iwakura).
 - Towarzysz: filtr zbierania słucha nowego filtra Auto Łowów właściciela, a podpowiedź wyjaśnia pole „Ekwipunek: min.” (DaTemox); karta Towarzysza w panelu mówi, dlaczego nie można mu wybrać osobowości (magicznytomasz).
-- Okno kowala: Enter zatwierdza ulepszenie i pytanie, nowe pole „Ulepszaj dalej”; Magazyn kolekcjonera: przycisk „Dołóż pasujące” (RapLow).
+- Okno kowala: Enter zatwierdza ulepszenie i pytanie (Dekri), nowe pole „Ulepszaj dalej”; Magazyn kolekcjonera: przycisk „Dołóż pasujące” (RapLow).
 - Launcher: zgłoszenie błędu podaje plik gry, którego używa klient (michauke).
 
 Zaktualizuj serwer i launcher do 2.2.101, uruchom ponownie launcher, następnie zaktualizuj klienta do 2.0.106 (64-bit) - launcher podmieni też plik gry metin2client.exe. Klient i serwer muszą być w tej samej wersji.

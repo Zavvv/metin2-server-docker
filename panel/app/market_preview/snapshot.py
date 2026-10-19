@@ -797,7 +797,7 @@ class Store(object):
 
         def day_price(vnum, proto=None, socket0=0, plus=-1):
             if proto is None:                       # an upgrade material: the supply's day price
-                base = sheet.MATERIALS.get(vnum, 0)
+                base = getattr(sheet, 'CUSTOM_PRICES', {}).get(vnum, sheet.MATERIALS.get(vnum, 0))
                 return base * yang_pct / 100.0 * index_milli / 1000.0 * modifiers.get(vnum, 1000) / 1000.0
             base = rules.sheet_price(proto.type, vnum, socket0, plus)
             return base * yang_pct / 100.0 * index_milli / 1000.0

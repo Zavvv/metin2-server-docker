@@ -6306,35 +6306,40 @@ quest pony_levelup begin
 			if horse.get_level()>=11 then
 				say(gameforge.pony_levelup._800_say)
 			elseif (horse.get_level()>=1 and horse.get_level()<=10) then
-				local chance = 50 + pc.getqf("fail_count") * 25
-				if number(1, 100) > chance then
-					say(gameforge.pony_levelup._810_say)
-					pc.setqf("next_time", 0)
-					pc.setqf("fail_count", pc.getqf("fail_count") + 1)
-				else
-					say(gameforge.pony_levelup._820_say)
-					if pc.count_item(50050)>=1 then
-						setstate(start)
-						pc.setqf("fail_count", 0)
-						char_log(0, "PONY_ADVANCE", "BEGIN")
-						pc.removeitem("50050", 1)
-						char_log(0, "PONY_ADVANCE", "DEC 50050 1")
-						horse.unride()
-						horse.advance()
-						horse.ride()
-						char_log(0, "PONY_ADVANCE", "INC horse_advance 1")
-						char_log(0, "PONY_ADVANCE", "END")
-						say(string.format(gameforge.pony_levelup._830_say, (horse.get_level())))
-						if horse.get_level()==10 then
-							say(gameforge.pony_levelup._840_say)
-							pc.setqf("next_time", 0)
-						else
-							say(gameforge.pony_levelup._850_say)
-						end
-						return
+				-- metin2-suite: a ride that was finished is a ride that was
+				-- passed, as horse_levelup's riding-attack training has been
+				-- since Hiob's report of 29 September. The package drew lots
+				-- here, after the last point: 50 + fail_count * 25 percent,
+				-- so the first try failed one time in two, the second one in
+				-- four, and only the third was certain, and a lost draw said
+				-- "Niestety, nie udalo sie" (_810_say) and sent the player to ride the
+				-- whole training again ("from riding level 1-10 I don't unmount
+				-- the horse and the quest fails anyway", Neutro, 17 October).
+				-- The riding test is the points reached on horseback and the
+				-- unmount and scroll handlers of the training states, as the
+				-- package has them; the bots' own stable never drew either.
+				say(gameforge.pony_levelup._820_say)
+				if pc.count_item(50050)>=1 then
+					setstate(start)
+					pc.setqf("fail_count", 0)
+					char_log(0, "PONY_ADVANCE", "BEGIN")
+					pc.removeitem("50050", 1)
+					char_log(0, "PONY_ADVANCE", "DEC 50050 1")
+					horse.unride()
+					horse.advance()
+					horse.ride()
+					char_log(0, "PONY_ADVANCE", "INC horse_advance 1")
+					char_log(0, "PONY_ADVANCE", "END")
+					say(string.format(gameforge.pony_levelup._830_say, (horse.get_level())))
+					if horse.get_level()==10 then
+						say(gameforge.pony_levelup._840_say)
+						pc.setqf("next_time", 0)
 					else
-						say(gameforge.pony_levelup._860_say)
+						say(gameforge.pony_levelup._850_say)
 					end
+					return
+				else
+					say(gameforge.pony_levelup._860_say)
 				end
 			end
 			setstate(start)

@@ -319,7 +319,7 @@ HUNTING_MOB_NAMES_BY_LANG = {
   5126: "Starker Goldaffe",
  },
  "tr": {
-  171: "Aç Vahşi Köpek",
+  171: "Aç Yabani Köpek",
   172: "Aç Kurt",
   173: "Aç Alfa Kurt",
   174: "Aç Mavi Kurt",
@@ -327,59 +327,59 @@ HUNTING_MOB_NAMES_BY_LANG = {
   176: "Aç Gri Kurt",
   177: "Aç Alfa Gri Kurt",
   178: "Aç Yaban Domuzu",
-  179: "Aç Kızıl Yaban Domuzu",
+  179: "Aç Kırmızı Yaban Domuzu",
   180: "Aç Ayı",
   181: "Aç Boz Ayı",
-  182: "Aç Kara Ayı",
+  182: "Aç Siyah Ayı",
   183: "Aç Kahverengi Ayı",
   184: "Aç Kaplan",
   185: "Aç Beyaz Kaplan",
-  352: "Korkak Beyaz Yemin Okçusu",
-  354: "Korkak Beyaz Yemin Komutanı",
-  402: "Kara Rüzgâr Delisi",
-  451: "Kötü Kara Fırtına Askeri",
-  454: "Kötü Kara Fırtına Joh-Hwan",
-  456: "Kötü Kara Fırtına Pho-Hwan",
-  551: "Güçlü Vahşi Piyade",
-  552: "Güçlü Vahşi Uşak",
-  554: "Güçlü Vahşi General",
+  352: "Korkak B.Yeminli Okçu",
+  354: "Korkak B.Yeminli Komutan",
+  402: "Siyah Rüzgar Delisi",
+  451: "Kötü Siy. Fırtına Askeri",
+  454: "KötüSiy.Fırtına Joh-Hwan",
+  456: "KötüSiy.Fırtına Pha-Hwan",
+  551: "Güçlü Yabani Asker",
+  552: "Güçlü Yabani Deli",
+  554: "Güçlü Yabani General",
   601: "Ork",
-  651: "Büyük Kel Ork",
-  652: "Büyük Kel Ork İzcisi",
-  653: "Büyük Kel Ork Savaşçısı",
-  751: "Yüce Fanatik",
-  752: "Yüce Arahan",
-  754: "Yüce Seçkin Arahan",
-  756: "Yüce İşkenceci",
-  757: "Yüce Çağırıcı",
-  771: "Yırtıcı Fanatik",
-  772: "Yırtıcı Arahan",
-  773: "Yırtıcı Arahan Savaşçısı",
-  774: "Yırtıcı Arahan Şefi",
-  775: "Yırtıcı Cellat",
-  776: "Yırtıcı İşkenceci",
-  777: "Yırtıcı Çağırıcı",
-  931: "Öfkeli Ceset Hayaleti",
-  932: "Öfkeli Vebalı Köpek",
-  933: "Öfkeli Vebalı Adam",
-  934: "Öfkeli Vebalı Savaşçı",
+  651: "Cesur Büyük Ork",
+  652: "Cesur Büyük Ork Gözcüsü",
+  653: "Cesur Büyük OrkSavaşçısı",
+  751: "Büyük Fanatik",
+  752: "Büyük Arahan",
+  754: "Büyük Elit Arahan",
+  756: "Büyük İşkenceci",
+  757: "Büyük Haberci",
+  771: "Vahşi Fanatik",
+  772: "Vahşi Arahan",
+  773: "Vahşi Arahan Savaşçısı",
+  774: "Vahşi Arahan Reisi",
+  775: "Vahşi Cellat",
+  776: "Vahşi İşkenceci",
+  777: "Vahşi Haberci",
+  931: "Kızgın Zombi",
+  932: "Kızgın Hastalıklı Köpek",
+  933: "Kızgın Hastalıklı Adam",
+  934: "Kızg.Hast.KılıçSavaşçısı",
   1001: "Şeytan Askeri",
   1301: "Ağaç Kurbağası Askeri",
-  2003: "Kızıl Zehirli Örümcek",
-  2004: "Pençeli Örümcek",
+  2003: "Kırmızı Zehirli Örümcek",
+  2004: "Pençe Örümceği",
   2005: "Asker Örümcek",
   2031: "Yavru Zehirli Örümcek",
   2032: "Ölümcül Zehirli Örümcek",
-  2033: "Öfkeli Kızıl Zehirli Örümcek",
-  2034: "Pençeli Zehirli Örümcek",
-  2051: "Hain Yavru Zehirli Örümcek",
-  2052: "Hain Ölümcül Zehirli Örümcek",
-  2102: "Uçan Çöl Gözü",
+  2033: "Kırm. Ölüm. Zeh. Örümcek",
+  2034: "Zehirli Pençe Örümceği",
+  2051: "Huysuz Z. Yavru Örümcek",
+  2052: "Huysuz Ölümcül Örümcek",
+  2102: "Çölün Uçan Gözü",
   2103: "Kral Akrep",
-  2106: "Yılan Kılıç Ustası",
-  2158: "Güçlü Çöl Haydudu",
-  5123: "Güçlü Maymun Savaşçısı",
-  5124: "Güçlü Maymun Generali",
+  2106: "Yılan Kılıççı",
+  2158: "Güçlü Çöl Haydutu",
+  5123: "Güçlü Maymun Savaşçı",
+  5124: "Güçlü Maymun General",
   5125: "Güçlü Taş Maymun",
   5126: "Güçlü Altın Maymun",
  },
@@ -567,7 +567,7 @@ BOT_PERSONALITY_LABELS = {
         7: "Metin-Farmer", 8: "M3-Waffen-Farmer", 9: "M2-Farmer (Krieger)", 10: "Medaillen-Farmer"},
     "tr": {0: "Azimli maceracı", 1: "Metin kırıcı", 2: "Grup arkadaşı", 3: "Ekipman ustası",
         4: "Temkinli toplayıcı", 5: "Tüccar", 6: "Gezgin", 7: "Metin farmcısı",
-        8: "M3 silah farmcısı", 9: "M2 farmcısı (Savaşçı)", 10: "Madalya farmcısı"},
+        8: "M3 silah farmcısı", 9: "M2 farmcısı (Savaşçı)", 10: "Madalyon farmcısı"},
 }
 # The status file's columns before Iwakura's personalities (2.0.85): a core of
 # that age writes these fourteen and no header row the parser can read by.
@@ -617,13 +617,13 @@ BOT_PERSONA_LABELS = {
         5: "Metin avcısı", 6: "Madenci", 7: "Balıkçı", 8: "Paralı Asker", 9: "Yoldaş",
         10: "Metinolog", 11: "Bağımlı", 12: "Çılgın Bilim Adamı", 13: "Cellat",
         14: "Çılgın Oltacı", 15: "Acemi Kumarbaz", 16: "Kıdemli Kumarbaz", 17: "Baş Kumarbaz",
-        18: "Çılgın Kumarbaz", 19: "Bitkici", 22: "Günün Hedefi"},
+        18: "Çılgın Kumarbaz", 19: "Bitkici", 22: "Günün Hedefi", 20: "Bonus Ustası", 21: "Fırsat Avcısı"},
 }
 BOT_MOOD_LABELS = {
     "pl": {0: "Słaby", 1: "Normalny", 2: "Bardzo dobry"},
     "en": {0: "Poor", 1: "Normal", 2: "Very good"},
     "de": {0: "Schwach", 1: "Normal", 2: "Sehr gut"},
-    "tr": {0: "Zayıf", 1: "Normal", 2: "Çok iyi"},
+    "tr": {0: "Kötü", 1: "Normal", 2: "Çok iyi"},
 }
 BOT_MOOD_LOCK_LABELS = {
     # Since Patch 11 (20B, 20C) a met Daily Goal is two hours of protection
@@ -660,9 +660,9 @@ BOT_DAILY_GOAL_LABELS = {
         10: "Besseren Gegenstand kaufen", 11: "Verkaufen", 12: "Fertigkeitsbücher lesen",
         13: "Die Gruppe buffen", 14: "Quests abschließen", 15: "Eine Quest abschließen"},
     "tr": {1: "Seviye atla", 2: "2 seviye atla", 3: "Grupta EXP", 4: "Yang kazan",
-        5: "Yükseltme malzemesi düşür", 6: "Metin kır", 7: "Bossu öldür", 8: "Madalya topla",
+        5: "Yükseltme malzemesi düşür", 6: "Metin kır", 7: "Bossu öldür", 8: "Madalyon topla",
         9: "+1 yükselt", 10: "Daha iyi eşya satın al", 11: "Sat", 12: "Beceri kitabı oku",
-        13: "Grubu buffla", 14: "Görevleri tamamla", 15: "Bir görevi tamamla"},
+        13: "Gruba buff at", 14: "Görevleri tamamla", 15: "Bir görevi tamamla"},
 }
 BOT_DAILY_GOAL_DIFFICULTY = {
     "pl": {0: "łatwy", 1: "normalny", 2: "trudny"},
@@ -695,21 +695,21 @@ BOT_GOAL_LABELS = {
         0: "Zdobywanie poziomu", 1: "Przetrwanie", 2: "Wybór profesji",
         3: "Zdobycie ekwipunku", 4: "Uzupełnienie zapasów", 5: "Ulepszanie EQ",
         6: "Rozwój umiejętności", 7: "Polowanie na Metiny", 8: "Silne cele w PT",
-        9: "Misja Biologa", 10: "Misja Polowania", 11: "Rozwój konia",
+        9: "Misja Biologa", 10: "Misja Polowania", 11: "Rozwój konia", 12: "Wędkarstwo", 13: "Badania ziół",
     },
     "en": {
         0: "Gain levels", 1: "Survive", 2: "Choose profession",
         3: "Get equipment", 4: "Restock", 5: "Refine equipment",
         6: "Improve skills", 7: "Hunt Metins", 8: "Party challenges",
-        9: "Biologist mission", 10: "Hunting mission", 11: "Develop horse",
+        9: "Biologist mission", 10: "Hunting mission", 11: "Develop horse", 12: "Fishing", 13: "Herb research",
     },
     "de": {0: "Leveln", 1: "Überleben", 2: "Spezialisierung wählen", 3: "Ausrüstung beschaffen",
         4: "Vorräte auffüllen", 5: "EQ verbessern", 6: "Fertigkeiten ausbauen", 7: "Metins jagen",
         8: "Starke Gegner in der Gruppe", 9: "Biologen-Mission", 10: "Jagdmission",
-        11: "Pferd ausbilden"},
+        11: "Pferd ausbilden", 12: "Angeln", 13: "Kräuterforschung"},
     "tr": {0: "Seviye atlama", 1: "Hayatta kalma", 2: "Uzmanlık seçimi", 3: "Ekipman edinme",
-        4: "Stok yenileme", 5: "EQ yükseltme", 6: "Beceri geliştirme", 7: "Metin avı",
-        8: "Grupla güçlü hedefler", 9: "Biyolog görevi", 10: "Av görevi", 11: "At geliştirme"},
+        4: "Stok yenileme", 5: "Ekipman yükseltme", 6: "Beceri geliştirme", 7: "Metin avı",
+        8: "Zorlu grup hedefleri", 9: "Biyolog görevi", 10: "Av görevi", 11: "At geliştirme", 12: "Balıkçılık", 13: "Bitki araştırması"},
 }
 # What goal 0 (levels) means for a bot whose experience is blocked now
 # (Metalurji, 13 October: "728 want leveling" on a world where most bots were
@@ -721,7 +721,7 @@ BOT_GOAL_EXP_HELD_LABEL = {
     "pl": "Farmienie (blokada EXP)",
     "en": "Farming (EXP held)",
     "de": "Farmen (EXP gesperrt)",
-    "tr": "Kasılıyor (EXP kilitli)",
+    "tr": "Kasma (EXP kilitli)",
 }
 # The action id a keeper reports while its stall stands. Must match
 # BOT_ACTION_STALL in playerbot_types.h - the id travels in the status file, so
@@ -757,9 +757,9 @@ BOT_ACTION_LABELS = {
         18: "Baut Erz ab", 19: "Erledigt eine Quest"},
     "tr": {0: "Sonraki hamlesini planlıyor", 1: "Yolculuk ediyor", 2: "Savaşıyor",
         3: "Ganimet topluyor", 4: "Toparlanıyor", 5: "Uzmanlık seçiyor", 6: "Ticaret yapıyor",
-        7: "EQ yükseltiyor", 8: "Beceri Kitabı okuyor", 9: "Ruh Taşı takıyor", 10: "Grup kuruyor",
+        7: "Ekipmanı yükseltiyor", 8: "Beceri kitabı okuyor", 9: "Zihin Taşı takıyor", 10: "Grup kuruyor",
         11: "Biyolog görevini yapıyor", 12: "Seyis'i ziyaret ediyor", 13: "Tezgâh işletiyor",
-        14: "Balık tutuyor", 15: "Tezgâhlara göz atıyor", 16: "Canavar topluyor",
+        14: "Balık tutuyor", 15: "Tezgâhlara göz atıyor", 16: "Canavar çekiyor",
         17: "Şehirde dinleniyor", 18: "Cevher kazıyor", 19: "Görev yapıyor"},
 }
 
@@ -933,7 +933,8 @@ def playerbot_quest_label(pid, language):
         detail = row["state"]
         if row["need"] > 1:
             detail += ", %d/%d" % (row["have"], row["need"])
-        return "%s (%s; %s)" % (row["title"], detail, PLAYERBOT_QUEST_DOING_LABELS[language][row["doing"]])
+        title = turkish_quest_title(row["title"]) if language == "tr" else row["title"]   # tr: Turkish patch
+        return "%s (%s; %s)" % (title, detail, PLAYERBOT_QUEST_DOING_LABELS[language][row["doing"]])
     none = PLAYERBOT_QUEST_NONE_LABELS[language]
     if row["habit"] == "po_drodze" and row["held"]:
         return "%s (%s: %d)" % (none, PLAYERBOT_QUEST_ON_THE_WAY_LABELS[language], row["held"])
@@ -946,6 +947,8 @@ def localize_playerbot_status(entry, language):
     if language == "pl":
         return entry.get("status") or BOT_ACTION_LABELS["pl"].get(
             entry.get("action_id"), BOT_ACTION_LABELS["pl"][0])
+    if language == "tr" and entry.get("status"):
+        return turkish_playerbot_status(entry.get("status"))     # Turkish patch
     text = entry.get("status") or ""
     replacements = (
         ("Nieprzytomny - czekam na wstanie", "Unconscious - waiting to revive"),
@@ -962,6 +965,117 @@ def localize_playerbot_status(entry, language):
         text = text.replace(source, target)
     return text or BOT_ACTION_LABELS["en"].get(
         entry.get("action_id"), BOT_ACTION_LABELS["en"][0])
+
+
+# Turkish patch (quality pass): the bot's status line as the game core writes it (Polish without
+# letter marks: "Walcze z Głodny Wilk (cel: poziom)") for a Turkish reader - the core's fixed
+# phrases in Turkish and the monster or item name in it by the world's Turkish names. A line
+# none of the phrases matches stays as the core wrote it; a quest title stays the core's.
+_TR_STATUS_PHRASES = (
+    ("Nieprzytomny - czekam na wstanie", "Baygın - kalkmayı bekliyor"),
+    ("Odpoczywam po smierci", "Ölümden sonra dinleniyor"),
+    ("Uciekam - mam malo HP", "Kaçıyor - HP az"),
+    ("Regeneruje HP", "HP yeniliyor"), ("Podnosze lup", "Ganimet topluyor"),
+    ("Szukam przeciwnika", "Hedef arıyor"), ("Szukam miejsca do expa", "Kasacak yer arıyor"),
+    ("Szukam lepszego miejsca", "Daha iyi bir yer arıyor"), ("Szukam celu dla grupy", "Grup için hedef arıyor"),
+    ("Ulepszam ekwipunek", "Ekipmanı yükseltiyor"),
+    ("Ide do kowala ulepszyc ekwipunek", "Ekipmanı yükseltmek için Demirci'ye gidiyor"),
+    ("Ide do kowala", "Demirci'ye gidiyor"), ("Ide do handlarza bronia", "Silah Satıcısı'na gidiyor"),
+    ("Ide do handlarza zbroja", "Zırh Satıcısı'na gidiyor"), ("Ide do handlarki roznosci", "Satıcı'ya gidiyor"),
+    ("Ide do magazynu z ksiegami", "Kitaplarla depoya gidiyor"), ("Ide do miasta", "Şehre gidiyor"),
+    ("Oddaje ksiegi do magazynu", "Kitapları depoya bırakıyor"), ("Handluje bronia", "Silah ticareti yapıyor"),
+    ("Handluje zbroja", "Zırh ticareti yapıyor"), ("Kupuje potki i sprzedaje lup", "İksir alıyor, ganimet satıyor"),
+    ("Wracam na exp", "Kasmaya dönüyor"), (" - ide do NPC", " - NPC'ye gidiyor"), (" - potki ", " - iksir "),
+    ("ide do NPC", "NPC'ye gidiyor"),
+)
+_TR_STATUS_GOALS = (("(cel: poziom)", "(hedef: seviye)"), ("(cel: Metiny)", "(hedef: Metinler)"),
+                    ("(cel: ulepszanie)", "(hedef: yükseltme)"), ("(cel: Biolog)", "(hedef: Biyolog)"),
+                    ("(cel: silne moby PT)", "(hedef: güçlü canavarlar, PT)"), ("(cel: ", "(hedef: "))
+# phrases that end in a name: (Polish prefix, Turkish prefix, kind of the name)
+_TR_STATUS_NAMED = (("Walcze z ", "Savaşıyor: ", "m"), ("Gonie ", "Peşinde: ", "m"),
+                    ("Bronie sie przed ", "Kendini savunuyor: ", "m"), ("Rozbijam ", "Kırıyor: ", "m"),
+                    ("Pomagam druzynie: ", "Gruba yardım ediyor: ", "m"),
+                    ("Zbieram dla Biologa: ", "Biyolog için topluyor: ", "i"),
+                    ("Oddaje Biologowi: ", "Biyolog'a teslim ediyor: ", "i"),
+                    ("Ide do Biologa z: ", "Biyolog'a götürüyor: ", "i"), ("Quest: ", "Görev: ", ""))
+_TR_STATUS_NAMES = {"at": 0.0, "m": {}, "i": {}}
+
+# Gameforge's Turkish quest titles by the Polish one (folded as _tr_status_key, edge dots off),
+# rendered by tr-build/tools/panels_7788_quest_titles.py.
+try:
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "static", "i18n", "quest_titles_tr.json"), encoding="utf-8") as _qt_file:
+        QUEST_TITLES_TR = json.load(_qt_file) or {}
+except Exception:  # noqa: BLE001 - no file: the core's own titles
+    QUEST_TITLES_TR = {}
+
+
+def turkish_quest_title(title):
+    """The official Turkish of a quest title the core wrote in Polish, else the title."""
+    key = _tr_status_key(title).strip().strip(".").strip()
+    return QUEST_TITLES_TR.get(key) or title
+
+
+def _tr_status_key(text):
+    folded = _english_names.fold_name(text) if _english_names else str(text or "").lower()
+    return folded.replace("ł", "l").replace("Ł", "l")
+
+
+def _tr_status_names():
+    """{folded Polish name: Turkish name} of the world's monsters and items, read once an hour."""
+    cache = _TR_STATUS_NAMES
+    if cache["m"] and time.time() - cache["at"] < 3600:
+        return cache
+    mobs = {}
+    try:
+        with db() as c, c.cursor() as cur:
+            cur.execute("SELECT vnum, CAST(locale_name AS BINARY) AS name FROM player.mob_proto")
+            for row in cur.fetchall():
+                polish = log_text(row.get("name")).strip()
+                name = turkish_game_name("m", int(row["vnum"]), row.get("name")) if polish else None
+                if polish and name:
+                    mobs.setdefault(_tr_status_key(polish), name)
+    except Exception:  # noqa: BLE001 - no names: the core's own
+        pass
+    items = {}
+    try:
+        item_proto_ready()
+    except Exception:  # noqa: BLE001
+        pass
+    for vnum, polish in list(ITEM_NAMES_PL.items()):
+        name = ITEM_NAMES_TR.get(vnum)
+        if polish and name:
+            items.setdefault(_tr_status_key(polish), name)
+    cache.update(at=time.time(), m=mobs, i=items)
+    return cache
+
+
+def turkish_playerbot_status(text):
+    text = str(text or "")
+    party = text.startswith("[PT] ")
+    body = text[5:] if party else text
+    goal = ""
+    m = re.search(r"\s*\(cel: [^()]*\)$", body)
+    if m:
+        goal, body = body[m.start():], body[:m.start()]
+        for pl, tr in _TR_STATUS_GOALS:
+            goal = goal.replace(pl, tr)
+    named = False
+    for pl, tr, kind in _TR_STATUS_NAMED:
+        if body.startswith(pl):
+            rest = body[len(pl):]
+            if kind:
+                rest = _tr_status_names()[kind].get(_tr_status_key(rest), rest)
+            else:   # a quest: Gameforge's Turkish title where there is one, then the phrase after it
+                head, sep, tail = rest.partition(" - ")
+                rest = turkish_quest_title(head) + sep + tail
+                for a, b in _TR_STATUS_PHRASES:
+                    rest = rest.replace(a, b)
+            body, named = tr + rest, True
+            break
+    if not named:
+        for pl, tr in _TR_STATUS_PHRASES:
+            body = body.replace(pl, tr)
+    return ("[PT] " if party else "") + body + goal
 
 
 def playerbot_mood_label(entry, language):
@@ -1169,11 +1283,11 @@ SKILL_NAMES_BY_LANG = {
   1: "Üç Yönlü Kesme",
   2: "Kılıç Çevirme",
   3: "Öfke",
-  4: "Kılıç Aurası",
+  4: "Hava Kılıcı",
   5: "Hamle",
   16: "Ruh Vuruşu",
   17: "Şiddetli Vuruş",
-  18: "Tepme",
+  18: "Güçlü Vuruş",
   19: "Güçlü Beden",
   20: "Kılıç Darbesi",
   31: "Suikast",
@@ -1193,11 +1307,11 @@ SKILL_NAMES_BY_LANG = {
   65: "Büyülü Zırh",
   66: "Büyü Çözme",
   76: "Karanlık Vuruş",
-  77: "Ateş Vuruşu",
+  77: "Alev Vuruşu",
   78: "Ateş Hayaleti",
   79: "Karanlık Koruma",
   80: "Hayalet Vuruşu",
-  81: "Karanlık Küre",
+  81: "Karanlık Taş",
   91: "Uçan Tılsım",
   92: "Ejderha Atışı",
   93: "Ejderha Kükremesi",
@@ -1207,9 +1321,9 @@ SKILL_NAMES_BY_LANG = {
   106: "Şimşek Atma",
   107: "Şimşek Çağırma",
   108: "Şimşek Pençesi",
-  109: "Tedavi",
-  110: "Hızlanma",
-  111: "Saldırı Artışı",
+  109: "Şifa",
+  110: "Çabukluk",
+  111: "Saldırı +",
  },
 }
 SKILL_GROUP_NAMES_BY_LANG = {
@@ -1675,13 +1789,117 @@ def english_game_name(kind, vnum, polish, codec="cp1250"):
 
 def english_game_candidates(kind, text):
     """{vnum: hash} of the English names holding `text`; the caller holds each
-    against the world's own name (english_game_hash_ok) before it counts."""
+    against the world's own name (english_game_hash_ok) before it counts.
+    For a Turkish reader (Turkish patch) the Turkish names count as well:
+    their lines carry the same hashes as the English ones."""
     if not ENGINE_MT2009 or ENGLISH_NAMES is None:
         return {}
     try:
-        return ENGLISH_NAMES.matching(kind, text)
+        found = ENGLISH_NAMES.matching(kind, text)
+        if TURKISH_NAMES is not None and has_request_context() and lang() == "tr":
+            found.update(TURKISH_NAMES.matching(kind, text))
+        return found
     except Exception:  # noqa: BLE001
         return {}
+
+
+# ---- Turkish patch: the world's names in Turkish, and the Turkish of the pages
+# that a non-Polish reader used to read in English --------------------------
+# static/i18n/playerbot_names_tr.tsv is the English table's rows (same vnums,
+# same hashes of the world's Polish names) with Gameforge's official Turkish
+# where the vnum names the same thing, else hand translations - rendered by
+# tr-build/tools/build_panels_names_tr.py. Under static/ because the launcher
+# stages files/static/** into the build context whole. A reader whose panel
+# language is "tr" sees these names wherever an English reader sees the
+# official English ones; a name missing here stays English.
+TURKISH_NAMES_PATH = _env_path("M2PANEL_TURKISH_NAMES",
+                               os.path.join(_HERE, "static", "i18n", "playerbot_names_tr.tsv"))
+try:
+    TURKISH_NAMES = _english_names.EnglishNames(TURKISH_NAMES_PATH, utf8=True) if _english_names else None
+except Exception:  # noqa: BLE001 - an older english_names.py: no Turkish names, English instead
+    TURKISH_NAMES = None
+
+
+def turkish_game_name(kind, vnum, polish, codec="cp1250"):
+    """The Turkish name of an item ("i") or a monster ("m") the world calls
+    `polish`, or None (no file, no line, or a line matched to another name)."""
+    if not ENGINE_MT2009 or TURKISH_NAMES is None:
+        return None
+    try:
+        return TURKISH_NAMES.name(kind, vnum, polish, codec)
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def reader_game_name(kind, vnum, polish, codec="cp1250"):
+    """english_game_name for the request's reader: the Turkish name for a
+    Turkish reader where there is one, else the official English one."""
+    if has_request_context() and lang() == "tr":
+        name = turkish_game_name(kind, vnum, polish, codec)
+        if name:
+            return name
+    return english_game_name(kind, vnum, polish, codec)
+
+
+# static/i18n/panel_tr.json: English -> Turkish for the texts this panel and its
+# modules (m2_theme, editsql, market_preview, quest_admin_web, drop_tables) keep
+# in Polish and English only; rendered by tr-build/tools/panels_tr_apply.py.
+# The tables with a "tr" of their own (T, MAP_I18N, the label tables) do not
+# need it.
+PANEL_TR_PATH = _env_path("M2PANEL_PANEL_TR", os.path.join(_HERE, "static", "i18n", "panel_tr.json"))
+try:
+    with open(PANEL_TR_PATH, encoding="utf-8") as _panel_tr_file:
+        PANEL_TR = json.load(_panel_tr_file) or {}
+except Exception:  # noqa: BLE001 - no file: the English, as before
+    PANEL_TR = {}
+
+# Turkish patch (quality pass): English texts tr-build/tools/panels_tr_extract.py does not
+# reach - two quest-page lines whose English holds an escaped apostrophe, and the maps the
+# hexagonal-chest catalogue lists as "skipped" (events page). A panel_tr.json entry wins.
+PANEL_TR_EXTRA = {
+    "Pick a character to see its saved quests, their stages, flags and the GM actions. A bot of the population and a player's companion are view only.":
+        "Kayıtlı görevlerini, aşamalarını, bayraklarını ve GM işlemlerini görmek için bir karakter seç. Popülasyondaki botlar ve oyuncuların yoldaşları yalnızca görüntülenebilir.",
+    "This is the server database's copy. While the character plays it can lag behind. Before any reward the server checks the stage the game holds.":
+        "Bu, sunucu veritabanındaki kayıttır. Karakter oynarken gerçek durumun gerisinde kalabilir. Sunucu her ödülden önce oyunun bildiği aşamayı denetler.",
+    "Shinsoo Monkey Dungeon (easy)": "Shinsoo Maymun Zindanı (kolay)",
+    "Chunjo Monkey Dungeon (easy)": "Chunjo Maymun Zindanı (kolay)",
+    "Jinno Monkey Dungeon (easy)": "Jinno Maymun Zindanı (kolay)",
+    "Monkey Dungeon (easy)": "Maymun Zindanı (kolay)",
+    "Shinsoo guild village": "Shinsoo lonca köyü",
+    "Chunjo guild village": "Chunjo lonca köyü",
+    "Jinno guild village": "Jinno lonca köyü",
+    "Snake Field": "Yılan Vadisi",
+    "Land of Giants": "Devler Diyarı",
+    "Labyrinth": "Labirent",
+    "Wedding map": "Düğün Köyü",
+    "Ice Dungeon": "Buz Zindanı",
+    "Spider Dungeon 1": "Örümcek Zindanı 1",
+    "Guild war map (t3)": "Lonca savaşı haritası (t3)",
+    "Guild war map (t4)": "Lonca savaşı haritası (t4)",
+    "Duel arena": "Düello arenası",
+    "OX arena": "OX yarışması",
+    "Empire war 1": "İmparatorluk Savaşı 1",
+    "Empire war 2": "İmparatorluk Savaşı 2",
+    "Empire war 3": "İmparatorluk Savaşı 3",
+    "GM guild building map": "GM lonca binası haritası",
+    "Devil's Catacomb": "Şeytan Katakombu",
+    "Studio": "Stüdyo",
+}
+for _k, _v in PANEL_TR_EXTRA.items():
+    PANEL_TR.setdefault(_k, _v)
+
+
+def panel_tr(en):
+    """The Turkish of an English text of the panel's, or the English."""
+    return PANEL_TR.get(en, en) if isinstance(en, str) else en
+
+
+def tr_text(pl, en, language=None):
+    """A (Polish, English) pair in the reader's language, Turkish included."""
+    language = language or (lang() if has_request_context() else "en")
+    if language == "pl":
+        return pl
+    return panel_tr(en) if language == "tr" else en
 
 
 def english_game_hash_ok(digest, polish, codec="cp1250"):
@@ -1988,6 +2206,8 @@ def read_ai_weights():
     # Patch 15, point 9: the bots' quests, on, and the share that focuses on them.
     vals["QUESTS"] = 1
     vals["QUEST_FOCUS"] = QUEST_FOCUS_DEFAULT
+    # Patch 20, point 3A: "Boty nie robia questow" (BOT_QUESTS_OFF), off.
+    vals["BOT_QUESTS_OFF"] = 0
     # Patch 11, point 21: the bots' PvP set - on since Patch 15, point 17 - and
     # its keys.
     vals["PVP_SET"] = 1
@@ -2096,6 +2316,9 @@ def read_ai_weights():
                     continue
                 if name == "QUESTS":
                     vals["QUESTS"] = 0 if parts[1].strip() in ("0", "off", "no") else 1
+                    continue
+                if name == "BOT_QUESTS_OFF":
+                    vals["BOT_QUESTS_OFF"] = 1 if parts[1].strip() in ("1", "on", "yes") else 0
                     continue
                 if name == "QUEST_FOCUS":
                     try:
@@ -2294,6 +2517,8 @@ def write_ai_weights(vals):
     # focuses on them, and a quest taken from the bots by hand.
     body.append("QUESTS\t%d" % (1 if vals.get("QUESTS", 1) else 0))
     body.append("QUEST_FOCUS\t%d" % max(0, min(100, int(vals.get("QUEST_FOCUS", QUEST_FOCUS_DEFAULT)))))
+    # Patch 20, point 3A: the story and the side quests taken from the bots.
+    body.append("BOT_QUESTS_OFF\t%d" % (1 if vals.get("BOT_QUESTS_OFF", 0) else 0))
     for key in sorted(k for k in vals if k.startswith("QUEST_OFF_") and vals[k]):
         body.append("%s\t1" % key)
     body.append("LIVE_CHAT\t%d" % max(0, min(200, int(vals.get("LIVE_CHAT", 100)))))
@@ -2454,8 +2679,8 @@ def event_hhmm(text):
 EVENT_MAP_NAMES = {
     "de": {64: "Orktal", 63: "Yongbi-Wüste", 61: "Berg Sohan", 65: "Hwang-Tempel",
            67: "Geisterwald", 68: "Roter Wald"},
-    "tr": {64: "Ork Vadisi", 63: "Yongbi Çölü", 61: "Sohan Dağı", 65: "Hwang Tapınağı",
-           67: "Hayalet Ormanı", 68: "Kızıl Orman"},
+    "tr": {64: "Seungryong Vadisi", 63: "Yongbi Çölü", 61: "Sohan Dağı", 65: "Hwang Tapınağı",
+           67: "Hayalet Ormanı", 68: "Kırmızı Orman"},
 }
 
 
@@ -3512,11 +3737,36 @@ def changelog_split(md, version):
         (cur if cur is not None else head).append(line)
     return "".join(newer), "".join(head) + "".join(older)
 
+# Turkish patch (quality pass): the docs' Turkish changelog (Serwer/CHANGELOG_TR.md, 2.2.0 and
+# later), copied under static/ by tr-build/tools/panels_7788_quality_apply.py because the launcher
+# stages files/static/** whole; a Turkish reader gets it in place of CHANGELOG.md.
+CHANGELOG_TR_FILE = _env_path("M2PANEL_CHANGELOG_TR", os.path.join(_HERE, "static", "i18n", "CHANGELOG_TR.md"))
+
+
+def _changelog_with_turkish(text):
+    """The Turkish changelog for a Turkish reader, kept current: Said's
+    translation stops at the version he translated, so the versions the
+    package's own changelog has above that one go in front of it as they are
+    written. A Turkish file whose newest version the package's changelog does
+    not name is no help, and the package's own stands."""
+    turkish = _read_text_file(CHANGELOG_TR_FILE, CHANGELOG_MAX)
+    m = re.search(r"^## (\S+)", turkish, re.M)
+    if not m:
+        return text
+    own = re.search(r"^## " + re.escape(m.group(1)) + r"(?=\s)", text, re.M)
+    first = re.search(r"^## ", text, re.M)
+    if not own or not first:
+        return text
+    return turkish[:m.start()] + text[first.start():own.start()] + turkish[m.start():]
+
+
 def local_changelog():
     """The changelog for the build that is running, or "" when it is not here."""
     for path in (CHANGELOG_FILE, os.path.join(_HERE, os.pardir, "CHANGELOG.md")):
         text = _read_text_file(path, CHANGELOG_MAX)
         if text.strip():
+            if has_request_context() and lang() == "tr":
+                return _changelog_with_turkish(text)
             return text
     return ""
 
@@ -4027,6 +4277,9 @@ ITEM_BASE = {}
 # vnum -> the official English name, for the vnums whose world name is the
 # one the names file matched (english_game_name). Filled with the rest.
 ITEM_NAMES_EN = {}
+# vnum -> the Turkish name (Turkish patch), for the vnums whose world name the
+# Turkish table's line was matched to (turkish_game_name).
+ITEM_NAMES_TR = {}
 _PROTO = {"loaded": 0.0, "tried": 0.0}
 _PROTO_LOCK = threading.Lock()
 
@@ -4061,6 +4314,7 @@ def _load_item_proto():
             return
         items = []
         english = {}
+        turkish = {}
         for r in rows:
             vnum = int(r["vnum"] or 0)
             pl = log_text(r.get("locale_name")).strip()
@@ -4095,10 +4349,18 @@ def _load_item_proto():
             if official:
                 entry["e"] = official
                 english[vnum] = official
+            # Turkish patch: the Turkish name, shown to and searched by a
+            # Turkish reader only ("t"); "k" stays what it was for the others.
+            name_tr = turkish_game_name("i", vnum, r.get("locale_name"))
+            if name_tr:
+                entry["t"] = name_tr
+                turkish[vnum] = name_tr
             items.append(entry)
         ITEMS = items
         ITEM_NAMES_EN.clear()
         ITEM_NAMES_EN.update(english)
+        ITEM_NAMES_TR.clear()
+        ITEM_NAMES_TR.update(turkish)
         _PROTO["loaded"] = now
 
 # items.json sorts by a category word; the proto only has the type number.
@@ -4124,6 +4386,8 @@ def localized_item_name(vnum, language=None):
     language = language or (lang() if has_request_context() else "en")
     if language == "pl" and int(vnum or 0) in ITEM_NAMES_PL:
         return ITEM_NAMES_PL[int(vnum or 0)]
+    if ENGINE_MT2009 and language == "tr" and ITEM_NAMES_TR.get(int(vnum or 0)):
+        return ITEM_NAMES_TR[int(vnum or 0)]     # Turkish patch
     if ENGINE_MT2009 and reads_english(language) and ITEM_NAMES_EN.get(int(vnum or 0)):
         return ITEM_NAMES_EN[int(vnum or 0)]     # Gameforge's English, the core's own
     name = ITEM_NAMES.get(vnum, "")
@@ -4142,7 +4406,7 @@ T = {
  "od_off": {"pl": "Wy\u0142\u0105czona", "en": "Disabled", "de": "Aus", "tr": "Kapal\u0131"},
  "od_save": {"pl": "Zapisz obron\u0119", "en": "Save defence", "de": "Abwehr speichern", "tr": "Savunmay\u0131 kaydet"},
  "od_saved_live": {"pl": "Obrona zapisana i zmieniona w grze.", "en": "Defence saved and applied live.", "de": "Abwehr gespeichert und im Spiel ge\u00e4ndert.", "tr": "Savunma kaydedildi ve oyunda de\u011fi\u015ftirildi."},
- "od_saved_restart": {"pl": "Zapisano. Pomocnik w grze nie odpowiedzia\u0142; zapisz ponownie podczas gry lub ustawienie zadzia\u0142a przy nast\u0119pnym starcie.", "en": "Saved. The in-game helper did not answer; save again while playing or the setting will apply at the next start.", "de": "Gespeichert. Der Helfer im Spiel hat nicht geantwortet; speichere w\u00e4hrend des Spiels erneut, sonst gilt die Einstellung beim n\u00e4chsten Start.", "tr": "Kaydedildi. Oyundaki yard\u0131mc\u0131 yan\u0131t vermedi; oyun s\u0131ras\u0131nda yeniden kaydedin, aksi halde ayar bir sonraki ba\u015flang\u0131\u00e7ta ge\u00e7erli olur."},
+ "od_saved_restart": {"pl": "Zapisano. Pomocnik w grze nie odpowiedzia\u0142; zapisz ponownie podczas gry lub ustawienie zadzia\u0142a przy nast\u0119pnym starcie.", "en": "Saved. The in-game helper did not answer; save again while playing or the setting will apply at the next start.", "de": "Gespeichert. Der Helfer im Spiel hat nicht geantwortet; speichere w\u00e4hrend des Spiels erneut, sonst gilt die Einstellung beim n\u00e4chsten Start.", "tr": "Kaydedildi. Oyundaki yardımcı yanıt vermedi; oyundayken tekrar kaydet, yoksa ayar bir sonraki başlatmada geçerli olur."},
  "acc_back":     {"pl":"← Wstecz","en":"← Back","de":"← Zurück","tr":"← Geri"},
  "acc_title":    {"pl":"Moje konto","en":"My account","de":"Mein Konto","tr":"Hesabım"},
  "acc_login_hint": {"pl":"Zaloguj się nazwą użytkownika i hasłem z gry.","en":"Log in with your game username and password.","de":"Melde dich mit deinem Spiel-Benutzernamen und Passwort an.","tr":"Oyun kullanıcı adın ve şifrenle giriş yap."},
@@ -4169,7 +4433,7 @@ T = {
                   "de":"Zum Spielen brauchst du ein Spiel-Konto — dasselbe im Browser wie im Download. Erstellen dauert einen Moment.",
                   "tr":"Oynamak için bir oyun hesabı gerekir — tarayıcıda ve indirmede aynısı. Oluşturmak bir dakika sürer."},
  "ways_t":       {"pl":"JAK ZAGRAĆ","en":"HOW TO PLAY","de":"SO KOMMST DU INS SPIEL","tr":"OYUNA NASIL GİRERSİN"},
- "dl_now_t":     {"pl":"POBIERZ TERAZ","en":"DOWNLOAD IT NOW","de":"JETZT HERUNTERLADEN","tr":"ŞiMDİ İNDİR"},
+ "dl_now_t":     {"pl":"POBIERZ TERAZ","en":"DOWNLOAD IT NOW","de":"JETZT HERUNTERLADEN","tr":"ŞİMDİ İNDİR"},
  "dl_hint":      {"pl":"Pobierz, rozpakuj gdziekolwiek chcesz i uruchom Metin2Distribute.exe — bez instalacji, wszystko jest już skonfigurowane. Gra jest w pełni przenośna: skopiuj folder na pendrive i graj z dowolnego komputera.","en":"Download it, extract it anywhere you prefer and just run Metin2Distribute.exe — no installation, everything comes pre-configured. The game is fully portable: copy the folder onto a flash drive and play from any machine you like.",
                   "de":"Herunterladen, an einen beliebigen Ort entpacken und einfach Metin2Distribute.exe starten — keine Installation, alles ist vorkonfiguriert. Das Spiel ist komplett portabel: Kopiere den Ordner auf einen USB-Stick und spiele von jedem Rechner, den du magst.",
                   "tr":"İndir, istediğin yere çıkart ve sadece Metin2Distribute.exe'yi çalıştır — kurulum yok, her şey hazır gelir. Oyun tamamen taşınabilir: klasörü bir USB belleğe kopyala, istediğin bilgisayardan oyna."},
@@ -4189,7 +4453,7 @@ T = {
                   "de":"Mit diesem Fingerabdruck kannst du prüfen, ob der Download heil angekommen ist — vergleiche ihn mit dem, was dein Prüfsummen-Tool sagt.",
                   "tr":"Bu parmak iziyle indirmenin sağlam geldiğini doğrulayabilirsin — sağlama aracının söylediğiyle karşılaştır."},
  # --- the client that runs in a browser ---
- "play_title":   {"pl":"ZAGRAJ TERAZ W PRZEGLĄDARCE","en":"PLAY IN YOUR BROWSER NOW","de":"JETZT IM BROWSER SPIELEN","tr":"ŞiMDİ TARAYICINDA OYNA"},
+ "play_title":   {"pl":"ZAGRAJ TERAZ W PRZEGLĄDARCE","en":"PLAY IN YOUR BROWSER NOW","de":"JETZT IM BROWSER SPIELEN","tr":"ŞİMDİ TARAYICINDA OYNA"},
  "play_hint":    {"pl":"Bez pobierania i bez instalacji — gra otworzy się w karcie przeglądarki!","en":"No download and no installation, the game will open as a Browser Tab!",
                   "de":"Kein Download, keine Installation — das Spiel öffnet sich als Browser-Tab!",
                   "tr":"İndirme yok, kurulum yok — oyun bir tarayıcı sekmesinde açılır!"},
@@ -4207,7 +4471,7 @@ T = {
  "reg_social_hint":{"pl":"💡 O kod usuwania gra pyta przy kasowaniu postaci. Wybierz 7 cyfr, które zapamiętasz (np. 1234567).","en":"💡 The delete code is asked by the game when you delete a character. Pick 7 digits you'll remember (e.g. 1234567).",
                   "de":"💡 Den Löschcode fragt das Spiel ab, wenn du einen Charakter löschst. Wähle 7 Ziffern, die du dir merkst (z. B. 1234567).",
                   "tr":"💡 Silme kodunu oyun, karakter silerken sorar. Hatırlayacağın 7 rakam seç (örn. 1234567)."},
- "reg_free":     {"pl":"✓ Nazwa jest wolna","en":"✓ Name is free","de":"✓ Name ist frei","tr":"✓ İsim boş"},
+ "reg_free":     {"pl":"✓ Nazwa jest wolna","en":"✓ Name is free","de":"✓ Name ist frei","tr":"✓ Ad müsait"},
  "reg_taken":    {"pl":"✗ Już zajęta","en":"✗ Already taken","de":"✗ Schon vergeben","tr":"✗ Zaten alınmış"},
  "reg_pw_match": {"pl":"✓ Hasła są zgodne","en":"✓ Passwords match","de":"✓ Passwörter stimmen überein","tr":"✓ Şifreler uyuşuyor"},
  "reg_pw_diff":  {"pl":"✗ Hasła się różnią","en":"✗ Passwords differ","de":"✗ Passwörter unterscheiden sich","tr":"✗ Şifreler farklı"},
@@ -4244,13 +4508,15 @@ T = {
  "last_seen":    {"pl":"Ostatnio widziany","en":"Last seen","de":"Zuletzt online","tr":"Son görülme"},
  "no_chars":     {"pl":"Nie ma jeszcze postaci. Pojawią się tu po pierwszym zalogowaniu.","en":"No characters yet. They appear here after the first login.","de":"Noch keine Charaktere. Sie erscheinen nach dem ersten Login.","tr":"Henüz karakter yok. İlk girişten sonra görünecek."},
  "back_players": {"pl":"← Wróć do graczy","en":"← Back to players","de":"← Zurück zu den Spielern","tr":"← Oyunculara dön"},
+ # The GM's quest skip's page (Kiciamol, 16 October; quest_admin_web.py).
+ "quest_admin_link": {"pl":"Misje gracza","en":"The player's quests","de":"Quests des Spielers","tr":"Oyuncunun görevleri"},
  "give_item":    {"pl":"🎁 Daj przedmiot","en":"🎁 Give an item","de":"🎁 Gegenstand geben","tr":"🎁 Eşya ver"},
  "search_item":  {"pl":"Wpisz, aby wyszukać przedmiot (np. miecz, mikstura)…","en":"Type to search item (e.g. sword, potion)…","de":"Zum Suchen tippen (z.B. Schwert, Trank)…","tr":"Aramak için yaz (örn. kılıç, iksir)…"},
  "category":     {"pl":"Kategoria","en":"Category","de":"Kategorie","tr":"Kategori"},
  "qty":          {"pl":"Ile sztuk?","en":"How many?","de":"Wie viele?","tr":"Kaç adet?"},
- "send_item":    {"pl":"🎁 Wyślij przedmiot","en":"🎁 Send item","de":"🎁 Senden","tr":"🎁 Gönder"},
+ "send_item":    {"pl":"🎁 Wyślij przedmiot","en":"🎁 Send item","de":"🎁 Senden","tr":"🎁 Eşyayı gönder"},
  "give_gold":    {"pl":"💰 Daj yang","en":"💰 Give yang","de":"💰 Yang geben","tr":"💰 Yang ver"},
- "amount":       {"pl":"Kwota (ujemna zabiera yang)","en":"Amount (negative takes yang away)","de":"Menge (negativ = abziehen)","tr":"Miktar (eksi = al)"},
+ "amount":       {"pl":"Kwota (ujemna zabiera yang)","en":"Amount (negative takes yang away)","de":"Menge (negativ = abziehen)","tr":"Miktar (eksi sayı yang'ı geri alır)"},
  "send_gold":    {"pl":"💰 Wyślij yang","en":"💰 Send yang","de":"💰 Yang senden","tr":"💰 Yang gönder"},
  "set_level":    {"pl":"⭐ Ustaw poziom","en":"⭐ Set level","de":"⭐ Level setzen","tr":"⭐ Seviye ayarla"},
  "new_level":    {"pl":"Nowy poziom (1-{max})","en":"New level (1-{max})","de":"Neues Level (1-{max})","tr":"Yeni seviye (1-{max})"},
@@ -4263,6 +4529,7 @@ T = {
  "speed":        {"pl":"🏃 Szybkość biegu","en":"🏃 Running speed","de":"🏃 Laufgeschwindigkeit","tr":"🏃 Koşma hızı"},
  "apply":        {"pl":"🏃 Zastosuj","en":"🏃 Apply","de":"🏃 Anwenden","tr":"🏃 Uygula"},
  "srch_more":    {"pl":"⌄ Pokaż więcej","en":"⌄ Show more","de":"⌄ Mehr anzeigen","tr":"⌄ Daha fazla göster"},
+ "srch_none":    {"pl":"Nic nie znaleziono.","en":"Nothing found.","de":"Nichts gefunden.","tr":"Hiçbir şey bulunamadı."},
  "srch_down":    {"pl":"Nie udało się wczytać listy przedmiotów. Odśwież stronę; jeśli to się powtarza, przeglądarka może blokować zapytanie.","en":"The item list could not be loaded. Reload the page; if it keeps happening, your browser may be blocking the request.",
                   "de":"Die Item-Liste konnte nicht geladen werden. Lade die Seite neu; wenn es weiter passiert, blockiert dein Browser die Anfrage womöglich.",
                   "tr":"Eşya listesi yüklenemedi. Sayfayı yenile; devam ederse tarayıcın isteği engelliyor olabilir."},
@@ -4270,7 +4537,7 @@ T = {
  "sect_setup":   {"pl":"Ustawienia serwera","en":"Server setup","de":"Servereinrichtung","tr":"Sunucu kurulumu"},
  "sect_setup_hint":{"pl":"Jak ten serwer jest ustawiony, a nie co się na nim dzieje. Rzadko będą potrzebne, a oba dotyczą wszystkich.","en":"How this server is set up, rather than what happens on it. You will not need these often, and both of them affect everyone.",
                   "de":"Wie dieser Server eingerichtet ist — nicht, was auf ihm passiert. Beides brauchst du selten, und beides betrifft alle.",
-                  "tr":"Bu sunucunun nasıl kurulduğu — üzerinde ne olduğu değil. İkisine de nadiren ihtiyacın olur ve ikisi de herkesi etkiler."},
+                  "tr":"Bu sunucunun nasıl ayarlandığı — üzerinde neler olup bittiği değil. Bunlara nadiren ihtiyacın olur ve ikisi de herkesi etkiler."},
  "lang_title":   {"pl":"🌍 Język gry","en":"🌍 Game language","de":"🌍 Spielsprache","tr":"🌍 Oyun dili"},
  "lang_now":     {"pl":"Gra jest w języku: {lang}.","en":"The game is in {lang}.","de":"Das Spiel läuft auf {lang}.","tr":"Oyun {lang} dilinde."},
  "lang_intro":   {"pl":"To język, którym mówi serwer: teksty zadań, komunikaty systemowe, nazwy przedmiotów i potworów. To nie język tej strony — ten przełącza się w prawym górnym rogu. Zmiana restartuje grę na mniej niż minutę, więc grający zostają na chwilę rozłączeni.","en":"This is the language the server speaks: quest text, system messages, and the names of items and monsters. It is not the language of this page — that is the switcher at the top right. Changing it restarts the game for well under a minute, so anyone playing is briefly disconnected.",
@@ -4313,11 +4580,11 @@ T = {
  "lang_client":  {"pl":"Na tej wersji serwera nie ma jednego języka gry: każdy gracz ma język swojego klienta. Wybiera się go na ekranie logowania klienta (launcher pyta o niego przy uruchomieniu gry). Serwer odpowiada każdemu w języku jego klienta — po polsku albo po angielsku.",
                   "en":"This version of the server has no single game language: every player has the language of their own client. It is chosen on the client's login screen (the launcher asks about it when it starts the game). The server answers each player in their client's language — Polish or English.",
                   "de":"Diese Serverversion hat keine gemeinsame Spielsprache: Jeder Spieler hat die Sprache seines eigenen Clients. Sie wird im Anmeldebildschirm des Clients gewählt (der Launcher fragt beim Spielstart danach). Der Server antwortet jedem in der Sprache seines Clients — Polnisch oder Englisch.",
-                  "tr":"Sunucunun bu sürümünde tek bir oyun dili yoktur: her oyuncu kendi istemcisinin dilini kullanır. Dil, istemcinin giriş ekranında seçilir (başlatıcı oyunu başlatırken bunu sorar). Sunucu herkese kendi istemcisinin dilinde yanıt verir — Lehçe veya İngilizce."},
+                  "tr":"Sunucunun bu sürümünde tek bir oyun dili yoktur: her oyuncu kendi istemcisinin dilini kullanır. Dil, istemcinin giriş ekranında seçilir (launcher oyunu başlatırken bunu sorar). Sunucu herkese kendi istemcisinin dilinde yanıt verir — Lehçe veya İngilizce."},
  "lang_client_only": {"pl":"Na tej wersji serwera język wybiera każdy gracz w swoim kliencie (ekran logowania lub launcher), więc nic nie zmieniono.",
                   "en":"On this version of the server every player chooses the language in their own client (the login screen or the launcher), so nothing was changed.",
                   "de":"Auf dieser Serverversion wählt jeder Spieler die Sprache in seinem eigenen Client (Anmeldebildschirm oder Launcher), es wurde also nichts geändert.",
-                  "tr":"Sunucunun bu sürümünde her oyuncu dili kendi istemcisinde seçer (giriş ekranı veya başlatıcı), bu yüzden hiçbir şey değiştirilmedi."},
+                  "tr":"Sunucunun bu sürümünde her oyuncu dili kendi istemcisinde seçer (giriş ekranı veya launcher), bu yüzden hiçbir şey değiştirilmedi."},
  # Deliberately NOT "tip_lang": that one belongs to the switcher at the top of
  # the page, which changes this panel and nothing else. Two settings with almost
  # the same name is exactly how somebody ends up restarting a server they only
@@ -4337,12 +4604,12 @@ T = {
                   "tr":"{name} yeniden normal oyuncu. Çıkıp tekrar girene kadar komutlar onda kalır."},
  "gm_noreload":  {"pl":"Zapisano, ale nie udało się powiadomić serwera gry. Zadziała przy następnym uruchomieniu serwera.","en":"Saved, but the game server could not be told. It will take effect the next time the server starts.",
                   "de":"Gespeichert, aber der Spielserver konnte nicht benachrichtigt werden. Es wirkt beim nächsten Serverstart.",
-                  "tr":"Kaydedildi, ancak oyun sunucusuna bildirilemedi. Sunucu bir sonraki başlangıçta geçerli olacak."},
+                  "tr":"Kaydedildi, ancak oyun sunucusuna bildirilemedi. Bir sonraki sunucu başlangıcında geçerli olacak."},
  "cat_all":      {"pl":"Wszystkie","en":"All","de":"Alle","tr":"Hepsi"},
  "cat_weapon":   {"pl":"Bronie","en":"Weapons","de":"Waffen","tr":"Silahlar"},
  "cat_armor":    {"pl":"Zbroje","en":"Armor","de":"Rüstung","tr":"Zırhlar"},
  "cat_usable":   {"pl":"Mikstury/Użytkowe","en":"Potions/Usable","de":"Tränke/Nutzbar","tr":"İksir/Kullanılabilir"},
- "cat_ds":       {"pl":"Smocze Kamienie","en":"Dragon Soul","de":"Drachenseele","tr":"Ejder Ruhu"},
+ "cat_ds":       {"pl":"Smocze Kamienie","en":"Dragon Soul","de":"Drachenseele","tr":"Ejderha Taşları"},
  "cat_metin":    {"pl":"Kamienie Metin","en":"Metin Stones","de":"Metinsteine","tr":"Metin Taşları"},
  "cat_special":  {"pl":"Specjalne","en":"Special","de":"Spezial","tr":"Özel"},
  "cat_other":    {"pl":"Inne","en":"Other","de":"Sonstige","tr":"Diğer"},
@@ -4418,7 +4685,7 @@ T = {
  "rates_open":   {"pl":"⚙️ Otwórz mnożniki serwera","en":"⚙️ Open server rates","de":"⚙️ Server-Raten öffnen","tr":"⚙️ Sunucu oranlarını aç"},
  "rates_dash_hint":{"pl":"Spraw, by cały serwer dawał więcej doświadczenia, przedmiotów i yang — wygodne, jeśli wolisz robić zadania niż grindować.","en":"Make the whole server give more experience, more items and more yang — handy if you would rather do quests than grind.",
                   "de":"Lass den ganzen Server mehr Erfahrung, mehr Gegenstände und mehr Yang geben — praktisch, wenn du lieber Quests machst als zu grinden.",
-                  "tr":"Tüm sunucunun daha çok tecrübe, daha çok eşya ve daha çok yang vermesini sağla — grind yerine görev yapmayı seviyorsan çok işine yarar."},
+                  "tr":"Tüm sunucunun daha çok tecrübe, daha çok eşya ve daha çok yang vermesini sağla — kasmak yerine görev yapmayı seviyorsan çok işine yarar."},
  "rates_intro":  {"pl":"Te trzy liczby decydują, jak szybko toczy się cały serwer. 100% to dokładnie tak, jak gra została stworzona — wyżej znaczy szybciej. Zapis restartuje serwer gry, więc grający zostają na chwilę rozłączeni.","en":"These three numbers decide how quickly the whole server moves. 100% is exactly how the game was made — higher means faster. Saving restarts the game server, so anyone playing gets dropped for a moment.",
                   "de":"Diese drei Zahlen bestimmen, wie schnell der ganze Server läuft. 100% ist genau so, wie das Spiel gemacht wurde — höher heißt schneller. Beim Speichern wird der Spielserver neu gestartet, wer gerade spielt fliegt also kurz raus.",
                   "tr":"Bu üç sayı tüm sunucunun ne kadar hızlı ilerlediğini belirler. 100%, oyunun yapıldığı hâlidir — yüksek olması daha hızlı demektir. Kaydetmek oyun sunucusunu yeniden başlatır, o sırada oynayan varsa kısa bir süre düşer."},
@@ -4426,10 +4693,10 @@ T = {
  "rates_exp_help":{"pl":"Ile doświadczenia dają potwory. 300% oznacza, że poziomy rosną trzy razy szybciej.","en":"How much experience monsters give. 300% means levelling up goes three times as fast.",
                   "de":"Wie viel Erfahrung Monster geben. 300% heißt, du levelst dreimal so schnell.",
                   "tr":"Canavarların verdiği tecrübe. 300% seviye atlamanın üç kat hızlanması demek."},
- "rates_drop":   {"pl":"Drop przedmiotów","en":"Item drop","de":"Gegenstände","tr":"Eşya düşme"},
+ "rates_drop":   {"pl":"Drop przedmiotów","en":"Item drop","de":"Gegenstände","tr":"Eşya drop oranı"},
  "rates_drop_help":{"pl":"Jak często potwory upuszczają przedmioty. 200% to dwa razy więcej dropu. Szansa nie może przekroczyć pewności, więc to, co zawsze wypadało, po prostu wypada dalej.","en":"How often monsters drop items. 200% means twice as many drops. A chance can never go above certain, so items that always dropped simply keep dropping.",
                   "de":"Wie oft Monster Gegenstände fallen lassen. 200% heißt doppelt so viele. Mehr als sicher geht nicht — was immer gedroppt ist, droppt einfach weiter.",
-                  "tr":"Canavarların ne sıklıkla eşya düşürdüğü. 200% iki katı düşme demek. Bir ihtimal kesinliğin üstüne çıkamaz, yani zaten hep düşen eşyalar düşmeye devam eder."},
+                  "tr":"Canavarların ne sıklıkla eşya düşürdüğü. 200% iki kat drop demek. Şans %100'ün üstüne çıkamaz, yani zaten hep düşen eşyalar düşmeye devam eder."},
  "rates_yang":   {"pl":"Yang","en":"Yang","de":"Yang","tr":"Yang"},
  "rates_yang_help":{"pl":"Ile pieniędzy upuszczają potwory po zabiciu.","en":"How much money monsters drop when you kill them.",
                   "de":"Wie viel Geld Monster fallen lassen, wenn du sie besiegst.",
@@ -4451,126 +4718,126 @@ T = {
                   "tr":"🚀 Hızlı — tecrübe 1000%, eşya 500%, yang 500%"},
  "rates_save":   {"pl":"💾 Zapisz i zrestartuj serwer","en":"💾 Save and restart the server","de":"💾 Speichern und Server neu starten","tr":"💾 Kaydet ve sunucuyu yeniden başlat"},
  "regen_title": {"pl":"Czas odradzania Metinów, bossów i potworów",
-                 "en":"Respawn time of Metin stones, bosses and monsters"},
+                 "en":"Respawn time of Metin stones, bosses and monsters", "tr": "Metin Taşlarının, patronların ve canavarların yeniden doğma süresi"},
  "regen_help":  {"pl":"Procent zwykłego czasu odradzania: 100 = jak w grze, 50 = dwa razy szybciej, 10 = dziesięć razy szybciej. Działa od razu (przez pomocnika w grze), a po restarcie zostaje. Osobno dla Metinów, osobno dla bossów i osobno dla zwykłych potworów.",
-                 "en":"Percent of the normal respawn time: 100 = as in the game, 50 = twice as fast, 10 = ten times as fast. Live at once (through the in-game helper) and kept across a restart. Metin stones, bosses and ordinary monsters each have their own."},
- "regen_metin": {"pl":"Metiny (% czasu)", "en":"Metin stones (% of time)"},
- "regen_boss":  {"pl":"Bossowie (% czasu)", "en":"Bosses (% of time)"},
- "regen_mob":   {"pl":"Zwykłe potwory (% czasu)", "en":"Ordinary monsters (% of time)"},
- "regen_faster": {"pl":"Szybciej:", "en":"Faster:"},
- "regen_mult":  {"pl":"≈ ×{n} szybciej niż w grze", "en":"≈ ×{n} faster than the game"},
- "regen_save":  {"pl":"Zapisz czasy odradzania", "en":"Save the respawn times"},
+                 "en":"Percent of the normal respawn time: 100 = as in the game, 50 = twice as fast, 10 = ten times as fast. Live at once (through the in-game helper) and kept across a restart. Metin stones, bosses and ordinary monsters each have their own.", "tr": "Normal yeniden doğma süresinin yüzdesi: 100 = oyundaki gibi, 50 = iki kat hızlı, 10 = on kat hızlı. Hemen geçerli olur (oyun içi yardımcı aracılığıyla) ve yeniden başlatmadan sonra da korunur. Metin Taşlarının, patronların ve sıradan canavarların her birinin kendi değeri vardır."},
+ "regen_metin": {"pl":"Metiny (% czasu)", "en":"Metin stones (% of time)", "tr": "Metin Taşları (süre %)"},
+ "regen_boss":  {"pl":"Bossowie (% czasu)", "en":"Bosses (% of time)", "tr": "Patronlar (süre %)"},
+ "regen_mob":   {"pl":"Zwykłe potwory (% czasu)", "en":"Ordinary monsters (% of time)", "tr": "Sıradan canavarlar (süre %)"},
+ "regen_faster": {"pl":"Szybciej:", "en":"Faster:", "tr": "Daha hızlı:"},
+ "regen_mult":  {"pl":"≈ ×{n} szybciej niż w grze", "en":"≈ ×{n} faster than the game", "tr": "oyundakinden ≈ ×{n} daha hızlı"},
+ "regen_save":  {"pl":"Zapisz czasy odradzania", "en":"Save the respawn times", "tr": "Yeniden doğma sürelerini kaydet"},
  "regen_range": {"pl":"Wszystkie trzy wartości muszą być liczbą całkowitą od 10 do 100. Nic nie zmieniono.",
-                 "en":"All three have to be whole numbers between 10 and 100. Nothing was changed."},
+                 "en":"All three have to be whole numbers between 10 and 100. Nothing was changed.", "tr": "Üçü de 10 ile 100 arasında tam sayı olmalı. Hiçbir şey değiştirilmedi."},
  "regen_saved_live": {"pl":"✅ Zapisano! Nowe czasy odradzania działają już w grze, bez restartu.",
-                      "en":"✅ Saved! The new respawn times are live in game, no restart needed."},
+                      "en":"✅ Saved! The new respawn times are live in game, no restart needed.", "tr": "✅ Kaydedildi! Yeni yeniden doğma süreleri oyunda geçerli, yeniden başlatmaya gerek yok."},
  "regen_saved_restart": {"pl":"Zapisano. Nikt nie jest zalogowany, więc pomocnik w grze nie odpowiedział — nowe czasy zadziałają po restarcie serwera (albo zapisz jeszcze raz, gdy ktoś będzie w grze).",
-                         "en":"Saved. Nobody is logged in, so the in-game helper did not answer — the new times apply after a server restart (or save again while somebody is in game)."},
- "count_title": {"pl":"Liczba potworów w respie", "en":"Monsters per respawn"},
+                         "en":"Saved. Nobody is logged in, so the in-game helper did not answer — the new times apply after a server restart (or save again while somebody is in game).", "tr": "Kaydedildi. Kimse giriş yapmadığı için oyun içi yardımcı yanıt vermedi — yeni süreler sunucu yeniden başladıktan sonra geçerli olur (ya da oyunda biri varken yeniden kaydet)."},
+ "count_title": {"pl":"Liczba potworów w respie", "en":"Monsters per respawn", "tr": "Doğma noktası başına canavar sayısı"},
  "count_help":  {"pl":"Ile potworów stoi w każdym miejscu respu: ×1 = jak w grze, ×2 = dwa razy więcej, aż do ×4. Nie trzeba restartu, a po restarcie ustawienie zostaje; dodatkowe potwory dochodzą przy najbliższym respie danego miejsca (Metiny i bossowie po swoim czasie odradzania, zwykle 15–25 minut). Osobno dla Metinów, bossów i zwykłych potworów. Postacie niezależne (także żyły rud i krzaki ziół), portale, lochy i jednorazowe respy z misji zostają bez zmian.",
-                 "en":"How many monsters stand at each spawn point: ×1 = as in the game, ×2 = twice as many, up to ×4. No restart needed and kept across one; the extra monsters come at each spot's next respawn (stones and bosses after their own respawn time, usually 15-25 minutes). Metin stones, bosses and ordinary monsters each have their own. NPCs (ore veins and herb bushes too), portals, dungeons and a quest's one-off spawns are left alone."},
+                 "en":"How many monsters stand at each spawn point: ×1 = as in the game, ×2 = twice as many, up to ×4. No restart needed and kept across one; the extra monsters come at each spot's next respawn (stones and bosses after their own respawn time, usually 15-25 minutes). Metin stones, bosses and ordinary monsters each have their own. NPCs (ore veins and herb bushes too), portals, dungeons and a quest's one-off spawns are left alone.", "tr": "Her doğma noktasında kaç canavarın durduğu: ×1 = oyundaki gibi, ×2 = iki kat, en fazla ×4. Yeniden başlatmaya gerek yok ve yeniden başlatmadan sonra da korunur; fazladan canavarlar her noktanın bir sonraki yeniden doğmasında gelir (taşlar ve patronlar kendi yeniden doğma süresinden sonra, genellikle 15-25 dakika). Metin Taşlarının, patronların ve sıradan canavarların her birinin kendi değeri vardır. NPC'lere (maden damarları ve ot çalıları dahil), portallara, zindanlara ve bir görevin tek seferlik doğmalarına dokunulmaz."},
  "count_warn":  {"pl":"Uwaga: ×2 to dwa razy więcej potworów na każdej mapie — serwer i boty mają przez to więcej pracy. Po zmniejszeniu mnożnika nadmiarowe potwory znikają dopiero, gdy ktoś je zabije.",
-                 "en":"Mind: ×2 is twice as many monsters on every map, and the server and the bots work that much harder. After lowering it, the extra monsters go only as they are killed."},
- "count_metin": {"pl":"Metiny", "en":"Metin stones"},
- "count_boss":  {"pl":"Bossowie", "en":"Bosses"},
- "count_mob":   {"pl":"Zwykłe potwory", "en":"Ordinary monsters"},
- "count_save":  {"pl":"Zapisz liczbę potworów", "en":"Save the monster counts"},
+                 "en":"Mind: ×2 is twice as many monsters on every map, and the server and the bots work that much harder. After lowering it, the extra monsters go only as they are killed.", "tr": "Dikkat: ×2, her haritada iki kat canavar demektir; sunucu ve botlar o kadar daha çok çalışır. Değeri düşürdükten sonra fazladan canavarlar yalnızca öldürüldükçe gider."},
+ "count_metin": {"pl":"Metiny", "en":"Metin stones", "tr": "Metin Taşları"},
+ "count_boss":  {"pl":"Bossowie", "en":"Bosses", "tr": "Patronlar"},
+ "count_mob":   {"pl":"Zwykłe potwory", "en":"Ordinary monsters", "tr": "Sıradan canavarlar"},
+ "count_save":  {"pl":"Zapisz liczbę potworów", "en":"Save the monster counts", "tr": "Canavar sayılarını kaydet"},
  "count_range": {"pl":"Wybierz mnożnik od ×1 do ×4. Nic nie zmieniono.",
-                 "en":"Pick a multiplier from ×1 to ×4. Nothing was changed."},
+                 "en":"Pick a multiplier from ×1 to ×4. Nothing was changed.", "tr": "×1 ile ×4 arasında bir çarpan seç. Hiçbir şey değiştirilmedi."},
  "count_saved_live": {"pl":"✅ Zapisano! Nowa liczba potworów działa już w grze — dosypie się przy najbliższym respie.",
-                      "en":"✅ Saved! The new counts are live in game and fill in at the next respawn."},
+                      "en":"✅ Saved! The new counts are live in game and fill in at the next respawn.", "tr": "✅ Kaydedildi! Yeni sayılar oyunda geçerli ve bir sonraki yeniden doğmada dolar."},
  "count_saved_restart": {"pl":"Zapisano. Nikt nie jest zalogowany, więc pomocnik w grze nie odpowiedział — nowa liczba potworów zadziała po restarcie serwera (albo zapisz jeszcze raz, gdy ktoś będzie w grze).",
-                         "en":"Saved. Nobody is logged in, so the in-game helper did not answer — the new counts apply after a server restart (or save again while somebody is in game)."},
- "diff_title":  {"pl":"Poziom trudności", "en":"Difficulty"},
+                         "en":"Saved. Nobody is logged in, so the in-game helper did not answer — the new counts apply after a server restart (or save again while somebody is in game).", "tr": "Kaydedildi. Kimse giriş yapmadığı için oyun içi yardımcı yanıt vermedi — yeni sayılar sunucu yeniden başladıktan sonra geçerli olur (ya da oyunda biri varken yeniden kaydet)."},
+ "diff_title":  {"pl":"Poziom trudności", "en":"Difficulty", "tr": "Zorluk"},
  "diff_help":   {"pl":"Ile gracz czeka u Biologa między oddaniami i u Stajennego (kucyk, Księgi Konia, treningi medalami), i ile gracze oraz boty czekają między dwiema księgami tej samej umiejętności i między dwoma Kamieniami Duchowymi (G1 → P, najwyżej 12 h) — Zwój Egzorcyzmu pomija to czekanie. Zmiana działa od razu, gdy ktoś jest w grze, i zostaje po restarcie, dopóki nie zmienisz poziomu trudności w launcherze (przycisk POZIOM TRUDNOŚCI).",
-                 "en":"How long a player waits at the Biologist between hand-ins and at the stable keeper (the pony, the Horse Books, the medal trainings), and how long players and bots wait between two books of one skill and between two Soul Stones (G1 to P, at most 12 h) - an Exorcism Scroll skips that wait. A change is live at once while somebody is in game, and it stays across a restart until the difficulty is changed in the launcher (the DIFFICULTY button)."},
- "diff_now":    {"pl":"Teraz", "en":"Now"},
- "diff_level":  {"pl":"Poziom", "en":"Level"},
- "diff_level_easy":   {"pl":"Łatwy — bez czekania", "en":"Easy — no waiting"},
- "diff_level_medium": {"pl":"Średni — Biolog 8 h, koń 4–7 h, księgi i Kamienie Duchowe 7 h", "en":"Medium — Biologist 8 h, horse 4-7 h, books and Soul Stones 7 h"},
- "diff_level_hard":   {"pl":"Trudny — jak w oryginale: Biolog 24 h, koń 12–21 h, księgi 21 h, Kamienie Duchowe 12 h", "en":"Hard — as the original: Biologist 24 h, horse 12-21 h, books 21 h, Soul Stones 12 h"},
- "diff_level_custom": {"pl":"Własny — godziny poniżej", "en":"Custom — the hours below"},
- "diff_bio":    {"pl":"Biolog", "en":"Biologist"},
- "diff_horse":  {"pl":"Stajenny (kucyk / Księga / treningi)", "en":"stable keeper (pony / book / trainings)"},
- "diff_books":  {"pl":"księgi", "en":"books"},
- "diff_players":{"pl":"gracze", "en":"players"},
- "diff_bots":   {"pl":"boty", "en":"bots"},
+                 "en":"How long a player waits at the Biologist between hand-ins and at the stable keeper (the pony, the Horse Books, the medal trainings), and how long players and bots wait between two books of one skill and between two Soul Stones (G1 to P, at most 12 h) - an Exorcism Scroll skips that wait. A change is live at once while somebody is in game, and it stays across a restart until the difficulty is changed in the launcher (the DIFFICULTY button).", "tr": "Oyuncunun Biyolog'da teslimler arasında ve Seyis'te (midilli, At Kitapları, madalyon eğitimleri) ne kadar beklediği; ayrıca oyuncuların ve botların aynı becerinin iki kitabı arasında ve iki Ruh Taşı arasında ne kadar beklediği (G1'den P'ye, en fazla 12 sa) — Kötü Ruh Kovma Kağıdı bu beklemeyi atlar. Değişiklik, oyunda biri varken hemen geçerli olur ve zorluk launcher'da değiştirilene kadar (ZORLUK SEVİYESİ düğmesi) yeniden başlatmadan sonra da kalır."},
+ "diff_now":    {"pl":"Teraz", "en":"Now", "tr": "Şimdi"},
+ "diff_level":  {"pl":"Poziom", "en":"Level", "tr": "Seviye"},
+ "diff_level_easy":   {"pl":"Łatwy — bez czekania", "en":"Easy — no waiting", "tr": "Kolay — bekleme yok"},
+ "diff_level_medium": {"pl":"Średni — Biolog 8 h, koń 4–7 h, księgi i Kamienie Duchowe 7 h", "en":"Medium — Biologist 8 h, horse 4-7 h, books and Soul Stones 7 h", "tr": "Orta — Biyolog 8 sa, at 4-7 sa, kitaplar ve Ruh Taşları 7 sa"},
+ "diff_level_hard":   {"pl":"Trudny — jak w oryginale: Biolog 24 h, koń 12–21 h, księgi 21 h, Kamienie Duchowe 12 h", "en":"Hard — as the original: Biologist 24 h, horse 12-21 h, books 21 h, Soul Stones 12 h", "tr": "Zor — orijinaldeki gibi: Biyolog 24 sa, at 12-21 sa, kitaplar 21 sa, Ruh Taşları 12 sa"},
+ "diff_level_custom": {"pl":"Własny — godziny poniżej", "en":"Custom — the hours below", "tr": "Özel — aşağıdaki saatler"},
+ "diff_bio":    {"pl":"Biolog", "en":"Biologist", "tr": "Biyolog"},
+ "diff_horse":  {"pl":"Stajenny (kucyk / Księga / treningi)", "en":"stable keeper (pony / book / trainings)", "tr": "seyis (midilli / kitap / eğitimler)"},
+ "diff_books":  {"pl":"księgi", "en":"books", "tr": "kitaplar"},
+ "diff_players":{"pl":"gracze", "en":"players", "tr": "oyuncular"},
+ "diff_bots":   {"pl":"boty", "en":"bots", "tr": "botlar"},
  "diff_custom_help": {"pl":"Godziny poniżej liczą się tylko przy poziomie „Własny” (ułamki dozwolone, 0 = bez czekania). Stajenny ma jedną liczbę na każde czekanie: kucyka, Księgę Konia i treningi.",
-                      "en":"The hours below count for the Custom level only (fractions allowed, 0 = no waiting). The stable keeper takes one number for every wait: the pony, the Horse Book and the trainings."},
- "diff_bio_h":  {"pl":"Biolog — godzin między oddaniami:", "en":"Biologist — hours between hand-ins:"},
- "diff_horse_h":{"pl":"Stajenny — godzin na kucyka, Księgę i trening:", "en":"Stable keeper — hours for the pony, the book and a training:"},
- "diff_book_h": {"pl":"Księgi umiejętności i Kamienie Duchowe — gracze, godzin:", "en":"Skill books and Soul Stones — players, hours:"},
- "diff_bot_book_h": {"pl":"Księgi umiejętności i Kamienie Duchowe — boty, godzin:", "en":"Skill books and Soul Stones — bots, hours:"},
- "diff_save":   {"pl":"Zapisz poziom trudności", "en":"Save the difficulty"},
+                      "en":"The hours below count for the Custom level only (fractions allowed, 0 = no waiting). The stable keeper takes one number for every wait: the pony, the Horse Book and the trainings.", "tr": "Aşağıdaki saatler yalnızca Özel seviye için geçerlidir (kesirli değerler kullanılabilir, 0 = bekleme yok). Seyis tüm beklemeler için tek bir sayı alır: midilli, At Kitabı ve eğitimler."},
+ "diff_bio_h":  {"pl":"Biolog — godzin między oddaniami:", "en":"Biologist — hours between hand-ins:", "tr": "Biyolog — teslimler arasındaki saat:"},
+ "diff_horse_h":{"pl":"Stajenny — godzin na kucyka, Księgę i trening:", "en":"Stable keeper — hours for the pony, the book and a training:", "tr": "Seyis — midilli, kitap ve bir eğitim için saat:"},
+ "diff_book_h": {"pl":"Księgi umiejętności i Kamienie Duchowe — gracze, godzin:", "en":"Skill books and Soul Stones — players, hours:", "tr": "Beceri kitapları ve Ruh Taşları — oyuncular, saat:"},
+ "diff_bot_book_h": {"pl":"Księgi umiejętności i Kamienie Duchowe — boty, godzin:", "en":"Skill books and Soul Stones — bots, hours:", "tr": "Beceri kitapları ve Ruh Taşları — botlar, saat:"},
+ "diff_save":   {"pl":"Zapisz poziom trudności", "en":"Save the difficulty", "tr": "Zorluğu kaydet"},
  "diff_range":  {"pl":"Wybierz poziom i podaj godziny od 0 do 720. Nic nie zmieniono.",
-                 "en":"Pick a level and hours from 0 to 720. Nothing was changed."},
+                 "en":"Pick a level and hours from 0 to 720. Nothing was changed.", "tr": "Bir seviye seç ve saatleri 0 ile 720 arasında gir. Hiçbir şey değiştirilmedi."},
  "diff_saved_live": {"pl":"✅ Zapisano! Nowy poziom trudności działa już w grze.",
-                     "en":"✅ Saved! The new difficulty is live in game."},
+                     "en":"✅ Saved! The new difficulty is live in game.", "tr": "✅ Kaydedildi! Yeni zorluk oyunda geçerli."},
  "diff_saved_restart": {"pl":"Zapisano. Nikt nie jest zalogowany, więc pomocnik w grze nie odpowiedział — nowe czasy zadziałają po restarcie serwera (albo zapisz jeszcze raz, gdy ktoś będzie w grze).",
-                        "en":"Saved. Nobody is logged in, so the in-game helper did not answer — the new waits apply after a server restart (or save again while somebody is in game)."},
+                        "en":"Saved. Nobody is logged in, so the in-game helper did not answer — the new waits apply after a server restart (or save again while somebody is in game).", "tr": "Kaydedildi. Kimse giriş yapmadığı için oyun içi yardımcı yanıt vermedi — yeni beklemeler sunucu yeniden başladıktan sonra geçerli olur (ya da oyunda biri varken yeniden kaydet)."},
  "diff_exchange_now": {"pl":"Szanse wymiany u NPC (Magiczny Pył / Pergamin / Materiały Rzemieślnicze)",
-                       "en":"NPC exchange chances (Magic Dust / Parchment / Crafting Materials)"},
+                       "en":"NPC exchange chances (Magic Dust / Parchment / Crafting Materials)", "tr": "NPC takas şansları (Sihirli Toz / Parşömen / Üretim Malzemeleri)"},
  "diff_exchange": {"pl":"Poziom ustawia też szanse wymiany u NPC: łatwy 100 / 100 / 55% (jak w paczce), średni 90 / 45 / 55%, trudny 55 / 40 / 55%. Poziom „Własny” bierze trzy liczby z .env serwera (M2_EXCHANGE_DUST_CHANCE, M2_EXCHANGE_PARCHMENT_CHANCE, M2_EXCHANGE_MATERIAL_CHANCE; 0 = jak w paczce), wczytywane przy każdym starcie. Boty wymieniają kamienie duszy na pył z tą samą szansą.",
-                   "en":"The level also sets the NPC exchange chances: easy 100 / 100 / 55% (as the package), medium 90 / 45 / 55%, hard 55 / 40 / 55%. The Custom level takes three numbers from the server's .env (M2_EXCHANGE_DUST_CHANCE, M2_EXCHANGE_PARCHMENT_CHANCE, M2_EXCHANGE_MATERIAL_CHANCE; 0 = as the package), read at every start. Bots exchange soul stones for dust at the same chance."},
- "ah_title":    {"pl":"Panel Autołowy", "en":"Auto Hunt panel"},
+                   "en":"The level also sets the NPC exchange chances: easy 100 / 100 / 55% (as the package), medium 90 / 45 / 55%, hard 55 / 40 / 55%. The Custom level takes three numbers from the server's .env (M2_EXCHANGE_DUST_CHANCE, M2_EXCHANGE_PARCHMENT_CHANCE, M2_EXCHANGE_MATERIAL_CHANCE; 0 = as the package), read at every start. Bots exchange soul stones for dust at the same chance.", "tr": "Seviye ayrıca NPC takas şanslarını da belirler: kolay 100 / 100 / %55 (paketteki gibi), orta 90 / 45 / %55, zor 55 / 40 / %55. Özel seviye üç sayıyı sunucunun .env dosyasından alır (M2_EXCHANGE_DUST_CHANCE, M2_EXCHANGE_PARCHMENT_CHANCE, M2_EXCHANGE_MATERIAL_CHANCE; 0 = paketteki gibi), her başlangıçta okunur. Botlar Zihin Taşlarını aynı şansla toza çevirir."},
+ "ah_title":    {"pl":"Panel Autołowy", "en":"Auto Hunt panel", "tr": "Otomatik Av paneli"},
  "ah_help":     {"pl":"Kto może używać okna Auto Łowy w kliencie. „Tylko po kupnie” — gracz kupuje w ItemShopie „Auto Lowy (8h)” i używa go z ekwipunku: 8 godzin, które lecą tylko wtedy, gdy postać jest w grze; kolejne bilety się sumują (najwyżej 30 dni). Zmiana działa od razu, gdy ktoś jest w grze, i zostaje po restarcie, dopóki nie zmienisz jej w launcherze (przycisk POZIOM TRUDNOŚCI).",
-                 "en":"Who may use the client's Auto Hunt window. \"Only after buying\": a player buys \"Auto Lowy (8h)\" in the ItemShop and uses it from the inventory - eight hours that run only while the character is in the game; further tickets add up (thirty days at most). A change is live at once while somebody is in game, and it stays across a restart until it is changed in the launcher (the DIFFICULTY button)."},
- "ah_all":      {"pl":"Panel Autołowy dostępny dla każdego", "en":"Auto Hunt panel available to everybody"},
- "ah_item":     {"pl":"Panel Autołowy dostępny tylko po kupnie przedmiotu z ItemShop", "en":"Auto Hunt panel only after buying the ItemShop item"},
+                 "en":"Who may use the client's Auto Hunt window. \"Only after buying\": a player buys \"Auto Lowy (8h)\" in the ItemShop and uses it from the inventory - eight hours that run only while the character is in the game; further tickets add up (thirty days at most). A change is live at once while somebody is in game, and it stays across a restart until it is changed in the launcher (the DIFFICULTY button).", "tr": "İstemcideki Otomatik Av penceresini kimin kullanabileceği. \"Yalnızca satın aldıktan sonra\": oyuncu ItemShop'tan \"Otomatik Av (8 sa)\" satın alır ve envanterinden kullanır - karakter oyundayken akan sekiz saat; sonraki biletler toplanır (en fazla otuz gün). Değişiklik, oyunda biri varken hemen geçerli olur ve launcher'da değiştirilene kadar (ZORLUK SEVİYESİ düğmesi) yeniden başlatmadan sonra da kalır."},
+ "ah_all":      {"pl":"Panel Autołowy dostępny dla każdego", "en":"Auto Hunt panel available to everybody", "tr": "Otomatik Av paneli herkese açık"},
+ "ah_item":     {"pl":"Panel Autołowy dostępny tylko po kupnie przedmiotu z ItemShop", "en":"Auto Hunt panel only after buying the ItemShop item", "tr": "Otomatik Av paneli yalnızca ItemShop eşyası satın alındıktan sonra"},
  "ah_off":      {"pl":"Autołowy są na tym świecie wyłączone (launcher: M2_AUTOHUNT=0), więc ten wybór zadziała dopiero, gdy je włączysz.",
-                 "en":"Auto Hunt is switched off on this world (launcher: M2_AUTOHUNT=0), so this choice applies once it is switched on."},
- "ah_save":     {"pl":"Zapisz dostęp do Autołowów", "en":"Save the Auto Hunt access"},
+                 "en":"Auto Hunt is switched off on this world (launcher: M2_AUTOHUNT=0), so this choice applies once it is switched on.", "tr": "Otomatik Av bu dünyada kapalı (launcher: M2_AUTOHUNT=0), bu yüzden bu seçim açıldıktan sonra geçerli olur."},
+ "ah_save":     {"pl":"Zapisz dostęp do Autołowów", "en":"Save the Auto Hunt access", "tr": "Otomatik Av erişimini kaydet"},
  "ah_saved_live": {"pl":"✅ Zapisano! Nowy dostęp do Autołowów działa już w grze.",
-                   "en":"✅ Saved! The new Auto Hunt access is live in game."},
+                   "en":"✅ Saved! The new Auto Hunt access is live in game.", "tr": "✅ Kaydedildi! Yeni Otomatik Av erişimi oyunda geçerli."},
  "ah_saved_restart": {"pl":"Zapisano. Nikt nie jest zalogowany, więc pomocnik w grze nie odpowiedział — zmiana zadziała po restarcie serwera (albo zapisz jeszcze raz, gdy ktoś będzie w grze).",
-                      "en":"Saved. Nobody is logged in, so the in-game helper did not answer — the change applies after a server restart (or save again while somebody is in game)."},
- "sc_title":    {"pl":"Skrzynia Ucznia", "en":"Apprentice Chest"},
+                      "en":"Saved. Nobody is logged in, so the in-game helper did not answer — the change applies after a server restart (or save again while somebody is in game).", "tr": "Kaydedildi. Kimse giriş yapmadığı için oyun içi yardımcı yanıt vermedi — değişiklik sunucu yeniden başladıktan sonra geçerli olur (ya da oyunda biri varken yeniden kaydet)."},
+ "sc_title":    {"pl":"Skrzynia Ucznia", "en":"Apprentice Chest", "tr": "Çırak Sandığı"},
  "sc_help":     {"pl":"Łańcuch Skrzyń Ucznia (od Skrzyni Ucznia I po Skrzynię Arcymistrza: mikstury, eliksiry, zielone kamienie i następna skrzynia) — jeden przełącznik dla graczy i botów. Włączona: nowa postać gracza dostaje ją przy pierwszym logowaniu (do 5. poziomu), bot ma swoją od początku i otwiera kolejne skrzynie na ich poziomach. Wyłączona: nie dostaje jej nikt; boty tracą nieotwarte skrzynie z łańcucha, a nowe boty rodzą się bez niej. Skrzyń graczy nic nie rusza. Zmiana działa od razu i zostaje po restarcie, dopóki nie zmienisz jej w launcherze (przycisk POZIOM TRUDNOŚCI, M2_STARTER_CHEST w .env).",
-                 "en":"The Apprentice Chest chain (from Apprentice Chest I to the Grand Master Chest: potions, elixirs, green stones and the next chest) - one switch for players and bots. On: a player's new character gets it at its first login (up to level 5), a bot has its own from the start and opens the next chests at their levels. Off: nobody gets it; the bots lose the unopened chests of the chain and new bots are made without one. Players' chests are never touched. A change is live at once and stays across a restart until it is changed in the launcher (the DIFFICULTY button, M2_STARTER_CHEST in .env)."},
- "sc_on":       {"pl":"Skrzynia Ucznia w grze (gracze i boty)", "en":"Apprentice Chest in the game (players and bots)"},
- "sc_off":      {"pl":"Bez Skrzyni Ucznia (ani dla graczy, ani dla botów)", "en":"No Apprentice Chest (for neither players nor bots)"},
- "sc_save":     {"pl":"Zapisz Skrzynię Ucznia", "en":"Save the Apprentice Chest"},
+                 "en":"The Apprentice Chest chain (from Apprentice Chest I to the Grand Master Chest: potions, elixirs, green stones and the next chest) - one switch for players and bots. On: a player's new character gets it at its first login (up to level 5), a bot has its own from the start and opens the next chests at their levels. Off: nobody gets it; the bots lose the unopened chests of the chain and new bots are made without one. Players' chests are never touched. A change is live at once and stays across a restart until it is changed in the launcher (the DIFFICULTY button, M2_STARTER_CHEST in .env).", "tr": "Çırak Sandığı zinciri (Çırak Sandığı I'den Büyük Üstat Sandığı'na kadar: iksirler, özütler, yeşil taşlar ve bir sonraki sandık) - oyuncular ve botlar için tek bir açma/kapama ayarı. Açık: oyuncunun yeni karakteri ilk girişinde (5. seviyeye kadar) onu alır, botun en baştan kendi sandığı vardır ve sonraki sandıkları kendi seviyelerinde açar. Kapalı: kimse almaz; botlar zincirdeki açılmamış sandıkları kaybeder, yeni botlar sandıksız oluşturulur. Oyuncuların sandıklarına dokunulmaz. Değişiklik hemen geçerli olur ve launcher'da değiştirilene kadar (ZORLUK SEVİYESİ düğmesi, .env içindeki M2_STARTER_CHEST) yeniden başlatmadan sonra da kalır."},
+ "sc_on":       {"pl":"Skrzynia Ucznia w grze (gracze i boty)", "en":"Apprentice Chest in the game (players and bots)", "tr": "Oyunda Çırak Sandığı var (oyuncular ve botlar)"},
+ "sc_off":      {"pl":"Bez Skrzyni Ucznia (ani dla graczy, ani dla botów)", "en":"No Apprentice Chest (for neither players nor bots)", "tr": "Çırak Sandığı yok (ne oyuncular ne de botlar için)"},
+ "sc_save":     {"pl":"Zapisz Skrzynię Ucznia", "en":"Save the Apprentice Chest", "tr": "Çırak Sandığını kaydet"},
  "sc_saved_live": {"pl":"✅ Zapisano! Zmiana działa już w grze.",
-                   "en":"✅ Saved! The change is live in game."},
+                   "en":"✅ Saved! The change is live in game.", "tr": "✅ Kaydedildi! Değişiklik oyunda geçerli."},
  "sc_saved_restart": {"pl":"Zapisano. Gra nie odpowiedziała (serwer jest wyłączony albo dopiero startuje) — zmiana zadziała przy następnym starcie serwera.",
-                      "en":"Saved. The game did not answer (the server is down or still starting) - the change applies at the next server start."},
- "mh_title":    {"pl":"Wytrzymałość potworów", "en":"Monster health"},
+                      "en":"Saved. The game did not answer (the server is down or still starting) - the change applies at the next server start.", "tr": "Kaydedildi. Oyun yanıt vermedi (sunucu kapalı ya da hâlâ başlıyor) - değişiklik sunucunun bir sonraki başlangıcında geçerli olur."},
+ "mh_title":    {"pl":"Wytrzymałość potworów", "en":"Monster health", "tr": "Canavar HP'si"},
  "mh_help":     {"pl":"Ile życia mają potwory, bossowie i Metiny: 100% = jak w grze, 80% = łatwiej (każdy pada po mniejszej liczbie ciosów; doświadczenie i drop z jednego zabicia bez zmian, więc gra idzie szybciej — także botom). Postacie niezależne, żyły rud, krzaki ziół i bramy w lochach zostają bez zmian. Zmiana działa od razu — także na potwory, które już stoją (zachowują ten sam procent życia) — i zostaje po restarcie, dopóki nie zmienisz jej w launcherze (przycisk POZIOM TRUDNOŚCI, M2_MONSTER_HP w .env).",
-                 "en":"How much health monsters, bosses and Metin stones have: 100% = as in the game, 80% = easier (each one falls to fewer blows; the experience and the drop of one kill stay the same, so the game goes faster - for the bots too). NPCs, ore veins, herb bushes and dungeon gates stay as they are. A change is live at once - on the monsters already standing too, which keep the same share of their health - and stays across a restart until it is changed in the launcher (the DIFFICULTY button, M2_MONSTER_HP in .env)."},
- "mh_100":      {"pl":"100% — jak w grze (domyślnie)", "en":"100% — as in the game (default)"},
- "mh_80":       {"pl":"80% — łatwiej", "en":"80% — easier"},
- "mh_custom":   {"pl":"{n}% — własne (z .env)", "en":"{n}% — your own (from .env)"},
- "mh_save":     {"pl":"Zapisz wytrzymałość potworów", "en":"Save the monster health"},
+                 "en":"How much health monsters, bosses and Metin stones have: 100% = as in the game, 80% = easier (each one falls to fewer blows; the experience and the drop of one kill stay the same, so the game goes faster - for the bots too). NPCs, ore veins, herb bushes and dungeon gates stay as they are. A change is live at once - on the monsters already standing too, which keep the same share of their health - and stays across a restart until it is changed in the launcher (the DIFFICULTY button, M2_MONSTER_HP in .env).", "tr": "Canavarların, patronların ve Metin Taşlarının ne kadar HP'si olduğu: %100 = oyundaki gibi, %80 = daha kolay (her biri daha az vuruşta düşer; bir öldürmenin tecrübesi ve drop'u aynı kalır, bu yüzden oyun hızlanır - botlar için de). NPC'ler, maden damarları, ot çalıları ve zindan kapıları olduğu gibi kalır. Değişiklik hemen geçerli olur - zaten ayakta duran canavarlarda da, onlar HP'lerinin aynı oranını korur - ve launcher'da değiştirilene kadar (ZORLUK SEVİYESİ düğmesi, .env içindeki M2_MONSTER_HP) yeniden başlatmadan sonra da kalır."},
+ "mh_100":      {"pl":"100% — jak w grze (domyślnie)", "en":"100% — as in the game (default)", "tr": "%100 — oyundaki gibi (varsayılan)"},
+ "mh_80":       {"pl":"80% — łatwiej", "en":"80% — easier", "tr": "%80 — daha kolay"},
+ "mh_custom":   {"pl":"{n}% — własne (z .env)", "en":"{n}% — your own (from .env)", "tr": "%{n} — kendi değerin (.env'den)"},
+ "mh_save":     {"pl":"Zapisz wytrzymałość potworów", "en":"Save the monster health", "tr": "Canavar HP'sini kaydet"},
  "mh_range":    {"pl":"Wybierz wytrzymałość od 10 do 300%. Nic nie zmieniono.",
-                 "en":"Pick a health from 10 to 300%. Nothing was changed."},
+                 "en":"Pick a health from 10 to 300%. Nothing was changed.", "tr": "10 ile 300 arasında bir yüzde değeri seç. Hiçbir şey değiştirilmedi."},
  "mh_saved_live": {"pl":"✅ Zapisano! Nowa wytrzymałość potworów działa już w grze.",
-                   "en":"✅ Saved! The new monster health is live in game."},
+                   "en":"✅ Saved! The new monster health is live in game.", "tr": "✅ Kaydedildi! Yeni canavar HP'si oyunda geçerli."},
  "mh_saved_restart": {"pl":"Zapisano. Gra nie odpowiedziała (serwer jest wyłączony albo dopiero startuje) — zmiana zadziała przy następnym starcie serwera.",
-                      "en":"Saved. The game did not answer (the server is down or still starting) - the change applies at the next server start."},
+                      "en":"Saved. The game did not answer (the server is down or still starting) - the change applies at the next server start.", "tr": "Kaydedildi. Oyun yanıt vermedi (sunucu kapalı ya da hâlâ başlıyor) - değişiklik sunucunun bir sonraki başlangıcında geçerli olur."},
  "u70_title": {"pl": "Szósty bonus broni 70 poziomu", "en": "Level-70 weapon sixth bonus", "de": "Sechster Bonus für Waffen der Stufe 70", "tr": "70. seviye silahların altıncı bonusu"},
- "u70_help": {"pl": "Domyślnie włączony: nowe bronie 70 poziomu (np. Złodziej Dusz) dostają losowy szósty bonus. Wyłączenie dotyczy tylko nowo tworzonych broni. Istniejące przedmioty zostają bez zmian; ulepszanie broni z tym bonusem zachowuje go i przelicza jego wartość jak dotąd. Zmiana działa na żywo bez restartu i zostaje po ponownym starcie, dopóki nie zmienisz tej opcji w launcherze (Poziom trudności → Dodatki świata, M2_UNIQUE70_BONUS).", "en": "On by default: new level-70 weapons (e.g. Soul Stealing Blade) receive a random sixth bonus. Off affects only newly created weapons. Existing items stay unchanged; refining a weapon with this bonus keeps it and rescales its value as before. Changes are live without a restart and survive the next start until you change this option in the launcher (Difficulty → World extras, M2_UNIQUE70_BONUS).", "de": "Standardmäßig an: neue Waffen der Stufe 70 erhalten einen zufälligen sechsten Bonus. Aus gilt nur für neu erzeugte Waffen. Vorhandene Gegenstände bleiben unverändert; beim Verbessern bleibt dieser Bonus erhalten und sein Wert wird wie bisher angepasst. Änderungen gelten ohne Neustart und bleiben erhalten, bis du diese Option im Launcher änderst (Schwierigkeitsgrad → Welt-Extras, M2_UNIQUE70_BONUS).", "tr": "Varsayılan olarak açık: yeni 70. seviye silahlar rastgele bir altıncı bonus alır. Kapalı ayarı yalnızca yeni oluşturulan silahları etkiler. Mevcut eşyalar değişmez; yükseltme bu bonusu korur ve değerini önceki gibi ayarlar. Değişiklik yeniden başlatmadan geçerli olur ve başlatıcıda bu seçeneği değiştirene kadar korunur (Zorluk → Dünya ekleri, M2_UNIQUE70_BONUS)."},
+ "u70_help": {"pl": "Domyślnie włączony: nowe bronie 70 poziomu (np. Złodziej Dusz) dostają losowy szósty bonus. Wyłączenie dotyczy tylko nowo tworzonych broni. Istniejące przedmioty zostają bez zmian; ulepszanie broni z tym bonusem zachowuje go i przelicza jego wartość jak dotąd. Zmiana działa na żywo bez restartu i zostaje po ponownym starcie, dopóki nie zmienisz tej opcji w launcherze (Poziom trudności → Dodatki świata, M2_UNIQUE70_BONUS).", "en": "On by default: new level-70 weapons (e.g. Soul Stealing Blade) receive a random sixth bonus. Off affects only newly created weapons. Existing items stay unchanged; refining a weapon with this bonus keeps it and rescales its value as before. Changes are live without a restart and survive the next start until you change this option in the launcher (Difficulty → World extras, M2_UNIQUE70_BONUS).", "de": "Standardmäßig an: neue Waffen der Stufe 70 erhalten einen zufälligen sechsten Bonus. Aus gilt nur für neu erzeugte Waffen. Vorhandene Gegenstände bleiben unverändert; beim Verbessern bleibt dieser Bonus erhalten und sein Wert wird wie bisher angepasst. Änderungen gelten ohne Neustart und bleiben erhalten, bis du diese Option im Launcher änderst (Schwierigkeitsgrad → Welt-Extras, M2_UNIQUE70_BONUS).", "tr": "Varsayılan olarak açık: yeni 70. seviye silahlar (örn. Yarı-İnsan Kılıç) rastgele bir altıncı bonus alır. Kapalıyken yalnızca yeni oluşturulan silahlar etkilenir. Mevcut eşyalar değişmez; bu bonusa sahip bir silahı yükseltmek bonusu korur ve değerini eskisi gibi yeniden ayarlar. Değişiklik yeniden başlatmadan geçerli olur ve launcher'da (Zorluk Seviyesi → Dünya ekstraları, M2_UNIQUE70_BONUS) bu seçeneği değiştirene kadar sonraki başlatmalarda da korunur."},
  "u70_on": {"pl": "Włączony (jak dotąd)", "en": "On (as before)", "de": "An (wie bisher)", "tr": "Açık (önceki gibi)"},
  "u70_off": {"pl": "Wyłączony dla nowych broni", "en": "Off for new weapons", "de": "Aus für neue Waffen", "tr": "Yeni silahlar için kapalı"},
  "u70_save": {"pl": "Zapisz szósty bonus", "en": "Save the sixth bonus", "de": "Sechsten Bonus speichern", "tr": "Altıncı bonusu kaydet"},
  "u70_saved_live": {"pl": "Zapisano. Szósty bonus nowych broni 70 poziomu przełączony na żywo, bez restartu.", "en": "Saved. The sixth bonus of new level-70 weapons was switched live, without a restart.", "de": "Gespeichert. Der sechste Bonus neuer Waffen der Stufe 70 wurde ohne Neustart umgeschaltet.", "tr": "Kaydedildi. Yeni 70. seviye silahların altıncı bonusu yeniden başlatmadan değiştirildi."},
- "u70_saved_restart": {"pl": "Zapisano ustawienie, ale serwer nie potwierdził zmiany na żywo. Spróbuj zapisać ponownie; inaczej zostanie zastosowana przy następnym starcie.", "en": "Setting saved, but the server did not confirm the live change. Try saving again; otherwise it applies at the next start.", "de": "Einstellung gespeichert, aber der Server hat die sofortige Änderung nicht bestätigt. Erneut speichern; sonst gilt sie beim nächsten Start.", "tr": "Ayar kaydedildi ancak sunucu anlık değişikliği onaylamadı. Tekrar kaydedin; aksi halde sonraki başlangıçta uygulanır."},
+ "u70_saved_restart": {"pl": "Zapisano ustawienie, ale serwer nie potwierdził zmiany na żywo. Spróbuj zapisać ponownie; inaczej zostanie zastosowana przy następnym starcie.", "en": "Setting saved, but the server did not confirm the live change. Try saving again; otherwise it applies at the next start.", "de": "Einstellung gespeichert, aber der Server hat die sofortige Änderung nicht bestätigt. Erneut speichern; sonst gilt sie beim nächsten Start.", "tr": "Ayar kaydedildi ancak sunucu anlık değişikliği onaylamadı. Tekrar kaydet; aksi halde sonraki başlangıçta uygulanır."},
  "yg_title": {"pl": "Yang z potworów", "en": "Yang from monsters", "de": "Yang von Monstern", "tr": "Canavarlardan Yang"},
- "yg_help": {"pl": "Do ekwipunku (domyślnie, jak dotąd): yang z potworów zabitych przez gracza trafia od razu do jego ekwipunku. Na ziemię: spada na ziemię jak w oryginalnej grze, a gracz podnosi go sam (klawisz Z, Auto Łowy); Trzecia Ręka w ekwipunku nadal zbiera go od razu. Yang na ziemi nie ma właściciela, jak w oryginalnej grze - podnieść go może każdy, także bot. Boty i Towarzysz zawsze dostają yang prosto do ekwipunku - ich ekonomia jest na tym oparta. Zmiana działa na żywo bez restartu i zostaje po ponownym starcie, dopóki nie zmienisz tej opcji w launcherze (Poziom trudności, M2_YANG_TO_PURSE).", "en": "Into the inventory (the default, as before): yang from monsters a player kills goes straight into their inventory. On the ground: it drops on the ground as in the original game and the player picks it up (the Z key, Auto Hunt); a worn Third Hand still collects it at once. The yang on the ground has no owner, as in the original game - anyone can pick it up, a bot included. Bots and the Companion always get their yang straight into the inventory - their economy is built on it. Changes are live without a restart and survive the next start until you change this option in the launcher (Difficulty, M2_YANG_TO_PURSE).", "de": "Ins Inventar (Standard, wie bisher): Yang von Monstern, die ein Spieler tötet, landet sofort in seinem Inventar. Auf den Boden: es fällt wie im Originalspiel auf den Boden, und der Spieler hebt es selbst auf (Taste Z, Auto-Jagd); eine getragene Dritte Hand sammelt es weiterhin sofort ein. Das Yang auf dem Boden hat keinen Besitzer, wie im Originalspiel - jeder kann es aufheben, auch ein Bot. Bots und der Begleiter bekommen ihr Yang immer direkt ins Inventar - ihre Wirtschaft beruht darauf. Änderungen gelten ohne Neustart und bleiben nach dem nächsten Start erhalten, bis du diese Option im Launcher änderst (Schwierigkeitsgrad, M2_YANG_TO_PURSE).", "tr": "Envantere (varsayılan, önceki gibi): oyuncunun öldürdüğü canavarlardan gelen Yang doğrudan envanterine gider. Yere: orijinal oyundaki gibi yere düşer ve oyuncu onu kendisi toplar (Z tuşu, Otomatik Av); takılı Üçüncü El onu hâlâ anında toplar. Yerdeki Yang'ın orijinal oyundaki gibi sahibi yoktur - bir bot dahil herkes alabilir. Botlar ve Yoldaş Yang'ı her zaman doğrudan envantere alır - ekonomileri buna dayanır. Değişiklik yeniden başlatmadan geçerli olur ve başlatıcıda bu seçeneği değiştirene kadar sonraki başlangıçta da korunur (Zorluk, M2_YANG_TO_PURSE)."},
+ "yg_help": {"pl": "Do ekwipunku (domyślnie, jak dotąd): yang z potworów zabitych przez gracza trafia od razu do jego ekwipunku. Na ziemię: spada na ziemię jak w oryginalnej grze, a gracz podnosi go sam (klawisz Z, Auto Łowy); Trzecia Ręka w ekwipunku nadal zbiera go od razu. Yang na ziemi nie ma właściciela, jak w oryginalnej grze - podnieść go może każdy, także bot. Boty i Towarzysz zawsze dostają yang prosto do ekwipunku - ich ekonomia jest na tym oparta. Zmiana działa na żywo bez restartu i zostaje po ponownym starcie, dopóki nie zmienisz tej opcji w launcherze (Poziom trudności, M2_YANG_TO_PURSE).", "en": "Into the inventory (the default, as before): yang from monsters a player kills goes straight into their inventory. On the ground: it drops on the ground as in the original game and the player picks it up (the Z key, Auto Hunt); a worn Third Hand still collects it at once. The yang on the ground has no owner, as in the original game - anyone can pick it up, a bot included. Bots and the Companion always get their yang straight into the inventory - their economy is built on it. Changes are live without a restart and survive the next start until you change this option in the launcher (Difficulty, M2_YANG_TO_PURSE).", "de": "Ins Inventar (Standard, wie bisher): Yang von Monstern, die ein Spieler tötet, landet sofort in seinem Inventar. Auf den Boden: es fällt wie im Originalspiel auf den Boden, und der Spieler hebt es selbst auf (Taste Z, Auto-Jagd); eine getragene Dritte Hand sammelt es weiterhin sofort ein. Das Yang auf dem Boden hat keinen Besitzer, wie im Originalspiel - jeder kann es aufheben, auch ein Bot. Bots und der Begleiter bekommen ihr Yang immer direkt ins Inventar - ihre Wirtschaft beruht darauf. Änderungen gelten ohne Neustart und bleiben nach dem nächsten Start erhalten, bis du diese Option im Launcher änderst (Schwierigkeitsgrad, M2_YANG_TO_PURSE).", "tr": "Envantere (varsayılan, önceki gibi): oyuncunun öldürdüğü canavarlardan gelen Yang doğrudan envanterine gider. Yere: orijinal oyundaki gibi yere düşer ve oyuncu onu kendisi toplar (Z tuşu, Otomatik Av); takılı Üçüncü El onu hâlâ anında toplar. Yerdeki Yang'ın orijinal oyundaki gibi sahibi yoktur - bir bot dahil herkes alabilir. Botlar ve Yoldaş Yang'ı her zaman doğrudan envantere alır - ekonomileri buna dayanır. Değişiklik yeniden başlatmadan geçerli olur ve launcher'da bu seçeneği değiştirene kadar sonraki başlangıçta da korunur (Zorluk Seviyesi, M2_YANG_TO_PURSE)."},
  "yg_purse": {"pl": "Yang: do ekwipunku (jak dotąd)", "en": "Yang: into the inventory (as before)", "de": "Yang: ins Inventar (wie bisher)", "tr": "Yang: envantere (önceki gibi)"},
  "yg_ground": {"pl": "Yang: na ziemię (jak w oryginalnej grze)", "en": "Yang: on the ground (as in the original game)", "de": "Yang: auf den Boden (wie im Originalspiel)", "tr": "Yang: yere (orijinal oyundaki gibi)"},
  "yg_save": {"pl": "Zapisz ustawienie yang", "en": "Save the yang setting", "de": "Yang-Einstellung speichern", "tr": "Yang ayarını kaydet"},
  "yg_saved_live": {"pl": "Zapisano. Yang z potworów przełączony na żywo, bez restartu.", "en": "Saved. Yang from monsters was switched live, without a restart.", "de": "Gespeichert. Yang von Monstern wurde ohne Neustart umgeschaltet.", "tr": "Kaydedildi. Canavarlardan Yang yeniden başlatmadan değiştirildi."},
- "yg_saved_restart": {"pl": "Zapisano ustawienie, ale serwer nie potwierdził zmiany na żywo. Spróbuj zapisać ponownie; inaczej zostanie zastosowana przy następnym starcie.", "en": "Setting saved, but the server did not confirm the live change. Try saving again; otherwise it applies at the next start.", "de": "Einstellung gespeichert, aber der Server hat die sofortige Änderung nicht bestätigt. Erneut speichern; sonst gilt sie beim nächsten Start.", "tr": "Ayar kaydedildi ancak sunucu anlık değişikliği onaylamadı. Tekrar kaydedin; aksi halde sonraki başlangıçta uygulanır."},
+ "yg_saved_restart": {"pl": "Zapisano ustawienie, ale serwer nie potwierdził zmiany na żywo. Spróbuj zapisać ponownie; inaczej zostanie zastosowana przy następnym starcie.", "en": "Setting saved, but the server did not confirm the live change. Try saving again; otherwise it applies at the next start.", "de": "Einstellung gespeichert, aber der Server hat die sofortige Änderung nicht bestätigt. Erneut speichern; sonst gilt sie beim nächsten Start.", "tr": "Ayar kaydedildi ancak sunucu anlık değişikliği onaylamadı. Tekrar kaydet; aksi halde sonraki başlangıçta uygulanır."},
  "dbonus_title": {"pl": "Szansa na bonus w wydropionym przedmiocie", "en": "Chance of bonuses on dropped items", "de": "Bonuschance bei gedroppten Gegenständen", "tr": "Düşen eşyalarda bonus şansı"},
- "dbonus_help": {"pl": "Jak często broń i zbroja (także biżuteria, buty, hełmy i tarcze) wypadające z potworów mają bonusy i ile: procent szansy z gry, 100% = jak w grze. Zmienia szansę na pierwszy bonus oraz na drugi i trzeci — najwyżej trzy, jak w grze, a ich wartości zostają takie same. W grze broń ze zwykłych potworów nie ma bonusów (tylko z Metinów, bossów i wodzów); powyżej 100% dostaje je z szansą z tabeli przedmiotu razy nadwyżka (przy 200% tyle, ile ma w tabeli). Tylko drop z potworów — sklepy, nagrody z questów, skrzynie i ItemShop bez zmian. Boty też częściej dropią przedmioty z bonusami i wystawiają je na swoich straganach. Zmiana działa od następnego dropu, bez restartu, i zostaje po restarcie, dopóki nie zmienisz jej w launcherze (przycisk POZIOM TRUDNOŚCI, M2_DROP_BONUS_PCT w .env).", "en": "How often weapons and armour (jewellery, boots, helmets and shields too) dropped by monsters come with bonuses, and how many: a percent of the game's own chance, 100% = as in the game. It changes the chance of the first bonus and of the second and third - three at most, as in the game, and their values stay the same. In the game weapons from ordinary monsters have no bonuses (only from Metin stones, bosses and chiefs); above 100% they get them at the item's own chance times the excess (at 200% what its table says). Monster drops only - shops, quest rewards, chests and the ItemShop stay as they are. The bots drop bonused gear more often too and put it on their stalls. A change applies from the next drop, without a restart, and stays across a restart until it is changed in the launcher (the DIFFICULTY button, M2_DROP_BONUS_PCT in .env).", "de": "Wie oft Waffen und Rüstungen (auch Schmuck, Schuhe, Helme und Schilde), die Monster fallen lassen, Boni haben und wie viele: ein Prozentsatz der Chance im Spiel, 100% = wie im Spiel. Es ändert die Chance auf den ersten Bonus und auf den zweiten und dritten - höchstens drei, wie im Spiel, und ihre Werte bleiben gleich. Im Spiel haben Waffen von gewöhnlichen Monstern keine Boni (nur von Metinsteinen, Bossen und Anführern); über 100% bekommen sie welche mit der eigenen Chance des Gegenstands mal dem Überschuss (bei 200% so viel, wie seine Tabelle sagt). Nur Monster-Drops - Läden, Quest-Belohnungen, Truhen und der ItemShop bleiben unverändert. Auch die Bots droppen öfter Ausrüstung mit Boni und stellen sie an ihre Stände. Eine Änderung gilt ab dem nächsten Drop, ohne Neustart, und bleibt nach einem Neustart erhalten, bis du sie im Launcher änderst (Button SCHWIERIGKEITSGRAD, M2_DROP_BONUS_PCT in der .env).", "tr": "Canavarların düşürdüğü silah ve zırhların (mücevher, ayakkabı, kask ve kalkanlar da) ne sıklıkla ve kaç bonusla geldiği: oyundaki şansın yüzdesi, %100 = oyundaki gibi. İlk bonusun ve ikinci ile üçüncünün şansını değiştirir - oyundaki gibi en fazla üç, değerleri aynı kalır. Oyunda sıradan canavarların silahlarında bonus yoktur (yalnızca Metin taşlarından, bosslardan ve şeflerden); %100'ün üstünde, eşyanın kendi şansı çarpı fazlalık kadar bonus alırlar (%200'de tablosundaki kadar). Yalnızca canavar düşüşleri - dükkanlar, görev ödülleri, sandıklar ve ItemShop olduğu gibi kalır. Botlar da daha sık bonuslu eşya düşürür ve tezgahlarına koyar. Değişiklik bir sonraki düşüşten itibaren, yeniden başlatmadan geçerli olur ve sen başlatıcıda (ZORLUK düğmesi, .env içinde M2_DROP_BONUS_PCT) değiştirene kadar yeniden başlatmadan sonra da kalır."},
+ "dbonus_help": {"pl": "Jak często broń i zbroja (także biżuteria, buty, hełmy i tarcze) wypadające z potworów mają bonusy i ile: procent szansy z gry, 100% = jak w grze. Zmienia szansę na pierwszy bonus oraz na drugi i trzeci — najwyżej trzy, jak w grze, a ich wartości zostają takie same. W grze broń ze zwykłych potworów nie ma bonusów (tylko z Metinów, bossów i wodzów); powyżej 100% dostaje je z szansą z tabeli przedmiotu razy nadwyżka (przy 200% tyle, ile ma w tabeli). Tylko drop z potworów — sklepy, nagrody z questów, skrzynie i ItemShop bez zmian. Boty też częściej dropią przedmioty z bonusami i wystawiają je na swoich straganach. Zmiana działa od następnego dropu, bez restartu, i zostaje po restarcie, dopóki nie zmienisz jej w launcherze (przycisk POZIOM TRUDNOŚCI, M2_DROP_BONUS_PCT w .env).", "en": "How often weapons and armour (jewellery, boots, helmets and shields too) dropped by monsters come with bonuses, and how many: a percent of the game's own chance, 100% = as in the game. It changes the chance of the first bonus and of the second and third - three at most, as in the game, and their values stay the same. In the game weapons from ordinary monsters have no bonuses (only from Metin stones, bosses and chiefs); above 100% they get them at the item's own chance times the excess (at 200% what its table says). Monster drops only - shops, quest rewards, chests and the ItemShop stay as they are. The bots drop bonused gear more often too and put it on their stalls. A change applies from the next drop, without a restart, and stays across a restart until it is changed in the launcher (the DIFFICULTY button, M2_DROP_BONUS_PCT in .env).", "de": "Wie oft Waffen und Rüstungen (auch Schmuck, Schuhe, Helme und Schilde), die Monster fallen lassen, Boni haben und wie viele: ein Prozentsatz der Chance im Spiel, 100% = wie im Spiel. Es ändert die Chance auf den ersten Bonus und auf den zweiten und dritten - höchstens drei, wie im Spiel, und ihre Werte bleiben gleich. Im Spiel haben Waffen von gewöhnlichen Monstern keine Boni (nur von Metinsteinen, Bossen und Anführern); über 100% bekommen sie welche mit der eigenen Chance des Gegenstands mal dem Überschuss (bei 200% so viel, wie seine Tabelle sagt). Nur Monster-Drops - Läden, Quest-Belohnungen, Truhen und der ItemShop bleiben unverändert. Auch die Bots droppen öfter Ausrüstung mit Boni und stellen sie an ihre Stände. Eine Änderung gilt ab dem nächsten Drop, ohne Neustart, und bleibt nach einem Neustart erhalten, bis du sie im Launcher änderst (Button SCHWIERIGKEITSGRAD, M2_DROP_BONUS_PCT in der .env).", "tr": "Canavarların düşürdüğü silah ve zırhların (mücevher, ayakkabı, kask ve kalkanlar da) ne sıklıkla ve kaç bonusla geldiği: oyundaki şansın yüzdesi, %100 = oyundaki gibi. İlk bonusun ve ikinci ile üçüncünün şansını değiştirir - oyundaki gibi en fazla üç, değerleri aynı kalır. Oyunda sıradan canavarların silahlarında bonus yoktur (yalnızca Metin taşlarından, bosslardan ve reislerden); %100'ün üstünde, eşyanın kendi şansı çarpı fazlalık kadar bonus alırlar (%200'de tablosundaki kadar). Yalnızca canavar dropları - dükkânlar, görev ödülleri, sandıklar ve ItemShop olduğu gibi kalır. Botlar da daha sık bonuslu eşya düşürür ve tezgâhlarına koyar. Değişiklik bir sonraki drop'tan itibaren, yeniden başlatmadan geçerli olur ve sen launcher'da (ZORLUK SEVİYESİ düğmesi, .env içinde M2_DROP_BONUS_PCT) değiştirene kadar yeniden başlatmadan sonra da kalır."},
  "dbonus_label": {"pl": "Procent szansy z gry (10–1000):", "en": "Percent of the game's chance (10–1000):", "de": "Prozent der Chance im Spiel (10–1000):", "tr": "Oyundaki şansın yüzdesi (10–1000):"},
- "dbonus_examples": {"pl": "Przykład — broń z Metina: 100% → 30% ma bonus, 7% dwa lub trzy; 200% → 60%, 28% dwa lub trzy; 500% → zawsze, i zawsze dwa lub trzy. Broń 25–65 poziomu ze zwykłego potwora: 100% → nigdy, 200% → 20%, 500% → 80%. Zbroja ze zwykłego dropu: 3%, 6%, 15%.", "en": "For example - a weapon from a Metin stone: 100% → 30% have a bonus, 7% two or three; 200% → 60%, 28% two or three; 500% → always, and always two or three. A level 25-65 weapon from an ordinary monster: 100% → never, 200% → 20%, 500% → 80%. Armour from an ordinary drop: 3%, 6%, 15%.", "de": "Zum Beispiel - eine Waffe von einem Metinstein: 100% → 30% haben einen Bonus, 7% zwei oder drei; 200% → 60%, 28% zwei oder drei; 500% → immer, und immer zwei oder drei. Eine Waffe der Stufe 25-65 von einem gewöhnlichen Monster: 100% → nie, 200% → 20%, 500% → 80%. Rüstung aus einem gewöhnlichen Drop: 3%, 6%, 15%.", "tr": "Örnek - Metin taşından bir silah: %100 → %30'u bonuslu, %7'si iki ya da üç; %200 → %60, %28'i iki ya da üç; %500 → her zaman, ve her zaman iki ya da üç. Sıradan bir canavardan 25-65 seviye silah: %100 → asla, %200 → %20, %500 → %80. Sıradan düşüşten zırh: %3, %6, %15."},
+ "dbonus_examples": {"pl": "Przykład — broń z Metina: 100% → 30% ma bonus, 7% dwa lub trzy; 200% → 60%, 28% dwa lub trzy; 500% → zawsze, i zawsze dwa lub trzy. Broń 25–65 poziomu ze zwykłego potwora: 100% → nigdy, 200% → 20%, 500% → 80%. Zbroja ze zwykłego dropu: 3%, 6%, 15%.", "en": "For example - a weapon from a Metin stone: 100% → 30% have a bonus, 7% two or three; 200% → 60%, 28% two or three; 500% → always, and always two or three. A level 25-65 weapon from an ordinary monster: 100% → never, 200% → 20%, 500% → 80%. Armour from an ordinary drop: 3%, 6%, 15%.", "de": "Zum Beispiel - eine Waffe von einem Metinstein: 100% → 30% haben einen Bonus, 7% zwei oder drei; 200% → 60%, 28% zwei oder drei; 500% → immer, und immer zwei oder drei. Eine Waffe der Stufe 25-65 von einem gewöhnlichen Monster: 100% → nie, 200% → 20%, 500% → 80%. Rüstung aus einem gewöhnlichen Drop: 3%, 6%, 15%.", "tr": "Örnek - Metin taşından bir silah: %100 → %30'u bonuslu, %7'si iki ya da üç; %200 → %60, %28'i iki ya da üç; %500 → her zaman, ve her zaman iki ya da üç. Sıradan bir canavardan düşen 25-65. seviye silah: %100 → asla, %200 → %20, %500 → %80. Sıradan dropta zırh: %3, %6, %15."},
  "dbonus_save": {"pl": "Zapisz szansę na bonus", "en": "Save the bonus chance", "de": "Bonuschance speichern", "tr": "Bonus şansını kaydet"},
  "dbonus_range": {"pl": "Wybierz procent od 10 do 1000. Nic nie zmieniono.", "en": "Pick a percent from 10 to 1000. Nothing was changed.", "de": "Wähle einen Prozentsatz von 10 bis 1000. Nichts wurde geändert.", "tr": "10 ile 1000 arasında bir yüzde seç. Hiçbir şey değiştirilmedi."},
- "dbonus_saved_live": {"pl": "✅ Zapisano! Nowa szansa na bonus działa już w grze, od następnego dropu.", "en": "✅ Saved! The new bonus chance is live in game, from the next drop.", "de": "✅ Gespeichert! Die neue Bonuschance gilt schon im Spiel, ab dem nächsten Drop.", "tr": "✅ Kaydedildi! Yeni bonus şansı bir sonraki düşüşten itibaren oyunda şimdiden geçerli."},
+ "dbonus_saved_live": {"pl": "✅ Zapisano! Nowa szansa na bonus działa już w grze, od następnego dropu.", "en": "✅ Saved! The new bonus chance is live in game, from the next drop.", "de": "✅ Gespeichert! Die neue Bonuschance gilt schon im Spiel, ab dem nächsten Drop.", "tr": "✅ Kaydedildi! Yeni bonus şansı bir sonraki drop'tan itibaren oyunda şimdiden geçerli."},
  "dbonus_saved_restart": {"pl": "Zapisano. Gra nie odpowiedziała (serwer jest wyłączony albo dopiero startuje) — zmiana zadziała przy następnym starcie serwera.", "en": "Saved. The game did not answer (the server is down or still starting) - the change applies at the next server start.", "de": "Gespeichert. Das Spiel hat nicht geantwortet (der Server ist aus oder startet gerade) — die Änderung gilt beim nächsten Start des Servers.", "tr": "Kaydedildi. Oyun yanıt vermedi (sunucu kapalı ya da henüz başlıyor) — değişiklik sunucunun bir sonraki başlatılışında geçerli olur."},
  "mspeed_title": {"pl": "Szybkość ruchu graczy i botów", "en": "Movement speed of players and bots", "de": "Bewegungsgeschwindigkeit der Spieler und Bots", "tr": "Oyuncu ve bot hareket hızı"},
- "mspeed_help": {"pl": "Jak szybko poruszają się postacie graczy i boty, a z nimi Towarzysz: procent szybkości z gry, 100% = jak w grze. Dochodzi do wszystkiego, co daje gra — ekwipunku, umiejętności, mikstur, sprintu, konia i wierzchowca — pieszo i w siodle; klient przyjmuje najwyżej 255 (2,55 raza tyle co postać bez niczego, 100), więc szybka postać dojdzie do tego pułapu wcześniej. Boty chodzą w tym samym tempie co gracze, a Towarzysz nadąża za swoim graczem; potwory poruszają się jak w grze. Okno postaci nadal pokazuje szybkość z gry. Zmiana działa od razu u wszystkich w grze, bez restartu, i zostaje po restarcie, dopóki nie zmienisz jej w launcherze (przycisk POZIOM TRUDNOŚCI, M2_MOVE_SPEED_PCT w .env).", "en": "How fast the players' characters and the bots move, the Companion with them: a percent of the game's own speed, 100% = as in the game. It goes on top of everything the game gives - gear, skills, potions, a sprint, a horse or a mount - on foot and in the saddle; the client takes at most 255 (2.55 times a character with nothing on, 100), so a fast character reaches that ceiling sooner. The bots move at the same pace as the players, and the Companion keeps up with its player; monsters move as in the game. The character window still shows the game's speed. A change applies at once to everyone in the game, without a restart, and stays across a restart until it is changed in the launcher (the DIFFICULTY button, M2_MOVE_SPEED_PCT in .env).", "de": "Wie schnell sich die Charaktere der Spieler und die Bots bewegen, der Begleiter mit ihnen: ein Prozentsatz der Geschwindigkeit im Spiel, 100% = wie im Spiel. Er kommt zu allem hinzu, was das Spiel gibt - Ausrüstung, Fertigkeiten, Tränke, Sprint, Pferd oder Reittier - zu Fuß und im Sattel; der Client nimmt höchstens 255 an (das 2,55-Fache eines Charakters ohne alles, 100), also erreicht ein schneller Charakter diese Grenze früher. Die Bots bewegen sich im selben Tempo wie die Spieler, und der Begleiter hält mit seinem Spieler Schritt; Monster bewegen sich wie im Spiel. Das Charakterfenster zeigt weiter die Geschwindigkeit des Spiels. Eine Änderung gilt sofort für alle im Spiel, ohne Neustart, und bleibt nach einem Neustart erhalten, bis du sie im Launcher änderst (Button SCHWIERIGKEITSGRAD, M2_MOVE_SPEED_PCT in der .env).", "tr": "Oyuncu karakterlerinin ve botların ne kadar hızlı hareket ettiği, Yoldaş da onlarla birlikte: oyundaki hızın yüzdesi, %100 = oyundaki gibi. Oyunun verdiği her şeyin üstüne eklenir - ekipman, beceriler, iksirler, koşu, at ya da binek - yaya ve eyerde; istemci en fazla 255 kabul eder (hiçbir şeyi olmayan bir karakterin 100'ünün 2,55 katı), bu yüzden hızlı bir karakter bu sınıra daha erken ulaşır. Botlar oyuncularla aynı tempoda hareket eder ve Yoldaş oyuncusuna yetişir; canavarlar oyundaki gibi hareket eder. Karakter penceresi oyunun hızını göstermeye devam eder. Değişiklik oyundaki herkes için hemen, yeniden başlatmadan geçerli olur ve sen başlatıcıda (ZORLUK düğmesi, .env içinde M2_MOVE_SPEED_PCT) değiştirene kadar yeniden başlatmadan sonra da kalır."},
+ "mspeed_help": {"pl": "Jak szybko poruszają się postacie graczy i boty, a z nimi Towarzysz: procent szybkości z gry, 100% = jak w grze. Dochodzi do wszystkiego, co daje gra — ekwipunku, umiejętności, mikstur, sprintu, konia i wierzchowca — pieszo i w siodle; klient przyjmuje najwyżej 255 (2,55 raza tyle co postać bez niczego, 100), więc szybka postać dojdzie do tego pułapu wcześniej. Boty chodzą w tym samym tempie co gracze, a Towarzysz nadąża za swoim graczem; potwory poruszają się jak w grze. Okno postaci nadal pokazuje szybkość z gry. Zmiana działa od razu u wszystkich w grze, bez restartu, i zostaje po restarcie, dopóki nie zmienisz jej w launcherze (przycisk POZIOM TRUDNOŚCI, M2_MOVE_SPEED_PCT w .env).", "en": "How fast the players' characters and the bots move, the Companion with them: a percent of the game's own speed, 100% = as in the game. It goes on top of everything the game gives - gear, skills, potions, a sprint, a horse or a mount - on foot and in the saddle; the client takes at most 255 (2.55 times a character with nothing on, 100), so a fast character reaches that ceiling sooner. The bots move at the same pace as the players, and the Companion keeps up with its player; monsters move as in the game. The character window still shows the game's speed. A change applies at once to everyone in the game, without a restart, and stays across a restart until it is changed in the launcher (the DIFFICULTY button, M2_MOVE_SPEED_PCT in .env).", "de": "Wie schnell sich die Charaktere der Spieler und die Bots bewegen, der Begleiter mit ihnen: ein Prozentsatz der Geschwindigkeit im Spiel, 100% = wie im Spiel. Er kommt zu allem hinzu, was das Spiel gibt - Ausrüstung, Fertigkeiten, Tränke, Sprint, Pferd oder Reittier - zu Fuß und im Sattel; der Client nimmt höchstens 255 an (das 2,55-Fache eines Charakters ohne alles, 100), also erreicht ein schneller Charakter diese Grenze früher. Die Bots bewegen sich im selben Tempo wie die Spieler, und der Begleiter hält mit seinem Spieler Schritt; Monster bewegen sich wie im Spiel. Das Charakterfenster zeigt weiter die Geschwindigkeit des Spiels. Eine Änderung gilt sofort für alle im Spiel, ohne Neustart, und bleibt nach einem Neustart erhalten, bis du sie im Launcher änderst (Button SCHWIERIGKEITSGRAD, M2_MOVE_SPEED_PCT in der .env).", "tr": "Oyuncu karakterlerinin ve botların ne kadar hızlı hareket ettiği, Yoldaş da onlarla birlikte: oyundaki hızın yüzdesi, %100 = oyundaki gibi. Oyunun verdiği her şeyin üstüne eklenir - ekipman, beceriler, iksirler, koşu, at ya da binek - yaya ve eyerde; istemci en fazla 255 kabul eder (hiçbir şeyi olmayan bir karakterin 100'ünün 2,55 katı), bu yüzden hızlı bir karakter bu sınıra daha erken ulaşır. Botlar oyuncularla aynı tempoda hareket eder ve Yoldaş oyuncusuna yetişir; canavarlar oyundaki gibi hareket eder. Karakter penceresi oyunun hızını göstermeye devam eder. Değişiklik oyundaki herkes için hemen, yeniden başlatmadan geçerli olur ve sen launcher'da (ZORLUK SEVİYESİ düğmesi, .env içinde M2_MOVE_SPEED_PCT) değiştirene kadar yeniden başlatmadan sonra da kalır."},
  "mspeed_label": {"pl": "Procent szybkości z gry (50–200):", "en": "Percent of the game's speed (50–200):", "de": "Prozent der Geschwindigkeit im Spiel (50–200):", "tr": "Oyundaki hızın yüzdesi (50–200):"},
  "mspeed_examples": {"pl": "Przykład — postać bez niczego (100): 150% → 150, 200% → 200. Z ekwipunkiem i sprintem (150): 150% → 225, 200% → 255. Sprint na koniu (230): 110% → 253, wyżej → 255.", "en": "For example - a character with nothing on (100): 150% → 150, 200% → 200. With gear and a sprint (150): 150% → 225, 200% → 255. A sprint on a horse (230): 110% → 253, higher → 255.", "de": "Zum Beispiel - ein Charakter ohne alles (100): 150% → 150, 200% → 200. Mit Ausrüstung und Sprint (150): 150% → 225, 200% → 255. Ein Sprint zu Pferd (230): 110% → 253, darüber → 255.", "tr": "Örnek - hiçbir şeyi olmayan bir karakter (100): %150 → 150, %200 → 200. Ekipman ve koşuyla (150): %150 → 225, %200 → 255. At üstünde koşu (230): %110 → 253, daha yüksek → 255."},
  "mspeed_save": {"pl": "Zapisz szybkość ruchu", "en": "Save the movement speed", "de": "Bewegungsgeschwindigkeit speichern", "tr": "Hareket hızını kaydet"},
@@ -4580,31 +4847,31 @@ T = {
  "we_title":    {"pl":"Dodatki świata: Smocze Kamienie i drop z Metinów",
                  "en":"World extras: Dragon Stones and Metin drops",
                  "de":"Welt-Extras: Drachensteine und Metin-Drops",
-                 "tr":"Dünya ekstraları: Ejderha Taşları ve Metin düşürmeleri"},
+                 "tr":"Dünya ekstraları: Ejderha Taşları ve Metin dropları"},
  "we_help":     {"pl":"Ile Cor Draconis dziennie daje Moc Smoczego Oka u Alchemika (10 = jak w grze; w dniu pierwszego oddania o jeden mniej) i dodatkowy drop z Metinów i bossów dla graczy, w procentach zabić (0 = wyłączony): Smocze Kamienie (1-5 odłamków z Metina zależnie od jego poziomu, Cor Draconis z bossa, dwa z najsilniejszych; od 30 poziomu i tylko przy włączonej Alchemii) i kupony SM (50, 100 lub 250 Smoczych Monet zależnie od poziomu Metina, z bossa o stopień lub dwa więcej). Nic dla postaci silniejszej od przeciwnika o więcej niż 15 poziomów i nic dla botów; zabicie Towarzysza liczy się jego właścicielowi. Boty dostają tyle samo Cor Draconis dziennie co gracze. Zmiana działa od razu i zostaje po restarcie, dopóki nie zmienisz jej w launcherze (przycisk POZIOM TRUDNOŚCI, M2_DS_EYES_PER_DAY, M2_EXTRA_DS_DROP i M2_EXTRA_COUPON_DROP w .env).",
                  "en":"How many Cor Draconis a day the Power of the Dragon Eye gives at the Alchemist (10 = as in the game; one fewer on the day of the first hand-in) and the extra drops of Metin stones and bosses for players, as a percent of kills (0 = off): Dragon Stones (1-5 shards from a Metin by its level, a Cor Draconis from a boss, two from the strongest; from level 30 and only with the Alchemy on) and Kupon SM (50, 100 or 250 Dragon Coins by the Metin's level, a grade or two more from a boss). Nothing for a character more than 15 levels over the victim and nothing for the bots; a Companion's kill counts for its owner. The bots get the same Cor Draconis a day as the players. A change is live at once and stays across a restart until it is changed in the launcher (the DIFFICULTY button, M2_DS_EYES_PER_DAY, M2_EXTRA_DS_DROP and M2_EXTRA_COUPON_DROP in .env).",
                  "de":"Wie viele Cor Draconis die Kraft des Drachenauges beim Alchemisten pro Tag gibt (10 = wie im Spiel; am Tag der ersten Abgabe einer weniger) und zusätzliche Drops von Metinsteinen und Bossen für Spieler, in Prozent der Kills (0 = aus): Drachensteine (1-5 Splitter von einem Metin je nach seiner Stufe, ein Cor Draconis von einem Boss, zwei von den stärksten; ab Stufe 30 und nur bei eingeschalteter Alchemie) und Kupon SM (50, 100 oder 250 Drachenmünzen je nach Stufe des Metins, von einem Boss eine oder zwei Stufen mehr). Nichts für einen Charakter, der mehr als 15 Stufen über seinem Gegner steht, und nichts für die Bots; der Kill eines Begleiters zählt für seinen Besitzer. Die Bots bekommen pro Tag genauso viele Cor Draconis wie die Spieler. Eine Änderung gilt sofort und bleibt nach einem Neustart erhalten, bis du sie im Launcher änderst (Button SCHWIERIGKEITSGRAD, M2_DS_EYES_PER_DAY, M2_EXTRA_DS_DROP und M2_EXTRA_COUPON_DROP in der .env).",
-                 "tr":"Simyacıdaki Ejderha Gözü Gücü'nün günde kaç Cor Draconis verdiği (10 = oyundaki gibi; ilk teslim gününde bir eksik) ve oyuncular için Metin taşlarından ve bosslardan ek düşürmeler, öldürmelerin yüzdesi olarak (0 = kapalı): Ejderha Taşları (bir Metin'den seviyesine göre 1-5 parça, bir bosstan bir Cor Draconis, en güçlülerinden iki; 30. seviyeden itibaren ve yalnızca Simya açıkken) ve Kupon SM (Metin'in seviyesine göre 50, 100 veya 250 Ejderha Parası, bir bosstan bir ya da iki derece fazlası). Rakibinden 15 seviyeden fazla yüksek bir karakter ve botlar hiçbir şey almaz; bir Yoldaşın öldürmesi sahibine sayılır. Botlar günde oyuncularla aynı sayıda Cor Draconis alır. Değişiklik hemen geçerli olur ve sen başlatıcıda (ZORLUK düğmesi, .env içinde M2_DS_EYES_PER_DAY, M2_EXTRA_DS_DROP ve M2_EXTRA_COUPON_DROP) değiştirene kadar yeniden başlatmadan sonra da kalır."},
+                 "tr":"Ejderha Gözü Gücü'nün Simyacı'da günde kaç Cor Draconis verdiği (10 = oyundaki gibi; ilk teslim gününde bir eksik) ve oyuncular için Metin taşlarından ve bosslardan ek droplar, öldürmelerin yüzdesi olarak (0 = kapalı): Ejderha Taşları (bir Metin'den seviyesine göre 1-5 parça, bir bosstan bir Cor Draconis, en güçlülerinden iki; 30. seviyeden itibaren ve yalnızca Simya açıkken) ve EP kuponu (Metin'in seviyesine göre 50, 100 veya 250 Ejderha Parası, bir bosstan bir ya da iki derece fazlası). Rakibinden 15 seviyeden fazla yüksek bir karakter ve botlar hiçbir şey almaz; bir Yoldaşın öldürmesi sahibine sayılır. Botlar günde oyuncularla aynı sayıda Cor Draconis alır. Değişiklik hemen geçerli olur ve sen launcher'da (ZORLUK SEVİYESİ düğmesi, .env içinde M2_DS_EYES_PER_DAY, M2_EXTRA_DS_DROP ve M2_EXTRA_COUPON_DROP) değiştirene kadar yeniden başlatmadan sonra da kalır."},
  "we_eyes":     {"pl":"Cor Draconis dziennie (1-100)", "en":"Cor Draconis a day (1-100)",
                  "de":"Cor Draconis pro Tag (1-100)", "tr":"Günlük Cor Draconis (1-100)"},
  "we_ds":       {"pl":"Drop Smoczych Kamieni z Metinów i bossów (% zabić)", "en":"Dragon Stone drop of Metins and bosses (% of kills)",
-                 "de":"Drachenstein-Drop von Metins und Bossen (% der Kills)", "tr":"Metin ve bosslardan Ejderha Taşı düşürme (öldürmelerin %'si)"},
+                 "de":"Drachenstein-Drop von Metins und Bossen (% der Kills)", "tr":"Metin ve bosslardan Ejderha Taşı drop oranı (öldürmelerin yüzdesi)"},
  "we_coupon":   {"pl":"Drop kuponów SM z Metinów i bossów (% zabić)", "en":"Kupon SM drop of Metins and bosses (% of kills)",
-                 "de":"Kupon-SM-Drop von Metins und Bossen (% der Kills)", "tr":"Metin ve bosslardan Kupon SM düşürme (öldürmelerin %'si)"},
+                 "de":"Kupon-SM-Drop von Metins und Bossen (% der Kills)", "tr":"Metin ve bosslardan EP kuponu drop oranı (öldürmelerin yüzdesi)"},
  "we_alchemy_off": {"pl":"Alchemia Smoczych Kamieni jest wyłączona: Cor Draconis dziennie i drop Smoczych Kamieni nic nie zmieniają, dopóki jej nie włączysz (karta Alchemii wyżej albo launcher).",
                     "en":"The Dragon Stone Alchemy is off: the Cor Draconis a day and the Dragon Stone drop change nothing until it is switched on (the Alchemy card above, or the launcher).",
                     "de":"Die Drachenstein-Alchemie ist aus: Cor Draconis pro Tag und der Drachenstein-Drop ändern nichts, bis du sie einschaltest (die Alchemie-Karte oben oder der Launcher).",
-                    "tr":"Ejderha Taşı Simyası kapalı: günlük Cor Draconis ve Ejderha Taşı düşürme, sen onu açana kadar hiçbir şeyi değiştirmez (yukarıdaki Simya kartı ya da başlatıcı)."},
+                    "tr":"Ejderha Taşı Simyası kapalı: sen açana kadar günlük Cor Draconis ve Ejderha Taşı drop oranı hiçbir şeyi değiştirmez (yukarıdaki Simya kartı ya da launcher)."},
  "we_launcher": {"pl":"Zielone i fioletowe mikstury u Handlarki Różności oraz ceny w ItemShop ustawia launcher (POZIOM TRUDNOŚCI, M2_CASUAL_SHOP i M2_ITEMSHOP_PRICE_PCT w .env) - działają od następnego startu serwera.",
                  "en":"The green and purple potions at the General Store merchant and the ItemShop's prices are set in the launcher (DIFFICULTY, M2_CASUAL_SHOP and M2_ITEMSHOP_PRICE_PCT in .env) - they apply from the next server start.",
                  "de":"Die grünen und violetten Tränke bei der Gemischtwarenhändlerin und die Preise im ItemShop stellt der Launcher ein (SCHWIERIGKEITSGRAD, M2_CASUAL_SHOP und M2_ITEMSHOP_PRICE_PCT in der .env) - sie gelten ab dem nächsten Start des Servers.",
-                 "tr":"Çeşitli Eşya Satıcısı'ndaki yeşil ve mor iksirleri ve ItemShop fiyatlarını başlatıcı ayarlar (ZORLUK, .env içinde M2_CASUAL_SHOP ve M2_ITEMSHOP_PRICE_PCT) - sunucunun bir sonraki başlatılışından itibaren geçerli olur."},
+                 "tr":"Satıcı NPC'sindeki yeşil ve mor iksirleri ve ItemShop fiyatlarını launcher ayarlar (ZORLUK SEVİYESİ, .env içinde M2_CASUAL_SHOP ve M2_ITEMSHOP_PRICE_PCT) - sunucunun bir sonraki başlatılışından itibaren geçerli olur."},
  "we_save":     {"pl":"Zapisz dodatki świata", "en":"Save the world extras",
                  "de":"Welt-Extras speichern", "tr":"Dünya ekstralarını kaydet"},
  "we_range":    {"pl":"Cor Draconis dziennie od 1 do 100, drop od 0 do 100%. Nic nie zmieniono.",
                  "en":"Cor Draconis a day from 1 to 100, drops from 0 to 100%. Nothing was changed.",
                  "de":"Cor Draconis pro Tag von 1 bis 100, Drops von 0 bis 100%. Nichts wurde geändert.",
-                 "tr":"Günlük Cor Draconis 1 ile 100 arasında, düşürmeler %0 ile %100 arasında. Hiçbir şey değiştirilmedi."},
+                 "tr":"Günlük Cor Draconis 1 ile 100 arasında, drop oranları %0 ile %100 arasında. Hiçbir şey değiştirilmedi."},
  "we_saved_live": {"pl":"✅ Zapisano! Zmiana działa już w grze.",
                    "en":"✅ Saved! The change is live in game.",
                    "de":"✅ Gespeichert! Die Änderung gilt schon im Spiel.",
@@ -4618,7 +4885,7 @@ T = {
  "alch_help":   {"pl":"Alchemik w pierwszej wiosce każdego królestwa: od 30 poziomu list do niego, odłamki z potworów, Cor Draconis i okno Alchemii (przycisk w ekwipunku i klawisz O). Włączona: działa dla graczy i botów. Wyłączona: nikt nie dostaje listu, odłamka ani Cor Draconis, Alchemik nie ma swoich opcji, boty nie biorą w niej udziału, a klient gracza chowa przycisk Alchemii w ekwipunku i nie otwiera jej okna klawiszem O; kamienie i skrzynie, które postać ma, zostają jej. Zmiana działa od razu — klient gracza w grze dowiaduje się o niej w ciągu kilku sekund, a list i strzałka do Alchemika znikają razem z przyciskiem — i zostaje po restarcie, dopóki nie zmienisz jej w launcherze (przycisk POZIOM TRUDNOŚCI, M2_DRAGON_SOUL w .env).",
                  "en":"The Alchemist in every kingdom's first village: from level 30 a letter to him, shards from monsters, Cor Draconis and the Alchemy window (the button in the inventory and the O key). On: it works for players and bots. Off: nobody gets the letter, a shard or a Cor Draconis, the Alchemist has none of his options, the bots take no part, and a player's client hides the Alchemy button in the inventory and opens no window on O; the stones and boxes a character holds stay its own. A change is live at once - a player's client in the game learns of it within a few seconds, and the Alchemist's letter and arrow go with the button - and stays across a restart until it is changed in the launcher (the DIFFICULTY button, M2_DRAGON_SOUL in .env).",
                  "de":"Der Alchemist im ersten Dorf jedes Königreichs: ab Stufe 30 ein Brief zu ihm, Splitter von Monstern, Cor Draconis und das Alchemie-Fenster (der Button im Inventar und die Taste O). An: sie gilt für Spieler und Bots. Aus: niemand bekommt den Brief, einen Splitter oder ein Cor Draconis, der Alchemist hat keine seiner Optionen, die Bots machen nicht mit, und der Client eines Spielers blendet den Alchemie-Button im Inventar aus und öffnet mit O kein Fenster; Steine und Kisten, die ein Charakter hat, bleiben seine. Eine Änderung gilt sofort - der Client eines Spielers im Spiel erfährt sie innerhalb weniger Sekunden, und Brief und Pfeil zum Alchemisten verschwinden mit dem Button - und bleibt nach einem Neustart erhalten, bis du sie im Launcher änderst (Button SCHWIERIGKEITSGRAD, M2_DRAGON_SOUL in der .env).",
-                 "tr":"Her krallığın ilk köyündeki Simyacı: 30. seviyeden itibaren ona bir mektup, canavarlardan parçalar, Cor Draconis ve Simya penceresi (envanterdeki düğme ve O tuşu). Açık: oyuncular ve botlar için çalışır. Kapalı: kimse mektup, parça ya da Cor Draconis almaz, Simyacının seçenekleri olmaz, botlar katılmaz ve oyuncunun istemcisi envanterdeki Simya düğmesini gizler, O tuşuyla da pencere açmaz; bir karakterin sahip olduğu taşlar ve sandıklar onun kalır. Değişiklik hemen geçerli olur - oyundaki bir oyuncunun istemcisi bunu birkaç saniye içinde öğrenir, Simyacıya giden mektup ve ok da düğmeyle birlikte kaybolur - ve sen başlatıcıda (ZORLUK düğmesi, .env içinde M2_DRAGON_SOUL) değiştirene kadar yeniden başlatmadan sonra da kalır."},
+                 "tr":"Her krallığın ilk köyündeki Simyacı: 30. seviyeden itibaren ona bir mektup, canavarlardan parçalar, Cor Draconis ve Simya penceresi (envanterdeki düğme ve O tuşu). Açık: oyuncular ve botlar için çalışır. Kapalı: kimse mektup, parça ya da Cor Draconis almaz, Simyacı'nın seçenekleri olmaz, botlar katılmaz ve oyuncunun istemcisi envanterdeki Simya düğmesini gizler, O tuşuyla da pencere açmaz; bir karakterin sahip olduğu taşlar ve sandıklar onun kalır. Değişiklik hemen geçerli olur - oyundaki bir oyuncunun istemcisi bunu birkaç saniye içinde öğrenir, Simyacı'ya giden mektup ve ok da düğmeyle birlikte kaybolur - ve sen launcher'da (ZORLUK SEVİYESİ düğmesi, .env içinde M2_DRAGON_SOUL) değiştirene kadar yeniden başlatmadan sonra da kalır."},
  "alch_on":     {"pl":"Alchemia włączona (gracze i boty)", "en":"Alchemy on (players and bots)",
                  "de":"Alchemie an (Spieler und Bots)", "tr":"Simya açık (oyuncular ve botlar)"},
  "alch_off":    {"pl":"Alchemia wyłączona (jej przycisk i okno znikają z klienta)", "en":"Alchemy off (its button and window leave the client)",
@@ -4633,7 +4900,7 @@ T = {
                         "de":"Gespeichert. Das Spiel hat nicht geantwortet (der Server ist aus oder startet gerade) — die Änderung gilt beim nächsten Start des Servers.",
                         "tr":"Kaydedildi. Oyun yanıt vermedi (sunucu kapalı ya da henüz başlıyor) — değişiklik sunucunun bir sonraki başlatılışında geçerli olur."},
  "ai_books_moved": {"pl":"Na tym serwerze ustawia to poziom trudności (Mnożniki serwera → Poziom trudności): osobno czas dla graczy, osobno dla botów; 0 = od razu.",
-                    "en":"On this server the difficulty sets it (Server rates → Difficulty): one wait for the players, one for the bots; 0 = at once."},
+                    "en":"On this server the difficulty sets it (Server rates → Difficulty): one wait for the players, one for the bots; 0 = at once.", "tr": "Bu sunucuda bunu zorluk belirler (Sunucu oranları → Zorluk): oyuncular için bir bekleme, botlar için bir bekleme; 0 = hemen."},
  "ch2_title":   {"pl":"Kanały gry (CH1-CH4)", "en":"Game channels (CH1-CH4)", "de":"Spielkanäle (CH1-CH4)", "tr":"Oyun kanalları (CH1-CH4)"},
  "ch2_help":    {"pl":"Ile kanałów gry uruchamia serwer. Przy dwóch część botów gra na CH2, więc serwer rozkłada je na dwa rdzenie procesora i udźwignie więcej botów naraz. Wszystkie sklepy (botów i graczy) stoją tylko na CH1: bot z CH2, który chce otworzyć albo obsłużyć swój sklep albo coś kupić, przechodzi na CH1, a wolny bot z CH1 przechodzi na jego miejsce na CH2. Ustawiony udział to najmniej tyle botów na CH2; gdy nikt nie czeka na przejście, CH2 może przejąć do 10 punktów więcej. Przy trzech i czterech na CH3 (i CH4) grają do tego świeże boty od 1 poziomu: osobne postacie, po 500 na królestwo, tworzone przy pierwszym starcie z tym ustawieniem. Nie przechodzą na CH1 i CH2, a boty z CH1 i CH2 nie przychodzą do nich; na CH3 i CH4 nie ma sklepów, gildii botów, wojen, Wieży ani wydarzeń. Domyślnie jeden kanał.",
                  "en":"How many game channels the server runs. With two, some of the bots play on CH2, so the server spreads them over two CPU cores and carries more bots at once. Every shop, bots' and players', stands on CH1: a bot on CH2 that wants to open or serve its shop or to buy something moves to CH1, and a free bot of CH1 moves to CH2 in its place. The share set here is the least CH2 carries; with nobody waiting to move, CH2 may take up to ten points more. With three and four, CH3 (and CH4) carry fresh bots from level one besides: characters of their own, 500 a kingdom, made at the first start with this setting. They never move to CH1 or CH2, and the bots of CH1 and CH2 never come to theirs; there are no shops, bot guilds, wars, tower or events on CH3 and CH4. One channel by default.", "de":"Wie viele Spielkanäle der Server betreibt. Bei zwei spielt ein Teil der Bots auf CH2, sodass der Server sie auf zwei CPU-Kerne verteilt und mehr Bots gleichzeitig trägt. Alle Läden, die der Bots und der Spieler, stehen nur auf CH1: Ein Bot auf CH2, der seinen Laden öffnen oder betreuen oder etwas kaufen will, wechselt auf CH1, und ein freier Bot von CH1 geht an seiner Stelle auf CH2. Der eingestellte Anteil ist das Mindeste, was CH2 trägt; wartet niemand auf einen Wechsel, darf CH2 bis zu zehn Punkte mehr übernehmen. Bei drei und vier spielen auf CH3 (und CH4) zusätzlich frische Bots ab Stufe 1: eigene Charaktere, 500 pro Königreich, beim ersten Start mit dieser Einstellung angelegt. Sie wechseln nie auf CH1 oder CH2, und die Bots von CH1 und CH2 kommen nie zu ihnen; auf CH3 und CH4 gibt es keine Läden, Bot-Gilden, Kriege, keinen Turm und keine Events. Standardmäßig ein Kanal.", "tr":"Sunucunun kaç oyun kanalı çalıştırdığı. İki kanalda botların bir kısmı CH2'de oynar; böylece sunucu onları iki işlemci çekirdeğine dağıtır ve aynı anda daha fazla bot taşır. Botların ve oyuncuların bütün dükkânları yalnızca CH1'dedir: dükkânını açmak, ona bakmak ya da bir şey satın almak isteyen CH2'deki bir bot CH1'e geçer, CH1'deki boşta bir bot da onun yerine CH2'ye geçer. Burada ayarlanan pay, CH2'nin taşıdığı en az miktardır; geçiş bekleyen kimse yoksa CH2 on puana kadar fazlasını alabilir. Üç ve dört kanalda CH3'te (ve CH4'te) ayrıca 1. seviyeden başlayan yeni botlar oynar: her krallık için 500 ayrı karakter, bu ayarla yapılan ilk başlatmada oluşturulur. Hiçbir zaman CH1'e veya CH2'ye geçmezler, CH1 ve CH2'nin botları da onlara gelmez; CH3 ve CH4'te dükkân, bot loncası, savaş, kule ve etkinlik yoktur. Varsayılan: tek kanal."},
@@ -4649,20 +4916,20 @@ T = {
  "ch2_save":    {"pl":"Zapisz (zadziała po restarcie serwera)", "en":"Save (applies after a server restart)", "de":"Speichern (gilt nach einem Serverneustart)", "tr":"Kaydet (sunucu yeniden başlatılınca geçerli olur)"},
  "ch_only_ch1": {"pl":"Teraz: tylko CH1 - wymuszone w .env (M2_ONLY_CH1=1), wybór kanałów poniżej nie zadziała, dopóki tego nie zmienisz.", "en":"Now: CH1 only - forced in .env (M2_ONLY_CH1=1); the channel choice below has no effect until you change it.", "de":"Jetzt: nur CH1 - in .env erzwungen (M2_ONLY_CH1=1); die Kanalwahl unten wirkt erst, wenn du das änderst.", "tr":"Şimdi: yalnızca CH1 - .env içinde zorunlu (M2_ONLY_CH1=1); bunu değiştirene kadar aşağıdaki kanal seçimi etkisizdir."},
  "ch2_now_off": {"pl":"Teraz: jeden kanał - wszystkie boty grają na CH1.", "en":"Now: one channel - every bot plays on CH1.", "de":"Jetzt: ein Kanal - alle Bots spielen auf CH1.", "tr":"Şimdi: tek kanal - bütün botlar CH1'de oynuyor."},
- "ch2_now_on":  {"pl":"Teraz: dwa kanały, na CH2 gra {share}% botów.", "en":"Now: two channels, {share}% of the bots play on CH2.", "de":"Jetzt: zwei Kanäle, {share}% der Bots spielen auf CH2.", "tr":"Şimdi: iki kanal, botların %{share}'i CH2'de oynuyor."},
- "ch_now3":     {"pl":"Teraz: trzy kanały, na CH2 gra {share}% botów, na CH3 {count} świeżych botów.", "en":"Now: three channels, {share}% of the bots on CH2 and {count} fresh bots on CH3.", "de":"Jetzt: drei Kanäle, {share}% der Bots auf CH2 und {count} frische Bots auf CH3.", "tr":"Şimdi: üç kanal, botların %{share}'i CH2'de ve {count} yeni bot CH3'te."},
- "ch_now4":     {"pl":"Teraz: cztery kanały, na CH2 gra {share}% botów, na CH3 i CH4 {count} świeżych botów.", "en":"Now: four channels, {share}% of the bots on CH2 and {count} fresh bots on CH3 and CH4.", "de":"Jetzt: vier Kanäle, {share}% der Bots auf CH2 und {count} frische Bots auf CH3 und CH4.", "tr":"Şimdi: dört kanal, botların %{share}'i CH2'de ve {count} yeni bot CH3 ile CH4'te."},
+ "ch2_now_on":  {"pl":"Teraz: dwa kanały, na CH2 gra {share}% botów.", "en":"Now: two channels, {share}% of the bots play on CH2.", "de":"Jetzt: zwei Kanäle, {share}% der Bots spielen auf CH2.", "tr":"Şimdi: iki kanal, botların %{share} kadarı CH2'de oynuyor."},
+ "ch_now3":     {"pl":"Teraz: trzy kanały, na CH2 gra {share}% botów, na CH3 {count} świeżych botów.", "en":"Now: three channels, {share}% of the bots on CH2 and {count} fresh bots on CH3.", "de":"Jetzt: drei Kanäle, {share}% der Bots auf CH2 und {count} frische Bots auf CH3.", "tr":"Şimdi: üç kanal, botların %{share} kadarı CH2'de ve {count} yeni bot CH3'te."},
+ "ch_now4":     {"pl":"Teraz: cztery kanały, na CH2 gra {share}% botów, na CH3 i CH4 {count} świeżych botów.", "en":"Now: four channels, {share}% of the bots on CH2 and {count} fresh bots on CH3 and CH4.", "de":"Jetzt: vier Kanäle, {share}% der Bots auf CH2 und {count} frische Bots auf CH3 und CH4.", "tr":"Şimdi: dört kanal, botların %{share} kadarı CH2'de ve {count} yeni bot CH3 ile CH4'te."},
  "ch2_ports":   {"pl":"Gracze wejdą na nowe kanały po najbliższym uruchomieniu serwera z launchera (GRAJ) - launcher otworzy wtedy ich porty (13000-{end}). Boty grają na nich już teraz.",
-                 "en":"Players reach the new channels after the next start from the launcher (GRAJ), which opens their ports (13000-{end}) then. The bots play on them already.", "de":"Spieler erreichen die neuen Kanäle nach dem nächsten Start aus dem Launcher (GRAJ), der dann ihre Ports (13000-{end}) öffnet. Die Bots spielen schon jetzt darauf.", "tr":"Oyuncular yeni kanallara başlatıcıdan (GRAJ) bir sonraki başlatmadan sonra girer; başlatıcı o zaman portlarını (13000-{end}) açar. Botlar şimdiden orada oynuyor."},
+                 "en":"Players reach the new channels after the next start from the launcher (GRAJ), which opens their ports (13000-{end}) then. The bots play on them already.", "de":"Spieler erreichen die neuen Kanäle nach dem nächsten Start aus dem Launcher (GRAJ), der dann ihre Ports (13000-{end}) öffnet. Die Bots spielen schon jetzt darauf.", "tr":"Oyuncular yeni kanallara launcher'dan (OYNA) bir sonraki başlatmadan sonra girer; launcher o zaman portlarını (13000-{end}) açar. Botlar şimdiden orada oynuyor."},
  "ch2_pending": {"pl":"Zapisano w panelu: {what}. Zadziała po restarcie serwera.", "en":"Saved in the panel: {what}. Applies after a server restart.", "de":"Im Panel gespeichert: {what}. Gilt nach einem Serverneustart.", "tr":"Panelde kaydedildi: {what}. Sunucu yeniden başlatılınca geçerli olur."},
  "ch_words1":   {"pl":"jeden kanał", "en":"one channel", "de":"ein Kanal", "tr":"tek kanal"},
- "ch_words2":   {"pl":"dwa kanały, {share}% botów na CH2", "en":"two channels, {share}% of the bots on CH2", "de":"zwei Kanäle, {share}% der Bots auf CH2", "tr":"iki kanal, botların %{share}'i CH2'de"},
- "ch_words3":   {"pl":"trzy kanały, {share}% botów na CH2, {count} świeżych botów na CH3", "en":"three channels, {share}% of the bots on CH2, {count} fresh bots on CH3", "de":"drei Kanäle, {share}% der Bots auf CH2, {count} frische Bots auf CH3", "tr":"üç kanal, botların %{share}'i CH2'de, {count} yeni bot CH3'te"},
- "ch_words4":   {"pl":"cztery kanały, {share}% botów na CH2, {count} świeżych botów na CH3 i CH4", "en":"four channels, {share}% of the bots on CH2, {count} fresh bots on CH3 and CH4", "de":"vier Kanäle, {share}% der Bots auf CH2, {count} frische Bots auf CH3 und CH4", "tr":"dört kanal, botların %{share}'i CH2'de, {count} yeni bot CH3 ve CH4'te"},
+ "ch_words2":   {"pl":"dwa kanały, {share}% botów na CH2", "en":"two channels, {share}% of the bots on CH2", "de":"zwei Kanäle, {share}% der Bots auf CH2", "tr":"iki kanal, botların %{share} kadarı CH2'de"},
+ "ch_words3":   {"pl":"trzy kanały, {share}% botów na CH2, {count} świeżych botów na CH3", "en":"three channels, {share}% of the bots on CH2, {count} fresh bots on CH3", "de":"drei Kanäle, {share}% der Bots auf CH2, {count} frische Bots auf CH3", "tr":"üç kanal, botların %{share} kadarı CH2'de, {count} yeni bot CH3'te"},
+ "ch_words4":   {"pl":"cztery kanały, {share}% botów na CH2, {count} świeżych botów na CH3 i CH4", "en":"four channels, {share}% of the bots on CH2, {count} fresh bots on CH3 and CH4", "de":"vier Kanäle, {share}% der Bots auf CH2, {count} frische Bots auf CH3 und CH4", "tr":"dört kanal, botların %{share} kadarı CH2'de, {count} yeni bot CH3 ve CH4'te"},
  "ch_bad_count": {"pl":"Liczba kanałów musi być od 1 do 4. Nic nie zmieniono.", "en":"The number of channels has to be between 1 and 4. Nothing was changed.", "de":"Die Zahl der Kanäle muss zwischen 1 und 4 liegen. Nichts wurde geändert.", "tr":"Kanal sayısı 1 ile 4 arasında olmalı. Hiçbir şey değiştirilmedi."},
  "ch_fresh_bad": {"pl":"Liczba świeżych botów musi być od 0 do 1500. Nic nie zmieniono.", "en":"The number of fresh bots has to be between 0 and 1500. Nothing was changed.", "de":"Die Zahl der frischen Bots muss zwischen 0 und 1500 liegen. Nichts wurde geändert.", "tr":"Yeni bot sayısı 0 ile 1500 arasında olmalı. Hiçbir şey değiştirilmedi."},
  "ch2_saved":   {"pl":"✅ Zapisano. Na VPS użyj w launcherze: Zastosuj ustawienia i zrestartuj serwer na VPS. Restart rdzeni z panelu nie stosuje ustawień .env ani portów nowych kanałów. Lokalnie użyj GRAJ.",
-                 "en":"✅ Saved. On a VPS use the launcher: Apply settings and restart the VPS server. Restarting cores from the panel does not apply .env settings or new channel ports. Locally use PLAY.", "de":"✅ Gespeichert. Auf einem VPS im Launcher Einstellungen anwenden und den VPS-Server neu starten. Ein Kernneustart im Panel übernimmt weder .env noch neue Kanalports. Lokal GRAJ verwenden.", "tr":"✅ Kaydedildi. VPS için başlatıcıdaki ayarları uygula ve VPS sunucusunu yeniden başlat seçeneğini kullanın. Panelde çekirdekleri yeniden başlatmak .env veya yeni kanal portlarını uygulamaz. Yerelde GRAJ kullanın."},
+                 "en":"✅ Saved. On a VPS use the launcher: Apply settings and restart the VPS server. Restarting cores from the panel does not apply .env settings or new channel ports. Locally use PLAY.", "de":"✅ Gespeichert. Auf einem VPS im Launcher Einstellungen anwenden und den VPS-Server neu starten. Ein Kernneustart im Panel übernimmt weder .env noch neue Kanalports. Lokal GRAJ verwenden.", "tr":"✅ Kaydedildi. VPS'te launcher'da Ayarları uygula ve VPS sunucusunu yeniden başlat seçeneğini kullan. Panelden çekirdekleri yeniden başlatmak .env ayarlarını veya yeni kanal portlarını uygulamaz. Yerelde OYNA'yı kullan."},
  "ch2_bad":     {"pl":"Udział botów na CH2 musi być liczbą od 10 do 90. Nic nie zmieniono.", "en":"The share of bots on CH2 has to be between 10 and 90. Nothing was changed.", "de":"Der Anteil der Bots auf CH2 muss eine Zahl von 10 bis 90 sein. Nichts wurde geändert.", "tr":"CH2'deki bot payı 10 ile 90 arasında bir sayı olmalı. Hiçbir şey değiştirilmedi."},
  "ch2_failed":  {"pl":"Nie udało się zapisać ustawienia kanałów w katalogu wymiany z serwerem.", "en":"Could not write the channel setting into the spool shared with the server.", "de":"Die Kanaleinstellung konnte nicht in das mit dem Server geteilte Verzeichnis geschrieben werden.", "tr":"Kanal ayarı sunucuyla paylaşılan klasöre yazılamadı."},
  "rates_range":  {"pl":"Każda z trzech wartości musi być liczbą całkowitą od 1 do 10000. Nic nie zmieniono. 🙂","en":"Each of the three has to be a whole number between 1 and 10000. Nothing was changed. 🙂",
@@ -4717,7 +4984,7 @@ T = {
  "about_title":  {"pl":"Co to jest?","en":"What is this?","de":"Was ist das hier?","tr":"Bu nedir?"},
  "about_goal":   {"pl":"To Metin2 takie, jakie było w 2014 — oryginalna gra, bez zmian — na serwerze, który ktoś postawił dla siebie. Bez sklepu z przedmiotami, bez niczego do kupienia i bez grindu, który istnieje tylko po to, by coś Ci sprzedać. Grasz we własnym tempie.","en":"This is Metin2 as it was in 2014 — the original game, unchanged — running on a server somebody set up for themselves. No item shop, nothing to buy, and none of the grind that only exists to sell you something. You play at your own pace.",
                   "de":"Das hier ist Metin2, wie es 2014 war — das Originalspiel, unverändert — auf einem Server, den sich jemand selbst eingerichtet hat. Kein Item-Shop, nichts zu kaufen, und nichts von dem Grind, den es nur gibt, um dir etwas zu verkaufen. Du spielst in deinem eigenen Tempo.",
-                  "tr":"Burada 2014'teki hâliyle Metin2 var — orijinal oyun, değiştirilmemiş — birinin kendisi için kurduğu bir sunucuda çalışıyor. Item shop yok, satın alınacak bir şey yok ve sadece sana bir şey satmak için var olan o grind yok. Kendi hızında oynarsın."},
+                  "tr":"Burada 2014'teki hâliyle Metin2 var — orijinal oyun, değiştirilmemiş — birinin kendisi için kurduğu bir sunucuda çalışıyor. Nesne Market yok, satın alınacak bir şey yok ve sırf sana bir şey satmak için var olan kasma çilesi yok. Kendi hızında oynarsın."},
  "about_hobby":  {"pl":"To projekt hobbystyczny. Nikt na nim nie zarabia, nie ma nic do kupienia i nigdy nie będzie.","en":"This is a hobby project. Nobody earns anything from it, there is nothing to buy, and there never will be.",
                   "de":"Das hier ist ein Hobbyprojekt. Niemand verdient daran etwas, es gibt nichts zu kaufen, und das wird auch so bleiben.",
                   "tr":"Burası bir hobi projesi. Kimse bundan para kazanmıyor, satın alınacak bir şey yok ve olmayacak da."},
@@ -4747,7 +5014,7 @@ T = {
  "ob_go":        {"pl":"Załóż pierwsze konto","en":"Create the first account","de":"Erstes Konto anlegen","tr":"İlk hesabı oluştur"},
  "admin_hint_local":{"pl":"Ten serwer słucha tylko tego komputera, więc nie trzeba wpisywać hasła.","en":"This server only listens to this computer, so there is no passphrase to type.",
                   "de":"Dieser Server lauscht nur auf diesem Computer, es gibt also keine Passphrase einzugeben.",
-                  "tr":"Bu sunucu yalnızca bu bilgisayarı dinliyor, bu yüzden girilecek bir parola yok."},
+                  "tr":"Bu sunucuya yalnızca bu bilgisayardan erişilebiliyor, bu yüzden yazılacak bir gizli kelime yok."},
  "admin_open":   {"pl":"🛠️ Zarządzaj serwerem","en":"🛠️ Manage the server","de":"🛠️ Server verwalten","tr":"🛠️ Sunucuyu yönet"},
  "back_front":   {"pl":"← Strona główna","en":"← Front page","de":"← Startseite","tr":"← Ana sayfa"},
  "dl_local_t":   {"pl":"Gra jest na tym komputerze","en":"The game is on this computer","de":"Das Spiel liegt auf diesem Computer","tr":"Oyun bu bilgisayarda"},
@@ -4756,7 +5023,7 @@ T = {
                   "tr":"İndirilecek bir şey yok: bu sunucu şu an başında oturduğun makinede çalışıyor, oyun da doğrudan buraya açıldı. Masaüstünde <b>Metin2 Singleplayer</b> kısayolunu bul ve oradan başlat."},
  "dl_local_w":   {"pl":"Wciąż się rozpakowuje. To ponad gigabajt, więc daj temu kilka minut — skrót pojawi się na pulpicie, gdy skończy.","en":"Still unpacking. It is well over a gigabyte, so give it a few minutes — the shortcut appears on the Desktop when it is done.",
                   "de":"Wird noch ausgepackt. Es ist deutlich über ein Gigabyte, gib ihm also ein paar Minuten — die Verknüpfung erscheint auf dem Desktop, sobald es fertig ist.",
-                  "tr":"Hâlâ açılıyor. Bir gigabayttan epey büyük, birkaç dakika ver — bitince kısayol masaüstünde belirir."},
+                  "tr":"Dosyalar hâlâ çıkarılıyor. Bir gigabayttan epey büyük, birkaç dakika ver — bitince kısayol masaüstünde belirir."},
  # --- the operator's orientation, shown once they are logged in ---
  # This is the first thing the person who installed the server sees. It exists
  # because the dashboard used to open straight onto three cards with no
@@ -4764,7 +5031,7 @@ T = {
  "op_title":     {"pl":"Twój serwer działa","en":"Your server is running","de":"Dein Server läuft","tr":"Sunucun çalışıyor"},
  "op_intro":     {"pl":"Wszystko jest uruchomione: gra, baza danych i ten panel. Plakietka u góry mówi, czy sama gra przyjmuje połączenia — jeśli kiedyś pokaże offline, choć jesteś pewien, że nie powinna, to pierwsze miejsce, w które warto zajrzeć.","en":"Everything is up: the game, the database and this panel. The badge at the top says whether the game itself is accepting connections — if it ever reads offline while you are sure it should not, that is the first place to look.",
                   "de":"Alles läuft: das Spiel, die Datenbank und dieses Panel. Die Anzeige oben sagt dir, ob das Spiel selbst Verbindungen annimmt — falls dort einmal „offline“ steht, obwohl du sicher bist, dass es nicht so sein sollte, schau zuerst dort nach.",
-                  "tr":"Her şey ayakta: oyun, veritabanı ve bu panel. Üstteki rozet oyunun bağlantı kabul edip etmediğini gösterir — bir gün „çevrimdışı“ yazıyorsa ve bundan emin değilsen, önce oraya bak."},
+                  "tr":"Her şey ayakta: oyun, veritabanı ve bu panel. Üstteki rozet oyunun bağlantı kabul edip etmediğini gösterir — bir gün „çevrimdışı“ yazıyorsa ve olmaması gerektiğinden eminsen, önce oraya bak."},
  "op_share":     {"pl":"Aby ktoś mógł zagrać, daj mu adres tej strony. Zakłada tu konto i pobiera grę z tej samej strony — ona już wskazuje na Twój serwer, więc nie musi niczego konfigurować.","en":"To let someone play, give them the address of this page. They register an account here and download the game from the same page — it already points at your server, so there is nothing for them to configure.",
                   "de":"Damit jemand spielen kann, gib ihm die Adresse dieser Seite. Er registriert sich hier und lädt das Spiel von derselben Seite — es zeigt bereits auf deinen Server, es gibt für ihn nichts einzustellen.",
                   "tr":"Birinin oynaması için ona bu sayfanın adresini ver. Hesabını burada açar ve oyunu aynı sayfadan indirir — oyun zaten senin sunucunu gösteriyor, ayarlaması gereken bir şey yok."},
@@ -4772,13 +5039,13 @@ T = {
  "op_local_t":   {"pl":"Ten serwer jest tylko dla Ciebie","en":"This server is for you alone","de":"Dieser Server ist nur für dich","tr":"Bu sunucu yalnızca sana ait"},
  "op_local":     {"pl":"Zainstalowano go jako serwer lokalny, więc wszystko słucha tylko na tym komputerze. Nikt inny nie dołączy — ani przez internet, ani z innego urządzenia w tej samej sieci. Żaden port nie został otwarty i nie powstała żadna reguła zapory. Załóż tu konto, pobierz grę z tej strony i graj.","en":"This was installed as a local server, so everything listens on this computer only. Nobody else can join — not over the internet, and not from another device on the same network. No port was opened and no firewall rule was created. Register an account here, download the game from this page, and play.",
                   "de":"Das hier wurde als lokaler Server installiert, es lauscht also alles ausschließlich auf diesem Computer. Niemand sonst kann mitspielen — weder über das Internet noch von einem anderen Gerät im selben Netzwerk. Es wurde kein Port geöffnet und keine Firewallregel angelegt. Registriere hier ein Konto, lade das Spiel von dieser Seite und spiel los.",
-                  "tr":"Bu, yerel bir sunucu olarak kuruldu; yani her şey yalnızca bu bilgisayarda dinliyor. Başka kimse katılamaz — ne internet üzerinden ne de aynı ağdaki başka bir cihazdan. Hiçbir port açılmadı ve hiçbir güvenlik duvarı kuralı oluşturulmadı. Buradan bir hesap aç, oyunu bu sayfadan indir ve oyna."},
+                  "tr":"Bu, yerel bir sunucu olarak kuruldu; yani her şeye yalnızca bu bilgisayardan erişilebilir. Başka kimse katılamaz — ne internet üzerinden ne de aynı ağdaki başka bir cihazdan. Hiçbir port açılmadı ve hiçbir güvenlik duvarı kuralı oluşturulmadı. Buradan bir hesap aç, oyunu bu sayfadan indir ve oyna."},
  "op_local_hint":{"pl":"Jeśli później zechcesz grać ze znajomymi, nie otwieraj portów na domowym routerze: to oddaje Twój domowy adres każdemu graczowi, Twój upload staje się wąskim gardłem, a serwer znika, gdy tylko ten komputer jest wyłączony. Wynajmij mały serwer Linux i uruchom tam instalator — dokumentacja projektu ma na to jedną komendę.","en":"If you later want friends to play, do not open ports on your home router: that hands your home address to every player, your upload speed becomes the bottleneck, and the server is gone whenever this computer is. Rent a small Linux server instead and run the installer there — the project's documentation has the one command for it.",
                   "de":"Wenn später Freunde mitspielen sollen, öffne keine Ports an deinem Heimrouter: Das gibt deine Heimadresse an jeden Spieler weiter, dein Upload wird zum Flaschenhals, und der Server ist weg, sobald dieser Rechner aus ist. Miete stattdessen einen kleinen Linux-Server und führe den Installer dort aus — der eine Befehl dafür steht in der Dokumentation des Projekts.",
                   "tr":"İleride arkadaşlarının da oynamasını istersen, ev yönlendiricinde port açma: bu, ev adresini her oyuncuya verir, yükleme hızın darboğaz olur ve bu bilgisayar kapandığında sunucu da gider. Bunun yerine küçük bir Linux sunucu kirala ve kurulumu orada çalıştır — bunun tek komutu projenin belgelerinde."},
  "op_rates":     {"pl":"Mnożniki decydują, jak szybko toczy się cały serwer: doświadczenie, drop przedmiotów i yang. 100% to gra dokładnie taka, jaką wydano. Zapis restartuje grę na mniej niż minutę, więc gracze zostają na chwilę rozłączeni.","en":"Rates decide how fast the whole server plays: experience, item drops and yang. 100% is the game exactly as it shipped. Saving restarts the game for well under a minute, so players are briefly disconnected.",
                   "de":"Die Raten bestimmen, wie schnell sich der ganze Server spielt: Erfahrung, Item-Drops und Yang. 100 % ist das Spiel genau so, wie es ausgeliefert wurde. Beim Speichern startet das Spiel für deutlich unter einer Minute neu, Spieler fliegen also kurz raus.",
-                  "tr":"Oranlar tüm sunucunun ne kadar hızlı oynandığını belirler: tecrübe, eşya düşüşü ve yang. %100, oyunun çıktığı hâlidir. Kaydettiğinde oyun bir dakikadan çok kısa süre yeniden başlar, oyuncular kısa süre düşer."},
+                  "tr":"Oranlar tüm sunucunun ne kadar hızlı oynandığını belirler: tecrübe, eşya drop oranı ve yang. %100, oyunun çıktığı hâlidir. Kaydettiğinde oyun bir dakikadan çok kısa süre yeniden başlar, oyuncular kısa süre düşer."},
  "op_players":   {"pl":"W zakładce Gracze znajdziesz każdą postać z kontem, do którego należy. Otwórz ją, aby dać przedmioty lub yang, albo ustawić poziom. To trafia prosto do bazy, więc gracz musi się wylogować i zalogować ponownie, zanim to zobaczy.","en":"Under Players you find every character with the account it belongs to. Open one to give items or yang, or to set a level. Those go straight into the database, so the player has to log out and back in before they see them.",
                   "de":"Unter „Spieler“ findest du jeden Charakter mit dem Konto, zu dem er gehört. Öffne einen, um Gegenstände oder Yang zu geben oder ein Level zu setzen. Das geht direkt in die Datenbank — der Spieler muss sich also aus- und wieder einloggen, bevor er es sieht.",
                   "tr":"„Oyuncular“ altında her karakteri, ait olduğu hesapla birlikte görürsün. Eşya ya da yang vermek veya seviye ayarlamak için birini aç. Bunlar doğrudan veritabanına yazılır, yani oyuncunun görmesi için çıkıp yeniden girmesi gerekir."},
@@ -4787,7 +5054,7 @@ T = {
                   "tr":"Işınla ve Koşma hızı farklıdır: o anda çevrimiçi olan bir karaktere, oyunun içindeki bir yardımcı betik üzerinden etki ederler. Yani oyuncunun gerçekten oyunda olması gerekir — olmayanlar için iki düğme de başarılı gibi davranmak yerine bunu söyler."},
  "op_forgot":    {"pl":"Gdy gracz zapomni hasła, robisz mu poniżej link do resetu. Działa raz i wygasa po dniu — nigdy nie widzisz ani nie ustawiasz jego hasła.","en":"When a player forgets their password, you make them a reset link below. It works once and expires after a day — you never see or set their password yourself.",
                   "de":"Wenn ein Spieler sein Passwort vergisst, erzeugst du ihm unten einen Reset-Link. Er funktioniert einmal und verfällt nach einem Tag — du siehst oder setzt sein Passwort nie selbst.",
-                  "tr":"Bir oyuncu şifresini unutursa, aşağıda ona bir sıfırlama bağlantısı oluşturursun. Bir kez çalışır ve bir gün sonra geçersiz olur — şifresini asla sen görmez ya da belirlemezsin."},
+                  "tr":"Bir oyuncu şifresini unutursa, aşağıda ona bir sıfırlama bağlantısı oluşturursun. Bir kez çalışır ve bir gün sonra geçersiz olur — şifresini hiçbir zaman görmezsin, kendin de belirlemezsin."},
  "op_more":      {"pl":"Wszystko inne — kopie zapasowe, przenoszenie serwera, przebudowa klienta pod nowy adres — jest w dokumentacji projektu.","en":"Everything else — backups, moving the server, rebuilding the client for a new address — is in the project's documentation.",
                   "de":"Alles Weitere — Sicherungen, Serverumzug, den Client für eine neue Adresse neu bauen — steht in der Dokumentation des Projekts.",
                   "tr":"Geri kalan her şey — yedekler, sunucu taşıma, yeni bir adres için istemciyi yeniden derleme — projenin belgelerinde."},
@@ -4798,11 +5065,11 @@ T = {
  "pp_title":     {"pl":"🔑 Hasło administratora","en":"🔑 Admin passphrase","de":"🔑 Admin-Passphrase","tr":"🔑 Yönetici gizli kelimesi"},
  "pp_old":       {"pl":"Obecne hasło","en":"Current passphrase","de":"Aktuelle Passphrase","tr":"Mevcut gizli kelime"},
  "pp_new":       {"pl":"Nowe hasło (co najmniej {n} znaków)","en":"New passphrase (at least {n} characters)","de":"Neue Passphrase (mindestens {n} Zeichen)","tr":"Yeni gizli kelime (en az {n} karakter)"},
- "pp_new2":      {"pl":"Nowe hasło jeszcze raz","en":"New passphrase again","de":"Neue Passphrase wiederholen","tr":"Yeni gizli kelimeyi tekrar"},
+ "pp_new2":      {"pl":"Nowe hasło jeszcze raz","en":"New passphrase again","de":"Neue Passphrase wiederholen","tr":"Yeni gizli kelime (tekrar)"},
  "pp_save":      {"pl":"🔑 Zmień hasło","en":"🔑 Change passphrase","de":"🔑 Passphrase ändern","tr":"🔑 Gizli kelimeyi değiştir"},
  "pp_local":     {"pl":"Ten serwer słucha tylko tego komputera, więc panel nie pyta o hasło. Ustawienie go teraz oznacza, że jest gotowe, gdyby ten serwer trafił kiedyś tam, gdzie dosięgną go inni.","en":"This server only listens to this computer, so the panel does not ask for a passphrase. Setting one now means it is ready if you ever put this server somewhere others can reach.",
                   "de":"Dieser Server lauscht nur auf diesem Rechner, deshalb fragt das Panel gar nicht nach einer Passphrase. Wenn du jetzt eine setzt, ist sie bereit, falls du den Server später irgendwo hinstellst, wo andere ihn erreichen.",
-                  "tr":"Bu sunucu yalnızca bu bilgisayarı dinliyor, bu yüzden panel gizli kelime sormuyor. Şimdi bir tane belirlersen, sunucuyu ileride başkalarının erişebileceği bir yere koyduğunda hazır olur."},
+                  "tr":"Bu sunucuya yalnızca bu bilgisayardan erişilebilir, bu yüzden panel gizli kelime sormuyor. Şimdi bir tane belirlersen, sunucuyu ileride başkalarının erişebileceği bir yere koyduğunda hazır olur."},
  "pp_done":      {"pl":"Hasło zmienione. Od teraz używaj nowego — instalator pokaże je przy następnym uruchomieniu.","en":"Passphrase changed. Use the new one from now on — the installer will show it the next time you run it.",
                   "de":"Passphrase geändert. Ab jetzt gilt die neue — der Installer zeigt sie dir beim nächsten Lauf an.",
                   "tr":"Gizli kelime değiştirildi. Bundan sonra yenisi geçerli — kurulumu bir dahaki çalıştırmanda onu gösterecek."},
@@ -4820,13 +5087,13 @@ T = {
                   "tr":"İki yeni gizli kelime aynı değil; hiçbir şey değiştirilmedi."},
  "pp_failed":    {"pl":"Nie udało się zapisać hasła, więc pozostało bez zmian. Plik ustawień panelu nie jest zapisywalny.","en":"The passphrase could not be saved, so it is unchanged. The panel's settings file is not writable.",
                   "de":"Die Passphrase konnte nicht gespeichert werden, sie bleibt also unverändert. Die Einstellungsdatei des Panels ist nicht beschreibbar.",
-                  "tr":"Gizli kelime kaydedilemedi, bu yüzden değişmedi. Panelin ayar dosyası yazılabilir değil."},
+                  "tr":"Gizli kelime kaydedilemedi, bu yüzden değişmedi. Panelin ayar dosyasına yazılamıyor."},
  "pp_env":       {"pl":"Ten panel bierze hasło ze środowiska, nie z pliku ustawień, więc nie da się go tu zmienić. Zmień je tam, gdzie ta wartość jest ustawiona.","en":"This panel takes its passphrase from its environment, not from its settings file, so it cannot be changed here. Change it where that value is set.",
                   "de":"Dieses Panel bezieht seine Passphrase aus der Umgebung, nicht aus seiner Einstellungsdatei — hier lässt sie sich deshalb nicht ändern. Ändere sie dort, wo dieser Wert gesetzt wird.",
                   "tr":"Bu panel gizli kelimesini ayar dosyasından değil ortam değişkeninden alıyor, bu yüzden burada değiştirilemez. Bu değerin ayarlandığı yerden değiştir."},
  "tip_pp":       {"pl":"Zmienia hasło do tego panelu administratora. Nie dotyczy żadnego konta gry.","en":"Changes the passphrase for this admin panel. It does not affect any game account.",
                   "de":"Ändert die Passphrase für dieses Admin-Panel. Auf Spielkonten hat das keine Auswirkung.",
-                  "tr":"Bu yönetim panelinin gizli kelimesini değiştirir. Oyun hesaplarını etkilemez."},
+                  "tr":"Bu yönetici panelinin gizli kelimesini değiştirir. Oyun hesaplarını etkilemez."},
  "op_hide":      {"pl":"Rozumiem — ukryj to","en":"Got it — hide this","de":"Verstanden — ausblenden","tr":"Anladım — gizle"},
  "op_show":      {"pl":"Pokaż wprowadzenie ponownie","en":"Show the introduction again","de":"Einführung wieder anzeigen","tr":"Tanıtımı yeniden göster"},
  # --- admin-made password reset links ---
@@ -4875,10 +5142,10 @@ T = {
                   "tr":"Bu paneldeki yönetici oturumunu kapatır. Oyun hesabın etkilenmez."},
  "tip_passphrase":{"pl":"Hasło administratora wybrane przy instalacji serwera. Gracze go nie potrzebują — tylko osoba prowadząca serwer.","en":"The admin passphrase chosen when the server was installed. Players do not need this — only the person running the server.",
                   "de":"Die Admin-Passphrase, die bei der Installation des Servers gewählt wurde. Spieler brauchen sie nicht — nur wer den Server betreibt.",
-                  "tr":"Sunucu kurulurken seçilen yönetici parolası. Oyuncuların buna ihtiyacı yok — sadece sunucuyu işleten kişinin."},
+                  "tr":"Sunucu kurulurken seçilen yönetici gizli kelimesi. Oyuncuların buna ihtiyacı yok — sadece sunucuyu işleten kişinin."},
  "tip_login":    {"pl":"Otwiera obszar administratora. Działa tylko z hasłem panelu, nie z hasłem do gry.","en":"Opens the admin area. Only works with the admin passphrase, not with your game password.",
                   "de":"Öffnet den Admin-Bereich. Funktioniert nur mit der Admin-Passphrase, nicht mit deinem Spiel-Passwort.",
-                  "tr":"Yönetici alanını açar. Sadece yönetici parolasıyla çalışır, oyun şifrenle değil."},
+                  "tr":"Yönetici alanını açar. Sadece yönetici gizli kelimesiyle çalışır, oyun şifrenle değil."},
  "tip_download": {"pl":"Pobiera kompletną grę, około 1,2 GB. Adres serwera jest już wpisany, więc nie musisz nic konfigurować — rozpakuj i uruchom grę. Najwyżej 3 pobrania dziennie; wznowienie przerwanego jest zawsze wolne od limitu.","en":"Downloads the complete game, around 1.2 GB. The server address is already filled in, so you do not have to configure anything — unpack it and start the game. At most 3 downloads per day; resuming an interrupted one is always free.",
                   "de":"Lädt das komplette Spiel herunter, etwa 1,2 GB. Die Serveradresse ist schon eingetragen, du musst nichts einstellen — entpacken und starten. Höchstens 3 Downloads pro Tag; einen abgebrochenen fortzusetzen ist immer frei.",
                   "tr":"Oyunun tamamını indirir, yaklaşık 1,2 GB. Sunucu adresi zaten girili, hiçbir ayar yapman gerekmiyor — çıkart ve başlat. Günde en fazla 3 indirme; yarım kalanı sürdürmek her zaman serbest."},
@@ -4899,13 +5166,13 @@ T = {
                   "tr":"Adının bir kısmını yaz, ya da biliyorsan eşya numarasını. Yaklaşık 9.800 eşya aranabilir."},
  "tip_category": {"pl":"Zawęża wyszukiwanie do jednego rodzaju przedmiotów, żeby nie przewijać całej reszty.","en":"Narrows the search to one kind of item, so you do not have to scroll past everything else.",
                   "de":"Schränkt die Suche auf eine Art von Gegenstand ein, damit du nicht an allem anderen vorbeiscrollen musst.",
-                  "tr":"Aramayı tek bir eşya türüyle sınırlar, böylece diğer her şeyi kaydırmak zorunda kalmazsın."},
+                  "tr":"Aramayı tek bir eşya türüyle sınırlar, böylece gerisini kaydırıp geçmek zorunda kalmazsın."},
  "tip_qty":      {"pl":"Ile sztuk tego przedmiotu dać. Jeden stos mieści najwyżej 65 535.","en":"How many of this item to give. One stack holds at most 65,535.",
                   "de":"Wie viele von diesem Gegenstand gegeben werden. In einen Stapel passen höchstens 65.535.",
                   "tr":"Bu eşyadan kaç adet verilecek. Bir yığında en fazla 65.535 durur."},
  "tip_send_item":{"pl":"Wkłada przedmiot do ekwipunku postaci. Jeśli gracz jest offline, czeka na niego przy następnym logowaniu.","en":"Puts the item into the character's inventory. If they are offline it is waiting at their next login.",
                   "de":"Legt den Gegenstand in das Inventar des Charakters. Ist er offline, liegt er beim nächsten Login bereit.",
-                  "tr":"Eşyayı karakterin çantasına koyar. Çevrimdışıysa bir sonraki girişinde onu bekliyor olur."},
+                  "tr":"Eşyayı karakterin envanterine koyar. Çevrimdışıysa bir sonraki girişinde onu bekliyor olur."},
  "tip_amount":   {"pl":"Ile yang dodać. Wpisz liczbę ujemną, aby zamiast tego zabrać yang.","en":"How much yang to add. Enter a negative number to take yang away instead.",
                   "de":"Wie viel Yang hinzukommt. Gib eine negative Zahl ein, um stattdessen Yang abzuziehen.",
                   "tr":"Ne kadar yang ekleneceği. Yang almak için eksi bir sayı gir."},
@@ -4932,7 +5199,7 @@ T = {
  "ver_unknown":  {"pl":"nieznana","en":"unknown","de":"unbekannt","tr":"bilinmiyor"},
  "ver_unknown_why":{"pl":"Ta kompilacja nie ma pliku wersji, więc panel nie potrafi powiedzieć, która to — i nie będzie zgadywał. Sprawdzanie aktualizacji jest wyłączone, dopóki nie będzie mógł.","en":"This build does not carry a version file, so the panel cannot say which one it is — and will not guess. Update checks stay off until it can.",
                   "de":"Dieser Build enthält keine Versionsdatei, also kann das Panel nicht sagen, welche Version es ist — und rät nicht. Solange bleibt die Update-Prüfung ohne Wirkung.",
-                  "tr":"Bu yapıda sürüm dosyası yok, bu yüzden panel hangi sürüm olduğunu söyleyemez — ve tahmin etmez. O zamana kadar güncelleme kontrolü sonuç vermez."},
+                  "tr":"Bu yapıda sürüm dosyası yok, bu yüzden panel hangi sürüm olduğunu söyleyemez — ve tahmin etmez. Bunu öğrenebilene kadar güncelleme kontrolü kapalı kalır."},
  "pl_nav":       {"pl":"Lista zmian","en":"Patch log","de":"Änderungsprotokoll","tr":"Sürüm notları"},
  "pl_dash_hint": {"pl":"Co zmieniła ta wersja i co zmieniłaby nowsza.","en":"What changed in this build, and what a newer one would change.",
                   "de":"Was sich in diesem Build geändert hat — und was ein neuerer ändern würde.",
@@ -4960,7 +5227,7 @@ T = {
  "pl_check_wait":{"pl":"Sprawdzono przed chwilą — daj temu minutę.","en":"Just checked a moment ago — give it a minute.","de":"Gerade eben schon geprüft — gib ihm eine Minute.","tr":"Az önce kontrol edildi — bir dakika bekle."},
  "pl_open":      {"pl":"📜 Otwórz listę zmian","en":"📜 Open the patch log","de":"📜 Patchlog öffnen","tr":"📜 Sürüm notlarını aç"},
  "upd_none":     {"pl":"To najnowsza opublikowana wersja.","en":"This is the newest published version.","de":"Das ist die neueste veröffentlichte Version.","tr":"Bu, yayımlanan en yeni sürüm."},
- "upd_next_line": {"pl":"Istnieje też linia 2.x (silnik mt2009, wersja {new}). To osobna paczka z Discorda, nie aktualizacja tej instalacji — ten launcher i klient 1.x z nią nie działają.","en":"There is also the 2.x line (mt2009 engine, version {new}). It is a separate package from the Discord, not an update of this install — this launcher and the 1.x client do not work with it.","de":"Es gibt auch die 2.x-Linie (mt2009-Engine, Version {new}). Das ist ein eigenes Paket vom Discord, kein Update dieser Installation — dieser Launcher und der 1.x-Client funktionieren damit nicht.","tr":"Ayrıca 2.x hattı var (mt2009 motoru, sürüm {new}). Bu, Discord'dan ayrı bir pakettir, bu kurulumun güncellemesi değil — bu başlatıcı ve 1.x istemcisi onunla çalışmaz."},
+ "upd_next_line": {"pl":"Istnieje też linia 2.x (silnik mt2009, wersja {new}). To osobna paczka z Discorda, nie aktualizacja tej instalacji — ten launcher i klient 1.x z nią nie działają.","en":"There is also the 2.x line (mt2009 engine, version {new}). It is a separate package from the Discord, not an update of this install — this launcher and the 1.x client do not work with it.","de":"Es gibt auch die 2.x-Linie (mt2009-Engine, Version {new}). Das ist ein eigenes Paket vom Discord, kein Update dieser Installation — dieser Launcher und der 1.x-Client funktionieren damit nicht.","tr":"Ayrıca 2.x serisi de var (mt2009 motoru, sürüm {new}). Bu, Discord'dan edinilen ayrı bir paket, bu kurulumun güncellemesi değil — bu launcher ve 1.x istemcisi onunla çalışmaz."},
  "upd_never":    {"pl":"Jeszcze nie sprawdzono — pierwsze sprawdzenie następuje kilka minut po starcie panelu.","en":"Not checked yet — the first check happens a couple of minutes after the panel starts.",
                   "de":"Noch nicht geprüft — die erste Prüfung läuft ein paar Minuten nach dem Start des Panels.",
                   "tr":"Henüz kontrol edilmedi — ilk kontrol panel başladıktan birkaç dakika sonra yapılır."},
@@ -4986,7 +5253,7 @@ T = {
  "upd_warn_t":   {"pl":"Zanim zaczniesz","en":"Before you start","de":"Bevor du startst","tr":"Başlamadan önce"},
  "upd_warn":     {"pl":"Gra jest przebudowywana i restartowana, więc wszyscy grający zostają rozłączeni i nie mogą się zalogować, dopóki nie wstanie ponownie. Zwykle dwie–trzy minuty; dłużej, gdy sama gra musi zostać przekompilowana. Konta, postacie, przedmioty i gildie pozostają nietknięte — żyją w bazie danych, a nic w aktualizacji się do niej nie zbliża.","en":"The game is rebuilt and restarted, so everyone playing is disconnected and cannot log back in until it is up again. Usually two or three minutes; longer when the game itself has to be recompiled. Accounts, characters, items and guilds are not touched — they live in the database, and nothing in an update goes near it.",
                   "de":"Das Spiel wird neu gebaut und neu gestartet, alle Spielenden fliegen dabei raus und kommen erst wieder rein, wenn es läuft. Meist zwei bis drei Minuten; länger, wenn das Spiel selbst neu übersetzt werden muss. Konten, Charaktere, Gegenstände und Gilden bleiben unangetastet — sie liegen in der Datenbank, und kein Update fasst sie an.",
-                  "tr":"Oyun yeniden derlenip yeniden başlatılır; oynayan herkesin bağlantısı kesilir ve sunucu geri gelene kadar giriş yapamazlar. Genellikle iki üç dakika; oyunun kendisi yeniden derlenmesi gerekiyorsa daha uzun. Hesaplar, karakterler, eşyalar ve loncalar etkilenmez — onlar veritabanında durur ve hiçbir güncelleme oraya dokunmaz."},
+                  "tr":"Oyun yeniden derlenip yeniden başlatılır; oynayan herkesin bağlantısı kesilir ve sunucu geri gelene kadar giriş yapamazlar. Genellikle iki üç dakika; oyunun kendisinin yeniden derlenmesi gerekiyorsa daha uzun. Hesaplar, karakterler, eşyalar ve loncalar etkilenmez — onlar veritabanında durur ve hiçbir güncelleme oraya dokunmaz."},
  "upd_warn_panel":{"pl":"Panel też się restartuje, więc ta strona pod koniec straci na minutę kontakt. Zostaw ją otwartą — sama się odnajdzie i pokaże, jak poszło.","en":"The panel restarts too, so this page will lose contact for a minute near the end. Leave it open — it picks up again by itself and shows how it finished.",
                   "de":"Auch das Panel startet neu, diese Seite verliert also gegen Ende kurz den Kontakt. Lass sie offen — sie meldet sich von selbst zurück und zeigt, wie es ausgegangen ist.",
                   "tr":"Panel de yeniden başlar, bu yüzden bu sayfa sona doğru bir dakikalığına bağlantıyı kaybeder. Açık bırak — kendiliğinden geri döner ve nasıl bittiğini gösterir."},
@@ -5006,7 +5273,7 @@ T = {
                   "tr":"Bu sunucuyu kurarken kullandığın komutu tekrar çalıştır. Yayımlanan sürümü indirir, yeniden derler ve yeniden başlatır:"},
  "upd_manual_keeps":{"pl":"Twoja baza pozostaje nietknięta: konta, postacie, przedmioty i gildie zostają, tak samo jak Twoje ustawienia. Zanim cokolwiek się zmieni, pokazuje, którą wersję masz, a która jest opublikowana, i pyta. Gracze są rozłączeni na czas restartu serwera, zwykle minutę lub dwie.","en":"Your database is not touched: accounts, characters, items and guilds all stay, and so do your settings. Before anything changes it shows which version you have and which one is published, and asks. Players are disconnected while the server restarts, usually for a minute or two.",
                   "de":"Deine Datenbank wird nicht angefasst: Konten, Charaktere, Gegenstände und Gilden bleiben, ebenso deine Einstellungen. Bevor sich etwas ändert, zeigt er dir, welche Version du hast und welche veröffentlicht ist, und fragt nach. Während des Neustarts fliegen Spieler kurz raus, meist für ein bis zwei Minuten.",
-                  "tr":"Veritabanına dokunulmaz: hesaplar, karakterler, eşyalar ve loncalar kalır, ayarların da öyle. Herhangi bir şey değişmeden önce hangi sürümde olduğunu ve hangisinin yayımlandığını gösterir ve sorar. Sunucu yeniden başlarken oyuncular kısa süre düşer, genelde bir iki dakika."},
+                  "tr":"Veritabanına dokunulmaz: hesaplar, karakterler, eşyalar ve loncalar kalır, ayarların da öyle. Herhangi bir şey değişmeden önce hangi sürümde olduğunu ve hangisinin yayımlandığını gösterir ve sorar. Sunucu yeniden başlarken oyuncuların bağlantısı kesilir, genelde bir iki dakika."},
  "upd_progress": {"pl":"Postęp","en":"Progress","de":"Fortschritt","tr":"İlerleme"},
  "upd_waiting":  {"pl":"Czekam, aż aktualizator to podejmie…","en":"Waiting for the updater to pick this up…","de":"Warte darauf, dass der Updater das aufnimmt…","tr":"Güncelleyicinin bunu almasını bekliyorum…"},
  "upd_lost":     {"pl":"Brak kontaktu z panelem — prawdopodobnie się restartuje. Ta strona próbuje dalej.","en":"No contact with the panel — it is probably restarting. This page keeps trying.",
@@ -5047,31 +5314,31 @@ T.update({
  "ai_intro":    {"en":"The settings below are live: the game core reads them every five seconds. Under each one it says what it moves and how soon - some change how many bots take an errand up, some when they set out, and four can only make an errand rarer, because at 100 the bots already take it at every chance. Surviving a losing fight, choosing a profession and finding a weapon are never affected — those are not preferences.",
                  "pl":"Poniższe ustawienia działają na żywo: rdzeń gry czyta je co pięć sekund. Pod każdym jest napisane, co zmienia i jak szybko - jedne zmieniają, ilu botów czymś się zajmuje, inne, kiedy wyruszają, a cztery mogą sprawę tylko rozrzedzić, bo przy 100 boty już biorą ją przy każdej okazji. Ucieczka z przegranej walki, wybór profesji i zdobycie broni nigdy nie podlegają tym suwakom — to nie są preferencje.",
                  "de":"Die Einstellungen unten wirken live: der Spielkern liest sie alle fünf Sekunden. Unter jeder steht, was sie bewegt und wie schnell - manche ändern, wie viele Bots eine Besorgung übernehmen, manche, wann sie aufbrechen, und vier können eine Besorgung nur seltener machen, weil die Bots sie bei 100 schon bei jeder Gelegenheit erledigen. Überleben, Berufswahl und Waffensuche bleiben unberührt — das sind keine Vorlieben.",
-                 "tr":"Aşağıdaki ayarlar canlıdır: oyun çekirdeği onları beş saniyede bir okur. Her birinin altında neyi ve ne kadar çabuk değiştirdiği yazar - bazıları kaç botun bir işi üstlendiğini, bazıları ne zaman yola çıktıklarını değiştirir, dördü ise bir işi yalnızca seyrekleştirebilir, çünkü 100'de botlar onu zaten her fırsatta yapar. Hayatta kalma, meslek seçimi ve silah bulma bunlardan etkilenmez — onlar tercih değildir."},
+                 "tr":"Aşağıdaki ayarlar anında uygulanır: oyun çekirdeği onları beş saniyede bir okur. Her birinin altında neyi ve ne kadar çabuk değiştirdiği yazar - bazıları kaç botun bir işi üstlendiğini, bazıları ne zaman yola çıktıklarını değiştirir, dördü ise bir işi yalnızca seyrekleştirebilir, çünkü 100'de botlar onu zaten her fırsatta yapar. Kaybedilen bir dövüşten kaçıp sağ kalma, meslek seçimi ve silah bulma bunlardan hiçbir zaman etkilenmez — onlar tercih değildir."},
  "ai_chat":      {"en":"Bots talk over their heads","pl":"Boty piszą nad głową, co robią",
                   "de":"Bots reden über ihren Köpfen","tr":"Botlar başlarının üstünde konuşur"},
  "ai_chat_help": {"en":"The line over a bot's head (hunting, off to the blacksmith, fishing). Off for players who call it spam. The shout on the world channel about a +7/+8/+9 refine stays either way.",
                   "pl":"Napis nad głową bota (poluje, idzie do kowala, łowi). Wyłącz dla graczy, którym to przeszkadza. Wołanie na czacie świata o ulepszeniu na +7/+8/+9 zostaje niezależnie od tego.",
                   "de":"Die Zeile über dem Kopf eines Bots (jagt, geht zum Schmied, angelt). Aus für Spieler, die es Spam nennen. Der Ruf im Weltkanal über ein +7/+8/+9-Upgrade bleibt so oder so.",
-                  "tr":"Botun başının üstündeki satır (avlanıyor, demirciye gidiyor, balık tutuyor). Spam diyen oyuncular için kapatın. Dünya kanalındaki +7/+8/+9 bağırışı her halükârda kalır."},
+                  "tr":"Botun başının üstündeki satır (avlanıyor, demirciye gidiyor, balık tutuyor). Spam diyen oyuncular için kapat. Dünya kanalındaki +7/+8/+9 yükseltme duyurusu her durumda kalır."},
  "ai_chat_on":   {"en":"Enabled","pl":"Włączone","de":"Eingeschaltet","tr":"Açık"},
  "ai_books":     {"en":"Skill books without the day's wait","pl":"Księgi umiejętności bez dobowej przerwy","de":"Fertigkeitsbücher ohne Tageswartezeit","tr":"Günlük bekleme olmadan beceri kitapları"},
  "ai_books_help":{"en":"The game makes a character wait about a day between two reads of the same skill, so a bot needs a month of books to take a skill from M1 to G1 and the books pile up in its bag meanwhile. On, a bot reads a book the moment it has one; the only pace left is the game's own (20 000 experience and a roll per read). Off keeps the game's daily wait.",
                   "pl":"Gra każe czekać około doby między dwoma czytaniami tej samej umiejętności, więc bot potrzebuje miesiąca, by przeczytać skill z M1 na G1, a księgi tymczasem zalegają w plecaku. Włączone: bot czyta księgę od razu, gdy ją ma — jedyny hamulec to sama gra (20 000 doświadczenia i rzut przy każdej lekturze). Wyłączone: dobowa przerwa gry bez zmian.",
                   "de":"Das Spiel lässt zwischen zwei Lesungen derselben Fertigkeit etwa einen Tag warten, also braucht ein Bot einen Monat, um eine Fertigkeit von M1 auf G1 zu lesen, und die Bücher stapeln sich derweil. An: der Bot liest ein Buch, sobald er eines hat; nur das Spiel selbst bremst (20 000 Erfahrung und ein Wurf pro Lesung). Aus: die tägliche Wartezeit des Spiels.",
-                  "tr":"Oyun aynı becerinin iki okuması arasında yaklaşık bir gün bekletir; bot bir beceriyi M1'den G1'e çıkarmak için bir ay kitap okur ve kitaplar bu arada çantada birikir. Açık: bot yarım saat sonra tekrar okur, Ayin Parşömeni kullanan bir oyuncu gibi. Kapalı: oyunun kendi temposu."},
+                  "tr":"Oyun, aynı becerinin iki okuması arasında yaklaşık bir gün bekletir; bir beceriyi M1'den G1'e çıkarmak için bir aylık kitap gerekir ve kitaplar bu arada çantada birikir. Açıkken bot elinde kitap olur olmaz okur; geriye kalan tek sınır oyunun kendi kuralıdır (her okumada 20 000 tecrübe ve bir şans atışı). Kapalıyken oyunun günlük beklemesi geçerli kalır."},
  "ai_books_on":  {"en":"Enabled","pl":"Włączone","de":"Eingeschaltet","tr":"Açık"},
  "ai_night":     {"en":"Night on the server","pl":"Noc na serwerze","de":"Nacht auf dem Server","tr":"Sunucuda gece"},
  "ai_night_help":{"en":"Between 22:00 and 05:59 of the server's clock (M2_TZ) the core raises the night flag - the same one a GM sets with /xmas_snow 1 - and lowers it in the morning. The client shows the night sky and, as the flag is the Christmas one, snow.",
                   "pl":"Między 22:00 a 05:59 czasu serwera (M2_TZ) rdzeń podnosi flagę nocy - tę samą, którą GM ustawia komendą /xmas_snow 1 - a rano ją opuszcza. Klient pokazuje nocne niebo i, bo to flaga świąteczna, śnieg.",
                   "de":"Zwischen 22:00 und 05:59 Serverzeit (M2_TZ) setzt der Kern die Nacht-Flagge - dieselbe, die ein GM mit /xmas_snow 1 setzt - und nimmt sie morgens zurück. Der Client zeigt den Nachthimmel und, weil es die Weihnachtsflagge ist, Schnee.",
-                  "tr":"Sunucu saatine göre (M2_TZ) 22:00-05:59 arasında çekirdek gece bayrağını kaldırır - GM'in /xmas_snow 1 ile ayarladığı bayrağın aynısı - ve sabah indirir. İstemci gece gökyüzünü ve, bayrak Noel bayrağı olduğu için, kar gösterir."},
+                  "tr":"Sunucu saatine göre (M2_TZ) 22:00-05:59 arasında çekirdek gece bayrağını açar - GM'in /xmas_snow 1 ile ayarladığı bayrağın aynısı - ve sabah kapatır. İstemci gece gökyüzünü ve, bayrak Noel bayrağı olduğu için, kar gösterir."},
  "ai_night_on":  {"en":"Enabled","pl":"Włączone","de":"Eingeschaltet","tr":"Açık"},
  "ai_life":      {"en":"Bots play like people","pl":"Boty grają jak żywi ludzie","de":"Bots spielen wie Menschen","tr":"Botlar insan gibi oynar"},
  "ai_life_help": {"en":"Experimental. Each bot plays a session of 3-6 hours (the first after a start from half an hour up), logs out, rests 3-9 hours and comes back; at most two bots in five rest at once, so at least three in five are online. Off, every bot stays in the world as before. Applies within a minute; switching it off brings the resting bots back within a few minutes. A bot in a player's party waits before logging out.",
                   "pl":"Eksperymentalne. Każdy bot gra sesję 3–6 godzin (pierwszą po starcie serwera od pół godziny wzwyż), wylogowuje się, odpoczywa 3–9 godzin i wraca; naraz odpoczywają najwyżej dwa boty na pięć, więc online są co najmniej trzy na pięć. Wyłączone: wszystkie boty są w świecie jak dotąd. Działa w ciągu minuty; wyłączenie sprowadza odpoczywające boty z powrotem w kilka minut. Bot w drużynie gracza czeka z wylogowaniem.",
                   "de":"Experimentell. Jeder Bot spielt eine Sitzung von 3-6 Stunden (die erste nach einem Start ab einer halben Stunde), loggt sich aus, ruht 3-9 Stunden und kommt zurück; höchstens zwei von fünf Bots ruhen gleichzeitig, also sind mindestens drei von fünf online. Aus: alle Bots bleiben wie bisher in der Welt. Greift innerhalb einer Minute; Ausschalten holt die ruhenden Bots in wenigen Minuten zurück. Ein Bot in der Gruppe eines Spielers wartet mit dem Ausloggen.",
-                  "tr":"Deneysel. Her bot 3-6 saatlik bir oturum oynar (başlangıçtan sonraki ilki yarım saatten itibaren), çıkış yapar, 3-9 saat dinlenir ve geri gelir; aynı anda en fazla beşte iki bot dinlenir, yani en az beşte üçü çevrimiçidir. Kapalıyken tüm botlar eskisi gibi dünyada kalır. Bir dakika içinde uygulanır; kapatmak dinlenen botları birkaç dakika içinde geri getirir. Bir oyuncunun grubundaki bot çıkış yapmadan bekler."},
+                  "tr":"Deneysel. Her bot 3-6 saatlik bir oturum oynar (başlangıçtan sonraki ilk oturum yarım saatten başlar), çıkış yapar, 3-9 saat dinlenir ve geri gelir; botların aynı anda en fazla beşte ikisi dinlenir, yani en az beşte üçü çevrimiçidir. Kapalıyken tüm botlar eskisi gibi dünyada kalır. Bir dakika içinde uygulanır; kapatmak dinlenen botları birkaç dakika içinde geri getirir. Bir oyuncunun grubundaki bot, çıkış yapmadan önce bekler."},
  "ai_life_on":   {"en":"Enabled (experimental)","pl":"Włączone (eksperymentalne)","de":"Eingeschaltet (experimentell)","tr":"Açık (deneysel)"},
  "ai_life_hours": {"en":"Hours of play a day","pl":"Godziny gry na dobę","de":"Spielstunden pro Tag","tr":"Günlük oyun saati"},
  "ai_life_hours_default": {"en":"as before","pl":"jak dotąd","de":"wie bisher","tr":"eskisi gibi"},
@@ -5079,12 +5346,12 @@ T.update({
  "ai_life_hours_help": {"en":"Works while the switch above is on. How many hours a day each bot plays: sessions of 4 hours (the whole of a shorter day) with a rest between them that makes the day add up - 12 is about three sessions of 4 hours with 4 hours off, 2 is one session of 2 hours a day. Each session and rest is drawn a quarter either way, and at most the day's share of resting bots plus a tenth rest at once. 0 keeps the sessions of 3-6 hours and rests of 3-9 hours.",
                   "pl":"Działa, gdy przełącznik wyżej jest włączony. Ile godzin na dobę gra każdy bot: sesje po 4 godziny (przy krótszej dobie cała doba w jednej sesji) z przerwą, która dopełnia dobę - 12 to około trzech sesji po 4 godziny z 4 godzinami przerwy, 2 to jedna dwugodzinna sesja na dobę. Każda sesja i przerwa losuje się o ćwierć w górę lub w dół, a naraz odpoczywa najwyżej tyle botów, ile wynika z doby, i jeszcze jedna dziesiąta. 0 zostawia sesje 3–6 godzin i przerwy 3–9 godzin.",
                   "de":"Wirkt, solange der Schalter oben an ist. Wie viele Stunden am Tag jeder Bot spielt: Sitzungen von 4 Stunden (bei kürzerem Tag der ganze Tag in einer) mit einer Pause dazwischen, die den Tag auffüllt - 12 sind etwa drei Sitzungen von 4 Stunden mit 4 Stunden Pause, 2 eine zweistündige Sitzung am Tag. Jede Sitzung und Pause wird um ein Viertel nach oben oder unten gezogen, und gleichzeitig ruhen höchstens so viele Bots, wie der Tag vorgibt, plus ein Zehntel. 0 behält Sitzungen von 3-6 Stunden und Pausen von 3-9 Stunden.",
-                  "tr":"Yukarıdaki anahtar açıkken çalışır. Her botun günde kaç saat oynadığı: 4 saatlik oturumlar (daha kısa bir günde günün tamamı tek oturum) ve günü tamamlayan molalar - 12, 4 saat molayla yaklaşık üç adet 4 saatlik oturumdur, 2 günde tek bir 2 saatlik oturumdur. Her oturum ve mola dörtte bir yukarı veya aşağı çekilir ve aynı anda en fazla günün payı kadar bot, bir de onda biri dinlenir. 0, 3-6 saatlik oturumları ve 3-9 saatlik molaları korur."},
+                  "tr":"Yukarıdaki anahtar açıkken çalışır. Her botun günde kaç saat oynayacağı: 4 saatlik oturumlar (daha kısa bir günde tüm gün tek oturum) ve günü tamamlayacak şekilde aralarına konan molalar - 12, 4 saat molalı yaklaşık üç adet 4 saatlik oturum; 2, günde tek bir 2 saatlik oturum demektir. Her oturum ve mola rastgele dörtte bir oranında kısalıp uzayabilir; aynı anda dinlenen bot oranı en fazla günün dinlenme payı artı onda bir kadardır. 0, 3-6 saatlik oturumları ve 3-9 saatlik molaları korur."},
  "ai_wars":      {"en":"Guild wars between the bots","pl":"Wojny gildii botów","de":"Gildenkriege der Bots","tr":"Botların lonca savaşları"},
  "ai_wars_help": {"en":"Two bot guilds of one kingdom fight a field war on that kingdom's guild map, for as long and as often as set below (thirty minutes every two hours by default), with the game's own declaration and scoring and a notice on the chat when it starts. A guild needs eight bots online to be picked. Off: no new war is declared, and the bots of a war under way leave it within a minute.",
                   "pl":"Dwie gildie botów z jednego królestwa toczą wojnę polową na mapie gildyjnej tego królestwa, tak długo i tak często, jak ustawiono niżej (domyślnie trzydzieści minut co dwie godziny), z wypowiedzeniem i punktacją gry i komunikatem na czacie przy starcie. Gildia musi mieć osiem botów online, żeby ją wylosowano. Wyłączone: nowa wojna nie jest wypowiadana, a boty z trwającej wojny wycofują się w ciągu minuty.",
                   "de":"Zwei Bot-Gilden eines Königreichs führen einen Feldkrieg auf der Gildenkarte dieses Königreichs, so lange und so oft wie unten eingestellt (standardmäßig dreißig Minuten alle zwei Stunden), mit Kriegserklärung und Wertung des Spiels und einer Meldung im Chat beim Start. Eine Gilde braucht acht Bots online, um gewählt zu werden. Aus: kein neuer Krieg wird erklärt, und die Bots eines laufenden Krieges ziehen sich binnen einer Minute zurück.",
-                  "tr":"Aynı krallıktan iki bot loncası, o krallığın lonca haritasında aşağıda ayarlanan süre ve sıklıkta (varsayılan olarak iki saatte bir otuz dakika), oyunun kendi ilanı ve puanlamasıyla bir saha savaşı yapar; başlangıçta sohbette bir duyuru çıkar. Bir loncanın seçilmesi için sekiz botu çevrimiçi olmalı. Kapalı: yeni savaş ilan edilmez ve süren savaşın botları bir dakika içinde çekilir."},
+                  "tr":"Aynı krallıktan iki bot loncası, o krallığın lonca haritasında aşağıda ayarlanan süre ve sıklıkta (varsayılan olarak iki saatte bir otuz dakika) bir meydan savaşı yapar; oyunun kendi ilanı ve puanlamasıyla, başladığında sohbette bir duyuru çıkar. Bir loncanın seçilebilmesi için çevrimiçi en az sekiz botu olmalı. Kapalı: yeni savaş ilan edilmez ve süren savaşın botları bir dakika içinde çekilir."},
  "ai_wars_on":   {"en":"Enabled","pl":"Włączone","de":"Eingeschaltet","tr":"Açık"},
  "ai_war_minutes": {"en":"A war lasts","pl":"Wojna trwa","de":"Ein Krieg dauert","tr":"Bir savaş sürer"},
  "ai_war_hours":   {"en":"A war in each kingdom every","pl":"Wojna w każdym królestwie co","de":"Ein Krieg in jedem Königreich alle","tr":"Her krallıkta bir savaş, her"},
@@ -5100,54 +5367,54 @@ T.update({
  "ai_tower_help": {"en":"About every hour and a half one bot guild of this core calls its members of level 55 and up to the tower's ground floor (the game says it on the chat), they break the Metin of Toughness together after four minutes and climb the floors: monsters, stones, keys and seals as in the game; from the sixth floor on a bot of 75 is needed, as for players. Whoever stands on the ground floor when the stone breaks - a bot on its errand, a player who came to watch - goes in with them. 'Now' calls a raid on the core's next check when none is under way.",
                   "pl":"Mniej więcej co półtorej godziny jedna gildia botów tego rdzenia zwołuje członków od 55. poziomu na parter Wieży (ogłoszenie na czacie), po czterech minutach razem rozbijają Metin Twardości i przechodzą piętra: potwory, kamienie, klucze i pieczęcie jak w grze; od 6. piętra potrzebny jest bot z 75. poziomem, tak jak u graczy. Kto stoi na parterze, gdy pęka kamień — bot na własnej misji albo gracz, który przyszedł popatrzeć — wchodzi razem z nimi. „Teraz” zwołuje wyprawę przy najbliższym sprawdzeniu rdzenia, jeśli żadna nie trwa.",
                   "de":"Etwa alle anderthalb Stunden ruft eine Bot-Gilde dieses Kerns ihre Mitglieder ab Stufe 55 ins Erdgeschoss des Turms (Ansage im Chat), nach vier Minuten zerschlagen sie gemeinsam den Metin der Härte und steigen die Etagen hinauf: Monster, Steine, Schlüssel und Siegel wie im Spiel; ab der sechsten Etage wird ein Bot mit Stufe 75 gebraucht, wie bei Spielern. Wer beim Zerbrechen des Steins im Erdgeschoss steht - ein Bot auf seinem Botengang, ein zuschauender Spieler - geht mit hinein. 'Jetzt' ruft beim nächsten Check des Kerns eine Expedition, wenn keine läuft.",
-                  "tr":"Yaklaşık her bir buçuk saatte bu çekirdeğin bir bot loncası 55 ve üzeri üyelerini kulenin zemin katına çağırır (sohbette duyurulur), dört dakika sonra Sertlik Metini'ni birlikte kırar ve katları çıkarlar: canavarlar, taşlar, anahtarlar ve mühürler oyundaki gibi; 6. kattan itibaren oyuncularda olduğu gibi 75 seviye bir bot gerekir. Taş kırıldığında zemin katta duran herkes - görevindeki bir bot, izlemeye gelen bir oyuncu - onlarla girer. 'Şimdi', hiçbiri sürmüyorsa çekirdeğin bir sonraki kontrolünde bir sefer çağırır."},
+                  "tr":"Yaklaşık her bir buçuk saatte bu çekirdeğin bir bot loncası 55. seviye ve üzeri üyelerini kulenin zemin katına çağırır (sohbette duyurulur), dört dakika sonra Dayanıklılık Metini'ni birlikte kırar ve katları çıkarlar: canavarlar, taşlar, anahtarlar ve mühürler oyundaki gibi; 6. kattan itibaren oyuncularda olduğu gibi 75. seviye bir bot gerekir. Taş kırıldığında zemin katta duran herkes - işi için gelen bir bot, izlemeye gelen bir oyuncu - onlarla birlikte girer. 'Şimdi', hiçbiri sürmüyorsa çekirdeğin bir sonraki kontrolünde bir baskın çağırır."},
  "ai_tower_on":  {"en":"Enabled","pl":"Włączone","de":"Eingeschaltet","tr":"Açık"},
- "ai_catacomb":  {"en":"Bot raids on Azrael (the Devil's Catacomb)","pl":"Rajdy botów na Azraela (Katakumby Diabła)","de":"Bot-Raids auf Azrael (Katakomben des Teufels)","tr":"Azrael'e bot baskınları (Şeytan Yeraltı Mezarı)"},
+ "ai_catacomb":  {"en":"Bot raids on Azrael (the Devil's Catacomb)","pl":"Rajdy botów na Azraela (Katakumby Diabła)","de":"Bot-Raids auf Azrael (Katakomben des Teufels)","tr":"Azrail'e bot baskınları (Şeytan Katakombu)"},
  "ai_catacomb_help": {"en":"About every two hours a party of four to eight bots of one kingdom - level 80 and up, the Demon Tower's ninth floor done and a Dried Head in the bag, as the dungeon asks of a player - gathers at the Catacomb's Guardian in Hwang Temple (the game says it on the chat), hunts the key on the first floor and goes down the floors as in the game: the gates, the Metins of Revenge, the maze, Tartar, Charon and Azrael. With a player inside, the player clicks and the bots fight. 'Now' calls a raid on the core's next check (within a minute) if none is under way and there are bots who may go.",
                   "pl":"Mniej więcej co dwie godziny drużyna od czterech do ośmiu botów jednego królestwa - od 80. poziomu, z przejściem 9. piętra Wieży Demonów i Zasuszoną Głową w plecaku, jak loch wymaga od gracza - zbiera się przy Strażniku Katakumb w Świątyni Hwang (ogłoszenie na czacie), na pierwszym piętrze zdobywa klucz i schodzi piętrami jak w grze: wrota, Metiny Zemsty, labirynt, Tartar, Charon i Azrael. Gdy w środku jest gracz, to on klika, a boty walczą. „Teraz” zwołuje rajd przy najbliższym sprawdzeniu rdzenia (do minuty), jeśli żaden nie trwa i są boty, które mogą iść.",
                   "de":"Etwa alle zwei Stunden sammelt sich eine Gruppe von vier bis acht Bots eines Königreichs - ab Stufe 80, mit geschaffter neunter Etage des Dämonenturms und einem Getrockneten Kopf im Inventar, wie der Dungeon es von Spielern verlangt - beim Wächter der Katakomben im Hwang-Tempel (Ansage im Chat), holt im ersten Stock den Schlüssel und steigt die Etagen hinab wie im Spiel: Tore, Metine der Rache, Labyrinth, Tartar, Charon und Azrael. Ist ein Spieler drin, klickt der Spieler und die Bots kämpfen. 'Jetzt' ruft beim nächsten Check des Kerns (binnen einer Minute) einen Raid, wenn keiner läuft und Bots gehen dürfen.",
-                  "tr":"Yaklaşık iki saatte bir, bir krallığın dört ila sekiz botundan oluşan bir grup - 80 ve üzeri seviye, Şeytan Kulesi'nin 9. katını bitirmiş ve çantasında Kurutulmuş Kafa olan, zindanın oyuncudan istediği gibi - Hwang Tapınağı'ndaki Yeraltı Mezarı Muhafızı'nda toplanır (sohbette duyurulur), birinci katta anahtarı bulur ve oyundaki gibi katları iner: kapılar, İntikam Metinleri, labirent, Tartar, Charon ve Azrael. İçeride bir oyuncu varsa tıklayan oyuncudur, botlar savaşır. 'Şimdi', hiçbiri sürmüyorsa ve gidebilecek botlar varsa çekirdeğin bir sonraki kontrolünde (bir dakika içinde) bir baskın çağırır."},
- "ai_catacomb_now": {"en":"Call a raid on Azrael now","pl":"Rajd na Azraela teraz","de":"Jetzt einen Azrael-Raid rufen","tr":"Şimdi bir Azrael baskını çağır"},
+                  "tr":"Yaklaşık iki saatte bir, bir krallığın dört ila sekiz botundan oluşan bir grup - 80. seviye ve üzeri, Şeytan Kulesi'nin 9. katını bitirmiş ve çantasında Kurutulmuş Kafa olan, yani zindanın bir oyuncudan istediği şartları taşıyan botlar - Hwang Tapınağı'ndaki Katakomb Bekçisi'nin yanında toplanır (sohbette duyurulur), birinci katta anahtarı avlar ve katları oyundaki gibi iner: kapılar, İntikam Metinleri, labirent, Tartarus, Kharoon ve Azrail. İçeride bir oyuncu varsa tıklayan oyuncudur, botlar savaşır. 'Şimdi', hiçbiri sürmüyorsa ve gidebilecek botlar varsa çekirdeğin bir sonraki kontrolünde (bir dakika içinde) bir baskın çağırır."},
+ "ai_catacomb_now": {"en":"Call a raid on Azrael now","pl":"Rajd na Azraela teraz","de":"Jetzt einen Azrael-Raid rufen","tr":"Şimdi bir Azrail baskını çağır"},
  "ai_catacomb_now_done": {"en":"Requested: the core calls a raid on its next check (within a minute) if none is under way and there are bots who may go.","pl":"Zlecone: rdzeń zwoła rajd przy najbliższym sprawdzeniu (do minuty), jeśli żaden nie trwa i są boty, które mogą iść.","de":"Angefordert: der Kern ruft beim nächsten Check (binnen einer Minute) einen Raid, wenn keiner läuft und Bots gehen dürfen.","tr":"İstendi: hiçbiri sürmüyorsa ve gidebilecek botlar varsa çekirdek bir sonraki kontrolde (bir dakika içinde) bir baskın çağırır."},
  "ai_bots_held_title": {"pl":"Boty czekają przy drzwiach","en":"The bots are waiting at the door",
   "de":"Die Bots warten an der Tür","tr":"Botlar kapıda bekliyor"},
  "ai_bots_held_help": {"pl":"Ten świat powstał przed chwilą i nie ma w nim jeszcze ani jednego bota - tak, jak poprosiłeś przy zakładaniu. Ustaw teraz spokojnie stawki, respawny i zachowanie botów, a potem wpuść je. Wejdą stopniowo, tak jak po zwykłym starcie.",
   "en":"This world was made a moment ago and has not one bot in it yet - as you asked when you made it. Set the rates, the respawns and the bots' behaviour in peace, then let them in. They walk in gradually, as after any start.",
   "de":"Diese Welt wurde gerade erstellt und hat noch keinen einzigen Bot - so wie gewünscht. Stelle in Ruhe Raten, Respawns und Bot-Verhalten ein und lasse sie dann herein.",
-  "tr":"Bu dünya az önce kuruldu ve içinde henüz tek bir bot yok. Oranları, respawn sürelerini ve bot davranışını rahatça ayarla, sonra onları içeri al."},
+  "tr":"Bu dünya az önce kuruldu ve — kurarken istediğin gibi — içinde henüz tek bir bot yok. Oranları, yeniden doğma sürelerini ve botların davranışını rahatça ayarla, sonra onları içeri al. Her başlangıçta olduğu gibi yavaş yavaş girerler."},
  "ai_bots_release": {"pl":"Wpuść boty do świata","en":"Let the bots in",
   "de":"Bots hereinlassen","tr":"Botları içeri al"},
  "ai_bots_released": {"pl":"✅ Boty wchodzą do świata - pojawią się w ciągu kilku minut, tak jak po zwykłym starcie.",
   "en":"✅ The bots are coming in - they will appear over the next few minutes, as after any start.",
   "de":"✅ Die Bots kommen herein - sie erscheinen in den nächsten Minuten.",
-  "tr":"✅ Botlar geliyor - birkaç dakika içinde belirecekler."},
- "ai_tower_now": {"en":"Call a Demon Tower raid now","pl":"Wyprawa do Wieży Demonów teraz","de":"Jetzt eine Turm-Expedition rufen","tr":"Şimdi bir Kule seferi çağır"},
- "ai_tower_now_done": {"en":"Requested: the core calls a raid on its next check (within a minute) if none is under way.","pl":"Zlecone: rdzeń zwoła wyprawę przy najbliższym sprawdzeniu (do minuty), jeśli żadna nie trwa.","de":"Angefordert: der Kern ruft beim nächsten Check (binnen einer Minute) eine Expedition, wenn keine läuft.","tr":"İstendi: hiçbiri sürmüyorsa çekirdek bir sonraki kontrolde (bir dakika içinde) bir sefer çağırır."},
+  "tr":"✅ Botlar giriyor - her başlangıçta olduğu gibi birkaç dakika içinde belirecekler."},
+ "ai_tower_now": {"en":"Call a Demon Tower raid now","pl":"Wyprawa do Wieży Demonów teraz","de":"Jetzt eine Turm-Expedition rufen","tr":"Şimdi bir Şeytan Kulesi baskını çağır"},
+ "ai_tower_now_done": {"en":"Requested: the core calls a raid on its next check (within a minute) if none is under way.","pl":"Zlecone: rdzeń zwoła wyprawę przy najbliższym sprawdzeniu (do minuty), jeśli żadna nie trwa.","de":"Angefordert: der Kern ruft beim nächsten Check (binnen einer Minute) eine Expedition, wenn keine läuft.","tr":"İstendi: hiçbiri sürmüyorsa çekirdek bir sonraki kontrolde (bir dakika içinde) bir baskın çağırır."},
  "gl_tower":     {"en":"in the Demon Tower","pl":"w Wieży Demonów","de":"im Dämonenturm","tr":"Şeytan Kulesi'nde"},
  "ai_ishop":     {"en":"Bots buy in the ItemShop","pl":"Boty kupują w ItemShopie","de":"Bots kaufen im ItemShop","tr":"Botlar ItemShop'tan alır"},
  "ai_ishop_help":{"en":"A bot cashes the Kupon SM vouchers it finds (Metin stones and bosses drop them, M2_DRAGON_COIN_*_PERMILLE) into its account's Dragon Coins and buys, at most once an hour, only what its own rules would use: a Kamień Duchowy for a Grand Master skill, a change stone for a worn weapon still worth rerolling, with Dragon Marks a Blessing Scroll or the Dragon God's attack potions, and one bot in four a hairstyle, once. No VIP items and no pass: every bot already holds the premium subscription. Off: the vouchers stay in the bags.",
                   "pl":"Bot wymienia znalezione Kupony SM (dropią z metinów i bossów, M2_DRAGON_COIN_*_PERMILLE) na Smocze Monety swojego konta i kupuje, najwyżej raz na godzinę, tylko to, z czego jego własne reguły korzystają: Kamień Duchowy do umiejętności Wielkiego Mistrza, kamień zmiany bonusów do noszonej broni wartej jeszcze losowania, za Smocze Znaki Zwój Błogosławieństwa albo mikstury ataku Boga Smoków, a jeden bot na czterech fryzurę, raz. Bez przedmiotów VIP i bez przepustki: każdy bot ma już subskrypcję premium. Wyłączone: kupony zostają w torbach.",
                   "de":"Ein Bot löst die gefundenen Kupon-SM-Gutscheine (Metinsteine und Bosse lassen sie fallen, M2_DRAGON_COIN_*_PERMILLE) in Drachenmünzen seines Kontos ein und kauft höchstens einmal pro Stunde nur, was seine eigenen Regeln nutzen: einen Kamień Duchowy für eine Großmeister-Fertigkeit, einen Bonus-Wechselstein für die getragene Waffe, wenn sie noch neu gewürfelt würde, mit Drachenmarken eine Segensrolle oder die Angriffstränke des Drachengottes, und jeder vierte Bot einmal eine Frisur. Keine VIP-Gegenstände und kein Pass: jeder Bot hat das Premium-Abo bereits. Aus: die Gutscheine bleiben im Inventar.",
-                  "tr":"Bot bulduğu Kupon SM kuponlarını (Metin taşları ve boss'lar düşürür, M2_DRAGON_COIN_*_PERMILLE) hesabının Ejderha Parasına çevirir ve saatte en fazla bir kez, yalnızca kendi kurallarının kullanacağı şeyi alır: Büyük Usta becerisi için Kamień Duchowy, hâlâ yeniden atılmaya değer takılı silah için bonus değiştirme taşı, Ejderha İşaretleriyle Kutsama Parşömeni ya da Ejderha Tanrısı saldırı iksirleri ve dört bottan biri bir kez bir saç modeli. VIP eşya ve geçiş kartı yok: her bot zaten premium aboneliğe sahip. Kapalı: kuponlar çantada kalır."},
+                  "tr":"Bot bulduğu EP kuponlarını (Metin taşları ve boss'lar düşürür, M2_DRAGON_COIN_*_PERMILLE) hesabının Ejderha Parasına çevirir ve saatte en fazla bir kez, yalnızca kendi kurallarının kullanacağı şeyi alır: Grand Master becerisi için Ruh Taşı, hâlâ bonus değiştirmeye değer kuşanılmış silah için bonus değiştirme taşı, Ejderha Markalarıyla bir Kutsama Kağıdı ya da Ejderha Tanrısı saldırı iksirleri ve dört bottan biri bir kez bir saç modeli. VIP eşya ve geçiş kartı yok: her bot zaten premium aboneliğe sahip. Kapalı: kuponlar çantada kalır."},
  "ai_ishop_on":  {"en":"Enabled","pl":"Włączone","de":"Eingeschaltet","tr":"Açık"},
  "ai_haggle":    {"en":"Bots haggle at people's shops","pl":"Boty targują się na sklepach graczy","de":"Bots feilschen an den Läden der Spieler","tr":"Botlar oyuncu dükkânlarında pazarlık yapar"},
  "ai_haggle_help":{"en":"A bot that wants a finished piece of gear (+6 and up) on a person's offline shop, but finds it dearer than its own price for the piece (Iwakura's price list at the world's yang rate, and what the market has paid), walks up to the shop and whispers the owner - once, in the owner's language, with the piece linked: it offers its own price, and as its last price goes up to half as much again, never past 70% of what it has to spend. The owner answers \"ok\", \"no\" or a price of his own (\"5kk\"), or simply changes the price on the shop; once the piece asks the price agreed, the bot buys it, waiting at the shop up to ten minutes. A price the bot would pay at once anyway is always taken. Only the owner of a shop on the bot's own channel and core is asked, never in a trade, a window or a fight, nor after telling that bot to stop writing; one haggle at a time with a person, three offers an hour to one person, fifteen minutes apart, one offer about the same piece in three hours (twelve after a no), three haggles at once on a core. What a bot buys at once is unchanged. Off: no bot whispers an offer, and every deal is forgotten.",
                   "pl":"Bot, który chce gotowy przedmiot (od +6) ze sklepu offline gracza, ale uznaje go za droższy niż jego własna cena (cennik Iwakury przy stawce yang świata i to, co rynek już płacił), podchodzi do sklepu i pisze do właściciela szeptem - raz, w jego języku, z podlinkowanym przedmiotem: proponuje swoją cenę, a jako ostatnią ofertę daje do półtorej jej wartości, nigdy ponad 70% tego, co ma do wydania. Właściciel odpisuje „ok”, „nie” albo własną cenę („5kk”) lub po prostu zmienia cenę na sklepie; gdy przedmiot kosztuje tyle, ile uzgodniono, bot go kupuje - czeka przy sklepie do dziesięciu minut. Cenę, którą bot i tak zapłaciłby od razu, przyjmuje zawsze. Pyta tylko właściciela sklepu z kanału i rdzenia bota, nigdy w trakcie handlu, przy otwartym oknie ani w walce, ani po tym, jak gracz kazał temu botowi przestać pisać; najwyżej jeden targ naraz z jedną osobą, trzy oferty na godzinę do jednej osoby, co najmniej kwadrans jedna po drugiej, jedna oferta o ten sam przedmiot na trzy godziny (dwanaście po „nie”), trzy targi naraz na rdzeń. To, co bot kupuje od razu, się nie zmienia. Wyłączone: żaden bot nie proponuje ceny, a zawarte umowy przepadają.",
                   "de":"Ein Bot, der ein fertiges Ausrüstungsteil (ab +6) im Offline-Laden eines Spielers will, es aber teurer findet als seinen eigenen Preis dafür (Iwakuras Preisliste beim Yang-Satz der Welt und was der Markt bezahlt hat), geht zum Laden und flüstert dem Besitzer - einmal, in dessen Sprache, mit verlinktem Gegenstand: Er bietet seinen eigenen Preis und geht als letztes Angebot bis zum Anderthalbfachen, nie über 70% dessen, was er ausgeben kann. Der Besitzer antwortet \"ok\", \"no\" oder mit einem eigenen Preis (\"5kk\") oder ändert einfach den Preis im Laden; sobald der Gegenstand den vereinbarten Preis kostet, kauft der Bot ihn und wartet dafür bis zu zehn Minuten am Laden. Einen Preis, den der Bot ohnehin sofort zahlen würde, nimmt er immer an. Gefragt wird nur der Besitzer eines Ladens auf Kanal und Kern des Bots, nie während eines Handels, eines offenen Fensters oder eines Kampfes und nicht, nachdem er diesem Bot gesagt hat, er solle aufhören zu schreiben; höchstens ein Feilschen gleichzeitig mit einer Person, drei Angebote pro Stunde an eine Person im Abstand von mindestens einer Viertelstunde, ein Angebot zum selben Gegenstand in drei Stunden (zwölf nach einem Nein), drei gleichzeitig auf einem Kern. Was ein Bot sofort kauft, bleibt unverändert. Aus: kein Bot flüstert ein Angebot, und alle Abmachungen werden vergessen.",
-                  "tr":"Bir oyuncunun çevrimdışı dükkânında bitmiş bir ekipman (+6 ve üstü) isteyen ama onu kendi fiyatından (dünyanın yang oranında Iwakura'nın fiyat listesi ve pazarın ödedikleri) pahalı bulan bot, dükkâna gider ve sahibine bir kez, sahibinin dilinde ve eşyanın bağlantısıyla fısıldar: kendi fiyatını teklif eder, son teklif olarak bunun bir buçuk katına kadar çıkar, ama harcayabileceğinin %70'ini asla geçmez. Sahip \"ok\", \"no\" ya da kendi fiyatıyla (\"5kk\") cevap verir veya dükkândaki fiyatı değiştirir; eşya anlaşılan fiyata indiğinde bot onu satın alır ve bunun için dükkânda on dakikaya kadar bekler. Botun zaten hemen ödeyeceği bir fiyatı her zaman kabul eder. Yalnızca botun kanalı ve çekirdeğindeki dükkânın sahibine sorulur; asla ticaret, açık pencere veya savaş sırasında ve o bota yazmayı bırakmasını söyledikten sonra değil; bir kişiyle aynı anda en fazla bir pazarlık, bir kişiye saatte en az on beş dakika arayla üç teklif, aynı eşya için üç saatte bir teklif (bir hayırdan sonra on iki), bir çekirdekte aynı anda üç pazarlık. Botun hemen satın aldığı şeyler değişmez. Kapalı: hiçbir bot teklif fısıldamaz ve tüm anlaşmalar unutulur."},
+                  "tr":"Bir oyuncunun çevrimdışı dükkânında hazır bir ekipman parçası (+6 ve üstü) almak isteyen, ama onu o parça için kendi biçtiği fiyattan (Iwakura'nın fiyat listesi, dünyanın yang oranına göre; bir de pazarda ödenenler) pahalı bulan bot, dükkâna yürür ve sahibine bir kez, sahibinin dilinde ve eşyanın bağlantısıyla fısıldar: kendi fiyatını teklif eder, son teklif olarak bunun bir buçuk katına kadar çıkar, ama harcayabileceğinin %70'ini asla geçmez. Sahip \"ok\", \"no\" ya da kendi fiyatıyla (\"5kk\") cevap verir veya dükkândaki fiyatı değiştirir; eşyanın fiyatı anlaşılan fiyata gelince bot onu satın alır ve bunun için dükkânda on dakikaya kadar bekler. Botun zaten hemen ödeyeceği bir fiyat her zaman kabul edilir. Yalnızca botun kendi kanalındaki ve çekirdeğindeki bir dükkânın sahibine sorulur; asla ticaret, açık pencere ya da savaş sırasında, o bota yazmayı bırakmasını söyledikten sonra da asla; bir kişiyle aynı anda en fazla bir pazarlık, bir kişiye saatte en fazla üç teklif ve aralarında en az on beş dakika, aynı eşya için üç saatte en fazla bir teklif (hayır cevabından sonra on iki saatte), bir çekirdekte aynı anda üç pazarlık. Botun hemen satın aldığı şeyler değişmez. Kapalı: hiçbir bot teklif fısıldamaz ve tüm anlaşmalar unutulur."},
  "ai_haggle_on": {"en":"Enabled","pl":"Włączone","de":"Eingeschaltet","tr":"Açık"},
  "ai_shop_room": {"en":"A full shop sells its cheapest stack bit by bit (test)","pl":"Pełny sklep sprzedaje po trochu najtańszy stos (test)","de":"Ein voller Laden verkauft seinen billigsten Stapel nach und nach (Test)","tr":"Dolu dükkân en ucuz yığınını azar azar satar (deneme)"},
  "ai_shop_room_help":{"en":"Iwakura's test option (7 October), to be watched: when a bot tries to put something on its offline shop and the shop has no free cell for it, it picks the stack of the lowest total value among its materials and skill books - never equipment, never a kind the world lacks (×2.00 and over), a line a buyer is walking to or an item the item policy rules on - takes a quarter of it off (rounded up, at least one piece) and sells that to the general merchant at its next town visit; the rest goes back where it stood, at the same price a piece. If that frees no cell, the next attempt does it again, so the cheapest goods nobody buys leave the market slowly. At most one cut a bot every ten minutes and ten a core a minute. Silent: nothing in the panel's logs, nothing on the chat; the core writes one line every ten minutes, PLAYERBOT_SHOPROOM: census. Off: no stack is cut any more; what is already owed to the merchant is still sold.",
                   "pl":"Opcja testowa Iwakury (7 października), do obserwacji: gdy bot próbuje wystawić coś w swoim sklepie offline, a w sklepie nie ma na to wolnego miejsca, wybiera spośród swoich materiałów i ksiąg umiejętności stos o najniższej łącznej wartości - nigdy ekwipunek, nigdy towar, którego świat ma za mało (od ×2,00), linię, do której idzie kupujący, ani przedmiot objęty polityką przedmiotów - zdejmuje 25% stosu (w górę, co najmniej 1 szt.) i sprzedaje to u Handlarki przy najbliższej wizycie w mieście; reszta wraca na swoje miejsce w tej samej cenie za sztukę. Jeśli to nie zwolni miejsca, przy następnej próbie robi to znowu, więc najtańsze, zalegające towary powoli znikają z rynku. Najwyżej jedno cięcie na bota co dziesięć minut i dziesięć na rdzeń na minutę. Cicho: nic w logach panelu, nic na czacie; rdzeń pisze jedną linię co dziesięć minut, PLAYERBOT_SHOPROOM: census. Wyłączone: żaden stos nie jest już cięty; to, co bot jest już winien Handlarce, i tak sprzedaje.",
                   "de":"Iwakuras Testoption (7. Oktober), zum Beobachten: Will ein Bot etwas in seinen Offline-Laden stellen und hat der Laden dafür keinen freien Platz, wählt er unter seinen Materialien und Fertigkeitsbüchern den Stapel mit dem niedrigsten Gesamtwert - nie Ausrüstung, nie eine Ware, die der Welt fehlt (ab ×2,00), eine Zeile, zu der ein Käufer unterwegs ist, oder einen Gegenstand, über den die Gegenstandsregel entscheidet - nimmt ein Viertel davon herunter (aufgerundet, mindestens ein Stück) und verkauft es beim nächsten Stadtbesuch an die Krämerin; der Rest kommt zum selben Stückpreis an seinen Platz zurück. Wird dadurch kein Platz frei, wiederholt er es beim nächsten Versuch, sodass die billigsten Waren, die niemand kauft, langsam vom Markt verschwinden. Höchstens ein Schnitt pro Bot alle zehn Minuten und zehn pro Kern und Minute. Still: nichts in den Protokollen des Panels, nichts im Chat; der Kern schreibt alle zehn Minuten eine Zeile, PLAYERBOT_SHOPROOM: census. Aus: kein Stapel wird mehr geschnitten; was der Krämerin schon geschuldet ist, wird trotzdem verkauft.",
-                  "tr":"Iwakura'nın deneme seçeneği (7 Ekim), izlenmek üzere: bir bot çevrimdışı dükkânına bir şey koymak istediğinde dükkânda ona boş yer yoksa, malzemeleri ve beceri kitapları arasından toplam değeri en düşük yığını seçer - asla ekipman, dünyada eksik olan bir mal (×2,00 ve üstü), bir alıcının yürüdüğü bir satır ya da eşya kuralının kapsadığı bir eşya değil - bunun dörtte birini (yukarı yuvarlanarak, en az bir adet) indirir ve bir sonraki şehir ziyaretinde genel satıcıya satar; geri kalanı aynı adet fiyatıyla yerine döner. Bu yer açmazsa bir sonraki denemede yeniden yapar; böylece kimsenin almadığı en ucuz mallar pazardan yavaş yavaş kaybolur. Bot başına en fazla on dakikada bir kesim ve çekirdek başına dakikada on. Sessiz: panelin kayıtlarında hiçbir şey, sohbette hiçbir şey yok; çekirdek on dakikada bir satır yazar, PLAYERBOT_SHOPROOM: census. Kapalı: artık hiçbir yığın kesilmez; satıcıya zaten borçlu olunan yine satılır."},
+                  "tr":"Iwakura'nın deneme seçeneği (7 Ekim), izlenmek üzere: bir bot çevrimdışı dükkânına bir şey koymak istediğinde dükkânda ona boş yer yoksa, malzemeleri ve beceri kitapları arasından toplam değeri en düşük yığını seçer - asla ekipmanı, dünyada kıt olan bir malı (×2,00 ve üstü), bir alıcının yürümekte olduğu bir ilanı ya da eşya kuralının karar verdiği bir eşyayı seçmez - bunun dörtte birini (yukarı yuvarlanarak, en az bir adet) ayırır ve bir sonraki şehir ziyaretinde genel satıcıya satar; geri kalanı aynı adet fiyatıyla yerine döner. Bu yer açmazsa bir sonraki denemede yeniden yapar; böylece kimsenin almadığı en ucuz mallar pazardan yavaş yavaş çıkar. Bot başına on dakikada en fazla bir kesim, çekirdek başına dakikada en fazla on. Sessiz: panelin günlüklerinde de sohbette de iz bırakmaz; çekirdek on dakikada bir tek satır yazar, PLAYERBOT_SHOPROOM: census. Kapalı: artık hiçbir yığın kesilmez; satıcıya satılmak üzere ayrılmış olanlar yine satılır."},
  "ai_shop_room_on":{"en":"Enabled","pl":"Włączone","de":"Eingeschaltet","tr":"Açık"},
  "ai_supply":    {"en":"Living economy (Iwakura's Patch 6)","pl":"Żywa gospodarka (Patch 6 Iwakury)","de":"Lebendige Wirtschaft (Iwakuras Patch 6)","tr":"Canlı ekonomi (Iwakura'nın Yaması 6)"},
  "ai_supply_help":{"en":"Every half hour the core counts the pieces of every refine material, every skill book and the Blessing Scroll on all offline shops of the world (the bots' and the players', every kingdom) and sets a supply multiplier from Iwakura's tables: an empty market up to ×4 (a book ×3.5, the scroll ×5), a flooded one down to ×0.6. A multiplier moves at most 10% at a time, the lines already on the shops are repriced with it, an unsold line is marked down by how much of it the world holds, and no price goes under 60% of its market value (the scroll 50%). The box below adds the Forgetting Bands and the Kamień Duchowy, on the books' table (Iwakura's proposal, on by default).",
                   "pl":"Co pół godziny rdzeń liczy sztuki każdego ulepszacza, każdej księgi umiejętności i Zwoju Błogosławieństwa we wszystkich sklepach offline świata (botów i graczy, wszystkich królestw) i ustala mnożnik podaży z tabel Iwakury: pusty rynek do ×4 (księga ×3,5, zwój ×5), zalany do ×0,6. Mnożnik zmienia się najwyżej o 10% naraz, linie stojące już w sklepach są z nim przeceniane, niesprzedana linia tanieje zależnie od tego, ile jej jest na świecie, a żadna cena nie spada poniżej 60% wartości rynkowej (zwój 50%). Pole poniżej dokłada Opaski Zapomnienia i Kamień Duchowy, liczone tabelą ksiąg (propozycja Iwakury, domyślnie włączona).",
                   "de":"Alle halbe Stunde zählt der Kern die Stücke jedes Verbesserungsmaterials, jedes Fertigkeitsbuchs und der Segensrolle in allen Offline-Läden der Welt (der Bots und der Spieler, aller Reiche) und setzt nach Iwakuras Tabellen einen Angebotsfaktor: ein leerer Markt bis ×4 (ein Buch ×3,5, die Rolle ×5), ein überschwemmter bis ×0,6. Ein Faktor ändert sich höchstens um 10% auf einmal, die Zeilen in den Läden werden mit ihm neu bepreist, eine unverkaufte Zeile wird je nach Angebot der Welt herabgesetzt, und kein Preis fällt unter 60% seines Marktwerts (die Rolle 50%). Das Kästchen darunter nimmt die Bänder des Vergessens und den Kamień Duchowy hinzu, nach der Büchertabelle (Iwakuras Vorschlag, standardmäßig an).",
-                  "tr":"Çekirdek her yarım saatte bir dünyanın bütün çevrimdışı dükkânlarındaki (botların ve oyuncuların, bütün krallıkların) her yükseltme malzemesinin, her beceri kitabının ve Kutsama Parşömeninin adedini sayar ve Iwakura'nın tablolarından bir arz çarpanı belirler: boş pazar ×4'e kadar (kitap ×3,5, parşömen ×5), dolup taşan pazar ×0,6'ya kadar. Çarpan bir seferde en fazla %10 değişir, dükkânlardaki satırlar onunla yeniden fiyatlanır, satılmayan satır dünyadaki arzına göre indirilir ve hiçbir fiyat piyasa değerinin %60'ının (parşömende %50) altına düşmez. Alttaki kutu Unutma Bantlarını ve Kamień Duchowy'yi kitap tablosuyla ekler (Iwakura'nın önerisi, varsayılan olarak açık)."},
- "ai_supply_bands_on": {"en":"Forgetting Bands and Kamień Duchowy priced by supply","pl":"Opaski Zapomnienia i Kamień Duchowy wyceniane według podaży","de":"Bänder des Vergessens und Kamień Duchowy nach dem Angebot bepreist","tr":"Unutma Bantları ve Kamień Duchowy arza göre fiyatlanır"},
+                  "tr":"Çekirdek her yarım saatte bir dünyanın bütün çevrimdışı dükkânlarındaki (botların ve oyuncuların, bütün krallıkların) her yükseltme malzemesinin, her beceri kitabının ve Kutsama Kağıdının adedini sayar ve Iwakura'nın tablolarından bir arz çarpanı belirler: boş pazar ×4'e kadar (kitap ×3,5, kağıt ×5), dolup taşan pazar ×0,6'ya kadar. Çarpan bir seferde en fazla %10 değişir, dükkânlardaki ilanlar onunla yeniden fiyatlanır, satılmayan bir ilan dünyada ondan ne kadar bulunduğuna göre indirilir ve hiçbir fiyat piyasa değerinin %60'ının (kağıtta %50) altına düşmez. Alttaki kutu Unutma Bantlarını ve Ruh Taşını da kitap tablosuyla ekler (Iwakura'nın önerisi, varsayılan olarak açık)."},
+ "ai_supply_bands_on": {"en":"Forgetting Bands and Kamień Duchowy priced by supply","pl":"Opaski Zapomnienia i Kamień Duchowy wyceniane według podaży","de":"Bänder des Vergessens und Kamień Duchowy nach dem Angebot bepreist","tr":"Unutma Bantları ve Ruh Taşı arza göre fiyatlanır"},
  "ai_supply_scale_on": {"en":"Scale the thresholds to the population","pl":"Skaluj progi do populacji","de":"Schwellen an die Bevölkerung anpassen","tr":"Eşikleri nüfusa göre ölçekle"},
  "ai_supply_ref":{"en":"Reference population","pl":"Populacja referencyjna","de":"Referenzbevölkerung","tr":"Referans nüfus"},
  "ai_supply_ref_unit": {"en":"bots","pl":"botów","de":"Bots","tr":"bot"},
@@ -5155,44 +5422,44 @@ T.update({
                   "pl":"Wyłączone (domyślnie): progi tabel są Iwakury, tak jak je zapisał, dla około tysiąca botów. Włączone: każdy próg jest mnożony przez liczbę aktywnych botów przez populację referencyjną, od ćwierci do czterech razy, więc 300 sztuk znaczy tyle samo w świecie pięciu tysięcy botów.",
                   "de":"Aus (Standard): die Schwellen der Tabellen sind Iwakuras, wie er sie geschrieben hat, für etwa tausend Bots. An: jede Schwelle wird mit den aktiven Bots durch die Referenzbevölkerung multipliziert, zwischen einem Viertel und dem Vierfachen, damit 300 Stück auch in einer Welt mit fünftausend Bots so viel bedeuten.",
                   "tr":"Kapalı (varsayılan): tabloların eşikleri Iwakura'nın yazdığı gibidir, yaklaşık bin bot için. Açık: her eşik, aktif botların referans nüfusa oranıyla çarpılır (dörtte birden dört katına kadar), böylece 300 adet beş bin botluk bir dünyada da aynı anlamı taşır."},
- "ai_shop_m2":   {"en":"Bot stands in the second villages","pl":"Sklepy botów także w drugich wioskach (M2)","de":"Bot-Stände auch in den zweiten Dörfern (M2)","tr":"Bot tezgahları ikinci köylerde de (M2)"},
+ "ai_shop_m2":   {"en":"Bot stands in the second villages","pl":"Sklepy botów także w drugich wioskach (M2)","de":"Bot-Stände auch in den zweiten Dörfern (M2)","tr":"Bot tezgâhları ikinci köylerde de (M2)"},
  "ai_shop_m2_help": {"en":"Off (the default): a bot opens its stand only in the first villages, where the players shop; an expired stand that stood in a second village is renewed on the first village's market ring at its owner's next service visit. On: the stands stand in both villages, as before.",
                   "pl":"Wyłączone (domyślnie): bot otwiera sklep tylko w pierwszych wioskach, tam gdzie kupują gracze; sklep, który stał w drugiej wiosce, po wygaśnięciu zostaje odnowiony na rynku pierwszej wioski przy najbliższej wizycie właściciela. Włączone: sklepy stoją w obu wioskach, jak wcześniej.",
                   "de":"Aus (Standard): ein Bot eröffnet seinen Stand nur in den ersten Dörfern, wo die Spieler einkaufen; ein abgelaufener Stand aus einem zweiten Dorf wird beim nächsten Besuch seines Besitzers auf dem Marktring des ersten Dorfes erneuert. An: die Stände stehen in beiden Dörfern, wie bisher.",
-                  "tr":"Kapalı (varsayılan): bot tezgahını yalnızca oyuncuların alışveriş yaptığı ilk köylerde açar; ikinci köyde duran ve süresi dolan tezgah, sahibinin bir sonraki ziyaretinde ilk köyün pazar halkasında yenilenir. Açık: tezgahlar eskisi gibi iki köyde de durur."},
+                  "tr":"Kapalı (varsayılan): bot tezgâhını yalnızca oyuncuların alışveriş yaptığı ilk köylerde açar; ikinci köyde duran ve süresi dolan bir tezgâh, sahibinin bir sonraki ziyaretinde ilk köyün pazar halkasında yenilenir. Açık: tezgâhlar eskisi gibi iki köyde de durur."},
  "ai_shop_m2_on": {"en":"Allowed","pl":"Dozwolone","de":"Erlaubt","tr":"İzin verildi"},
  "ai_persona":   {"en":"Bot personalities (Iwakura v2)","pl":"Osobowości botów (Iwakura v2)","de":"Bot-Persönlichkeiten (Iwakura v2)","tr":"Bot kişilikleri (Iwakura v2)"},
  "ai_persona_help": {"en":"Iwakura's personality system. A bot's personality follows its situation (Grinder, Conqueror, Trader, Gambler, Perfectionist, Metin slayer, Miner, Herbalist, Fisherman, Mercenary, Companion) and it has a mood (poor, normal, very good) shown on its card. A Grinder holds its level at its tier (15, 23, 30-35, 40-48, 55-62) until it wears a weapon +7, an armour +6 and a shield +6 for its level, and only then may level on as a Conqueror. A bot in a poor mood pauses between packs and goes AFK now and then; only such bots rest in town. Now and then a bot becomes one of five rare personalities for a while, shown in red: Metinologist, Addict, Mad Scientist, Executioner, Mad Angler - or, among the richest bots, one of four gamblers shown in purple: Junior, Senior, Chief and Mad Gambler. Always on (Patch 14).",
                   "pl":"System osobowości Iwakury. Osobowość bota wynika z jego sytuacji (Grinder, Zdobywca, Handlarz, Hazardzista, Perfekcjonista, Pogromca metinów, Górnik, Zielarz, Rybak, Najemnik, Towarzysz), a bot ma nastrój (słaby, normalny, bardzo dobry) widoczny na jego karcie. Grinder trzyma poziom swojego tieru (15, 23, 30-35, 40-48, 55-62), dopóki nie założy broni +7, zbroi +6 i tarczy +6 na swój poziom - dopiero wtedy może dalej expić jako Zdobywca. Bot w słabym nastroju robi przerwy między grupami mobów i co jakiś czas odchodzi od komputera; tylko takie boty odpoczywają w mieście. Od czasu do czasu bot staje się na pewien czas jedną z pięciu rzadkich osobowości, widocznych na czerwono: Metinolog, Nałogowiec, Szalony Naukowiec, Egzekutor, Szalony Wędkarz - a wśród najbogatszych botów jednym z czterech Hazardzistów, widocznych na fioletowo: Młodszym, Starszym, Naczelnym i Szalonym. Zawsze włączony (Patch 14).",
                   "de":"Iwakuras Persönlichkeitssystem. Die Persönlichkeit eines Bots folgt seiner Lage (Grinder, Eroberer, Händler, Spieler, Perfektionist, Metinjäger, Bergmann, Kräuterkundiger, Fischer, Söldner, Gefährte), und er hat eine Stimmung (schlecht, normal, sehr gut), die auf seiner Karte steht. Ein Grinder hält die Stufe seines Tiers (15, 23, 30-35, 40-48, 55-62), bis er eine Waffe +7, eine Rüstung +6 und einen Schild +6 für seine Stufe trägt, und erst dann darf er als Eroberer weiterleveln. Ein Bot in schlechter Stimmung macht Pausen zwischen den Gruppen und ist ab und zu AFK; nur solche Bots ruhen in der Stadt. Immer eingeschaltet (Patch 14).",
-                  "tr":"Iwakura'nın kişilik sistemi. Bir botun kişiliği durumuna göre değişir (Grinder, Fatih, Tüccar, Kumarbaz, Mükemmeliyetçi, Metin avcısı, Madenci, Bitkici, Balıkçı, Paralı asker, Yoldaş) ve kartında görünen bir ruh hali vardır (kötü, normal, çok iyi). Bir Grinder, seviyesine uygun +7 silah, +6 zırh ve +6 kalkan giyene kadar kademesinin seviyesinde (15, 23, 30-35, 40-48, 55-62) kalır, ancak ondan sonra Fatih olarak seviye atlayabilir. Kötü ruh halindeki bot gruplar arasında durur ve ara sıra AFK olur; yalnızca bu botlar şehirde dinlenir. Her zaman açık (Patch 14)."},
+                  "tr":"Iwakura'nın kişilik sistemi. Bir botun kişiliği durumuna göre değişir (Kasıcı, Fatih, Tüccar, Kumarbaz, Mükemmeliyetçi, Metin avcısı, Madenci, Bitkici, Balıkçı, Paralı Asker, Yoldaş) ve kartında görünen bir ruh hali vardır (kötü, normal, çok iyi). Bir Kasıcı, seviyesine uygun +7 silah, +6 zırh ve +6 kalkan kuşanana kadar seviyesini kademesinde (15, 23, 30-35, 40-48, 55-62) tutar; ancak ondan sonra Fatih olarak seviye atlayabilir. Kötü ruh halindeki bot gruplar arasında durur ve ara sıra AFK olur; yalnızca bu botlar şehirde dinlenir. Arada bir bir bot bir süreliğine beş nadir kişilikten birine bürünür, kırmızıyla gösterilir: Metinolog, Bağımlı, Çılgın Bilim Adamı, Cellat, Çılgın Oltacı - ya da en zengin botlar arasında, mor gösterilen dört kumarbazdan birine: Acemi, Kıdemli, Baş ve Çılgın Kumarbaz. Her zaman açık (Yama 14)."},
  "ai_experimental": {"en":"experimental","pl":"eksperymentalne","de":"experimentell","tr":"deneysel"},
  "ai_scrap":     {"en":"Scrap keepers","pl":"Boty złomiarze","de":"Schrotthändler-Bots","tr":"Hurdacı botlar"},
  "ai_scrap_help":{"en":"The share of stall keepers that put their low refines (+0 to +3) on the counter, cheaply, instead of vendoring them - fodder for burning at the blacksmith, the way the hard servers play. Off by default.",
                   "pl":"Udział straganiarzy, którzy wystawiają na ladę swoje słabe ulepszenia (+0 do +3) za grosze zamiast sprzedawać je NPC - złom do palenia u kowala, jak na serwerach hard. Domyślnie wyłączone.",
                   "de":"Anteil der Standbetreiber, die ihre schwachen Verbesserungen (+0 bis +3) billig auf den Tresen legen statt sie zu verkaufen - Futter für den Schmied, wie auf den Hard-Servern. Standardmäßig aus.",
-                  "tr":"Tezgâhçıların, düşük yükseltmelerini (+0 ile +3) NPC'ye satmak yerine ucuza tezgâha koyan payı - demircide yakmalık, hard sunuculardaki gibi. Varsayılan olarak kapalı."},
+                  "tr":"Düşük yükseltmeli eşyalarını (+0 ile +3) NPC'ye satmak yerine ucuza tezgâha koyan tezgâhçıların oranı - hard sunuculardaki gibi demircide yakılacak yem olarak. Varsayılan olarak kapalı."},
  "ai_scrap_off": {"en":"off","pl":"wyłączone","de":"aus","tr":"kapalı"},
  "ai_scrap_all": {"en":"every keeper","pl":"każdy straganiarz","de":"jeder Händler","tr":"her tezgâhçı"},
  "ai_rest":      {"en":"Resting in town","pl":"Odpoczynek w mieście","de":"Ausruhen in der Stadt","tr":"Şehirde dinlenme"},
  "ai_rest_help": {"en":"The share of bots that stay on the market ring for about three minutes after finishing their business in the first village, strolling between the stalls. 0 - nobody rests: the bots hunt all the time and only come to town on errands. Whatever the slider says, a bot under level 18 never rests, and with no stall open nobody browses stalls. With the bot personalities on, only bots in a poor mood rest, and the slider is the share of them.",
                   "pl":"Udział botów, które po załatwieniu spraw w pierwszej wiosce zostają na rynku około trzech minut i spacerują między straganami. 0 - nikt nie odpoczywa: boty cały czas expią, a do miasta przychodzą tylko w sprawach. Niezależnie od suwaka bot poniżej 18 poziomu nie odpoczywa nigdy, a bez wystawionego straganu nikt nie ogląda straganów. Przy włączonych osobowościach botów odpoczywają tylko boty w słabym nastroju, a suwak to ich udział.",
                   "de":"Anteil der Bots, die nach erledigten Besorgungen im ersten Dorf rund drei Minuten auf dem Marktring bleiben und zwischen den Ständen bummeln. 0 - niemand ruht sich aus: die Bots jagen die ganze Zeit und kommen nur für Besorgungen in die Stadt. Unabhängig vom Regler ruht ein Bot unter Stufe 18 nie, und ohne offenen Stand schaut niemand Stände an. Mit eingeschalteten Bot-Persönlichkeiten ruhen nur Bots in schlechter Stimmung, und der Regler ist ihr Anteil.",
-                  "tr":"İlk köydeki işlerini bitirdikten sonra yaklaşık üç dakika pazar halkasında kalıp tezgâhlar arasında dolaşan botların payı. 0 - kimse dinlenmez: botlar sürekli avlanır, şehre yalnızca iş için gelir. Kaydırıcı ne derse desin 18. seviyenin altındaki bot asla dinlenmez, açık tezgâh yokken kimse tezgâhlara bakmaz. Bot kişilikleri açıkken yalnızca kötü ruh halindeki botlar dinlenir ve kaydırıcı onların payıdır."},
+                  "tr":"İlk köydeki işlerini bitirdikten sonra yaklaşık üç dakika pazar halkasında kalıp tezgâhlar arasında dolaşan botların payı. 0 - kimse dinlenmez: botlar sürekli avlanır, şehre yalnızca iş için gelir. Kaydırıcı kaç olursa olsun 18. seviyenin altındaki bot asla dinlenmez, açık tezgâh yokken de kimse tezgâhlara bakmaz. Bot kişilikleri açıkken yalnızca kötü ruh halindeki botlar dinlenir ve kaydırıcı onların payıdır."},
  "ai_rest_off":  {"en":"nobody rests","pl":"nikt nie odpoczywa","de":"niemand ruht","tr":"kimse dinlenmez"},
  "ai_rest_all":  {"en":"every bot","pl":"każdy bot","de":"jeder Bot","tr":"her bot"},
  "ai_kpvp":      {"en":"Hostility between kingdoms","pl":"Wrogość między królestwami","de":"Feindschaft zwischen Königreichen","tr":"Krallıklar arası düşmanlık"},
  "ai_kpvp_help": {"en":"The share of bots that will start a duel with a bot of another kingdom when they meet on shared ground - Orc Valley, the desert, Mount Sohan, the dungeons. Never in a village, never against a player, and never against a bot that is hurt or already fighting one. Which bots are the aggressive ones is fixed per character, so the same ones quarrel after every restart. Off by default. It works only with the shared world layout (unified, the default up to 1500 bots): under split every core holds one kingdom's bots, so there is nobody to fight.",
                   "pl":"Udział botów, które zaczepią bota z innego królestwa, gdy spotkają go na wspólnym terenie - w Dolinie Orków, na pustyni, na Górze Sohan, w lochach. Nigdy w wiosce, nigdy na graczu i nigdy na bocie rannym albo już walczącym. To, które boty są agresywne, jest przypisane na stałe do postaci, więc po każdym restarcie zaczepiają te same. Domyślnie wyłączone. Działa tylko przy wspólnym układzie świata (unified, domyślny do 1500 botów): przy układzie split każdy rdzeń ma boty jednego królestwa i nie ma z kim walczyć.",
                   "de":"Anteil der Bots, die einen Bot eines anderen Königreichs zum Duell fordern, wenn sie ihn auf gemeinsamem Gebiet treffen - Orktal, Wüste, Berg Sohan, die Verliese. Nie in einem Dorf, nie gegen einen Spieler und nie gegen einen verletzten oder schon kämpfenden Bot. Welche Bots aggressiv sind, ist pro Figur fest, also streiten nach jedem Neustart dieselben. Standardmäßig aus. Wirkt nur mit dem gemeinsamen Weltlayout (unified, Standard bis 1500 Bots): bei split hält jeder Kern die Bots eines Königreichs, und es gibt niemanden zum Kämpfen.",
-                  "tr":"Ortak arazide - Ork Vadisi, çöl, Sohan Dağı, zindanlar - başka krallıktan bir botla karşılaştığında düello başlatacak botların oranı. Asla köyde, asla bir oyuncuya karşı ve asla yaralı ya da zaten dövüşen bir bota karşı değil. Hangi botların saldırgan olduğu karaktere sabittir, yani her yeniden başlatmadan sonra aynıları kavga eder. Varsayılan olarak kapalı. Yalnızca ortak dünya düzeninde çalışır (unified, 1500 bota kadar varsayılan): split'te her çekirdek tek krallığın botlarını tutar, dövüşecek kimse yoktur."},
+                  "tr":"Ortak arazide - Seungryong Vadisi, çöl, Sohan Dağı, zindanlar - başka krallıktan bir botla karşılaştığında düello başlatacak botların oranı. Asla köyde, asla bir oyuncuya karşı ve asla yaralı ya da zaten dövüşen bir bota karşı değil. Hangi botların saldırgan olduğu karaktere sabittir, yani her yeniden başlatmadan sonra aynıları kavga eder. Varsayılan olarak kapalı. Yalnızca ortak dünya düzeninde çalışır (unified, 1500 bota kadar varsayılan): split'te her çekirdek tek krallığın botlarını tutar, dövüşecek kimse yoktur."},
  "ai_kpvp_off":  {"en":"peace","pl":"pokój","de":"Frieden","tr":"barış"},
  "ai_kpvp_all":  {"en":"every bot","pl":"każdy bot","de":"jeder Bot","tr":"her bot"},
- "ai_chest":     {"en":"Moonlight Treasure Chests","pl":"Szkatułki Księżycowe","de":"Mondschein-Schatztruhen","tr":"Ay Işığı Sandıkları"},
+ "ai_chest":     {"en":"Moonlight Treasure Chests","pl":"Szkatułki Księżycowe","de":"Mondschein-Schatztruhen","tr":"Ayışığı Define Sandıkları"},
  "ai_chest_help": {"en":"Choose how often Moonlight Treasure Chests drop during their event (Events page). The standard chances are 1% per monster and 30% per Metin; ×2 doubles the standard chance. No chests drop outside the event. Changes apply within five seconds, equally to players and bots; item-drop rates and level differences do not multiply this chance.",
                   "pl":"Wybierz, jak często wypadają Szkatułki Blasku Księżyca podczas ich eventu (strona Eventy). Podstawa to 1% z potwora i 30% z Metina; ×2 podwaja podstawową szansę. Poza eventem szkatułki nie wypadają. Zmiana działa w pięć sekund, tak samo dla graczy i botów; raty dropu i różnica poziomów nie mnożą tej szansy.",
                   "de":"Wähle, wie oft Mondschein-Schatztruhen während ihres Events fallen (Seite Events). Der Standard beträgt 1% pro Monster und 30% pro Metin; ×2 verdoppelt die Standardchance. Außerhalb des Events fallen keine Truhen. Änderungen gelten binnen fünf Sekunden für Spieler und Bots gleichermaßen; Dropraten und Levelunterschiede multiplizieren diese Chance nicht.",
-                  "tr":"Ay Işığı Sandıklarının etkinlik sırasında ne sıklıkla düşeceğini seç (Etkinlikler sayfası). Temel şans canavarlarda %1, Metinlerde %30; ×2 temel şansı iki katına çıkarır. Etkinlik dışında sandık düşmez. Değişiklik beş saniyede oyuncular ve botlar için aynı şekilde uygulanır; eşya drop oranları ve seviye farkları bu şansı çarpmaz."},
+                  "tr":"Ayışığı Define Sandıklarının etkinlik sırasında ne sıklıkla düşeceğini seç (Etkinlikler sayfası). Temel şans canavarlarda %1, Metinlerde %30; ×2 temel şansı iki katına çıkarır. Etkinlik dışında sandık düşmez. Değişiklik beş saniyede oyuncular ve botlar için aynı şekilde uygulanır; eşya drop oranları ve seviye farkları bu şansı çarpmaz."},
  "ev_nav":       {"en":"\U0001F389 Events","pl":"\U0001F389 Eventy","de":"\U0001F389 Events","tr":"\U0001F389 Etkinlikler"},
  "ev_open":      {"en":"\U0001F389 Open events","pl":"\U0001F389 Otw\u00f3rz eventy","de":"\U0001F389 Events \u00f6ffnen","tr":"\U0001F389 Etkinlikleri a\u00e7"},
  "gl_nav":       {"en":"\U0001F6E1 Guilds","pl":"\U0001F6E1 Gildie","de":"\U0001F6E1 Gilden","tr":"\U0001F6E1 Loncalar"},
@@ -5201,7 +5468,7 @@ T.update({
  "gl_intro":     {"en":"A bot guild has a tier. Every bot's strength is one number (level, weapon, skills, horse, armour); every ten minutes each kingdom's bots are cut into percentiles, and a guild is founded at the tier its founder's percentile puts it in: the top 3% found an elite guild, the top 15% a strong one, the top half a medium one, the rest an ordinary one. A master recruits only above its tier's floor, strongest first; a member that outgrows its guild leaves for a better one. Members offer the guild a share of their experience every hour, so a guild levels and its master spends the skill points.",
                   "pl":"Gildia botów ma klasę. Siła każdego bota to jedna liczba (poziom, broń, umiejętności, koń, zbroja); co dziesięć minut boty każdego królestwa dzielone są na percentyle, a gildia powstaje w klasie, do której trafia percentyl założyciela: górne 3% zakłada gildię elitarną, górne 15% silną, górna połowa średnią, reszta zwykłą. Mistrz rekrutuje tylko powyżej progu swojej klasy, od najsilniejszych; członek, który przerósł gildię, odchodzi do lepszej. Członkowie co godzinę oddają gildii część zdobytego expa, więc gildia wbija poziomy, a mistrz wydaje punkty umiejętności.",
                   "de":"Eine Bot-Gilde hat eine Stufe. Die Stärke jedes Bots ist eine Zahl (Level, Waffe, Fertigkeiten, Pferd, Rüstung); alle zehn Minuten werden die Bots jedes Königreichs in Perzentile geteilt, und eine Gilde wird in der Stufe gegründet, in die das Perzentil ihres Gründers fällt: die oberen 3% gründen eine Elite-Gilde, die oberen 15% eine starke, die obere Hälfte eine mittlere, der Rest eine gewöhnliche. Ein Meister rekrutiert nur über der Schwelle seiner Stufe, die Stärksten zuerst; ein Mitglied, das seiner Gilde entwachsen ist, wechselt in eine bessere. Mitglieder geben der Gilde stündlich einen Teil ihrer Erfahrung, so steigt die Gilde auf und der Meister verteilt die Fertigkeitspunkte.",
-                  "tr":"Bir bot loncasının kademesi vardır. Her botun gücü tek bir sayıdır (seviye, silah, beceriler, at, zırh); her on dakikada bir her krallığın botları yüzdelik dilimlere ayrılır ve lonca, kurucusunun dilimine denk gelen kademede kurulur: en üst %3 elit, en üst %15 güçlü, üst yarı orta, geri kalanı sıradan bir lonca kurar. Usta yalnızca kademesinin eşiğinin üzerinden, en güçlülerden başlayarak üye alır; loncasını aşan üye daha iyisine geçer. Üyeler her saat tecrübelerinin bir kısmını loncaya verir, böylece lonca seviye atlar ve usta beceri puanlarını harcar."},
+                  "tr":"Bir bot loncasının kademesi vardır. Her botun gücü tek bir sayıdır (seviye, silah, beceriler, at, zırh); her on dakikada bir her krallığın botları yüzdelik dilimlere ayrılır ve lonca, kurucusunun dilimine denk gelen kademede kurulur: en üst %3 elit, en üst %15 güçlü, üst yarı orta, geri kalanı sıradan bir lonca kurar. Lider yalnızca kademesinin eşiğinin üzerindekileri, en güçlülerden başlayarak alır; loncasını aşan üye daha iyisine geçer. Üyeler her saat tecrübelerinin bir kısmını loncaya verir, böylece lonca seviye atlar ve lider beceri puanlarını harcar."},
  "gl_stale":     {"en":"No game core has written a guild status yet (it does so within a minute of starting with this version).","pl":"Żaden rdzeń gry nie zapisał jeszcze statusu gildii (robi to w ciągu minuty od startu z tą wersją).","de":"Noch kein Spielkern hat einen Gildenstatus geschrieben (er tut es binnen einer Minute nach dem Start mit dieser Version).","tr":"Henüz hiçbir oyun çekirdeği lonca durumu yazmadı (bu sürümle başladıktan bir dakika içinde yazar)."},
  "gl_summary":   {"en":"Bot guilds","pl":"Gildie botów","de":"Bot-Gilden","tr":"Bot loncaları"},
  "gl_tier_elite":    {"en":"Elite","pl":"Elitarna","de":"Elite","tr":"Elit"},
@@ -5218,7 +5485,7 @@ T.update({
  "gl_col_level": {"en":"Level","pl":"Poziom","de":"Level","tr":"Seviye"},
  "gl_col_members":{"en":"Members","pl":"Członkowie","de":"Mitglieder","tr":"Üyeler"},
  "gl_col_online":{"en":"Online","pl":"Online","de":"Online","tr":"Çevrimiçi"},
- "gl_col_master":{"en":"Master","pl":"Mistrz","de":"Meister","tr":"Usta"},
+ "gl_col_master":{"en":"Master","pl":"Mistrz","de":"Meister","tr":"Lider"},
  "gl_col_strength":{"en":"Avg. strength","pl":"Śr. siła","de":"Ø Stärke","tr":"Ort. güç"},
  "gl_col_ladder":{"en":"Ladder","pl":"Ranking","de":"Rangliste","tr":"Sıralama"},
  "gl_col_record":{"en":"W/D/L","pl":"Z/R/P","de":"S/U/N","tr":"G/B/M"},
@@ -5233,9 +5500,9 @@ T.update({
  "gl_next_war_off": {"en":"not scheduled","pl":"niezaplanowana","de":"nicht geplant","tr":"planlanmadı"},
  "gl_next_war_in": {"en":"in about","pl":"za ok.","de":"in etwa","tr":"yaklaşık"},
  "gl_exp_note":  {"en":"Exp received counts what the bots have offered since the cores started; the guild's own exp column in the game is the same number, kept by the DB.","pl":"„Otrzymany exp” liczy, co boty oddały od startu rdzeni; kolumna expa gildii w grze to ta sama liczba, trzymana przez bazę.","de":"„Erhaltene Erfahrung“ zählt, was die Bots seit dem Start der Kerne gegeben haben; die Erfahrungsspalte der Gilde im Spiel ist dieselbe Zahl, von der Datenbank geführt.","tr":"„Alınan tecrübe“ çekirdekler başladığından beri botların verdiğini sayar; oyundaki lonca tecrübe sütunu veritabanının tuttuğu aynı sayıdır."},
- "ev_dash_hint": {"en":"Timed windows: Moonlight chests drop only while their event runs; more experience, drop or yang at chosen hours. \u201cActivate now\u201d switches an event on for a number of minutes.","pl":"Okna czasowe: Szkatu\u0142ki Blasku Ksi\u0119\u017cyca dropi\u0105 tylko wtedy, gdy trwa ich event; wi\u0119cej expa, dropu albo yang o wybranych porach. \u201eAktywuj teraz\u201d w\u0142\u0105cza event na podan\u0105 liczb\u0119 minut.","de":"Zeitfenster: Mondschein-Truhen fallen nur w\u00e4hrend ihres Events; mehr Erfahrung, Drop oder Yang zu gew\u00e4hlten Stunden. \u201eJetzt aktivieren\u201c schaltet ein Event f\u00fcr einige Minuten ein.","tr":"Zaman pencereleri: Ay I\u015f\u0131\u011f\u0131 Sand\u0131klar\u0131 yaln\u0131zca etkinlik s\u00fcrerken d\u00fc\u015fer; se\u00e7ilen saatlerde daha fazla tecr\u00fcbe, drop veya yang. \u201c\u015eimdi etkinle\u015ftir\u201d bir etkinli\u011fi belirli dakika a\u00e7ar."},
- "ev_intro":     {"en":"A row is a weekly window: which days, from what hour to what hour, and for a rate how many percent over the server's own rates (50 = +50%). The game core reads this within five seconds; nothing restarts. A window past midnight (22:00-02:00) runs into the next day.","pl":"Wiersz to okno tygodniowe: w jakie dni, od kt\u00f3rej do kt\u00f3rej, a dla rat o ile procent ponad ustawione raty serwera (50 = +50%). Rdze\u0144 gry odczytuje to w pi\u0119\u0107 sekund; nic si\u0119 nie restartuje. Okno przez p\u00f3\u0142noc (22:00-02:00) trwa do nast\u0119pnego dnia.","de":"Eine Zeile ist ein w\u00f6chentliches Fenster: welche Tage, von wann bis wann, und bei einer Rate wie viel Prozent \u00fcber den Serverraten (50 = +50%). Der Spielkern liest das binnen f\u00fcnf Sekunden; nichts startet neu. Ein Fenster \u00fcber Mitternacht (22:00-02:00) l\u00e4uft in den n\u00e4chsten Tag.","tr":"Bir sat\u0131r haftal\u0131k bir penceredir: hangi g\u00fcnler, saat ka\u00e7tan ka\u00e7a ve oran i\u00e7in sunucu oranlar\u0131n\u0131n y\u00fczde ka\u00e7 \u00fcst\u00fc (50 = +%50). Oyun \u00e7ekirde\u011fi bunu be\u015f saniyede okur; hi\u00e7bir \u015fey yeniden ba\u015flamaz. Gece yar\u0131s\u0131n\u0131 ge\u00e7en pencere (22:00-02:00) ertesi g\u00fcne sarkar."},
- "ev_chest_note": {"pl": "Szkatu\u0142ki wypadaj\u0105 tylko w aktywnym oknie blask\u00f3w; dwa suwaki na stronie zachowania bot\u00f3w okre\u015blaj\u0105 szanse dropu w tym oknie.", "en": "Chests drop only while a chest event window is active; the two sliders on the bot behaviour page set their chances within that window.", "de": "Truhen fallen nur w\u00e4hrend eines aktiven Truhen-Event-Fensters; die zwei Regler auf der Seite Bot-Verhalten bestimmen die Drop-Chancen in diesem Fenster.", "tr": "Sand\u0131klar yaln\u0131zca sand\u0131k etkinli\u011fi penceresi a\u00e7\u0131kken d\u00fc\u015fer; bot davran\u0131\u015f\u0131 sayfas\u0131ndaki iki kayd\u0131r\u0131c\u0131 bu penceredeki d\u00fc\u015f\u00fc\u015f \u015fanslar\u0131n\u0131 belirler."},
+ "ev_dash_hint": {"en":"Timed windows: Moonlight chests drop only while their event runs; more experience, drop or yang at chosen hours. \u201cActivate now\u201d switches an event on for a number of minutes.","pl":"Okna czasowe: Szkatu\u0142ki Blasku Ksi\u0119\u017cyca dropi\u0105 tylko wtedy, gdy trwa ich event; wi\u0119cej expa, dropu albo yang o wybranych porach. \u201eAktywuj teraz\u201d w\u0142\u0105cza event na podan\u0105 liczb\u0119 minut.","de":"Zeitfenster: Mondschein-Truhen fallen nur w\u00e4hrend ihres Events; mehr Erfahrung, Drop oder Yang zu gew\u00e4hlten Stunden. \u201eJetzt aktivieren\u201c schaltet ein Event f\u00fcr einige Minuten ein.","tr":"Zaman pencereleri: Ayışığı Define Sandıkları yalnızca etkinlik sürerken düşer; seçilen saatlerde daha fazla tecrübe, drop veya yang. “Şimdi etkinleştir”, bir etkinliği seçtiğin kadar dakika açar."},
+ "ev_intro":     {"en":"A row is a weekly window: which days, from what hour to what hour, and for a rate how many percent over the server's own rates (50 = +50%). The game core reads this within five seconds; nothing restarts. A window past midnight (22:00-02:00) runs into the next day.","pl":"Wiersz to okno tygodniowe: w jakie dni, od kt\u00f3rej do kt\u00f3rej, a dla rat o ile procent ponad ustawione raty serwera (50 = +50%). Rdze\u0144 gry odczytuje to w pi\u0119\u0107 sekund; nic si\u0119 nie restartuje. Okno przez p\u00f3\u0142noc (22:00-02:00) trwa do nast\u0119pnego dnia.","de":"Eine Zeile ist ein w\u00f6chentliches Fenster: welche Tage, von wann bis wann, und bei einer Rate wie viel Prozent \u00fcber den Serverraten (50 = +50%). Der Spielkern liest das binnen f\u00fcnf Sekunden; nichts startet neu. Ein Fenster \u00fcber Mitternacht (22:00-02:00) l\u00e4uft in den n\u00e4chsten Tag.","tr":"Bir satır haftalık bir penceredir: hangi günler, saat kaçtan kaça ve sunucu oranlarının yüzde kaç üstünde (50 = +%50). Oyun çekirdeği bunu beş saniyede okur; hiçbir şey yeniden başlamaz. Gece yarısını geçen pencere (22:00-02:00) ertesi güne sarkar."},
+ "ev_chest_note": {"pl": "Szkatu\u0142ki wypadaj\u0105 tylko w aktywnym oknie blask\u00f3w; dwa suwaki na stronie zachowania bot\u00f3w okre\u015blaj\u0105 szanse dropu w tym oknie.", "en": "Chests drop only while a chest event window is active; the two sliders on the bot behaviour page set their chances within that window.", "de": "Truhen fallen nur w\u00e4hrend eines aktiven Truhen-Event-Fensters; die zwei Regler auf der Seite Bot-Verhalten bestimmen die Drop-Chancen in diesem Fenster.", "tr": "Sandıklar yalnızca sandık etkinliği penceresi açıkken düşer; bot davranışı sayfasındaki iki kaydırıcı bu penceredeki drop şanslarını belirler."},
  "ev_notice_note":{"en":"The chat gets a notice when an event starts, every fifteen minutes while it runs, and when it ends.","pl":"Na czacie pojawia si\u0119 og\u0142oszenie na pocz\u0105tku eventu, co pi\u0119tna\u015bcie minut w jego trakcie i na ko\u0144cu.","de":"Der Chat bekommt eine Meldung zum Start eines Events, alle f\u00fcnfzehn Minuten w\u00e4hrenddessen und zum Ende.","tr":"Etkinlik ba\u015flad\u0131\u011f\u0131nda, s\u00fcrerken her on be\u015f dakikada ve bitti\u011finde sohbete duyuru d\u00fc\u015fer."},
  "ev_status_title":{"en":"Right now","pl":"Teraz","de":"Gerade jetzt","tr":"\u015eu anda"},
  "ev_status_stale":{"en":"The game core has not written an event status yet (it does so within a minute of starting with this version).","pl":"Rdze\u0144 gry nie zapisa\u0142 jeszcze statusu event\u00f3w (robi to w ci\u0105gu minuty od startu z t\u0105 wersj\u0105).","de":"Der Spielkern hat noch keinen Event-Status geschrieben (er tut es binnen einer Minute nach dem Start mit dieser Version).","tr":"Oyun \u00e7ekirde\u011fi hen\u00fcz etkinlik durumu yazmad\u0131 (bu s\u00fcr\u00fcmle ba\u015flad\u0131ktan bir dakika i\u00e7inde yazar)."},
@@ -5243,7 +5510,7 @@ T.update({
  "ev_next":      {"en":"Next","pl":"Nast\u0119pny","de":"N\u00e4chstes","tr":"Sonraki"},
  "ev_inactive":  {"en":"Not running","pl":"Nieaktywny","de":"L\u00e4uft nicht","tr":"\u00c7al\u0131\u015fm\u0131yor"},
  "ev_none":      {"en":"No window scheduled","pl":"Brak zaplanowanych okien","de":"Kein Fenster geplant","tr":"Planlanm\u0131\u015f pencere yok"},
- "ev_kind_chest":{"en":"Moonlight chests","pl":"Szkatu\u0142ki Blasku Ksi\u0119\u017cyca","de":"Mondschein-Truhen","tr":"Ay I\u015f\u0131\u011f\u0131 Sand\u0131klar\u0131"},
+ "ev_kind_chest":{"en":"Moonlight chests","pl":"Szkatu\u0142ki Blasku Ksi\u0119\u017cyca","de":"Mondschein-Truhen","tr":"Ayışığı Define Sandıkları"},
  "ev_kind_exp":  {"en":"Experience","pl":"Do\u015bwiadczenie","de":"Erfahrung","tr":"Tecr\u00fcbe"},
  "ev_kind_drop": {"en":"Item drop","pl":"Drop przedmiot\u00f3w","de":"Item-Drop","tr":"E\u015fya d\u00fc\u015fmesi"},
  "ev_kind_yang": {"en":"Yang","pl":"Yang","de":"Yang","tr":"Yang"},
@@ -5260,22 +5527,22 @@ T.update({
  "ev_saved":     {"en":"Schedule saved; the game core reads it within five seconds.","pl":"Harmonogram zapisany; rdze\u0144 gry odczyta go w pi\u0119\u0107 sekund.","de":"Zeitplan gespeichert; der Spielkern liest ihn binnen f\u00fcnf Sekunden.","tr":"Zaman \u00e7izelgesi kaydedildi; oyun \u00e7ekirde\u011fi be\u015f saniyede okur."},
  "ev_failed":    {"en":"Could not write the events file.","pl":"Nie uda\u0142o si\u0119 zapisa\u0107 pliku event\u00f3w.","de":"Die Event-Datei konnte nicht geschrieben werden.","tr":"Etkinlik dosyas\u0131 yaz\u0131lamad\u0131."},
  "ev_bad_row":   {"en":"Row %d: the hours must be HH:MM (the start before 24:00) and the value 0-1000.","pl":"Wiersz %d: godziny musz\u0105 by\u0107 HH:MM (pocz\u0105tek przed 24:00), a warto\u015b\u0107 0-1000.","de":"Zeile %d: die Stunden m\u00fcssen HH:MM sein (Beginn vor 24:00), der Wert 0-1000.","tr":"Sat\u0131r %d: saatler SS:DD olmal\u0131 (ba\u015flang\u0131\u00e7 24:00 \u00f6ncesi), de\u011fer 0-1000."},
- "ev_value_help":{"en":"The value is a percentage over the server's rates (50 = +50% experience); the chest rows ignore it. Untick every day to keep a row without running it.","pl":"Warto\u015b\u0107 to procent ponad raty serwera (50 = +50% expa); wiersze szkatu\u0142ek j\u0105 ignoruj\u0105. Odznacz wszystkie dni, by zachowa\u0107 wiersz bez uruchamiania.","de":"Der Wert ist ein Prozentsatz \u00fcber den Serverraten (50 = +50% Erfahrung); Truhenzeilen ignorieren ihn. Alle Tage abw\u00e4hlen, um eine Zeile zu behalten, ohne sie laufen zu lassen.","tr":"De\u011fer, sunucu oranlar\u0131n\u0131n \u00fcst\u00fcndeki y\u00fczdedir (50 = +%50 tecr\u00fcbe); sand\u0131k sat\u0131rlar\u0131 bunu yok sayar. Bir sat\u0131r\u0131 \u00e7al\u0131\u015ft\u0131rmadan saklamak i\u00e7in t\u00fcm g\u00fcnlerin i\u015faretini kald\u0131r\u0131n."},
+ "ev_value_help":{"en":"The value is a percentage over the server's rates (50 = +50% experience); the chest rows ignore it. Untick every day to keep a row without running it.","pl":"Warto\u015b\u0107 to procent ponad raty serwera (50 = +50% expa); wiersze szkatu\u0142ek j\u0105 ignoruj\u0105. Odznacz wszystkie dni, by zachowa\u0107 wiersz bez uruchamiania.","de":"Der Wert ist ein Prozentsatz \u00fcber den Serverraten (50 = +50% Erfahrung); Truhenzeilen ignorieren ihn. Alle Tage abw\u00e4hlen, um eine Zeile zu behalten, ohne sie laufen zu lassen.","tr":"Değer, sunucu oranlarının üstündeki yüzdedir (50 = +%50 tecrübe); sandık satırları bunu yok sayar. Bir satırı çalıştırmadan saklamak için tüm günlerin işaretini kaldır."},
  "ev_now_minutes":{"en":"for minutes","pl":"na minut","de":"f\u00fcr Minuten","tr":"dakika boyunca"},
  "ev_now_value": {"en":"+%","pl":"+%","de":"+%","tr":"+%"},
  "ev_now_go":    {"en":"Activate now","pl":"Aktywuj teraz","de":"Jetzt aktivieren","tr":"\u015eimdi etkinle\u015ftir"},
- "ev_chest_drop_title": {"pl": "Drop Szkatu\u0142ek Blasku Ksi\u0119\u017cyca", "en": "Moonlight Treasure Chest drops", "de": "Mondschein-Schatztruhen-Drop", "tr": "Ay I\u015f\u0131\u011f\u0131 Sand\u0131\u011f\u0131 d\u00fc\u015f\u00fc\u015f\u00fc"},
- "ev_chest_drop_off": {"pl": "Globalny wy\u0142\u0105cznik dropu jest zaznaczony. Uruchomienie eventu nie zmienia tego ustawienia.", "en": "The global drop switch is checked. Starting an event does not change this setting.", "de": "Der globale Drop-Schalter ist markiert. Ein Event-Start \u00e4ndert diese Einstellung nicht.", "tr": "Genel d\u00fc\u015f\u00fc\u015f kapatma anahtar\u0131 i\u015faretli. Etkinli\u011fi ba\u015flatmak bu ayar\u0131 de\u011fi\u015ftirmez."},
+ "ev_chest_drop_title": {"pl": "Drop Szkatu\u0142ek Blasku Ksi\u0119\u017cyca", "en": "Moonlight Treasure Chest drops", "de": "Mondschein-Schatztruhen-Drop", "tr": "Ayışığı Define Sandığı drop'ları"},
+ "ev_chest_drop_off": {"pl": "Globalny wy\u0142\u0105cznik dropu jest zaznaczony. Uruchomienie eventu nie zmienia tego ustawienia.", "en": "The global drop switch is checked. Starting an event does not change this setting.", "de": "Der globale Drop-Schalter ist markiert. Ein Event-Start \u00e4ndert diese Einstellung nicht.", "tr": "Genel drop kapatma anahtarı işaretli. Etkinliği başlatmak bu ayarı değiştirmez."},
  "ev_chest_drop_zero": {"pl": "Obie zapisane szanse wynosz\u0105 0%. Podczas eventu szkatu\u0142ki nie wypadn\u0105.", "en": "Both saved chances are 0%. No chests will drop during the event.", "de": "Beide gespeicherten Chancen sind 0%. W\u00e4hrend des Events fallen keine Truhen.", "tr": "Kaydedilen iki \u015fans da %0. Etkinlik s\u0131ras\u0131nda sand\u0131k d\u00fc\u015fmez."},
  "ev_chest_drop_unknown": {"pl": "Cz\u0119\u015b\u0107 szans pochodzi z konfiguracji serwera; panel nie zna tych warto\u015bci.", "en": "Some chances come from server configuration; this panel does not know those values.", "de": "Einige Chancen kommen aus der Serverkonfiguration; dieses Panel kennt diese Werte nicht.", "tr": "Baz\u0131 \u015fanslar sunucu yap\u0131land\u0131rmas\u0131ndan gelir; panel bu de\u011ferleri bilmiyor."},
- "ev_chest_drop_ready": {"pl": "Zapisane szanse pozwalaj\u0105 na drop. Szkatu\u0142ki wypadaj\u0105 tylko w aktywnym oknie blask\u00f3w.", "en": "Saved chances allow drops. Chests drop only during an active chest event window.", "de": "Die gespeicherten Chancen erlauben Drops. Truhen fallen nur w\u00e4hrend eines aktiven Truhen-Events.", "tr": "Kaydedilen \u015fanslar d\u00fc\u015f\u00fc\u015fe izin veriyor. Sand\u0131klar yaln\u0131zca sand\u0131k etkinli\u011fi a\u00e7\u0131kken d\u00fc\u015fer."},
- "ev_chest_drop_help": {"pl": "Harmonogram i ustawienia dropu s\u0105 niezale\u017cne. Uruchomienie eventu nie zmienia wy\u0142\u0105cznika ani zapisanych szans.", "en": "The schedule and drop settings are independent. Starting an event does not change the switch or saved chances.", "de": "Zeitplan und Drop-Einstellungen sind unabh\u00e4ngig. Ein Event-Start \u00e4ndert weder den Schalter noch die gespeicherten Chancen.", "tr": "Zaman \u00e7izelgesi ve d\u00fc\u015f\u00fc\u015f ayarlar\u0131 ba\u011f\u0131ms\u0131zd\u0131r. Etkinli\u011fi ba\u015flatmak anahtar\u0131 veya kaydedilen \u015fanslar\u0131 de\u011fi\u015ftirmez."},
- "ev_chest_drop_link": {"pl": "Sprawd\u017a wy\u0142\u0105cznik i szanse w ustawieniach AI", "en": "Check the switch and chances in AI settings", "de": "Schalter und Chancen in den KI-Einstellungen pr\u00fcfen", "tr": "AI ayarlar\u0131nda anahtar\u0131 ve \u015fanslar\u0131 kontrol et"},
+ "ev_chest_drop_ready": {"pl": "Zapisane szanse pozwalaj\u0105 na drop. Szkatu\u0142ki wypadaj\u0105 tylko w aktywnym oknie blask\u00f3w.", "en": "Saved chances allow drops. Chests drop only during an active chest event window.", "de": "Die gespeicherten Chancen erlauben Drops. Truhen fallen nur w\u00e4hrend eines aktiven Truhen-Events.", "tr": "Kaydedilen şanslar drop'a izin veriyor. Sandıklar yalnızca sandık etkinliği açıkken düşer."},
+ "ev_chest_drop_help": {"pl": "Harmonogram i ustawienia dropu s\u0105 niezale\u017cne. Uruchomienie eventu nie zmienia wy\u0142\u0105cznika ani zapisanych szans.", "en": "The schedule and drop settings are independent. Starting an event does not change the switch or saved chances.", "de": "Zeitplan und Drop-Einstellungen sind unabh\u00e4ngig. Ein Event-Start \u00e4ndert weder den Schalter noch die gespeicherten Chancen.", "tr": "Zaman çizelgesi ve drop ayarları bağımsızdır. Etkinliği başlatmak anahtarı veya kaydedilen şansları değiştirmez."},
+ "ev_chest_drop_link": {"pl": "Sprawd\u017a wy\u0142\u0105cznik i szanse w ustawieniach AI", "en": "Check the switch and chances in AI settings", "de": "Schalter und Chancen in den KI-Einstellungen pr\u00fcfen", "tr": "Bot davranışı ayarlarında anahtarı ve şansları kontrol et"},
  "ev_chest_drop_kill": {"pl": "Z potwora", "en": "Per monster", "de": "Pro Monster", "tr": "Canavar ba\u015f\u0131na"},
  "ev_chest_drop_stone": {"pl": "Z Metina", "en": "Per Metin stone", "de": "Pro Metinstein", "tr": "Metin ta\u015f\u0131 ba\u015f\u0131na"},
  "ev_chest_from_config": {"pl": "z konfiguracji serwera", "en": "from server configuration", "de": "aus der Serverkonfiguration", "tr": "sunucu yap\u0131land\u0131rmas\u0131ndan"},
- "ev_chest_now_blocked": {"pl": "Okno blask\u00f3w zapisane na %d minut, ale ustawienia dropu wymagaj\u0105 uwagi. Sprawd\u017a wy\u0142\u0105cznik i szanse w ustawieniach AI.", "en": "Chest event window saved for %d minutes, but the drop settings need attention. Check the switch and chances in AI settings.", "de": "Truhen-Event-Fenster f\u00fcr %d Minuten gespeichert, aber die Drop-Einstellungen m\u00fcssen gepr\u00fcft werden. Schalter und Chancen in den KI-Einstellungen pr\u00fcfen.", "tr": "Sand\u0131k etkinli\u011fi penceresi %d dakika i\u00e7in kaydedildi, ancak d\u00fc\u015f\u00fc\u015f ayarlar\u0131n\u0131 kontrol etmek gerekiyor. AI ayarlar\u0131nda anahtar\u0131 ve \u015fanslar\u0131 kontrol et."},
- "ev_now_started":{"en":"Event switched on for %d minutes; the chat is told within seconds.","pl":"Event w\u0142\u0105czony na %d minut; czat dowie si\u0119 w kilka sekund.","de":"Event f\u00fcr %d Minuten eingeschaltet; der Chat erf\u00e4hrt es binnen Sekunden.","tr":"Etkinlik %d dakikal\u0131\u011f\u0131na a\u00e7\u0131ld\u0131; sohbet saniyeler i\u00e7inde \u00f6\u011frenir."},
+ "ev_chest_now_blocked": {"pl": "Okno blask\u00f3w zapisane na %d minut, ale ustawienia dropu wymagaj\u0105 uwagi. Sprawd\u017a wy\u0142\u0105cznik i szanse w ustawieniach AI.", "en": "Chest event window saved for %d minutes, but the drop settings need attention. Check the switch and chances in AI settings.", "de": "Truhen-Event-Fenster f\u00fcr %d Minuten gespeichert, aber die Drop-Einstellungen m\u00fcssen gepr\u00fcft werden. Schalter und Chancen in den KI-Einstellungen pr\u00fcfen.", "tr": "Sandık etkinliği penceresi %d dakika için kaydedildi, ancak drop ayarlarını kontrol etmek gerekiyor. Bot davranışı ayarlarında anahtarı ve şansları kontrol et."},
+ "ev_now_started":{"en":"Event switched on for %d minutes; the chat is told within seconds.","pl":"Event w\u0142\u0105czony na %d minut; czat dowie si\u0119 w kilka sekund.","de":"Event f\u00fcr %d Minuten eingeschaltet; der Chat erf\u00e4hrt es binnen Sekunden.","tr":"Etkinlik %d dakikalığına açıldı; sohbete saniyeler içinde duyurulur."},
  "ev_stop":      {"en":"End now","pl":"Zako\u0144cz","de":"Jetzt beenden","tr":"\u015eimdi bitir"},
  "ev_stopped":   {"en":"The event switched on by hand is over.","pl":"Event w\u0142\u0105czony r\u0119cznie zako\u0144czony.","de":"Das von Hand eingeschaltete Event ist beendet.","tr":"Elle a\u00e7\u0131lan etkinlik bitti."},
  "ev_kind_tanaka": {"en":"Pirate Tanaka","pl":"Pirat Tanaka","de":"Pirat Tanaka","tr":"Korsan Tanaka"},
@@ -5296,7 +5563,7 @@ T.update({
  "ev_bots_save": {"en":"Save","pl":"Zapisz","de":"Speichern","tr":"Kaydet"},
  "ev_bots_saved": {"en":"Saved; the game core reads it within five seconds.","pl":"Zapisano; rdze\u0144 gry odczyta to w pi\u0119\u0107 sekund.","de":"Gespeichert; der Spielkern liest es binnen f\u00fcnf Sekunden.","tr":"Kaydedildi; oyun \u00e7ekirde\u011fi be\u015f saniyede okur."},
  "ev_world_many": {"en":"Events on different maps run at the same time; starting one on a map that already has an event restarts it there.","pl":"Eventy na r\u00f3\u017cnych mapach trwaj\u0105 jednocze\u015bnie; uruchomienie na mapie, na kt\u00f3rej event ju\u017c trwa, zaczyna go tam od nowa.","de":"Events auf verschiedenen Karten laufen gleichzeitig; ein Start auf einer Karte, auf der schon eines l\u00e4uft, startet es dort neu.","tr":"Farkl\u0131 haritalardaki etkinlikler ayn\u0131 anda s\u00fcrer; zaten etkinlik olan bir haritada ba\u015flatmak onu orada yeniden ba\u015flat\u0131r."},
- "ai_chest_off":  {"en":"Turn the Moonlight chest drop off","pl":"Wyłącz drop Szkatułek Blasku Księżyca","de":"Mondschein-Truhen nicht fallen lassen","tr":"Ay Işığı Sandığı düşmesini kapat"},
+ "ai_chest_off":  {"en":"Turn the Moonlight chest drop off","pl":"Wyłącz drop Szkatułek Blasku Księżyca","de":"Mondschein-Truhen nicht fallen lassen","tr":"Ayışığı Define Sandığı düşmesini kapat"},
  "ai_chest_off_help": {"en":"Save with this option ticked to disable both sources. Your choices are remembered and restored when you untick it. Drops still require an active chest event.",
                   "pl":"Zapisz z zaznaczoną opcją, aby wyłączyć oba źródła. Wybrane wartości są pamiętane i wrócą po odznaczeniu. Drop nadal wymaga aktywnego eventu szkatułek.",
                   "de":"Speichere mit aktivierter Option, um beide Quellen abzuschalten. Deine Werte bleiben gespeichert und werden nach dem Abwählen wiederhergestellt. Der Drop benötigt weiterhin ein aktives Truhen-Event.",
@@ -5314,47 +5581,47 @@ T.update({
  "ai_live":     {"en":"Saved. The game core reads it within five seconds — no restart, nobody is disconnected. Some settings reach a bot at its next decision (see the text under each).",
                  "pl":"Zapisano. Rdzeń gry odczyta to w ciągu pięciu sekund — bez restartu, nikt nie zostaje rozłączony. Niektóre ustawienia docierają do bota przy jego następnej decyzji (opis pod każdym).",
                  "de":"Gespeichert. Der Spielkern liest das binnen fünf Sekunden — kein Neustart, niemand fliegt raus. Manche Einstellungen erreichen einen Bot erst bei seiner nächsten Entscheidung (siehe den Text darunter).",
-                 "tr":"Kaydedildi. Oyun çekirdeği bunu beş saniye içinde okur — yeniden başlatma yok, kimse düşmez. Bazı ayarlar bota bir sonraki kararında ulaşır (her birinin altındaki metne bakın)."},
+                 "tr":"Kaydedildi. Oyun çekirdeği bunu beş saniye içinde okur — yeniden başlatma yok, kimsenin bağlantısı kesilmez. Bazı ayarlar bota bir sonraki kararında ulaşır (her birinin altındaki metne bak)."},
  "ai_failed":    {"en":"Could not write the file \u2014 the shared spool directory is not mounted in this container.",
                   "pl":"Nie udało się zapisać pliku \u2014 współdzielony katalog spool nie jest podmontowany w tym kontenerze.",
                   "de":"Datei konnte nicht geschrieben werden \u2014 das gemeinsame Spool-Verzeichnis ist in diesem Container nicht eingebunden.",
                   "tr":"Dosya yazılamadı \u2014 paylaşılan spool dizini bu kapsayıcıda bağlı değil."},
  "ai_save":      {"en":"Save","pl":"Zapisz","de":"Speichern","tr":"Kaydet"},
- "ai_items_open": {"en":"📦 What the bots may sell","pl":"📦 Co boty mogą sprzedawać"},
- "ai_items_nav":  {"en":"📦 Item policy: merchant or stall","pl":"📦 Polityka przedmiotów: handlarz czy stragan"},
+ "ai_items_open": {"en":"📦 What the bots may sell","pl":"📦 Co boty mogą sprzedawać", "tr": "📦 Botların satabilecekleri"},
+ "ai_items_nav":  {"en":"📦 Item policy: merchant or stall","pl":"📦 Polityka przedmiotów: handlarz czy stragan", "tr": "📦 Eşya politikası: tüccar mı tezgâh mı"},
  "ai_items_intro":{"en":"One line per item: the item number (vnum) or a whole type (type:19), a space or tab, and one word. keep - never leaves the bag; stall - counter goods, ahead of everything else, but at most three lines of one item on a counter (marbles: three, each of another monster) while the rest waits in the bag; merchant - sold to the NPC merchant on the next town visit; drop - thrown away at the merchant visit without a sale. Anything not listed here follows the bots' own rules. Saved, it reaches every bot within five seconds.",
-                  "pl":"Jedna linia na przedmiot: numer przedmiotu (vnum) albo cały typ (type:19), spacja lub tabulator i jedno słowo. keep (zostaw) - nigdy nie opuszcza plecaka; stall (stragan) - towar na ladę, przed wszystkim innym, ale najwyżej 3 linie jednego przedmiotu na ladzie (marmury: 3, każdy innego potwora), a reszta czeka w plecaku; merchant (handlarz) - sprzedany handlarzowi NPC przy najbliższej wizycie w mieście; drop (wyrzuc) - wyrzucony przy wizycie u handlarza, bez sprzedaży. Czego tu nie ma, podlega własnym regułom botów. Po zapisie dociera do każdego bota w ciągu pięciu sekund."},
+                  "pl":"Jedna linia na przedmiot: numer przedmiotu (vnum) albo cały typ (type:19), spacja lub tabulator i jedno słowo. keep (zostaw) - nigdy nie opuszcza plecaka; stall (stragan) - towar na ladę, przed wszystkim innym, ale najwyżej 3 linie jednego przedmiotu na ladzie (marmury: 3, każdy innego potwora), a reszta czeka w plecaku; merchant (handlarz) - sprzedany handlarzowi NPC przy najbliższej wizycie w mieście; drop (wyrzuc) - wyrzucony przy wizycie u handlarza, bez sprzedaży. Czego tu nie ma, podlega własnym regułom botów. Po zapisie dociera do każdego bota w ciągu pięciu sekund.", "tr": "Eşya başına bir satır: eşya numarası (vnum) ya da bir türün tamamı (type:19), bir boşluk veya sekme ve tek bir sözcük. keep - çantadan asla çıkmaz; stall - tezgâh malı, her şeyden önce gelir, ancak bir tezgâhta bir eşyadan en fazla üç satır (küreler: üç, her biri başka bir canavardan), kalanı çantada bekler; merchant - bir sonraki şehir ziyaretinde NPC tüccara satılır; drop - tüccar ziyaretinde satılmadan atılır. Burada listelenmeyen her şey botların kendi kurallarına uyar. Kaydedilince her bota beş saniye içinde ulaşır."},
  "ai_items_format":{"en":"Item numbers: the item search on the give-item page shows them; item types: 5 materials, 18 quest items, 19 polymorph marbles, 17 skill books, 3 usable items (scrolls, stones). A # starts a comment.",
-                  "pl":"Numery przedmiotów pokazuje wyszukiwarka na stronie nadawania przedmiotów; typy: 5 materiały, 18 przedmioty questowe, 19 marmury polimorfii, 17 księgi, 3 przedmioty użytkowe (zwoje, kamienie). Znak # zaczyna komentarz."},
+                  "pl":"Numery przedmiotów pokazuje wyszukiwarka na stronie nadawania przedmiotów; typy: 5 materiały, 18 przedmioty questowe, 19 marmury polimorfii, 17 księgi, 3 przedmioty użytkowe (zwoje, kamienie). Znak # zaczyna komentarz.", "tr": "Eşya numaralarını eşya verme sayfasındaki eşya araması gösterir; eşya türleri: 5 malzeme, 18 görev eşyası, 19 dönüşüm küresi, 17 beceri kitabı, 3 kullanılabilir eşya (kağıtlar, taşlar). # işareti bir yorum başlatır."},
  "ai_items_bad":  {"en":"Not saved: line(s) {n} are not '<vnum or type:N> <keep|stall|merchant|drop>'.",
-                  "pl":"Nie zapisano: linie {n} nie mają postaci '<vnum albo type:N> <keep|stall|merchant|drop>'."},
- "ai_items_live": {"en":"Saved. The bots read the file within five seconds.","pl":"Zapisano. Boty czytają plik w ciągu pięciu sekund."},
+                  "pl":"Nie zapisano: linie {n} nie mają postaci '<vnum albo type:N> <keep|stall|merchant|drop>'.", "tr": "Kaydedilmedi: {n} numaralı satır(lar) '<vnum or type:N> <keep|stall|merchant|drop>' biçiminde değil."},
+ "ai_items_live": {"en":"Saved. The bots read the file within five seconds.","pl":"Zapisano. Boty czytają plik w ciągu pięciu sekund.", "tr": "Kaydedildi. Botlar dosyayı beş saniye içinde okur."},
  "ai_reset":    {"en":"Goals back to 100", "pl":"Cele z powrotem na 100", "de":"Ziele zurück auf 100", "tr":"Hedefleri 100'e döndür"},
- "ai_every_chance": {"en":"every chance (as built)", "pl":"każda okazja (jak w grze)", "de":"jede Gelegenheit (wie gebaut)", "tr":"her fırsat (yapıldığı gibi)"},
+ "ai_every_chance": {"en":"every chance (as built)", "pl":"każda okazja (jak w grze)", "de":"jede Gelegenheit (wie gebaut)", "tr":"her fırsat (oyundaki gibi)"},
  "ai_rare":      {"en":"rarely","pl":"rzadko","de":"selten","tr":"nadiren"},
  "ai_often":     {"en":"often","pl":"często","de":"oft","tr":"sık"},
- "ai_neutral":   {"en":"as built","pl":"jak w grze","de":"wie gebaut","tr":"yapıldığı gibi"},
+ "ai_neutral":   {"en":"as built","pl":"jak w grze","de":"wie gebaut","tr":"oyundaki gibi"},
 
  "aiw_RESTOCK":  {"en":"Buying potions","pl":"Kupowanie mikstur","de":"Tränke kaufen","tr":"İksir alma"},
  "aih_RESTOCK": {"en":"When a bot goes back to town for potions: at 100 when it has fewer than 300 red or 200 blue left (30/20 up to level 10). 25 waits for a quarter of that, 250 goes at two and a half times as many - at most 480/360, as the merchant fills the belt to 800/600. Applies at once.",
                  "pl":"Kiedy bot wraca do miasta po mikstury: przy 100, gdy zostaje mu mniej niż 300 czerwonych lub 200 niebieskich (do 10. poziomu 30/20). 25 czeka do ćwiartki tego, 250 idzie już przy dwa i pół raza tylu - najwyżej przy 480/360, bo handlarz dopełnia do 800/600. Działa od razu.",
                  "de":"Wann ein Bot für Tränke in die Stadt geht: bei 100, wenn er weniger als 300 rote oder 200 blaue hat (bis Stufe 10: 30/20). 25 wartet auf ein Viertel davon, 250 geht schon beim Zweieinhalbfachen - höchstens bei 480/360, weil der Händler auf 800/600 auffüllt. Wirkt sofort.",
-                 "tr":"Botun iksir için kasabaya ne zaman döndüğü: 100'de 300 kırmızıdan veya 200 maviden azı kaldığında (10. seviyeye kadar 30/20). 25 bunun dörtte birini bekler, 250 iki buçuk katında gider - tüccar 800/600'e tamamladığı için en fazla 480/360'ta. Hemen uygulanır."},
+                 "tr":"Botun iksir için şehre ne zaman döndüğü: 100'de 300 kırmızıdan veya 200 maviden azı kaldığında (10. seviyeye kadar 30/20). 25 bunun dörtte birini bekler, 250 iki buçuk katında gider - tüccar 800/600'e tamamladığı için en fazla 480/360'ta. Hemen uygulanır."},
  "aiw_REFINE":   {"en":"The blacksmith","pl":"Kowal","de":"Der Schmied","tr":"Demirci"},
  "aih_REFINE":  {"en":"Trips to the blacksmith to upgrade. At 100 a bot goes at every chance, as the game was built, so the slider stops at 100: below it a share of the bots leaves the blacksmith alone for half an hour at a time - at 50 a bot upgrades in every other half hour. A bot already standing at the anvil upgrades what it can, and a gambler's session does not count. Applies at once.",
                  "pl":"Wyprawy do kowala po ulepszenie. Przy 100 bot idzie przy każdej okazji, jak w grze, dlatego suwak kończy się na 100: poniżej część botów omija kowala po pół godziny - przy 50 bot ulepsza w co drugiej półgodzinie. Bot, który już stoi przy kowadle, ulepsza, co może, a sesja hazardzisty się nie liczy. Działa od razu.",
                  "de":"Gänge zum Schmied zum Aufwerten. Bei 100 geht ein Bot bei jeder Gelegenheit, wie im Spiel, darum endet der Regler bei 100: darunter lässt ein Teil der Bots den Schmied jeweils eine halbe Stunde links liegen - bei 50 wertet ein Bot in jeder zweiten halben Stunde auf. Ein Bot, der schon am Amboss steht, wertet auf, was er kann, und die Sitzung eines Glücksspielers zählt nicht. Wirkt sofort.",
                  "tr":"Yükseltme için demirciye gidişler. 100'de bot oyundaki gibi her fırsatta gider, bu yüzden kaydırıcı 100'de biter: altında botların bir kısmı demirciyi yarım saatliğine bırakır - 50'de bir bot her iki yarım saatin birinde yükseltir. Örsün başında duran bot yapabildiğini yükseltir, kumarbazın oturumu sayılmaz. Hemen uygulanır."},
- "aiw_SKILL":    {"en":"Skill books","pl":"Księgi umiejętności","de":"Skillbücher","tr":"Yetenek kitapları"},
+ "aiw_SKILL":    {"en":"Skill books","pl":"Księgi umiejętności","de":"Skillbücher","tr":"Beceri kitapları"},
  "aih_SKILL":   {"en":"Reading skill books. At 100 a bot reads at every chance, as the game was built, so the slider stops at 100: below it a share of the bots leaves its books in the bag for half an hour at a time - at 50 a bot reads in every other half hour. The game's own wait between two books is set elsewhere. Applies at once.",
                  "pl":"Czytanie ksiąg umiejętności. Przy 100 bot czyta przy każdej okazji, jak w grze, dlatego suwak kończy się na 100: poniżej część botów zostawia księgi w plecaku po pół godziny - przy 50 bot czyta w co drugiej półgodzinie. Przerwę samej gry między dwiema księgami ustawia się osobno. Działa od razu.",
                  "de":"Fertigkeitsbücher lesen. Bei 100 liest ein Bot bei jeder Gelegenheit, wie im Spiel, darum endet der Regler bei 100: darunter lässt ein Teil der Bots seine Bücher jeweils eine halbe Stunde im Beutel - bei 50 liest ein Bot in jeder zweiten halben Stunde. Die eigene Wartezeit des Spiels zwischen zwei Büchern wird anderswo eingestellt. Wirkt sofort.",
-                 "tr":"Yetenek kitabı okumak. 100'de bot oyundaki gibi her fırsatta okur, bu yüzden kaydırıcı 100'de biter: altında botların bir kısmı kitaplarını yarım saatliğine çantada bırakır - 50'de bir bot her iki yarım saatin birinde okur. Oyunun iki kitap arasındaki kendi beklemesi başka yerde ayarlanır. Hemen uygulanır."},
+                 "tr":"Beceri kitabı okumak. 100'de bot oyundaki gibi her fırsatta okur, bu yüzden kaydırıcı 100'de biter: altında botların bir kısmı kitaplarını yarım saatliğine çantada bırakır - 50'de bir bot her iki yarım saatin birinde okur. Oyunun iki kitap arasındaki kendi beklemesi başka yerde ayarlanır. Hemen uygulanır."},
  "aiw_HORSE":    {"en":"The horse","pl":"Koń","de":"Das Pferd","tr":"At"},
  "aih_HORSE":   {"en":"The trip to the Monkey Dungeon for horse medals: how many of the bots that could go set out. The stable itself (the horse's levels and books) does not listen to it, nor do the medal droppers and bots over level 64. Applies at the next travel check.",
                  "pl":"Wyprawy do Lochu Małp po medale konne: ilu botów spośród tych, które mogą, wyrusza. Sama stajnia (poziomy konia i księgi) nie słucha tego suwaka, tak samo dropperzy medali i boty powyżej 64 poziomu. Działa przy następnym sprawdzeniu podróży.",
                  "de":"Die Reise ins Affenverlies für Pferdemedaillen: wie viele der Bots, die könnten, aufbrechen. Der Stall selbst (Pferdestufen und Bücher) hört nicht darauf, ebenso wenig die Medaillen-Dropper und Bots über Stufe 64. Wirkt bei der nächsten Reiseprüfung.",
-                 "tr":"At madalyaları için Maymun Zindanı'na yolculuk: gidebilecek botlardan kaçının yola çıktığı. Ahırın kendisi (atın seviyeleri ve kitapları) bunu dinlemez; madalya dropper'ları ve 64. seviyenin üstündeki botlar da dinlemez. Bir sonraki yolculuk kontrolünde uygulanır."},
+                 "tr":"At madalyonları için Maymun Zindanı'na yolculuk: gidebilecek botlardan kaçının yola çıktığı. Ahırın kendisi (atın seviyeleri ve kitapları) bu ayardan etkilenmez; madalyon farmcıları ve 64. seviyenin üstündeki botlar da öyle. Bir sonraki yolculuk kontrolünde uygulanır."},
  "aiw_BIOLOG":   {"en":"The Biologist","pl":"Biolog","de":"Der Biologe","tr":"Biyolog"},
  "aih_BIOLOG":  {"en":"Hunting the Biologist's specimens: the trip to the mission monster's map and the hunt there. At 100 every bot with an open mission does it, as the game was built, so the slider stops at 100: below it a share of the bots hunts whatever its map offers for half an hour at a time. What a bot already carries is handed in all the same. Applies at once.",
                  "pl":"Polowanie na okazy dla Biologa: podróż na mapę potwora z misji i polowanie tam. Przy 100 robi to każdy bot z otwartą misją, jak w grze, dlatego suwak kończy się na 100: poniżej część botów po pół godziny bije to, co jest na jego mapie. To, co bot już niesie, i tak oddaje. Działa od razu.",
@@ -5369,37 +5636,37 @@ T.update({
  "aih_PARTY":   {"en":"The share of bots that may join a party: in the villages 20% at 100 (5% at 25, 50% at 250); on the frontier (Orc Valley, the desert, Sohan, the Spider Dungeons) every bot already may at 100, so there the slider only works downwards (25% at 25). A bot left out leaves its party within a minute; new parties form in 1-3 minutes.",
                  "pl":"Jaka część botów może wchodzić do grup: w wioskach 20% przy 100 (5% przy 25, 50% przy 250); na froncie (Dolina Orków, pustynia, Sohan, Lochy Pająków) przy 100 już każdy bot, więc tam suwak działa tylko w dół (25% przy 25). Bot, który wypada z puli, opuszcza grupę w ciągu minuty; nowe grupy tworzą się w 1–3 minuty.",
                  "de":"Welcher Anteil der Bots Gruppen beitreten darf: in den Dörfern 20% bei 100 (5% bei 25, 50% bei 250); an der Front (Orktal, Wüste, Sohan, Spinnenverliese) darf es bei 100 schon jeder Bot, dort wirkt der Regler also nur nach unten (25% bei 25). Wer herausfällt, verlässt seine Gruppe binnen einer Minute; neue Gruppen bilden sich in 1-3 Minuten.",
-                 "tr":"Botların ne kadarının gruba girebileceği: köylerde 100'de %20 (25'te %5, 250'de %50); cephede (Ork Vadisi, çöl, Sohan, Örümcek Zindanları) 100'de zaten her bot girebilir, yani orada kaydırıcı yalnızca aşağı doğru çalışır (25'te %25). Dışarıda kalan bot bir dakika içinde grubundan ayrılır; yeni gruplar 1-3 dakikada kurulur."},
+                 "tr":"Botların ne kadarının gruba girebileceği: köylerde 100'de %20 (25'te %5, 250'de %50); sınır bölgelerinde (Seungryong Vadisi, çöl, Sohan, Örümcek Zindanları) 100'de zaten her bot girebilir, yani orada kaydırıcı yalnızca aşağı doğru çalışır (25'te %25). Dışarıda kalan bot bir dakika içinde grubundan ayrılır; yeni gruplar 1-3 dakikada kurulur."},
  "aiw_HUNTING":  {"en":"Hunting missions","pl":"Misje polowania","de":"Jagdmissionen","tr":"Av görevleri"},
  "aih_HUNTING": {"en":"The level-up hunt mission (r40250 only): hunting the monster the mission names. At 100 every bot with a mission does it, so the slider stops at 100: below it a share of the bots hunts whatever its map offers for half an hour at a time. Applies at once.",
                  "pl":"Misja polowania na awans (tylko r40250): bicie potwora, którego wskazuje misja. Przy 100 robi to każdy bot z misją, dlatego suwak kończy się na 100: poniżej część botów po pół godziny bije to, co jest na jego mapie. Działa od razu.",
                  "de":"Die Aufstiegsjagd (nur r40250): das Monster jagen, das die Mission nennt. Bei 100 tut das jeder Bot mit Mission, darum endet der Regler bei 100: darunter jagt ein Teil der Bots jeweils eine halbe Stunde, was seine Karte bietet. Wirkt sofort.",
                  "tr":"Seviye avı görevi (yalnızca r40250): görevin gösterdiği canavarı avlamak. 100'de görevi olan her bot bunu yapar, bu yüzden kaydırıcı 100'de biter: altında botların bir kısmı yarım saatliğine haritasında ne varsa onu avlar. Hemen uygulanır."},
- "aiw_LEVEL":    {"en":"Plain grinding","pl":"Zwykłe bicie potworów","de":"Schlichtes Grinden","tr":"Düz grind"},
+ "aiw_LEVEL":    {"en":"Plain grinding","pl":"Zwykłe bicie potworów","de":"Schlichtes Grinden","tr":"Düz kasma"},
  "aih_LEVEL":   {"en":"Plain grinding, what a bot does when nothing else is asking for it. Raised, the level goal wins over the other goals, and a grinder with that goal pulls several monsters at once and a third of them drink attack-speed potions; the errands themselves (potions, blacksmith, books, the Biologist) have their own sliders and this one does not hold them back. Lowering it changes nothing.",
                  "pl":"Zwykłe bicie potworów, czyli to, co bot robi, gdy nic innego się nie dopomina. Podniesiony sprawia, że cel „poziom” wygrywa z innymi celami, a grinder z tym celem przyciąga kilka potworów naraz i co trzeci pije mikstury szybkości ataku; same sprawunki (mikstury, kowal, księgi, Biolog) mają własne suwaki i ten ich nie wstrzymuje. Obniżenie niczego nie zmienia.",
                  "de":"Schlichtes Grinden, was ein Bot tut, wenn nichts anderes ruft. Erhöht gewinnt das Stufenziel gegen die anderen Ziele, und ein Grinder mit diesem Ziel zieht mehrere Monster auf einmal, und ein Drittel trinkt Angriffstempo-Tränke; die Besorgungen selbst (Tränke, Schmied, Bücher, der Biologe) haben eigene Regler, und dieser hält sie nicht auf. Senken ändert nichts.",
-                 "tr":"Düz grind, başka bir şey çağırmadığında botun yaptığı şey. Yükseltilince seviye hedefi diğer hedefleri geçer ve bu hedefteki grinder aynı anda birkaç canavar çeker, üçte biri saldırı hızı iksiri içer; işlerin kendisi (iksir, demirci, kitap, Biyolog) kendi kaydırıcılarına sahiptir ve bu onları durdurmaz. Düşürmek bir şey değiştirmez."},
+                 "tr":"Düz kasma: başka bir şey gerekmediğinde botun yaptığı iş. Artırılınca seviye hedefi diğer hedeflere baskın çıkar ve bu hedefteki bir kasıcı aynı anda birkaç canavar çeker, bu kasıcıların üçte biri saldırı hızı iksiri içer; işlerin kendisi (iksir, demirci, kitap, Biyolog) kendi kaydırıcılarına sahiptir ve bu onları durdurmaz. Düşürmek bir şey değiştirmez."},
  "aiw_FISHING":  {"en":"Fishing","pl":"Wędkowanie","de":"Angeln","tr":"Balık tutma"},
  "aih_FISHING": {"en":"How many bots fish. With the personalities on (the default) a bot of level 30 and up, outside a party, rolls again every half hour against the slider and its mood - most often a bot in a poor mood; with them off a fixed share of the bots fishes (collectors more often). Raising it works within seconds; lowering it lets running sessions finish first (up to an hour). A bot sent to the water after five deaths in one place (the capitulation) goes whatever the slider says.",
                  "pl":"Ilu botów łowi ryby. Przy włączonych osobowościach (domyślnie) bot od 30 poziomu, poza grupą, losuje od nowa co pół godziny według suwaka i swojego nastroju - najczęściej bot w słabym nastroju; przy wyłączonych łowi stały udział botów (zbieracze częściej). Podniesienie działa w kilka sekund; obniżenie pozwala dokończyć trwające sesje (do godziny). Bot wysłany nad wodę po pięciu śmierciach w jednym miejscu (kapitulacja) idzie niezależnie od suwaka.",
                  "de":"Wie viele Bots angeln. Mit eingeschalteten Persönlichkeiten (Standard) würfelt ein Bot ab Stufe 30, außerhalb einer Gruppe, jede halbe Stunde neu gegen den Regler und seine Stimmung - am häufigsten ein Bot in schlechter Stimmung; ohne sie angelt ein fester Anteil der Bots (Sammler öfter). Erhöhen wirkt binnen Sekunden; Senken lässt laufende Sitzungen erst zu Ende gehen (bis zu einer Stunde). Ein Bot, der nach fünf Toden an einem Ort ans Wasser geschickt wird (die Kapitulation), geht unabhängig vom Regler.",
-                 "tr":"Kaç botun balık tuttuğu. Kişilikler açıkken (varsayılan) 30. seviye ve üstündeki, grupta olmayan bot yarım saatte bir kaydırıcıya ve ruh haline göre yeniden zar atar - en sık kötü ruh halindeki bot; kapalıyken botların sabit bir payı balık tutar (toplayıcılar daha sık). Yükseltmek saniyeler içinde işler; düşürmek süren oturumların önce bitmesine izin verir (bir saate kadar). Bir yerde beş kez öldükten sonra suya gönderilen bot (kapitülasyon) kaydırıcıdan bağımsız gider."},
- "aiw_TRADE":    {"en":"Market stalls","pl":"Stragany","de":"Marktstände","tr":"Pazar tezgahları"},
+                 "tr":"Kaç botun balık tuttuğu. Kişilikler açıkken (varsayılan) 30. seviye ve üstündeki, grupta olmayan bir bot yarım saatte bir kaydırıcıya ve ruh haline göre yeniden zar atar - en sık kötü ruh halindeki bot; kapalıyken botların sabit bir payı balık tutar (toplayıcılar daha sık). Artırmak saniyeler içinde etki eder; azaltmak, süren oturumların önce bitmesine izin verir (bir saate kadar). Bir yerde beş kez öldükten sonra suya gönderilen bot (teslimiyet) kaydırıcı ne olursa olsun gider."},
+ "aiw_TRADE":    {"en":"Market stalls","pl":"Stragany","de":"Marktstände","tr":"Pazar tezgâhları"},
  "aiw_MINING":   {"en":"Mining","pl":"Górnictwo","de":"Bergbau","tr":"Madencilik"},
  "aih_MINING":  {"en":"How many bots dig ore and how long they rest from the veins. With the personalities on (the default) every bot of level 30 with a pickaxe digs a vein in sight - under 100 the slider closes the veins to a share of them, half an hour at a time; with them off a fixed share of the bots mines (collectors more often). The rest between two sessions shrinks as the slider goes up and grows as it goes down.",
                  "pl":"Ilu botów kopie rudę i jak długo odpoczywa od żył. Przy włączonych osobowościach (domyślnie) każdy bot od 30 poziomu z kilofem kopie żyłę w zasięgu wzroku - poniżej 100 suwak zamyka żyły dla części z nich, na pół godziny; przy wyłączonych kopie stały udział botów (zbieracze częściej). Przerwa między sesjami skraca się, gdy suwak idzie w górę, i wydłuża, gdy idzie w dół.",
                  "de":"Wie viele Bots Erz abbauen und wie lange sie von den Adern ruhen. Mit eingeschalteten Persönlichkeiten (Standard) baut jeder Bot ab Stufe 30 mit einer Spitzhacke eine Ader in Sichtweite ab - unter 100 schließt der Regler die Adern für einen Teil von ihnen, jeweils eine halbe Stunde; ohne sie baut ein fester Anteil der Bots ab (Sammler öfter). Die Pause zwischen zwei Sitzungen wird kürzer, wenn der Regler steigt, und länger, wenn er sinkt.",
-                 "tr":"Kaç botun cevher kazdığı ve damarlardan ne kadar dinlendiği. Kişilikler açıkken (varsayılan) kazması olan 30. seviye ve üstündeki her bot görüş alanındaki bir damarı kazar - 100 altında kaydırıcı damarları bir kısmına yarım saatliğine kapatır; kapalıyken botların sabit bir payı kazar (toplayıcılar daha sık). İki oturum arasındaki mola kaydırıcı yükseldikçe kısalır, düştükçe uzar."},
+                 "tr":"Kaç botun cevher kazdığı ve damarlardan ne kadar dinlendiği. Kişilikler açıkken (varsayılan) kazması olan 30. seviye ve üstündeki her bot görüş alanındaki bir damarı kazar - 100'ün altında kaydırıcı damarları botların bir kısmına yarım saatliğine kapatır; kapalıyken botların sabit bir payı kazar (toplayıcılar daha sık). İki oturum arasındaki mola kaydırıcı yükseldikçe kısalır, düştükçe uzar."},
  "aiw_HERB":     {"en":"Herbalism","pl":"Zielarstwo","de":"Kräuterkunde","tr":"Bitkicilik"},
  "aih_HERB":    {"en":"How many bots work Baek-Go's herbalism board and how often. With the personalities on (the default) it is the Conqueror's errand from level 45; under 100 the board is closed to a share of them, half an hour at a time, and over 100 a share of the bots from level 15 comes too (all of them at 250). The wait between two visits shrinks as the slider goes up. Bots do not pick plants: the herbs come from the monsters' drops.",
                  "pl":"Ilu botów pracuje przy stole zielarskim Baek-Go i jak często. Przy włączonych osobowościach (domyślnie) to zadanie Zdobywcy od 45 poziomu; poniżej 100 stół jest zamknięty dla części z nich, na pół godziny, a powyżej 100 dochodzi część botów od 15 poziomu (przy 250 wszystkie). Przerwa między wizytami skraca się, gdy suwak idzie w górę. Boty nie zbierają roślin: zioła mają z dropu potworów.",
                  "de":"Wie viele Bots an Baek-Gos Kräutertisch arbeiten und wie oft. Mit eingeschalteten Persönlichkeiten (Standard) ist es die Aufgabe des Eroberers ab Stufe 45; unter 100 ist der Tisch für einen Teil von ihnen jeweils eine halbe Stunde geschlossen, und über 100 kommt ein Teil der Bots ab Stufe 15 hinzu (bei 250 alle). Die Pause zwischen zwei Besuchen wird kürzer, wenn der Regler steigt. Bots pflücken keine Pflanzen: Die Kräuter stammen aus der Beute der Monster.",
-                 "tr":"Kaç botun Baek-Go'nun bitki masasında çalıştığı ve ne sıklıkla. Kişilikler açıkken (varsayılan) 45. seviyeden itibaren Fatih'in işidir; 100 altında masa bir kısmına yarım saatliğine kapanır, 100 üstünde 15. seviyeden botların bir kısmı da gelir (250 değerinde hepsi). İki ziyaret arasındaki bekleme kaydırıcı yükseldikçe kısalır. Botlar bitki toplamaz: bitkiler canavarların düşürdüklerinden gelir."},
+                 "tr":"Kaç botun Baek-Go'nun bitki masasında çalıştığı ve ne sıklıkla. Kişilikler açıkken (varsayılan) 45. seviyeden itibaren Fatih'in işidir; 100'ün altında masa botların bir kısmına yarım saatliğine kapanır, 100'ün üstünde 15. seviyeden itibaren botların bir kısmı da gelir (250'de hepsi). İki ziyaret arasındaki bekleme kaydırıcı yükseldikçe kısalır. Botlar bitki toplamaz: bitkiler canavarların düşürdüklerinden gelir."},
  "aih_TRADE":   {"en":"How many bots keep a stall. The slider does not touch a Merchant personality, a bot that cannot afford its potions, a full bag, a dropper under bag pressure, nor valuable spares and a gambler's goods (the counter is how they get rid of them). It moves the rest: the surplus-books stall (already every such bot at 100, so it only goes down), the dropper's roll and the one-in-ten. On r40250 standing stalls re-check within five minutes; on the 2.x line an offline stand is never closed early - a lower slider only stops its renewal when its eight hours run out. The status says why each one is open.",
                  "pl":"Ilu botów trzyma stragan. Suwak nie rusza osobowości Handlarz, bota bez yang na mikstury, pełnego plecaka, droppera pod presją plecaka ani cennych zapasowych rzeczy i towaru hazardzisty (lada to sposób, żeby się ich pozbyć). Rusza resztę: stragan z nadmiaru ksiąg (przy 100 ma go już każdy taki bot, więc działa tylko w dół), los droppera i „jeden na dziesięciu”. Na r40250 stojące stragany sprawdzają się ponownie do pięciu minut po zmianie; na linii 2.x sklep offline nie jest zamykany wcześniej - niższy suwak tylko wstrzymuje jego odnowienie po ośmiu godzinach. Status mówi, dlaczego każdy jest otwarty.",
                  "de":"Wie viele Bots einen Stand führen. Der Regler berührt weder die Händler-Persönlichkeit noch einen Bot ohne Yang für Tränke, einen vollen Beutel, einen Dropper unter Beuteldruck oder wertvolle Ersatzstücke und die Ware eines Glücksspielers (der Stand ist ihr Weg, sie loszuwerden). Er bewegt den Rest: den Bücher-Stand (bei 100 schon jeder solche Bot, also nur nach unten), den Dropper-Wurf und den Einen-von-zehn. Auf r40250 prüfen stehende Stände sich binnen fünf Minuten neu; auf der 2.x-Linie wird ein Offline-Laden nie früher geschlossen - ein niedrigerer Regler stoppt nur seine Verlängerung nach acht Stunden. Der Status sagt, warum jeder offen ist.",
-                 "tr":"Kaç botun tezgah tuttuğu. Kaydırıcı Tüccar kişiliğine, iksir parası olmayan bota, dolu çantaya, çanta baskısındaki dropper'a, değerli yedek eşyalara ve kumarbazın mallarına dokunmaz (tezgah onlardan kurtulmanın yoludur). Gerisini oynatır: fazla kitap tezgahı (100'de zaten her böyle bot açar, yani yalnızca aşağı iner), dropper zarı ve onda bir. r40250'de açık tezgahlar beş dakika içinde yeniden bakar; 2.x hattında çevrimdışı dükkân asla erken kapanmaz - düşük kaydırıcı yalnızca sekiz saat dolunca yenilenmesini durdurur. Durum her birinin neden açık olduğunu söyler."},
+                 "tr":"Kaç botun tezgâh tuttuğu. Kaydırıcı Tüccar kişiliğine, iksir parası olmayan bota, dolu çantaya, çanta baskısındaki farmcıya, değerli yedek eşyalara ve kumarbazın mallarına dokunmaz (tezgâh onlardan kurtulmanın yoludur). Geri kalanları etkiler: fazla kitap tezgâhı (100'de zaten her böyle bot açar, yani yalnızca aşağı iner), farmcının zarı ve onda bir. r40250'de açık tezgâhlar beş dakika içinde yeniden kontrol edilir; 2.x serisinde çevrimdışı dükkân asla erken kapanmaz - düşük bir kaydırıcı yalnızca sekiz saatlik süresi dolunca yenilenmesini durdurur. Durum her birinin neden açık olduğunu söyler."},
 })
 
 
@@ -5416,7 +5683,7 @@ T.update({
  "se_intro":     {"en":"Seven days of metins, bosses and refines that landed on +7 or better. Level, horse and gold are shown for context but are deliberately not scored: they are what a character IS, not what it did this week.",
                   "pl":"Siedem dni metinów, bossów i ulepszeń, które weszły na +7 lub wyżej. Poziom, koń i yang są pokazane dla kontekstu, ale celowo nie liczą się do wyniku: to jest to, KIM postać jest, a nie co zrobiła w tym tygodniu.",
                   "de":"Sieben Tage Metins, Bosse und Aufwertungen, die auf +7 oder besser gelandet sind. Level, Pferd und Yang stehen als Kontext dabei, zählen aber bewusst nicht: sie sagen, was ein Charakter IST, nicht was er diese Woche getan hat.",
-                  "tr":"Yedi günlük metin, boss ve +7 ve üzerine oturan yükseltmeler. Seviye, at ve yang bağlam için gösterilir ama bilerek puana girmez: onlar karakterin NE olduğunu söyler, bu hafta ne yaptığını değil."},
+                  "tr":"Yedi günlük metin, boss ve +7 ve üzerine ulaşan yükseltmeler. Seviye, at ve yang bağlam için gösterilir ama bilerek puana girmez: onlar karakterin NE olduğunu söyler, bu hafta ne yaptığını değil."},
  "se_back_map":  {"en":"Live map","pl":"Mapa na żywo","de":"Live-Karte","tr":"Canlı harita"},
  "se_records":   {"en":"Server records","pl":"Rekordy serwera","de":"Serverrekorde","tr":"Sunucu rekorları"},
  "se_records_h": {"en":"All time, since the world was created.","pl":"Od początku istnienia świata.",
@@ -5450,15 +5717,15 @@ T.update({
 # are not here: that card is being rewritten for more channels.
 for _key, _texts in {
  "regen_title": {"de": "Respawnzeit von Metinsteinen, Bossen und Monstern",
-       "tr": "Metin Taşları, bosslar ve canavarlar için yeniden doğma süresi"},
+       "tr": "Metin taşları, bosslar ve canavarlar için yeniden doğma süresi"},
  "regen_help": {"de": "Prozent der normalen Respawnzeit: 100 = wie im Spiel, 50 = doppelt so schnell, 10 = zehnmal so schnell. Wirkt sofort (über den Ingame-Helfer) und bleibt nach einem Neustart erhalten. Getrennt einstellbar für Metinsteine, für Bosse und für normale Monster.",
-       "tr": "Normal yeniden doğma süresinin yüzdesi: 100 = oyundaki gibi, 50 = iki kat hızlı, 10 = on kat hızlı. Hemen etkili olur (oyun içi yardımcı sayesinde) ve yeniden başlatmadan sonra da kalır. Metin Taşları, bosslar ve normal canavarlar için ayrı ayrı ayarlanır."},
+       "tr": "Normal yeniden doğma süresinin yüzdesi: 100 = oyundaki gibi, 50 = iki kat hızlı, 10 = on kat hızlı. Hemen etkili olur (oyun içi yardımcı sayesinde) ve yeniden başlatmadan sonra da kalır. Metin taşları, bosslar ve normal canavarlar için ayrı ayrı ayarlanır."},
  "regen_metin": {"de": "Metinsteine (% der Zeit)",
-       "tr": "Metin Taşları (sürenin %'si)"},
+       "tr": "Metin taşları (sürenin yüzdesi)"},
  "regen_boss": {"de": "Bosse (% der Zeit)",
-       "tr": "Bosslar (sürenin %'si)"},
+       "tr": "Bosslar (sürenin yüzdesi)"},
  "regen_mob": {"de": "Normale Monster (% der Zeit)",
-       "tr": "Normal canavarlar (sürenin %'si)"},
+       "tr": "Normal canavarlar (sürenin yüzdesi)"},
  "regen_faster": {"de": "Schneller:",
        "tr": "Daha hızlı:"},
  "regen_mult": {"de": "≈ ×{n} schneller als im Spiel",
@@ -5474,11 +5741,11 @@ for _key, _texts in {
  "count_title": {"de": "Monsteranzahl pro Spawnpunkt",
        "tr": "Doğma noktası başına canavar sayısı"},
  "count_help": {"de": "Wie viele Monster an jedem Spawnpunkt stehen: ×1 = wie im Spiel, ×2 = doppelt so viele, bis zu ×4. Kein Neustart nötig, und die Einstellung bleibt auch nach einem Neustart erhalten; die zusätzlichen Monster kommen beim nächsten Respawn des jeweiligen Punkts dazu (Metinsteine und Bosse nach ihrer eigenen Respawnzeit, meist 15–25 Minuten). Getrennt einstellbar für Metinsteine, für Bosse und für normale Monster. NPCs (auch Erzadern und Kräuterbüsche), Portale, Dungeons und einmalige Spawns aus Quests bleiben unverändert.",
-       "tr": "Her doğma noktasında kaç canavar durduğu: ×1 = oyundaki gibi, ×2 = iki kat fazla, ×4'e kadar. Yeniden başlatma gerekmez ve ayar yeniden başlatmadan sonra da kalır; ek canavarlar o noktanın bir sonraki yeniden doğmasında gelir (Metin Taşları ve bosslar kendi yeniden doğma sürelerinden sonra, genellikle 15–25 dakika). Metin Taşları, bosslar ve normal canavarlar için ayrı ayrı ayarlanır. NPC'ler (maden damarları ve ot çalıları da), portallar, zindanlar ve görevlerin tek seferlik doğmaları değişmeden kalır."},
+       "tr": "Her doğma noktasında kaç canavar durduğu: ×1 = oyundaki gibi, ×2 = iki kat fazla, ×4'e kadar. Yeniden başlatma gerekmez ve ayar yeniden başlatmadan sonra da kalır; ek canavarlar o noktanın bir sonraki yeniden doğmasında gelir (Metin taşları ve bosslar kendi yeniden doğma sürelerinden sonra, genellikle 15–25 dakika). Metin taşları, bosslar ve normal canavarlar için ayrı ayrı ayarlanır. NPC'ler (maden damarları ve ot çalıları da), portallar, zindanlar ve görevlerin tek seferlik doğmaları değişmeden kalır."},
  "count_warn": {"de": "Achtung: ×2 bedeutet doppelt so viele Monster auf jeder Map — der Server und die Bots haben dadurch mehr Arbeit. Wenn du den Multiplikator senkst, verschwinden die überzähligen Monster erst, wenn jemand sie tötet.",
        "tr": "Dikkat: ×2, her haritada iki kat fazla canavar demektir — sunucu ve botlar bu yüzden daha çok çalışır. Çarpanı düşürdükten sonra fazla canavarlar ancak biri onları öldürünce kaybolur."},
  "count_metin": {"de": "Metinsteine",
-       "tr": "Metin Taşları"},
+       "tr": "Metin taşları"},
  "count_boss": {"de": "Bosse",
        "tr": "Bosslar"},
  "count_mob": {"de": "Normale Monster",
@@ -5494,7 +5761,7 @@ for _key, _texts in {
  "diff_title": {"de": "Schwierigkeitsgrad",
        "tr": "Zorluk seviyesi"},
  "diff_help": {"de": "Wie lange ein Spieler beim Biologen zwischen zwei Abgaben und beim Stallburschen wartet (Pony, Pferdebücher, Trainings mit Medaillen) und wie lange Spieler und Bots zwischen zwei Büchern derselben Fertigkeit und zwischen zwei Seelensteinen (G1 → P, höchstens 12 h) warten — eine Exorzismus-Schriftrolle überspringt diese Wartezeit. Eine Änderung wirkt sofort, wenn jemand im Spiel ist, und bleibt nach einem Neustart erhalten, bis du den Schwierigkeitsgrad im Launcher änderst (Button SCHWIERIGKEITSGRAD).",
-       "tr": "Oyuncunun Biyolog'da iki teslim arasında ve Seyis'te (midilli, At Kitapları, madalyalı eğitimler) ne kadar beklediği ve oyuncularla botların aynı becerinin iki kitabı arasında ve iki Ruh Taşı arasında (G1 → P, en fazla 12 saat) ne kadar beklediği — Ayin Parşömeni bu beklemeyi ortadan kaldırır. Değişiklik, oyunda biri varken hemen etkili olur ve zorluğu başlatıcıda (ZORLUK düğmesi) değiştirene kadar yeniden başlatmadan sonra da kalır."},
+       "tr": "Bir oyuncunun Biyolog'da iki teslim arasında ve Seyis'te (midilli, At Kitapları, madalyonlu eğitimler) ne kadar beklediği; oyuncuların ve botların aynı becerinin iki kitabı arasında ve iki Ruh Taşı arasında (G1 → P, en fazla 12 saat) ne kadar beklediği — Kötü Ruh Kovma Kağıdı bu beklemeyi atlatır. Değişiklik, oyunda biri varken hemen etkili olur ve zorluğu launcher'da (ZORLUK SEVİYESİ düğmesi) değiştirene kadar yeniden başlatmadan sonra da kalır."},
  "diff_now": {"de": "Aktuell",
        "tr": "Şu an"},
  "diff_level": {"de": "Stufe",
@@ -5536,19 +5803,19 @@ for _key, _texts in {
  "diff_saved_restart": {"de": "Gespeichert. Niemand ist eingeloggt, deshalb hat der Ingame-Helfer nicht geantwortet — die neuen Wartezeiten gelten nach einem Neustart des Servers (oder speichere noch einmal, wenn jemand im Spiel ist).",
        "tr": "Kaydedildi. Kimse giriş yapmamış, bu yüzden oyun içi yardımcı yanıt vermedi — yeni bekleme süreleri sunucu yeniden başlatıldıktan sonra geçerli olur (ya da oyunda biri varken tekrar kaydet)."},
  "diff_exchange_now": {"de": "Tauschchancen beim NPC (Magischer Staub / Pergament / Handwerksmaterialien)",
-       "tr": "NPC takas şansları (Büyülü Toz / Parşömen / Zanaat Malzemeleri)"},
+       "tr": "NPC takas şansları (Sihirli Toz / Parşömen / Üretim Malzemeleri)"},
  "diff_exchange": {"de": "Die Stufe legt auch die Tauschchancen beim NPC fest: leicht 100 / 100 / 55% (wie im Paket), mittel 90 / 45 / 55%, schwer 55 / 40 / 55%. Die Stufe „Benutzerdefiniert“ nimmt drei Zahlen aus der .env des Servers (M2_EXCHANGE_DUST_CHANCE, M2_EXCHANGE_PARCHMENT_CHANCE, M2_EXCHANGE_MATERIAL_CHANCE; 0 = wie im Paket), gelesen bei jedem Start. Bots tauschen Seelensteine mit derselben Chance gegen Staub.",
        "tr": "Seviye, NPC takas şanslarını da belirler: kolay %100 / %100 / %55 (paketteki gibi), orta %90 / %45 / %55, zor %55 / %40 / %55. „Özel” seviye sunucunun .env dosyasındaki üç sayıyı kullanır (M2_EXCHANGE_DUST_CHANCE, M2_EXCHANGE_PARCHMENT_CHANCE, M2_EXCHANGE_MATERIAL_CHANCE; 0 = paketteki gibi), her başlangıçta okunur. Botlar ruh taşlarını aynı şansla toza çevirir."},
  "ah_title": {"de": "Auto-Jagd-Panel",
        "tr": "Otomatik Av paneli"},
  "ah_help": {"de": "Wer das Auto-Jagd-Fenster im Client benutzen darf. „Nur nach Kauf“ — ein Spieler kauft im ItemShop „Auto Lowy (8h)“ und benutzt es aus dem Inventar: 8 Stunden, die nur laufen, solange der Charakter im Spiel ist; weitere Tickets addieren sich (höchstens 30 Tage). Eine Änderung wirkt sofort, wenn jemand im Spiel ist, und bleibt nach einem Neustart erhalten, bis du sie im Launcher änderst (Button SCHWIERIGKEITSGRAD).",
-       "tr": "İstemcideki Otomatik Av penceresini kimlerin kullanabileceği. “Yalnızca satın alındıktan sonra” — oyuncu ItemShop'tan “Auto Lowy (8h)” satın alır ve envanterden kullanır: yalnızca karakter oyundayken işleyen 8 saat; sonraki biletler toplanır (en fazla 30 gün). Değişiklik, oyunda biri varken hemen etkili olur ve sen başlatıcıda (ZORLUK düğmesi) değiştirene kadar yeniden başlatmadan sonra da kalır."},
+       "tr": "İstemcideki Otomatik Av penceresini kimlerin kullanabileceği. “Yalnızca satın alındıktan sonra” — oyuncu ItemShop'tan “Auto Lowy (8h)” satın alır ve envanterden kullanır: yalnızca karakter oyundayken işleyen 8 saat; sonraki biletler toplanır (en fazla 30 gün). Değişiklik, oyunda biri varken hemen etkili olur ve sen launcher'da (ZORLUK SEVİYESİ düğmesi) değiştirene kadar yeniden başlatmadan sonra da kalır."},
  "ah_all": {"de": "Auto-Jagd-Panel für alle verfügbar",
        "tr": "Otomatik Av paneli herkese açık"},
  "ah_item": {"de": "Auto-Jagd-Panel nur nach Kauf des ItemShop-Gegenstands",
        "tr": "Otomatik Av paneli yalnızca ItemShop'tan eşya satın alındıktan sonra açık"},
  "ah_off": {"de": "Die Auto-Jagd ist auf dieser Welt ausgeschaltet (Launcher: M2_AUTOHUNT=0), deshalb wirkt diese Auswahl erst, wenn du sie einschaltest.",
-       "tr": "Otomatik Av bu dünyada kapalı (başlatıcı: M2_AUTOHUNT=0), bu yüzden bu seçim ancak onu açtığında geçerli olur."},
+       "tr": "Otomatik Av bu dünyada kapalı (launcher: M2_AUTOHUNT=0), bu yüzden bu seçim ancak onu açtığında geçerli olur."},
  "ah_save": {"de": "Auto-Jagd-Zugang speichern",
        "tr": "Otomatik Av erişimini kaydet"},
  "ah_saved_live": {"de": "✅ Gespeichert! Der neue Auto-Jagd-Zugang gilt schon im Spiel.",
@@ -5558,7 +5825,7 @@ for _key, _texts in {
  "sc_title": {"de": "Lehrlingstruhe",
        "tr": "Çırak Sandığı"},
  "sc_help": {"de": "Die Kette der Lehrlingstruhen (von der Lehrlingstruhe I bis zur Großmeistertruhe: Tränke, Elixiere, grüne Steine und die nächste Truhe) - ein Schalter für Spieler und Bots. Ein: Ein neuer Charakter eines Spielers bekommt sie beim ersten Einloggen (bis Stufe 5), ein Bot hat seine von Anfang an und öffnet die nächsten Truhen auf ihrer Stufe. Aus: Niemand bekommt sie; die Bots verlieren die ungeöffneten Truhen der Kette, und neue Bots entstehen ohne. Truhen von Spielern werden nie angerührt. Eine Änderung gilt sofort und bleibt nach einem Neustart erhalten, bis du sie im Launcher änderst (Button SCHWIERIGKEITSGRAD, M2_STARTER_CHEST in der .env).",
-       "tr": "Çırak Sandığı zinciri (Çırak Sandığı I'den Büyük Usta Sandığı'na: iksirler, eliksirler, yeşil taşlar ve bir sonraki sandık) - oyuncular ve botlar için tek anahtar. Açık: bir oyuncunun yeni karakteri onu ilk girişinde alır (5. seviyeye kadar), bir botun kendi sandığı baştan vardır ve sonraki sandıkları seviyelerinde açar. Kapalı: kimse almaz; botlar zincirin açılmamış sandıklarını kaybeder ve yeni botlar sandıksız oluşturulur. Oyuncuların sandıklarına asla dokunulmaz. Değişiklik hemen geçerli olur ve sen başlatıcıda (ZORLUK düğmesi, .env içinde M2_STARTER_CHEST) değiştirene kadar yeniden başlatmadan sonra da kalır."},
+       "tr": "Çırak Sandığı zinciri (Çırak Sandığı I'den Büyük Üstat Sandığı'na: iksirler, eliksirler, yeşil taşlar ve bir sonraki sandık) - oyuncular ve botlar için tek anahtar. Açık: bir oyuncunun yeni karakteri onu ilk girişinde alır (5. seviyeye kadar), bir botun kendi sandığı baştan vardır ve sonraki sandıkları seviyelerinde açar. Kapalı: kimse almaz; botlar zincirin açılmamış sandıklarını kaybeder ve yeni botlar sandıksız oluşturulur. Oyuncuların sandıklarına asla dokunulmaz. Değişiklik hemen geçerli olur ve sen launcher'da (ZORLUK SEVİYESİ düğmesi, .env içinde M2_STARTER_CHEST) değiştirene kadar yeniden başlatmadan sonra da kalır."},
  "sc_on": {"de": "Lehrlingstruhe im Spiel (Spieler und Bots)",
        "tr": "Çırak Sandığı oyunda (oyuncular ve botlar)"},
  "sc_off": {"de": "Keine Lehrlingstruhe (weder für Spieler noch für Bots)",
@@ -5572,7 +5839,7 @@ for _key, _texts in {
  "mh_title": {"de": "Lebenspunkte der Monster",
        "tr": "Canavar dayanıklılığı"},
  "mh_help": {"de": "Wie viel Leben Monster, Bosse und Metinsteine haben: 100% = wie im Spiel, 80% = leichter (jeder fällt nach weniger Schlägen; Erfahrung und Drop eines Kills bleiben gleich, also geht das Spiel schneller - auch für die Bots). NPCs, Erzadern, Kräuterbüsche und Tore in Dungeons bleiben unverändert. Eine Änderung gilt sofort - auch für die Monster, die schon stehen und denselben Anteil ihres Lebens behalten - und bleibt nach einem Neustart erhalten, bis du sie im Launcher änderst (Button SCHWIERIGKEITSGRAD, M2_MONSTER_HP in der .env).",
-       "tr": "Canavarların, bossların ve Metin taşlarının ne kadar canı olduğu: %100 = oyundaki gibi, %80 = daha kolay (her biri daha az vuruşta düşer; bir öldürmenin deneyimi ve düşürdükleri aynı kalır, bu yüzden oyun daha hızlı ilerler - botlar için de). NPC'ler, maden damarları, bitki çalıları ve zindan kapıları olduğu gibi kalır. Değişiklik hemen geçerli olur - zaten duran canavarlarda da, canlarının aynı payını korurlar - ve sen başlatıcıda (ZORLUK düğmesi, .env içinde M2_MONSTER_HP) değiştirene kadar yeniden başlatmadan sonra da kalır."},
+       "tr": "Canavarların, bossların ve Metin taşlarının ne kadar canı olduğu: %100 = oyundaki gibi, %80 = daha kolay (her biri daha az vuruşta ölür; bir öldürmenin tecrübesi ve düşürdükleri eşyalar aynı kalır, bu yüzden oyun daha hızlı ilerler - botlar için de). NPC'ler, maden damarları, bitki çalıları ve zindan kapıları olduğu gibi kalır. Değişiklik hemen geçerli olur - zaten duran canavarlarda da, canlarının aynı payını korurlar - ve sen launcher'da (ZORLUK SEVİYESİ düğmesi, .env içinde M2_MONSTER_HP) değiştirene kadar yeniden başlatmadan sonra da kalır."},
  "mh_100": {"de": "100% — wie im Spiel (Standard)",
        "tr": "%100 — oyundaki gibi (varsayılan)"},
  "mh_80": {"de": "80% — leichter",
@@ -5596,7 +5863,7 @@ for _key, _texts in {
  "ai_items_intro": {"de": "Eine Zeile pro Gegenstand: die Gegenstandsnummer (vnum) oder ein ganzer Typ (type:19), ein Leerzeichen oder Tabulator und ein Wort. keep (behalten) - verlässt nie das Inventar; stall (Stand) - Ware für den Stand, mit Vorrang vor allem anderen, aber höchstens 3 Einträge desselben Gegenstands im Stand (Verwandlungskugeln: 3, jede von einem anderen Monster), der Rest wartet im Inventar; merchant (Händler) - wird beim nächsten Stadtbesuch an den NPC-Händler verkauft; drop (wegwerfen) - wird beim Besuch beim Händler ohne Verkauf weggeworfen. Was hier nicht steht, folgt den eigenen Regeln der Bots. Nach dem Speichern erreicht es jeden Bot innerhalb von fünf Sekunden.",
        "tr": "Eşya başına bir satır: eşya numarası (vnum) ya da bütün bir tür (type:19), bir boşluk veya sekme ve tek bir kelime. keep (sakla) - envanterden hiç çıkmaz; stall (tezgâh) - tezgâha konacak mal, her şeyden önce gelir, ama tezgâhta aynı eşyadan en fazla 3 ilan olur (dönüşüm küreleri: 3, her biri farklı bir canavarın), geri kalanı envanterde bekler; merchant (satıcı) - bir sonraki şehir ziyaretinde NPC satıcısına satılır; drop (yere at) - satıcı ziyaretinde satılmadan yere atılır. Burada yer almayan her şey botların kendi kurallarına uyar. Kaydedildikten sonra beş saniye içinde her bota ulaşır."},
  "ai_items_format": {"de": "Die Gegenstandsnummern zeigt dir die Suche auf der Seite zum Vergeben von Gegenständen; Typen: 5 Materialien, 18 Quest-Gegenstände, 19 Verwandlungskugeln, 17 Fertigkeitsbücher, 3 Gebrauchsgegenstände (Schriftrollen, Steine). Ein # leitet einen Kommentar ein.",
-       "tr": "Eşya numaralarını eşya verme sayfasındaki arama gösterir; türler: 5 malzemeler, 18 görev eşyaları, 19 dönüşüm küreleri, 17 Beceri Kitapları, 3 kullanılabilir eşyalar (parşömenler, taşlar). # işareti bir yorum başlatır."},
+       "tr": "Eşya numaralarını eşya verme sayfasındaki arama gösterir; türler: 5 malzemeler, 18 görev eşyaları, 19 dönüşüm küreleri, 17 beceri kitapları, 3 kullanılabilir eşyalar (parşömenler, taşlar). # işareti bir yorum başlatır."},
  "ai_items_bad": {"de": "Nicht gespeichert: Zeile(n) {n} entsprechen nicht dem Format '<vnum oder type:N> <keep|stall|merchant|drop>'.",
        "tr": "Kaydedilmedi: şu satır(lar) '<vnum veya type:N> <keep|stall|merchant|drop>' biçiminde değil: {n}."},
  "ai_items_live": {"de": "Gespeichert. Die Bots lesen die Datei innerhalb von fünf Sekunden.",
@@ -5618,7 +5885,7 @@ T.update({
  "login_locked": {"pl": "Zbyt wiele błędnych prób. Dla bezpieczeństwa odczekaj 15 minut. ⏳", "en": "Too many wrong attempts. Please wait 15 minutes for security. ⏳",
        "de": "Zu viele falsche Versuche. Warte aus Sicherheitsgründen 15 Minuten. ⏳", "tr": "Çok fazla hatalı deneme. Güvenlik nedeniyle 15 dakika bekle. ⏳"},
  "login_wrong": {"pl": "Błędne hasło panelu, spróbuj jeszcze raz. 🙂", "en": "Wrong passphrase, try again. 🙂",
-       "de": "Falsches Panel-Passwort, versuch es noch einmal. 🙂", "tr": "Panel şifresi yanlış, tekrar dene. 🙂"},
+       "de": "Falsches Panel-Passwort, versuch es noch einmal. 🙂", "tr": "Gizli kelime yanlış, tekrar dene. 🙂"},
  "too_many_tries": {"pl": "Zbyt wiele prób. Odczekaj chwilę. ⏳", "en": "Too many attempts. Please wait a while. ⏳",
        "de": "Zu viele Versuche. Warte einen Moment. ⏳", "tr": "Çok fazla deneme. Biraz bekle. ⏳"},
  "dl_not_ready": {"pl": "Pobieranie gry nie jest jeszcze gotowe.", "en": "The game download is not ready yet.",
@@ -5706,7 +5973,7 @@ T.update({
  "dc_state_engine": {"pl": "Ten silnik (r40250) nie zapisuje wyjaśnień — robi to tylko linia 2.x.",
        "en": "This engine (r40250) records no explanations — only the 2.x line does.",
        "de": "Diese Engine (r40250) zeichnet keine Erklärungen auf — nur die 2.x-Linie tut das.",
-       "tr": "Bu motor (r40250) açıklama kaydetmez — bunu yalnızca 2.x hattı yapar."},
+       "tr": "Bu motor (r40250) açıklama kaydetmez — bunu yalnızca 2.x serisi yapar."},
  "dc_change": {"pl": "Zmień w zachowaniu botów", "en": "Change it in bot behaviour",
        "de": "Im Bot-Verhalten ändern", "tr": "Bot davranışında değiştir"},
  "dc_hours": {"pl": "Ostatnie", "en": "The last", "de": "Die letzten", "tr": "Son"},
@@ -5740,7 +6007,7 @@ T.update({
  "ai_explain_help": {"pl": "Rdzeń zapisuje, dlaczego bot wystawił przedmiot i jak wyliczył cenę, oraz dlaczego zmienił założony przedmiot — do dymków w sklepie bota, historii ekwipunku i strony decyzji. 0 wyłącza zapis (nic nie jest liczone), 1–30 to liczba dni, przez które wiersze zostają w bazie; bez wpisu w pliku: 7 dni. Linii, które wciąż stoją na ladzie, nic nie kasuje. Działa w ciągu pięciu sekund.",
        "en": "The core records why a bot listed an item and how it reached the price, and why it changed a worn piece — for the tooltips in a bot's shop, the equipment history and the decisions page. 0 switches recording off (nothing is computed), 1–30 is how many days the rows stay in the database; with no line in the file: 7 days. Lines still standing on a counter are never deleted. Applies within five seconds.",
        "de": "Der Kern zeichnet auf, warum ein Bot einen Gegenstand eingestellt und wie er den Preis ermittelt hat, und warum er ein getragenes Stück gewechselt hat — für die Tooltips im Laden eines Bots, den Ausrüstungsverlauf und die Entscheidungsseite. 0 schaltet die Aufzeichnung aus (nichts wird berechnet), 1–30 ist die Zahl der Tage, die die Zeilen in der Datenbank bleiben; ohne Zeile in der Datei: 7 Tage. Zeilen, die noch auf einem Ladentisch stehen, werden nie gelöscht. Wirkt binnen fünf Sekunden.",
-       "tr": "Çekirdek, botun bir eşyayı neden tezgâha koyduğunu ve fiyata nasıl ulaştığını, giyili bir parçayı neden değiştirdiğini kaydeder — botun dükkânındaki ipuçları, ekipman geçmişi ve kararlar sayfası için. 0 kaydı kapatır (hiçbir şey hesaplanmaz), 1–30 satırların veritabanında kaç gün kalacağıdır; dosyada satır yoksa: 7 gün. Hâlâ tezgâhta duran satırlar asla silinmez. Beş saniye içinde etkili olur."},
+       "tr": "Çekirdek, botun bir eşyayı neden tezgâha koyduğunu ve fiyata nasıl ulaştığını, kuşanılmış bir parçayı neden değiştirdiğini kaydeder — botun dükkânındaki ipuçları, ekipman geçmişi ve kararlar sayfası için. 0 kaydı kapatır (hiçbir şey hesaplanmaz), 1–30 satırların veritabanında kaç gün kalacağıdır; dosyada satır yoksa: 7 gün. Hâlâ tezgâhta duran satırlar asla silinmez. Beş saniye içinde etkili olur."},
  "ai_explain_days": {"pl": "Dni przechowywania (0 = wyłączone):", "en": "Days kept (0 = off):",
        "de": "Aufbewahrungstage (0 = aus):", "tr": "Saklama günü (0 = kapalı):"},
  # The export for an analyst or a language model, and the page's two new
@@ -5804,6 +6071,10 @@ T.update({
  "ss_in_1": {"pl": "start serwera lub uzupełnienie", "en": "server start or top-up", "de": "Serverstart oder Auffüllen", "tr": "sunucu başlangıcı veya tamamlama"},
  "ss_in_2": {"pl": "po odpoczynku", "en": "after a rest", "de": "nach einer Pause", "tr": "dinlenmeden sonra"},
  "ss_in_3": {"pl": "z innego kanału", "en": "from another channel", "de": "von einem anderen Kanal", "tr": "başka bir kanaldan"},
+ "ss_in_5": {"pl": "rotacja botów", "en": "bot rotation", "de": "Bot-Rotation", "tr": "bot rotasyonu"},
+ "ss_out_8": {"pl": "przerwa rotacyjna", "en": "rotation rest", "de": "Rotationspause", "tr": "rotasyon molası"},
+ "ss_out_9": {"pl": "zakończył grę", "en": "retired", "de": "Spiel beendet", "tr": "oyunu bıraktı"},
+ "ss_list_retired": {"pl": "Zakończył grę", "en": "Retired", "de": "Spiel beendet", "tr": "Oyunu bıraktı"},
  "ss_in_4": {"pl": "z właścicielem (Towarzysz)", "en": "with its owner (companion)", "de": "mit seinem Besitzer (Begleiter)", "tr": "sahibiyle (yoldaş)"},
  "ss_out_0": {"pl": "nieznane (serwer nie zamknął sesji)", "en": "unknown (the server did not close the session)",
        "de": "unbekannt (der Server hat die Sitzung nicht geschlossen)", "tr": "bilinmiyor (sunucu oturumu kapatmadı)"},
@@ -5913,9 +6184,9 @@ def bonus_line_at_top(attr_type, value, tops):
     return bool(top) and value >= top
 
 
-T["ai_patch8"] = {"pl": "Iwakura Patch 8 — czat, rynek i peleryny", "en": "Iwakura Patch 8 — chat, market and capes"}
+T["ai_patch8"] = {"pl": "Iwakura Patch 8 — czat, rynek i peleryny", "en": "Iwakura Patch 8 — chat, market and capes", "tr": "Iwakura Yama 8 — sohbet, pazar ve pelerinler"}
 for _key, _default, _low, _high, _pl, _en in PATCH8_CONTROLS:
-    T[_key] = {"pl": _pl, "en": _en}
+    T[_key] = {"pl": _pl, "en": _en, "tr": panel_tr(_en)}   # tr: Turkish patch (panel_tr.json)
 
 
 def lang():
@@ -5943,6 +6214,12 @@ def lang():
         remembered = request.cookies.get("m2lang")
         if remembered in LANGS:
             return remembered
+        # Turkish patch: nobody chose yet, and the browser's FIRST language is
+        # Turkish - the Turkish page. Only the first one counts, so the
+        # English-Windows Polish player above still gets Polish.
+        first = (request.headers.get("Accept-Language") or "").split(",")[0].split(";")[0].strip().lower()
+        if first == "tr" or first.startswith("tr-"):
+            return "tr"
     return "pl"
 
 # The Hexagonal Chest event's card on /events (Kiciamol, 14 October).
@@ -5956,7 +6233,7 @@ T.update({
  "hex_intro": {"pl": "Podczas eventu z Metina rozbitego przez gracza może wypaść szkatułka mapy, na której go rozbito. Po otwarciu daje 1 losowy ulepszacz ekwipunku tej mapy, po 1 sztuce; każdy przedmiot puli ma tę samą szansę. Szkatułka zachowuje swoją pulę po teleporcie i handlu. Zwykłe potwory jej nie dropią, a Metiny rozbite przez boty też nie.",
                "en": "While the event runs, a Metin stone a player breaks may drop the chest of the map it was broken on. Opened, it gives 1 random equipment refine material of that map, 1 piece; every item of the pool has the same chance. A chest keeps its pool through a teleport and a trade. Ordinary monsters never drop it, and neither do the stones bots break.",
                "de": "Während des Events kann ein Metinstein, den ein Spieler zerstört, die Truhe der Karte fallen lassen, auf der er zerstört wurde. Geöffnet gibt sie 1 zufälliges Verfeinerungsmaterial dieser Karte, 1 Stück; jeder Gegenstand der Liste hat dieselbe Chance. Eine Truhe behält ihre Liste nach Teleport und Handel. Normale Monster lassen sie nie fallen, und auch die Steine nicht, die Bots zerstören.",
-               "tr": "Etkinlik sürerken oyuncunun kırdığı bir Metin taşı, kırıldığı haritanın sandığını düşürebilir. Açıldığında o haritanın rastgele 1 ekipman yükseltme malzemesini verir, 1 adet; listedeki her eşyanın şansı aynıdır. Sandık listesini ışınlanma ve ticaretten sonra da korur. Sıradan canavarlar onu asla düşürmez, botların kırdığı taşlar da düşürmez."},
+               "tr": "Etkinlik sürerken oyuncunun kırdığı bir Metin taşı, kırıldığı haritanın sandığını düşürebilir. Açıldığında o haritanın rastgele 1 ekipman yükseltme malzemesini verir, 1 adet; listedeki her eşyanın şansı aynıdır. Sandık, içeriğini ışınlanma ve ticaretten sonra da korur. Sıradan canavarlar onu asla düşürmez, botların kırdığı taşlar da düşürmez."},
  "hex_chance_label": {"pl": "Szansa dropu z Metina (%)", "en": "Drop chance per Metin stone (%)",
                       "de": "Drop-Chance pro Metinstein (%)", "tr": "Metin taşı başına düşme şansı (%)"},
  "hex_chance_save": {"pl": "Zapisz szansę", "en": "Save the chance", "de": "Chance speichern", "tr": "Şansı kaydet"},
@@ -5965,7 +6242,7 @@ T.update({
  "hex_chance_help": {"pl": "0% wyłącza drop. Sama szansa nie uruchamia eventu: użyj „Aktywuj teraz” albo harmonogramu poniżej. Gra odczytuje zmiany w ciągu 5 sekund.",
                      "en": "0% switches the drop off. The chance alone does not start the event: use \"Activate now\" or the schedule below. The game reads a change within 5 seconds.",
                      "de": "0 % schaltet den Drop ab. Die Chance allein startet das Event nicht: „Jetzt aktivieren“ oder der Zeitplan unten. Das Spiel liest eine Änderung binnen 5 Sekunden.",
-                     "tr": "%0 düşmeyi kapatır. Şans tek başına etkinliği başlatmaz: \"Şimdi etkinleştir\" veya aşağıdaki zaman çizelgesini kullanın. Oyun değişikliği 5 saniye içinde okur."},
+                     "tr": "%0 düşmeyi kapatır. Şans tek başına etkinliği başlatmaz: \"Şimdi etkinleştir\" veya aşağıdaki zaman çizelgesini kullan. Oyun değişikliği 5 saniye içinde okur."},
  "hex_saved": {"pl": "Zapisano szansę dropu heksagonalnych szkatułek: %s%%.",
                "en": "The hexagonal chests' drop chance is saved: %s%%.",
                "de": "Die Drop-Chance der sechseckigen Truhen ist gespeichert: %s %%.",
@@ -5973,7 +6250,7 @@ T.update({
  "hex_chance_bad": {"pl": "Podaj szansę od 0 do 100%, z dokładnością do 0,1%.",
                     "en": "Give a chance from 0 to 100%, in steps of 0.1%.",
                     "de": "Gib eine Chance von 0 bis 100 % in Schritten von 0,1 % an.",
-                    "tr": "0 ile %100 arasında, 0,1'lik adımlarla bir şans girin."},
+                    "tr": "0 ile %100 arasında, 0,1'lik adımlarla bir şans gir."},
  "hex_chance_range": {"pl": "Szansa musi mieścić się w zakresie 0-100%.", "en": "The chance must be within 0-100%.",
                       "de": "Die Chance muss zwischen 0 und 100 % liegen.", "tr": "Şans %0-100 aralığında olmalıdır."},
  "hex_chance_step": {"pl": "Dozwolona dokładność to 0,1%.", "en": "The chance goes in steps of 0.1%.",
@@ -6006,6 +6283,17 @@ T.update({
 })
 
 
+def _hex_map_name(m, language):
+    """A Hexagonal Chest map's name for the reader: the catalog's Polish or
+    English one; for a Turkish reader (Turkish patch) the Turkish of the
+    English one (panel_tr), else the English."""
+    if language == "pl":
+        return m.get("name")
+    if language == "tr":
+        return panel_tr(m.get("name_en") or m.get("name"))
+    return m.get("name_en") or m.get("name")
+
+
 def hexagonal_card():
     """What the hexagonal card shows, in the reader's language: the chance,
     the cores that answer, and every chest with its maps and materials."""
@@ -6019,14 +6307,16 @@ def hexagonal_card():
         for item in box.get("materials", []):
             name = item.get("name", "")
             if english:
-                name = english_game_name("i", int(item["vnum"]), name) or name
+                name = reader_game_name("i", int(item["vnum"]), name) or name
             materials.append({"vnum": item["vnum"], "name": name})
         chests.append({"vnum": box["vnum"],
-                       "name": box.get("name_en") if english else box.get("name"),
-                       "maps": [{"id": m["id"], "name": m.get("name_en") if english else m.get("name")}
+                       "name": ((language == "tr" and (turkish_game_name("i", int(box["vnum"]), box.get("name"))
+                                                       or panel_tr(box.get("name_en"))))
+                                or (box.get("name_en") if english else box.get("name"))),
+                       "maps": [{"id": m["id"], "name": _hex_map_name(m, language)}
                                 for m in box.get("maps", [])],
                        "materials": materials, "metins": box.get("metins", [])})
-    skipped = [{"id": m["map_id"], "name": m.get("name_en") if english else m.get("name")}
+    skipped = [{"id": m["map_id"], "name": _hex_map_name(m, language)}
                for m in _hexagonal.catalog().get("skipped", [])]
     return {"settings": settings, "runtime": runtime,
             "drops": sum(r["drops"] for r in runtime), "kills": sum(r["kills"] for r in runtime),
@@ -6235,10 +6525,10 @@ WARP_LOC = [  # (emoji, {lang:name}, coords)
   # Shinsoo or Jinno M2 could not be reached from here (Pabloo, 14 September).
   ("🏘️", {"en":"Jayang (M2)","pl":"Jayang (M2)","de":"Jayang (M2)","tr":"Jayang (M2)"}, "353987 880012"),
   ("🏘️", {"en":"Bakra (M2)","pl":"Bakra (M2)","de":"Bakra (M2)","tr":"Bakra (M2)"}, "865500 244975"),
-  ("⚔️", {"en":"Orc Valley","pl":"Dolina Orków","de":"Orktal","tr":"Ork Vadisi"}, "270400 739900"),
+  ("⚔️", {"en":"Orc Valley","pl":"Dolina Orków","de":"Orktal","tr":"Seungryong Vadisi"}, "270400 739900"),
   ("🏜️", {"en":"Yongbi Desert","pl":"Pustynia Yongbi","de":"Yongbi-Wüste","tr":"Yongbi Çölü"}, "221900 502700"),
   ("❄️", {"en":"Mount Sohan","pl":"Góra Sohan","de":"Sohan-Berg","tr":"Sohan Dağı"}, "375200 174900"),
-  ("🔥", {"en":"Fireland","pl":"Ognista Ziemia","de":"Feuerland","tr":"Ateş Ülkesi"}, "597800 622200"),
+  ("🔥", {"en":"Fireland","pl":"Ognista Ziemia","de":"Feuerland","tr":"Ateş Diyarı"}, "597800 622200"),
   ("🧊", {"en":"Grotto of Exile","pl":"Grota Wygnańców","de":"Grotte der Verbannung","tr":"Sürgün Mağarası"}, "10000 1207800"),
 ]
 SPEED_LOC = [
@@ -6908,7 +7198,13 @@ def api_items():
     # mt2009: a reader of any language but Polish is shown, and ranked by,
     # the official English name where the item has one ("e"); the Polish one
     # stays among the keywords, so either finds it.
-    if ENGINE_MT2009 and reads_english(lang()):
+    turkish = ENGINE_MT2009 and lang() == "tr"
+    if turkish:
+        # Turkish patch: the Turkish name ("t"), else the English one; the
+        # Polish, the English and the Turkish all find it, with Turkish case
+        # rules and without the letters' marks ("KILIÇ", "kılıç", "kilic").
+        pool = [dict(it, n=it.get("t") or it.get("e") or it["n"]) for it in pool]
+    elif ENGINE_MT2009 and reads_english(lang()):
         pool = [dict(it, n=it["e"]) if it.get("e") else it for it in pool]
 
     if not q:
@@ -6924,6 +7220,8 @@ def api_items():
         return jsonify({"items": found[:limit], "more": len(found) > limit})
 
     # ---- a name ------------------------------------------------------------
+    if turkish:
+        return jsonify(_api_items_turkish(pool, q, limit))
     terms = [w for w in q.split() if w]
 
     def strict(it):
@@ -6967,6 +7265,32 @@ def api_items():
 
     out.sort(key=lambda r: (r[0], r[1], r[2]))
     return jsonify({"items": [r[3] for r in out[:limit]], "more": len(out) > limit})
+
+def _api_items_turkish(pool, q, limit):
+    """api_items' name search for a Turkish reader (Turkish patch): the same
+    ranking, over folded keys (english_names.fold_name: Turkish case rules,
+    no letter marks) of the shown name and every keyword."""
+    fold = _english_names.fold_name if _english_names else (lambda x: str(x or "").lower())
+    fq = fold(q)
+    terms = [w for w in fq.split() if w]
+    out = []
+    for it in pool:
+        name = fold(it["n"])
+        hay = name + " " + fold(it.get("k", "")) + " " + fold(it.get("t", ""))
+        if not all(w in hay for w in terms):
+            continue
+        rank = 0 if name == fq else 1 if name.startswith(fq) else 2 if fq in name else \
+            3 if all(w in name for w in terms) else 4
+        out.append((rank, len(it["n"]), it["v"], it))
+    if not out:
+        for it in pool:
+            hay = fold(it["n"]) + " " + fold(it.get("k", "")) + " " + fold(it.get("t", ""))
+            hits = sum(1 for w in terms if w in hay)
+            if hits:
+                out.append((-hits, len(it["n"]), it["v"], it))
+    out.sort(key=lambda r: (r[0], r[1], r[2]))
+    return {"items": [r[3] for r in out[:limit]], "more": len(out) > limit}
+
 
 @app.route("/api/status")
 def api_status():
@@ -7014,12 +7338,14 @@ def item_defs_json():
         # so a cached answer is one language's): Polish, or the official
         # English name where the world's item has one.
         english = reads_english(lang())
+        turkish = lang() == "tr"
         for vnum, size in ITEM_SIZES.items():
             entry = defs.get(str(vnum))
             if not isinstance(entry, dict):
                 entry = defs[str(vnum)] = {}
             entry["size"] = size
-            entry["name"] = ((english and ITEM_NAMES_EN.get(vnum))
+            entry["name"] = ((turkish and ITEM_NAMES_TR.get(vnum))
+                             or (english and ITEM_NAMES_EN.get(vnum))
                              or ITEM_NAMES_PL.get(vnum, entry.get("name", "")))
             # The tooltip's base lines (attack, defence, the fixed applies,
             # the level) come from this world's proto too - the static
@@ -7095,7 +7421,7 @@ T.update({
         "pl": "Rozmowy botów na wspólnym Globalu. 100% to zwykłe natężenie, 0 przywraca dawny czat i wołanie w obrębie królestwa.",
         "en": "Bot conversations on the common Global. 100% is normal density; 0 restores the old chat and kingdom-only shouts.",
         "de": "Bot-Gespräche im gemeinsamen Global-Chat. 100% ist die normale Dichte; 0 stellt den alten Chat und Rufe innerhalb des Königreichs wieder her.",
-        "tr": "Ortak Global kanalında bot sohbetleri. Normal yoğunluk %100; 0 eski sohbeti ve krallık içi çağrıları geri getirir."},
+        "tr": "Ortak Global kanalında bot sohbetleri. Normal yoğunluk %100; 0 eski sohbeti ve krallık içi bağırmaları geri getirir."},
 })
 
 BASE = """
@@ -7847,7 +8173,7 @@ TPL_DASH = BASE.replace("__BODY__", """
 """)
 
 TPL_PLAYER = BASE.replace("__BODY__", """
-<p><a href="{{url_for('dash')}}">{{t('back_players')}}</a></p>
+<p><a href="{{url_for('dash')}}">{{t('back_players')}}</a>{% if quest_admin_ready %} · <a href="/player/{{p.id}}/quests">{{t('quest_admin_link')}}</a>{% endif %}</p>
 <div class="card">
 <h3>{{emoji(p.job)}} {{p.name}}</h3>
 <span class="badge">{{t('level')}} {{p.level}}</span>
@@ -7965,6 +8291,14 @@ TPL_PLAYER = BASE.replace("__BODY__", """
        b.onclick=function(){v.value=it.v;ch.innerHTML='✅ '+it.n+' (#'+it.v+')';r.innerHTML='';s.value=it.n;};
        r.appendChild(b);
      });
+     /* Turkish patch: an empty answer used to leave the box blank, which
+        read as "the search is broken"; now it says nothing matched. */
+     if(!res.items.length){
+       var z=document.createElement('div');
+       z.style.cssText='padding:8px 10px;opacity:.75';
+       z.textContent={{t('srch_none')|tojson}};
+       r.appendChild(z);
+     }
      /* Only when there really is more. A "show more" that shows nothing is
         worse than no button, so this follows the server's own count. */
      if(res.more){
@@ -8601,15 +8935,7 @@ T.update({
               "PvE-Ausrüstung. Teile des Sets werden nie verkauft, ausgestellt, getauscht oder für PvE bonusiert. "
               "Aus: Bots bauen keine Sets und legen sie nicht an (gebaute bleiben im Inventar), und ein Bot, der "
               "eines trägt, wechselt sofort zur PvE-Ausrüstung zurück.",
-        "tr": "Iwakura'nın Yama 11'i, madde 21: fazla efsun ekleme ve değiştirme taşı olan botlar oyunculara karşı "
-              "savaş için ikinci bir ekipman takımı kurar - Yama 9'un PvP takımının genişletilmesi. Yalnızca çekilen "
-              "botlar, buradaki seviyeden itibaren ve PvE ekipmanları Yükselme Yasası'nı karşılıyorsa (Cellat her "
-              "zaman) PvE rezervinin üzerindeki taşlarla kurar (8 ekleme ve 12 değiştirmeden itibaren, şehir "
-              "ziyareti başına en fazla %60). Takımı bir oyuncu saldırdığında, bir alan ya da Metin kavgasında, "
-              "lonca savaşında, Cellat olarak ve haritada bir düşmanları varken giyerler; asla %30 HP'nin altında "
-              "ve Şeytan Kulesi'nde değil; savaştan 60-180 sn sonra PvE ekipmanına dönerler. Takımın parçaları asla "
-              "satılmaz, tezgaha konmaz, takas edilmez ve PvE için efsunlanmaz. Kapalı: botlar takım kurmaz ve "
-              "giymez (kurulanlar çantada kalır), takımı giyen bot hemen PvE ekipmanına döner."},
+        "tr": "Iwakura'nın Yama 11'i, madde 21: fazla bonus ekleme ve değiştirme taşı olan botlar oyunculara karşı savaşmak için ikinci bir ekipman takımı kurar - Yama 9'un PvP takımının genişletilmesi. Yalnızca rastgele seçilen botlar kurar: buradaki seviyeden itibaren, PvE ekipmanları Yükselme Yasası'nı karşılıyorsa (Cellat her zaman) ve PvE rezervinin üzerindeki taşlarla (8 ekleme ve 12 değiştirmeden itibaren, şehir ziyareti başına en fazla %60). Takımı bir oyuncu saldırdığında, bir av yeri ya da Metin için çıkan kavgada, lonca savaşında, Cellat olarak ve haritada bir düşmanları varken giyerler; HP'leri %30'un altındayken ve Şeytan Kulesi'nde asla giymezler; savaştan 60-180 sn sonra PvE ekipmanına dönerler. Takımın parçaları asla satılmaz, tezgâha konmaz, takas edilmez ve PvE için bonus değiştirilmez. Kapalı: botlar takım kurmaz ve giymez (kurulanlar çantada kalır), takımı giyen bot hemen PvE ekipmanına döner."},
     "ai_pvpset_on": {"pl": "Włączone", "en": "Enabled", "de": "Eingeschaltet", "tr": "Açık"},
     "ai_pvpset_share": {"pl": "Udział botów budujących EQ PvP", "en": "Share of bots building PvP gear",
                         "de": "Anteil der Bots, die PvP-Ausrüstung bauen", "tr": "PvP ekipmanı kuran botların payı"},
@@ -8623,9 +8949,7 @@ T.update({
         "de": "Unter den Bots, die die Bedingungen erfüllen; einmal ausgelost und am Bot gespeichert (x2 in einer "
               "Gilde mit einem Krieg in den letzten 7 Tagen, x1,5 nach 3 Toden durch ein feindliches Königreich in "
               "24 h, x1,3 der Metinjäger, x0,5 Angler und Bergmann). Standard 75%; 0 - nur der Henker baut.",
-        "tr": "Koşulları karşılayan botlar arasından; bir kez çekilir ve botta saklanır (son 7 günde savaşmış bir "
-              "loncada x2, 24 saatte düşman krallık elinde 3 ölümden sonra x1,5, Metin avcısı x1,3, balıkçı ve "
-              "madenci x0,5). Varsayılan %75; 0 - yalnızca Cellat kurar."},
+        "tr": "Koşulları karşılayan botlar arasından; bir kez rastgele seçilir ve botta saklanır (son 7 günde savaşmış bir loncada x2, 24 saatte düşman krallığın elinde 3 kez ölünce x1,5, Metin avcısı x1,3, balıkçı ve madenci x0,5). Varsayılan %75; 0 - yalnızca Cellat kurar."},
     "ai_pvpset_min_level": {"pl": "Minimalny poziom", "en": "Minimum level", "de": "Mindeststufe",
                             "tr": "En düşük seviye"},
     "ai_pvpset_budget": {"pl": "Budżet yang na EQ PvP (na jedną sesję budowania)",
@@ -8650,8 +8974,7 @@ T.update({
         "en": "From what value a set's bonus counts as a hit: Low -20 percentage points of its maximum, High +15.",
         "de": "Ab welchem Wert ein Bonus des Sets als Treffer zählt: Niedrig -20 Prozentpunkte seines Maximums, "
               "Hoch +15.",
-        "tr": "Takımın bir efsununun hangi değerden itibaren isabet sayıldığı: Düşük maksimumun -20 yüzde puanı, "
-              "Yüksek +15."},
+        "tr": "Takımın bir bonusunun hangi değerden itibaren isabet sayıldığı: Düşük maksimumun -20 yüzde puanı, Yüksek +15."},
 })
 
 # Iwakura's session realism (the SESSION_REALISM key, playerbot_session_realism.h):
@@ -8855,6 +9178,10 @@ TPL_AI = BASE.replace("__BODY__", """
   <h3 style="margin:0 0 2px">📜 {{t('ai_quests')}}</h3>
   <p class="muted" style="margin:0 0 6px">{{t('ai_quests_help')}}</p>
   <label><input type="checkbox" name="QUESTS" value="1" {% if cur.get('QUESTS', 1) %}checked{% endif %}> {{t('ai_quests_on')}}</label>
+  <div style="margin-top:10px">
+    <label><input type="checkbox" name="BOT_QUESTS_OFF" value="1" {% if cur.get('BOT_QUESTS_OFF', 0) %}checked{% endif %}> {{t('ai_quests_story_off')}}</label>
+    <p class="muted" style="margin:4px 0 0">{{t('ai_quests_story_off_help')}}</p>
+  </div>
   <div style="margin-top:10px">
     <label>{{t('ai_quest_focus')}}
       <span class="badge" id="v_QUEST_FOCUS">{{cur.get('QUEST_FOCUS', quest_focus_default)}}%</span></label>
@@ -9308,28 +9635,28 @@ MAP_I18N = {
   "map": "Harita",
   "m1": "M1 — Joan (Chunjo)",
   "m2": "M2 — Bokjung (Chunjo)",
-  "m3": "Chunjo Lonca Toprağı",
+  "m3": "Chunjo Lonca Haritası",
   "s1": "M1 — Yongan (Shinsoo)",
   "s2": "M2 — Jayang (Shinsoo)",
-  "s3": "Shinsoo Lonca Toprağı",
+  "s3": "Shinsoo Lonca Haritası",
   "smonkey": "Shinsoo Maymun Zindanı",
   "j1": "M1 — Pyongmoo (Jinno)",
   "j2": "M2 — Bakra (Jinno)",
-  "j3": "Jinno Lonca Toprağı",
+  "j3": "Jinno Lonca Haritası",
   "jmonkey": "Jinno Maymun Zindanı",
   "monkey": "Kolay Maymun Zindanı",
   "monkey_medium": "Orta Maymun Zindanı",
   "monkey_hard": "Zor Maymun Zindanı",
-  "orc": "Ork Vadisi",
+  "orc": "Seungryong Vadisi",
   "desert": "Yongbi Çölü",
   "sohan": "Sohan Dağı",
   "spider": "Örümcek Zindanı V1",
   "spider_v2": "Örümcek Zindanı V2",
   "hwang": "Hwang Tapınağı",
   "forest": "Orman",
-  "red_forest": "Kızıl Orman",
+  "red_forest": "Kırmızı Orman",
   "demon_tower": "Şeytan Kulesi",
-  "fire_land": "Doyyumhwaji (Ateş Ülkesi)",
+  "fire_land": "Doyyumhwan (Ateş Diyarı)",
   "grotto": "Sürgün Mağarası V1",
   "grotto2": "Sürgün Mağarası V2",
   "heat": "Isı haritası",
@@ -9380,7 +9707,7 @@ MAP_I18N = {
   "ambition": "Hırs",
   "current_goal": "Mevcut hedef",
   "coordinates": "Koordinatlar",
-  "open_inventory": "Envanteri ve EQ'yu açmak için tıkla",
+  "open_inventory": "Envanteri ve ekipmanı açmak için tıkla",
   "loading_character": "Karakterin ekipmanı ve istatistikleri yükleniyor",
   "error": "Hata",
   "not_found": "Veri bulunamadı",
@@ -9399,13 +9726,13 @@ MAP_I18N = {
   "depot": "Depo",
   "depot_empty": "Depo boş.",
   "shop": "Dükkân",
-  "shop_none": "Bu botun açık dükkânı yok.",
+  "shop_none": "Bu botun açık tezgâhı yok.",
   "shop_empty": "Tezgâh boş.",
   "shop_price": "Fiyat",
   "shop_premium": "premium",
   "shop_expired": "süresi doldu — bot yenileyene kadar kimse buradan alışveriş yapamaz",
   "unspent_skills": "Dağıtılmamış: {n} beceri puanı",
-  "equipped": "Takılı ekipman (EQ)",
+  "equipped": "Kuşanılmış ekipman",
   "weapon": "Silah",
   "armor": "Zırh",
   "helmet": "Kask",
@@ -9446,13 +9773,13 @@ MAP_I18N = {
   "party_exp": "[PT] Grupta tecrübe kazanma",
   "metin_hunt": "Metin Taşı avı",
   "character_missing": "Karakter bulunamadı",
-  "bio_next": "Sıradaki görev Lv {level} itibarıyla: {name}",
+  "bio_next": "Sıradaki görev (Lv {level}): {name}",
   "bio_key": "{name}{sep}{have}/{need}, beklenen: {key}",
   "bio_all": "Tüm temel görevler tamamlandı",
-  "bio_complete": "tamam",
+  "bio_complete": "tamamlandı",
   "bio_done": "tamamlandı",
   "bio_skipped": "sırasını bekliyor: {names}",
-  "bio_dropper": "geçerli değil — dropper Biyolog görevlerini yapmaz",
+  "bio_dropper": "geçerli değil — farmcı Biyolog görevlerini yapmaz",
   "bio_rank_now": "{done}/{total} tamamlandı • şimdi: {stage}",
   "bio_rank_next": "{done}/{total} tamamlandı • {stage}",
   "rankings_all": "Sıralamalar",
@@ -9466,13 +9793,13 @@ MAP_I18N = {
   "weapon30_one": "Lv 30 silah",
   "tt_req_level": "Gerekli Seviye",
   "tt_attack": "Saldırı Değeri",
-  "tt_magic_attack": "Büyü Saldırı Değeri",
+  "tt_magic_attack": "Büyülü Saldırı Değeri",
   "tt_attack_speed": "Saldırı Hızı",
   "tt_defense": "Savunma",
   "tt_move_speed": "Hareket Hızı",
   "tt_broken_stone": "Kırık Taş",
   "tt_empty_socket": "Boş Yuva",
-  "tt_soul_stone": "Ruh Taşı",
+  "tt_soul_stone": "Zihin Taşı",
   "item_n": "Eşya #{n}",
   "bot_badge": "BOT",
   "exp_hold": "EXP {n}. seviyede kilitli",
@@ -9521,7 +9848,7 @@ for _lang, _texts in {
   "ex_level_slot": "poziom {level}, slot: {slot}", "ex_suppressed": "limit pominął przedtem {n} wpisów tego bota",
   "ex_wear_unique": "unikat", "ex_wear_slot": "slot {n}", "ex_mob_n": "potwór #{n}",
   "ex_skill_n": "umiejętność #{n}", "ex_code_n": "kod {n}", "ex_nothing": "nic",
-  "gear_tab_decisions": "Decyzje", "gh_unequipped": "Zdjęte",
+  "gear_tab_decisions": "Decyzje bota", "gh_unequipped": "Zdjęte",
  },
  "en": {
   "ex_why_counter": "Why on the counter", "ex_how_price": "How the price was reached",
@@ -9548,7 +9875,7 @@ for _lang, _texts in {
   "ex_level_slot": "level {level}, slot: {slot}", "ex_suppressed": "the budget dropped {n} of this bot's rows before this one",
   "ex_wear_unique": "unique", "ex_wear_slot": "slot {n}", "ex_mob_n": "monster #{n}",
   "ex_skill_n": "skill #{n}", "ex_code_n": "code {n}", "ex_nothing": "nothing",
-  "gear_tab_decisions": "Decisions", "gh_unequipped": "Taken off",
+  "gear_tab_decisions": "Bot decisions", "gh_unequipped": "Taken off",
  },
  "de": {
   "ex_why_counter": "Warum auf dem Ladentisch", "ex_how_price": "Wie der Preis zustande kam",
@@ -9589,7 +9916,7 @@ for _lang, _texts in {
   "ex_changes": "tezgâha konduktan beri değişiklik: {n}", "ex_was_now": "önce {was} → şimdi {now}",
   "ex_codes": "Kodlar", "ex_flags": "İşaretler", "ex_list_price": "fiyat {price}", "ex_price": "{price} yang",
   "ex_stand": "Dükkân açık, çünkü: {reason}", "ex_pick": "{n} aday içinde {rank}.",
-  "ex_pick_refused": ", tezgâh üstündeki {k} adayı reddetti", "ex_score": "puan {score}",
+  "ex_pick_refused": ", tezgâh ondan üst sırada yer alan {k} adayı reddetti", "ex_score": "puan {score}",
   "ex_cut": "{shape}: {whole} adetlik yığından {take} tezgâha; çantada tutulan yedek: {keep}",
   "ex_held": "çantada toplam {held}",
   "ex_price_differs": "Tezgâhtaki fiyat ({now}) açıklanandan ({explained}) farklı — bu değişikliği hiçbir şey kaydetmedi.",
@@ -9781,7 +10108,7 @@ APPLY_TEXTS = {
  30: ("percent", {"pl": "Odporność na Broń Dwuręczną: %d%%", "en": "Two-Handed Defence %d%%",
          "de": "Zweihänderverteidigung %d%%", "tr": "Çift el savunması %d%%"}),
  31: ("percent", {"pl": "Odporność na Sztylety: %d%%", "en": "Dagger Defence %d%%",
-         "de": "Dolchverteidigung %d%%", "tr": "Hançer savunması %d%%"}),
+         "de": "Dolchverteidigung %d%%", "tr": "Bıçak savunması %d%%"}),
  32: ("percent", {"pl": "Odporność na Dzwony: %d%%", "en": "Bell Defence %d%%",
          "de": "Glockenverteidigung %d%%", "tr": "Çan savunması %d%%"}),
  33: ("percent", {"pl": "Odporność na Wachlarze: %d%%", "en": "Fan Defence %d%%",
@@ -9915,9 +10242,9 @@ APPLY_TEXTS = {
  1147: ("percent", {"pl": "Czas trwania umiejętności +%d%%", "en": "Skill duration +%d%%",
          "de": "Fertigkeitsdauer +%d%%", "tr": "Beceri süresi +%d%%"}),
  1148: ("percent", {"pl": "Silny przeciw potworom z Doliny Orków +%d%%", "en": "Strong against Orc Valley monsters +%d%%",
-         "de": "Stark gegen Monster aus dem Orktal +%d%%", "tr": "Ork Vadisi canavarlarına karşı güçlü +%d%%"}),
+         "de": "Stark gegen Monster aus dem Orktal +%d%%", "tr": "Seungryong Vadisi canavarlarına karşı güçlü +%d%%"}),
  1149: ("percent", {"pl": "Silny przeciw Metinom +%d%%", "en": "Strong against Metin stones +%d%%",
-         "de": "Stark gegen Metinsteine +%d%%", "tr": "Metin Taşlarına karşı güçlü +%d%%"}),
+         "de": "Stark gegen Metinsteine +%d%%", "tr": "Metin taşlarına karşı güçlü +%d%%"}),
  1150: ("percent", {"pl": "Silny przeciw bossom +%d%%", "en": "Strong against bosses +%d%%",
          "de": "Stark gegen Bosse +%d%%", "tr": "Bosslara karşı güçlü +%d%%"}),
  1151: ("percent", {"pl": "Magiczny atak przeciw potworom +%d%%", "en": "Magic attack against monsters +%d%%",
@@ -9927,13 +10254,13 @@ APPLY_TEXTS = {
  1153: ("percent", {"pl": "Przełamanie odporności na broń dwuręczną +%d%%", "en": "Breaks two-handed resistance +%d%%",
          "de": "Durchbricht Zweihänderverteidigung +%d%%", "tr": "Çift el savunmasını kırma +%d%%"}),
  1154: ("percent", {"pl": "Przełamanie odporności na sztylet +%d%%", "en": "Breaks dagger resistance +%d%%",
-         "de": "Durchbricht Dolchverteidigung +%d%%", "tr": "Hançer savunmasını kırma +%d%%"}),
+         "de": "Durchbricht Dolchverteidigung +%d%%", "tr": "Bıçak savunmasını kırma +%d%%"}),
  1155: ("percent", {"pl": "Przełamanie odporności na dzwonek +%d%%", "en": "Breaks bell resistance +%d%%",
          "de": "Durchbricht Glockenverteidigung +%d%%", "tr": "Çan savunmasını kırma +%d%%"}),
  1156: ("percent", {"pl": "Przełamanie odporności na wachlarz +%d%%", "en": "Breaks fan resistance +%d%%",
          "de": "Durchbricht Fächerverteidigung +%d%%", "tr": "Yelpaze savunmasını kırma +%d%%"}),
  1157: ("percent", {"pl": "Przełamanie odporności na łuk +%d%%", "en": "Breaks bow resistance +%d%%",
-         "de": "Durchbricht Pfeilwiderstand +%d%%", "tr": "Ok dayanıklılığını kırma +%d%%"}),
+         "de": "Durchbricht Pfeilwiderstand +%d%%", "tr": "Ok savunmasını kırma +%d%%"}),
  1158: ("percent", {"pl": "Szansa na zbieranie +%d%%", "en": "Collecting chance +%d%%",
          "de": "Sammelchance +%d%%", "tr": "Toplama şansı +%d%%"}),
  1159: ("percent", {"pl": "Szansa na naukę +%d%%", "en": "Learning chance +%d%%",
@@ -10004,12 +10331,12 @@ BIOLOGIST_NAMES_BY_LANG = {
         "collect_quest_lv60":"Eismurmel","collect_quest_lv70":"Zelkova-Ast",
         "collect_quest_lv80":"Tugyis Tafel","collect_quest_lv85":"Roter Geisterbaumast",
         "collect_quest_lv90":"Notizen der Anführer"},
- "tr": {"make_herb_lv4":"Şeftali Çiçeği","make_herb_lv7":"Çan Çiçeği",
-        "make_herb_lv10":"Hurma Çiçeği","make_herb_lv15":"Gango Kökü",
+ "tr": {"make_herb_lv4":"Şeftali Çiçeği","make_herb_lv7":"Çançiçeği",
+        "make_herb_lv10":"Kaki Çiçeği","make_herb_lv15":"Gango Kökü",
         "make_herb_lv20":"Leylak","make_herb_lv25":"Tue Mantarı","collect_quest_lv30":"Ork Dişi",
         "collect_quest_lv40":"Lanet Kitabı","collect_quest_lv50":"Şeytan Hatırası",
-        "collect_quest_lv60":"Buz Bilyesi","collect_quest_lv70":"Zelkova Dalı",
-        "collect_quest_lv80":"Tugyi'nin Tableti","collect_quest_lv85":"Kırmızı Hayalet Ağaç Dalı",
+        "collect_quest_lv60":"Buz Topu","collect_quest_lv70":"Zelkova Dalı",
+        "collect_quest_lv80":"Tugyis Tabelası","collect_quest_lv85":"Kırmızı Hayalet Ağacı Dalı",
         "collect_quest_lv90":"Liderlerin Notları"},
 }
 
@@ -11489,7 +11816,7 @@ function renderRankings() {
     } else if (g_selectedRankCategory === 'hunting') {
       detailStr = '<span style="color:#fb923c;font-weight:700">' + (b.hunting_label || I18N.none) + '</span>';
     } else if (g_selectedRankCategory === 'shops') {
-      detailStr = '<span style="color:#22d3ee;font-weight:700">🏪 ' + I18N.rank_stall_open + '</span>' +
+      detailStr = '<span style="color:#22d3ee;font-weight:700">🏪 ' + (b.item_count != null && b.item_count !== '' ? (b.item_count + ' ' + I18N.items_short) : I18N.rank_stall_open) + '</span>' +
                   (b.stall_map ? ' <span class="muted" style="font-size:11px">' + b.stall_map + '</span>' : '');
     } else if (g_selectedRankCategory === 'skills') {
       // The grade colours match the bot card: P pink, G purple, M blue.
@@ -12500,6 +12827,165 @@ function empireFlag(empire, height) {
          'border-radius:2px;box-shadow:0 0 3px rgba(0,0,0,.6)">';
 }
 
+// Iwakura's Patch 20, 4A and 4B: "Wyślij przedmiot" and the EXP button in
+// the card's header, between the BOT badge and the teleport bar. The rows go
+// to the bots' core through web_admin_queue as 'await' (api_bot_send_item,
+// api_bot_card_exp); CSRF as every form of the panel.
+var P20_CSRF = '{{ csrf_token }}';
+var P20_PL = '{{ curlang }}' === 'pl';
+function p20T(pl, en) { return P20_PL ? pl : en; }
+var P20_STATUS = {
+  'await': ['czeka, aż bot wejdzie do gry', 'waiting for the bot to enter the game'],
+  'done': ['wysłano', 'sent'], 'cancelled': ['anulowano', 'cancelled'],
+  'full': ['błąd: brak miejsca w torbie', 'error: no room in the bag'],
+  'bad_args': ['błąd: złe dane', 'error: bad request'], 'failed': ['błąd', 'error'],
+  'qty_too_big': ['błąd: za dużo sztuk', 'error: too many pieces']
+};
+function p20Status(s) {
+  var e = P20_STATUS[s];
+  if (e) return p20T(e[0], e[1]);
+  if (String(s).charAt(0) === 'w') return p20T('wysyłanie…', 'sending…');
+  return p20T('błąd: ', 'error: ') + s;
+}
+function p20Post(url, data) {
+  var body = new URLSearchParams(data || {}); body.append('_csrf', P20_CSRF);
+  return fetch(url, {method: 'POST', credentials: 'same-origin', body: body}).then(function (r) { return r.json(); });
+}
+var P20_EXP_WHY = {
+  companion: ['To Towarzysz gracza: blokadę expa trzyma właściciel pierścieniem.', "A player's companion: its owner holds the EXP lock with the ring."],
+  dropper: ['Rola wymaga stałego poziomu – najpierw zakończ rolę.', 'The role needs a fixed level – end the role first.'],
+  pending: ['Poprzedni rozkaz czeka na bota.', 'The previous order is waiting for the bot.'],
+  free: ['Bot nie ma blokady expa.', 'The bot has no EXP lock.']
+};
+function p20CardBar(pid) {
+  setTimeout(function () { p20FillBar(pid); }, 0);
+  return '<div id="p20Bar" style="display:flex;gap:8px;flex-wrap:wrap;margin:-4px 0 10px"></div>';
+}
+function p20FillBar(pid) {
+  var bar = document.getElementById('p20Bar');
+  if (!bar) return;
+  fetch('/api/bot_card_actions/' + pid, {credentials: 'same-origin', cache: 'no-store'}).then(function (r) { return r.json(); }).then(function (j) {
+    if (!j || !j.ok || !j.bot) { bar.remove(); return; }
+    var st = 'font-weight:700;padding:5px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px;color:#fff;';
+    var h = j.send ? '<button type="button" id="p20Send" style="' + st + 'background:#7c3aed">🎁 ' + p20T('Wyślij przedmiot', 'Send item') + '</button>' : '';
+    var e = j.exp || {};
+    if (e.mode === 'unlock' || e.mode === 'lock' || e.why === 'companion' || e.why === 'dropper' || e.why === 'pending') {
+      var lock = e.mode === 'lock';
+      var dis = !e.mode;
+      var why = dis ? (P20_EXP_WHY[e.why] || ['', ''])[P20_PL ? 0 : 1] : '';
+      h += '<button type="button" id="p20Exp" data-mode="' + (e.mode || '') + '" ' + (dis ? 'disabled ' : '') + 'title="' + escapeHtml(why) + '" style="' + st +
+           'background:' + (dis ? '#4b5563;cursor:not-allowed' : (lock ? '#b45309' : '#0e7490')) + '">' +
+           (lock ? '🔒 ' + p20T('Zablokuj expa', 'Lock EXP') : '🔓 ' + p20T('Odblokuj expa', 'Unlock EXP')) + '</button>';
+      if (e.why === 'pending') h += '<span class="muted" style="font-size:12px;align-self:center">' + p20T('czeka', 'waiting') + '</span>';
+    }
+    h += '<span id="p20ExpSt" class="muted" style="font-size:12px;align-self:center"></span>';
+    var rotation=j.rotation||{};
+    if(j.rotation)h += '<label id="p21CardPinLabel" style="font-size:12px;font-weight:normal"><input type="checkbox" id="p21CardPin" '+(rotation.pin?'checked ':'')+(rotation.retired?'disabled ':'')+'> '+p20T('Zawsze w grze','Always online')+'</label>';
+    if(rotation.retired)h += '<span class="badge">'+p20T('Zakończył grę','Retired')+'</span>';
+    bar.innerHTML = h;
+    var edit=document.querySelector('#botModalContent .bot-editor-open');
+    if(edit){
+      var heading=edit.parentNode;heading.classList.add('bot-card-heading');
+      bar.style.display='contents';heading.insertBefore(bar,edit.nextSibling);
+      bar.querySelectorAll('button').forEach(function(button){button.className=edit.className.replace('bot-editor-open','');button.style.cssText='';});
+      var badge=document.querySelector('#botModalContent .bot-badge');if(badge)heading.appendChild(badge);
+      var pinLabel=document.getElementById('p21CardPinLabel');if(pinLabel)heading.appendChild(pinLabel);
+    }
+    var pin=document.getElementById('p21CardPin');
+    if(pin)pin.onchange=function(){var input=this,previous=!input.checked;input.disabled=true;
+      p20Post('/world-settings/pin/'+pid,{value:input.checked?'1':'0'}).then(function(r){if(!r||!r.ok)input.checked=previous;input.disabled=false;}).catch(function(){input.checked=previous;input.disabled=false;});};
+    if (j.send) document.getElementById('p20Send').onclick = function () { p20SendDialog(pid, j); };
+    var eb = document.getElementById('p20Exp');
+    if (eb && !eb.disabled) eb.onclick = function () {
+      var mode = eb.getAttribute('data-mode');
+      var q = mode === 'unlock'
+        ? p20T('Bot porzuci blokadę poziomu i będzie dalej zdobywał doświadczenie. Kontynuować?', 'The bot drops its level lock and goes on gaining experience. Continue?')
+        : p20T('Bot zostanie zablokowany na obecnym poziomie (' + j.level + '). Kontynuować?', 'The bot will be held at its current level (' + j.level + '). Continue?');
+      if (!confirm(q)) return;
+      eb.disabled = true;
+      var out = document.getElementById('p20ExpSt'); out.textContent = p20T('czeka…', 'waiting…');
+      p20Post('/api/bot_card_exp/' + pid, {mode: mode}).then(function (r) {
+        if (r && r.ok && r.status === 'done') {
+          out.textContent = mode === 'unlock' ? p20T('odblokowano', 'unlocked') : p20T('zablokowano', 'locked');
+          setTimeout(function () { openBotModal(pid); }, 900);
+        } else if (r && r.ok) {
+          out.textContent = p20Status(r.status);
+        } else {
+          out.textContent = p20T('błąd: ', 'error: ') + ((r && r.error) || '?');
+        }
+      }).catch(function () { out.textContent = p20T('błąd', 'error'); });
+    };
+  }).catch(function () { bar.remove(); });
+}
+function p20SendDialog(pid, card) {
+  var old = document.getElementById('p20Dlg'); if (old) old.remove();
+  var d = document.createElement('div'); d.id = 'p20Dlg';
+  d.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:10050;display:flex;align-items:center;justify-content:center';
+  d.innerHTML = '<div style="background:#1a150e;border:1px solid #6b5228;border-radius:8px;padding:16px;width:min(440px,92vw);color:#e8d49a">' +
+    '<h3 style="margin:0 0 10px">🎁 ' + p20T('Wyślij przedmiot', 'Send item') + ' – ' + escapeHtml(card.name) + '</h3>' +
+    '<input id="p20Q" type="text" placeholder="' + p20T('VNUM albo nazwa…', 'VNUM or name…') + '" style="width:100%;margin-bottom:6px">' +
+    '<div id="p20List" style="max-height:180px;overflow:auto;font-size:12px;margin-bottom:8px"></div>' +
+    '<div style="display:flex;gap:8px;align-items:center">' + p20T('Ilość', 'Count') +
+    ' <input id="p20N" type="number" min="1" max="200" value="1" style="width:80px">' +
+    '<small class="muted">' + p20T('1–200 dla stosów, 1–20 dla pozostałych', '1–200 for stacks, 1–20 for the rest') + '</small></div>' +
+    '<div id="p20Pick" class="muted" style="margin:8px 0;font-size:12px"></div>' +
+    '<div id="p20Out" style="font-size:12px;margin-bottom:8px"></div>' +
+    '<div style="display:flex;gap:8px;justify-content:flex-end"><button type="button" id="p20Go" disabled>' + p20T('Wyślij', 'Send') + '</button>' +
+    '<button type="button" id="p20Close">' + p20T('Zamknij', 'Close') + '</button></div></div>';
+  document.body.appendChild(d);
+  var pick = null, timer = null, ids = [];
+  function choose(v, n) {
+    pick = v; document.getElementById('p20Pick').textContent = '#' + v + ' ' + n;
+    document.getElementById('p20Go').disabled = false;
+  }
+  function search() {
+    var q = document.getElementById('p20Q').value.trim();
+    if (/^#?\\d+$/.test(q)) choose(parseInt(q.replace('#', ''), 10), '');
+    if (q.length < 2 && !/^\\d+$/.test(q)) { document.getElementById('p20List').innerHTML = ''; return; }
+    fetch('/api/items?limit=30&q=' + encodeURIComponent(q), {credentials: 'same-origin'}).then(function (r) { return r.json(); }).then(function (j) {
+      document.getElementById('p20List').innerHTML = (j.items || []).map(function (it) {
+        return '<div data-v="' + it.v + '" data-n="' + escapeHtml(it.n) + '" style="cursor:pointer;padding:2px 4px">' +
+          '<img src="/static/icons/' + ('00000' + it.v).slice(-5) + '.png" onerror="this.style.display=\\'none\\'" style="height:18px;vertical-align:middle;margin-right:4px">' +
+          escapeHtml(it.n) + ' <span class="muted">#' + it.v + '</span></div>';
+      }).join('');
+    }).catch(function () {});
+  }
+  function poll() {
+    if (!ids.length || !document.getElementById('p20Dlg')) return;
+    fetch('/api/bot_send_item_status?ids=' + ids.join(','), {credentials: 'same-origin', cache: 'no-store'}).then(function (r) { return r.json(); }).then(function (j) {
+      var rows = (j && j.rows) || [], waiting = false;
+      document.getElementById('p20Out').innerHTML = rows.map(function (r) {
+        if (r.status === 'await' || String(r.status).charAt(0) === 'w') waiting = true;
+        return '#' + r.id + ': ' + escapeHtml(p20Status(r.status)) +
+          (r.status === 'await' ? ' <button type="button" data-cancel="' + r.id + '" style="font-size:11px">' + p20T('Anuluj', 'Cancel') + '</button>' : '');
+      }).join('<br>');
+      if (waiting) setTimeout(poll, 3000);
+    }).catch(function () {});
+  }
+  document.getElementById('p20Q').oninput = function () { clearTimeout(timer); timer = setTimeout(search, 250); };
+  document.getElementById('p20List').onclick = function (ev) {
+    var row = ev.target.closest('[data-v]'); if (row) choose(parseInt(row.getAttribute('data-v'), 10), row.getAttribute('data-n'));
+  };
+  document.getElementById('p20Out').onclick = function (ev) {
+    var b = ev.target.closest('[data-cancel]'); if (!b) return;
+    p20Post('/api/bot_send_item_cancel/' + b.getAttribute('data-cancel')).then(poll);
+  };
+  document.getElementById('p20Close').onclick = function () { d.remove(); };
+  document.getElementById('p20Go').onclick = function () {
+    var n = parseInt(document.getElementById('p20N').value, 10) || 1, out = document.getElementById('p20Out');
+    this.disabled = true;
+    p20Post('/api/bot_send_item/' + pid, {vnum: pick, qty: n}).then(function (r) {
+      if (r && r.ok) { ids = r.ids || []; out.textContent = p20T('czeka…', 'waiting…'); poll(); }
+      else {
+        var why = r && r.error === 'qty_single' ? p20T('ten przedmiot się nie łączy: najwyżej 20 sztuk', 'this item does not stack: 20 pieces at most')
+                : r && r.error === 'no_such_item' ? p20T('nie ma takiego przedmiotu', 'no such item') : ((r && r.error) || '?');
+        out.textContent = p20T('błąd: ', 'error: ') + why;
+        document.getElementById('p20Go').disabled = false;
+      }
+    }).catch(function () { out.textContent = p20T('błąd', 'error'); document.getElementById('p20Go').disabled = false; });
+  };
+}
+
 function openBotModal(pid) {
   var modal = document.getElementById('botModal');
   var content = document.getElementById('botModalContent');
@@ -12526,7 +13012,7 @@ function openBotModal(pid) {
       // The account decides, not the nickname: renaming a bot used to relabel
       // it GRACZ here while every other view still knew what it was.
       var isBot = !!p.is_bot;
-      var typeBadge = isBot ? '<span style="background:#2ecc71;color:#000;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:700">' + I18N.bot_badge + '</span>'
+      var typeBadge = isBot ? '<span class="bot-badge" style="background:#2ecc71;color:#000;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:700">' + I18N.bot_badge + '</span>'
                             : '<span style="background:#ef4444;color:#fff;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:700">' + I18N.player + '</span>';
 
       var html = '<div class="m2-modal-columns">';
@@ -12537,6 +13023,8 @@ function openBotModal(pid) {
               '<div><h3 style="margin:0;color:var(--gold2);font-size:18px">' + empireFlag(p.empire, 15) + escapeHtml(p.name) + ' <span style="font-size:13px;color:#aaa">Lv ' + p.level + ' ' + escapeHtml(p.job_name) + '</span></h3></div>' +
               '<div>' + typeBadge + '</div>' +
               '</div>';
+      // Iwakura's Patch 20, 4A/4B: the card's own buttons, a bot's only.
+      if (isBot) html += p20CardBar(pid);
 
       // GM Teleport bar
       var wx = Math.floor(p.x / 100);
@@ -12793,10 +13281,9 @@ var g_seenLogsSet = {};
 // bonuses (lines added, stones of change), refining - so a question about one
 // of them is not a scroll through the other two. The tab chosen stays chosen
 // from one bot's card to the next.
-var GEAR_TABS = ['trade', 'bonus', 'refine', 'other', 'all'];
+var GEAR_TABS = ['trade', 'bonus', 'refine', 'decisions', 'all'];
 // What the core explained - equipment decisions and counter lines - on a tab
 // of its own, where the core records it (mt2009).
-if (EXPLAIN_ON) GEAR_TABS.push('decisions');
 var g_gearTab = 'trade';
 // Only the lines whose explanation is flagged unusual; kept from one card to
 // the next like the tab.
@@ -13372,24 +13859,24 @@ GEAR_HISTORY_HOWS = {
     "PLAYERBOT_BONUS":       ("bonus",       {"pl": "Zużyte na przemianę bonusów", "en": "Used for a bonus reroll",
                              "de": "Für eine Bonusänderung verbraucht", "tr": "Bonus değiştirmek için harcandı"}),
     "PLAYERBOT_BONUS_ADD":   ("bonus",       {"pl": "Dodano bonus (Wzmocnienie)", "en": "Bonus line added",
-                             "de": "Bonus hinzugefügt (Gegenstand verstärken)", "tr": "Bonus eklendi (Güçlendirme Nesnesi)"}),
+                             "de": "Bonus hinzugefügt (Gegenstand verstärken)", "tr": "Bonus eklendi (Arttırma Kağıdı)"}),
     "PLAYERBOT_BONUS_CHANGE":("bonus",       {"pl": "Zmieniono bonusy (Zmiana)",  "en": "Bonus lines rerolled",
                              "de": "Boni geändert (Gegenstand verzaubern)", "tr": "Bonuslar değiştirildi (Efsun Nesnesi)"}),
     "PLAYERBOT_BONUS_MARBLE":("bonus",       {"pl": "Dodano 5. bonus (Marmur)",   "en": "Fifth line added (marble)",
-                             "de": "5. Bonus hinzugefügt (Marmor)", "tr": "5. bonus eklendi (Mermer)"}),
+                             "de": "5. Bonus hinzugefügt (Marmor)", "tr": "5. bonus eklendi (Kutsama Küresi)"}),
     "SAFEBOX PUT":           ("safebox",     {"pl": "Do magazynu",        "en": "Into the safebox",
                              "de": "Ins Lager", "tr": "Depoya"}),
     "SAFEBOX GET":           ("safebox",     {"pl": "Z magazynu",         "en": "Out of the safebox",
                              "de": "Aus dem Lager", "tr": "Depodan"}),
     "MOONLIGHT_GET":         ("get",         {"pl": "Ze Szkatułki Blasku", "en": "From a Moonlight chest",
-                             "de": "Aus einer Mondlichtschatztruhe", "tr": "Ay Işığı Sandığından"}),
+                             "de": "Aus einer Mondlichtschatztruhe", "tr": "Ayışığı Define Sandığından"}),
     # A bot's purchase from a village merchant and the marble a hundred Magic
     # Dust make (Iwakura's Patch 4, point 11): neither had a row the card read
     # (B23 of Iwakura's audit of 26 September).
     "PLAYERBOT_NPC_BUY":     ("bought",      {"pl": "Kupione u handlarza", "en": "Bought from a merchant",
                              "de": "Beim Händler gekauft", "tr": "Satıcıdan satın alındı"}),
     "PLAYERBOT_DUST_MARBLE": ("bonus",       {"pl": "Marmur z Magicznego Pyłu", "en": "Marble from Magic Dust",
-                             "de": "Marmor aus Magischem Staub", "tr": "Sihirli Tozdan Mermer"}),
+                             "de": "Marmor aus Magischem Staub", "tr": "Sihirli Tozdan Kutsama Küresi"}),
     # Iwakura's exchange of surplus refine materials (29 September): the stone
     # or the marble it gave, the reward a failed roll did not give, and the
     # materials it took.
@@ -13484,9 +13971,9 @@ DECISION_EVENTS = {
      "de": "Preisfehler vom Besitzer korrigiert", "tr": "Fiyat hatası sahibi tarafından düzeltildi"},
  6: {"pl": "Pomyłka w cenie poprawiona przez rdzeń", "en": "Price slip put right by the core",
      "de": "Preisfehler vom Kern korrigiert", "tr": "Fiyat hatası çekirdek tarafından düzeltildi"},
- 7: {"pl": "Podniesione do progu", "en": "Raised to the floor", "de": "Auf die Untergrenze angehoben", "tr": "Tabana yükseltildi"},
+ 7: {"pl": "Podniesione do progu", "en": "Raised to the floor", "de": "Auf die Untergrenze angehoben", "tr": "Taban fiyata yükseltildi"},
  8: {"pl": "Zdjęte z lady", "en": "Taken off the counter", "de": "Vom Ladentisch genommen", "tr": "Tezgâhtan indirildi"},
- 9: {"pl": "Zabrane z lady do założenia", "en": "Taken back to wear", "de": "Zum Anlegen zurückgenommen", "tr": "Giymek için geri alındı"},
+ 9: {"pl": "Zabrane z lady do założenia", "en": "Taken back to wear", "de": "Zum Anlegen zurückgenommen", "tr": "Kuşanmak için geri alındı"},
  10: {"pl": "Sprzedane", "en": "Sold", "de": "Verkauft", "tr": "Satıldı"},
  11: {"pl": "Przecenione przez rdzeń według podaży", "en": "Repriced by the core with the supply",
       "de": "Vom Kern nach dem Angebot neu bepreist", "tr": "Çekirdek tarafından arza göre yeniden fiyatlandı"},
@@ -13498,9 +13985,9 @@ DECISION_STAND = {
  1: {"pl": "osobowość Handlarz", "en": "the Merchant personality", "de": "die Händler-Persönlichkeit", "tr": "Tüccar kişiliği"},
  2: {"pl": "brak yang na mikstury", "en": "no yang for potions", "de": "kein Yang für Tränke", "tr": "iksir için yang yok"},
  3: {"pl": "pełny plecak", "en": "a full bag", "de": "ein voller Beutel", "tr": "dolu çanta"},
- 4: {"pl": "dropper z pełnym plecakiem", "en": "a dropper with a full bag", "de": "ein Dropper mit vollem Beutel", "tr": "çantası dolu bir dropper"},
+ 4: {"pl": "dropper z pełnym plecakiem", "en": "a dropper with a full bag", "de": "ein Dropper mit vollem Beutel", "tr": "çantası dolu bir farmcı"},
  5: {"pl": "nadmiar ksiąg", "en": "too many books", "de": "zu viele Bücher", "tr": "fazla kitap"},
- 6: {"pl": "los droppera", "en": "a dropper's roll", "de": "der Wurf eines Droppers", "tr": "bir dropper'ın zarı"},
+ 6: {"pl": "los droppera", "en": "a dropper's roll", "de": "der Wurf eines Droppers", "tr": "bir farmcının zarı"},
  7: {"pl": "los", "en": "chance", "de": "Zufall", "tr": "şans"},
  8: {"pl": "zbędny duplikat", "en": "a spare duplicate", "de": "ein überzähliges Duplikat", "tr": "fazla bir kopya"},
  9: {"pl": "nadmiar towaru", "en": "surplus goods", "de": "Warenüberschuss", "tr": "mal fazlası"},
@@ -13509,10 +13996,10 @@ DECISION_STAND = {
 # What shape the line was cut to (SHAPE_*).
 DECISION_SHAPES = {
  0: {"pl": "cały stos", "en": "the whole stack", "de": "der ganze Stapel", "tr": "yığının tamamı"},
- 1: {"pl": "naturalna porcja", "en": "a natural lot", "de": "eine natürliche Menge", "tr": "doğal bir parti"},
+ 1: {"pl": "naturalna porcja", "en": "a natural lot", "de": "eine natürliche Menge", "tr": "doğal miktar"},
  2: {"pl": "paczka mikstur", "en": "a potion pack", "de": "ein Trankpaket", "tr": "iksir paketi"},
  3: {"pl": "paczka pyłu", "en": "a dust pack", "de": "ein Staubpaket", "tr": "toz paketi"},
- 4: {"pl": "para medali", "en": "a pair of medals", "de": "ein Medaillenpaar", "tr": "madalya çifti"},
+ 4: {"pl": "para medali", "en": "a pair of medals", "de": "ein Medaillenpaar", "tr": "madalyon çifti"},
  5: {"pl": "sztuka ponad zapas", "en": "a single over the keep", "de": "ein Einzelstück über dem Vorrat", "tr": "stok üstü tek parça"},
  6: {"pl": "pojedynczy klucz", "en": "a single key", "de": "ein einzelner Schlüssel", "tr": "tek anahtar"},
  7: {"pl": "paczka szkatułek", "en": "a chest pack", "de": "ein Truhenpaket", "tr": "sandık paketi"},
@@ -13526,7 +14013,7 @@ DECISION_OFF = {
  1: {"pl": "Lista Przydatnych Przedmiotów zatrzymuje go dla magazyniera", "en": "the Useful Items List keeps it for the storekeeper",
      "de": "die Liste nützlicher Gegenstände behält es für den Lagerverwalter", "tr": "Faydalı Eşyalar Listesi onu depocu için tutuyor"},
  2: {"pl": "kamień duszy dla Alchemika (na pył)", "en": "a spirit stone for the Alchemist's dust",
-     "de": "ein Geiststein für den Staub des Alchemisten", "tr": "Simyacının tozu için bir ruh taşı"},
+     "de": "ein Geiststein für den Staub des Alchemisten", "tr": "Simyacının tozu için bir Zihin Taşı"},
  3: {"pl": "za dużo marmurów albo drugi tego samego potwora", "en": "too many marbles, or a second of one monster",
      "de": "zu viele Verwandlungskugeln oder eine zweite desselben Monsters", "tr": "fazla dönüşüm küresi ya da aynı canavarın ikincisi"},
  4: {"pl": "ponad limit linii tego samego przedmiotu", "en": "over the line cap of one item",
@@ -13552,16 +14039,16 @@ DECISION_OFF = {
  14: {"pl": "linia zwojów nie po 1, 2 lub 5", "en": "a scroll line not of 1, 2 or 5",
       "de": "eine Schriftrollenzeile nicht zu 1, 2 oder 5", "tr": "1, 2 ya da 5 olmayan parşömen satırı"},
  15: {"pl": "za długa linia medali konnych", "en": "too long a line of horse medals",
-      "de": "zu lange Zeile Pferdemedaillen", "tr": "fazla uzun bir at madalyası satırı"},
+      "de": "zu lange Zeile Pferdemedaillen", "tr": "fazla uzun bir at madalyonu satırı"},
  16: {"pl": "sterta nie w naturalnej porcji", "en": "a heap not in a natural lot",
-      "de": "ein Haufen nicht in natürlicher Menge", "tr": "doğal partide olmayan bir yığın"},
+      "de": "ein Haufen nicht in natürlicher Menge", "tr": "doğal miktarda olmayan bir yığın"},
  17: {"pl": "materiał nie w naturalnej porcji", "en": "a material not in a natural lot",
-      "de": "ein Material nicht in natürlicher Menge", "tr": "doğal partide olmayan bir malzeme"},
+      "de": "ein Material nicht in natürlicher Menge", "tr": "doğal miktarda olmayan bir malzeme"},
  18: {"pl": "ekwipunek poniżej 30 lv za słaby albo ponad limit", "en": "gear under level 30 too low, or over its cap",
       "de": "Ausrüstung unter Lv 30 zu schwach oder über der Grenze", "tr": "30. seviye altı ekipman çok zayıf ya da sınırın üstünde"},
  19: {"pl": "wędka lub kilof wraca do właściciela", "en": "a rod or a pickaxe goes back to its owner",
       "de": "eine Angel oder Spitzhacke geht an ihren Besitzer zurück", "tr": "olta ya da kazma sahibine dönüyor"},
- 20: {"pl": "zabrane do założenia", "en": "taken back to wear", "de": "zum Anlegen zurückgenommen", "tr": "giymek için geri alındı"},
+ 20: {"pl": "zabrane do założenia", "en": "taken back to wear", "de": "zum Anlegen zurückgenommen", "tr": "kuşanmak için geri alındı"},
  21: {"pl": "siano już nie trafia na rynek — do sprzedania u Handlarki Różności", "en": "hay goes on no counter any more — for the General Store merchant",
       "de": "Heu kommt auf keinen Ladentisch mehr — für die Gemischtwarenhändlerin", "tr": "saman artık tezgâha konmuyor — Çeşitli Eşya Satıcısı'na satılacak"},
  22: {"pl": "miejsce na ladzie dla towaru, którego brakuje na rynku", "en": "room on the counter for goods the market lacks",
@@ -13572,10 +14059,10 @@ DECISION_OFF = {
  24: {"pl": "jednorazowe zmniejszenie o połowę dodań, zmianek i Zwojów Błogosławieństwa",
       "en": "the one-time halving of add stones, change stones and Blessing Scrolls",
       "de": "die einmalige Halbierung der Verstärkungen, Verzauberungen und Segensschriftrollen",
-      "tr": "ekleme taşları, değiştirme taşları ve Kutsama Parşömenlerinin tek seferlik yarıya indirilmesi"},
+      "tr": "Arttırma Kağıtlarının, Efsun Nesnelerinin ve Kutsama Kağıtlarının tek seferlik yarıya indirilmesi"},
  25: {"pl": "Kozik Czar. Liś. poniżej 20% ŚR, gdy boty mają ich ponad 100 — do Handlarki", "en": "a Kozik under 20% average while the bots hold over 100 of them — for the merchant",
       "de": "ein Kozik unter 20% Durchschnitt, solange die Bots über 100 davon haben — für die Händlerin",
-      "tr": "botlarda 100'den fazla varken ortalaması %20'nin altında bir Kozik — satıcıya"},
+      "tr": "botlarda 100'den fazla varken ortalaması %20'nin altında bir Siyah Yaprak Hançeri — satıcıya"},
  26: {"pl": "Dzwon 32/36 lvl +0…+3 (0–1 bonus) ponad dzienny limit rynku królestwa — do Handlarki",
       "en": "a level 32/36 bell +0..+3 (0-1 bonus) over the kingdom market's daily cap — for the merchant",
       "de": "eine Glocke Stufe 32/36 +0..+3 (0-1 Bonus) über der Tagesgrenze des Reichsmarkts — für die Händlerin",
@@ -13583,15 +14070,15 @@ DECISION_OFF = {
  27: {"pl": "Marchewka lub Czerwony Żeń-szeń ponad 300 na rynku królestwa — na Czerwone Mikstury (D) albo do Handlarki",
       "en": "a carrot or a Red Ginseng over 300 on the kingdom's market — for Red Potions (D) or the merchant",
       "de": "eine Karotte oder ein Roter Ginseng über 300 auf dem Reichsmarkt — für Rote Tränke (D) oder die Händlerin",
-      "tr": "krallık pazarında 300'ü aşan havuç ya da Kırmızı Ginseng — Kırmızı İksir (D) için ya da satıcıya"},
+      "tr": "krallık pazarında 300'ü aşan havuç ya da Kırmızı Ginseng — Kırmızı İksir (B) için ya da satıcıya"},
  28: {"pl": "gracz kupuje go od bota na spotkaniu — zdjęty do torby na okno handlu",
       "en": "a player is buying it from the bot at a meeting — taken home for the trade window",
       "de": "ein Spieler kauft es dem Bot bei einem Treffen ab — für das Handelsfenster nach Hause genommen",
-      "tr": "bir oyuncu bunu bir buluşmada bottan satın alıyor — takas penceresi için çantaya alındı"},
+      "tr": "bir oyuncu bunu bir buluşmada bottan satın alıyor — ticaret penceresi için çantaya alındı"},
  29: {"pl": "hełm lub tarcza +0…+4 ponad 60 sztuk tego przedmiotu na ladach botów — do Handlarki",
       "en": "a helmet or shield +0..+4 over 60 of the item on the bots' counters — for the merchant",
       "de": "ein Helm oder Schild +0..+4 über 60 Stück auf den Theken der Bots — für die Händlerin",
-      "tr": "botların tezgâhlarında 60 adedi aşan +0..+4 miğfer veya kalkan — satıcıya"},
+      "tr": "botların tezgâhlarında 60 adedi aşan +0..+4 kask veya kalkan — satıcıya"},
 }
 
 # The small vocabularies a parameter can be one of ("enum:NAME").
@@ -13620,16 +14107,16 @@ DECISION_ENUMS = {
  },
  "SCROLL_KEEP": {
   0: {"pl": "nic nie czeka na zwój", "en": "nothing waits for a scroll", "de": "nichts wartet auf eine Schriftrolle", "tr": "parşömen bekleyen bir şey yok"},
-  1: {"pl": "noszony ekwipunek do ulepszenia", "en": "worn gear to refine", "de": "getragene Ausrüstung zum Verbessern", "tr": "yükseltilecek giyili ekipman"},
+  1: {"pl": "noszony ekwipunek do ulepszenia", "en": "worn gear to refine", "de": "getragene Ausrüstung zum Verbessern", "tr": "yükseltilecek kuşanılmış ekipman"},
   2: {"pl": "handlarz zasobami", "en": "a resource trader", "de": "ein Rohstoffhändler", "tr": "bir kaynak tüccarı"},
   3: {"pl": "reguła zwojów", "en": "the scroll rule", "de": "die Schriftrollen-Regel", "tr": "parşömen kuralı"},
  },
  "MEDAL_WHY": {
   1: {"pl": "Handlarz", "en": "a Merchant", "de": "ein Händler", "tr": "Tüccar"},
-  2: {"pl": "dropper medali", "en": "a medal dropper", "de": "ein Medaillen-Dropper", "tr": "madalya dropper'ı"},
+  2: {"pl": "dropper medali", "en": "a medal dropper", "de": "ein Medaillen-Dropper", "tr": "madalyon farmcısı"},
   3: {"pl": "ponad zapas", "en": "over the keep", "de": "über dem Vorrat", "tr": "stok üstü"},
   4: {"pl": "koń na maksimum dla poziomu", "en": "the horse is maxed for the level",
-      "de": "das Pferd ist für das Level ausgereizt", "tr": "at, seviyesi için en üstte"},
+      "de": "das Pferd ist für das Level ausgereizt", "tr": "at, seviyesi için maksimumda"},
  },
  "MAT_WHY": {
   1: {"pl": "próba rynku", "en": "a market probe", "de": "ein Markttest", "tr": "piyasa denemesi"},
@@ -13647,7 +14134,7 @@ DECISION_ENUMS = {
  },
  "AT_TOP": {
   0: {"pl": "", "en": "", "de": "", "tr": ""},
-  1: {"pl": " (na maksimum)", "en": " (at the top)", "de": " (am Maximum)", "tr": " (en üstte)"},
+  1: {"pl": " (na maksimum)", "en": " (at the top)", "de": " (am Maximum)", "tr": " (maksimumda)"},
  },
  "PREVIEW": {
   0: {"pl": "", "en": "", "de": "", "tr": ""},
@@ -13663,8 +14150,8 @@ DECISION_ENUMS = {
   2: {"pl": "niebieska perła", "en": "blue pearl", "de": "blaue Perle", "tr": "mavi inci"},
   3: {"pl": "czerwona perła", "en": "red pearl", "de": "rote Perle", "tr": "kırmızı inci"},
   4: {"pl": "małża", "en": "shellfish", "de": "Muschel", "tr": "istiridye"},
-  5: {"pl": "medal konny", "en": "horse medal", "de": "Pferdemedaille", "tr": "at madalyası"},
-  6: {"pl": "Suszona Głowa", "en": "Dried Head", "de": "getrockneter Kopf", "tr": "Kurutulmuş Kafa"},
+  5: {"pl": "medal konny", "en": "horse medal", "de": "Pferdemedaille", "tr": "at madalyonu"},
+  6: {"pl": "Suszona Głowa", "en": "Dried Head", "de": "getrockneter Kopf", "tr": "Küçülen Kafa"},
   7: {"pl": "fryzura", "en": "hairstyle", "de": "Frisur", "tr": "saç modeli"},
   8: {"pl": "Magiczny Pył", "en": "Magic Dust", "de": "Magischer Staub", "tr": "Sihirli Toz"},
   9: {"pl": "Cor Draconis", "en": "Cor Draconis", "de": "Cor Draconis", "tr": "Cor Draconis"},
@@ -13674,7 +14161,7 @@ DECISION_ENUMS = {
   1: {"pl": " (z tabeli stopni)", "en": " (from the grade table)", "de": " (aus der Stufentabelle)", "tr": " (derece tablosundan)"},
  },
  "CLOCK_UNIT": {
-  0: {"pl": "wystawień", "en": "stands", "de": "Standzeiten", "tr": "stant dönemi"},
+  0: {"pl": "wystawień", "en": "stands", "de": "Standzeiten", "tr": "tezgâh açılışı"},
   1: {"pl": "min", "en": "min", "de": "Min.", "tr": "dk"},
  },
  "CLOCK_RESTART": {
@@ -13727,7 +14214,7 @@ DECISION_ENUMS = {
   # The FIX to Patch 11, 4A: the add and change stones (TIER_DEEP).
   3: {"pl": "przecena dodań i zmianek (-10% co 3 h, do -60%)", "en": "add and change stone markdown (-10% every 3 h, to -60%)",
       "de": "Preisnachlass für Hinzufüge- und Änderungssteine (-10% alle 3 h, bis -60%)",
-      "tr": "ekleme ve değiştirme taşı indirimi (3 saatte bir -%10, en çok -%60)"},
+      "tr": "Arttırma Kağıdı ve Efsun Nesnesi indirimi (3 saatte bir -%10, en çok -%60)"},
  },
  "TIER_CANCELLED": {
   0: {"pl": "", "en": "", "de": "", "tr": ""},
@@ -13737,15 +14224,15 @@ DECISION_ENUMS = {
  # Section 8B: one listing in five on a "nice" ending (1 490 000 for 1 500 000).
  "NICE_END": {
   0: {"pl": "", "en": "", "de": "", "tr": ""},
-  1: {"pl": ", z ładną końcówką", "en": ", on a nice ending", "de": ", mit schöner Endung", "tr": ", güzel bir sonla"},
+  1: {"pl": ", z ładną końcówką", "en": ", on a nice ending", "de": ", mit schöner Endung", "tr": ", güzel bir fiyat sonuyla"},
  },
  # What raised a piece's row of the sheet (CATALOGUE_ROW_*): the average base
  # of a weapon (5D) or the bonus base of a jewel or an armour (6E).
  "CATALOGUE_WHY": {
   0: {"pl": "", "en": "", "de": "", "tr": ""},
   1: {"pl": " (baza ŚR)", "en": " (the average-damage base)", "de": " (die Durchschnittsschaden-Basis)",
-      "tr": " (ortalama zarar tabanı)"},
-  2: {"pl": " (Baza Bonusowa)", "en": " (the bonus base)", "de": " (die Bonusbasis)", "tr": " (bonus tabanı)"},
+      "tr": " (ortalama hasar baz fiyatı)"},
+  2: {"pl": " (Baza Bonusowa)", "en": " (the bonus base)", "de": " (die Bonusbasis)", "tr": " (bonus baz fiyatı)"},
   # Iwakura's Patch 13.5, point 4: a +0..+3 piece with two lines or more.
   3: {"pl": " (+0..+3 z bonusami: cena z +6)", "en": " (+0..+3 with bonuses: the +6 price)",
       "de": " (+0..+3 mit Boni: der Preis von +6)", "tr": " (bonuslu +0..+3: +6 fiyatı)"},
@@ -13770,9 +14257,9 @@ DECISION_GOODS = {
      {"pl": "Marmur polimorfii ({a}) — towar, nie złom", "en": "A polymorph marble ({a}) — goods, not scrap",
       "de": "Eine Verwandlungskugel ({a}) — Ware, kein Schrott", "tr": "Bir dönüşüm küresi ({a}) — mal, hurda değil"}),
  5: ({}, {"pl": "Wykrywacz metinów — bot teraz nie poluje na kamienie", "en": "A Metin detector — the bot is not hunting stones now",
-          "de": "Ein Metin-Detektor — der Bot jagt gerade keine Steine", "tr": "Bir Metin dedektörü — bot şu an taş avlamıyor"}),
+          "de": "Ein Metin-Detektor — der Bot jagt gerade keine Steine", "tr": "Bir Metin Taşı Dedektörü — bot şu an Metin taşı avlamıyor"}),
  6: ({}, {"pl": "Suszona Głowa — dla graczy idących do Katakumb", "en": "A Dried Head — for a player's run of the Catacomb",
-          "de": "Ein getrockneter Kopf — für den Katakomben-Lauf eines Spielers", "tr": "Bir Kurutulmuş Kafa — bir oyuncunun Yeraltı Mezarı koşusu için"}),
+          "de": "Ein getrockneter Kopf — für den Katakomben-Lauf eines Spielers", "tr": "Bir Küçülen Kafa — oyuncuların Şeytan Katakombu'na girişi için"}),
  7: ({"a": "int", "b": "int"},
      {"pl": "Kamienie bonusów ponad zapas: w plecaku {a}, zapas {b}", "en": "Bonus stones over the keep: {a} in the bag, keeps {b}",
       "de": "Bonussteine über dem Vorrat: {a} im Beutel, behält {b}", "tr": "Stok üstü bonus taşları: çantada {a}, saklanan {b}"}),
@@ -13788,12 +14275,12 @@ DECISION_GOODS = {
       {"pl": "Broń 30 lv innej klasy, gotowa na sprzedaż: {a}, średnie obrażenia {b}, cel {c}",
        "en": "A level-30 weapon of another class, ready for sale: {a}, average damage {b}, target {c}",
        "de": "Eine Waffe Lv 30 einer anderen Klasse, verkaufsbereit: {a}, Durchschnittsschaden {b}, Ziel {c}",
-       "tr": "Başka bir sınıfın 30. seviye silahı, satışa hazır: {a}, ortalama zarar {b}, hedef {c}"}),
+       "tr": "Başka bir sınıfın 30. seviye silahı, satışa hazır: {a}, ortalama hasar {b}, hedef {c}"}),
  11: ({"a": "plus", "b": "pct", "c": "enum:L30_WHY"},
       {"pl": "Broń 30 lv niezatrzymana do kowadła: {a}, średnie obrażenia {b} — {c}",
        "en": "A level-30 weapon not kept for the anvil: {a}, average damage {b} — {c}",
        "de": "Eine Waffe Lv 30, nicht für den Amboss behalten: {a}, Durchschnittsschaden {b} — {c}",
-       "tr": "Örs için tutulmayan 30. seviye silah: {a}, ortalama zarar {b} — {c}"}),
+       "tr": "Örs için tutulmayan 30. seviye silah: {a}, ortalama hasar {b} — {c}"}),
  12: ({"a": "plus", "b": "level"},
       {"pl": "Zbroja lub biżuteria {a} poniżej 30 lv (poziom {b}) — towar każdego bota",
        "en": "Armour or a jewel at {a} under level 30 (level {b}) — every bot's goods",
@@ -13816,13 +14303,13 @@ DECISION_GOODS = {
        "tr": "Yalnız-satıcı listesinden ekipman ({a}) — onu yalnızca Tüccar satar"}),
  17: ({"a": "plus", "b": "item", "c": "plus"},
       {"pl": "Cenny zapas {a}; bot nosi {b} ({c})", "en": "A precious spare at {a}; the bot wears {b} ({c})",
-       "de": "Ein wertvolles Ersatzstück {a}; der Bot trägt {b} ({c})", "tr": "Değerli bir yedek {a}; bot {b} ({c}) giyiyor"}),
+       "de": "Ein wertvolles Ersatzstück {a}; der Bot trägt {b} ({c})", "tr": "Değerli bir yedek {a}; bot {b} ({c}) kuşanıyor"}),
  18: ({"a": "int", "b": "int", "c": "enum:SCROLL_KEEP"},
       {"pl": "Zwoje ponad zapas: {a} w plecaku, zapas {b} ({c})", "en": "Scrolls over the keep: {a} in the bag, keeps {b} ({c})",
        "de": "Schriftrollen über dem Vorrat: {a} im Beutel, behält {b} ({c})", "tr": "Stok üstü parşömenler: çantada {a}, saklanan {b} ({c})"}),
  19: ({"a": "int", "b": "int", "c": "enum:MEDAL_WHY"},
       {"pl": "Medale konne: {a} w plecaku, zapas {b} ({c})", "en": "Horse medals: {a} in the bag, keeps {b} ({c})",
-       "de": "Pferdemedaillen: {a} im Beutel, behält {b} ({c})", "tr": "At madalyaları: çantada {a}, saklanan {b} ({c})"}),
+       "de": "Pferdemedaillen: {a} im Beutel, behält {b} ({c})", "tr": "At madalyonları: çantada {a}, saklanan {b} ({c})"}),
  20: ({"a": "int", "b": "int", "c": "int"},
       {"pl": "Materiał, którego wiosce brakuje dla graczy: {a} w plecaku, rezerwa kowadła {b}, podaż w wiosce {c}",
        "en": "A material the village is short of for the players: {a} in the bag, anvil reserve {b}, village supply {c}",
@@ -13840,19 +14327,19 @@ DECISION_GOODS = {
       {"pl": "Towar zebrany z ziemi (siano, marchew, księgi misji), {a}", "en": "Pickup goods (hay, carrots, mission books), {a}",
        "de": "Aufgesammelte Ware (Heu, Karotten, Missionsbücher), {a}", "tr": "Yerden toplanan mal (saman, havuç, görev kitapları), {a}"}),
  24: ({}, {"pl": "Mikstura z tablicy Baek-Go ponad zapas", "en": "A potion from Baek-Go's board, over the keep",
-           "de": "Ein Trank von Baek-Gos Tafel, über dem Vorrat", "tr": "Baek-Go'nun tahtasından stok üstü bir iksir"}),
+           "de": "Ein Trank von Baek-Gos Tafel, über dem Vorrat", "tr": "Baek-Go'nun panosundan stok üstü bir iksir"}),
  25: ({}, {"pl": "Receptura przeczytana do sufitu", "en": "A recipe already read to its ceiling",
-           "de": "Ein Rezept, schon bis zur Obergrenze gelesen", "tr": "Tavanına kadar okunmuş bir tarif"}),
+           "de": "Ein Rezept, schon bis zur Obergrenze gelesen", "tr": "Üst sınırına kadar okunmuş bir reçete"}),
  26: ({}, {"pl": "Farba do włosów z ItemShopu", "en": "An item-shop hair dye", "de": "Ein Haarfärbemittel aus dem ItemShop", "tr": "ItemShop saç boyası"}),
  27: ({}, {"pl": "Farba z wody zatrzymana na sprzedaż", "en": "A dye from the water kept for sale",
            "de": "Eine Haarfarbe aus dem Wasser, für den Verkauf behalten", "tr": "Satış için tutulan sudan çıkma boya"}),
  28: ({}, {"pl": "Fryzura z ItemShopu, której bot nie założy", "en": "An item-shop hairstyle the bot cannot wear",
-           "de": "Eine ItemShop-Frisur, die der Bot nicht tragen kann", "tr": "Botun takamayacağı bir ItemShop saç modeli"}),
+           "de": "Eine ItemShop-Frisur, die der Bot nicht tragen kann", "tr": "Botun kullanamayacağı bir ItemShop saç modeli"}),
  29: ({"a": "skill"},
       {"pl": "Zwój Zapomnienia — żadna umiejętność bota na niego nie czeka ({a})",
        "en": "A Forgetting Scroll — none of the bot's skills waits for it ({a})",
        "de": "Eine Schriftrolle des Vergessens — keine Fertigkeit des Bots wartet darauf ({a})",
-       "tr": "Bir Unutma Parşömeni — botun hiçbir becerisi onu beklemiyor ({a})"}),
+       "tr": "Bir Unutma Parşömeni — botun hiçbir becerisinin ona ihtiyacı yok ({a})"}),
  30: ({"a": "int", "b": "int"},
       {"pl": "Magiczny Pył ponad zapas: {a} w plecaku, zapas {b}", "en": "Magic Dust over the keep: {a} in the bag, keeps {b}",
        "de": "Magischer Staub über dem Vorrat: {a} im Beutel, behält {b}", "tr": "Stok üstü Sihirli Toz: çantada {a}, saklanan {b}"}),
@@ -13860,10 +14347,10 @@ DECISION_GOODS = {
       {"pl": "Kamień duszy {a} (rodzaj {b}) — jeden z 15 na 100 zostawionych dla rynku",
        "en": "A spirit stone {a} (kind {b}) — one of the 15 in 100 kept for the market",
        "de": "Ein Geiststein {a} (Art {b}) — einer der 15 von 100, die für den Markt bleiben",
-       "tr": "Bir ruh taşı {a} (tür {b}) — pazar için ayrılan 100'de 15'ten biri"}),
+       "tr": "Bir zihin taşı {a} (tür {b}) — pazar için ayrılan %15'lik kısımdan biri"}),
  32: ({"a": "plus", "b": "int"},
       {"pl": "Kamień duszy {a} (rodzaj {b}), którego bot nie osadzi", "en": "A spirit stone {a} (kind {b}) the bot cannot seat",
-       "de": "Ein Geiststein {a} (Art {b}), den der Bot nicht einsetzen kann", "tr": "Botun takamayacağı bir ruh taşı {a} (tür {b})"}),
+       "de": "Ein Geiststein {a} (Art {b}), den der Bot nicht einsetzen kann", "tr": "Botun takamayacağı bir zihin taşı {a} (tür {b})"}),
  33: ({"a": "int", "b": "int", "c": "enum:BOOK_USEFUL"},
       {"pl": "Księga ogólna: {a} przed nią w plecaku, zapas {b}{c}", "en": "A general book: {a} ahead of it in the bag, keeps {b}{c}",
        "de": "Ein allgemeines Buch: {a} davor im Beutel, behält {b}{c}", "tr": "Genel bir kitap: çantada önünde {a}, saklanan {b}{c}"}),
@@ -13871,12 +14358,12 @@ DECISION_GOODS = {
            "de": "Auf Iwakuras Liste namentlich bepreist", "tr": "Iwakura'nın listesinde adıyla fiyatlanmış"}),
  35: ({"a": "skill", "b": "int"},
       {"pl": "Księga ({a}) na ladzie droppera metinów, zapas {b}", "en": "A book ({a}) on a Metin dropper's counter, keeps {b}",
-       "de": "Ein Buch ({a}) auf dem Ladentisch eines Metin-Droppers, behält {b}", "tr": "Metin dropper'ının tezgâhında bir kitap ({a}), saklanan {b}"}),
+       "de": "Ein Buch ({a}) auf dem Ladentisch eines Metin-Droppers, behält {b}", "tr": "Metin farmcısının tezgâhında bir kitap ({a}), saklanan {b}"}),
  36: ({"a": "skill", "b": "int"},
       {"pl": "Własna księga ({a}) ponad zapas {b}", "en": "Its own book ({a}) over the keep of {b}",
        "de": "Ein eigenes Buch ({a}) über dem Vorrat von {b}", "tr": "Kendi kitabı ({a}), {b} stoğunun üstünde"}),
  37: ({"a": "skill"},
-      {"pl": "Księga innej ścieżki ({a})", "en": "Another build's book ({a})", "de": "Das Buch eines anderen Wegs ({a})", "tr": "Başka bir yolun kitabı ({a})"}),
+      {"pl": "Księga innej ścieżki ({a})", "en": "Another build's book ({a})", "de": "Das Buch eines anderen Wegs ({a})", "tr": "Başka bir beceri grubunun kitabı ({a})"}),
  38: ({"a": "plus"},
       {"pl": "Zbroja lub biżuteria {a} — towar każdego bota", "en": "Armour or a jewel at {a} — every bot's goods",
        "de": "Rüstung oder Schmuck {a} — Ware jedes Bots", "tr": "{a} zırh ya da takı — her botun malı"}),
@@ -13921,23 +14408,23 @@ DECISION_STEPS = {
      {"pl": "Linia bonusu", "en": "Bonus line", "de": "Bonuszeile", "tr": "Bonus satırı"},
      {"pl": "{a} {b}{c}: {value}", "en": "{a} {b}{c}: {value}", "de": "{a} {b}{c}: {value}", "tr": "{a} {b}{c}: {value}"}),
  3: ("x100", {"a": "int"},
-     {"pl": "Linie na maksimum", "en": "Lines at the top", "de": "Zeilen am Maximum", "tr": "En üstteki satırlar"},
+     {"pl": "Linie na maksimum", "en": "Lines at the top", "de": "Zeilen am Maximum", "tr": "Üst sınırdaki satırlar"},
      {"pl": "linii na maksimum: {a}, mnożnik {value}", "en": "{a} lines at the top, multiplier {value}",
-      "de": "{a} Zeilen am Maximum, Faktor {value}", "tr": "en üstte {a} satır, çarpan {value}"}),
+      "de": "{a} Zeilen am Maximum, Faktor {value}", "tr": "üst sınırda {a} satır, çarpan {value}"}),
  4: ("pct", {"a": "x100"},
-     {"pl": "Dopłata za bonusy", "en": "Bonus premium", "de": "Bonus-Aufschlag", "tr": "Bonus primi"},
+     {"pl": "Dopłata za bonusy", "en": "Bonus premium", "de": "Bonus-Aufschlag", "tr": "Bonus ek bedeli"},
      {"pl": "dopłata {value} (iloczyn z limitem {a})", "en": "premium {value} (capped product {a})",
-      "de": "Aufschlag {value} (begrenztes Produkt {a})", "tr": "prim {value} (sınırlı çarpım {a})"}),
+      "de": "Aufschlag {value} (begrenztes Produkt {a})", "tr": "ek bedel {value} (sınırlı çarpım {a})"}),
  5: ("yang", {"a": "plus"},
-     {"pl": "Wkład u kowala", "en": "The blacksmith's bill", "de": "Rechnung des Schmieds", "tr": "Demirci faturası"},
+     {"pl": "Wkład u kowala", "en": "The blacksmith's bill", "de": "Rechnung des Schmieds", "tr": "Demirci masrafı"},
      {"pl": "kowal dostał {value} za drogę do {a}", "en": "the blacksmith was paid {value} on the way to {a}",
-      "de": "der Schmied bekam {value} auf dem Weg zu {a}", "tr": "demirciye {a} yolunda {value} ödendi"}),
+      "de": "der Schmied bekam {value} auf dem Weg zu {a}", "tr": "{a} yükseltmesi için demirciye {value} ödendi"}),
  6: (None, {"a": "yang", "b": "item", "c": "plus"},
      {"pl": "Arkusz Iwakury (ekwipunek)", "en": "Iwakura's sheet (gear)", "de": "Iwakuras Liste (Ausrüstung)", "tr": "Iwakura'nın listesi (ekipman)"},
      {"pl": "{b}, {c}: z arkusza {a}", "en": "{b}, {c}: sheet price {a}", "de": "{b}, {c}: Listenpreis {a}", "tr": "{b}, {c}: liste fiyatı {a}"}),
  7: ("pct", {"a": "int"},
      {"pl": "Osadzone kamienie", "en": "Seated stones", "de": "Eingesetzte Steine", "tr": "Takılı taşlar"},
-     {"pl": "kamieni: {a}, dopłata {value}", "en": "{a} stones, premium {value}", "de": "{a} Steine, Aufschlag {value}", "tr": "{a} taş, prim {value}"}),
+     {"pl": "kamieni: {a}, dopłata {value}", "en": "{a} stones, premium {value}", "de": "{a} Steine, Aufschlag {value}", "tr": "{a} taş, ek bedel {value}"}),
  8: (None, {"a": "plus"},
      {"pl": "Cena stała za plus", "en": "Flat price for the plus", "de": "Festpreis für das Plus", "tr": "Artı için sabit fiyat"},
      {"pl": "cena stała dla {a}", "en": "flat price for {a}", "de": "Festpreis für {a}", "tr": "{a} için sabit fiyat"}),
@@ -13946,12 +14433,12 @@ DECISION_STEPS = {
      {"pl": "cena handlarza {a}, mnożnik {b}", "en": "merchant price {a}, multiplier {b}",
       "de": "Händlerpreis {a}, Faktor {b}", "tr": "satıcı fiyatı {a}, çarpan {b}"}),
  10: (None, {"a": "yang"},
-      {"pl": "Próg wkładu", "en": "Investment floor", "de": "Investitionsuntergrenze", "tr": "Yatırım tabanı"},
+      {"pl": "Próg wkładu", "en": "Investment floor", "de": "Investitionsuntergrenze", "tr": "Yatırım taban fiyatı"},
       {"pl": "podniesiona do rachunku kowala {a}", "en": "raised to the blacksmith's bill {a}",
-       "de": "auf die Rechnung des Schmieds {a} angehoben", "tr": "demirci faturasına ({a}) yükseltildi"}),
+       "de": "auf die Rechnung des Schmieds {a} angehoben", "tr": "demirci masrafına ({a}) yükseltildi"}),
  11: (None, {"a": "pct"},
-      {"pl": "Premia za bonusy", "en": "Bonus premium applied", "de": "Bonusprämie", "tr": "Uygulanan bonus primi"},
-      {"pl": "premia {a}", "en": "premium {a}", "de": "Prämie {a}", "tr": "prim {a}"}),
+      {"pl": "Premia za bonusy", "en": "Bonus premium applied", "de": "Bonusprämie", "tr": "Uygulanan bonus ek bedeli"},
+      {"pl": "premia {a}", "en": "premium {a}", "de": "Prämie {a}", "tr": "ek bedel {a}"}),
  12: (None, {"a": "pctsigned", "b": "enum:PREVIEW"},
       {"pl": "Konkurencja", "en": "Competition", "de": "Konkurrenz", "tr": "Rekabet"},
       {"pl": "odchylenie {a}{b}", "en": "swing {a}{b}", "de": "Schwankung {a}{b}", "tr": "sapma {a}{b}"}),
@@ -13989,7 +14476,7 @@ DECISION_STEPS = {
       {"pl": "Stała cena wyjściowa", "en": "Fixed starting price", "de": "Fester Ausgangspreis", "tr": "Sabit başlangıç fiyatı"},
       {"pl": "{a}", "en": "{a}", "de": "{a}", "tr": "{a}"}),
  23: (None, {"a": "plus", "b": "int", "c": "enum:GRADE_TABLE"},
-      {"pl": "Arkusz Iwakury (kamień duszy)", "en": "Iwakura's sheet (spirit stone)", "de": "Iwakuras Liste (Geiststein)", "tr": "Iwakura'nın listesi (ruh taşı)"},
+      {"pl": "Arkusz Iwakury (kamień duszy)", "en": "Iwakura's sheet (spirit stone)", "de": "Iwakuras Liste (Geiststein)", "tr": "Iwakura'nın listesi (zihin taşı)"},
       {"pl": "{a}, rodzaj {b}{c}", "en": "{a}, kind {b}{c}", "de": "{a}, Art {b}{c}", "tr": "{a}, tür {b}{c}"}),
  24: (None, {},
       {"pl": "Brak ceny handlarza", "en": "No merchant price", "de": "Kein Händlerpreis", "tr": "Satıcı fiyatı yok"},
@@ -14017,8 +14504,8 @@ DECISION_STEPS = {
       {"pl": "Rozrzut sprzedawcy", "en": "The keeper's spread", "de": "Spanne des Verkäufers", "tr": "Satıcı marjı"},
       {"pl": "{a}", "en": "{a}", "de": "{a}", "tr": "{a}"}),
  31: (None, {"a": "yang"},
-      {"pl": "Próg dla towaru z bonusem", "en": "Floor for bonus goods", "de": "Untergrenze für Bonusware", "tr": "Bonuslu mal tabanı"},
-      {"pl": "próg {a} za sztukę", "en": "floor {a} a unit", "de": "Untergrenze {a} pro Stück", "tr": "adet başına taban {a}"}),
+      {"pl": "Próg dla towaru z bonusem", "en": "Floor for bonus goods", "de": "Untergrenze für Bonusware", "tr": "Bonuslu eşyalar için taban fiyat"},
+      {"pl": "próg {a} za sztukę", "en": "floor {a} a unit", "de": "Untergrenze {a} pro Stück", "tr": "adet başına taban fiyat {a}"}),
  32: (None, {},
       {"pl": "Zaokrąglenie", "en": "Rounded", "de": "Gerundet", "tr": "Yuvarlandı"},
       {"pl": "", "en": "", "de": "", "tr": ""}),
@@ -14026,7 +14513,7 @@ DECISION_STEPS = {
       {"pl": "Zniżka biedaka", "en": "A poor bot's discount", "de": "Rabatt eines armen Bots", "tr": "Yoksul bot indirimi"},
       {"pl": "zniżka {a}", "en": "discount {a}", "de": "Rabatt {a}", "tr": "indirim {a}"}),
  34: (None, {"a": "int", "b": "enum:CLOCK_UNIT", "c": "enum:CLOCK_RESTART"},
-      {"pl": "Zegar przeceny", "en": "Markdown clock", "de": "Preisnachlass-Uhr", "tr": "İndirim saati"},
+      {"pl": "Zegar przeceny", "en": "Markdown clock", "de": "Preisnachlass-Uhr", "tr": "İndirim sayacı"},
       {"pl": "{a} {b}{c}", "en": "{a} {b}{c}", "de": "{a} {b}{c}", "tr": "{a} {b}{c}"}),
  35: (None, {"a": "pct"},
       {"pl": "Przecena", "en": "Markdown", "de": "Preisnachlass", "tr": "İndirim"},
@@ -14034,14 +14521,14 @@ DECISION_STEPS = {
  36: (None, {"a": "pct", "b": "pct", "c": "int"},
       {"pl": "Podwyżka", "en": "Markup", "de": "Preisaufschlag", "tr": "Zam"},
       {"pl": "podwyżka {a}: brakowało w {b} przeglądów, sprzedanych linii {c}", "en": "up {a}: missing in {b} of looks, {c} lines sold",
-       "de": "plus {a}: fehlte bei {b} der Blicke, {c} Zeilen verkauft", "tr": "{a} artış: bakışların {b} kadarında yoktu, {c} satır satıldı"}),
+       "de": "plus {a}: fehlte bei {b} der Blicke, {c} Zeilen verkauft", "tr": "{a} zam: kontrollerin {b} oranında yoktu, {c} satır satıldı"}),
  37: (None, {"a": "pct"},
       {"pl": "Podwyżka odrzucona", "en": "Markup refused", "de": "Aufschlag abgelehnt", "tr": "Zam reddedildi"},
       {"pl": "{a} przekroczyłoby limit yang", "en": "{a} would pass the yang limit",
        "de": "{a} würde die Yang-Grenze überschreiten", "tr": "{a} yang sınırını aşardı"}),
  38: (None, {"a": "yang"},
-      {"pl": "Próg wystawienia", "en": "Listing floor", "de": "Einstell-Untergrenze", "tr": "Listeleme tabanı"},
-      {"pl": "podniesiona do progu {a}", "en": "raised to the floor {a}", "de": "auf die Untergrenze {a} angehoben", "tr": "{a} tabanına yükseltildi"}),
+      {"pl": "Próg wystawienia", "en": "Listing floor", "de": "Einstell-Untergrenze", "tr": "İlan taban fiyatı"},
+      {"pl": "podniesiona do progu {a}", "en": "raised to the floor {a}", "de": "auf die Untergrenze {a} angehoben", "tr": "{a} taban fiyata yükseltildi"}),
  39: (None, {"a": "yang"},
       {"pl": "Pomyłka w cenie", "en": "Price slip", "de": "Preisfehler", "tr": "Fiyat hatası"},
       {"pl": "miało być {a}", "en": "meant {a}", "de": "gemeint war {a}", "tr": "olması gereken {a}"}),
@@ -14052,7 +14539,7 @@ DECISION_STEPS = {
       {"pl": "Pomyłka poprawiona", "en": "Slip put right", "de": "Preisfehler korrigiert", "tr": "Fiyat hatası düzeltildi"},
       {"pl": "było {a} przez {b}; {c}", "en": "was {a} for {b}; {c}", "de": "war {a} für {b}; {c}", "tr": "{b} boyunca {a} idi; {c}"}),
  42: (None, {"a": "yang"},
-      {"pl": "Podniesione do progu", "en": "Raised to the floor", "de": "Auf die Untergrenze angehoben", "tr": "Tabana yükseltildi"},
+      {"pl": "Podniesione do progu", "en": "Raised to the floor", "de": "Auf die Untergrenze angehoben", "tr": "Taban fiyata yükseltildi"},
       {"pl": "było {a}", "en": "was {a}", "de": "war {a}", "tr": "önceden {a}"}),
  # Iwakura's Community Patch 6: the order of a price (playerbot_supply_rules.h).
  43: ("yang", {"a": "plus", "b": "plus", "c": "enum:CATALOGUE_WHY"},
@@ -14080,7 +14567,7 @@ DECISION_STEPS = {
       {"pl": "{a} przy {b} szt.: obniżka {value}{c}", "en": "{a} at {b} units: down {value}{c}",
        "de": "{a} bei {b} Stück: minus {value}{c}", "tr": "{b} adette {a}: {value} düşüş{c}"}),
  49: (None, {"a": "pct", "b": "yang"},
-      {"pl": "Podłoga z WRB", "en": "Floor of WRB", "de": "Untergrenze aus WRB", "tr": "WRB tabanı"},
+      {"pl": "Podłoga z WRB", "en": "Floor of WRB", "de": "Untergrenze aus WRB", "tr": "WRB taban fiyatı"},
       {"pl": "{a} z WRB {b}", "en": "{a} of WRB {b}", "de": "{a} von WRB {b}", "tr": "WRB {b} üzerinden {a}"}),
  # Iwakura's Community Patch 6 on the price of gear (playerbot_gear_value.h),
  # numbered from 50 in the header.
@@ -14126,13 +14613,13 @@ DECISION_STEPS = {
       {"pl": "świat ma {b} h: {a} normalnej ceny {c} → {value}",
        "en": "the world is {b} h old: {a} of the normal price {c} → {value}",
        "de": "die Welt ist {b} h alt: {a} des normalen Preises {c} → {value}",
-       "tr": "dünya {b} saatlik: normal fiyat {c} için {a} → {value}"}),
+       "tr": "dünya {b} saatlik: normal fiyatın ({c}) {a} kadarı → {value}"}),
  # Iwakura's Patch 14, point 3 (9 October): a level-30 weapon at +0..+3 on
  # his sheet, x0.75 in a world older than 48 h and another cut while the
  # kingdom's market holds over a hundred of the family.
  56: ("yang", {"a": "pct", "b": "pct", "c": "int"},
       {"pl": "Broń 30 lvl +0…+3", "en": "Level-30 weapon +0..+3", "de": "Waffe Stufe 30 +0..+3",
-       "tr": "Seviye 30 silah +0..+3"},
+       "tr": "30. seviye silah +0..+3"},
       {"pl": "cennik × {a} (świat > 48 h), obniżka {b} przy {c} szt. na rynku królestwa → {value}",
        "en": "the sheet × {a} (world > 48 h), a cut of {b} at {c} on the kingdom's market → {value}",
        "de": "Liste × {a} (Welt > 48 h), Abschlag {b} bei {c} Stück auf dem Markt des Reichs → {value}",
@@ -14142,7 +14629,7 @@ DECISION_STEPS = {
  # 2 a young world's share of the median wallet; c = 1 when the floor won.
  57: ("yang", {"a": "int", "b": "yang", "c": "int"},
       {"pl": "Limit ceny (Patch 18)", "en": "Price cap (Patch 18)", "de": "Preisgrenze (Patch 18)",
-       "tr": "Fiyat sınırı (Patch 18)"},
+       "tr": "Fiyat sınırı (Yama 18)"},
       {"pl": "z {b} do {value} (limit {a}: 1 = udział +9, 2 = młody świat; {c} = 1: wygrała podłoga)",
        "en": "from {b} to {value} (cap {a}: 1 = the +9 share, 2 = a young world; {c} = 1: the floor won)",
        "de": "von {b} auf {value} (Grenze {a}: 1 = Anteil +9, 2 = junge Welt; {c} = 1: die Untergrenze gewann)",
@@ -14159,28 +14646,28 @@ DECISION_STEPS = {
 # The listing flags (LFLAG_*), bit: texts.
 DECISION_LFLAGS = {
  1: {"pl": "taniej niż u handlarza", "en": "under the merchant's price", "de": "unter dem Händlerpreis", "tr": "satıcı fiyatının altında"},
- 2: {"pl": "cenę podniósł próg", "en": "a floor lifted the price", "de": "eine Untergrenze hob den Preis", "tr": "fiyatı bir taban yükseltti"},
+ 2: {"pl": "cenę podniósł próg", "en": "a floor lifted the price", "de": "eine Untergrenze hob den Preis", "tr": "fiyatı taban fiyat yükseltti"},
  4: {"pl": "poniżej połowy arkusza", "en": "under half of the sheet", "de": "unter der Hälfte der Liste", "tr": "listenin yarısının altında"},
  8: {"pl": "ponad 3× arkusz", "en": "over 3× the sheet", "de": "über dem 3-Fachen der Liste", "tr": "listenin 3 katının üstünde"},
  16: {"pl": "pamięć sprzedaży mocno przesunęła cenę", "en": "the sale memory pulled the price hard",
-      "de": "das Verkaufsgedächtnis zog den Preis stark", "tr": "satış hafızası fiyatı sertçe çekti"},
+      "de": "das Verkaufsgedächtnis zog den Preis stark", "tr": "satış hafızası fiyatı güçlü biçimde kaydırdı"},
  32: {"pl": "rejestr na granicy mnożnika", "en": "the ledger at its multiplier's edge",
       "de": "das Marktbuch am Rand seines Faktors", "tr": "defter çarpanının sınırında"},
  64: {"pl": "przecena na maksimum", "en": "markdown at its maximum", "de": "Preisnachlass am Maximum", "tr": "indirim en üst düzeyde"},
  128: {"pl": "podwyżka na maksimum", "en": "markup at its maximum", "de": "Aufschlag am Maximum", "tr": "zam en üst düzeyde"},
  256: {"pl": "pomyłka w cenie", "en": "price slip", "de": "Preisfehler", "tr": "fiyat hatası"},
  512: {"pl": "lepsze od noszonego i wkrótce do założenia", "en": "better than the worn piece and wearable soon",
-       "de": "besser als das getragene Stück und bald tragbar", "tr": "giyilenden iyi ve yakında giyilebilir"},
+       "de": "besser als das getragene Stück und bald tragbar", "tr": "kuşanılmış parçadan iyi ve yakında kuşanılabilir"},
  1024: {"pl": "lada odrzuciła wyższego kandydata", "en": "a higher-ranked candidate was refused",
         "de": "ein höher eingestufter Kandidat wurde abgelehnt", "tr": "daha üst sıradaki bir aday reddedildi"},
- 2048: {"pl": "przecena o ponad 50%", "en": "a reprice moved it over 50%", "de": "eine Neubepreisung um über 50%", "tr": "yeniden fiyatlama %50'den fazla oynattı"},
+ 2048: {"pl": "przecena o ponad 50%", "en": "a reprice moved it over 50%", "de": "eine Neubepreisung um über 50%", "tr": "yeniden fiyatlama fiyatı %50'den fazla değiştirdi"},
 }
 
 # The equipment flags (EFLAG_*), bit: texts.
 DECISION_EFLAGS = {
  1: {"pl": "plus spadł o 2 lub więcej", "en": "the plus fell by 2 or more", "de": "das Plus fiel um 2 oder mehr", "tr": "artı 2 ya da daha fazla düştü"},
  2: {"pl": "niższy wymagany poziom", "en": "a lower level limit", "de": "eine niedrigere Levelgrenze", "tr": "daha düşük seviye sınırı"},
- 4: {"pl": "gorsze bonusy niż stary", "en": "worse lines than the old piece", "de": "schlechtere Zeilen als das alte Stück", "tr": "eskisinden kötü satırlar"},
+ 4: {"pl": "gorsze bonusy niż stary", "en": "worse lines than the old piece", "de": "schlechtere Zeilen als das alte Stück", "tr": "eskisinden kötü bonus satırları"},
  8: {"pl": "zysk poniżej 2%", "en": "a gain under 2%", "de": "ein Gewinn unter 2%", "tr": "%2'nin altında kazanç"},
  16: {"pl": "zamiana tam i z powrotem w godzinę", "en": "swapped back within the hour",
       "de": "innerhalb einer Stunde zurückgetauscht", "tr": "bir saat içinde geri değiştirildi"},
@@ -14188,7 +14675,7 @@ DECISION_EFLAGS = {
  64: {"pl": "zastąpiony projekt lub nagroda", "en": "a project or a prize replaced", "de": "ein Projekt oder ein Preis ersetzt", "tr": "bir proje ya da ödül değiştirildi"},
  128: {"pl": "limit pominął wcześniejsze wpisy", "en": "the budget dropped rows before this one",
        "de": "das Budget ließ davor Zeilen weg", "tr": "bütçe bundan önce satırları atladı"},
- 256: {"pl": "po spaleniu przy ulepszaniu", "en": "after a burn at the anvil", "de": "nach einem Verbrennen am Amboss", "tr": "örste yanmadan sonra"},
+ 256: {"pl": "po spaleniu przy ulepszaniu", "en": "after a burn at the anvil", "de": "nach einem Verbrennen am Amboss", "tr": "yükseltmede eşya yandıktan sonra"},
 }
 
 # Which pass decided it (PATH_*), the rule it followed (RULE_*) and the moment it
@@ -14217,26 +14704,26 @@ DECISION_RULES = {
  9: {"pl": "broń nie pasuje do profesji", "en": "the weapon does not fit the profession", "de": "die Waffe passt nicht zur Lehre", "tr": "silah beceri grubuna uymuyor"},
  10: {"pl": "unikat, którego bot nigdy nie nosi", "en": "a unique the bot never wears", "de": "ein Unikat, das der Bot nie trägt", "tr": "botun asla takmadığı eşsiz eşya"},
  11: {"pl": "hełm lub tarcza z progu Planu (P19 1G)", "en": "the Plan's threshold helmet or shield (P19 1G)",
-      "de": "Helm oder Schild der Plan-Schwelle (P19 1G)", "tr": "Planın eşik miğferi veya kalkanı (P19 1G)"},
+      "de": "Helm oder Schild der Plan-Schwelle (P19 1G)", "tr": "Plan'ın eşik kaskı veya kalkanı (P19 1G)"},
 }
 DECISION_CONTEXTS = {
- 0: {"pl": "bez szczególnych okoliczności", "en": "no particular moment", "de": "kein besonderer Moment", "tr": "özel bir an değil"},
+ 0: {"pl": "bez szczególnych okoliczności", "en": "no particular moment", "de": "kein besonderer Moment", "tr": "özel bir durum yok"},
  1: {"pl": "po wizycie u kowala", "en": "after the blacksmith", "de": "nach dem Schmied", "tr": "demirciden sonra"},
- 2: {"pl": "po spaleniu noszonego przedmiotu", "en": "after the worn piece burned", "de": "nachdem das getragene Stück verbrannte", "tr": "giyili parça yandıktan sonra"},
+ 2: {"pl": "po spaleniu noszonego przedmiotu", "en": "after the worn piece burned", "de": "nachdem das getragene Stück verbrannte", "tr": "kuşanılmış parça yandıktan sonra"},
  3: {"pl": "tuż po wejściu do gry (do 120 s)", "en": "just after spawning (120 s or less)", "de": "direkt nach dem Erscheinen (bis 120 s)", "tr": "oyuna girdikten hemen sonra (120 sn'ye kadar)"},
  4: {"pl": "po zabraniu z lady", "en": "back from the counter", "de": "vom Ladentisch zurück", "tr": "tezgâhtan dönünce"},
  5: {"pl": "po wystawieniu noszonego przedmiotu na własną ladę", "en": "after the worn piece went on the bot's own counter",
-     "de": "nachdem das getragene Stück auf den eigenen Ladentisch kam", "tr": "giyili parça botun kendi tezgâhına konduktan sonra"},
+     "de": "nachdem das getragene Stück auf den eigenen Ladentisch kam", "tr": "kuşanılmış parça botun kendi tezgâhına konduktan sonra"},
 }
 
 # Where the new piece came from (ORIGIN_*): code: (the kind of its ref, written
 # {a}; the four texts). Anything the core took no note of is "unknown".
 DECISION_ORIGINS = {
  0: ({}, {"pl": "nieznane (łup, skrzynia, wymiana)", "en": "unknown (a drop, a chest, a trade)",
-          "de": "unbekannt (Beute, Truhe, Handel)", "tr": "bilinmiyor (ganimet, sandık, takas)"}),
+          "de": "unbekannt (Beute, Truhe, Handel)", "tr": "bilinmiyor (drop, sandık, takas)"}),
  1: ({"a": "enum:LADDER_CAT"},
      {"pl": "kupione u handlarza z drabinki ({a})", "en": "bought from the merchant, off the ladder ({a})",
-      "de": "beim Händler gekauft, nach der Leiter ({a})", "tr": "satıcıdan merdivene göre alındı ({a})"}),
+      "de": "beim Händler gekauft, nach der Leiter ({a})", "tr": "satıcıdan kademe sırasına göre alındı ({a})"}),
  2: ({"a": "yang"},
      {"pl": "kupione awaryjnie u handlarza za {a}", "en": "bought in an emergency from the merchant for {a}",
       "de": "im Notfall beim Händler gekauft für {a}", "tr": "satıcıdan acil olarak {a} karşılığında alındı"}),
@@ -14245,7 +14732,7 @@ DECISION_ORIGINS = {
       "de": "beim Händler als richtige Waffe gekauft für {a}", "tr": "satıcıdan uygun silah olarak {a} karşılığında alındı"}),
  4: ({"a": "int"},
      {"pl": "ulepszone u kowala z przedmiotu #{a}", "en": "refined at the anvil from item #{a}",
-      "de": "am Amboss verbessert aus Gegenstand #{a}", "tr": "örste #{a} eşyasından yükseltildi"}),
+      "de": "am Amboss verbessert aus Gegenstand #{a}", "tr": "demircide #{a} eşyasından yükseltildi"}),
  5: ({"a": "int"},
      {"pl": "zabrane z lady do założenia (zysk {a})", "en": "taken back from the counter to wear (gain {a})",
       "de": "vom Ladentisch zum Anlegen zurückgenommen (Gewinn {a})", "tr": "giymek için tezgâhtan geri alındı (kazanç {a})"}),
@@ -14254,6 +14741,10 @@ DECISION_ORIGINS = {
  7: ({"a": "int"},
      {"pl": "zrobione przez hazardzistę (rodzaj {a})", "en": "made by a gambler (kind {a})",
       "de": "von einem Glücksspieler gemacht (Art {a})", "tr": "bir kumarbaz yaptı (tür {a})"}),
+ # Iwakura's Patch 20, 4A: ref = the hours it is protected, 0 for good.
+ 8: ({"a": "int"},
+     {"pl": "Prezent od operatora (chroniony {a} h; 0 = na stałe)", "en": "A gift from the operator (protected {a} h; 0 = for good)",
+      "de": "Geschenk des Betreibers (geschützt {a} h; 0 = dauerhaft)", "tr": "Operatörün hediyesi ({a} sa korumalı; 0 = kalıcı)"}),
 }
 
 # What a piece is to its bot (ROLE_* bits).
@@ -14268,8 +14759,8 @@ DECISION_ROLES = {
  128: {"pl": "zapas", "en": "a backup", "de": "Ersatz", "tr": "yedek"},
  256: {"pl": "przedmiot reguły zwojów", "en": "a scroll-rule piece", "de": "Stück der Schriftrollen-Regel", "tr": "parşömen kuralı parçası"},
  512: {"pl": "nagroda", "en": "a prize", "de": "ein Preis", "tr": "ödül"},
- 1024: {"pl": "biżuteria z listy", "en": "a listed jewel", "de": "gelisteter Schmuck", "tr": "listelenmiş takı"},
- 2048: {"pl": "z kamieniami duszy", "en": "with spirit stones", "de": "mit Geiststeinen", "tr": "ruh taşlı"},
+ 1024: {"pl": "biżuteria z listy", "en": "a listed jewel", "de": "gelisteter Schmuck", "tr": "listedeki takı"},
+ 2048: {"pl": "z kamieniami duszy", "en": "with spirit stones", "de": "mit Geiststeinen", "tr": "zihin taşlı"},
  4096: {"pl": "zestaw hazardzisty", "en": "a gamble set", "de": "Glücksspiel-Satz", "tr": "kumar seti"},
  8192: {"pl": "przypięte przez właściciela", "en": "pinned by the owner", "de": "vom Besitzer festgelegt", "tr": "sahibi sabitledi"},
  16384: {"pl": "zakazana słaba broń", "en": "a banned low weapon", "de": "verbotene schwache Waffe", "tr": "yasaklı zayıf silah"},
@@ -14288,11 +14779,11 @@ DECISION_TERMS = {
  5: (1, {"pl": "Rozstrzygnięcie poziomem", "en": "Level tie-break", "de": "Entscheidung nach Level", "tr": "Seviye eşitlik bozucu"}),
  6: (1, {"pl": "Stałe bonusy przedmiotu", "en": "The item's fixed bonuses", "de": "Feste Boni des Gegenstands", "tr": "Eşyanın sabit bonusları"}),
  7: (1, {"pl": "Linie bonusów", "en": "Bonus lines", "de": "Bonuszeilen", "tr": "Bonus satırları"}),
- 8: (1, {"pl": "Kamienie duszy", "en": "Spirit stones", "de": "Geiststeine", "tr": "Ruh taşları"}),
+ 8: (1, {"pl": "Kamienie duszy", "en": "Spirit stones", "de": "Geiststeine", "tr": "Zihin Taşları"}),
  9: (1, {"pl": "Odporności", "en": "Immunities", "de": "Immunitäten", "tr": "Bağışıklıklar"}),
  10: (1, {"pl": "Linie na rasy", "en": "Race lines", "de": "Rassenzeilen", "tr": "Irk satırları"}),
  11: (1, {"pl": "Stopień z listy Iwakury (%)", "en": "Iwakura's tier (%)", "de": "Iwakuras Stufe (%)", "tr": "Iwakura'nın kademesi (%)"}),
- 12: (1, {"pl": "Biżuteria z listy (%)", "en": "Listed jewel (%)", "de": "Gelisteter Schmuck (%)", "tr": "Listelenmiş takı (%)"}),
+ 12: (1, {"pl": "Biżuteria z listy (%)", "en": "Listed jewel (%)", "de": "Gelisteter Schmuck (%)", "tr": "Listedeki takı (%)"}),
  13: (1, {"pl": "Rodzina butów", "en": "Boots family", "de": "Schuhfamilie", "tr": "Ayakkabı ailesi"}),
  14: (1, {"pl": "Wymagany poziom", "en": "Level limit", "de": "Levelgrenze", "tr": "Seviye sınırı"}),
  15: (1, {"pl": "Plus", "en": "Plus", "de": "Plus", "tr": "Artı"}),
@@ -14407,6 +14898,7 @@ DECISION_CODE_NAMES = {
  "ORIGIN": {
   0: "ORIGIN_UNKNOWN", 1: "ORIGIN_NPC_LADDER", 2: "ORIGIN_NPC_EMERGENCY", 3: "ORIGIN_NPC_PROPER_WEAPON",
   4: "ORIGIN_REFINED", 5: "ORIGIN_RECLAIMED", 6: "ORIGIN_SAFEBOX", 7: "ORIGIN_GAMBLER",
+  8: "ORIGIN_OPERATOR_GIFT",
  },
  "ROLE": {
   1: "ROLE_LEVEL30_FAMILY", 2: "ROLE_CLASS_LEVEL30", 4: "ROLE_LEVEL30_PROJECT", 8: "ROLE_LINES_PROJECT",
@@ -14458,7 +14950,7 @@ DECISION_ANOMALIES = {
                 "tr": "elde bir alet varken yedek olarak tezgâha kondu ({a})"},
  "worn_listed": {"pl": "noszony przedmiot trafił na własną ladę bota", "en": "the worn piece went on the bot's own counter",
                  "de": "das getragene Stück kam auf den eigenen Ladentisch des Bots",
-                 "tr": "giyili parça botun kendi tezgâhına kondu"},
+                 "tr": "kuşanılmış parça botun kendi tezgâhına kondu"},
 }
 # A rod (27400..27599 on mt2009) or a pickaxe (29101..29199) in the weapon slot.
 DECISION_TOOL_RANGES = ((27400, 27599), (29101, 29199))
@@ -14575,10 +15067,10 @@ REFINE_WAY_LABELS = {
     "DEVILTOWER": {"pl": "Kowal w Wieży Demonów", "en": "Demon Tower blacksmith", "de": "Schmied im Dämonenturm", "tr": "Şeytan Kulesi'ndeki demirci"},
     "SCROLL":     {"pl": "zwój",                  "en": "scroll", "de": "Schriftrolle", "tr": "parşömen"},
     # The names r40250's DoRefineWithScroll writes into the same column.
-    "HYUNIRON":      {"pl": "Magiczny Kamień",    "en": "Magic Stone", "de": "Magischer Stein", "tr": "Büyülü Taş"},
-    "GOD_SCROLL":    {"pl": "Zwój Boga Smoków",   "en": "Dragon God scroll", "de": "Drachengott-Schriftrolle", "tr": "Ejderha Tanrısı Parşömeni"},
+    "HYUNIRON":      {"pl": "Magiczny Kamień",    "en": "Magic Stone", "de": "Magischer Stein", "tr": "Büyülü Metal"},
+    "GOD_SCROLL":    {"pl": "Zwój Boga Smoków",   "en": "Dragon God scroll", "de": "Drachengott-Schriftrolle", "tr": "Ejderha Parşömeni"},
     "MUSIN_SCROLL":  {"pl": "Zwój Boga Wojny",    "en": "War God scroll", "de": "Kriegsgott-Schriftrolle", "tr": "Savaş Tanrısı Parşömeni"},
-    "YAGONG_SCROLL": {"pl": "Podręcznik Kowala",  "en": "Blacksmith's handbook", "de": "Schmiedehandbuch", "tr": "Demirci El Kitabı"},
+    "YAGONG_SCROLL": {"pl": "Podręcznik Kowala",  "en": "Blacksmith's handbook", "de": "Schmiedehandbuch", "tr": "Demircinin El Kitabı"},
     "SOCKET":        {"pl": "gniazdo",            "en": "socket", "de": "Slot", "tr": "yuva"},
 }
 REFINE_HOWS = ("REFINE SUCCESS", "REFINE FAIL", "REMOVE (REFINE FAIL)")
@@ -14754,6 +15246,10 @@ def localized_mob_name(vnum, language=None):
         if len(_MOB_NAMES) < 8192:
             _MOB_NAMES[vnum] = (name, time.time(), official, level)
         known = (name, time.time(), official, level)
+    if known and language == "tr" and known[0]:
+        name_tr = turkish_game_name("m", vnum, known[0])   # Turkish patch
+        if name_tr:
+            return name_tr
     if known and reads_english(language) and len(known) > 2 and known[2]:
         return known[2]
     return (known[0] if known else "") or map_i18n(language)["ex_mob_n"].format(n=vnum)
@@ -15360,19 +15856,15 @@ def api_bot_gear_history(pid):
     # Only the lines that carry an explanation whose flags are unusual (the
     # rules header's masks) - the card's "Tylko nietypowe".
     unusual = request.args.get("unusual", "") in ("1", "true", "on")
-    hows = list(GEAR_HISTORY_TABS[tab]) if tab in GEAR_HISTORY_TABS else list(GEAR_HISTORY_HOWS.keys())
+    if tab == "other":
+        tab = "decisions"   # saved links from older panels
+    hows = list(GEAR_HISTORY_TABS["other"] if tab == "decisions" else GEAR_HISTORY_TABS[tab]) if tab in GEAR_HISTORY_TABS or tab == "decisions" else list(GEAR_HISTORY_HOWS.keys())
     marks = ",".join(["%s"] * len(hows))
     try:
         with db() as c, c.cursor() as cur:
             # The decisions tab: what the core explained, equipment and counter
             # lines together. The explanations are mt2009's alone; r40250 shows
             # none and asks for none.
-            if tab == "decisions":
-                if not ENGINE_MT2009:
-                    return jsonify({"ok": True, "pid": pid, "tab": tab, "rows": [], "explain_state": "off"})
-                entries, state = gear_history_decisions(cur, pid, limit, unusual, language, messages, lang_key)
-                return jsonify({"ok": True, "pid": pid, "tab": tab, "rows": [row for _, row in entries],
-                                "explain_state": state})
             # `who` is indexed; the IN list keeps the loot noise (GET, SET_SOCKET,
             # GET_GOLD - millions of rows) out of the scan. `what` is the item's
             # id, which is how an equip line finds its explanation.
@@ -15443,7 +15935,7 @@ def api_bot_gear_history(pid):
                     "detail": detail,
                 }))
             explain_state = "off"
-            if ENGINE_MT2009 and tab in ("other", "all"):
+            if ENGINE_MT2009 and tab in ("decisions", "all"):
                 # The explanations of the equip lines, and the decisions that
                 # have no line of log.log (log.playerbot_equip, pid_time_idx).
                 equip_rows, explain_state = _explain_rows(
@@ -15452,6 +15944,12 @@ def api_bot_gear_history(pid):
                 times = [r.get("time") for r in raw if hasattr(r.get("time"), "strftime")]
                 floor = min(times) if len(raw) >= limit and times else None
                 attach_equip_explanations(rows, equip_log, equip_rows, floor, language, messages, lang_key)
+            if ENGINE_MT2009 and tab == "decisions":
+                listing_rows, listing_state = _explain_rows(cur,
+                    "SELECT * FROM log.playerbot_listing WHERE pid = %s ORDER BY last_at DESC LIMIT %s", (pid, limit))
+                attach_marble_monsters(cur, listing_rows)
+                rows += [gear_history_listing_entry(r, language, messages) for r in listing_rows]
+                explain_state = _explain_state(explain_state, listing_state)
             if unusual:
                 rows = [e for e in rows if e[1].get("unusual")]
             if tab in ("trade", "all"):
@@ -20253,7 +20751,11 @@ def api_bot_rankings():
                            i.attrtype6, i.attrvalue6
                     FROM player.item i
                     JOIN player.player p ON p.id = i.owner_id
-                    WHERE <<RANKED_P_2>> AND i.window IN ('INVENTORY', 'EQUIPMENT') AND (
+                    JOIN player.item_proto ip ON ip.vnum = i.vnum
+                    WHERE <<RANKED_P_2>> AND i.window IN ('INVENTORY', 'EQUIPMENT')
+                      -- Iwakura's Patch 20, 4E.3: the families' own level-30
+                      -- weapons, by item_proto's level limit, not by the range.
+                      AND (CASE WHEN ip.limittype0 = 1 THEN ip.limitvalue0 WHEN ip.limittype1 = 1 THEN ip.limitvalue1 ELSE 0 END) = 30 AND (
                         (i.vnum BETWEEN 290 AND 299) OR
                         (i.vnum BETWEEN 1170 AND 1179) OR
                         (i.vnum BETWEEN 2150 AND 2159) OR
@@ -20271,7 +20773,9 @@ def api_bot_rankings():
                     LEFT JOIN player.item i ON p.id = i.owner_id AND i.window = 'EQUIPMENT' AND i.pos = 4
                     LEFT JOIN player.item_proto ip ON ip.vnum = i.vnum
                     WHERE <<RANKED_P_2>>
-                    ORDER BY (CASE WHEN ip.limittype0 = 1 THEN ip.limitvalue0 WHEN ip.limittype1 = 1 THEN ip.limitvalue1 ELSE 0 END) DESC, MOD(i.vnum, 10) DESC, i.vnum DESC, p.level DESC
+                    -- Iwakura's Patch 20, 4E.1: the plus first, then the item's
+                    -- level, then the character's.
+                    ORDER BY MOD(i.vnum, 10) DESC, (CASE WHEN ip.limittype0 = 1 THEN ip.limitvalue0 WHEN ip.limittype1 = 1 THEN ip.limitvalue1 ELSE 0 END) DESC, i.vnum DESC, p.level DESC
                     LIMIT %s
                 """, people_only), (rank_limit,))
             elif rtype == "armor":
@@ -20281,7 +20785,7 @@ def api_bot_rankings():
                     LEFT JOIN player.item i ON p.id = i.owner_id AND i.window = 'EQUIPMENT' AND i.pos = 0
                     LEFT JOIN player.item_proto ip ON ip.vnum = i.vnum
                     WHERE <<RANKED_P_2>>
-                    ORDER BY (CASE WHEN ip.limittype0 = 1 THEN ip.limitvalue0 WHEN ip.limittype1 = 1 THEN ip.limitvalue1 ELSE 0 END) DESC, MOD(i.vnum, 10) DESC, i.vnum DESC, p.level DESC
+                    ORDER BY MOD(i.vnum, 10) DESC, (CASE WHEN ip.limittype0 = 1 THEN ip.limitvalue0 WHEN ip.limittype1 = 1 THEN ip.limitvalue1 ELSE 0 END) DESC, i.vnum DESC, p.level DESC
                     LIMIT %s
                 """, people_only), (rank_limit,))
             elif rtype == "items":
@@ -20349,11 +20853,15 @@ def api_bot_rankings():
                 live = read_playerbot_live_status()
                 cur.execute(ranking_sql("""
                     SELECT p.id, p.name, p.level, p.job, p.gold,
-                           s.map AS stall_map_index
+                           s.map AS stall_map_index,
+                           (SELECT COUNT(*) FROM player.item li
+                             WHERE li.owner_id = s.owner AND li.`window` = 'IKASHOP_OFFLINESHOP'
+                               AND li.ikashop_data IS NOT NULL AND li.ikashop_data <> '') AS item_count
                     FROM player.ikashop_offlineshop s
                     JOIN player.player p ON p.id = s.owner
                     WHERE s.duration > 0 AND <<RANKED_P_2>>
-                    ORDER BY p.level DESC
+                    -- Iwakura's Patch 20, 4E.4: the fullest counter first.
+                    ORDER BY item_count DESC, p.level DESC
                     LIMIT %s
                 """, people_only), (rank_limit,))
             elif rtype == "shops":
@@ -20414,7 +20922,7 @@ def api_bot_rankings():
                     WHERE <<RANKED_P_2>> AND i.window IN ('INVENTORY', 'EQUIPMENT')
                       AND ip.type IN (1, 2)
                       AND MOD(i.vnum, 10) = 9
-                    ORDER BY i.vnum DESC, p.level DESC
+                    ORDER BY (CASE WHEN ip.limittype0 = 1 THEN ip.limitvalue0 WHEN ip.limittype1 = 1 THEN ip.limitvalue1 ELSE 0 END) DESC, p.level DESC, i.vnum DESC
                     LIMIT %s
                 """, people_only), (rank_limit,))
             else: # level
@@ -20560,7 +21068,8 @@ def api_bot_rankings():
                     "sr": sr,
                     "um": um,
                     "armor_name": a_name,
-                    "item_count": r.get("item_count", 0),
+                    # A classic stall (r40250) has no count of its lines: None, not 0.
+                    "item_count": r.get("item_count", None if rtype == "shops" else 0),
                     "horse_level": r.get("horse_level", 0),
                     "biologist_completed": bio_completed,
                     "biologist_label": bio_label,
@@ -20582,7 +21091,8 @@ def api_bot_rankings():
                 # Every such weapon is read and the best are kept: the query cut
                 # to the newest rank_limit first, so the ranking was the best of
                 # the newest weapons, not the best (B26 of Iwakura's audit).
-                rankings.sort(key=lambda x: (x["sr"], x["um"], x["level"]), reverse=True)
+                # Iwakura's Patch 20, 4E.3: the average, the skill damage, the plus.
+                rankings.sort(key=lambda x: (x["sr"], x["um"], int(x["weapon_vnum"] or 0) % 10), reverse=True)
                 rankings = rankings[:rank_limit]
             elif rtype == "skills":
                 # Ordered here rather than in SQL: the grade comes out of the
@@ -21868,8 +22378,10 @@ def events_page():
     status_stale = not status
     hex_card = None
     if HEXAGONAL_EVENT:
-        # No core writes this kind's status: the panel works it out from the
-        # same rows and line the quest reads.
+        # The panel works this kind's status out from the same rows and line
+        # the quest reads. Since 2.2.102 the events leader writes a row of it
+        # too (it judges the kind to announce it on the chat), but a core from
+        # before that wrote none, so the panel's own answer stands.
         status["hexagonal"] = event_status_texts(_hexagonal.status(rows, nows))
         hex_card = hexagonal_card()
     return render_template_string(TPL_EVENTS, rows=shown, nows=nows, kinds=EVENT_KINDS,
@@ -21939,6 +22451,7 @@ def ai_weights():
             vals["HAGGLE"] = 1 if request.form.get("HAGGLE") else 0
             vals["SHOP_ROOM_SELL"] = 1 if request.form.get("SHOP_ROOM_SELL") else 0
             vals["QUESTS"] = 1 if request.form.get("QUESTS") else 0
+            vals["BOT_QUESTS_OFF"] = 1 if request.form.get("BOT_QUESTS_OFF") else 0
             try:
                 vals["QUEST_FOCUS"] = max(0, min(100, int(request.form.get("QUEST_FOCUS",
                                                                            old.get("QUEST_FOCUS", QUEST_FOCUS_DEFAULT)))))
@@ -21952,6 +22465,7 @@ def ai_weights():
             vals["SHOP_ROOM_SELL"] = old.get("SHOP_ROOM_SELL", 1)
             vals["QUESTS"] = old.get("QUESTS", 1)
             vals["QUEST_FOCUS"] = old.get("QUEST_FOCUS", QUEST_FOCUS_DEFAULT)
+            vals["BOT_QUESTS_OFF"] = old.get("BOT_QUESTS_OFF", 0)
         # A quest taken from the bots by hand (QUEST_OFF_<quest>) has no box:
         # the file's lines stay as they are.
         for key, value in old.items():
@@ -23123,12 +23637,14 @@ def dash():
                 p["state_text"] = t("ss_list_in").format(channel=value)
             elif kind == "rest":
                 p["state_text"] = t("ss_list_rest").format(until=fmt_session_moment(value, now))
+            elif kind == "retired":
+                p["state_text"] = t("ss_list_retired")
             elif kind == "out":
                 p["state_text"] = t("ss_list_out")
             else:
                 p["state_text"] = ""
         if bots_only:
-            order = {"in": 0, "rest": 1, "out": 2}
+            order = {"in": 0, "rest": 1, "out": 2, "retired": 3}
             players = sorted(players, key=lambda p: order.get(p["state"], 3))
             bot_counts = {"total": len(players),
                           "in_game": sum(1 for p in players if p["state"] == "in"),
@@ -23351,11 +23867,17 @@ def bot_list_states(cur, pids):
     if ENGINE_MT2009 and pids:
         rows, _state = _explain_rows(
             cur, "SELECT pid, MAX(rest_until) AS rest_until FROM log.playerbot_session "
-                 "WHERE rest_until > NOW() AND logout_reason = %s GROUP BY pid", (SESSION_LOGOUT_REST,))
+                 "WHERE rest_until > NOW() AND logout_reason IN (%s,8) GROUP BY pid", (SESSION_LOGOUT_REST,))
         resting = {int(r["pid"]): r["rest_until"] for r in rows if r.get("pid")}
+    retired = set()
+    if ENGINE_MT2009:
+        marked, _ = _explain_rows(cur,"SELECT dwPID AS pid FROM player.quest WHERE szName='playerbot' AND szState='retired' AND lValue=1", ())
+        retired = {int(row["pid"]) for row in marked}
     out = {}
     for pid in pids:
-        if pid in live:
+        if pid in retired:
+            out[pid] = ("retired", None)
+        elif pid in live:
             out[pid] = ("in", live[pid].get("channel") or 1)
         elif pid in resting:
             out[pid] = ("rest", resting[pid])
@@ -23388,11 +23910,11 @@ EXP_OVERRIDE_FLAG = ("playerbot", "exp_unlocked")
 EXP_OVERRIDE_WAIT = 8.0
 
 T.update({
-    "xl_title": {"pl": "Doświadczenie (EXP)", "en": "Experience (EXP)", "de": "Erfahrung (EXP)", "tr": "Deneyim (EXP)"},
+    "xl_title": {"pl": "Doświadczenie (EXP)", "en": "Experience (EXP)", "de": "Erfahrung (EXP)", "tr": "Tecrübe (EXP)"},
     "xl_blocked": {"pl": "Exp zablokowany: bot nie zdobywa doświadczenia", "en": "EXP blocked: the bot gains no experience",
-                   "de": "EXP gesperrt: der Bot sammelt keine Erfahrung", "tr": "EXP kilitli: bot deneyim kazanmıyor"},
+                   "de": "EXP gesperrt: der Bot sammelt keine Erfahrung", "tr": "EXP kilitli: bot tecrübe kazanmıyor"},
     "xl_free": {"pl": "Exp leci: bot zdobywa doświadczenie", "en": "EXP flows: the bot gains experience",
-                "de": "EXP läuft: der Bot sammelt Erfahrung", "tr": "EXP akıyor: bot deneyim kazanıyor"},
+                "de": "EXP läuft: der Bot sammelt Erfahrung", "tr": "EXP akıyor: bot tecrübe kazanıyor"},
     "xl_unknown": {"pl": "Nie wiadomo, czy exp jest zablokowany", "en": "Whether EXP is blocked is not known",
                    "de": "Ob EXP gesperrt ist, ist nicht bekannt", "tr": "EXP'nin kilitli olup olmadığı bilinmiyor"},
     "xl_saved": {"pl": "bota nie ma w grze; stan z ostatniego zapisu postaci",
@@ -23408,7 +23930,7 @@ T.update({
     "xl_override_off": {"pl": "Bez zmiany operatora: o blokadzie decyduje osobowość.",
                         "en": "No operator override: its personality decides the lock.",
                         "de": "Keine Vorgabe des Betreibers: über die Sperre entscheidet seine Persönlichkeit.",
-                        "tr": "Operatör müdahalesi yok: kilide kişiliği karar veriyor."},
+                        "tr": "Operatör müdahalesi yok: kilit kararını kişiliği veriyor."},
     "xl_pending_EXPUNLOCK": {"pl": "Odblokowanie czeka na wejście bota do gry (zlecone {when}).",
                              "en": "The unlock waits for the bot to come into the game (asked {when}).",
                              "de": "Die Entsperrung wartet, bis der Bot ins Spiel kommt (angefordert {when}).",
@@ -23427,9 +23949,7 @@ T.update({
                       "(ein Grinder an der Sperre seiner Stufe, ein Dropper in seinem Band). „Sperre wiederherstellen“ gibt "
                       "die Entscheidung an seine Persönlichkeit zurück. Die Änderung macht der Kern, auf dem der Bot spielt; "
                       "ein Bot außerhalb des Spiels bekommt sie, sobald er hineinkommt.",
-                "tr": "\"EXP kilidini aç\", kişiliği onu tutacak olsa da (kademesinin kilidindeki bir Grinder, kendi "
-                      "aralığındaki bir dropper) botun deneyim kazanmasını sağlar. \"Kilidi geri yükle\" kararı kişiliğine "
-                      "geri verir. Değişikliği botun oynadığı çekirdek yapar; oyunda olmayan bot girdiğinde alır."},
+                "tr": "\"EXP kilidini aç\", kişiliği botu tutacak olsa bile (kademesinin kilidindeki bir Kasıcı ya da kendi seviye aralığındaki bir farmcı) botun tecrübe kazanmasını sağlar. \"Kilidi geri yükle\" kararı kişiliğine geri verir. Değişikliği botun oynadığı çekirdek yapar; oyunda olmayan bot, oyuna girdiğinde değişikliği alır."},
     "xl_unlock": {"pl": "Odblokuj exp", "en": "Unlock EXP", "de": "EXP entsperren", "tr": "EXP kilidini aç"},
     "xl_restore": {"pl": "Przywróć blokadę", "en": "Restore the lock", "de": "Sperre wiederherstellen", "tr": "Kilidi geri yükle"},
     "xl_companion": {"pl": "Towarzysz gracza: jego exp zależy od Pierścienia Anty-Exp właściciela i jego własnego limitu, nie od panelu.",
@@ -23439,7 +23959,7 @@ T.update({
     "xl_done_EXPUNLOCK": {"pl": "✅ {name}: exp odblokowany, bot zdobywa doświadczenie.",
                           "en": "✅ {name}: EXP unlocked, the bot gains experience.",
                           "de": "✅ {name}: EXP entsperrt, der Bot sammelt Erfahrung.",
-                          "tr": "✅ {name}: EXP kilidi açıldı, bot deneyim kazanıyor."},
+                          "tr": "✅ {name}: EXP kilidi açıldı, bot tecrübe kazanıyor."},
     "xl_done_EXPLOCK": {"pl": "✅ {name}: blokada przywrócona, decyduje osobowość.",
                         "en": "✅ {name}: the lock is restored, its personality decides.",
                         "de": "✅ {name}: Sperre wiederhergestellt, seine Persönlichkeit entscheidet.",
@@ -23451,7 +23971,7 @@ T.update({
     "xl_applying": {"pl": "⏳ Rdzeń bota {name} właśnie to wykonuje; odśwież stronę za chwilę.",
                     "en": "⏳ The core of {name} is applying it right now; reload the page in a moment.",
                     "de": "⏳ Der Kern von {name} führt es gerade aus; lade die Seite gleich neu.",
-                    "tr": "⏳ {name} botunun çekirdeği bunu şu anda uyguluyor; sayfayı birazdan yenileyin."},
+                    "tr": "⏳ {name} botunun çekirdeği bunu şu anda uyguluyor; sayfayı birazdan yenile."},
     "xl_not_allowed": {"pl": "Panel nie zmienia blokady exp tej postaci: to nie jest bot z rejestru albo to towarzysz gracza.",
                        "en": "The panel does not change this character's EXP lock: it is not a registered bot, or it is a player's companion.",
                        "de": "Das Panel ändert die EXP-Sperre dieser Figur nicht: Sie ist kein registrierter Bot oder der Begleiter eines Spielers.",
@@ -23459,10 +23979,10 @@ T.update({
     "xl_not_here": {"pl": "Blokadę exp botów ma tylko linia 2.x (mt2009).",
                     "en": "Only the 2.x line (mt2009) has the bots' EXP lock.",
                     "de": "Nur die 2.x-Linie (mt2009) hat die EXP-Sperre der Bots.",
-                    "tr": "Botların EXP kilidi yalnızca 2.x hattında (mt2009) vardır."},
+                    "tr": "Botların EXP kilidi yalnızca 2.x serisinde (mt2009) vardır."},
     "xl_list_blocked": {"pl": "exp zablokowany", "en": "EXP blocked", "de": "EXP gesperrt", "tr": "EXP kilitli"},
     "xl_list_unlocked": {"pl": "exp odblokowany przez operatora", "en": "EXP unlocked by the operator",
-                         "de": "EXP vom Betreiber entsperrt", "tr": "EXP operatör tarafından açıldı"},
+                         "de": "EXP vom Betreiber entsperrt", "tr": "EXP kilidi operatör tarafından açıldı"},
     # Iwakura's Patch 14, point 4: the M2 dropper Warrior's card.
     "m2w_title": {"pl": "Rola", "en": "Role", "de": "Rolle", "tr": "Rol"},
     "m2w_role": {"pl": "Dropek M2 (Wojownik)", "en": "M2 dropper (Warrior)", "de": "M2-Farmer (Krieger)",
@@ -23471,25 +23991,22 @@ T.update({
                  "en": "M2 dropper (Warrior) - role finished, plays as an ordinary bot",
                  "de": "M2-Farmer (Krieger) - Rolle abgeschlossen, spielt als gewöhnlicher Bot",
                  "tr": "M2 farmcısı (Savaşçı) - rol tamamlandı, sıradan bir bot olarak oynuyor"},
-    "m2w_help": {"pl": "Wojownik Ciała trzymany na 35 poziomie z koniem bojowym: bije tylko Metiny i Bestie w M2 "
+    "m2w_help": {"pl": "Wojownik Ciała trzymany na 35 poziomie (na koniu bojowym tylko wtedy, gdy zdobył go medalami i misją na pustyni; inaczej pieszo): bije tylko Metiny i Bestie w M2 "
                        "swojego królestwa i wystawia drop na sklep. Rolę kończą broń 30 lvl, zbroja, tarcza 21 lvl "
                        "i hełm 21 lvl - wszystkie na +8; wtedy blokada expa znika, a rolę bierze kolejny bot.",
-                 "en": "A Body Warrior held at level 35 on a battle horse: it breaks only the Metins and the Bestials "
+                 "en": "A Body Warrior held at level 35 (on a battle horse only if it earned one with medals and the desert trial; on foot otherwise): it breaks only the Metins and the Bestials "
                        "of its kingdom's M2 and lists the drop on its counter. A level-30 weapon, an armour, a "
                        "level-21 shield and a level-21 helmet, all at +8, end the role; then the EXP lock goes and "
                        "the next bot takes the place.",
-                 "de": "Ein Körper-Krieger, auf Level 35 gehalten, auf einem Kampfpferd: er zerschlägt nur die Metins "
+                 "de": "Ein Körper-Krieger, auf Level 35 gehalten (auf einem Kampfpferd nur, wenn er es mit Medaillen und der Wüstenprüfung verdient hat; sonst zu Fuß): er zerschlägt nur die Metins "
                        "und Bestien der M2 seines Reichs und stellt die Beute in seinen Laden. Eine Level-30-Waffe, "
                        "eine Rüstung, ein Level-21-Schild und ein Level-21-Helm, alle auf +8, beenden die Rolle; dann "
                        "fällt die EXP-Sperre und der nächste Bot übernimmt.",
-                 "tr": "35. seviyede tutulan, savaş atlı bir Beden Savaşçısı: yalnızca krallığının M2'sindeki "
-                       "Metinleri ve Yırtıcıları kırar ve ganimeti tezgahına koyar. Hepsi +8 olan 30. seviye bir "
-                       "silah, bir zırh, 21. seviye bir kalkan ve 21. seviye bir miğfer rolü bitirir; o zaman EXP "
-                       "kilidi kalkar ve yerini sıradaki bot alır."},
+                 "tr": "35. seviyede tutulan bir Bedensel Savaşçı (savaş atına yalnızca onu madalyonlarla ve çöl göreviyle kazandıysa biner; yoksa yaya gezer): yalnızca krallığının M2'sindeki Metin taşlarını kırar, Vahşi canavarları keser ve düşenleri tezgâhına koyar. Hepsi +8 olan 30. seviye bir silah, bir zırh, 21. seviye bir kalkan ve 21. seviye bir kask rolü bitirir; o zaman EXP kilidi kalkar ve yerini sıradaki bot alır."},
 })
 
 for _lang, _text in {"pl": "exp odblokowany przez operatora", "en": "EXP unlocked by the operator",
-                     "de": "EXP vom Betreiber entsperrt", "tr": "EXP operatör tarafından açıldı"}.items():
+                     "de": "EXP vom Betreiber entsperrt", "tr": "EXP kilidi operatör tarafından açıldı"}.items():
     MAP_I18N[_lang]["exp_unlocked_op"] = _text
 
 
@@ -23608,7 +24125,7 @@ def bot_exp_marks(cur, pids):
     return marks
 
 
-def queue_bot_exp_override(name, cmd, wait=EXP_OVERRIDE_WAIT):
+def queue_bot_exp_override(name, cmd, wait=EXP_OVERRIDE_WAIT, arg1=""):
     """Queue EXPUNLOCK or EXPLOCK for a bot as an 'await' row and wait for the
     bot's core to answer - (status, row id). The status is a word of
     QUEUE_FINAL_STATUSES, 'await' when no core has taken it yet (the bot is
@@ -23619,8 +24136,9 @@ def queue_bot_exp_override(name, cmd, wait=EXP_OVERRIDE_WAIT):
         # One request a bot: whatever still waits is the older word.
         cur.execute("UPDATE player.web_admin_queue SET status='cancelled' WHERE player_name=%s "
                     "AND cmd IN ('EXPUNLOCK','EXPLOCK') AND status IN ('pending','await')", (name,))
+        # EXPLOCK's arg1 is the level the card holds the bot at (Patch 20, 4B).
         cur.execute("INSERT INTO player.web_admin_queue (player_name,cmd,arg1,arg2,status) "
-                    "VALUES (%s,%s,'','','await')", (name, cmd))
+                    "VALUES (%s,%s,%s,'','await')", (name, cmd, arg1))
         qid = cur.lastrowid
     status = "await"
     deadline = time.time() + wait
@@ -23681,6 +24199,167 @@ def bot_exp_lock(pid):
     else:
         flash(t("act_error").format(status=status), "error")
     return redirect(url_for("player", pid=pid) + "#exp")
+
+
+# ---------------------------------------------------------------------------
+# Iwakura's Patch 20, points 4A and 4B: the bot card's "Wyslij przedmiot" and
+# "Odblokuj / Zablokuj expa" on the map (openBotModal). Both are the queue's
+# own commands with the bots' core as their only reader:
+#   * ITEM, one row per piece that does not stack (1-20) or one row of 1-200
+#     for a stack - the command Fun's "item for every bot" uses - queued as
+#     'await', so a bot out of the world gets it when it loads (no
+#     web_admin.quest timer and no grants worker reads 'await'); the core
+#     marks the gift (24 h of protection, playerbot_admin_grants.h) and the
+#     operator may cancel what still waits ('cancelled').
+#   * EXPUNLOCK, and EXPLOCK with the bot's level in arg1: held there by the
+#     operator over its personality (playerbot.exp_oplock).
+# A companion is its owner's (the Anti-Exp Ring) and a medal dropper or the M2
+# dropper Warrior keeps its level while its role lasts: no button for them.
+# ---------------------------------------------------------------------------
+CARD_ITEM_STACK_MAX = 200
+CARD_ITEM_SINGLE_MAX = 20
+ITEM_FLAG_STACKABLE = 4          # item_length.h: ITEM_FLAG_STACKABLE = (1 << 2)
+
+
+def card_bot_row(cur, pid):
+    """The registered bot behind a card, or None for a person."""
+    cur.execute(bot_sql("SELECT p.id, p.name, p.level, <<BOT_P_2>> AS bot FROM player.player p WHERE p.id = %s"), (pid,))
+    row = cur.fetchone()
+    if not row or not int(row.get("bot") or 0):
+        return None
+    return row
+
+
+def card_exp_state(cur, p):
+    """What the card's EXP button may do: (view, mode, why). mode is
+    "unlock", "lock" or "" and why the reason a button is greyed."""
+    view = bot_exp_view(cur, p)
+    if view is None:
+        return None, "", "not_here"
+    live = read_playerbot_live_status().get(int(p["id"])) or {}
+    if view["companion"]:
+        return view, "", "companion"
+    m2w = view.get("m2w")
+    if live.get("personality_id") in BOT_DROPPER_PERSONALITIES or (m2w and not m2w.get("done")):
+        return view, "", "dropper"
+    if view["pending"]:
+        return view, "", "pending"
+    if view["unlocked"]:
+        return view, "lock", ""
+    if view["blocked"] or (view["lock_level"] or 0) > 0:
+        return view, "unlock", ""
+    return view, "", "free"
+
+
+@app.route("/api/bot_card_actions/<int:pid>")
+@login_required
+def api_bot_card_actions(pid):
+    try:
+        with db() as c, c.cursor() as cur:
+            p = card_bot_row(cur, pid)
+            if p is None:
+                return jsonify({"ok": True, "bot": False})
+            view, mode, why = card_exp_state(cur, p)
+            cur.execute("SELECT id, arg1, arg2, status FROM player.web_admin_queue WHERE player_name=%s AND cmd='ITEM' "
+                        "AND status NOT IN ('done','cancelled') ORDER BY id DESC LIMIT 20", (p["name"],))
+            items = [{"id": int(r["id"]), "vnum": int(r["arg1"] or 0), "qty": int(r["arg2"] or 0),
+                      "status": str(r["status"])} for r in cur.fetchall()]
+    except Exception as exc:
+        return jsonify({"ok": False, "error": str(exc)[:200]})
+    # Only the 2.x line's cores serve a bot's 'await' rows (playerbot_admin_grants.h).
+    return jsonify({"ok": True, "bot": True, "send": bool(ENGINE_MT2009),
+                    "level": int(p["level"] or 0), "name": p["name"],
+                    "exp": {"mode": mode, "why": why,
+                            "online": bool(view and view["online"]),
+                            "pending": (view or {}).get("pending")},
+                    "items": items})
+
+
+@app.route("/api/bot_send_item/<int:pid>", methods=["POST"])
+@login_required
+def api_bot_send_item(pid):
+    try:
+        vnum = int(request.form.get("vnum", ""))
+        qty = int(request.form.get("qty", "1"))
+    except (TypeError, ValueError):
+        return jsonify({"ok": False, "error": "bad_args"}), 400
+    if not ENGINE_MT2009:
+        return jsonify({"ok": False, "error": "not_here"}), 409
+    if vnum <= 0 or qty <= 0 or qty > CARD_ITEM_STACK_MAX:
+        return jsonify({"ok": False, "error": "qty_range"}), 400
+    try:
+        with db() as c, c.cursor() as cur:
+            p = card_bot_row(cur, pid)
+            if p is None:
+                return jsonify({"ok": False, "error": "not_a_bot"}), 409
+            cur.execute("SELECT vnum, flag FROM player.item_proto WHERE vnum=%s", (vnum,))
+            proto = cur.fetchone()
+            if not proto:
+                return jsonify({"ok": False, "error": "no_such_item"}), 400
+            stacks = bool(int(proto.get("flag") or 0) & ITEM_FLAG_STACKABLE)
+            if not stacks and qty > CARD_ITEM_SINGLE_MAX:
+                return jsonify({"ok": False, "error": "qty_single", "max": CARD_ITEM_SINGLE_MAX}), 400
+            rows = [(p["name"], str(vnum), str(qty if stacks else 1))] * (1 if stacks else qty)
+            ids = []
+            for row in rows:
+                cur.execute("INSERT INTO player.web_admin_queue (player_name,cmd,arg1,arg2,status) "
+                            "VALUES (%s,'ITEM',%s,%s,'await')", row)
+                ids.append(int(cur.lastrowid))
+    except Exception as exc:
+        app.logger.exception("card item for %s", pid)
+        return jsonify({"ok": False, "error": str(exc)[:200]})
+    app.logger.info("card item pid=%s vnum=%s qty=%s rows=%s", pid, vnum, qty, ids)
+    return jsonify({"ok": True, "ids": ids, "stacks": stacks})
+
+
+@app.route("/api/bot_send_item_status")
+@login_required
+def api_bot_send_item_status():
+    try:
+        ids = [int(x) for x in request.args.get("ids", "").split(",") if x.strip()][:20]
+    except ValueError:
+        return jsonify({"ok": False, "error": "bad_args"}), 400
+    if not ids:
+        return jsonify({"ok": True, "rows": []})
+    with db() as c, c.cursor() as cur:
+        cur.execute("SELECT id, status FROM player.web_admin_queue WHERE cmd='ITEM' AND id IN ("
+                    + ",".join(["%s"] * len(ids)) + ")", tuple(ids))
+        rows = [{"id": int(r["id"]), "status": str(r["status"])} for r in cur.fetchall()]
+    return jsonify({"ok": True, "rows": rows})
+
+
+@app.route("/api/bot_send_item_cancel/<int:qid>", methods=["POST"])
+@login_required
+def api_bot_send_item_cancel(qid):
+    # Only what still waits: a row a core has claimed ("w...") is on its way.
+    with db() as c, c.cursor() as cur:
+        cur.execute("UPDATE player.web_admin_queue SET status='cancelled' WHERE id=%s AND cmd='ITEM' "
+                    "AND status='await'", (qid,))
+        done = cur.rowcount == 1
+    return jsonify({"ok": done})
+
+
+@app.route("/api/bot_card_exp/<int:pid>", methods=["POST"])
+@login_required
+def api_bot_card_exp(pid):
+    mode = request.form.get("mode", "")
+    if mode not in ("unlock", "lock") or not ENGINE_MT2009:
+        return jsonify({"ok": False, "error": "bad_args"}), 400
+    try:
+        with db() as c, c.cursor() as cur:
+            p = card_bot_row(cur, pid)
+            if p is None:
+                return jsonify({"ok": False, "error": "not_a_bot"}), 409
+            view, allowed, why = card_exp_state(cur, p)
+        if allowed != mode:
+            return jsonify({"ok": False, "error": why or "not_allowed"}), 409
+        cmd = "EXPUNLOCK" if mode == "unlock" else "EXPLOCK"
+        status, qid = queue_bot_exp_override(p["name"], cmd, arg1=str(int(p["level"] or 0)) if mode == "lock" else "")
+    except Exception as exc:
+        app.logger.exception("card exp for %s", pid)
+        return jsonify({"ok": False, "error": str(exc)[:200]})
+    app.logger.info("card exp pid=%s cmd=%s queue_id=%s status=%s", pid, cmd, qid, status)
+    return jsonify({"ok": True, "status": status, "id": qid})
 
 
 # ---------------------------------------------------------------------------
@@ -23748,8 +24427,7 @@ T.update({
                           "or in storage). Nothing was deleted.",
                     "de": "{item}: {name} hat diesen Gegenstand weder im Inventar noch angelegt (verkauft, verbraucht, "
                           "an den Stand oder ins Lager gebracht). Nichts wurde gelöscht.",
-                    "tr": "{item}: {name} bu eşyayı artık ne envanterinde ne üzerinde taşıyor (satıldı, kullanıldı, "
-                          "tezgâha ya da depoya kondu). Hiçbir şey silinmedi."},
+                    "tr": "{item}: {name} bu eşyayı artık ne çantasında ne de üzerinde taşıyor (satıldı, kullanıldı, tezgâha ya da depoya kondu). Hiçbir şey silinmedi."},
     "bid_changed": {"pl": "{item} zmienił się od otwarcia karty (inny przedmiot albo większy stos). Nic nie usunięto "
                           "– otwórz kartę ponownie.",
                     "en": "{item} has changed since the card was opened (another item, or a bigger stack). Nothing was "
@@ -23776,7 +24454,7 @@ T.update({
     "bid_not_here": {"pl": "Usuwanie przedmiotów botów ma tylko linia 2.x (mt2009).",
                      "en": "Only the 2.x line (mt2009) can delete the bots' items.",
                      "de": "Nur die 2.x-Linie (mt2009) kann Gegenstände von Bots löschen.",
-                     "tr": "Botların eşyalarını yalnızca 2.x hattı (mt2009) silebilir."},
+                     "tr": "Botların eşyalarını yalnızca 2.x serisi (mt2009) silebilir."},
     "bid_bad": {"pl": "Złe dane przedmiotu – otwórz kartę ponownie.", "en": "Wrong item data – open the card again.",
                 "de": "Falsche Angaben zum Gegenstand – öffne die Karte erneut.",
                 "tr": "Eşya bilgileri hatalı – kartı yeniden aç."},
@@ -24060,8 +24738,7 @@ T.update({
                              "{name} (its inventory was full). It was not destroyed.",
                        "de": "{item}: Die Zeile ist aus dem Laden, aber das Spiel hat den Gegenstand in das Ladenlager "
                              "von {name} gelegt (das Inventar war voll). Er wurde nicht vernichtet.",
-                       "tr": "{item}: satır dükkândan kalktı, ancak oyun eşyayı {name} botunun dükkân kasasına koydu "
-                             "(envanteri doluydu). Yok edilmedi."},
+                       "tr": "{item}: satır dükkândan kalktı, ancak oyun eşyayı {name} botunun dükkân deposuna koydu (envanteri doluydu). Yok edilmedi."},
     "bsd_unanswered": {"pl": "{item}: rdzeń bazy danych nie odpowiedział na zdjęcie linii w 10 minut. Otwórz sklep "
                              "bota {name} ponownie.",
                        "en": "{item}: the database core did not answer the take-down within 10 minutes. Open the shop "
@@ -24077,7 +24754,7 @@ T.update({
     "bsd_not_here": {"pl": "Usuwanie linii sklepów botów ma tylko linia 2.x (mt2009).",
                      "en": "Only the 2.x line (mt2009) can delete lines of the bots' shops.",
                      "de": "Nur die 2.x-Linie (mt2009) kann Zeilen aus den Läden der Bots löschen.",
-                     "tr": "Botların dükkân satırlarını yalnızca 2.x hattı (mt2009) silebilir."},
+                     "tr": "Botların dükkân satırlarını yalnızca 2.x serisi (mt2009) silebilir."},
     "bsd_cancelled": {"pl": "Anulowano usunięcie linii: {item}.", "en": "Deletion of the line cancelled: {item}.",
                       "de": "Löschen der Zeile abgebrochen: {item}.", "tr": "Satırın silinmesi iptal edildi: {item}."},
     "bsd_cancel_none": {"pl": "Nie czekało żadne usunięcie linii: {item}.",
@@ -24850,7 +25527,7 @@ IWAKURA_P11_FLAGS = ("price_offset", "p11_cleanup_done", "craftsman")
 IWAKURA_P14_FLAGS = ("cape_limit", "m2warrior", "m2warrior_gear")
 M2_WARRIOR_GEAR_PLUS = 8
 M2_WARRIOR_PIECES = {"pl": ("broń", "zbroja", "tarcza", "hełm"), "en": ("weapon", "armour", "shield", "helmet"),
-                     "de": ("Waffe", "Rüstung", "Schild", "Helm"), "tr": ("silah", "zırh", "kalkan", "miğfer")}
+                     "de": ("Waffe", "Rüstung", "Schild", "Helm"), "tr": ("silah", "zırh", "kalkan", "kask")}
 
 
 def m2_warrior_gear_text(packed, language):
@@ -24960,7 +25637,7 @@ IWAKURA_OWN_WORN_BURN_HOW = "PLAYERBOT_OWN_WORN_BURN"
 IWAKURA_SCROLL_UNPROFITABLE_HOW = "PLAYERBOT_SCROLL_UNPROFITABLE"
 IWAKURA_SCROLL_UNPROFITABLE_LABEL = {"pl": "kowal (zwój nieopłacalny)", "en": "blacksmith (scroll not worth it)",
                                      "de": "Schmied (Schriftrolle lohnt nicht)",
-                                     "tr": "demirci (parşömen değmez)"}
+                                     "tr": "demirci (parşömen kârlı değil)"}
 # How far apart the mark and the attempt may be, in seconds.
 IWAKURA_SCROLL_UNPROFITABLE_SLACK_S = 5
 # Iwakura's Patch 14, point 8H: the core's row on the shield of the bot's tier
@@ -26037,6 +26714,22 @@ def _ix_part_bots(ex, cur):
     live = read_playerbot_live_status()
     out = []
 
+    soul_counts = {}
+    try:
+        cur.execute("SELECT owner_id,vnum,socket0,socket1,socket2 FROM player.item "
+                    "WHERE `window`='EQUIPMENT' AND pos IN (0,4)")
+        for row in cur.fetchall():
+            counts = soul_counts.setdefault(int(row['owner_id']), [0, 0])
+            name = ex.name_of(row['vnum'])[0]
+            plus = re.search(r'\+([0-9]+)\s*$', name)
+            refined = int(plus.group(1)) if plus else int(row['vnum']) % 10
+            for key in ('socket0', 'socket1', 'socket2'):
+                value = int(row.get(key) or 0)
+                counts[0] += int(28000 <= value < 28600 and 30 <= value % 100 <= 43)
+                counts[1] += int(refined >= 6 and value in (1, 2))
+    except Exception as exc:
+        ex.problem('bots.tsv', 'soul sockets: %s' % str(exc)[:200])
+
     def flag(pid, state):
         # An absent row is "", as the flags of a bot that never set them.
         if p11 is None:
@@ -26076,13 +26769,14 @@ def _ix_part_bots(ex, cur):
             flag(pid, "price_offset"), flag(pid, "p11_cleanup_done"), flag(pid, "craftsman"),
             flag(pid, "cape_limit"),
             m2_warrior_role_name(flag(pid, "m2warrior")),
-            m2_warrior_gear_text(flag(pid, "m2warrior_gear"), language) if m2_warrior_role_name(flag(pid, "m2warrior")) else ""))
+            m2_warrior_gear_text(flag(pid, "m2warrior_gear"), language) if m2_warrior_role_name(flag(pid, "m2warrior")) else "",
+            *soul_counts.get(pid, (0, 0))))
     ex.table("bots.tsv", (
         "pid", "name", "empire", "level", "exp", "job", "job_name", "skill_group", "playtime_hours", "gold",
         "exp_blocked", "exp_unlocked", "saved_lock_level", "saved_mood_id", "saved_mood", "online", "channel", "persona_id",
         "persona", "character_id", "character", "mood_id", "mood", "lock_level", "goal", "action", "status",
         "session_hours_kept", "last_play", "map_index", "guild_id", "guild", "price_offset_permille",
-        "cleanup_done", "craftsman", "cape_limit", "role", "role_gear"), out)
+        "cleanup_done", "craftsman", "cape_limit", "role", "role_gear", "soul_sockets", "soul_free_sockets"), out)
 
 
 # ---- Patch 11, point 15: what the patch is measured by -----------------------
@@ -26261,10 +26955,11 @@ def _ix_part_shops(ex, cur):
                     e["units"], e["yang"], ",".join("%s:%d" % kv for kv in kinds), trade, share,
                     ("sorted" if _ix_shop_sorts(owner) else "as_grown") if cls == "bot" else "",
                     s.get("decoration"), s.get("is_premium"), s.get("channel"), s.get("map"),
-                    1 if minutes > 0 else 0, minutes, round(minutes / 60.0, 2)))
+                    1 if minutes > 0 else 0, minutes, round(minutes / 60.0, 2),
+                    ",".join("%s:%d" % kv for kv in kinds) if minutes > 0 else ""))
     ex.table("shops.tsv", ("owner_pid", "owner_name", "owner_class", "shop_name", "lines", "units", "yang_total",
                            "lines_by_kind", "trade", "trade_share_pct", "style", "decoration", "premium", "channel",
-                           "map", "running", "minutes_left", "hours_left"), out)
+                           "map", "running", "minutes_left", "hours_left", "running_lines_by_kind"), out)
 
 
 
@@ -26853,7 +27548,7 @@ def _ix_refine_purposes(ex, cur, attempts):
                     "ORDER BY time DESC LIMIT %s", (IWAKURA_EXPORT_LOG_DAYS, IWAKURA_EXPORT_LOG_ROWS))
         for r in cur.fetchall() or ():
             hint = log_text(r.get("hint"))
-            purpose = re.search(r"(?:^| )purpose=(own_worn|bag_project|copy|for_sale|mass|gambler|battle_to6)(?: |$)", hint)
+            purpose = re.search(r"(?:^| )purpose=(own_worn|bag_project|copy|for_sale|mass|gambler|battle_to6|lottery30|future_project)(?: |$)", hint)
             plus = re.search(r"(?:^| )plus=(\d+)(?: |$)", hint)
             worn = re.search(r"(?:^| )own_worn=([01])(?: |$)", hint)
             if not purpose or not plus or not worn:
@@ -27182,8 +27877,10 @@ def _ix_steps_text(text, language):
                 piece += " (" + r["effect"] + ")"
         out.append(piece)
     if cut:
-        out.append("~ (" + ("rdzeniowi zabrakło miejsca na resztę kroków" if language == "pl"
-                            else "the core ran out of room for the rest") + ")")
+        out.append("~ (" + {"pl": "rdzeniowi zabrakło miejsca na resztę kroków",
+                            "en": "the core ran out of room for the rest",
+                            "tr": "çekirdekte kalan adımlar için yer kalmadı"}.get(  # tr: Turkish patch
+                                language, "the core ran out of room for the rest") + ")")
     return " | ".join(out)
 
 
@@ -27566,7 +28263,7 @@ def _ix_part_shop_visits(ex, cur):
     out, hourly = [], {}
     for (channel, core, ts, row_channel, pid, kind, reason, liquidating, scanned, candidates, listed, steps, end,
          rejects) in parsed:
-        reason_word = IWAKURA_SHOP_OPEN_REASONS[reason] if reason < len(IWAKURA_SHOP_OPEN_REASONS) else "unknown"
+        reason_word = "logout" if reason == 255 else IWAKURA_SHOP_OPEN_REASONS[reason] if reason < len(IWAKURA_SHOP_OPEN_REASONS) else "unknown"
         out.append((channel, core, _ix_epoch_text(ts), ts, pid, ex.people.get(pid, ("", ""))[0], kind, reason,
                     reason_word, liquidating, scanned, candidates, listed, steps, end) + tuple(rejects))
         key = (ts // 3600 * 3600, kind, end, liquidating)
@@ -27778,7 +28475,7 @@ def _ix_part_pvp_sets(ex, cur):
 
 
 IWAKURA_README_PL = """\
-Eksport statystyk dla Iwakury
+Eksport statystyk specjalistycznych
 =============================
 Wygenerowano: {generated} (czas panelu), baza: {db_now}; panel {version}, silnik {engine}.
 
@@ -27861,6 +28558,9 @@ bots.tsv - lista botów: pid, name, empire, level, exp, job, skill_group, playti
   Od Patcha 14 także role (flaga playerbot.m2warrior: m2_dropper_warrior = Dropek M2
   (Wojownik) z Punktu 4, m2_dropper_warrior_done = ukończył rolę) i role_gear (postęp jego
   sprzętu: broń, zbroja, tarcza i hełm wobec +8, które kończą rolę).
+  Od Patcha 21 także soul_sockets (KD osadzone w założonym EQ) i soul_free_sockets
+  (wolne gniazda założonej broni/zbroi od +6). Liczone z zapisanego EQ, więc obowiązuje
+  opóźnienie bazy opisane wyżej.
 bot_counters.tsv dla broni (Patch 11): rozkład ŚR wystawionych egzemplarzy (linia średnich
   obrażeń, na mt2009 typ 122): avg_copies (egzemplarze na działających ladach botów),
   avg_with_line (te z linią ŚR), avg_min, avg_p25, avg_median, avg_p75, avg_max (egzemplarz bez
@@ -27892,6 +28592,8 @@ shops.tsv - każdy sklep offline, gracza i bota: owner_pid, owner_name, owner_cl
   bota: sorted = w kolejności torby, as_grown = jak rośnie; 8 sprzedawców na 10 sortuje, stale
   według pid; puste u gracza), decoration i premium (wygląd sklepu ikashop), channel, map,
   running (0 = czas się skończył), minutes_left i hours_left (do wygaśnięcia).
+  running_lines_by_kind liczy te same rodzaje co lines_by_kind, ale tylko działającą
+  ladę (puste dla wygasłej). Nie dolicza towaru, którego nie można teraz kupić.
 price_index.tsv - co godzinę z rdzenia, który przelicza podaż (plik playerbot_price_index.tsv,
   nagłówek #PB11I1, 7 dni): unix_ts, channel, core, time, index (indeks inflacji z Punktu 2),
   trend i trend_word (-1 spada, 0 stabilny, 1 rośnie), vnum i name ulepszacza, supply (sztuki na
@@ -27980,9 +28682,10 @@ shop_visits.tsv - każda wizyta bota przy jego stoisku (uwagi Tyriona z 14.10, S
   pid, name, kind (open - stoisko otwierane przy straganie; service - wizyta obsługi stoiska offline,
   łańcuch kroków dokładania; renew - odnowienie wygasłego stoiska), open_reason_code i open_reason
   (powód otwarcia stoiska: merchant, poor, bag_full, dropper_pressure, books, dropper_roll, roll, spare,
-  hoard; unknown, gdy rdzeń go nie znał), liquidating (1 - bot w trybie upłynniania Patcha 17),
+  hoard, logout - odnowienie przed wylogowaniem; unknown, gdy rdzeń go nie znał), liquidating (1 - bot w trybie upłynniania Patcha 17),
   scanned (przedmioty torby, które skan obejrzał), candidates (ile z nich przeszło do wyboru linii,
-  przed limitami), listed (linie wystawione), steps (kroki wizyty; przy renew - ile miejsc
+  przed limitami), listed (linie wystawione), steps (dla service: faktycznie potwierdzone
+  dołożenia linii, najwyżej 40 w 90 s; przy renew - ile miejsc
   sprawdzono), end (opened, open_refused, nothing - nic wartego stoiska, added, none - łańcuch nic
   nie dołożył, renewed, renew_refused) i po jednej kolumnie rej_* na powód, dla którego przedmiot
   został w torbie: plan (przedmiot Planu P18/P19), protected (nigdy na ladę: projekt +9, zestaw PvP,
@@ -28059,7 +28762,7 @@ equip_decisions.tsv - każda decyzja o ekwipunku bota (log.playerbot_equip): id,
 """
 
 IWAKURA_README_EN = """\
-Statistics export for Iwakura
+Specialist statistics export
 =============================
 Generated: {generated} (panel time), database: {db_now}; panel {version}, engine {engine}.
 
@@ -28143,6 +28846,9 @@ bots.tsv - the bots: pid, name, empire, level, exp, job, skill_group, playtime_h
   Since Patch 14 also role (the playerbot.m2warrior flag: m2_dropper_warrior = the M2 dropper Warrior
   of point 4, m2_dropper_warrior_done = it finished the role) and role_gear (its gear's progress:
   weapon, armour, shield and helmet against the +8 that ends the role).
+  Since Patch 21 also soul_sockets (stones in worn equipment) and soul_free_sockets
+  (free sockets in a worn weapon/body armour of +6 or higher). Read from saved equipment;
+  the database delay described above applies.
 bot_counters.tsv for weapons (Patch 11): the average damage of the listed copies (the average
   damage line, type 122 on mt2009): avg_copies (copies on the bots' running counters),
   avg_with_line (those with the line), avg_min, avg_p25, avg_median, avg_p75, avg_max (a copy
@@ -28174,6 +28880,8 @@ shops.tsv - every offline shop, a player's and a bot's: owner_pid, owner_name, o
   trade_share_pct, style (a bot's counter: sorted = in its bag's order, as_grown = as it grows;
   eight keepers in ten sort, fixed by pid; empty for a player), decoration and premium (the
   ikashop look), channel, map, running (0 = its time ran out), minutes_left and hours_left.
+  running_lines_by_kind counts the same kinds as lines_by_kind, but only for a running
+  counter (empty for an expired one). It excludes stock that cannot currently be bought.
 price_index.tsv - hourly from the core that recalculates the supply (playerbot_price_index.tsv,
   header #PB11I1, seven days): unix_ts, channel, core, time, index (point 2's inflation index),
   trend and trend_word (-1 falling, 0 stable, 1 rising), the material's vnum and name, supply
@@ -28248,10 +28956,12 @@ shop_visits.tsv - every visit of a bot at its counter (Tyrion's audit of 14 Octo
   every core's playerbot_shop_visits.tsv (#PB19V1, the last 40 000): channel, core, time, unix_ts,
   pid, name, kind (open - a stand opened by the stall pass; service - an offline stand's service
   chain of add steps; renew - an expired stand's renewal), open_reason_code and open_reason (merchant,
-  poor, bag_full, dropper_pressure, books, dropper_roll, roll, spare, hoard; unknown where the core
+  poor, bag_full, dropper_pressure, books, dropper_roll, roll, spare, hoard, logout - renewal
+  before logout; unknown where the core
   did not know it), liquidating (1 - the bot in Patch 17's liquidation), scanned (bag items the scan
   looked at), candidates (those handed on to the choice of lines, before the caps), listed (lines put
-  up), steps (the visit's steps; for renew, the spots tried), end (opened, open_refused, nothing -
+  up), steps (for service: acknowledged line additions, at most 40 in 90 s; for renew, the
+  spots tried), end (opened, open_refused, nothing -
   nothing worth a stand, added, none - the chain put nothing up, renewed, renew_refused) and a rej_*
   column for each reason an item stayed in the bag: plan (the P18/P19 Plan's piece), protected (never
   on a counter: the +9 project, the PvP set, a companion's piece, a quest item, the LPP, a forge copy),
@@ -28448,8 +29158,10 @@ def iwakura_export():
 
 
 T.update({
-    "ix_title": {"pl": "📊 Statystyki dla Iwakury", "en": "📊 Statistics for Iwakura",
-                 "de": "📊 Statistiken für Iwakura", "tr": "📊 Iwakura için istatistikler"},
+    # Iwakura's Patch 20, point 4G: "Statystyki Spec." in the menu, the title
+    # and the descriptions; the export's file name (iwakura_stats_*.zip) stays.
+    "ix_title": {"pl": "📊 Statystyki Spec.", "en": "📊 Spec. statistics",
+                 "de": "📊 Spez.-Statistik", "tr": "📊 Uzman istatistikleri"},
     "ix_hint": {
         "pl": "Jeden plik ZIP o ekonomii świata: raty i eventy, wiek serwera, Szkatułki Blasku Księżyca, "
               "yang w obiegu, lady botów, przedmioty według miejsca (boty i gracze osobno) i lista botów, "
@@ -28472,20 +29184,13 @@ T.update({
               "Amboss, die Zusatz- und Wechselsteine, warum Bots nicht verbessert haben, Flüstern ohne "
               "Absicht sowie die vollständigen Preisrezepte und Ausrüstungsentscheidungen der Bots. Die README.txt darin erklärt jede Spalte. Es dauert ein paar Sekunden bis zehn "
               "Minuten und liest die Datenbank und die Dateien der Kerne nur.",
-        "tr": "Dünya ekonomisinin tek bir ZIP dosyası: oranlar ve etkinlikler, sunucunun yaşı, Ay Işığı "
-              "Sandıkları, dolaşımdaki yang, botların tezgâhları, bulundukları yere göre eşyalar (botlar ve "
-              "oyuncular ayrı) ve bot listesi; Yama 11'den beri çevrimdışı dükkân satışları ve dükkânlar, "
-              "fiyat endeksi, her saat çevrimiçi botlar, Kantor takasları, örs denemeleri, ekleme ve değiştirme "
-              "taşları, botların neden yükseltmediği, niyet bulunamayan fısıltılar ve botların tam fiyat "
-              "tarifleri ile ekipman kararları da. İçindeki README.txt "
-              "her sütunu açıklar. Birkaç saniyeden on dakikaya kadar sürer ve veritabanını ve "
-              "çekirdeklerin dosyalarını yalnızca okur."},
-    "ix_button": {"pl": "Eksport statystyk dla Iwakury", "en": "Statistics export for Iwakura",
+        "tr": "Dünya ekonomisi tek bir ZIP dosyasında: oranlar ve etkinlikler, sunucunun yaşı, Ayışığı Define Sandıkları, dolaşımdaki yang, botların tezgâhları, bulundukları yere göre eşyalar (botlar ve oyuncular ayrı) ve bot listesi; Yama 11'den beri çevrimdışı dükkân satışları ve dükkânlar, fiyat endeksi, her saat çevrimiçi botlar, Kantor takasları, demircideki yükseltme denemeleri, bonus ekleme ve değiştirme taşları, botların neden yükseltmediği, niyeti anlaşılamayan fısıltılar ve botların fiyat hesaplarının tamamı ile ekipman kararları da. İçindeki README.txt her sütunu açıklar. Birkaç saniyeden on dakikaya kadar sürer ve veritabanını ve çekirdeklerin dosyalarını yalnızca okur."},
+    "ix_button": {"pl": "Eksport statystyk specjalistycznych", "en": "Specialist statistics export",
                   "de": "Statistik-Export für Iwakura", "tr": "Iwakura için istatistik dışa aktarımı"},
     "ix_busy": {"pl": "Eksport już trwa - poczekaj, aż się skończy, i spróbuj ponownie.",
                 "en": "An export is already running - wait for it to finish and try again.",
                 "de": "Ein Export läuft bereits - warte, bis er fertig ist, und versuche es erneut.",
-                "tr": "Bir dışa aktarım zaten sürüyor - bitmesini bekleyip tekrar deneyin."},
+                "tr": "Bir dışa aktarım zaten sürüyor - bitmesini bekleyip tekrar dene."},
     "ix_failed": {"pl": "Nie udało się złożyć eksportu - szczegóły są w logu panelu.",
                   "en": "The export could not be put together - the panel's log has the details.",
                   "de": "Der Export konnte nicht erstellt werden - Details stehen im Log des Panels.",
@@ -28512,13 +29217,10 @@ T.update({
               "(Geldbeutel, Lager und nicht abgeholte Ladeneinnahmen der Bots und Spieler der letzten 72 "
               "Stunden, ohne Spielleiter) geteilt durch die Yang-Droprate, die Quadratwurzel davon durch "
               "15 Mio., von ×0,85 bis ×2,50, höchstens 2% in 6 Stunden.",
-        "tr": "Iwakura'nın fiyat listesindeki tüm fiyatların çarpanı (Yama 11, madde 2): aktif karakter başına "
-              "yang (son 72 saatin botlarının ve oyuncularının kesesi, deposu ve toplanmamış dükkân geliri, "
-              "oyun yöneticileri hariç) yang düşme oranına bölünür, bunun 15 milyona oranının karekökü, "
-              "×0,85 ile ×2,50 arasında, 6 saatte en fazla %2 değişir."},
+        "tr": "Iwakura'nın fiyat listesindeki tüm fiyatların çarpanı (Yama 11, madde 2): aktif karakter başına yang (son 72 saatin botlarının ve oyuncularının kesesi, deposu ve toplanmamış dükkân geliri, oyun yöneticileri hariç) yang drop oranına bölünür, bunun 15 milyona oranının karekökü, ×0,85 ile ×2,50 arasında, 6 saatte en fazla %2 değişir."},
     # Patch 11, point 24B: the Craftsman's share (the CRAFTSMAN weights key).
     "ai_craftsman": {"pl": "Rzemieślnicy (kucie na sprzedaż)", "en": "Craftsmen (forging for sale)",
-                     "de": "Handwerker (Schmieden für den Verkauf)", "tr": "Zanaatkârlar (satış için dövme)"},
+                     "de": "Handwerker (Schmieden für den Verkauf)", "tr": "Zanaatkârlar (satış için yükseltme)"},
     "ai_craftsman_help": {
         "pl": "Udział botów od 35 poziomu, które są Rzemieślnikami (Patch 11 Iwakury, punkt 24B): stała cecha, "
               "losowana raz na bota. Rzemieślnik przy każdej wizycie w mieście bierze bazę ze swojego magazynu "
@@ -28533,10 +29235,7 @@ T.update({
               "seinem Lager oder die billigste vom Markt und schmiedet 1-4 Gegenstände auf +7, +8 oder +9 für "
               "den Verkauf, für höchstens die Hälfte seines Yang pro Besuch. Standard 30%; 0 - niemand schmiedet "
               "für den Verkauf.",
-        "tr": "35. seviyeden itibaren Zanaatkâr olan botların payı (Iwakura'nın Yama 11'i, madde 24B): bot "
-              "başına bir kez çekilen sabit bir özellik. Zanaatkâr her şehir ziyaretinde deposundan ya da "
-              "pazardaki en ucuz tabanı alır ve satış için 1-4 eşyayı +7, +8 ya da +9'a döver; ziyaret başına "
-              "yang'ının en fazla yarısıyla. Varsayılan %30; 0 - kimse satış için dövmez."},
+        "tr": "35. seviyeden itibaren Zanaatkâr olan botların payı (Iwakura'nın Yama 11'i, madde 24B): her bot için bir kez rastgele belirlenen sabit bir özellik. Zanaatkâr her şehir ziyaretinde deposundan bir baz eşya alır ya da pazardaki en ucuz olanı satın alır ve 1-4 eşyayı satış için +7, +8 ya da +9'a yükseltir; bir ziyarette yang'ının en fazla yarısını harcar. Varsayılan %30; 0 - kimse satış için yükseltme yapmaz."},
     "ai_craftsman_none": {"pl": "nikt", "en": "nobody", "de": "niemand", "tr": "kimse"},
     # Iwakura's Patch 15, point 9: the bots' quests (QUESTS, QUEST_FOCUS).
     "ai_quests": {"pl": "Questy botów", "en": "The bots' quests", "de": "Quests der Bots", "tr": "Botların görevleri"},
@@ -28552,10 +29251,18 @@ T.update({
               "Spieler: Sie sprechen mit den NPCs, wählen die Antworten, jagen die Ziele und geben die Quests ab, "
               "und das Skript gibt die Belohnungen. Der Biologe und die Stufen bleiben, wie sie sind, und der "
               "Biologe geht vor. Keine Quest hebt die EXP-Sperre auf.",
-        "tr": "Botlar oyunun görevlerini yapar (Iwakura'nın Yaması 15) - gerçek Lua görevleri, bir oyuncu gibi: "
-              "NPC'lerle konuşur, cevapları seçer, hedefleri avlar ve görevleri teslim eder; ödülleri betik verir. "
-              "Biyolog ve kademeler olduğu gibi kalır ve Biyolog önce gelir. Hiçbir görev exp kilidini kaldırmaz."},
+        "tr": "Botlar oyunun görevlerini yapar (Iwakura'nın Yaması 15) - gerçek Lua görevleri, bir oyuncu gibi: NPC'lerle konuşur, cevapları seçer, hedefleri avlar ve görevleri teslim eder; ödülleri betik verir. Biyolog ve kademeler olduğu gibi kalır ve Biyolog önce gelir. Hiçbir görev EXP kilidini kaldırmaz."},
     "ai_quests_on": {"pl": "Włączone", "en": "Enabled", "de": "Eingeschaltet", "tr": "Açık"},
+    # Iwakura's Patch 20, point 3A: BOT_QUESTS_OFF, off by default.
+    "ai_quests_story_off": {"pl": "Boty nie robią questów", "en": "The bots do no quests",
+                            "de": "Die Bots machen keine Quests", "tr": "Botlar görev yapmaz"},
+    "ai_quests_story_off_help": {
+        "pl": "Boty nie biorą questów fabularnych i pobocznych. Biolog, misje konia, Wieża i lochy działają dalej.",
+        "en": "The bots take no story or side quests. The Biologist, the horse missions, the Tower and the "
+              "dungeons go on.",
+        "de": "Die Bots nehmen keine Story- und Nebenquests an. Der Biologe, die Pferdemissionen, der Turm und "
+              "die Dungeons laufen weiter.",
+        "tr": "Botlar hikâye ve yan görevleri almaz. Biyolog, at görevleri, Kule ve zindanlar devam eder."},
     # Patch 15, point 6A: the quests' yang past 15% of the bots' day.
     "ai_quest_yang_warn": {
         "pl": "Yang z questów botów w ostatniej dobie: %(quest)s = %(pct)d%% przyrostu yang botów (%(grown)s) - "
@@ -28565,8 +29272,7 @@ T.update({
         "de": "Yang aus den Quests der Bots am letzten Tag: %(quest)s = %(pct)d%% des Yang-Zuwachses der Bots "
               "(%(grown)s) - über %(line)d%% (Patch 15, Punkt 6A). Zu entscheiden: kleinere Belohnungen oder "
               "weniger Bots auf Quests.",
-        "tr": "Botların son gündeki görev yang'ı: %(quest)s = botların yang artışının %%%(pct)d'i (%(grown)s) - "
-              "%%%(line)d'in üzerinde (Yama 15, madde 6A). Karar: daha küçük ödüller ya da görevde daha az bot."},
+        "tr": "Botların son 24 saatteki görev yang'ı: %(quest)s = botların yang artışının (%(grown)s) %%%(pct)d kadarı - %%%(line)d sınırının üzerinde (Yama 15, madde 6A). Karar: daha küçük ödüller ya da görevde daha az bot."},
     "ai_quest_focus": {"pl": "Ile botów skupia się na questach", "en": "How many bots focus on quests",
                        "de": "Wie viele Bots sich auf Quests konzentrieren",
                        "tr": "Kaç bot görevlere odaklanır"},
@@ -28586,11 +29292,7 @@ T.update({
               "wohin er reist (der Grinder und die Dropper nicht) - und verfolgt ihr Ziel. Von den übrigen erledigen 70% sie nebenbei "
               "(sie nehmen und geben Quests bei den NPCs der Stadt ab und erfüllen die Ziele bei der gewöhnlichen "
               "Jagd) und 30% lassen Quests aus. Bei 50%: 50 / 35 / 15. Die Story-Quests 1-16 erledigt jeder neue Bot.",
-        "tr": "Botların bu payı (sabit, karakter numarasına göre) görevleri düzgün yapar: en iyi görevi seçer - "
-              "önce kendi haritasında, sonra hedefi krallığında ya da cephede olanı, oraya gider (Grinder ve "
-              "dropper'lar gitmez) - ve hedefinin peşine düşer. Geri kalanların %70'i onları yol üstünde yapar (görevleri "
-              "şehrin NPC'lerinden alır ve teslim eder, hedefleri olağan avında karşılar) ve %30'u görevleri "
-              "atlar. %50'de: 50 / 35 / 15. Her yeni bot 1-16 hikâye görevlerini yapar."},
+        "tr": "Botların bu payı (sabit, karakter numarasına göre) görevleri düzgün yapar: en iyi görevi seçer - önce kendi haritasında, sonra hedefi krallığında ya da cephede olanı, oraya gider (Kasıcı ve farmcılar gitmez) - ve hedefinin peşine düşer. Geri kalanların %70'i onları yol üstünde yapar (görevleri şehrin NPC'lerinden alır ve teslim eder, hedefleri olağan avında karşılar) ve %30'u görevleri atlar. %50'de: 50 / 35 / 15. Her yeni bot 1-16 hikâye görevlerini yapar."},
     "ai_craftsman_all": {"pl": "każdy bot 35+", "en": "every bot 35+", "de": "jeder Bot 35+",
                          "tr": "her 35+ bot"},
 })
@@ -28633,9 +29335,9 @@ except Exception:  # noqa: BLE001
 
 T.update({
  "editsql_nav": {"pl": "\U0001F6E0 EDYTOR BAZY DANYCH", "en": "\U0001F6E0 DATABASE EDITOR",
-                 "de": "\U0001F6E0 DATENBANK-EDITOR", "tr": "\U0001F6E0 VER\u0130 TABANI D\u00DCZENLEY\u0130C\u0130"},
+                 "de": "\U0001F6E0 DATENBANK-EDITOR", "tr": "🛠 VERİTABANI EDİTÖRÜ"},
  "editsql_open": {"pl": "\U0001F6E0 Otw\u00f3rz edytor", "en": "\U0001F6E0 Open the editor",
-                  "de": "\U0001F6E0 Editor \u00f6ffnen", "tr": "\U0001F6E0 D\u00fczenleyiciyi a\u00e7"},
+                  "de": "\U0001F6E0 Editor \u00f6ffnen", "tr": "🛠 Editörü aç"},
  "editsql_dash_hint": {
      "pl": "Zarz\u0105dzaj danymi gry \u2014 przedmiotami, potworami, dropem, ulepszeniami, "
            "bonusami, sklepami, spawnami i innymi systemami bezpo\u015brednio z poziomu "
@@ -28649,11 +29351,7 @@ T.update({
            "Boni, Shops, Spawns und weitere Systeme direkt aus dem Panel. Jede "
            "\u00c4nderung zeigt vor dem Speichern eine Vorschau, l\u00e4uft in einer "
            "Transaktion und landet mit Ein-Klick-R\u00fcckg\u00e4ngig in der Historie.",
-     "tr": "Oyun verilerini y\u00f6net \u2014 e\u015fyalar, yarat\u0131klar, drop, "
-           "geli\u015ftirmeler, bonuslar, d\u00fckkanlar, spawnlar ve di\u011fer sistemler "
-           "do\u011frudan panelden. Her de\u011fi\u015fiklik kaydetmeden \u00f6nce "
-           "\u00f6nizleme g\u00f6sterir, i\u015flem i\u00e7inde \u00e7al\u0131\u015f\u0131r ve "
-           "tek t\u0131kla geri alma ile ge\u00e7mi\u015fe yaz\u0131l\u0131r."},
+     "tr": "Oyun verilerini yönet — eşyalar, canavarlar, drop, yükseltmeler, bonuslar, dükkânlar, doğma noktaları ve diğer sistemler doğrudan panelden. Her değişiklik kaydetmeden önce önizleme gösterir, tek bir veritabanı işlemi olarak uygulanır ve geçmişe kaydedilir; tek tıkla geri alınabilir."},
 })
 
 
@@ -28677,6 +29375,7 @@ try:
         __name__ + "_drops", os.path.join(os.path.dirname(__file__), "drop_tables.py"))
     _drops = _import_util.module_from_spec(_drops_spec)
     _drops_spec.loader.exec_module(_drops)
+    _drops.TRANSLATE = panel_tr        # Turkish patch: its messages for a Turkish reader
 except Exception:  # noqa: BLE001 - a stager that left the sibling out costs the editor, not the panel
     _drops = None
 
@@ -28747,12 +29446,16 @@ def _drops_protos(fresh=False):
             raise
         return _DROPS_PROTO
     items, ds, mobs, items_en, mobs_en = {}, set(), {}, {}, {}
+    items_tr, mobs_tr = {}, {}
     for r in irows:
         vnum = int(r.get("vnum") or 0)
         items[vnum] = log_text(r.get("name")).strip()
         official = english_game_name("i", vnum, r.get("name"))
         if official:
             items_en[vnum] = official
+        name_tr = turkish_game_name("i", vnum, r.get("name"))
+        if name_tr:
+            items_tr[vnum] = name_tr
         if int(r.get("type") or 0) == _drops.ITEM_DS:
             ds.add(vnum)
     for r in mrows:
@@ -28761,9 +29464,13 @@ def _drops_protos(fresh=False):
         official = english_game_name("m", vnum, r.get("name"))
         if official:
             mobs_en[vnum] = official
+        name_tr = turkish_game_name("m", vnum, r.get("name"))
+        if name_tr:
+            mobs_tr[vnum] = name_tr
     if not items:
         raise RuntimeError("player.item_proto has no rows")
-    _DROPS_PROTO.update(at=now, items=items, ds=ds, mobs=mobs, items_en=items_en, mobs_en=mobs_en)
+    _DROPS_PROTO.update(at=now, items=items, ds=ds, mobs=mobs, items_en=items_en, mobs_en=mobs_en,
+                        items_tr=items_tr, mobs_tr=mobs_tr)
     return _DROPS_PROTO
 
 
@@ -28782,14 +29489,21 @@ def _drops_item_name(protos, vnum, english=False):
         vnum = vnum - vnum % 100
     name = items.get(vnum)
     if name is not None and english:
-        name = (protos.get("items_en") or {}).get(vnum) or name
+        name = (_drops_turkish() and (protos.get("items_tr") or {}).get(vnum)) \
+            or (protos.get("items_en") or {}).get(vnum) or name
     return name
+
+
+def _drops_turkish():
+    """A Turkish reader (Turkish patch): names from the Turkish table first."""
+    return has_request_context() and lang() == "tr"
 
 
 def _drops_mob_name(protos, vnum, english=False):
     name = (protos.get("mobs") or {}).get(vnum)
     if name is not None and english:
-        name = (protos.get("mobs_en") or {}).get(vnum) or name
+        name = (_drops_turkish() and (protos.get("mobs_tr") or {}).get(vnum)) \
+            or (protos.get("mobs_en") or {}).get(vnum) or name
     return name
 
 
@@ -29563,15 +30277,15 @@ def drops_change(slug):
 
 
 T.update({
-    "dt_nav": {"pl": "\U0001F381 SKRZYNIE I DROP", "en": "\U0001F381 CHESTS AND DROPS"},
+    "dt_nav": {"pl": "\U0001F381 SKRZYNIE I DROP", "en": "\U0001F381 CHESTS AND DROPS", "tr": "🎁 SANDIKLAR VE DROP"},
     "dt_dash_hint": {
         "pl": "Zawarto\u015b\u0107 skrzy\u0144 (special_item_group.txt) i grupy dropu potwor\u00f3w (mob_drop_item.txt): "
               "podgl\u0105d zmian przed zapisem, sprawdzanie numer\u00f3w przedmiot\u00f3w i potwor\u00f3w, kopia poprzedniej "
               "wersji i wpis w historii. Zmiany wchodz\u0105 po restarcie serwera.",
         "en": "What chests hold (special_item_group.txt) and what monsters drop (mob_drop_item.txt): a preview "
               "before saving, item and monster numbers checked, a copy of the previous version and an entry "
-              "in the history. Changes apply after the server restarts."},
-    "dt_open": {"pl": "Otw\u00f3rz edytor", "en": "Open the editor"},
+              "in the history. Changes apply after the server restarts.", "tr": "Sandıkların içeriği (special_item_group.txt) ve canavarların düşürdükleri (mob_drop_item.txt): kaydetmeden önce önizleme, eşya ve canavar numaralarının denetimi, önceki sürümün bir kopyası ve geçmişe bir kayıt. Değişiklikler sunucu yeniden başladıktan sonra geçerli olur."},
+    "dt_open": {"pl": "Otw\u00f3rz edytor", "en": "Open the editor", "tr": "Editörü aç"},
     "dt_intro": {
         "pl": "Zmieniasz kopi\u0119 grup gry: zapisana grupa zast\u0119puje grup\u0119 gry o tym samym numerze, nowa dochodzi, "
               "usuni\u0119ta znika. Plik gry zostaje nietkni\u0119ty, wi\u0119c aktualizacja dalej przynosi zmiany reszty grup, "
@@ -29580,139 +30294,139 @@ T.update({
         "en": "You edit a copy of the game's groups: a saved group replaces the game's group with the same "
               "number, a new one is added, a removed one is gone. The game's own file stays as it is, so an "
               "update still brings changes to the other groups, and \"Restore the original\" undoes it all. If "
-              "the game does not accept your version, it goes back to its own file by itself and says why here."},
-    "dt_restart": {"pl": "Zmiany wejd\u0105 po restarcie serwera.", "en": "Changes apply after the server restarts."},
-    "dt_title_chests": {"pl": "Skrzynie", "en": "Chests"},
-    "dt_title_mobs": {"pl": "Drop z potwor\u00f3w", "en": "Monster drops"},
+              "the game does not accept your version, it goes back to its own file by itself and says why here.", "tr": "Oyunun gruplarının bir kopyasını düzenliyorsun: kaydedilen grup, oyundaki aynı numaralı grubun yerini alır, yeni grup eklenir, kaldırılan grup silinir. Oyunun kendi dosyası olduğu gibi kalır; bu yüzden bir güncelleme diğer gruplardaki değişiklikleri yine getirir ve \"Orijinali geri yükle\" her şeyi geri alır. Oyun senin sürümünü kabul etmezse kendiliğinden kendi dosyasına döner ve nedenini burada yazar."},
+    "dt_restart": {"pl": "Zmiany wejd\u0105 po restarcie serwera.", "en": "Changes apply after the server restarts.", "tr": "Değişiklikler sunucu yeniden başladıktan sonra geçerli olur."},
+    "dt_title_chests": {"pl": "Skrzynie", "en": "Chests", "tr": "Sandıklar"},
+    "dt_title_mobs": {"pl": "Drop z potwor\u00f3w", "en": "Monster drops", "tr": "Canavar drop'ları"},
     "dt_st_noimage": {
         "pl": "Gra nie opublikowa\u0142a jeszcze swoich plik\u00f3w - uruchom serwer raz w tej wersji, a edytor je odczyta.",
         "en": "The game has not published its files yet - start the server once with this version and the "
-              "editor will read them."},
-    "dt_st_original": {"pl": "Gra u\u017cywa w\u0142asnego pliku.", "en": "The game uses its own file."},
-    "dt_st_live": {"pl": "Twoje grupy dzia\u0142aj\u0105 w grze.", "en": "Your groups are live in the game."},
+              "editor will read them.", "tr": "Oyun dosyalarını henüz yayımlamadı - sunucuyu bu sürümle bir kez başlat, editör onları okuyacak."},
+    "dt_st_original": {"pl": "Gra u\u017cywa w\u0142asnego pliku.", "en": "The game uses its own file.", "tr": "Oyun kendi dosyasını kullanıyor."},
+    "dt_st_live": {"pl": "Twoje grupy dzia\u0142aj\u0105 w grze.", "en": "Your groups are live in the game.", "tr": "Grupların oyunda geçerli."},
     "dt_st_pending": {"pl": "Zapisane - zmiany wejd\u0105 po restarcie serwera.",
-                      "en": "Saved - changes apply after the server restarts."},
+                      "en": "Saved - changes apply after the server restarts.", "tr": "Kaydedildi - değişiklikler sunucu yeniden başladıktan sonra geçerli olur."},
     "dt_st_pending_reset": {"pl": "Przywr\u00f3cono orygina\u0142 - gra wr\u00f3ci do w\u0142asnego pliku po restarcie serwera.",
-                            "en": "Original restored - the game goes back to its own file after the server restarts."},
+                            "en": "Original restored - the game goes back to its own file after the server restarts.", "tr": "Orijinal geri yüklendi - oyun, sunucu yeniden başladıktan sonra kendi dosyasına döner."},
     "dt_st_rejected": {"pl": "Gra odrzuci\u0142a Twoje grupy przy starcie i u\u017cywa w\u0142asnego pliku: {reason}",
-                       "en": "The game rejected your groups at start and uses its own file: {reason}"},
+                       "en": "The game rejected your groups at start and uses its own file: {reason}", "tr": "Oyun, başlarken gruplarını reddetti ve kendi dosyasını kullanıyor: {reason}"},
     "dt_st_refused": {"pl": "Gra nie wczyta\u0142a tej wersji przy starcie i wr\u00f3ci\u0142a do w\u0142asnego pliku: {reason}. "
                             "Popraw grupy i zapisz ponownie.",
                       "en": "The game could not load this version at start and went back to its own file: "
-                            "{reason}. Fix the groups and save again."},
+                            "{reason}. Fix the groups and save again.", "tr": "Oyun bu sürümü başlarken yükleyemedi ve kendi dosyasına döndü: {reason}. Grupları düzelt ve yeniden kaydet."},
     "dt_st_broken": {"pl": "Plik z Twoimi grupami jest uszkodzony ({reason}) - przywr\u00f3\u0107 orygina\u0142.",
-                     "en": "The file with your groups is damaged ({reason}) - restore the original."},
+                     "en": "The file with your groups is damaged ({reason}) - restore the original.", "tr": "Gruplarını içeren dosya bozuk ({reason}) - orijinali geri yükle."},
     "dt_counts": {"pl": "Zmienione grupy: {replaced}, nowe: {added}, usuni\u0119te: {removed}.",
-                  "en": "Changed groups: {replaced}, new: {added}, removed: {removed}."},
+                  "en": "Changed groups: {replaced}, new: {added}, removed: {removed}.", "tr": "Değiştirilen gruplar: {replaced}, yeni: {added}, kaldırılan: {removed}."},
     "dt_backups": {"pl": "Kopie poprzednich wersji: {n} (spool, drop-tables/backup).",
-                   "en": "Copies of previous versions: {n} (spool, drop-tables/backup)."},
-    "dt_reset": {"pl": "Przywr\u00f3\u0107 orygina\u0142", "en": "Restore the original"},
-    "dt_history": {"pl": "Historia zmian (w edytorze bazy danych)", "en": "Change history (in the database editor)"},
-    "dt_search": {"pl": "Numer grupy, przedmiotu lub potwora albo nazwa", "en": "Group, item or monster number, or a name"},
-    "dt_only_changed": {"pl": "tylko zmienione", "en": "changed only"},
-    "dt_new": {"pl": "Nowa grupa", "en": "New group"},
-    "dt_count": {"pl": "Grup: {n} z {total}.", "en": "Groups: {n} of {total}."},
-    "dt_none": {"pl": "\u017badna grupa tego nie ma.", "en": "No group matches."},
-    "dt_prev": {"pl": "\u2190 Poprzednie", "en": "\u2190 Previous"},
-    "dt_next": {"pl": "Nast\u0119pne \u2192", "en": "Next \u2192"},
-    "dt_col_vnum": {"pl": "Numer", "en": "Number"},
-    "dt_col_key": {"pl": "Potw\u00f3r i typ", "en": "Monster and type"},
-    "dt_col_name": {"pl": "Nazwa grupy", "en": "Group name"},
-    "dt_col_chest": {"pl": "Skrzynia (przedmiot)", "en": "Chest (item)"},
-    "dt_col_mob": {"pl": "Potw\u00f3r", "en": "Monster"},
-    "dt_col_type": {"pl": "Typ", "en": "Type"},
-    "dt_col_lines": {"pl": "Linie", "en": "Lines"},
-    "dt_col_state": {"pl": "Stan", "en": "State"},
-    "dt_state_game": {"pl": "z gry", "en": "game's"},
-    "dt_state_replaced": {"pl": "zmieniona", "en": "changed"},
-    "dt_state_added": {"pl": "nowa", "en": "new"},
-    "dt_removed_t": {"pl": "Grupy usuni\u0119te z gry", "en": "Groups removed from the game"},
-    "dt_restore": {"pl": "Przywr\u00f3\u0107", "en": "Restore"},
-    "dt_edit_t": {"pl": "Grupa {key}", "en": "Group {key}"},
-    "dt_new_t": {"pl": "Nowa grupa", "en": "New group"},
-    "dt_group_t": {"pl": "Grupa {key}", "en": "Group {key}"},
-    "dt_f_name": {"pl": "Nazwa grupy (litery, cyfry, _ . -)", "en": "Group name (letters, digits, _ . -)"},
+                   "en": "Copies of previous versions: {n} (spool, drop-tables/backup).", "tr": "Önceki sürümlerin kopyaları: {n} (spool, drop-tables/backup)."},
+    "dt_reset": {"pl": "Przywr\u00f3\u0107 orygina\u0142", "en": "Restore the original", "tr": "Orijinali geri yükle"},
+    "dt_history": {"pl": "Historia zmian (w edytorze bazy danych)", "en": "Change history (in the database editor)", "tr": "Değişiklik geçmişi (veritabanı editöründe)"},
+    "dt_search": {"pl": "Numer grupy, przedmiotu lub potwora albo nazwa", "en": "Group, item or monster number, or a name", "tr": "Grup, eşya veya canavar numarası ya da bir ad"},
+    "dt_only_changed": {"pl": "tylko zmienione", "en": "changed only", "tr": "yalnızca değişenler"},
+    "dt_new": {"pl": "Nowa grupa", "en": "New group", "tr": "Yeni grup"},
+    "dt_count": {"pl": "Grup: {n} z {total}.", "en": "Groups: {n} of {total}.", "tr": "Gruplar: {total} içinden {n}."},
+    "dt_none": {"pl": "\u017badna grupa tego nie ma.", "en": "No group matches.", "tr": "Hiçbir grup eşleşmiyor."},
+    "dt_prev": {"pl": "\u2190 Poprzednie", "en": "\u2190 Previous", "tr": "← Önceki"},
+    "dt_next": {"pl": "Nast\u0119pne \u2192", "en": "Next \u2192", "tr": "Sonraki →"},
+    "dt_col_vnum": {"pl": "Numer", "en": "Number", "tr": "Numara"},
+    "dt_col_key": {"pl": "Potw\u00f3r i typ", "en": "Monster and type", "tr": "Canavar ve tür"},
+    "dt_col_name": {"pl": "Nazwa grupy", "en": "Group name", "tr": "Grup adı"},
+    "dt_col_chest": {"pl": "Skrzynia (przedmiot)", "en": "Chest (item)", "tr": "Sandık (eşya)"},
+    "dt_col_mob": {"pl": "Potw\u00f3r", "en": "Monster", "tr": "Canavar"},
+    "dt_col_type": {"pl": "Typ", "en": "Type", "tr": "Tür"},
+    "dt_col_lines": {"pl": "Linie", "en": "Lines", "tr": "Satırlar"},
+    "dt_col_state": {"pl": "Stan", "en": "State", "tr": "Durum"},
+    "dt_state_game": {"pl": "z gry", "en": "game's", "tr": "oyunun"},
+    "dt_state_replaced": {"pl": "zmieniona", "en": "changed", "tr": "değiştirilmiş"},
+    "dt_state_added": {"pl": "nowa", "en": "new", "tr": "yeni"},
+    "dt_removed_t": {"pl": "Grupy usuni\u0119te z gry", "en": "Groups removed from the game", "tr": "Oyundan kaldırılan gruplar"},
+    "dt_restore": {"pl": "Przywr\u00f3\u0107", "en": "Restore", "tr": "Geri yükle"},
+    "dt_edit_t": {"pl": "Grupa {key}", "en": "Group {key}", "tr": "Grup {key}"},
+    "dt_new_t": {"pl": "Nowa grupa", "en": "New group", "tr": "Yeni grup"},
+    "dt_group_t": {"pl": "Grupa {key}", "en": "Group {key}", "tr": "Grup {key}"},
+    "dt_f_name": {"pl": "Nazwa grupy (litery, cyfry, _ . -)", "en": "Group name (letters, digits, _ . -)", "tr": "Grup adı (harfler, rakamlar, _ . -)"},
     "dt_f_vnum": {"pl": "Numer skrzyni (Vnum - zwykle numer przedmiotu skrzyni)",
-                  "en": "Chest number (Vnum - usually the chest item's number)"},
-    "dt_f_type": {"pl": "Typ", "en": "Type"},
-    "dt_f_mob": {"pl": "Numer potwora (Mob)", "en": "Monster number (Mob)"},
-    "dt_type_normal": {"pl": "zwyk\u0142a (losuje jedn\u0105 lini\u0119 wg wag)", "en": "normal (draws one line by weight)"},
+                  "en": "Chest number (Vnum - usually the chest item's number)", "tr": "Sandık numarası (Vnum - genellikle sandık eşyasının numarası)"},
+    "dt_f_type": {"pl": "Typ", "en": "Type", "tr": "Tür"},
+    "dt_f_mob": {"pl": "Numer potwora (Mob)", "en": "Monster number (Mob)", "tr": "Canavar numarası (Mob)"},
+    "dt_type_normal": {"pl": "zwyk\u0142a (losuje jedn\u0105 lini\u0119 wg wag)", "en": "normal (draws one line by weight)", "tr": "normal (ağırlığa göre bir satır çeker)"},
     "dt_type_help_special": {
         "pl": "Zwyk\u0142a skrzynia daje jedn\u0105 lini\u0119, losowan\u0105 wed\u0142ug wag. Pct sprawdza ka\u017cd\u0105 lini\u0119 osobno - jej liczba "
               "to procent szansy. Quest i special zostaw takie, jak ma je gra.",
         "en": "A normal chest gives one line, drawn by weight. Pct rolls every line on its own - its number is "
-              "the percent chance. Leave Quest and special as the game has them."},
+              "the percent chance. Leave Quest and special as the game has them.", "tr": "Normal bir sandık, ağırlığa göre çekilen tek bir satır verir. Pct her satırı ayrı ayrı dener - satırın sayısı yüzde şansıdır. Quest ve special türlerini oyundaki gibi bırak."},
     "dt_type_help_mob": {
         "pl": "kill: co kill_drop zab\u00f3jstw (\u015brednio) jedna linia wed\u0142ug wag; drop: ka\u017cda linia ma sw\u00f3j procent; "
               "limit: jak drop, od poziomu level_limit; thiefgloves: jak drop, tylko z R\u0119kawic\u0105 Z\u0142odzieja. "
               "Procenty mno\u017cy jeszcze drop \u015bwiata i r\u00f3\u017cnica poziom\u00f3w.",
         "en": "kill: one line by weight about every kill_drop kills; drop: each line has its own percent; limit: "
               "like drop, from level level_limit; thiefgloves: like drop, only with the Thief's Glove. The "
-              "world's drop rate and the level difference still scale the percents."},
-    "dt_kill_drop_help": {"pl": "Mniej = cz\u0119\u015bciej. 0 wy\u0142\u0105cza grup\u0119.", "en": "Lower = more often. 0 switches the group off."},
+              "world's drop rate and the level difference still scale the percents.", "tr": "kill: yaklaşık her kill_drop öldürmede ağırlığa göre bir satır; drop: her satırın kendi yüzdesi vardır; limit: drop gibi, level_limit seviyesinden itibaren; thiefgloves: drop gibi, yalnızca Hırsızın Eldivenleri ile. Yüzdeleri yine de dünyanın drop oranı ve seviye farkı çarpar."},
+    "dt_kill_drop_help": {"pl": "Mniej = cz\u0119\u015bciej. 0 wy\u0142\u0105cza grup\u0119.", "en": "Lower = more often. 0 switches the group off.", "tr": "Ne kadar düşükse o kadar sık. 0 grubu kapatır."},
     "dt_level_limit_help": {"pl": "Od kt\u00f3rego poziomu zab\u00f3jcy grupa dzia\u0142a.",
-                            "en": "The killer's level from which the group works."},
-    "dt_e_item": {"pl": "Przedmiot", "en": "Item"},
-    "dt_e_count": {"pl": "Ilo\u015b\u0107", "en": "Count"},
-    "dt_e_prob_w": {"pl": "Waga", "en": "Weight"},
-    "dt_e_prob_pct": {"pl": "Szansa %", "en": "Chance %"},
-    "dt_e_prob_p": {"pl": "Procent", "en": "Percent"},
-    "dt_e_prob_any": {"pl": "Waga / procent", "en": "Weight / percent"},
-    "dt_e_rare": {"pl": "Rzadki %", "en": "Rare %"},
-    "dt_e_name": {"pl": "Nazwa", "en": "Name"},
-    "dt_e_chance": {"pl": "Szansa linii", "en": "Line's chance"},
-    "dt_e_del": {"pl": "Usu\u0144", "en": "Delete"},
-    "dt_e_add": {"pl": "+ wiersz", "en": "+ row"},
+                            "en": "The killer's level from which the group works.", "tr": "Grubun çalışmaya başladığı, öldüren karakterin seviyesi."},
+    "dt_e_item": {"pl": "Przedmiot", "en": "Item", "tr": "Eşya"},
+    "dt_e_count": {"pl": "Ilo\u015b\u0107", "en": "Count", "tr": "Adet"},
+    "dt_e_prob_w": {"pl": "Waga", "en": "Weight", "tr": "Ağırlık"},
+    "dt_e_prob_pct": {"pl": "Szansa %", "en": "Chance %", "tr": "Şans %"},
+    "dt_e_prob_p": {"pl": "Procent", "en": "Percent", "tr": "Yüzde"},
+    "dt_e_prob_any": {"pl": "Waga / procent", "en": "Weight / percent", "tr": "Ağırlık / yüzde"},
+    "dt_e_rare": {"pl": "Rzadki %", "en": "Rare %", "tr": "Nadir %"},
+    "dt_e_name": {"pl": "Nazwa", "en": "Name", "tr": "Ad"},
+    "dt_e_chance": {"pl": "Szansa linii", "en": "Line's chance", "tr": "Satırın şansı"},
+    "dt_e_del": {"pl": "Usu\u0144", "en": "Delete", "tr": "Sil"},
+    "dt_e_add": {"pl": "+ wiersz", "en": "+ row", "tr": "+ satır"},
     "dt_item_help": {
         "pl": "Przedmiot to numer z item_proto, albo w skrzyni: gold (yang), exp, mob (ilo\u015b\u0107 = numer potwora), "
               "group, slow, drain_hp, poison, s<numer> (inna skrzynia). Puste wiersze s\u0105 pomijane.",
         "en": "An item is a number from item_proto, or in a chest: gold (yang), exp, mob (the count is a monster's "
-              "number), group, slow, drain_hp, poison, s<number> (another chest). Empty rows are left out."},
-    "dt_preview_btn": {"pl": "Podgl\u0105d zmian", "en": "Preview the change"},
-    "dt_remove_btn": {"pl": "Usu\u0144 grup\u0119 z gry", "en": "Remove the group from the game"},
-    "dt_revert_btn": {"pl": "Wr\u00f3\u0107 do wersji z gry", "en": "Back to the game's version"},
-    "dt_preview_t": {"pl": "Podgl\u0105d", "en": "Preview"},
-    "dt_what_edit": {"pl": "zmiana grupy", "en": "a change of group"},
-    "dt_what_add": {"pl": "nowa grupa", "en": "a new group"},
-    "dt_what_remove": {"pl": "usuni\u0119cie grupy", "en": "removing group"},
-    "dt_what_revert": {"pl": "powr\u00f3t do wersji z gry", "en": "back to the game's version of"},
-    "dt_what_reset": {"pl": "przywr\u00f3cenie orygina\u0142u", "en": "restoring the original"},
-    "dt_diff_before": {"pl": "teraz", "en": "now"},
-    "dt_diff_after": {"pl": "po zapisie", "en": "after saving"},
-    "dt_errors": {"pl": "Tego nie da si\u0119 zapisa\u0107:", "en": "This cannot be saved:"},
-    "dt_warnings": {"pl": "Uwagi:", "en": "Notes:"},
-    "dt_save_btn": {"pl": "Zapisz", "en": "Save"},
-    "dt_back": {"pl": "\u2190 Wr\u00f3\u0107 bez zapisu", "en": "\u2190 Back without saving"},
+              "number), group, slow, drain_hp, poison, s<number> (another chest). Empty rows are left out.", "tr": "Eşya, item_proto'daki bir numaradır; sandıkta ayrıca şunlar olabilir: gold (yang), exp, mob (adet, bir canavarın numarasıdır), group, slow, drain_hp, poison, s<number> (başka bir sandık). Boş satırlar atlanır."},
+    "dt_preview_btn": {"pl": "Podgl\u0105d zmian", "en": "Preview the change", "tr": "Değişikliği önizle"},
+    "dt_remove_btn": {"pl": "Usu\u0144 grup\u0119 z gry", "en": "Remove the group from the game", "tr": "Grubu oyundan kaldır"},
+    "dt_revert_btn": {"pl": "Wr\u00f3\u0107 do wersji z gry", "en": "Back to the game's version", "tr": "Oyunun sürümüne dön"},
+    "dt_preview_t": {"pl": "Podgl\u0105d", "en": "Preview", "tr": "Önizleme"},
+    "dt_what_edit": {"pl": "zmiana grupy", "en": "a change of group", "tr": "grup değişikliği"},
+    "dt_what_add": {"pl": "nowa grupa", "en": "a new group", "tr": "yeni grup"},
+    "dt_what_remove": {"pl": "usuni\u0119cie grupy", "en": "removing group", "tr": "grubun kaldırılması"},
+    "dt_what_revert": {"pl": "powr\u00f3t do wersji z gry", "en": "back to the game's version of", "tr": "oyundaki sürüme dönüş"},
+    "dt_what_reset": {"pl": "przywr\u00f3cenie orygina\u0142u", "en": "restoring the original", "tr": "orijinalin geri yüklenmesi"},
+    "dt_diff_before": {"pl": "teraz", "en": "now", "tr": "şimdi"},
+    "dt_diff_after": {"pl": "po zapisie", "en": "after saving", "tr": "kaydettikten sonra"},
+    "dt_errors": {"pl": "Tego nie da si\u0119 zapisa\u0107:", "en": "This cannot be saved:", "tr": "Bu kaydedilemez:"},
+    "dt_warnings": {"pl": "Uwagi:", "en": "Notes:", "tr": "Notlar:"},
+    "dt_save_btn": {"pl": "Zapisz", "en": "Save", "tr": "Kaydet"},
+    "dt_back": {"pl": "\u2190 Wr\u00f3\u0107 bez zapisu", "en": "\u2190 Back without saving", "tr": "← Kaydetmeden geri dön"},
     "dt_saved": {"pl": "Zapisano. Zmiany wejd\u0105 po restarcie serwera.",
-                 "en": "Saved. Changes apply after the server restarts."},
+                 "en": "Saved. Changes apply after the server restarts.", "tr": "Kaydedildi. Değişiklikler sunucu yeniden başladıktan sonra geçerli olur."},
     "dt_saved_nohist": {"pl": "Zapisano (zmiany wejd\u0105 po restarcie serwera), ale wpis do historii si\u0119 nie uda\u0142.",
                         "en": "Saved (changes apply after the server restarts), but the history entry could "
-                              "not be written."},
+                              "not be written.", "tr": "Kaydedildi (değişiklikler sunucu yeniden başladıktan sonra geçerli olur), ancak geçmiş kaydı yazılamadı."},
     "dt_write_failed": {"pl": "Nie uda\u0142o si\u0119 zapisa\u0107 w {path} - sprawd\u017a, czy spool jest podpi\u0119ty do panelu.",
-                        "en": "Could not write into {path} - check that the spool is mounted into the panel."},
+                        "en": "Could not write into {path} - check that the spool is mounted into the panel.", "tr": "{path} içine yazılamadı - spool'un panele bağlı olup olmadığını kontrol et."},
     "dt_changed_meanwhile": {"pl": "W mi\u0119dzyczasie co\u015b si\u0119 zmieni\u0142o - sprawd\u017a podgl\u0105d jeszcze raz.",
-                             "en": "Something changed meanwhile - check the preview again."},
+                             "en": "Something changed meanwhile - check the preview again.", "tr": "Bu arada bir şey değişti - önizlemeyi yeniden kontrol et."},
     "dt_db_down": {"pl": "Baza danych nie odpowiada - bez niej nie da si\u0119 sprawdzi\u0107 numer\u00f3w przedmiot\u00f3w i potwor\u00f3w.",
-                   "en": "The database does not answer - the item and monster numbers cannot be checked without it."},
+                   "en": "The database does not answer - the item and monster numbers cannot be checked without it.", "tr": "Veritabanı yanıt vermiyor - o olmadan eşya ve canavar numaraları denetlenemez."},
     "dt_exists": {"pl": "Grupa {key} ju\u017c jest - edytuj j\u0105 zamiast dodawa\u0107 now\u0105.",
-                  "en": "Group {key} already exists - edit it instead."},
-    "dt_no_group": {"pl": "Nie ma takiej grupy.", "en": "There is no such group."},
-    "dt_bad_input": {"pl": "Nieprawid\u0142owe dane formularza.", "en": "The form's data is not valid."},
-    "dt_bad_number": {"pl": "Numer grupy musi by\u0107 liczb\u0105 ca\u0142kowit\u0105.", "en": "The group's number must be a whole number."},
-    "dt_nochange": {"pl": "Nic si\u0119 nie zmienia.", "en": "Nothing changes."},
-    "dt_attr_ro": {"pl": "Grup typu attr nie edytuje si\u0119 tutaj.", "en": "Groups of type attr are not edited here."},
+                  "en": "Group {key} already exists - edit it instead.", "tr": "{key} grubu zaten var - bunun yerine onu düzenle."},
+    "dt_no_group": {"pl": "Nie ma takiej grupy.", "en": "There is no such group.", "tr": "Böyle bir grup yok."},
+    "dt_bad_input": {"pl": "Nieprawid\u0142owe dane formularza.", "en": "The form's data is not valid.", "tr": "Formun verileri geçerli değil."},
+    "dt_bad_number": {"pl": "Numer grupy musi by\u0107 liczb\u0105 ca\u0142kowit\u0105.", "en": "The group's number must be a whole number.", "tr": "Grubun numarası tam sayı olmalı."},
+    "dt_nochange": {"pl": "Nic si\u0119 nie zmienia.", "en": "Nothing changes.", "tr": "Hiçbir şey değişmiyor."},
+    "dt_attr_ro": {"pl": "Grup typu attr nie edytuje si\u0119 tutaj.", "en": "Groups of type attr are not edited here.", "tr": "attr türündeki gruplar burada düzenlenmez."},
     "dt_dup_blocks": {"pl": "Plik gry ma t\u0119 grup\u0119 {n} razy; zapis zostawi jedn\u0105 (to, co gra naprawd\u0119 czyta).",
-                      "en": "The game's file has this group {n} times; saving keeps one (what the game really reads)."},
+                      "en": "The game's file has this group {n} times; saving keeps one (what the game really reads).", "tr": "Oyunun dosyasında bu grup {n} kez var; kaydederken biri kalır (oyunun gerçekten okuduğu)."},
     "dt_ignored_lines": {"pl": "{n} linii gra pomija (przerwa w numeracji) - przy zapisie znikn\u0105.",
-                         "en": "The game skips {n} lines (a gap in the numbering) - saving drops them."},
-    "dt_kw_exp": {"pl": "Do\u015bwiadczenie", "en": "Experience"},
-    "dt_kw_mob": {"pl": "Potw\u00f3r: {name}", "en": "Monster: {name}"},
-    "dt_kw_group": {"pl": "Grupa potwor\u00f3w {n}", "en": "Monster group {n}"},
-    "dt_kw_slow": {"pl": "Spowolnienie", "en": "Slow"},
-    "dt_kw_drain_hp": {"pl": "Utrata HP", "en": "HP loss"},
-    "dt_kw_poison": {"pl": "Trucizna", "en": "Poison"},
-    "dt_kw_s": {"pl": "Skrzynia {n}", "en": "Chest group {n}"},
-    "dt_unknown": {"pl": "nieznany", "en": "unknown"},
+                         "en": "The game skips {n} lines (a gap in the numbering) - saving drops them.", "tr": "Oyun {n} satırı atlıyor (numaralamada boşluk) - kaydederken bunlar silinir."},
+    "dt_kw_exp": {"pl": "Do\u015bwiadczenie", "en": "Experience", "tr": "Tecrübe"},
+    "dt_kw_mob": {"pl": "Potw\u00f3r: {name}", "en": "Monster: {name}", "tr": "Canavar: {name}"},
+    "dt_kw_group": {"pl": "Grupa potwor\u00f3w {n}", "en": "Monster group {n}", "tr": "Canavar grubu {n}"},
+    "dt_kw_slow": {"pl": "Spowolnienie", "en": "Slow", "tr": "Yavaşlama"},
+    "dt_kw_drain_hp": {"pl": "Utrata HP", "en": "HP loss", "tr": "HP kaybı"},
+    "dt_kw_poison": {"pl": "Trucizna", "en": "Poison", "tr": "Zehir"},
+    "dt_kw_s": {"pl": "Skrzynia {n}", "en": "Chest group {n}", "tr": "Sandık grubu {n}"},
+    "dt_unknown": {"pl": "nieznany", "en": "unknown", "tr": "bilinmiyor"},
 })
 
 
@@ -29794,7 +30508,7 @@ def _client_data_name(rows, vnum, kind="i"):
     matched (english_game_name), the stored Polish otherwise."""
     row = rows.get(vnum) or {}
     raw = bytes(row.get("locale_name") or b"").split(b"\0", 1)[0]
-    official = english_game_name(kind, vnum, raw) if reads_english(lang()) else None
+    official = reader_game_name(kind, vnum, raw) if reads_english(lang()) else None
     return official or raw.decode("cp1250", "replace")
 
 
@@ -29923,9 +30637,7 @@ T.update({
         "de": "Im Datenbank-Editor geänderte Gegenstände und Monster im Spielclient: Lade das Paket für "
               "einen Freund oder einen Client auf dem VPS herunter und synchronisiere deinen eigenen Client mit "
               "dem Launcher.",
-        "tr": "Veri tabanı düzenleyicisinde değiştirilen eşyalar ve yaratıklar oyun "
-              "istemcisinde: bir arkadaşın ya da VPS'te oynayan bir istemcinin paketini indir, kendi "
-              "istemcini başlatıcıyla eşitle."},
+        "tr": "Veritabanı editöründe değiştirilen eşyalar ve canavarlar, oyun istemcisinde: bir arkadaş ya da VPS'te oynayan bir istemci için paketi indir, kendi istemcini launcher'la eşitle."},
     "cd_intro": {
         "pl": "Klient gry nie pyta serwera, czym jest przedmiot: tabelę przedmiotów i potworów czyta z własnej "
               "paczki (pack\\gamedata). Zmiana w edytorze bazy danych - bonusy przedmiotu, wartości ataku, cena u "
@@ -29942,12 +30654,7 @@ T.update({
               "Boni, Angriffswerte, NPC-Preis, Monsterstufe - gilt nach einem Neustart auf dem Server, und der "
               "Client zeigt die alten Werte im Tooltip, bei der Verkaufsfrage und in der Zielanzeige, bis er die "
               "Tabellen dieser Welt bekommt. Diese Seite baut sie aus world.item_proto und world.mob_proto.",
-        "tr": "Oyun istemcisi bir eşyanın ne olduğunu sunucuya asla sormaz: eşya ve yaratık "
-              "tablolarını kendi paketinden (pack\\gamedata) okur. Veri tabanı düzenleyicisindeki bir "
-              "değişiklik - bonuslar, saldırı değerleri, NPC fiyatı, yaratık seviyesi - "
-              "yeniden başlatmadan sonra sunucuda geçerli olur; istemci ise bu dünyanın tablolarını "
-              "alana kadar eşya açıklamasında, satış sorusunda ve hedef panelinde eski değerleri "
-              "gösterir. Bu sayfa onları world.item_proto ve world.mob_proto'dan oluşturur."},
+        "tr": "Oyun istemcisi bir eşyanın ne olduğunu sunucuya asla sormaz: eşya ve canavar tablolarını kendi paketinden (pack\\gamedata) okur. Veritabanı editöründeki bir değişiklik - bonuslar, saldırı değerleri, NPC fiyatı, canavar seviyesi - yeniden başlatmadan sonra sunucuda geçerli olur; istemci ise bu dünyanın tablolarını alana kadar eşya açıklamasında, satış sorusunda ve hedef panelinde eski değerleri gösterir. Bu sayfa onları world.item_proto ve world.mob_proto'dan oluşturur."},
     "cd_order": {
         "pl": "Kolejność: zmiany w edytorze, „Zastosuj” (restart serwera), potem synchronizacja klienta. "
               "Synchronizacja niczego nie zmienia na serwerze.",
@@ -29955,9 +30662,7 @@ T.update({
               "sync changes nothing on the server.",
         "de": "Reihenfolge: Änderungen im Editor, „Anwenden“ (Serverneustart), dann die Synchronisierung "
               "des Clients. Sie ändert nichts auf dem Server.",
-        "tr": "Sıra: düzenleyicideki değişiklikler, “Uygula” (sunucunun yeniden "
-              "başlatılması), sonra istemcinin eşitlenmesi. Eşitleme sunucuda hiçbir şeyi "
-              "değiştirmez."},
+        "tr": "Sıra: editördeki değişiklikler, “Uygula” (sunucunun yeniden başlatılması), sonra istemcinin eşitlenmesi. Eşitleme sunucuda hiçbir şeyi değiştirmez."},
     "cd_names": {
         "pl": "Nazwy: polski klient czyta nazwy z tych tabel, więc zmieniona nazwa jest w nim widoczna. Inne "
               "języki mają własne tłumaczenia w paczce językowej (locale), której synchronizacja nie zmienia "
@@ -29988,7 +30693,7 @@ T.update({
     "cd_mobs": {"pl": "Potwory i NPC: {n} różni się od klienta, {added} nowych (w świecie {total}).",
                 "en": "Monsters and NPCs: {n} differ from the client, {added} new (the world has {total}).",
                 "de": "Monster und NPCs: {n} weichen vom Client ab, {added} neu (die Welt hat {total}).",
-                "tr": "Yaratıklar ve NPC'ler: {n} istemciden farklı, {added} yeni (dünyada {total})."},
+                "tr": "Canavarlar ve NPC'ler: {n} istemciden farklı, {added} yeni (dünyada {total})."},
     "cd_same": {"pl": "Klient z tej wersji pokazuje to samo, co liczy serwer - nie trzeba niczego synchronizować.",
                 "en": "A client of this version shows what the server counts - there is nothing to sync.",
                 "de": "Ein Client dieser Version zeigt, was der Server rechnet - es gibt nichts zu synchronisieren.",
@@ -30005,17 +30710,14 @@ T.update({
               "Server des Spielpakets sind sich darin von Anfang an uneinig (etwa die Gürtel 18000-18039, die "
               "Seelensteine +5, die Stufen der Portale). Die Synchronisierung setzt sie im Client so, wie der Server "
               "sie rechnet.",
-        "tr": "Hiç değiştirilmemiş bir dünya da istemciden yaklaşık 190 eşya ve 170 yaratıkta "
-              "farklıdır: oyun paketinin istemcisi ve sunucusu bunlarda baştan beri ayrışır (örneğin "
-              "18000-18039 kemerleri, +5 ruh taşları, portalların seviyeleri). Eşitleme onları istemcide "
-              "sunucunun hesapladığı gibi ayarlar."},
+        "tr": "Hiç değiştirilmemiş bir dünya da istemciden yaklaşık 190 eşya ve 170 canavarda farklıdır: oyun paketinin istemcisi ve sunucusu bunlarda baştan beri uyuşmaz (örneğin 18000-18039 kemerleri, +5 zihin taşları, portalların seviyeleri). Eşitleme onları istemcide sunucunun hesapladığı gibi ayarlar."},
     "cd_col_kind": {"pl": "Tabela", "en": "Table", "de": "Tabelle", "tr": "Tablo"},
     "cd_col_vnum": {"pl": "Numer", "en": "Number", "de": "Nummer", "tr": "Numara"},
     "cd_col_name": {"pl": "Nazwa", "en": "Name", "de": "Name", "tr": "İsim"},
     "cd_col_fields": {"pl": "Zmienione pola", "en": "Fields that differ", "de": "Abweichende Felder",
                       "tr": "Farklı alanlar"},
     "cd_kind_item": {"pl": "przedmiot", "en": "item", "de": "Gegenstand", "tr": "eşya"},
-    "cd_kind_mob": {"pl": "potwór", "en": "monster", "de": "Monster", "tr": "yaratık"},
+    "cd_kind_mob": {"pl": "potwór", "en": "monster", "de": "Monster", "tr": "canavar"},
     "cd_new_row": {"pl": "nowy wiersz", "en": "a new row", "de": "neue Zeile", "tr": "yeni satır"},
     "cd_more": {"pl": "… i {n} kolejnych.", "en": "… and {n} more.", "de": "… und {n} weitere.",
                 "tr": "… ve {n} tane daha."},
@@ -30036,10 +30738,7 @@ T.update({
               "Launcher baut die Tabellen aus dem eigenen Paket deines Clients, legt eine Sicherung an "
               "(backups\\client-data) und spielt sie nach einem Client-Update oder bei SPIELEN, wenn sich die Welt "
               "geändert hat, selbst wieder ein.",
-        "tr": "Başlatıcıda: WEB PANELİNİ AÇ → “Eşya verilerini istemciyle eşitle”. "
-              "Başlatıcı tabloları istemcinin kendi paketinden oluşturur, yedek alır "
-              "(backups\\client-data) ve istemci güncellemesinden sonra ya da dünya değiştiğinde OYNA'da "
-              "kendiliğinden yeniden yükler."},
+        "tr": "Launcher'da: WEB PANELİNİ AÇ → “Eşya verilerini istemciyle eşitle”. Launcher tabloları istemcinin kendi paketinden oluşturur, yedek alır (backups\\client-data) ve istemci güncellemesinden sonra ya da dünya değiştiyse OYNA'ya bastığında kendiliğinden yeniden yükler."},
     "cd_friend_t": {"pl": "Znajomy (COOP) albo klient na VPS", "en": "A friend (COOP) or a client on a VPS",
                     "de": "Ein Freund (COOP) oder ein Client auf dem VPS", "tr": "Bir arkadaş (COOP) ya da VPS'teki istemci"},
     "cd_friend": {
@@ -30055,10 +30754,7 @@ T.update({
               "metin2client.exe liegt) und startet DaneSwiata.bat: Es prüft die Client-Version, sichert die "
               "Originaldateien und ersetzt sie erst dann (zurück: DaneSwiata.bat restore). Nach weiteren "
               "Änderungen an der Welt oder einem Client-Update - ein neues Paket.",
-        "tr": "ZIP paketini indir ve arkadaşına ver. Tümünü istemci klasörüne (metin2client.exe'nin "
-              "olduğu yer) çıkarır ve DaneSwiata.bat'ı çalıştırır: istemci sürümünü "
-              "denetler, orijinal dosyaları yedekler ve ancak sonra değiştirir (geri: DaneSwiata.bat restore). "
-              "Dünyada yeni değişikliklerden ya da istemci güncellemesinden sonra - yeni paket."},
+        "tr": "ZIP paketini indir ve arkadaşına ver. Arkadaşın hepsini istemci klasörüne (metin2client.exe'nin olduğu yer) çıkarır ve DaneSwiata.bat'ı çalıştırır: istemci sürümünü denetler, orijinal dosyaları yedekler ve ancak sonra değiştirir (geri almak için: DaneSwiata.bat restore). Dünyada yeni değişiklikler olursa ya da istemci güncellenirse yeni paket gerekir."},
     "cd_download": {"pl": "Pobierz paczkę dla klienta (ZIP)", "en": "Download the client package (ZIP)",
                     "de": "Client-Paket herunterladen (ZIP)", "tr": "İstemci paketini indir (ZIP)"},
     "cd_refused": {"pl": "Nie da się zbudować danych dla klienta: {reason}",
@@ -30068,7 +30764,7 @@ T.update({
     "cd_db_down": {"pl": "Baza danych nie odpowiada - bez niej nie da się odczytać tabel świata.",
                    "en": "The database does not answer - the world's tables cannot be read without it.",
                    "de": "Die Datenbank antwortet nicht - ohne sie lassen sich die Tabellen der Welt nicht lesen.",
-                   "tr": "Veri tabanı yanıt vermiyor - o olmadan dünyanın tabloları okunamaz."},
+                   "tr": "Veritabanı yanıt vermiyor - o olmadan dünyanın tabloları okunamaz."},
 })
 
 
@@ -30080,6 +30776,79 @@ if os.environ.get("M2PANEL_THEME", "iwakura") != "classic":
         _m2_theme.install(sys.modules[__name__])
     except Exception:
         app.logger.exception("m2_theme: not loaded; using the classic panel")
+
+# The GM's quest skip, "Misje graczy" (Kiciamol, 16 October): a character's
+# saved quests and a full skip with its reward, queued for the character's own
+# core (quest_admin_web.py; the image's gm_quest_admin.quest carries it out).
+# mt2009 only - the quests are that image's. Registered after the theme, so
+# its pages wear the theme's frame. Loaded as hexagonal_events.py is: a
+# stager that left the sibling out costs the page, not the panel.
+QUEST_ADMIN_READY = False
+if ENGINE_MT2009:
+    try:
+        import importlib.util as _quest_admin_util
+        _quest_admin_spec = _quest_admin_util.spec_from_file_location(
+            __name__ + "_quest_admin_web", os.path.join(os.path.dirname(os.path.abspath(__file__)), "quest_admin_web.py"))
+        _quest_admin = _quest_admin_util.module_from_spec(_quest_admin_spec)
+        _quest_admin_spec.loader.exec_module(_quest_admin)
+        # db is asked for at each request (the tests hand the panel another).
+        # Turkish patch: the reader's own language ("tr" too) and the Turkish
+        # of its English texts (panel_tr); names for a Turkish reader in Turkish.
+        _quest_admin.register(app, lambda: db(), BASE, login_required,
+                              lang=lambda: lang() if lang() in ("pl", "tr") else "en",
+                              item_name=lambda vnum, raw: reader_game_name("i", vnum, raw) if reads_english(lang()) else None,
+                              tr_text=panel_tr)
+        QUEST_ADMIN_READY = True
+    except Exception:  # noqa: BLE001
+        app.logger.exception("quest_admin_web: not loaded; no player quests page")
+
+# The bot editor on a bot's card, "Edytuj bota" (Iwakura's Patch 20, point
+# 4C; bot_editor.py): the panel writes a registered bot's rows while the
+# cores hold it out of the world (playerbot_bot_hold.h). mt2009 only, loaded
+# as the quest skip is: a stager that left the sibling out costs the button.
+BOT_EDITOR_READY = False
+if ENGINE_MT2009:
+    try:
+        import importlib.util as _bot_editor_util
+        _bot_editor_spec = _bot_editor_util.spec_from_file_location(
+            __name__ + "_bot_editor", os.path.join(os.path.dirname(os.path.abspath(__file__)), "bot_editor.py"))
+        _bot_editor = _bot_editor_util.module_from_spec(_bot_editor_spec)
+        _bot_editor_spec.loader.exec_module(_bot_editor)
+
+        def _bot_editor_is_bot(cur, pid):
+            cur.execute(bot_sql("SELECT <<BOT_P_2>> AS bot FROM player.player p WHERE p.id = %s"), (pid,))
+            found = cur.fetchone()
+            return bool(found and any(found.values()))
+
+        _bot_editor.register(app, lambda: db(), login_required, csrf_token, lang=lang,
+                             is_registered_bot=_bot_editor_is_bot, live_status=read_playerbot_live_status,
+                             skills_of=parse_player_skills,
+                             item_name=lambda vnum, language: item_full_name(vnum, 0, language),
+                             max_level=MAX_LEVEL, gear_hows=GEAR_HISTORY_HOWS, spool_dir=AI_SPOOL)
+        BOT_EDITOR_READY = True
+    except Exception:  # noqa: BLE001
+        app.logger.exception("bot_editor: not loaded; no bot editor")
+
+# Shared world settings use the same persistent spool as the AI controls.
+WORLD_SETTINGS_PERFORMANCE_RED = None
+if ENGINE_MT2009:
+    try:
+        import importlib.util as _ws_util
+        _ws_spec = _ws_util.spec_from_file_location(__name__ + "_world_settings",
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "playerbot_world_settings.py"))
+        _ws = _ws_util.module_from_spec(_ws_spec)
+        _ws_spec.loader.exec_module(_ws)
+        class _WorldSettingsPanelProxy:
+            # Isolated test loaders need the live globals too, not a snapshot
+            # of db()/lang() taken while the module was being imported.
+            def __getattr__(self, name):
+                try:
+                    return globals()[name]
+                except KeyError:
+                    raise AttributeError(name)
+        WORLD_SETTINGS_PERFORMANCE_RED = _ws.register(sys.modules.get(__name__) or _WorldSettingsPanelProxy())
+    except Exception:
+        app.logger.exception("world settings: module unavailable")
 
 if __name__ == "__main__":
     app.run(host=CONF.get("bind", "0.0.0.0"), port=CONF.get("port", 7788))

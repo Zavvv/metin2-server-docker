@@ -240,6 +240,26 @@ done
 # twenty seconds while one statement runs (crash_check_watch). Failures are
 # reported and never fatal: a world that starts with one damaged log table is
 # far better than a world that refuses to start at all.
+#
+# A repair is a second copy of the table on the database's own disk - the new
+# data file, the index rebuilt beside it, its sort files - and a log.log of
+# several gigabytes on a VPS whose disk it had already filled could never get
+# one: each try filled the disk to the last byte, failed, left the table
+# crashed, and the next open or the next start tried again ("plik log.log jest
+# w kolko naprawiany i zabiera cale miejsce na dysku", ziolek, 16 October;
+# the server's BACKUP option kept a full copy of the data file beside it at
+# every automatic repair as well, which mt2009's 99-metin2.cnf no longer
+# asks for). So a table of the `log` database - history only, nothing in the
+# game reads it - is repaired only when the disk has room for that copy
+# (its size at the last check, half as much again, and M2_DB_REPAIR_RESERVE_MB
+# left over for the rest of the world), and is emptied with TRUNCATE TABLE
+# otherwise, or when its repair failed: TRUNCATE makes a MyISAM table anew
+# from its definition, so it needs no space and works on files no repair can
+# read. A table of account, common or player is never emptied; its repair is
+# not tried on a disk that cannot hold it, and the operator is told to make
+# room. And a repair MyISAM finds the disk full under does not fail, it waits
+# for free space for ever - the migrator with it, the game never started - so
+# a repair seen waiting is stopped (KILL QUERY) and counted as failed.
 root_db() {
     # This step runs as root; the password stays out of argv, as db()'s does.
     MYSQL_PWD="$M2_DB_ROOT_PASSWORD" mariadb \
@@ -304,7 +324,7 @@ if [ -n "${M2_DB_ROOT_PASSWORD:-}" ]; then
                     measured_at DATETIME NOT NULL,
                     PRIMARY KEY (table_schema, table_name)
                 ) ENGINE=InnoDB;" 2>/dev/null </dev/null || true
-            root_db -e "SELECT CONCAT(table_schema, '.', table_name), table_rows FROM common.playerbot_myisam_size;" \
+            root_db -e "SELECT CONCAT(table_schema, '.', table_name), table_rows, data_bytes FROM common.playerbot_myisam_size;" \
                 >/tmp/playerbot-myisam-size 2>/dev/null </dev/null || : >/tmp/playerbot-myisam-size
             # How long the server had been up when this run began, whatever
             # the run then waited for (the schema, a large world's recovery):
@@ -355,25 +375,109 @@ if [ -n "${M2_DB_ROOT_PASSWORD:-}" ]; then
                          END { if (n > 20) print "[playerbot-migrate] crash check: and " (n - 20) " more table(s) the check had words for" }' \
                 /tmp/playerbot-check.verdicts
             awk -F '\t' '$1 == "repair" { print $2 }' /tmp/playerbot-check.verdicts >/tmp/playerbot-repairs
+            # The database disk's free bytes, through the volume mounted
+            # read-only here (/opt/playerbot-db-space, the log index's own
+            # probe); unknown when it is not mounted or the datadir is not the
+            # volume's, and then a log table is repaired as before and only
+            # emptied when the repair fails.
+            log_free=
+            if [ -s /tmp/playerbot-repairs ]; then
+                case "$(root_db -e "SELECT @@datadir;" 2>/dev/null </dev/null || true)" in
+                    /var/lib/mysql|/var/lib/mysql/)
+                        if awk '$5 == "/opt/playerbot-db-space" { f = 1 } END { exit !f }' /proc/self/mountinfo 2>/dev/null; then
+                            log_free=$(df -Pk /opt/playerbot-db-space 2>/dev/null | awk 'NR == 2 { printf "%.0f", $4 * 1024 }')
+                        fi
+                        ;;
+                esac
+                case "$log_free" in *[!0-9]*) log_free= ;; esac
+            fi
+            log_reserve=${M2_DB_REPAIR_RESERVE_MB:-1024}
+            case "$log_reserve" in ''|*[!0-9]*) log_reserve=1024 ;; esac
+            log_reserve=$((log_reserve * 1048576))
+            emptied_n=0
+            empty_log_table() { # <schema.table> <why>
+                echo "[playerbot-migrate] WARNING: crash check: $1 is emptied instead ($2) - it is the game's history only, nothing in the game reads it, and the game writes new rows into it from this start" >&2
+                if empty_out=$(root_db -e "TRUNCATE TABLE \`${1%%.*}\`.\`${1#*.}\`;" 2>&1 </dev/null); then
+                    emptied_n=$((emptied_n + 1))
+                    echo "[playerbot-migrate] crash check: $1 emptied; its definition and indexes are kept"
+                    return 0
+                fi
+                echo "[playerbot-migrate] WARNING: crash check: $1 could not be emptied either: $(printf '%s\n' "$empty_out" | grep -v 'ssl-verify-server-cert' | head -2 | tr '\n' ' ')" >&2
+                return 1
+            }
             while IFS= read -r table; do
                 rows=$(awk -F '\t' -v t="$table" '$1 == t { print $2; exit }' /tmp/playerbot-myisam-size)
+                bytes=$(awk -F '\t' -v t="$table" '$1 == t { print $3; exit }' /tmp/playerbot-myisam-size)
+                case "$bytes" in *[!0-9]*) bytes= ;; esac
                 if [ -n "$rows" ]; then size_text="$rows rows at the last check"; else size_text="never measured"; fi
+                # A repair the disk cannot hold is not tried: the try is what
+                # fills the disk. A log table is emptied instead; any other is
+                # left for the operator to make room.
+                if [ -n "$log_free" ] && [ -n "$bytes" ]; then
+                    log_need=$((bytes + bytes / 2 + log_reserve))
+                    if [ "$log_free" -lt "$log_need" ]; then
+                        log_why="a repair needs about $((log_need / 1048576)) MB of the database disk ($((bytes / 1048576)) MB at the last check, $size_text, half again for the copy and $((log_reserve / 1048576)) MB kept for the world) and it has $((log_free / 1048576)) MB free - the repair would fill the disk and wait there"
+                        if [ "${table%%.*}" = log ]; then
+                            if empty_log_table "$table" "$log_why"; then
+                                continue
+                            fi
+                        else
+                            echo "[playerbot-migrate] WARNING: crash check: $table is not repaired: $log_why; free that much on the server's disk (old Docker images: docker image prune -a; build cache: docker builder prune) and start again" >&2
+                        fi
+                        broken="$broken $table"
+                        broken_n=$((broken_n + 1))
+                        continue
+                    fi
+                fi
                 echo "[playerbot-migrate] crash check: repairing $table ($size_text) - the check found it broken; minutes for millions of rows: do not stop the server or start an update until this step reports"
                 repair_started=$(date +%s)
-                if repair_out=$(root_db -e "REPAIR TABLE \`${table%%.*}\`.\`${table#*.}\`;" 2>&1 </dev/null); then
+                # On a full disk MyISAM does not fail a repair: it waits for
+                # someone to free space and tries again every minute, for
+                # ever, and the start with it (measured on 11.8: ten minutes
+                # and on). So the repair runs beside a watch of its own state,
+                # and a repair found waiting for space is stopped with KILL
+                # QUERY, which ends it at once with the table as it was.
+                repair_full=0
+                root_db --unbuffered -e "SELECT CONNECTION_ID(); REPAIR TABLE \`${table%%.*}\`.\`${table#*.}\`;" \
+                    >/tmp/playerbot-repair.out 2>/tmp/playerbot-repair.err </dev/null &
+                repair_pid=$!
+                while kill -0 "$repair_pid" 2>/dev/null; do
+                    sleep 2
+                    repair_id=$(awk '/^[0-9]+$/ { print; exit }' /tmp/playerbot-repair.out 2>/dev/null || true)
+                    case "$repair_id" in ''|*[!0-9]*) continue ;; esac
+                    case "$(root_db -e "SELECT STATE FROM information_schema.PROCESSLIST WHERE ID = $repair_id;" 2>/dev/null </dev/null || true)" in
+                        *'free space'*)
+                            repair_full=1
+                            root_db -e "KILL QUERY $repair_id;" >/dev/null 2>&1 </dev/null || true
+                            ;;
+                    esac
+                done
+                repair_rc=0
+                wait "$repair_pid" || repair_rc=$?
+                repair_out=$(sed 1d /tmp/playerbot-repair.out; cat /tmp/playerbot-repair.err)
+                if [ "$repair_rc" -eq 0 ]; then
                     repair_said=$(printf '%s\n' "$repair_out" | awk -F '\t' 'NF >= 4 && $3 != "status" { s = s (s == "" ? "" : "; ") $4 } END { print s }')
                     repair_status=$(printf '%s\n' "$repair_out" | awk -F '\t' 'NF >= 4 && $3 == "status" { s = $4 } END { print s }')
                 else
                     repair_said=$(printf '%s\n' "$repair_out" | grep -v 'ssl-verify-server-cert' | head -2 | tr '\n' ' ')
                     repair_status=
                 fi
+                if [ "$repair_full" -eq 1 ]; then
+                    repair_said="the database disk is full - the repair waited for free space and was stopped"
+                    repair_status=
+                fi
                 if [ "$repair_status" = OK ]; then
                     repaired_n=$((repaired_n + 1))
                     echo "[playerbot-migrate] crash check: $table repaired in $(($(date +%s) - repair_started)) s${repair_said:+: $repair_said}"
                 else
+                    echo "[playerbot-migrate] WARNING: crash check: $table could not be repaired: ${repair_said:-no answer}${repair_status:+; $repair_status}" >&2
+                    if [ "${table%%.*}" = log ] && empty_log_table "$table" "its repair failed"; then
+                        continue
+                    fi
+                    [ "$repair_full" -eq 0 ] ||
+                        echo "[playerbot-migrate] WARNING: crash check: free space on the server's disk (old Docker images: docker image prune -a; build cache: docker builder prune) and start again to repair $table" >&2
                     broken="$broken $table"
                     broken_n=$((broken_n + 1))
-                    echo "[playerbot-migrate] WARNING: crash check: $table could not be repaired: ${repair_said:-no answer}${repair_status:+; $repair_status}" >&2
                 fi
             done </tmp/playerbot-repairs
             kill "$watch_pid" 2>/dev/null || true
@@ -395,6 +499,7 @@ if [ -n "${M2_DB_ROOT_PASSWORD:-}" ]; then
         fi
         check_more=
         [ "$repaired_n" -eq 0 ] || check_more=", $repaired_n repaired"
+        [ "${emptied_n:-0}" -eq 0 ] || check_more="$check_more, $emptied_n log table(s) emptied"
         [ "$broken_n" -eq 0 ] || check_more="$check_more, $broken_n not repaired"
         echo "[playerbot-migrate] crash check: $myisam_n MyISAM table(s) in $(($(date +%s) - check_started)) s$check_more; $innodb_n InnoDB table(s) not checked - InnoDB recovers from its own log, and CHECK TABLE would walk all of it while the game waits"
         if [ "$check_failed" -ne 0 ]; then
@@ -978,7 +1083,17 @@ playerbot_log_index_state() {
 ensure_playerbot_log_index() {
     # An existing correctly named full-column prefix avoids any ALTER or copy.
     # Do not drop or silently replace an operator's conflicting custom index.
-    pb_index_state=$(playerbot_log_index_state) || {
+    pb_index_state=$(playerbot_log_index_state 2>/tmp/playerbot-log-index-state.err) || {
+        # A crashed log.log the crash check could neither repair nor empty
+        # (or that it never saw, with no root password) is history the game
+        # only writes to: the index waits for the next start, and the world
+        # starts without it instead of not at all (ziolek, 16 October).
+        if grep -qiE 'crashed|Incorrect key file|Index for table|Can.t open file' /tmp/playerbot-log-index-state.err; then
+            echo "[playerbot-migrate] WARNING: log.log is damaged, so its how_time_idx is not checked on this start; the world starts without it - repair or empty log.log (see the crash check above) and the next start builds it:" >&2
+            grep -v 'ssl-verify-server-cert' /tmp/playerbot-log-index-state.err | head -2 >&2 || true
+            return 0
+        fi
+        cat /tmp/playerbot-log-index-state.err >&2
         echo "[playerbot-migrate] FATAL: could not inspect the native log index; no index change was requested" >&2
         return 1
     }
@@ -1047,6 +1162,11 @@ EOF
     wait "$pb_index_build_pid" || pb_index_rc=$?
     kill "$pb_index_watch_pid" 2>/dev/null || true
     wait "$pb_index_watch_pid" 2>/dev/null || true
+    if [ "$pb_index_rc" -ne 0 ] && grep -qiE 'crashed|Incorrect key file|Index for table|Can.t open file' /tmp/playerbot-log-index.err; then
+        echo "[playerbot-migrate] WARNING: log.log is damaged, so how_time_idx was not built on this start; the world starts without it - repair or empty log.log (see the crash check above) and the next start builds it:" >&2
+        grep -v 'ssl-verify-server-cert' /tmp/playerbot-log-index.err | head -2 >&2 || true
+        return 0
+    fi
     if [ "$pb_index_rc" -ne 0 ]; then
         echo "[playerbot-migrate] FATAL: native log index failed after $(( $(date +%s) - pb_index_started )) s (exit $pb_index_rc); no automatic copy retry. Inspect the database error below; do not delete history or the database volume" >&2
         grep -v 'ssl-verify-server-cert' /tmp/playerbot-log-index.err | head -5 >&2 || true
@@ -1084,6 +1204,92 @@ if [ -s "$patch18_schema" ]; then
         fi
     fi
 fi
+# log.log's history kept M2_DB_LOG_KEEP_DAYS days (30; 0 keeps everything).
+#
+# Nothing ever deleted a row of log.log: every drop, sale, refine and kill of
+# every bot and person went in and stayed, a few million rows a day on a
+# populated world, until a VPS's disk ran out under it and the table crashed
+# for good (ziolek, 15-16 October: a log.log of over six gigabytes on a 98 GB
+# disk). The panels read its last thirty days at most. So the database
+# deletes what is older itself, every ten minutes, through its own event
+# scheduler - the migrator runs only at a start, and a VPS runs for weeks.
+#
+# A delete is a write lock on the MyISAM table the game is inserting into, so
+# it goes a few thousand rows at a time, a pause between, and at most half a
+# million rows a run (three million an hour). With how_time_idx (how, time),
+# which Patch 18 put on every world, each kind of row is a range of the index
+# and nothing is scanned; without it, the rows are taken in the file's order,
+# which is mostly the order they were written in. A MyISAM data file does not
+# shrink: the freed rows are filled by the next ones, so the file stops
+# growing rather than getting smaller (an OPTIMIZE would be a full copy).
+log_keep_days=${M2_DB_LOG_KEEP_DAYS:-30}
+case "$log_keep_days" in
+    ''|*[!0-9]*)
+        echo "[playerbot-migrate] WARNING: M2_DB_LOG_KEEP_DAYS must be a whole number of days (0 keeps everything); using 30" >&2
+        log_keep_days=30
+        ;;
+esac
+if [ -z "${M2_DB_ROOT_PASSWORD:-}" ]; then
+    echo "[playerbot-migrate] log retention: no root password, so log.log's history is not trimmed"
+elif [ "$log_keep_days" -eq 0 ]; then
+    root_db -e "DROP EVENT IF EXISTS log.playerbot_log_retention;" </dev/null 2>/dev/null || true
+    echo "[playerbot-migrate] log retention: M2_DB_LOG_KEEP_DAYS=0, log.log keeps all of its history"
+elif root_db <<SQL 2>/tmp/playerbot-retention.err; then
+CREATE DATABASE IF NOT EXISTS log;
+DROP PROCEDURE IF EXISTS log.playerbot_log_retention;
+DELIMITER //
+CREATE PROCEDURE log.playerbot_log_retention(IN keep_days INT, IN batch INT, IN max_rows INT)
+BEGIN
+    DECLARE cut DATETIME;
+    DECLARE n INT DEFAULT 0;
+    DECLARE total INT DEFAULT 0;
+    DECLARE indexed INT DEFAULT 0;
+    IF keep_days > 0 AND GET_LOCK('playerbot_log_retention', 0) = 1 THEN
+        SET cut = NOW() - INTERVAL keep_days DAY;
+        IF EXISTS (SELECT 1 FROM information_schema.TABLES
+                    WHERE TABLE_SCHEMA = 'log' AND TABLE_NAME = 'log' AND TABLE_TYPE = 'BASE TABLE') THEN
+            SELECT COUNT(*) INTO indexed FROM information_schema.STATISTICS
+             WHERE TABLE_SCHEMA = 'log' AND TABLE_NAME = 'log'
+               AND SEQ_IN_INDEX = 1 AND COLUMN_NAME = 'how';
+            IF indexed > 0 THEN
+                kinds: FOR k IN (SELECT DISTINCT how FROM log.log) DO
+                    REPEAT
+                        IF k.how IS NULL THEN
+                            DELETE FROM log.log WHERE how IS NULL AND time < cut LIMIT batch;
+                        ELSE
+                            DELETE FROM log.log WHERE how = k.how AND time < cut LIMIT batch;
+                        END IF;
+                        SET n = ROW_COUNT();
+                        SET total = total + n;
+                        IF n > 0 THEN DO SLEEP(0.05); END IF;
+                    UNTIL n < batch OR total >= max_rows END REPEAT;
+                    IF total >= max_rows THEN LEAVE kinds; END IF;
+                END FOR kinds;
+            ELSE
+                REPEAT
+                    DELETE FROM log.log WHERE time < cut LIMIT batch;
+                    SET n = ROW_COUNT();
+                    SET total = total + n;
+                    IF n > 0 THEN DO SLEEP(0.05); END IF;
+                UNTIL n < batch OR total >= max_rows END REPEAT;
+            END IF;
+        END IF;
+        DO RELEASE_LOCK('playerbot_log_retention');
+    END IF;
+END//
+DELIMITER ;
+CREATE OR REPLACE EVENT log.playerbot_log_retention
+    ON SCHEDULE EVERY 10 MINUTE STARTS CURRENT_TIMESTAMP + INTERVAL 2 MINUTE
+    ON COMPLETION PRESERVE ENABLE
+    COMMENT 'log.log keeps M2_DB_LOG_KEEP_DAYS days (playerbot-migrate)'
+    DO CALL log.playerbot_log_retention($log_keep_days, 5000, 500000);
+SET GLOBAL event_scheduler = ON;
+SQL
+    echo "[playerbot-migrate] log retention: log.log keeps $log_keep_days day(s) of history; older rows go every ten minutes, at most half a million a run"
+else
+    echo "[playerbot-migrate] WARNING: log retention could not be set up; log.log keeps growing:" >&2
+    grep -v 'ssl-verify-server-cert' /tmp/playerbot-retention.err | head -3 >&2 || true
+fi
 # The Hexagonal Chest event (Kiciamol, 14 October): the chests 55000-55020 as
 # copies of 50037 in world.item_proto (mt2009 only; the file ships with that
 # engine). Before any core loads an item; a vnum the operator already uses is
@@ -1095,6 +1301,19 @@ if [ -s /opt/playerbot/hexagonal_world.sql ] &&
     else
         echo "[playerbot-migrate] WARNING: could not add the hexagonal chests to world.item_proto:" >&2
         echo "$hex_out" | head -3 >&2
+    fi
+fi
+# The GM's quest skip and "Przemiana" (Kiciamol, 16-17 October; mt2009 only,
+# the file ships with that engine): the queue F9 and the panel write, its
+# switch (on in a new world, the operator's choice kept), the possession's
+# one session a GM and a bot, and the level-19 quest's reward put right.
+if [ -s /opt/playerbot/gm_quest_admin.sql ] &&
+        [ "$(db -e "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA='world' AND TABLE_NAME='quest_reward_proto';" 2>/dev/null)" = 1 ]; then
+    if qa_out=$(db_retry </opt/playerbot/gm_quest_admin.sql 2>&1); then
+        echo "$qa_out" | sed '/^$/d; s/^/[playerbot-migrate] /'
+    else
+        echo "[playerbot-migrate] WARNING: could not prepare the GM's quest skip and possession tables:" >&2
+        echo "$qa_out" | head -3 >&2
     fi
 fi
 # Patch 19 (Iwakura x Tyrion): the Fun events' tables and the world's identity
@@ -1113,6 +1332,18 @@ if [ -s /opt/playerbot/crafting_windows.sql ]; then
         echo "[playerbot-migrate] crafting windows (world.crafting_window): $(printf '%s' "$cw" | awk '{print $1" windows, "$2" recipes"}')"
     else
         echo "[playerbot-migrate] WARNING: world.crafting_window not made; the windows stay the package's" >&2
+    fi
+fi
+# The Herbalist's Workshop (Said / saido_0, 17 October): Baek-Go's window 111
+# and its recipes 401-427 (zielarz_world.sql; quest/zielarz.quest), after the
+# windows' tables above.
+if [ -s /opt/playerbot/zielarz_world.sql ] &&
+   db -N -e "SELECT 1 FROM information_schema.tables WHERE table_schema='world' AND table_name='crafting_window_name'" 2>/dev/null | grep -q 1; then
+    if db_retry < /opt/playerbot/zielarz_world.sql; then
+        zw=$(db -N -e "SELECT COUNT(*) FROM world.crafting_proto WHERE vnum BETWEEN 401 AND 427; SELECT COUNT(*) FROM world.crafting_window WHERE window_id = 111;" 2>/dev/null | tr '\n' ' ' || true)
+        echo "[playerbot-migrate] Herbalist's Workshop (window 111): $(printf '%s' "$zw" | awk '{print $1" recipes, "$2" in the window"}')"
+    else
+        echo "[playerbot-migrate] WARNING: the Herbalist's Workshop not made; Baek-Go's window 111 stays empty" >&2
     fi
 fi
 

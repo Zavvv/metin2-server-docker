@@ -4,9 +4,13 @@
 	// the <head>/<body> above has already printed, which would otherwise fail
 	// with "headers already sent" and silently strand the visitor on a blank
 	// page instead of bouncing them to the login form.
-	ob_start();
+	// Turkish patch: the finished page goes through itemshop_tr_html (lang_tr.php),
+	// which returns it unchanged for a Polish reader.
+	require(__DIR__ . "/lang_tr.php");
+	ob_start('itemshop_tr_html');
 	session_start();
 	require("../user/config.php");
+	itemshop_lang();
 
 	// Podglad katalogu bez logowania (osadzany w iframe na m2singleplayer.pl).
 	// Celowo NIE oparty o sesje/cookie - w iframe z innej domeny przegladarki

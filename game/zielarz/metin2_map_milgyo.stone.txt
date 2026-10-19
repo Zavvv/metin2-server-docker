@@ -1,0 +1,4 @@
+// Zielarz (Said / saido_0, 17 October): Herbalist bushes
+m	426	487	50	50	0	0	18m-22m	100	1	20631
+m	424	796	50	50	0	0	18m-22m	100	1	20631
+m	513	825	50	50	0	0	18m-22m	100	1	20631

@@ -72,8 +72,11 @@ def enabled():
 
 
 def lang():
+    """'pl', 'tr' (Turkish patch: the Turkish of the English texts, see
+    texts.text) or 'en' for every other reader."""
     try:
-        return "pl" if ns().lang() == "pl" else "en"
+        code = ns().lang()
+        return code if code in ("pl", "tr") else "en"
     except Exception:                                # noqa: BLE001 - outside a request
         return "pl"
 
@@ -325,8 +328,8 @@ def _page():
         "lang": language, "texts": texts.for_language(language), "csrf": panel.csrf_token(),
         "defaults": rules.DEFAULTS, "persons": _persons() if enabled() else [],
         "bonuses": bonuses, "deal_badge": rules.DEAL_BADGE_PCT, "unusual": rules.UNUSUAL_PCT,
-        "categories": [{"key": key, "name": pl if language == "pl" else en,
-                        "subs": [{"key": sk, "name": spl if language == "pl" else sen} for sk, _sid, spl, sen in subs]}
+        "categories": [{"key": key, "name": texts.pick(pl, en, language),
+                        "subs": [{"key": sk, "name": texts.pick(spl, sen, language)} for sk, _sid, spl, sen in subs]}
                        for key, _cid, pl, en, subs in rules.CATEGORIES],
     }
     # The panel's frame with the page's own title; the script is in the body
@@ -547,7 +550,7 @@ def _home_texts(panel):
     German or Turkish reader reads it in English, as the editor's card."""
     def four(key):
         pl, en = texts.TEXTS[key]
-        return {"pl": pl, "en": en, "de": en, "tr": en}
+        return {"pl": pl, "en": en, "de": en, "tr": texts.turkish(en)}   # tr: Turkish patch
     panel.T.update({"mk_card_title": four("title"), "mk_experimental": four("experimental"),
                     "mk_card_hint": four("card_hint"), "mk_card_open": four("card_open")})
 

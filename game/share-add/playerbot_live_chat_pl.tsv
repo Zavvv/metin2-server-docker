@@ -2356,3 +2356,25 @@ P15J_090	Q	local	p15_q_subquest_49	neutralny	50 kawalkow lodu, zimno mi
 P15J_091	Q	local	p15_q_subquest_49	neutralny	lody z syropem, zglodnialem
 P15J_092	Q	local	p15_q_subquest_45	neutralny	przyzywacze w swiatyni mnie zabijaja
 P15J_093	Q	local	p15_q_black_steel_crafting	neutralny	przysluga dla min-sun, gdzie ona jest
+P20_GZ_01	S	global	level_gz	radosc	gz
+P20_GZ_02	S	global	level_gz	radosc	gg
+P20_GZ_03	S	global	level_gz	radosc	wp
+P20_GZ_04	S	global	level_gz	radosc	gratki
+P20_GZ_05	S	global	level_gz	radosc	gratulacje
+P20_GZ_06	S	global	level_gz	radosc	niezle
+P20_GZ_07	S	global	level_gz	radosc	grats
+P20_GZ_08	S	global	level_gz	radosc	gj
+P20_GZ_09	S	global	level_gz	radosc	brawo
+P20_GZ_10	S	global	level_gz	radosc	szybko poszlo
+P20_GZ_11	S	global	level_gz	radosc	gz {lvl}
+P20_GZ_12	S	global	level_gz	radosc	{lvl} juz?
+P20_GZ_13	S	global	level_gz	radosc	no no, {lvl} lvl
+P20_GZ_14	S	global	level_gz	radosc	gratki, {lvl} wbite
+P20_GZ_15	S	global	level_gz	radosc	gz, tak trzymac
+P20_GZ_16	S	global	level_gz	radosc	o, {lvl}? gz
+P20_GZT_01	S	global	level_gz_thanks	radosc	dzieki
+P20_GZT_02	S	global	level_gz_thanks	radosc	dzk
+P20_GZT_03	S	global	level_gz_thanks	radosc	ty all
+P20_GZT_04	S	global	level_gz_thanks	radosc	thx
+P20_GZT_05	S	global	level_gz_thanks	radosc	dzieki ludziska
+P20_GZT_06	S	global	level_gz_thanks	radosc	dzieki wszystkim

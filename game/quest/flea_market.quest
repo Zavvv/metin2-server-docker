@@ -1,18 +1,26 @@
 -- The Dom Towarowy (Uxie [DSO]'s flea market, taken 27 September): the
--- miscellaneous merchant of a first village offers every offline shop's
--- listing, players' and bots', in one window (customfleamarket.py in the
--- client root; the catalogue and the purchase are ikarus_shop_manager.cpp's,
+-- miscellaneous merchant of a first or a second village offers every offline
+-- shop's listing, players' and bots', in one window (customfleamarket.py in
+-- the client root; the catalogue and the purchase are ikarus_shop_manager.cpp's,
 -- playerbotify apply_flea_market) beside her own shop.
 --
 -- Only while the world has it on - M2_FLEA_MARKET in .env, the launcher's
 -- difficulty window, which the migrator turns into m2_flea_market_off - and
--- only in M1. Anywhere else, or off, neither option is offered, and a click
--- on her opens her shop as it always did. The server asks the same two
--- questions again at every /flea_ command.
+-- only in a first or a second village (the second since 16 October: Dekri
+-- asked why a player there had to walk to the first for every purchase).
+-- Anywhere else, or off, neither option is offered, and a click on her opens
+-- her shop as it always did. The server asks the same two questions again at
+-- every /flea_ command (playerbot_flea_market_rules::IsMarketMap, the empire
+-- rules' M1 and M2 roles); market_maps is that list, and
+-- tests/playerbot_flea_market_rules_test.cpp holds the two to each other.
 --
--- subquest_10 already offers a shop while the player hunts for shoes. Reuse
--- that option in its active state instead of adding the same shop twice.
--- Resolve its state from qc's table: never hard-code the state's CRC.
+-- Two stock quests already offer her shop in one of their states: subquest_10
+-- while the player hunts for shoes ("Otworz sklep", translate.general) and
+-- subquest_32, 41 to 43's errand for the jewel, in gogogo ("Otworz sklep",
+-- gameforge.new_quest_premium_lv4). Reuse their option there instead of
+-- adding the same shop twice: a player on subquest_32's errand saw "Otworz
+-- sklep" and "Kup przedmioty" side by side, both her shop (Dekri, 283820f8).
+-- Resolve each state from qc's table: never hard-code the state's CRC.
 -- Our two options are Polish or English as the player's client asked
 -- (playerbot_lang.quest): the engine reads an option's words when she is
 -- clicked (NPC::OnChat, ScriptToString), with the clicking player's flag.
@@ -20,25 +28,45 @@ quest flea_market begin
 	state start begin
 		function t(pl, en)
 			if pc.getf("playerbot_lang", "en") == 1 then
-				return en
+				return playerbot_quest_text ~= nil and playerbot_quest_text(en) or en
 			end
 			return pl
 		end
 
+		-- Every kingdom's first and second village: Shinsoo, Chunjo, Jinno.
+		function market_maps()
+			return { 1, 3, 21, 23, 41, 43 }
+		end
+
+		function in_market_map()
+			local here = pc.get_map_index()
+			for _, mapIndex in ipairs(flea_market.market_maps()) do
+				if here == mapIndex then
+					return true
+				end
+			end
+			return false
+		end
+
+		-- True while the stock quest stands in the state that offers her shop.
+		-- A quest or a state the package lacks offers nothing.
+		function stock_offers_shop(name, states, wanted)
+			return states ~= nil and states[wanted] ~= nil and pc.getf(name, "__status") == states[wanted]
+		end
+
 		function needs_shop_option()
-			local stock = subquest_10
-			return stock == nil or stock.hunt_for_shoes == nil or
-					pc.getf("subquest_10", "__status") ~= stock.hunt_for_shoes
+			return not flea_market.stock_offers_shop("subquest_10", subquest_10, "hunt_for_shoes") and
+					not flea_market.stock_offers_shop("subquest_32", subquest_32, "gogogo")
 		end
 
 		when 9003.chat.flea_market.t("Kup przedmioty", "Buy items") with game.get_event_flag("m2_flea_market_off") == 0 and
-				(pc.get_map_index() == 1 or pc.get_map_index() == 21 or pc.get_map_index() == 41) and flea_market.needs_shop_option() begin
+				flea_market.in_market_map() and flea_market.needs_shop_option() begin
 			setskin(NOWINDOW)
 			npc.open_shop()
 		end
 
 		when 9003.chat.flea_market.t("Dom Towarowy", "Flea Market") with game.get_event_flag("m2_flea_market_off") == 0 and
-				(pc.get_map_index() == 1 or pc.get_map_index() == 21 or pc.get_map_index() == 41) begin
+				flea_market.in_market_map() begin
 			setskin(NOWINDOW)
 			cmdchat("FleaMarketOpen")
 		end

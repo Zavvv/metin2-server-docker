@@ -9,19 +9,32 @@
 !bin/game
 !bin/qc
 !mark-default
+!ore_veins
 !quest
+!quest/gm_possess.lua
+!quest/gm_quest_admin.lua
+!quest/gm_quest_catalog.lua
+!quest/gm_quest_full_skip.lua
 !quest/m2_biologist.lua
 !quest/m2_crafting_windows.lua
 !quest/m2_difficulty.lua
 !quest/m2_hexagonal_event.lua
+!quest/playerbot_quest_texts.lua
 !quest/quest_language.lua
 !quest/quest_texts_en.lua
+!quest/quest_texts_tr.lua
 !scripts
 !share-add/cube.seon_pyeong.txt
+!share-add/locale_string_de.tsv
 !share-add/locale_string_en.tsv
+!share-add/locale_string_fr.tsv
+!share-add/locale_string_pt.tsv
+!share-add/locale_string_ro.tsv
+!share-add/locale_string_tr.tsv
 !share-add/mob_drop_item.m3.append.txt
 !share-add/oxquiz.lua
 !share-add/playerbot_live_chat_*.tsv
+!share-add/playerbot_market_search_names.tsv
 !share-add/playerbot_names_en.tsv
 !share-add/special_item_group.hexagonal.txt
 !share-add/special_item_group.moonlight.txt
@@ -32,6 +45,7 @@
 !share/locale
 !share/locale/poland/quest/quest_functions
 !special_item_group.moonlight.custom*.txt
+!zielarz
 
 # Never an object file, whatever a folder above holds.
 **/*.o

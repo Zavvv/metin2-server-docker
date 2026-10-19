@@ -45,6 +45,7 @@ quest collect_quest_lv90  begin
 	state go_to_disciple begin
 		when letter begin
 			send_letter(gameforge.collect_quest_lv90._080_send_letter)
+			collect_data.send_delay()
 
 		end
 		when button or info begin
@@ -53,6 +54,7 @@ quest collect_quest_lv90  begin
 			say("")
 			say_item_vnum(30168)
 			say_reward(string.format(gameforge.collect_quest_lv90._105_say_reward, pc.getqf("collect_count")))
+			collect_data.say_delay()
 		end
 
 		when 691.kill or 792.kill or 791.kill or 1093.kill or  1304.kill or 2091.kill or 2191.kill or 2206.kill or 1901.kill or
@@ -70,6 +72,7 @@ quest collect_quest_lv90  begin
 				npc_name()
 				say(gameforge.collect_quest_lv90._190_say)
 				say("")
+				collect_data.say_delay()
 				return
 			end
 

@@ -40,6 +40,7 @@ quest collect_quest_lv40  begin
 	state go_to_disciple begin
 		when letter begin
 			send_letter(gameforge.collect_quest_lv30._70_sendLetter)
+			collect_data.send_delay()
 
 		end
 		when button or info begin
@@ -47,12 +48,14 @@ quest collect_quest_lv40  begin
 			say(gameforge.collect_quest_lv40._90_say)
 			say_item_vnum(30047)
 			say_reward(string.format(gameforge.collect_quest_lv40._100_sayReward, pc.getqf("collect_count")))
+			collect_data.say_delay()
 		end
 
 		when 20084.chat.gameforge.collect_quest_lv40._140_npcChat with pc.count_item(30047) > 0 begin
 			if collect_data.is_wait() then
 				say_title(gameforge.collect_herb_lv10._50_sayTitle)
 				say(gameforge.collect_quest_lv40._200_say)
+				collect_data.say_delay()
 				return
 			end
 

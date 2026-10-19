@@ -1,3 +1,61 @@
+## 2026-10-17 · 1.114.96 · Panel po turecku
+
+- Panel ma język turecki („Türkçe” w przełączniku i w ustawieniach, flaga turecka): teksty panelu (`static/i18n_tr.json`, wzorce jak w angielskim), nazwy przedmiotów i potworów, teksty gry i tytuły sklepów, wyjaśnienia decyzji botów, lista komend GM (`gm_commands.tr.txt`) i `README_TR.md`. Panel bez wybranego języka mówi po turecku przeglądarce, która jako pierwszy język podaje turecki.
+- `i18n-watch.js` tłumaczy też atrybuty zmieniane przez skrypty, okna alert/confirm/prompt i etykiety wykresów, z czego korzysta również angielski panel. Polski panel bez zmian. Tłumaczenie od Saida (saido_0), 17.10.
+
+![via Tieru](https://img.shields.io/badge/via-Tieru-f2c34d)
+
+## 2026-10-17 · 1.114.95 · Wyszukiwarka przedmiotów bez błędu 500
+
+- Okno „Daj przedmiot” na karcie postaci i baza przedmiotów nie odpowiadają już błędem HTTP 500 na zapytanie z literą spoza CP1250 (np. „Kılıç”): MariaDB odrzucała porównanie z polską kolumną nazw („Illegal mix of collations”), więc takie zapytanie nie jest z nią porównywane. Okno szuka i podpisuje przedmioty w języku panelu (na angielskim panelu „sword” znajduje miecze), same cyfry to numer przedmiotu i każdy numer od nich zaczynający się (zakresy liczbowe, wszystko parametryzowane), a dokładny numer jest pierwszy.
+- Okno pokazuje do 500 wyników (było 80) z ikonami, „Brak wyników”, „Wyszukiwanie nie powiodło się” i „Zbyt wiele wyników (500+), zawęź wyszukiwanie” (z angielskimi odpowiednikami), a spóźniona odpowiedź na starsze zapytanie nie nadpisuje już nowszej. Zapytanie z wiodącym zerem („029”) jest teraz tylko fragmentem nazwy. Poprawka od Saida (saido_0), 17.10.
+
+![via Tieru](https://img.shields.io/badge/via-Tieru-f2c34d)
+
+## 2026-10-16 · 1.114.94 · Heksagonalne Szkatułki w planerze eventów
+
+- Planer eventów (mt2009) ma event „Heksagonalne Szkatułki” Kiciamola: „Aktywuj teraz”, zatrzymanie i bloki w tygodniowym kalendarzu, w obu motywach. Jak okno Szkatułek Blasku Księżyca nie ma bonusu; karta pokazuje szansę dropu z Metina, którą nadal ustawia strona Eventy panelu klasycznego, a przy szansie 0% panel ostrzega po aktywacji.
+- Zapis harmonogramu zachowuje heksagonalne wiersze i aktywny event. Wcześniej panel znał tylko sześć rodzajów i przy każdym zapisie usuwał je z `playerbot_events.tsv`; teraz pisze też plik questa `hexagonal_event.tsv` w tym samym kształcie co panel klasyczny. Historia liczy zdobyte heksagonalne szkatułki. Na r40250 bez zmian (zgłoszenie _dumitrualexandru, 16.10).
+
+![via Tieru](https://img.shields.io/badge/via-Tieru-f2c34d)
+
+## 2026-10-16 · 1.114.93 · Powiadomienia i stopka menu po angielsku
+
+- Panel po angielsku tłumaczy też powiadomienia z dzwoneczka i wyskakujące okienka w prawym rogu: „Podsumowanie dnia N” z jego opisem („kliknij, żeby zobaczyć szczegóły”) oraz „Nowa wersja Playerbots” z „Masz zainstalowaną …”. Powiadomienia są zapisane w bazie po polsku i tłumaczone przy wyświetlaniu, więc dotyczy to również tych utworzonych wcześniej.
+- Odnośniki w lewym dolnym rogu menu („Edytor bazy danych ↗”, „Panel Tieru (klasyczny) ↗”, w wersji mobilnej „Panel Tieru ↗”) i „⌘ Edytor bazy danych” w klasycznym menu mają angielskie odpowiedniki. Polski panel bez zmian (zgłoszenie RapLow, 16.10).
+
+![via Tieru](https://img.shields.io/badge/via-Tieru-f2c34d)
+
+## 2026-10-14 · 1.114.92 · Zmiana nicku postaci z prawami GM
+
+- Zmiana nicku w karcie postaci przenosi prawa GM: wiersze `common.gmlist` starej nazwy są kopiowane na nową (stare zostają, bo gra może jeszcze chwilę podawać starą nazwę). Panel odmawia, gdy nowa nazwa jest już na liście GM albo nie zmieści się w kolumnie `mName`.
+- Postać, która jest w grze, zmienia nazwę sama gra (komenda `RENAME` w kolejce, `pc.change_name` w `web_admin.quest` Tieru): rdzeń bazy dostaje nową nazwę do pamięci, gracz jest rozłączany po kilku sekundach, a panel przeładowuje listę GM. Postać offline, bot albo starszy quest bez `RENAME` dostaje zapis w tabeli jak dotąd, z komunikatem, kiedy gra pokaże nową nazwę. Odmowa gry cofa skopiowane wiersze.
+- Wcześniej zmieniony GM zostawał w grze pod starą nazwą i tracił IMPLEMENTOR (zgłoszenie kreinbargh, 13.10).
+
+![via Tieru](https://img.shields.io/badge/via-Tieru-f2c34d)
+
+## 2026-10-12 · 1.114.91 · Księgi na straganach i cel wędkowania
+
+- Ranking ksiąg umiejętności korzysta z potwierdzonych zakupów IkarusShop. Kolektor zachowuje numer umiejętności przypisany do ID księgi, zanim sprzedany egzemplarz zniknie z bazy; wpisy są przechowywane najwyżej 8 dni. Brakujących socketów nie przypisujemy do przypadkowych umiejętności. Widok pokazuje również łączną liczbę sprzedaży ksiąg, nawet gdy ich rodzaj nie jest już możliwy do ustalenia.
+- „Ostatnie sprzedaże na straganach” pokazują kupującego obok sprzedawcy, na podstawie tego samego zakończonego zakupu. Tabela przewija się poziomo na wąskich ekranach; tracker transakcji także korzysta z zachowanego socketu przy nazwach ksiąg.
+- Cel Playerbots #12 ma potwierdzoną w kodzie silnika nazwę „Łowienie ryb” i angielski odpowiednik.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+## 2026-10-12 · 1.114.90 · Cele botów w aktywnościach świata
+
+- „Aktywności w świecie” liczą teraz cele zgłaszane przez silnik gry, tak jak panel Tieru: zdobywanie poziomu, przetrwanie, polowanie na Metiny, zapasy, ulepszanie, rozwój konia i cele drużynowe. Kategorie można porównywać między panelami; widok wybranej mapy nadal pokazuje bardziej szczegółowe bieżące czynności.
+- Dodano rozpoznawanie nowej akcji „Robi questa” (kod 19) i angielskie tłumaczenia kategorii celów. Nieznany kod celu jest wyświetlany z numerem do diagnostyki, zamiast otrzymać mylną nazwę.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
+## 2026-10-12 · 1.114.89 · Przewijanie ukończonych misji i angielskie nazwy
+
+- Lista ukończonych misji pod ekwipunkiem mieści się w wysokości ekranu i otrzymuje własny przewijany obszar z paskiem dopasowanym do motywu Łąka i Złoto.
+- Angielskie tytuły wszystkich 88 rozpoznanych misji pochodzą z pliku `quest_texts_en.lua` serwera i są wybierane po przełączeniu panelu na English. Dotyczy to również bieżącej misji, jeśli ma odpowiednik w katalogu.
+- Poprawiono tytuł misji `subquest_21` na właściwy tytuł skryptu „Lekarstwo dla Balso” / „A medicine for Balso”.
+
+![via Codex by Seban](https://img.shields.io/badge/via-Codex%20by%20Seban-10A37F)
+
 ## 2026-10-12 · 1.114.88 · Czytelna blokada struktury bazy
 
 - Odnośnik do przeglądu struktury bazy pojawia się tylko przy włączonej ochronie hasłem i zalogowanej sesji administratora. Bez tych warunków bezpośredni adres nadal zwraca 403, ale wyjaśnia po polsku lub angielsku, jak uzyskać dostęp.

@@ -9,6 +9,10 @@
 	// + log do wheel_spin_log.
 	session_start();
 	require("../user/config.php");
+	// Turkish patch: the JSON answer in Turkish for a Turkish reader (lang_tr.php).
+	require(__DIR__ . "/lang_tr.php");
+	itemshop_lang();
+	ob_start('itemshop_tr_json');
 	header('Content-Type: application/json; charset=utf-8');
 
 	const WHEEL_SPIN_COST = 10;

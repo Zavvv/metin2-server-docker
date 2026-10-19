@@ -17,8 +17,19 @@ collation-server     = cp1250_general_ci
 max_connections = 200
 
 # The twelve log tables are MyISAM and do not survive an unclean stop; FORCE
-# runs the full repair, BACKUP keeps the damaged file beside it.
-myisam_recover_options = BACKUP,FORCE
+# runs the full repair. No BACKUP: it keeps a whole copy of the damaged data
+# file (log-<time>.BAK) beside the table at every automatic repair, and nothing
+# ever removes one - on a VPS a log.log of six gigabytes crashed, was repaired
+# and copied again and again until the disk was full (ziolek, 16 October).
+# The twelve are history only (every table of account, common, player and
+# world is InnoDB on this line), and the migrator empties one whose repair the
+# disk cannot hold instead of trying it.
+myisam_recover_options = FORCE
+
+# log.log's history is trimmed by an event the migrator writes
+# (log.playerbot_log_retention, M2_DB_LOG_KEEP_DAYS); the migrator switches
+# the scheduler on as well, this keeps it on across a restart of the database.
+event_scheduler = ON
 
 # Durability per statement is what a bank needs, and what hung the login on a
 # world of 2482 bots: the game's tables are InnoDB here, and with the default

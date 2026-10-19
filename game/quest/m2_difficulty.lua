@@ -9,7 +9,10 @@
 -- db core at boot and pushed to every game core, and the panel can read it.
 --
 -- Nothing here touches the bots: their Biologist hand-in and their stable
--- keeper are the AI's own code and never kept a wait.
+-- keeper are the AI's own code. The hand-in keeps this file's Biologist wait
+-- all the same since blipu's report of 18 October - the AI reads
+-- m2_biologist_wait and writes collect_quest.wait as set_wait_time below does
+-- (GetPlayerBotBiologistWaitLeft, playerbot_missions.h); keep the two alike.
 m2_difficulty = {}
 
 -- Seconds an event flag asks for; a missing or negative flag is no wait.
@@ -57,6 +60,211 @@ collect_data.set_wait_time = function()
 	end
 	pc.setf("collect_quest", "wait", get_time() + t)
 	collect_data.send_delay()
+end
+
+-- The Researcher's Elixir (Eliksir Poszukiwacza; Deranfan, 1fb7a43e, 16
+-- October: "none of them get consumed while handing the branches to the
+-- biologist"). The package's collect quests dropped the elixir's own handler
+-- (`when 71035.use`, still in quest/_unused: drunk before a hand-in, it took
+-- that hand-in from 60 to 90 or 95 in a hundred) and left nothing in its
+-- place, so the elixir did nothing at all - the 76020 of the Master Chest III
+-- (special_item_group.starter.txt) included. Every collect_quest_lv30..lv90
+-- rolls through collect_data.take_chance, so the elixir is used here, at the
+-- hand-in, the way the reporter expected: one from the bag (the chest's
+-- untradeable 76020 first, then 71035 and 39023) for thirty points more,
+-- never past certain, and none when the hand-in is certain already. The rest
+-- is the package's take_chance unchanged. The bots' and the companions'
+-- hand-ins are the AI's own and never come here.
+m2_difficulty.RESEARCH_ELIXIRS = { 76020, 71035, 39023 }
+m2_difficulty.RESEARCH_ELIXIR_POINTS = 30
+
+-- The first elixir in the bag, or nil.
+m2_difficulty.research_elixir = function()
+	for i = 1, table.getn(m2_difficulty.RESEARCH_ELIXIRS) do
+		local vnum = m2_difficulty.RESEARCH_ELIXIRS[i]
+		if pc.count_item(vnum) > 0 then
+			return vnum
+		end
+	end
+	return nil
+end
+
+collect_data.take_chance = function(chance)
+	chance = chance * (100+collect_data.get_chance_bonus()) / 100
+	if chance < 100 then
+		local elixir = m2_difficulty.research_elixir()
+		if elixir ~= nil then
+			pc.remove_item(elixir, 1)
+			chance = math.min(100, chance + m2_difficulty.RESEARCH_ELIXIR_POINTS)
+			if pc.getf("playerbot_lang", "en") == 1 then
+				syschat(string.format("The Researcher's Elixir was used: the chance of this hand-in is %d%%.", math.floor(chance)))
+			else
+				syschat(string.format("Uzyto Eliksiru Poszukiwacza: szansa tego oddania to %d%%.", math.floor(chance)))
+			end
+		end
+	end
+	if number(1,100) <= chance then
+		if collect_data.is_research_in_progress() then
+			affect.remove_new(AFFECT_COLLECT_NO_TIME)
+		end
+
+		pc.setf("collect_quest", m2_difficulty.FAIL_WAIT_FLAG, 0)
+		collect_data.set_wait_time()
+		return true
+	else
+		-- The Quick Analysis Potion is spent only where it saves a wait: on a
+		-- world whose Biologist keeps none (easy) it stays for the next one.
+		if collect_data.is_no_time_on_fail() and m2_difficulty.biologist_waits() then
+			affect.remove_new(AFFECT_COLLECT_NO_FAIL_TIME)
+			pc.setf("collect_quest", m2_difficulty.FAIL_WAIT_FLAG, 0)
+			m2_difficulty.say_quick_analysis("used")
+		else
+			-- Marked before set_wait_time, whose send_delay asks is_wait.
+			pc.setf("collect_quest", m2_difficulty.FAIL_WAIT_FLAG, 1)
+			collect_data.set_wait_time()
+		end
+	end
+	return false
+end
+
+-- The Quick Analysis Potion (Mikstura Szybkiej Analizy, 51785; blipu, 17
+-- October: "biolog spalil item po wypiciu mikstury, nie przyjmuje
+-- kolejnego"). An ITEM_POTION the package's potion_system.lua drinks into
+-- AFFECT_COLLECT_NO_FAIL_TIME (its value4) for good, and collect_data spent
+-- it only at a failed hand-in made AFTER the drink - so a player who did
+-- what the tooltip seems to say ("if you hand the Biologist a damaged item,
+-- you can hand in the next one without waiting") and drank it once the
+-- Biologist had burned a specimen kept the whole wait and the potion with
+-- it, and nothing said why. The potion now does both: drunk before, the
+-- next failed hand-in leaves no wait (the package's rule); drunk while the
+-- wait of a failed hand-in runs, that wait ends at once - at the drink, or
+-- at the Biologist or the letter's clock for a potion drunk before this
+-- version. Only a failure's wait, marked in collect_quest.fail_wait by
+-- take_chance above: a successful hand-in's wait is the day the package
+-- wants between two specimens (AFFECT_COLLECT_NO_TIME's, which no item of
+-- this world gives). A wait set before the mark existed is not lifted.
+-- On a world without the Biologist's wait (easy) the potion is not drunk at
+-- all and the player is told so. Players only: the bots' and companions'
+-- hand-ins are the AI's own.
+m2_difficulty.QUICK_ANALYSIS_POTION = 51785
+m2_difficulty.FAIL_WAIT_FLAG = "fail_wait"
+
+m2_difficulty.biologist_waits = function()
+	return m2_difficulty.seconds("m2_biologist_wait") > 0 or game.get_event_flag("beta_server") > 0
+end
+
+m2_difficulty.say_quick_analysis = function(what)
+	local en = pc.getf("playerbot_lang", "en") == 1
+	local pl, eng
+	if what == "used" then
+		pl = "Mikstura Szybkiej Analizy: Biolog przyjmie nastepny przedmiot bez czekania."
+		eng = "Quick Analysis Potion: the Biologist will take the next item without a wait."
+	elseif what == "lifted" then
+		pl = "Mikstura Szybkiej Analizy: koniec czekania, Biolog przyjmie nastepny przedmiot od razu."
+		eng = "Quick Analysis Potion: the wait is over, the Biologist takes the next item at once."
+	elseif what == "ready" then
+		pl = "Mikstura Szybkiej Analizy dziala: jesli Biolog uzna nastepny przedmiot za uszkodzony, nie bedziesz czekac."
+		eng = "Quick Analysis Potion is active: if the Biologist finds the next item damaged, you will not have to wait."
+	else
+		pl = "Na tym swiecie Biolog nie kaze czekac - Mikstura Szybkiej Analizy nie jest potrzebna."
+		eng = "The Biologist keeps no wait in this world - the Quick Analysis Potion is not needed."
+	end
+	if en then
+		syschat(eng)
+	else
+		syschat(pl)
+	end
+end
+
+-- Ends the wait of a failed hand-in for a drunk potion; true when it did.
+m2_difficulty.lift_failure_wait = function()
+	if pc.getf("collect_quest", m2_difficulty.FAIL_WAIT_FLAG) ~= 1 then
+		return false
+	end
+	if not collect_data.is_research_in_progress() then
+		return false
+	end
+	if not collect_data.is_no_time_on_fail() then
+		return false
+	end
+	affect.remove_new(AFFECT_COLLECT_NO_FAIL_TIME)
+	collect_data.reset_time()
+	m2_difficulty.say_quick_analysis("lifted")
+	return true
+end
+
+collect_data.reset_time = function()
+	pc.setf("collect_quest", "wait", 0)
+	pc.setf("collect_quest", m2_difficulty.FAIL_WAIT_FLAG, 0)
+	collect_data.send_delay()
+end
+
+-- The package's is_wait with the lift: every collect_quest_lv* asks it at
+-- the hand-in, the letter's clock (send_delay) and the "still waiting" line.
+collect_data.is_wait = function()
+	if not collect_data.is_research_in_progress() then
+		return false
+	end
+	if collect_data.is_no_time() then
+		return false
+	end
+	if m2_difficulty.lift_failure_wait() then
+		return false
+	end
+	return true
+end
+
+-- The drink itself goes through the package's potion_use quest (36.use_type)
+-- into potion_system.use_potion, looked up at the call - so this wrapper is
+-- what every ITEM_POTION runs, and it touches only the three of a custom
+-- affect (value4, the potion system's own column: the Determination, the
+-- Stagnation and the Quick Analysis Potion).
+--
+-- Those three met a second fault on the way: after testing their own affect
+-- the package asks `pc.has_affect(CUSTOM_AFFECT_VALUE_INDEX)` - the column's
+-- index, 4 - and a skill's affect is typed by the skill's vnum, so a Warrior
+-- under Sword Aura (skill 4) was told "This effect is already activated."
+-- and could drink none of them. The package's function runs unchanged with
+-- that one question - affect 4, no point - answered no; the custom affect
+-- itself was tested a line above it.
+m2_difficulty.use_custom_potion = function()
+	local has_affect = pc.has_affect
+	pc.has_affect = function(t, p)
+		if t == 4 and p == nil then
+			return false
+		end
+		return has_affect(t, p)
+	end
+	local ok, err = pcall(m2_difficulty.stock_use_potion)
+	pc.has_affect = has_affect
+	if not ok then
+		error(err)
+	end
+end
+
+if potion_system ~= nil and potion_system.use_potion ~= nil then
+	m2_difficulty.stock_use_potion = potion_system.use_potion
+	potion_system.use_potion = function()
+		local custom = item.get_value(4)
+		if custom == nil or custom <= 0 then
+			return m2_difficulty.stock_use_potion()
+		end
+		if custom ~= AFFECT_COLLECT_NO_FAIL_TIME then
+			return m2_difficulty.use_custom_potion()
+		end
+		if not m2_difficulty.biologist_waits() then
+			m2_difficulty.say_quick_analysis("none")
+			return
+		end
+		local had = pc.has_affect(AFFECT_COLLECT_NO_FAIL_TIME)
+		m2_difficulty.use_custom_potion()
+		if m2_difficulty.lift_failure_wait() then
+			return
+		end
+		if not had and pc.has_affect(AFFECT_COLLECT_NO_FAIL_TIME) then
+			m2_difficulty.say_quick_analysis("ready")
+		end
+	end
 end
 
 -- The Cor Draconis a day at the Alchemist (Kuszaa and the operator, 1

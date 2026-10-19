@@ -89,6 +89,10 @@ quest heavens_cave_keyquest begin
 
 	
 	when enter or login begin
+			-- Each new cycle of the key quest, for the GM's full skip (Kiciamol,
+			-- 16 October; gm_quest_full_skip.lua): a completion queued for the last
+			-- cycle is refused in this one.
+			pc.setqf("qa_cycle", pc.getqf("qa_cycle")+1)
 		
 			-- main variable declaration for the quest, executed after each cooldown --
 			-- sorry for all the spirit forest/fireland mismatch                     --

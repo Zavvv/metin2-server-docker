@@ -1577,3 +1577,25 @@ P15J_090	Q	local	p15_q_subquest_49	neutralny	50 pieces of ice, im cold
 P15J_091	Q	local	p15_q_subquest_49	neutralny	ice cream with syrup, now im hungry
 P15J_092	Q	local	p15_q_subquest_45	neutralny	the summoners in the temple keep killing me
 P15J_093	Q	local	p15_q_black_steel_crafting	neutralny	a favour for min-sun, where is she
+P20_GZ_01	S	global	level_gz	radosc	gz
+P20_GZ_02	S	global	level_gz	radosc	gg
+P20_GZ_03	S	global	level_gz	radosc	wp
+P20_GZ_04	S	global	level_gz	radosc	grats
+P20_GZ_05	S	global	level_gz	radosc	congrats
+P20_GZ_06	S	global	level_gz	radosc	nice one
+P20_GZ_07	S	global	level_gz	radosc	grats
+P20_GZ_08	S	global	level_gz	radosc	gj
+P20_GZ_09	S	global	level_gz	radosc	well done
+P20_GZ_10	S	global	level_gz	radosc	that was quick
+P20_GZ_11	S	global	level_gz	radosc	gz {lvl}
+P20_GZ_12	S	global	level_gz	radosc	{lvl} already?
+P20_GZ_13	S	global	level_gz	radosc	well well, lvl {lvl}
+P20_GZ_14	S	global	level_gz	radosc	grats on {lvl}
+P20_GZ_15	S	global	level_gz	radosc	gz, keep it up
+P20_GZ_16	S	global	level_gz	radosc	oh, {lvl}? gz
+P20_GZT_01	S	global	level_gz_thanks	radosc	thanks
+P20_GZT_02	S	global	level_gz_thanks	radosc	thx
+P20_GZT_03	S	global	level_gz_thanks	radosc	ty all
+P20_GZT_04	S	global	level_gz_thanks	radosc	thx
+P20_GZT_05	S	global	level_gz_thanks	radosc	thanks guys
+P20_GZT_06	S	global	level_gz_thanks	radosc	thanks everyone

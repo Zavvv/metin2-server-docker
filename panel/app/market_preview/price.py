@@ -528,7 +528,7 @@ def compose(f):
 
 
 # ---------------------------------------------------------------- an offer
-def family_rows(vnum, plus, protos=None):
+def family_rows_default(vnum, plus, protos=None):
     """His sheet's ten rows of a piece's family (vnum less its plus), a
     helmet's made from the body armour of its level and classes where his
     sheet carries no row for it (playerbot_gear_sheet.h,
@@ -555,6 +555,15 @@ def family_rows(vnum, plus, protos=None):
     if best is None:
         return None
     return tuple(tdiv(p * HELMET_SHEET_PERCENT, 100) if p > 0 else 0 for p in sheet.GEAR[best][1])
+
+
+def family_rows(vnum, plus, protos=None):
+    rows = family_rows_default(vnum, plus, protos)
+    base = int(vnum) - int(plus)
+    custom = getattr(sheet, 'CUSTOM_PRICES', {})
+    if not any(base + i in custom for i in range(10)):
+        return rows
+    return tuple(custom.get(base + i, (rows or (0,) * 10)[i]) for i in range(10))
 
 
 def price_slot(itype, subtype):

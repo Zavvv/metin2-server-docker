@@ -1,0 +1,20 @@
+-- "Przemiana" (Kiciamol, 16-17 October): a GM plays a bot of the population
+-- and goes back to his GM. The rules are gm_possess.lua's (libs/other, loaded
+-- by the image); the client half is gmpossess.py. login() tells a GM's client
+-- and a possessed character's that the quest is here (GMPossessReady) and
+-- ends at a GM's login what a session left; the button carries the client's
+-- requests - possess <name>, check, release, cancel.
+quest gm_possess begin
+	state start begin
+		when login begin
+			gm_possess_lib.login()
+		end
+		when gm_possess_retry.timer begin
+			gm_possess_lib.login()
+		end
+		when button begin
+			cmdchat("GMPossessInput")
+			gm_possess_lib.request(input())
+		end
+	end
+end

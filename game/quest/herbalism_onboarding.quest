@@ -1,0 +1,244 @@
+-- metin2-suite: the package's herbalism introduction (its pre_qc form, the
+-- quest name, the states and the flag as they were), as Said / saido_0 rewrote
+-- it for the Herbalist's Path (17 October; zielarz.quest,
+-- docs/notes/gathering.md). The crafting lib's hook still moves it on: row 11
+-- crafted while herbalism_onboarding.completed is 1 sets 2 and the state
+-- "reward". What changed:
+--   1. Baek-Go gives the first Herbalist's Knife+0 (29201) once, to a player
+--      who has none (the flag knife_given).
+--   2. He says where the Blossoming Peach (20620) grows: the first villages'
+--      meadows (zielarz/*.stone.txt).
+--   3. The reward is 10 Empty Bottles (S), Recipe: Green Potion and 5% of a
+--      level in place of give_reward's, and the quest ends at completed 3 -
+--      the value herbalism.is_unlocked() (the knife's refine) waits for and
+--      nothing in the package ever set.
+--   4. A character in the state "complete" is lifted to completed 3 at every
+--      login, whatever ended the quest (settle(): the package's own end, a
+--      GM's skip - kaethasger, 18 October).
+--   5. The package's helpers (say_split, npc_name, say_info, send_target,
+--      give_reward) are the small functions below.
+-- The package's texts are translate.herbalism.prime_quest.*, English through
+-- quest_texts_en.lua; the new ones are t(pl, en) pairs.
+quest herbalism_onboarding begin
+    state start begin
+        function t(pl, en)
+            if pc.getf("playerbot_lang", "en") == 1 then
+                return playerbot_quest_text ~= nil and playerbot_quest_text(en) or en
+            end
+            return pl
+        end
+
+        function where()
+            return herbalism_onboarding.t("Kwitnace Brzoskwinie rosna na lakach wokol tej wioski. Kazdy udany zbior daje 2-3 kwiaty, a krzew mozna obrac kilka razy.",
+                "Blossoming Peach bushes grow in the meadows around this village. Every successful pick gives 2-3 blossoms, and a bush can be picked several times.")
+        end
+
+        function sayw(text)
+            local line = ""
+            for word in string.gfind(text, "%S+") do
+                if line == "" then
+                    line = word
+                elseif string.len(line) + 1 + string.len(word) > 50 then
+                    say(line)
+                    line = word
+                else
+                    line = line .. " " .. word
+                end
+            end
+            if line ~= "" then
+                say(line)
+            end
+        end
+
+        function title()
+            say_title(mob_name(20018))
+        end
+
+        function has_knife()
+            local w = pc.get_weapon()
+            if w >= 29201 and w <= 29210 then
+                return true
+            end
+            for v = 29201, 29210 do
+                if pc.count_item(v) > 0 then
+                    return true
+                end
+            end
+            return false
+        end
+
+        -- A character in "complete" is a herbalist however it got there
+        -- (kaethasger, d948617c, 18 October): the package's own end left
+        -- completed at 2, and the GM's skip (F9, the target board, the
+        -- panel's "Zakoncz") set the state alone and left it at 0 - and
+        -- herbalism.lua's can_craft() (Baek-Go's crafting, every recipe read)
+        -- waits for > 0, is_unlocked() (the knife's refine) for > 2, so such a
+        -- character could never craft a potion and could not take the quest
+        -- again either. At every login: completed 3, as the reward's end
+        -- sets it; and a character a GM skipped through it
+        -- (gm_quest_admin.lua's qa_reward_id) that never got the first knife
+        -- and holds none is given it once, as the start's talk would have.
+        -- The skip itself sets both at once (gm_quest_full_skip.lua's native
+        -- "herbalism"); this is for the characters skipped before, and the
+        -- ones the package's end left at 2. Never a bot's.
+        function settle()
+            if pc.is_playerbot ~= nil and pc.is_playerbot() then
+                return
+            end
+            if pc.getf("herbalism_onboarding", "completed") < 3 then
+                pc.setf("herbalism_onboarding", "completed", 3)
+            end
+            if pc.getf("herbalism_onboarding", "qa_reward_id") ~= 0
+                    and pc.getf("herbalism_onboarding", "knife_given") == 0
+                    and not herbalism_onboarding.has_knife()
+                    and pc.get_empty_inventory_count() >= 1 then
+                pc.setf("herbalism_onboarding", "knife_given", 1)
+                pc.give_item2(29201, 1)
+                syschat(herbalism_onboarding.t("Baek-Go przesyla ci pierwszy Nozyk Zielarza.",
+                    "Baek-Go sends you your first Herbalist's Knife."))
+            end
+        end
+
+        function point_to_baekgo()
+            local v = find_npc_by_vnum(20018)
+            if v ~= 0 then
+                target.vid("__TARGET__", v, mob_name(20018))
+            end
+        end
+
+        when 20018.chat.translate.herbalism.prime_quest.npc_chat begin
+            herbalism_onboarding.title()
+            if pc.get_level() < 15 then
+                herbalism_onboarding.sayw(translate.herbalism.prime_quest.low_lvl)
+                return
+            end
+            herbalism_onboarding.sayw(translate.herbalism.prime_quest.introduction1)
+            wait()
+            herbalism_onboarding.title()
+            herbalism_onboarding.sayw(translate.herbalism.prime_quest.introduction2)
+            wait()
+            herbalism_onboarding.title()
+            if herbalism_onboarding.has_knife() then
+                herbalism_onboarding.sayw(herbalism_onboarding.t("Widze, ze masz juz Nozyk Zielarza. Dobrze, przyda sie.",
+                    "I see you already have a Herbalist's Knife. Good, you will need it."))
+            elseif pc.getf("herbalism_onboarding", "knife_given") == 0 and pc.get_empty_inventory_count() >= 1 then
+                -- flag first: a closed dialog or a repeated talk can never hand out a second knife
+                pc.setf("herbalism_onboarding", "knife_given", 1)
+                pc.give_item2(29201, 1)
+                herbalism_onboarding.sayw(herbalism_onboarding.t("Pierwszy nozyk dostaniesz ode mnie. Zaloz go zamiast broni, podejdz do krzewu i kliknij go - reszta to cierpliwosc.",
+                    "Your first knife is a gift from me. Equip it instead of your weapon, walk up to a bush and click it - the rest is patience."))
+                say_item_vnum(29201)
+            else
+                -- knife already given once (sold or lost since) or no free slot: the shipped text, "buy it from me"
+                herbalism_onboarding.sayw(translate.herbalism.prime_quest.introduction3)
+                say_item_vnum(29201)
+            end
+            wait()
+            herbalism_onboarding.title()
+            herbalism_onboarding.sayw(translate.herbalism.prime_quest.introduction4)
+            say_item_vnum(50721)
+            wait()
+            herbalism_onboarding.title()
+            herbalism_onboarding.sayw(herbalism_onboarding.where())
+            herbalism_onboarding.sayw(translate.herbalism.prime_quest.introduction5)
+            set_state(progress)
+        end
+    end
+
+    state progress begin
+        when letter begin
+            send_letter(translate.herbalism.prime_quest.state_progress.letter_name)
+            if pc.count_item(50721) >= 10 then
+                herbalism_onboarding.point_to_baekgo()
+            end
+        end
+
+        when button or info begin
+            say_title(translate.herbalism.prime_quest.state_progress.letter_name)
+            if pc.count_item(50721) >= 10 then
+                herbalism_onboarding.sayw(translate.herbalism.prime_quest.state_progress.letter_info_has_flowers)
+            else
+                herbalism_onboarding.sayw(translate.herbalism.prime_quest.state_progress.letter_info)
+                herbalism_onboarding.sayw(herbalism_onboarding.where())
+            end
+        end
+
+        when __TARGET__.target.click or 20018.chat.translate.herbalism.prime_quest.state_progress.npc_chat with pc.count_item(50721) >= 10 begin
+            target.delete("__TARGET__")
+            herbalism_onboarding.title()
+            herbalism_onboarding.sayw(translate.herbalism.prime_quest.state_progress.talk1)
+            wait()
+            herbalism_onboarding.title()
+            herbalism_onboarding.sayw(translate.herbalism.prime_quest.state_progress.talk2)
+            wait()
+            herbalism_onboarding.title()
+            if pc.get_empty_inventory_count() < 2 then
+                say(translate.general.no_inventory_space)
+                return
+            end
+            herbalism_onboarding.sayw(translate.herbalism.prime_quest.state_progress.talk3)
+            say_item_vnum(50909)
+            herbalism_onboarding.sayw(translate.herbalism.prime_quest.state_progress.talk4)
+            -- the 10 blossoms are only checked, not taken: the first craft (row 11) needs them
+            pc.give_item2(50909, 1)
+            pc.give_item2(50901, 5)
+            pc.setf("herbalism_onboarding", "completed", 1)
+            set_state(craft)
+        end
+    end
+
+    state craft begin
+        when letter begin
+            send_letter(translate.herbalism.prime_quest.state_craft.letter_name)
+        end
+
+        when button or info begin
+            say_title(translate.herbalism.prime_quest.state_craft.letter_name)
+            herbalism_onboarding.sayw(translate.herbalism.prime_quest.state_craft.letter_info)
+        end
+
+        -- the step to "reward" is made by the crafting lib when row 11 is crafted (crafting.create)
+    end
+
+    state reward begin
+        when letter begin
+            send_letter(translate.herbalism.prime_quest.state_reward.letter_name)
+            herbalism_onboarding.point_to_baekgo()
+        end
+
+        when button or info begin
+            say_title(translate.herbalism.prime_quest.state_reward.letter_name)
+            herbalism_onboarding.sayw(translate.herbalism.prime_quest.state_reward.letter_info)
+        end
+
+        when __TARGET__.target.click or 20018.chat.translate.herbalism.prime_quest.state_reward.npc_chat begin
+            target.delete("__TARGET__")
+            herbalism_onboarding.title()
+            if pc.get_empty_inventory_count() < 2 then
+                say(translate.general.no_inventory_space)
+                return
+            end
+            herbalism_onboarding.sayw(translate.herbalism.prime_quest.state_reward.talk1)
+            say("")
+            say("...")
+            herbalism_onboarding.sayw(translate.herbalism.prime_quest.state_reward.talk2)
+            herbalism_onboarding.sayw(herbalism_onboarding.t("Tak zaczyna sie droga zielarza. Gdy osiagniesz 20. poziom, zapytaj mnie o Sciezke Zielarza.",
+                "This is how a herbalist's road begins. When you reach level 20, ask me about the Herbalist's Path."))
+            -- state first, then the reward: a second click cannot pay twice
+            set_state(complete)
+            pc.setf("herbalism_onboarding", "completed", 3)
+            pc.setf("crafting", "learn_delay11", 0)
+            pc.give_item2(50901, 10)
+            pc.give_item2(50912, 1)
+            pc.give_exp2(math.floor(pc.get_next_exp() * 5 / 100))
+            say_reward(item_name(50901) .. " x10, " .. item_name(50912))
+            clear_letter()
+        end
+    end
+
+    state complete begin
+        when login begin
+            herbalism_onboarding.settle()
+        end
+    end
+end

@@ -33,7 +33,7 @@ from markupsafe import escape
 from market_preview import overrides as _price_overrides
 from market_preview import population as _population
 
-THEME_VERSION = "2.7.0-p19-hex1"
+THEME_VERSION = "2.7.0-p19-hex1-tr1"   # -tr1: Turkish patch (new theme.js)
 # Neither currently supported core handles PERSONASET. Do not enqueue an
 # unexecutable mutation; enable only together with a reviewed native handler.
 PERSONA_CHANGE_SUPPORTED = True
@@ -69,7 +69,7 @@ L = {
     "prices":     {"pl": "Ceny i mnożniki", "en": "Prices & multipliers", "de": "Preise & Multiplikatoren", "tr": "Fiyatlar ve çarpanlar"},
     "items":      {"pl": "Przedmioty i drop", "en": "Items & drop", "de": "Gegenstände & Drop", "tr": "Eşyalar ve drop"},
     "itemdb":     {"pl": "Baza przedmiotów", "en": "Item database", "de": "Gegenstandsdatenbank", "tr": "Eşya veritabanı"},
-    "maps":       {"pl": "Aktywność map", "en": "Map activity", "de": "Kartenaktivität", "tr": "Harita etkinliği"},
+    "maps":       {"pl": "Aktywność map", "en": "Map activity", "de": "Kartenaktivität", "tr": "Harita aktivitesi"},
     "perf":       {"pl": "Wydajność serwera", "en": "Server performance", "de": "Serverleistung", "tr": "Sunucu performansı"},
     "mstats":     {"pl": "Statystyki rynku", "en": "Market statistics", "de": "Marktstatistik", "tr": "Pazar istatistikleri"},
     "market":     {"pl": "Podgląd rynku", "en": "Market preview", "de": "Marktvorschau", "tr": "Pazar önizlemesi"},
@@ -77,12 +77,13 @@ L = {
     "ai":         {"pl": "Zachowanie botów", "en": "Bot behaviour", "de": "Bot-Verhalten", "tr": "Bot davranışı"},
     "ai_items":   {"pl": "Przedmioty botów", "en": "Bot items", "de": "Bot-Gegenstände", "tr": "Bot eşyaları"},
     "events":     {"pl": "Eventy", "en": "Events", "de": "Events", "tr": "Etkinlikler"},
+    "quests":     {"pl": "Misje graczy", "en": "Player quests", "de": "Spielerquests", "tr": "Oyuncu görevleri"},
     "fun":        {"pl": "Fun™", "en": "Fun™", "de": "Fun™", "tr": "Fun™"},
     "editsql":    {"pl": "Edytor bazy danych", "en": "Database editor", "de": "Datenbank-Editor", "tr": "Veritabanı editörü"},
     "drops":      {"pl": "Edytor dropu", "en": "Drop editor", "de": "Drop-Editor", "tr": "Drop düzenleyici"},
     "client":     {"pl": "Dane dla klienta", "en": "Client data", "de": "Client-Daten", "tr": "İstemci verileri"},
     "patchlog":   {"pl": "Wersja i zmiany", "en": "Version & changes", "de": "Version & Änderungen", "tr": "Sürüm ve değişiklikler"},
-    "export":     {"pl": "Statystyki Iwakury", "en": "Iwakura statistics", "de": "Iwakura-Statistik", "tr": "Iwakura istatistikleri"},
+    "export":     {"pl": "Statystyki Spec.", "en": "Spec. statistics", "de": "Spez.-Statistik", "tr": "Uzman istatistikleri"},
     "newacc":     {"pl": "Stwórz konto", "en": "Create account", "de": "Konto erstellen", "tr": "Hesap oluştur"},
     "reset":      {"pl": "Reset hasła gracza", "en": "Player password reset", "de": "Spieler-Passwort-Reset", "tr": "Oyuncu şifre sıfırlama"},
     "gamelang":   {"pl": "Język gry", "en": "Game language", "de": "Spielsprache", "tr": "Oyun dili"},
@@ -266,6 +267,8 @@ def _context(mod):
             group("g_world", [
                 item("map", "live_map"),
                 item("world", "m2p_world"),
+                # The GM's quest skip (Kiciamol, 16 October; files/quest_admin_web.py).
+                item("quests", "quest_admin_search", prefix="quest_admin_"),
                 item("rankings2", "m2p_rankings"),
                 item("chat", "m2p_chat"),
                 item("maps", "m2p_maps"),
@@ -286,7 +289,7 @@ def _context(mod):
             group("g_game", [
                 item("rates", "rates"),
                 item("ai", "ai_weights"),
-                {"key": "population", "label": "Populacja botów" if lang == "pl" else "Bot population", "href": "/panel/populacja", "active": request.endpoint == "m2p_population", "ext": False, "new": False, "tip": ""},
+                {"key": "population", "label": "Populacja botów" if lang == "pl" else _tr_en(mod, "Bot population", lang), "href": "/panel/populacja", "active": request.endpoint == "m2p_population", "ext": False, "new": False, "tip": ""},
                 item("ai_items", "ai_item_policy"),
                 item("events", "events_page"),
                 item("fun", "m2p_fun"),
@@ -413,8 +416,8 @@ def _patch_editsql(mod, html):
 
 # Iwakura P18 pkt 6H: wybór motywu także w stopce edytora bazy danych.
 ESQ_PAL = ("<script>(function(){var f=document.getElementById('footer');if(!f)return;"
-           "var pl=(document.documentElement.getAttribute('lang')||'pl').slice(0,2)==='pl';"
-           "var N=pl?['Motyw','pergamin','czerwony','brązowy','niebieski','zielony','1963']:['Theme','parchment','red','brown','blue','green','1963'];"
+           "var lg=(document.documentElement.getAttribute('lang')||'pl').slice(0,2),pl=lg==='pl';"
+           "var N=pl?['Motyw','pergamin','czerwony','brązowy','niebieski','zielony','1963']:(lg==='tr'?['Tema','parşömen','kırmızı','kahverengi','mavi','yeşil','1963']:['Theme','parchment','red','brown','blue','green','1963']);"
            "var K=['parch','red','brown','blue','green','1963'],c='parch';"
            "try{c=localStorage.getItem('m2p_pal')||(document.cookie.match(/(?:^|; )m2p_pal=([^;]*)/)||[])[1]||'parch'}catch(e){}"
            "var d=document.createElement('div');d.className='m2p-pal';"
@@ -433,7 +436,8 @@ def _esq_extras(mod, html):
         from flask import request as _rq, session as _ss
         path = _rq.path or ""
         fast = bool(_ss.get("esq_fast"))
-        pl = (mod.lang() if hasattr(mod, "lang") else "pl") == "pl"
+        lang_ = mod.lang() if hasattr(mod, "lang") else "pl"
+        pl = lang_ == "pl"
         token = mod.csrf_token()
     except Exception:  # noqa: BLE001
         return html
@@ -442,22 +446,23 @@ def _esq_extras(mod, html):
     bar = ('<form method="post" action="/editsql-fast" class="m2p-esq-fast">%s '
            '<input type="hidden" name="_csrf" value="%s"><input type="hidden" name="on" value="%d">'
            '<input type="hidden" name="next" value="%s"><button type="submit" class="%s">%s</button></form>'
-           % (("Tryb szybki (zapis bez podglądu):" if pl else "Fast mode (save without preview):"),
+           % (("Tryb szybki (zapis bez podglądu):" if pl else _tr_page("Fast mode (save without preview):", lang_)),
               escape(token), 0 if fast else 1, escape(path), "on" if fast else "",
-              ("WŁĄCZONY – wyłącz" if pl else "ON – switch off") if fast else ("wyłączony – włącz" if pl else "off – switch on")))
+              ("WŁĄCZONY – wyłącz" if pl else _tr_page("ON – switch off", lang_)) if fast else
+              ("wyłączony – włącz" if pl else _tr_page("off – switch on", lang_))))
     m = re.match(r"^/editsql/(chests|drops|mobs)/[^/]+/(\d+)", path)
     if m and "drops_home" in mod.app.view_functions:
         kind, vnum = m.group(1), m.group(2)
         if kind == "chests":
             bar += ('<div class="esq-note esq-note-info"><b><a href="/drops/chests/g/%s">%s →</a></b> %s</div>'
-                    % (vnum, "Edytuj zawartość tej skrzynki" if pl else "Edit this chest's contents",
+                    % (vnum, "Edytuj zawartość tej skrzynki" if pl else _tr_page("Edit this chest's contents", lang_),
                        "(przedmioty w środku, szanse, ilości – edytor „Skrzynki i drop”)." if pl else
-                       "(the items inside, chances, counts – the “Chests and drops” editor)."))
+                       _tr_page("(the items inside, chances, counts – the “Chests and drops” editor).", lang_)))
         else:
             bar += ('<div class="esq-note esq-note-info"><b><a href="/drops/mobs?q=%s">%s →</a></b> %s</div>'
-                    % (vnum, "Edytuj drop tego potwora" if pl else "Edit this monster's drop",
+                    % (vnum, "Edytuj drop tego potwora" if pl else _tr_page("Edit this monster's drop", lang_),
                        "(grupy dropu mob_drop_item – edytor „Skrzynki i drop”). Tu zmieniasz tylko kolumnę drop_item." if pl else
-                       "(mob_drop_item's drop groups – the “Chests and drops” editor). Here you change only the drop_item column."))
+                       _tr_page("(mob_drop_item's drop groups – the “Chests and drops” editor). Here you change only the drop_item column.", lang_)))
     return html.replace("<h2>", bar + "<h2>", 1)
 
 
@@ -592,7 +597,7 @@ def _patch_ai_page(mod, app):
                             if isinstance(v, str) else v for lg, v in T[k].items()}
         if isinstance(T, dict) and "ai_patch8" in T:
             T["ai_patch8"] = {"pl": "Ustawienia poboczne", "en": "Side settings",
-                              "de": "Nebeneinstellungen", "tr": "Yan ayarlar"}
+                              "de": "Nebeneinstellungen", "tr": "Ek ayarlar"}
     except Exception:  # noqa: BLE001
         app.logger.exception("m2_theme: bot behaviour page")
 
@@ -938,7 +943,13 @@ _P18_EQ_REASONS = (
     # keep theirs.
     ("Kod 16 (nieużywany)", "Code 16 (unused)"),
     ("Kupuję bazę z rynku", "Buying the base from the market"),
-    ("Kupuję materiał z rynku", "Buying the material from the market"))
+    ("Kupuję materiał z rynku", "Buying the material from the market"),
+    # Tyrion's answers U3 and U4 of 16 October (playerbot_plan_supply_rules.h):
+    # a worn piece's plain step with no spare, its spare being bought, and a
+    # material no counter holds being dropped by the bot itself.
+    ("Czeka na zapas", "Waiting for a spare"),
+    ("Kupuję zapas z rynku", "Buying a spare from the market"),
+    ("Poluję na materiał", "Hunting for the material"))
 
 
 def _p18_eq_runtime(mod, pid, now=None):
@@ -964,6 +975,10 @@ def _p18_eq_runtime(mod, pid, now=None):
                     values = line.split('\t')
                     if len(values) != len(_P18_EQ_FIELDS):
                         raise ValueError("bad EQ row width")
+                    # Patch 20, 1D: a rich bot's piece of the next tier is a
+                    # row of its own (phase "future"), not one of the eight.
+                    if values[-1] == 'future':
+                        continue
                     nums = [int(v) for v in values[:-1]]
                     if any(v<0 for i,v in enumerate(nums) if i not in (9,10,12,13,14)):
                         raise ValueError("invalid EQ values")
@@ -1198,7 +1213,8 @@ def itemdb_data(mod, lang, query="", itype=None, page=0, per=60):
     q = (query or "").strip().lower()
     vnums = sorted(v for v in names if v in base)
     if q:
-        vnums = [v for v in vnums if q in names[v].lower() or q == str(v)]
+        trn = (lambda v: _iname(mod, v, lang).lower()) if lang == "tr" else (lambda v: "")   # tr: Turkish names too
+        vnums = [v for v in vnums if q in names[v].lower() or q == str(v) or q in trn(v)]
     counts = {}
     for v in vnums:
         t = base[v].get("type", 0)
@@ -1223,12 +1239,13 @@ def itemdb_data(mod, lang, query="", itype=None, page=0, per=60):
         b = base[v]
         t, st = b.get("type", 0), b.get("subtype", 0)
         stats = []
+        trw = lang == "tr"      # Turkish patch: the stat words in Turkish
         if t == 1:
-            stats.append("Atak %d–%d" % (b.get("value3", 0), b.get("value4", 0)))
+            stats.append(("Saldırı %d–%d" if trw else "Atak %d–%d") % (b.get("value3", 0), b.get("value4", 0)))
             if b.get("value1") or b.get("value2"):
-                stats.append("Atak mag. %d–%d" % (b.get("value1", 0), b.get("value2", 0)))
+                stats.append(("Büyü saldırısı %d–%d" if trw else "Atak mag. %d–%d") % (b.get("value1", 0), b.get("value2", 0)))
         elif t == 2 and st in (0, 1, 2, 4) and b.get("value1"):
-            stats.append("Obrona %d" % b.get("value1", 0))
+            stats.append(("Savunma %d" if trw else "Obrona %d") % b.get("value1", 0))
         for ap in b.get("apply") or []:
             label = None
             try:
@@ -1237,7 +1254,8 @@ def itemdb_data(mod, lang, query="", itype=None, page=0, per=60):
                 label = None
             stats.append(label or ("#%d +%d" % (ap["type"], ap["val"])))
         e = extra.get(v, {})
-        rows.append({"vnum": v, "name": names[v], "type": ITEM_TYPE_NAMES.get(t, str(t)),
+        rows.append({"vnum": v, "name": _iname(mod, v, lang) if lang == "tr" else names[v],   # tr: Turkish patch
+                     "type": ITEM_TYPE_NAMES.get(t, str(t)),
                      "sub": ITEM_SUBTYPE_NAMES.get(t, {}).get(st, ""), "level": b.get("level", 0),
                      "size": (getattr(mod, "ITEM_SIZES", {}) or {}).get(v, 1), "stats": stats,
                      "buy": int(e.get("gold") or 0), "sell": int(e.get("shop_buy_price") or 0),
@@ -1333,6 +1351,122 @@ def perf_data(mod, span):
     return out
 
 
+# ---- Iwakura's Patch 20, 4I: the overload warning over /map ----
+# The same readings as "Wydajnosc serwera": this panel's live /proc and the
+# history Seban's collector keeps (web_seban_system_snapshot). Everything is
+# a ten-minute mean, so a restart's spike never raises the bar, and it goes
+# away by itself once the mean is under the thresholds again. The bots' own AI
+# round time is not in any file the panel reads, so that condition waits for a
+# core that reports it.
+PERF_ALERT_CACHE = {"at": 0.0, "data": None}
+PERF_ALERT_TTL = 60.0
+PERF_ALERT_RED_CPU, PERF_ALERT_YELLOW_CPU = 95.0, 85.0
+PERF_ALERT_RED_RAM, PERF_ALERT_YELLOW_RAM = 95.0, 90.0
+PERF_ALERT_SWAP_PCT = 25.0
+PERF_ALERT_BOTS_PER_CORE = 130
+PERF_ALERT_RAM_RESERVE_MB = 1536
+
+
+def perf_alert_judge(live, hist, online):
+    """The bar from the readings: (level, parts, safe bots). live is
+    _live_system()'s dict, hist {"cpu": mean, "ram": mean, "n": samples,
+    "cpu_run": minutes the CPU stood over the level's threshold}, online the
+    bots in the game. Pure, so the test reads it without a database."""
+    cpu = hist.get("cpu") if hist.get("n", 0) >= 3 else None
+    ram = hist.get("ram") if hist.get("n", 0) >= 3 else live.get("ram")
+    cpus = int(live.get("cpus") or 1)
+    load5 = (live.get("load") or [None, None])[1]
+    swap_total = int(live.get("swap_total_mb") or 0)
+    swap_pct = 100.0 * int(live.get("swap_used_mb") or 0) / swap_total if swap_total else 0.0
+    red, yellow = [], []
+    if cpu is not None and cpu >= PERF_ALERT_RED_CPU:
+        red.append(("cpu", cpu))
+    elif cpu is not None and cpu >= PERF_ALERT_YELLOW_CPU:
+        yellow.append(("cpu", cpu))
+    if load5 is not None and load5 >= 2 * cpus:
+        red.append(("load", load5))
+    if ram is not None and ram >= PERF_ALERT_RED_RAM:
+        red.append(("ram", ram))
+    elif ram is not None and ram >= PERF_ALERT_YELLOW_RAM:
+        yellow.append(("ram", ram))
+    if swap_pct > PERF_ALERT_SWAP_PCT:
+        red.append(("swap", swap_pct))
+    level = "red" if red else ("yellow" if yellow else "")
+    safe = None
+    if level and online:
+        if cpu:
+            safe = int(online * 70 / max(1.0, cpu))
+        used, total = int(live.get("ram_used_mb") or 0), int(live.get("ram_total_mb") or 0)
+        if used and total:
+            per_bot = used / float(online)
+            cap = int(max(0, total - PERF_ALERT_RAM_RESERVE_MB) / per_bot) if per_bot > 0 else None
+            if cap is not None:
+                safe = cap if safe is None else min(safe, cap)
+    return level, red + yellow, {"cpu": cpu, "ram": ram, "cpus": cpus, "load5": load5,
+                                 "swap": round(swap_pct, 1), "cpu_run": hist.get("cpu_run", 0),
+                                 "safe": safe, "online": online,
+                                 "per_core": cpus * PERF_ALERT_BOTS_PER_CORE}
+
+
+def perf_alert(mod):
+    now = _time.time()
+    hit = PERF_ALERT_CACHE.get("data")
+    if hit is not None and now - PERF_ALERT_CACHE["at"] < PERF_ALERT_TTL:
+        return hit
+    live = _live_system()
+    hist = {"n": 0}
+    try:
+        row = _q(mod, "SELECT AVG(cpu_percent) AS cpu, AVG(ram_percent) AS ram, COUNT(*) AS n "
+                      "FROM player.web_seban_system_snapshot WHERE captured_at >= NOW() - INTERVAL 10 MINUTE", one=True) or {}
+        hist = {"cpu": float(row.get("cpu") or 0), "ram": float(row.get("ram") or 0), "n": int(row.get("n") or 0)}
+        thr = PERF_ALERT_RED_CPU if hist["cpu"] >= PERF_ALERT_RED_CPU else PERF_ALERT_YELLOW_CPU
+        run = 0
+        for r in _q(mod, "SELECT FLOOR(UNIX_TIMESTAMP(captured_at) / 60) AS m, AVG(cpu_percent) AS c "
+                         "FROM player.web_seban_system_snapshot WHERE captured_at >= NOW() - INTERVAL 180 MINUTE "
+                         "GROUP BY m ORDER BY m DESC"):
+            if float(r.get("c") or 0) < thr:
+                break
+            run += 1
+        hist["cpu_run"] = run
+    except Exception:  # noqa: BLE001 - no collector: the live readings alone
+        hist = {"n": 0}
+    try:
+        online = len(mod.read_playerbot_live_status() or {})
+    except Exception:  # noqa: BLE001
+        online = 0
+    level, parts, facts = perf_alert_judge(live, hist, online)
+    data = {"ok": True, "level": level, "parts": [[k, round(float(v), 1)] for k, v in parts], "facts": facts}
+    if level == "red" and callable(getattr(mod, "WORLD_SETTINGS_PERFORMANCE_RED", None)):
+        mod.WORLD_SETTINGS_PERFORMANCE_RED()
+    PERF_ALERT_CACHE.update(at=now, data=data)
+    return data
+
+
+PERF_ALERT_JS = r"""<script id="m2p-perf-alert">(function(){var d=document;
+var EN='__LANG__'!=='pl';function T(a,b){return EN?b:a;}
+function n(x){return (Math.round(x*10)/10).toString().replace('.',EN?'.':',');}
+var KEY='m2p_perf_hide_until';
+function hidden(){try{return +(localStorage.getItem(KEY)||0)>Date.now();}catch(e){return false;}}
+function show(j){var old=d.getElementById('m2pPerfBar');if(old)old.remove();
+ if(!j||!j.ok||!j.level||hidden())return;var f=j.facts||{},p=[];
+ (j.parts||[]).forEach(function(x){var k=x[0],v=x[1];
+  if(k==='cpu')p.push('CPU '+n(v)+'%'+(f.cpu_run?T(' od ',' for ')+f.cpu_run+' min':''));
+  else if(k==='ram')p.push('RAM '+n(v)+'%');else if(k==='swap')p.push(T('plik wymiany ','swap ')+n(v)+'%');
+  else if(k==='load')p.push(T('obciążenie ','load ')+n(v));});
+ p.push(f.cpus+' '+(EN?(f.cpus==1?'core':'cores'):(f.cpus==1?'rdzeń':(f.cpus<5?'rdzenie':'rdzeni'))));
+ if(f.ram!=null&&!(j.parts||[]).some(function(x){return x[0]==='ram';}))p.push('RAM '+n(f.ram)+'%');
+ var red=j.level==='red',b=d.createElement('div');b.id='m2pPerfBar';
+ b.style.cssText='margin:0 0 10px;padding:9px 12px;border-radius:6px;font-size:13px;line-height:1.45;border:1px solid '+(red?'#7f1d1d;background:#3b0d0d;color:#fecaca':'#78350f;background:#3a2a06;color:#fde68a');
+ var safe=f.safe!=null?'<br>'+T('Bezpiecznie dla tego serwera: ok. ','Safe for this server: about ')+f.safe+T(' botów (teraz: ',' bots (now: ')+f.online+T(' w grze; orientacyjnie ok. ',' in the game; roughly ')+f.per_core+T(' na rdzeniach tego serwera)',' on this server\'s cores)'):'';
+ b.innerHTML='<b>'+(red?'&#9888; '+T('Serwer jest przeciążony','The server is overloaded'):T('Serwer pracuje na granicy','The server is at its limit'))+'</b>: '+p.join(', ')+'.'+safe+
+  '<br><a href="/panel/wydajnosc">'+T('Wydajność serwera','Server performance')+'</a> · <a href="/panel/populacja">'+T('Ustawienia serwera (liczba botów)','Server settings (bot count)')+'</a>'+
+  ' <button type="button" style="float:right;font-size:11px">'+T('Ukryj na 1 h','Hide for 1 h')+'</button>';
+ b.querySelector('button').onclick=function(){try{localStorage.setItem(KEY,String(Date.now()+3600000));}catch(e){}b.remove();};
+ var host=d.querySelector('.m2p-main')||d.querySelector('.container')||d.body;host.insertBefore(b,host.firstChild);}
+function load(){fetch('/m2p/api/perf_alert',{credentials:'same-origin',cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(show).catch(function(){});}
+load();setInterval(load,60000);})();</script>"""
+
+
 def event_history(mod):
     labels = {"chest": "Szkatułki Blasku Księżyca", "exp": "Doświadczenie", "drop": "Drop przedmiotów", "yang": "Yang",
               "tanaka": "Pirat Tanaka", "zuo": "Zuo: deszcz Metinów"}
@@ -1381,7 +1515,7 @@ def _socket_lines(mod, it, lang):
     for k in range(3):
         s = int(it.get("socket%d" % k) or 0)
         if s == 1:
-            out.append({"pl": "Wolne gniazdo", "en": "Empty socket"}.get(lang, "Empty socket"))
+            out.append({"pl": "Wolne gniazdo", "en": "Empty socket", "tr": "Boş slot"}.get(lang, "Empty socket"))
         elif s >= 28000:
             out.append(_iname(mod, s, lang))
     return out
@@ -1695,6 +1829,29 @@ def world_stats(mod):
                   "levels": cnt("LEVELUP", "LEVEL_UP"), "skills": cnt("SKILLUP"), "refines": cnt("REFINE_SUCCESS"),
                   "refine_fail": cnt("REFINE_FAIL"), "sales": cnt("PLAYERBOT_STALL_SOLD"), "chests": cnt("CHEST_OPEN"),
                   "gold_picked": cnt("GET_GOLD")}
+    # Iwakura's Patch 20, 4F: mt2009 writes no REFINE_SUCCESS / REFINE_FAIL into
+    # log.log, so the upgrades and the failed ones are log.refinelog's of the
+    # last 24 h. A chest is logged only as the engine logs any ITEM_FLAG_LOG
+    # item it uses up (char_item.cpp's UseItem: USE_ITEM, or REMOVE for the
+    # last one) - a giftbox (item type 23) of those; a world whose engine wrote
+    # no such row in a week hides the tile instead of showing 0.
+    try:
+        rf24 = _q(mod, "SELECT COALESCE(SUM(is_success=1),0) AS ok_, COALESCE(SUM(is_success=0),0) AS bad "
+                       "FROM log.refinelog WHERE time >= NOW() - INTERVAL 24 HOUR", one=True)
+        if rf24 is not None:
+            out["day"]["refines"] = int(rf24.get("ok_") or 0)
+            out["day"]["refine_fail"] = int(rf24.get("bad") or 0)
+    except Exception:  # noqa: BLE001
+        pass
+    out["day"]["chests"] = None
+    try:
+        ch7 = _q(mod, "SELECT COALESCE(SUM(l.time >= NOW() - INTERVAL 24 HOUR),0) AS d1, COUNT(*) AS d7 FROM log.log l "
+                      "JOIN player.item_proto ip ON ip.vnum = l.vnum AND ip.type = 23 "
+                      "WHERE l.time >= NOW() - INTERVAL 7 DAY AND l.how IN ('USE_ITEM','REMOVE')", one=True) or {}
+        if int(ch7.get("d7") or 0) > 0:
+            out["day"]["chests"] = int(ch7.get("d1") or 0)
+    except Exception:  # noqa: BLE001
+        pass
     try:
         out["online"] = len(mod.read_playerbot_live_status() or {})
     except Exception:  # noqa: BLE001
@@ -1858,6 +2015,7 @@ def _price_apply(ovr):
     except Exception:  # noqa: BLE001
         _price = None
     _price_overrides.validate(ovr, d, allow_meta=True)
+    sheet.CUSTOM_PRICES = {int(k[7:]): v for k, v in ovr.items() if _price_overrides.custom_key(k)}
     def val(k):
         return int(ovr.get(k, d[k]))
     precise = ovr.get('glob:patch18') == 18
@@ -2030,19 +2188,25 @@ def _price_rows(mod, lang):
     out.append({"id": "glob", "title": "Globalne", "cols": ["wartość"],
                 "rows": [{"label": t, "sub": "", "cells": [cell("glob:" + n, 100 if n in ("cap_full", "cap_vs_plus9") else 1)]} for n, _v, t in PRICE_GLOBALS],
                 "note": "Te parametry liczy rdzeń gry (Patch 18 pkt 3)."})
+    out.append({"id": "custom", "title": "Niestandardowe" if lang == "pl" else "Custom",
+                "cols": ["yang / szt." if lang == "pl" else "yang / unit"],
+                "rows": [{"label": iname(int(k[7:])), "sub": "vnum " + k[7:], "vnum": int(k[7:]),
+                          "cells": [{"k": k, "d": 0, "v": int(v), "s": 1}]}
+                         for k, v in sorted(_PRICE_OVR.items()) if _price_overrides.custom_key(k)]})
     for sec in out:
         for r in sec["rows"]:
             r["cells"] = [c for c in r["cells"]] if all(r["cells"]) else [c or {"k": "", "d": None, "v": None} for c in r["cells"]]
     if lang != "pl":
+        conv = _price_text_tr if lang == "tr" else _price_text_en     # tr: Turkish patch
         for sec in out:
-            sec["title"] = _price_text_en(sec["title"])
-            sec["cols"] = [_price_text_en(c) for c in sec["cols"]]
+            sec["title"] = conv(sec["title"])
+            sec["cols"] = [conv(c) for c in sec["cols"]]
             if sec.get("note"):
-                sec["note"] = _price_text_en(sec["note"])
+                sec["note"] = conv(sec["note"])
             for row in sec["rows"]:
-                row["sub"] = _price_text_en(row["sub"])
+                row["sub"] = conv(row["sub"])
                 if sec["id"] in ("sock", "dmg", "glob", "soulgrade") or row["label"].startswith("INT: "):
-                    row["label"] = _price_text_en(row["label"])
+                    row["label"] = conv(row["label"])
     return out
 
 
@@ -2055,7 +2219,9 @@ PRICES_BODY = """<div class="card m2p-pr"><h3>{{ m2p_pg.title }}</h3>
 <div id="prHist" hidden></div><input type="hidden" id="prCsrf" value="{{ csrf_token }}"></div>
 <script>
 (function(){
- var D=null, CUR='gear', dirty={}, invalid={};
+ var D=null, CUR='gear', dirty={}, invalid={}, searchSerial=0, customIcons={};
+ var CW={{ pr_custom_words|default({})|tojson }};
+ fetch('/static/item_icons.json').then(function(r){return r.json();}).then(function(j){customIcons=j;}).catch(function(){});
  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
  function fmt(n){ return n==null?'':Number(n).toLocaleString('pl-PL').replace(/\\u00a0/g,' '); }
  function load(){ fetch('/m2p/api/prices',{credentials:'same-origin',cache:'no-store'}).then(function(r){ return r.json(); }).then(function(j){ D=j; tabs(); draw(); }); }
@@ -2066,12 +2232,13 @@ PRICES_BODY = """<div class="card m2p-pr"><h3>{{ m2p_pg.title }}</h3>
   var rows=sec.rows.filter(function(r){ if(q&&(r.label+' '+r.sub).toLowerCase().indexOf(q)<0) return false;
    if(only&&!r.cells.some(function(c){ return c&&c.k&&(c.v!==c.d||dirty[c.k]!==undefined); })) return false; return true; });
   var h=(sec.note?'<p class="muted m2p-pr-note">'+esc(sec.note)+'</p>':'')+'<table class="m2p-pr-t"><tr><th>Pozycja</th>'+sec.cols.map(function(c){ return '<th>'+esc(c)+'</th>'; }).join('')+'<th></th></tr>';
-  h+=rows.slice(0,800).map(function(r){ return '<tr><td><b>'+esc(r.label)+'</b><br><small class="muted">'+esc(r.sub)+'</small></td>'+r.cells.map(function(c){
+  h+=rows.slice(0,800).map(function(r){ var v=r.vnum,icon=v?(customIcons[String(v)]||('00000'+v).slice(-5)+'.png'):'';return '<tr><td>'+(v?'<img width="24" height="24" alt="" src="/static/icons/'+esc(icon)+'" onerror="this.onerror=null;this.src=&quot;/static/icons/_unknown.png&quot;"> ':'')+'<b>'+esc(r.label)+'</b><br><small class="muted">'+esc(r.sub)+'</small></td>'+r.cells.map(function(c){
     if(!c||!c.k) return '<td></td>';
     var sc=c.s||1, v=dirty[c.k]!==undefined?dirty[c.k]:c.v, ch=v!==c.d, sh=invalid[c.k]!==undefined?invalid[c.k]:shown(v,sc);
     return '<td><input '+(D.editable?'':'disabled ')+'class="m2p-pr-in'+(sc>1?' x':'')+(ch?' ch':'')+(dirty[c.k]!==undefined?' dirty':'')+'" data-k="'+c.k+'" data-d="'+c.d+'" data-s="'+sc+'" value="'+esc(sh)+'" inputmode="'+(sc>1?'decimal':'numeric')+'" title="domyślnie: '+(sc>1?'×'+shown(c.d,sc):fmt(c.d))+'"></td>'; }).join('')+
-    '<td><button type="button" '+(D.editable?'':'disabled ')+'class="m2p-pr-rst" data-r="'+r.cells.map(function(c){ return c?c.k:''; }).join(',')+'" title="Przywróć domyślne">↺</button></td></tr>'; }).join('')+'</table>';
+    '<td><button type="button" '+(D.editable?'':'disabled ')+'class="m2p-pr-rst" data-r="'+r.cells.map(function(c){ return c?c.k:''; }).join(',')+'" title="Przywróć domyślne">↺'+(sec.id==='custom'?(CW.remove||'remove'):'')+'</button></td></tr>'; }).join('')+'</table>';
   if(rows.length>800) h+='<p class="muted">Pokazano 800 z '+rows.length+' – zawęź wyszukiwanie.</p>';
+  if(CUR==='custom')h='<label>'+esc(CW.search)+' <input id="prCustomSearch" autocomplete="off"></label><div id="prCustomResults"></div>'+h;
   document.getElementById('prBody').innerHTML=h; mark();
  }
  // Iwakura P19: a multiplier is typed as × (2.3 or 2,30) and stored in its scale's
@@ -2084,11 +2251,26 @@ PRICES_BODY = """<div class="card m2p-pr"><h3>{{ m2p_pg.title }}</h3>
  function mark(){ var n=Object.keys(dirty).length, bad=Object.keys(invalid).length; document.getElementById('prDirty').textContent=bad?('Błędne wartości: '+bad):(n?('Niezapisane zmiany: '+n):''); document.getElementById('prSave').disabled=!D.editable||!n||!!bad; }
  document.getElementById('prTabs').addEventListener('click',function(e){ var b=e.target.closest('button[data-s]'); if(!b) return; CUR=b.getAttribute('data-s'); tabs(); draw(); });
  document.getElementById('prQ').addEventListener('input',draw); document.getElementById('prChanged').addEventListener('change',draw);
- document.getElementById('prBody').addEventListener('input',function(e){ var i=e.target.closest('.m2p-pr-in'); if(!i) return; var k=i.getAttribute('data-k');
+ document.getElementById('prBody').addEventListener('input',function(e){
+  if(e.target.id==='prCustomSearch'){
+   var serial=++searchSerial, query=e.target.value;
+   fetch('/api/items?limit=16&q='+encodeURIComponent(query),{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(j){
+    var box=document.getElementById('prCustomResults');if(!box||serial!==searchSerial)return;
+    box.innerHTML=(j.items||[]).map(function(it){var v=Number(it.v),icon=customIcons[String(v)]||('00000'+v).slice(-5)+'.png';
+     return '<button type="button" class="btn" data-add-custom="'+v+'" data-custom-name="'+esc(it.n)+'"><img width="24" height="24" alt="" src="/static/icons/'+esc(icon)+'"> '+esc(it.n)+' #'+v+' · '+esc(CW.add)+'</button>';}).join('');
+   });return;
+  }
+  var i=e.target.closest('.m2p-pr-in'); if(!i) return; var k=i.getAttribute('data-k');
   var n=parsed(i.value,parseInt(i.getAttribute('data-s')||'1',10));
   if(n===null){ invalid[k]=i.value; mark(); return; }
   delete invalid[k]; dirty[k]=n; i.classList.add('dirty'); i.classList.toggle('ch',n!==Number(i.getAttribute('data-d'))); mark(); });
- document.getElementById('prBody').addEventListener('click',function(e){ var b=e.target.closest('.m2p-pr-rst'); if(!b) return;
+ document.getElementById('prBody').addEventListener('click',function(e){
+  var add=e.target.closest('[data-add-custom]');if(add){
+   var v=Number(add.getAttribute('data-add-custom')),key='custom:'+v;
+   if(!find(key)){D.sections.filter(function(s){return s.id==='custom';})[0].rows.push({label:add.getAttribute('data-custom-name'),sub:'vnum '+v,vnum:v,cells:[{k:key,d:0,v:0,s:1}]});}
+   document.getElementById('prQ').value='';draw();return;
+  }
+  var b=e.target.closest('.m2p-pr-rst'); if(!b) return;
   b.getAttribute('data-r').split(',').forEach(function(k){ if(!k) return; delete invalid[k]; var c=find(k); if(c) dirty[k]=c.d; }); draw(); });
  function find(k){ for(var i=0;i<D.sections.length;i++){ var s=D.sections[i]; for(var j=0;j<s.rows.length;j++){ var r=s.rows[j]; for(var x=0;x<r.cells.length;x++){ if(r.cells[x]&&r.cells[x].k===k) return r.cells[x]; } } } return null; }
  document.getElementById('prSave').addEventListener('click',function(){
@@ -2111,6 +2293,66 @@ def _price_text_en(text):
     for pl, en in sorted(PRICE_TEXT_EN.items(), key=lambda x: -len(x[0])):
         text = text.replace(pl, en)
     return text
+
+# Turkish patch (quality pass): the price page in Turkish - its section texts (the Polish pieces
+# PRICE_TEXT_EN knows, longest first) and the page's own words.
+PRICE_TEXT_TR = {
+    'Ceny broni i zbroi': 'Silah ve zırh fiyatları', 'Mnożniki bonusów': 'Bonus çarpanları',
+    'Ulepszacze': 'Yükseltme malzemeleri', 'Księgi': 'Kitaplar', 'Zwoje zapomnienia': 'Unutma Parşömenleri',
+    'Marmury': 'Dönüşüm Küreleri', 'Kamienie – stopnie': 'Taşlar – dereceler', 'Gniazda': 'Taş yuvaları',
+    'ŚR / UM': 'Ort. zarar / beceri hasarı', 'Globalne': 'Genel', '× max': '× maks.', '× inna': '× diğer',
+    'lvl od': 'Lv en az', 'lvl do': 'Lv en çok', 'cena (yang)': 'fiyat (yang)', '× w gnieździe': '× yuvada',
+    'Mnożnik „max” – bonus z najwyższą wartością, „inna” – każda niższa. Wiersz obowiązuje dla wymienionych miejsc i przedmiotów z poziomem od–do (255 = bez górnej granicy).':
+        '„Maks.” çarpanı en yüksek değerdeki bonus için, „diğer” çarpanı daha düşük her değer içindir. Satır, saydığı ekipman türlerine ve seviyesi en az–en çok aralığındaki eşyalara uygulanır (255 = üst sınır yok).',
+    'Cena samego kamienia i mnożnik ceny przedmiotu, w którego gnieździe ten kamień siedzi (×1.40 = przedmiot droższy o 40%).':
+        'Taşın kendi fiyatı ve bu taşın yuvasında takılı olduğu eşyanın fiyat çarpanı (×1.40 = eşya %40 daha pahalı).',
+    'Kamień Duszy +': 'Zihin Taşı +', 'cena kamienia bez własnej ceny w tabeli (yang)': 'tabloda kendi fiyatı olmayan taşın fiyatı (yang)',
+    'mnożnik ceny przedmiotu za liczbę gniazd': 'yuva sayısına göre eşya fiyatı çarpanı', 'gniazd': 'yuva',
+    'Średnie Obrażenia od': 'Ortalama zarar en az', 'Obrażenia Umiejętności od': 'Beceri hasarı en az',
+    'mnożnik ceny broni': 'silah fiyatı çarpanı',
+    'Te parametry liczy rdzeń gry (Patch 18 pkt 3).': 'Bu parametreleri oyun çekirdeği hesaplar (Yama 18, madde 3).',
+    'Cap: iloczyn mnożników liczony w całości do (×)': 'Sınır: çarpanların çarpımı tam olarak bu değere kadar sayılır (×)',
+    'Cena max względem ceny +9 bez bonusów (×)': 'Bonussuz +9 fiyatına göre en yüksek fiyat (×)',
+    'INT: tarcza': 'INT: kalkan', 'INT: broń szamana': 'INT: şaman silahı',
+    'Ceny bazowe broni i zbroi (+0…+9)': 'Silah ve zırh baz fiyatları (+0…+9)',
+    'Mnożniki bonusów (×, w setnych: 230 = ×2,30)': 'Bonus çarpanları (yüzde birlik: 230 = ×2,30)',
+    'Ulepszacze i materiały': 'Yükseltme malzemeleri', 'Księgi Umiejętności': 'Beceri Kitapları',
+    'Zwoje / Księgi Zapomnienia': 'Unutma Parşömenleri / Unutkanlık Kitapları', 'Marmury Polimorfii': 'Dönüşüm Küreleri',
+    'Kamienie Duszy': 'Zihin Taşları', 'Gniazda i stopnie kamieni': 'Taş yuvaları ve taş dereceleri',
+    'Średnie Obrażenia (ŚR) i Obrażenia Umiejętności (UM)': 'Ortalama Zarar ve Beceri Hasarı',
+    'Parametry globalne cen': 'Genel fiyat parametreleri',
+    'Hełm': 'Kask', 'Zbroja': 'Zırh', 'Tarcza': 'Kalkan', 'Buty': 'Ayakkabı', 'Bransoleta': 'Bilezik',
+    'Naszyjnik': 'Kolye', 'Kolczyki': 'Küpe', 'Broń': 'Silah',
+    'cena': 'fiyat', 'inna': 'diğer', 'wartość': 'değer', '% w gnieździe': '% yuvada', 'umiejętność': 'beceri',
+    'potwór': 'canavar', 'rodzaj': 'tür', 'własny max': 'kendi maks.', 'Stopień': 'Derece',
+    'Kamień Duszy bez własnej ceny': 'Kendi fiyatı olmayan Zihin Taşı', '% ceny za liczbę gniazd': 'yuva sayısına göre fiyat %',
+    '% ceny': 'fiyat %', 'gniazda': 'yuva', 'gniazdo': 'yuva', 'ŚR od': 'Ort. zarar en az', 'UM od': 'Beceri hasarı en az',
+    'Podniesienie mnożników bonusów (%): nowy = 1 + (stary − 1) × (1 + X/100)': 'Bonus çarpanlarının artışı (%): yeni = 1 + (eski − 1) × (1 + X/100)',
+    'Cap: iloczyn mnożników liczony w całości do (×, setne)': 'Sınır: çarpanların çarpımı tam olarak bu değere kadar sayılır (×, yüzde birlik)',
+    'Cap: nadwyżka ponad próg liczona w (%)': 'Sınır: eşiği aşan kısım bu oranda sayılır (%)',
+    'Cena max względem ceny +9 bez bonusów (×, setne)': 'Bonussuz +9 fiyatına göre en yüksek fiyat (×, yüzde birlik)',
+    'Młody świat: liczba dni z dodatkowym capem': 'Genç dünya: ek sınırın geçerli olduğu gün sayısı',
+    'Młody świat: cena max (% mediany gotówki botów 40+)': 'Genç dünya: en yüksek fiyat (40+ seviye botların nakit medyanının %)',
+    'Młody świat: cena max (% referencyjnego majątku aktywnych botów 40+)': 'Genç dünya: en yüksek fiyat (40+ seviye aktif botların referans servetinin %)',
+    'Szkatułka Blasku Księżyca: zmiana ceny (%)': 'Ayışığı Define Sandığı: fiyat değişimi (%)',
+}
+
+
+def _price_text_tr(text):
+    for pl, tr in sorted(PRICE_TEXT_TR.items(), key=lambda x: -len(x[0])):
+        text = text.replace(pl, tr)
+    return text
+
+
+PRICES_BODY_TR = PRICES_BODY
+for _pl, _tr in {'Szukaj (nazwa / vnum)…': 'Ara (ad / vnum)…', 'tylko zmienione': 'yalnızca değişenler',
+                 'Zapisz zmiany': 'Değişiklikleri kaydet', 'Historia zmian': 'Değişiklik geçmişi', 'Pozycja': 'Ayar',
+                 'domyślnie:': 'varsayılan:', 'Przywróć domyślne': 'Varsayılana döndür',
+                 'Pokazano 800 z': '800 tanesi gösteriliyor; toplam', 'zawęź wyszukiwanie.': 'aramayı daralt.',
+                 'Niezapisane zmiany:': 'Kaydedilmemiş değişiklikler:', 'Błędne wartości:': 'Hatalı değerler:',
+                 'Błąd zapisu:': 'Kaydetme hatası:', 'Kiedy': 'Ne zaman', 'Kto': 'Kim', 'Było': 'Önce', 'Jest': 'Sonra',
+                 'Brak zmian.': 'Değişiklik yok.', 'pl-PL': 'tr-TR'}.items():
+    PRICES_BODY_TR = PRICES_BODY_TR.replace(_pl, _tr)
 
 PRICES_BODY_EN = PRICES_BODY
 for _pl, _en in {'Szukaj (nazwa / vnum)…': 'Search (name / vnum)…', 'tylko zmienione': 'only changed', 'Zapisz zmiany': 'Save changes', 'Historia zmian': 'Change history', 'Pozycja': 'Entry', 'domyślnie:': 'default:', 'Przywróć domyślne': 'Restore defaults', 'Pokazano 800 z': 'Showing 800 of', 'zawęź wyszukiwanie.': 'narrow your search.', 'Niezapisane zmiany:': 'Unsaved changes:', 'Błędne wartości:': 'Invalid values:', 'Błąd zapisu:': 'Save failed:', 'Kiedy': 'When', 'Kto': 'Who', 'Było': 'Before', 'Jest': 'After', 'Brak zmian.': 'No changes.', 'pl-PL': 'en-GB'}.items():
@@ -2228,12 +2470,12 @@ FUN_BODY = """<div class="card m2p-fun"><h3>{{ m2p_pg.title }}</h3>
 # The page's own words in English (RapLow, 15 October); the cards come from
 # /m2p/api/fun in the reader's language (fun_actions).
 FUN_BODY_EN = FUN_BODY
-for _pl, _en in (
+_FUN_BODY_PAIRS = (
         ('⚠ UWAGA: tych akcji NIE DA SIĘ COFNĄĆ bez ręcznego backupu bazy danych. Każda działa na wszystkie boty naraz.',
          '⚠ WARNING: these actions CANNOT BE UNDONE without a manual backup of the database. Each one acts on all bots at once.'),
         ('Bitwa na Górze Sohan – TOP 10 zabójstw', 'Battle on Mount Sohan – TOP 10 kills'),
         ('Ostatnie akcje', 'Recent actions'),
-        ('Rdzeń tej wersji jeszcze tego nie wykonuje.', "This version's core does not carry it out yet."),
+        ('Rdzeń tej wersji jeszcze tego nie wykonuje.', "This version’s core does not carry it out yet."),   # ’: the text sits in a '...' script string (quality pass)
         ('>Uruchom<', '>Run<'),
         ('title="Ekwipunek, magazyn i sklep"', 'title="Equipment, storage and shop"'),
         (":'brak bitwy';", ":'no battle';"),
@@ -2244,9 +2486,177 @@ for _pl, _en in (
         ("prompt('Akcji „'+c.querySelector('b').textContent+'” ", "prompt('The action \u201c'+c.querySelector('b').textContent+'\u201d "),
         ("('wysłano'+(k.count?' ('+k.count+' botów)':''))", "('sent'+(k.count?' ('+k.count+' bots)':''))"),
         ("('błąd: '+", "('error: '+"),
-):
+)
+for _pl, _en in _FUN_BODY_PAIRS:
     assert _pl in FUN_BODY_EN, _pl
     FUN_BODY_EN = FUN_BODY_EN.replace(_pl, _en)
+
+# Turkish patch: the same fragments in Turkish (the confirmation word is EVET in
+# both the prompt and the check that reads it back).
+_FUN_BODY_TR = {
+    '⚠ UWAGA: tych akcji NIE DA SIĘ COFNĄĆ bez ręcznego backupu bazy danych. Każda działa na wszystkie boty naraz.':
+        '⚠ DİKKAT: bu işlemler veritabanının elle alınmış bir yedeği olmadan GERİ ALINAMAZ. Her biri tüm botlara aynı anda uygulanır.',
+    'Bitwa na Górze Sohan – TOP 10 zabójstw': 'Sohan Dağı Savaşı – en çok öldüren 10 bot',
+    'Ostatnie akcje': 'Son işlemler',
+    'Rdzeń tej wersji jeszcze tego nie wykonuje.': 'Bu sürümün çekirdeği bunu henüz yapmıyor.',
+    '>Uruchom<': '>Çalıştır<',
+    'title="Ekwipunek, magazyn i sklep"': 'title="Ekipman, depo ve dükkân"',
+    ":'brak bitwy';": ":'savaş yok';",
+    "'czeka na rdzeń'": "'çekirdek bekleniyor'",
+    ".join('<br>'):'brak';": ".join('<br>'):'yok';",
+    "NIE DA SIĘ COFNĄĆ bez ręcznego backupu.\\nWpisz TAK, aby uruchomić.'); if(ans!=='TAK') return;":
+        "elle alınmış bir yedek olmadan GERİ ALINAMAZ.\\nÇalıştırmak için EVET yaz.'); if(ans!=='EVET') return;",
+    "prompt('Akcji „'+c.querySelector('b').textContent+'” ": "prompt('„'+c.querySelector('b').textContent+'” işlemi ",
+    "('wysłano'+(k.count?' ('+k.count+' botów)':''))": "('gönderildi'+(k.count?' ('+k.count+' bot)':''))",
+    "('błąd: '+": "('hata: '+",
+}
+FUN_BODY_TR = FUN_BODY
+for _pl, _en in _FUN_BODY_PAIRS:
+    FUN_BODY_TR = FUN_BODY_TR.replace(_pl, _FUN_BODY_TR.get(_pl, _en))
+
+
+def _tr_en(mod, en, lang):
+    """Turkish patch: the Turkish of an English text for a Turkish reader (the
+    panel's panel_tr, static/i18n/panel_tr.json), else the English."""
+    if lang == "tr":
+        lookup = getattr(mod, "panel_tr", None)
+        if lookup is not None:
+            return lookup(en)
+    return en
+
+
+_ID_LIKE = re.compile(r'^[a-z0-9_.:/#%+-]*$')
+_MAP_N = re.compile(r'^Mapa #(\d+)$')
+
+# Turkish patch (quality pass): texts the theme's pages need in Turkish that no extracted table
+# holds - the English of the pages built with "x if pl else y" / L(pl, en) (prices, account,
+# population, database-editor bar) and the Polish labels its JSON computes for every reader.
+_TR_PAGES = {
+    "Fast mode (save without preview):": "Hızlı mod (önizlemesiz kaydetme):",
+    "ON – switch off": "AÇIK – kapat", "off – switch on": "kapalı – aç",
+    "Edit this chest's contents": "Bu sandığın içeriğini düzenle",
+    "(the items inside, chances, counts – the “Chests and drops” editor).":
+        "(içindeki eşyalar, şanslar, adetler – “Sandıklar ve drop” editörü).",
+    "Edit this monster's drop": "Bu canavarın drop'unu düzenle",
+    "(mob_drop_item's drop groups – the “Chests and drops” editor). Here you change only the drop_item column.":
+        "(mob_drop_item drop grupları – “Sandıklar ve drop” editörü). Burada yalnızca drop_item sütununu değiştirirsin.",
+    "Bonus multipliers and base prices": "Bonus çarpanları ve baz fiyatlar",
+    "Changes affect game prices and panel valuations. An existing visit keeps its price version. The young-world cap uses complete reference wealth of active level 40+ bots without hard caps; the shared median is calculated at most once an hour.":
+        "Değişiklikler oyundaki fiyatları ve paneldeki değerlemeleri etkiler. Başlamış bir ziyaret kendi fiyat sürümünü korur. Genç dünya sınırı, 40+ seviye aktif botların sabit sınır uygulanmamış tam referans servetini kullanır; ortak medyan en fazla saatte bir hesaplanır.",
+    "Target saved for the next game-core restart.": "Hedef kaydedildi; oyun çekirdekleri bir sonraki yeniden başlatılışta uygular.",
+    "Population contract unavailable. Check the engine version and migration.":
+        "Bot nüfusu arayüzü kullanılamıyor. Çekirdek sürümünü ve veritabanı geçişini (migration) kontrol et.",
+    "Bot population": "Bot nüfusu",
+    "The target covers the base population. Fresh cohorts and medal droppers have separate settings. Saving does not recreate the container or reset characters or AI.":
+        "Hedef, temel bot nüfusunu kapsar. Yeni bot grupları ve madalyon farmcılarının ayrı ayarları vardır. Kaydetmek konteyneri yeniden oluşturmaz, karakterleri veya yapay zekâyı sıfırlamaz.",
+    "Pool": "Havuz", "Online": "Çevrimiçi", "Pending restart": "Yeniden başlatma bekliyor", "Source": "Kaynak",
+    "Target": "Hedef", "Save": "Kaydet", "yes": "evet", "no": "hayır",
+    "Login": "Kullanıcı adı", "Password": "Şifre", "Repeat password": "Şifre (tekrar)",
+    "E-mail (optional)": "E-posta (isteğe bağlı)", "Character deletion code (7 digits)": "Karakter silme kodu (7 rakam)",
+    "Create account": "Hesap oluştur",
+    "Login 4-16 letters/digits, password 6-16 characters. The account works in game at once.":
+        "Kullanıcı adı 4-16 harf/rakam, şifre 6-16 karakter. Hesap oyunda hemen kullanılabilir.",
+    "Login: 4-16 letters or digits.": "Kullanıcı adı: 4-16 harf veya rakam.",
+    "Password: 6-16 characters (no spaces).": "Şifre: 6-16 karakter (boşluksuz).",
+    "Passwords differ.": "Şifreler birbirini tutmuyor.", "Invalid e-mail.": "Geçersiz e-posta.",
+    "Character deletion code: exactly 7 digits.": "Karakter silme kodu: tam olarak 7 rakam.",
+    "This login is taken.": "Bu kullanıcı adı zaten alınmış.",
+    'Account "%s" created.': '"%s" hesabı oluşturuldu.',
+    " (no e-mail column in the database)": " (veritabanında e-posta sütunu yok)",
+    "Could not create the account.": "Hesap oluşturulamadı.",
+}
+
+
+def _tr_page(en, lang):
+    """Turkish patch: _TR_PAGES' Turkish of a page text for a Turkish reader, else the English."""
+    return _TR_PAGES.get(en, en) if lang == "tr" else en
+
+
+_PL_TR_JSON = {
+    # LOG_HOW_LABELS / how_label() (world statistics: the last 24 hours)
+    "Zabite postacie (PvP)": "Öldürülen karakterler (PvP)", "Śmierci postaci": "Karakter ölümleri",
+    "Śmierci z rąk innych graczy (PvP)": "Diğer oyuncuların öldürdükleri (PvP)",
+    "Śmierci z rąk potworów": "Canavarların öldürdükleri", "Zniszczone kamienie Metin": "Kırılan Metin taşları",
+    "Pokonani bossowie": "Yenilen bosslar", "Awanse na kolejny poziom": "Seviye atlamalar",
+    "Rozwinięte umiejętności": "Geliştirilen beceriler", "Podniesiony yang": "Yerden alınan yang",
+    "Zmiany yang": "Yang değişimleri", "Zdobyte przedmioty (łup)": "Kazanılan eşyalar (ganimet)",
+    "Podniesione przedmioty": "Yerden alınan eşyalar", "Wyrzucone przedmioty": "Yere atılan eşyalar",
+    "Zniszczone przedmioty": "Yok edilen eşyalar", "Usunięte przedmioty": "Silinen eşyalar",
+    "Użyte przedmioty": "Kullanılan eşyalar", "Otwarte skrzynie": "Açılan sandıklar",
+    "Udane ulepszenia": "Başarılı yükseltmeler", "Nieudane ulepszenia": "Başarısız yükseltmeler",
+    "Włożone do magazynu": "Depoya konanlar", "Wyjęte z magazynu": "Depodan alınanlar",
+    "Oddane w wymianie": "Ticarette verilenler", "Otrzymane w wymianie": "Ticarette alınanlar",
+    "Kupione u NPC": "NPC'den alınanlar", "Sprzedane do NPC": "NPC'ye satılanlar", "Questy": "Görevler",
+    "Logowania": "Girişler", "Wylogowania": "Çıkışlar", "Odebrane z ItemShopu": "ItemShop'tan alınanlar",
+    "Nadane bonusy": "Verilen bonuslar", "Dodane bonusy": "Eklenen bonuslar", "Zmienione bonusy": "Değiştirilen bonuslar",
+    "Wstawione kamienie": "Takılan taşlar", "Wyjęte kamienie": "Çıkarılan taşlar", "Dodane gniazda": "Eklenen yuvalar",
+    "Złowione ryby": "Tutulan balıklar", "Wydobyte rudy": "Kazılan cevherler",
+    "Sprzedaże ze straganów botów": "Bot tezgâhlarından satışlar", "Wystawione na straganach": "Tezgâhlara konanlar",
+    "Zakupy botów": "Bot alışverişleri", "Sprzedaże botów do NPC": "Botların NPC'ye satışları",
+    "Skrzynie otwarte przez boty": "Botların açtığı sandıklar", "Prezenty od botów": "Botlardan hediyeler",
+    "Ulepszenia botów": "Bot yükseltmeleri", "Wiadomości na Wołaj": "Bağırma mesajları",
+    "Zdobyte doświadczenie": "Kazanılan tecrübe", "Wyrzucony yang": "Yere atılan yang", "Magazyn": "Depo",
+    "Grupy": "Gruplar", "Gildie": "Loncalar", "Konie": "Atlar", "Zmiany nicku": "Ad değişiklikleri",
+    "Sklepy offline": "Çevrimdışı dükkânlar", "Handel botów": "Bot ticareti", "Wołanie botów": "Bot bağırmaları",
+    "Rajdy botów": "Bot baskınları", "Boty w Wieży Demonów": "Şeytan Kulesi'ndeki botlar",
+    "Boty w Katakumbach": "Katakombdaki botlar", "Decyzje botów": "Bot kararları",
+    "Zabici przeciwnicy": "Öldürülen düşmanlar", "Inne działania botów": "Botların diğer işlemleri",
+    "Inne zdarzenia": "Diğer olaylar",
+    # ITEM_TYPE_NAMES / ITEM_SUBTYPE_NAMES (item database)
+    "Brak": "Yok", "Broń": "Silah", "Zbroja/biżuteria": "Zırh/takı", "Użytkowe": "Kullanılabilir",
+    "Auto-użycie": "Otomatik kullanım", "Materiał": "Malzeme", "Specjalne": "Özel", "Narzędzie": "Araç",
+    "Loteria": "Piyango", "Kamień duszy": "Zihin Taşı", "Pojemnik": "Kap", "Ryba": "Balık", "Wędka": "Olta",
+    "Surowiec": "Hammadde", "Ognisko": "Kamp ateşi", "Unikalne": "Eşsiz", "Księga umiejętności": "Beceri kitabı",
+    "Questowe": "Görev eşyası", "Polimorfia": "Dönüşüm", "Skrzynia": "Sandık", "Klucz": "Anahtar",
+    "Zapomnienie": "Unutma", "Prezent": "Hediye", "Kilof": "Kazma", "Fryzura": "Saç modeli", "Mikstura": "İksir",
+    "Kostium": "Kostüm", "Kamień smoka": "Ejderha Taşı", "Specjalny kamień smoka": "Özel Ejderha Taşı",
+    "Ekstrakt": "Öz", "Druga waluta": "İkinci para birimi", "Pierścień": "Yüzük", "Pas": "Kemer",
+    "Miecz": "Kılıç", "Sztylet": "Hançer", "Łuk": "Yay", "Dwuręczna": "Çift el", "Dzwon": "Çan",
+    "Wachlarz": "Yelpaze", "Strzała": "Ok", "Zbroja": "Zırh", "Hełm": "Kask", "Tarcza": "Kalkan",
+    "Bransoleta": "Bilezik", "Buty": "Ayakkabı", "Naszyjnik": "Kolye", "Kolczyki": "Küpe",
+    # SEBAN_MAP_NAMES (map activity), official Turkish map names
+    "Shinsoo M2 — Jayang": "Shinsoo M2 — Yayang", "Jinno M1 — Pyongmoo": "Jinno M1 — Pyungmoo",
+    "Loch Małp Shinsoo": "Shinsoo Maymun Zindanı", "Loch Małp Chunjo": "Chunjo Maymun Zindanı",
+    "Loch Małp Jinno": "Jinno Maymun Zindanı", "Góra Sohan": "Sohan Dağı", "Ognista Ziemia": "Ateş Diyarı",
+    "Pustynia Yongbi": "Yongbi Çölü", "Dolina Orków": "Seungryong Vadisi", "Świątynia Hwang": "Hwang Tapınağı",
+    "Wieża Demonów": "Şeytan Kulesi", "Las": "Hayalet Ormanı", "Czerwony Las": "Kırmızı Orman",
+    "Loch Pająków V2": "Örümcek Zindanı 2", "Grota Wygnańców V1": "Sürgün Mağarası 1",
+    "Grota Wygnańców V2": "Sürgün Mağarası 2", "Loch Pająków V1": "Örümcek Zindanı 1",
+    "Loch Małp Normalny": "Maymun Zindanı (normal)", "Loch Małp Trudny": "Maymun Zindanı (zor)",
+}
+
+
+def _tr_json(value, table):
+    """A JSON answer's texts in Turkish: a string value that is exactly one of
+    the panel's English texts (panel_tr). Keys, numbers and identifier-like
+    values (state words the page's script compares) are left alone.
+    Quality pass: also the Polish labels the theme computes for every reader
+    (_PL_TR_JSON: log events, item types, map names)."""
+    if isinstance(value, str):
+        if value in table and not _ID_LIKE.match(value):
+            return table[value]
+        if value in _PL_TR_JSON:
+            return _PL_TR_JSON[value]
+        m = _MAP_N.match(value)
+        if m:
+            return "Harita #" + m.group(1)
+        return value
+    if isinstance(value, list):
+        return [_tr_json(v, table) for v in value]
+    if isinstance(value, dict):
+        return {k: _tr_json(v, table) for k, v in value.items()}
+    return value
+
+
+def _theme_js_tr(mod):
+    """theme.js's Turkish table (window.M2P_TR2): the panel_tr entries whose
+    English the script holds, for T2() and the {pl, en} tables."""
+    table = getattr(mod, "PANEL_TR", None) or {}
+    keys = {}
+    for en, tr in table.items():
+        if en in JS or en.replace("'", "\\'") in JS:
+            keys[en] = tr
+    return "window.M2P_TR2=" + json.dumps(keys, ensure_ascii=False).replace("</", "<\\/") + ";\n"
 
 
 PAGES2 = (
@@ -2403,7 +2813,31 @@ def install(mod):
 
     app.add_url_rule("/m2p/theme.css", "m2p_theme_css", lambda: _asset(CSS_SIDE + CSS, "text/css"))
     app.add_url_rule("/m2p/side.css", "m2p_side_css", lambda: _asset(CSS_SIDE, "text/css"))
-    app.add_url_rule("/m2p/theme.js", "m2p_theme_js", lambda: _asset(JS, "application/javascript"))
+    _js_tr = {}
+
+    def _theme_js():
+        # Turkish patch: the script carries its Turkish table in front (built
+        # once, from the panel's panel_tr).
+        if "body" not in _js_tr:
+            try:
+                _js_tr["body"] = _theme_js_tr(mod) + JS
+            except Exception:  # noqa: BLE001 - no table: the script as it was
+                _js_tr["body"] = JS
+        return _asset(_js_tr["body"], "application/javascript")
+    app.add_url_rule("/m2p/theme.js", "m2p_theme_js", _theme_js)
+
+    @app.after_request
+    def _m2p_turkish_json(resp):
+        # Turkish patch: the theme's JSON answers carry English for every
+        # non-Polish reader; a Turkish reader gets the panel_tr Turkish of them.
+        try:
+            if ((request.endpoint or "").startswith("m2p_") and resp.mimetype == "application/json"
+                    and not resp.direct_passthrough and mod.lang() == "tr" and getattr(mod, "PANEL_TR", None)):
+                resp.set_data(json.dumps(_tr_json(json.loads(resp.get_data(as_text=True)), mod.PANEL_TR),
+                                         ensure_ascii=False))
+        except Exception:  # noqa: BLE001 - the English answer stands
+            pass
+        return resp
     app.add_url_rule("/m2p/shop.webp", "m2p_shop_img", lambda: _asset(SHOP_WEBP, "image/webp", True))
     app.add_url_rule("/m2p/safebox.webp", "m2p_safebox_img", lambda: _asset(SAFEBOX_WEBP, "image/webp", True))
     app.add_url_rule("/m2p/button.png", "m2p_button_img", lambda: _asset(BUTTON_PNG, "image/png", True))
@@ -2452,16 +2886,16 @@ def install(mod):
             live = mod.read_playerbot_live_status() or {}
         except Exception:  # noqa: BLE001
             live = {}
-        n = 0
         try:
+            world = getattr(mod, '_ws', None)
+            if getattr(mod, 'ENGINE_MT2009', False) and world:
+                return jsonify({'ok': True, 'resting': len(world.resting_ids(mod, live))})
             rest_code = getattr(mod, "SESSION_LOGOUT_REST", 1)
-            for r in _q(mod, "SELECT pid FROM log.playerbot_session WHERE rest_until > NOW() "
-                             "AND logout_reason = %s GROUP BY pid", (rest_code,)):
-                if int(r["pid"] or 0) not in live:
-                    n += 1
+            rest_ids = {int(r['pid']) for r in _q(mod, 'SELECT pid FROM log.playerbot_session WHERE rest_until > NOW() '
+                                                'AND logout_reason IN (%s,8) GROUP BY pid', (rest_code,))}
+            return jsonify({'ok': True, 'resting': len(rest_ids.difference(map(int, live)))})
         except Exception as exc:  # noqa: BLE001
             return jsonify({"ok": False, "error": str(exc)[:200]})
-        return jsonify({"ok": True, "resting": n})
     app.add_url_rule("/m2p/api/resting", "m2p_resting", _resting)
 
     # Iwakura P18: „Statystyki przedmiotów” pod Wartością ekwipunku – suma DODATKOWYCH bonusów
@@ -2566,10 +3000,52 @@ def install(mod):
                         skill = mod.item_full_name(sk, 0, lang_)
                     except Exception:  # noqa: BLE001
                         skill = ""
-                book = (("Księga Umiejętności: " if lang_ == "pl" else "Skill Book: ") + skill) if skill and sk < 1000 else skill
                 rows.append({"time": x["time"].strftime("%d.%m %H:%M") if x.get("time") else "", "how": how,
-                             "ok": ok, "skill": book or hint[:80] or (("#%d" % sk) if sk else "?"),
+                             "ok": ok, "skill": skill, "_book": bool(skill) and sk < 1000, "_at": x.get("time"),
                              "vnum": sk, "hint": hint[:120]})
+            # Iwakura's Patch 20, 4D: a read whose row names no skill (what,
+            # vnum and hint empty or 0) takes the skill of the nearest read of
+            # this bot within 10 s that has one, else of a SKILLUP row within
+            # 60 s, else "Ksiega Umiejetnosci (umiejetnosc nieznana)" - never "?".
+            book_word = ("Księga Umiejętności" if lang_ == "pl" else ("Beceri Kitabı" if lang_ == "tr" else "Skill Book"))
+            unknown_word = {"pl": "umiejętność nieznana", "tr": "beceri bilinmiyor"}.get(lang_, "skill unknown")
+            def _near(at, pool, secs):
+                best, gap = "", None
+                for when, name in pool:
+                    if at is None or when is None:
+                        continue
+                    d = abs((when - at).total_seconds())
+                    if d <= secs and (gap is None or d < gap):
+                        best, gap = name, d
+                return best
+            if any(not r["skill"] for r in rows):
+                named = [(r["_at"], r["skill"]) for r in rows if r["skill"] and r["_book"]]
+                ups = []
+                try:
+                    for u in _q(mod, "SELECT time, what, hint FROM log.log WHERE who=%s AND time >= NOW() - INTERVAL 30 DAY "
+                                     "AND how IN ('SKILLUP','SKILL_UP') ORDER BY time DESC LIMIT 600", (pid,)):
+                        nm = names.get(int(u.get("what") or 0)) or ""
+                        if not nm:
+                            for num in re.findall(r"\d+", _ms_text(mod, u.get("hint"))):
+                                if int(num) in names:
+                                    nm = names[int(num)]
+                                    break
+                        if nm:
+                            ups.append((u.get("time"), nm))
+                except Exception:  # noqa: BLE001
+                    ups = []
+                for r in rows:
+                    if not r["skill"]:
+                        r["skill"] = _near(r["_at"], named, 10) or _near(r["_at"], ups, 60)
+                        r["_book"] = bool(r["skill"])
+            for r in rows:
+                at = r.pop("_at", None)
+                if r.pop("_book", False):
+                    r["skill"] = book_word + ": " + r["skill"]
+                elif not r["skill"]:
+                    r["skill"] = r["hint"][:80] if re.search(r"[^\d\s?]", r["hint"] or "") else ""
+                    if not r["skill"] or r["skill"] == "?":
+                        r["skill"] = "%s (%s)" % (book_word, unknown_word)
         except Exception as exc:  # noqa: BLE001
             return jsonify({"ok": False, "error": str(exc)[:200]})
         return jsonify({"ok": True, "rows": rows})
@@ -2957,8 +3433,9 @@ def install(mod):
 
     @mod.login_required
     def _population_page():
-        pl = mod.lang() == "pl"
-        L = lambda a, b: a if pl else b
+        lang_ = mod.lang()
+        pl = lang_ == "pl"
+        L = lambda a, b: a if pl else _tr_page(b, lang_)      # tr: Turkish patch
         message, state = "", {}
         try:
             if request.method == "POST":
@@ -3031,7 +3508,8 @@ def install(mod):
 
     @mod.login_required
     def _fun_page():
-        body = FUN_BODY if _pg_lang() == "pl" else FUN_BODY_EN
+        lang_ = _pg_lang()
+        body = FUN_BODY if lang_ == "pl" else (FUN_BODY_TR if lang_ == "tr" else FUN_BODY_EN)
         return render_template_string(mod.BASE.replace("__BODY__", body), m2p_pg={"title": "Fun™"})
     app.add_url_rule("/panel/4fun", "m2p_fun", _fun_page)
 
@@ -3153,11 +3631,13 @@ def install(mod):
 
     @mod.login_required
     def _prices_page():
-        pl = _pg_lang() == "pl"
-        body = PRICES_BODY if pl else PRICES_BODY_EN
-        return render_template_string(mod.BASE.replace("__BODY__", body), m2p_pg={"title": "Mnożniki bonusów i ceny bazowe" if pl else "Bonus multipliers and base prices"},
+        lang_ = _pg_lang()
+        pl = lang_ == "pl"
+        body = PRICES_BODY if pl else (PRICES_BODY_TR if lang_ == "tr" else PRICES_BODY_EN)   # tr: Turkish patch
+        return render_template_string(mod.BASE.replace("__BODY__", body), m2p_pg={"title": "Mnożniki bonusów i ceny bazowe" if pl else _tr_page("Bonus multipliers and base prices", lang_)},
+                                      pr_custom_words={"remove": "usuń" if pl else "remove", "search": "Szukaj przedmiotu po nazwie lub VNUM" if pl else "Find an item by name or VNUM", "add": "Dodaj" if pl else "Add"},
                                       prices_note=("Zmiany dotyczą cen w grze i wycen w panelu. Rozpoczęta wizyta zachowuje swoją wersję cen. Limit młodego świata używa kompletnego majątku referencyjnego aktywnych botów 40+, bez twardych capów; wspólna mediana jest liczona najwyżej raz na godzinę." if pl else
-                                                   "Changes affect game prices and panel valuations. An existing visit keeps its price version. The young-world cap uses complete reference wealth of active level 40+ bots without hard caps; the shared median is calculated at most once an hour."))
+                                                   _tr_page("Changes affect game prices and panel valuations. An existing visit keeps its price version. The young-world cap uses complete reference wealth of active level 40+ bots without hard caps; the shared median is calculated at most once an hour.", lang_)))
     app.add_url_rule("/panel/ceny-i-mnozniki", "m2p_prices", _prices_page)
 
     def _price_labels(lang):
@@ -3182,7 +3662,18 @@ def install(mod):
                 raw = request.form.get("changes") or "{}"
                 if len(raw) > 65536:
                     raise ValueError("request_too_large")
-                changes = _price_overrides.validate(json.loads(raw), _price_supported_defaults(mod))
+                requested = json.loads(raw)
+                if not isinstance(requested, dict) or len(requested) > _price_overrides.MAX_CHANGES:
+                    raise ValueError("bad_changes")
+                removals = {k for k, v in requested.items() if _price_overrides.custom_key(k) and type(v) is int and v == 0}
+                changes = _price_overrides.validate({k: v for k, v in requested.items() if k not in removals}, _price_supported_defaults(mod))
+                custom_keys = [k for k in changes if _price_overrides.custom_key(k)]
+                if custom_keys:
+                    mod.item_proto_ready()
+                    catalogue = {int(row['v']) for row in mod.ITEMS}
+                    if any(int(k[7:]) not in catalogue for k in custom_keys):
+                        raise ValueError("unknown_vnum")
+                changes.update({k: 0 for k in removals})
             except (ValueError, TypeError):
                 return jsonify({"ok": False, "error": "invalid_price_changes"}), 400
             who = ("admin@" + (request.remote_addr or "?"))[:64]
@@ -3193,6 +3684,13 @@ def install(mod):
                     try:
                         cur.execute("SELECT k, v FROM player.web_m2p_price_override ORDER BY k FOR UPDATE")
                         latest = {r["k"]: int(r["v"]) for r in cur.fetchall()}
+                        resulting = dict(latest)
+                        for key, value in changes.items():
+                            if key in removals: resulting.pop(key, None)
+                            else: resulting[key] = value
+                        if len(resulting) > _price_overrides.MAX_ROWS:
+                            c.rollback()
+                            return jsonify({"ok": False, "error": "too_many_prices"}), 400
                         # Iwakura P19: a bonus row's band must stay from <= to, read
                         # against what is stored now, or the row would price nothing.
                         for k in changes:
@@ -3205,15 +3703,17 @@ def install(mod):
                                     c.rollback()
                                     return jsonify({"ok": False, "error": "level_band_inverted"}), 400
                         for k, v in changes.items():
-                            old = int(latest.get(k, _price_defaults()[k]))
-                            if v == old:
+                            custom = _price_overrides.custom_key(k)
+                            old = latest.get(k, None if custom else _price_defaults().get(k))
+                            new = None if k in removals else v
+                            if new == old:
                                 continue
-                            if v == _price_defaults()[k]:
+                            if k in removals or (not custom and v == _price_defaults()[k]):
                                 cur.execute("DELETE FROM player.web_m2p_price_override WHERE k=%s", (k,))
                             else:
                                 cur.execute("INSERT INTO player.web_m2p_price_override (k,v,updated_at) VALUES (%s,%s,NOW()) "
                                             "ON DUPLICATE KEY UPDATE v=VALUES(v), updated_at=NOW()", (k,v))
-                            cur.execute("INSERT INTO player.web_m2p_price_history (k,old_v,new_v,at,who) VALUES (%s,%s,%s,NOW(),%s)", (k,old,v,who))
+                            cur.execute("INSERT INTO player.web_m2p_price_history (k,old_v,new_v,at,who) VALUES (%s,%s,%s,NOW(),%s)", (k,old,new,who))
                         c.commit()
                     except Exception:
                         c.rollback()
@@ -3258,21 +3758,21 @@ def install(mod):
             social = (request.form.get("social") or "").strip()
             form = {"login": lg, "email": em, "social": social}
             if not mod.valid_account_login(lg):
-                msg = "Login: 4–16 znaków, tylko litery i cyfry." if pl else "Login: 4-16 letters or digits."
+                msg = "Login: 4–16 znaków, tylko litery i cyfry." if pl else _tr_page("Login: 4-16 letters or digits.", lang)
             elif not mod.valid_account_password(pw):
-                msg = "Hasło: 6–16 znaków (bez spacji i polskich liter)." if pl else "Password: 6-16 characters (no spaces)."
+                msg = "Hasło: 6–16 znaków (bez spacji i polskich liter)." if pl else _tr_page("Password: 6-16 characters (no spaces).", lang)
             elif pw != pw2:
-                msg = "Hasła się różnią." if pl else "Passwords differ."
+                msg = "Hasła się różnią." if pl else _tr_page("Passwords differ.", lang)
             elif em and (len(em) > 100 or not re.fullmatch(r"[^@\s]{1,64}@[^@\s]{1,100}\.[A-Za-z]{2,24}", em)):
-                msg = "Nieprawidłowy e-mail." if pl else "Invalid e-mail."
+                msg = "Nieprawidłowy e-mail." if pl else _tr_page("Invalid e-mail.", lang)
             elif not mod.valid_deletion_code(social):
-                msg = "Kod usunięcia postaci: dokładnie 7 cyfr." if pl else "Character deletion code: exactly 7 digits."
+                msg = "Kod usunięcia postaci: dokładnie 7 cyfr." if pl else _tr_page("Character deletion code: exactly 7 digits.", lang)
             else:
                 try:
                     with mod.db() as c, c.cursor() as cur:
                         cur.execute("SELECT 1 FROM account.account WHERE login=%s", (lg,))
                         if cur.fetchone():
-                            msg = "Taki login już istnieje." if pl else "This login is taken."
+                            msg = "Taki login już istnieje." if pl else _tr_page("This login is taken.", lang)
                         else:
                             cur.execute("SELECT COUNT(*) AS n FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='account' "
                                         "AND TABLE_NAME='account' AND COLUMN_NAME='email'")
@@ -3284,13 +3784,13 @@ def install(mod):
                                 cur.execute("INSERT INTO account.account (login,password,social_id,status) "
                                             "VALUES (%s,%s,%s,'OK')", (lg, mod.m2_hash(pw), social))
                             ok = True
-                            msg = (("Konto „%s” utworzone." % lg) if pl else ("Account \"%s\" created." % lg)) + \
-                                  ("" if has_mail or not em else (" (bez e-maila – baza nie ma takiej kolumny)" if pl else " (no e-mail column in the database)"))
+                            msg = (("Konto „%s” utworzone." % lg) if pl else (_tr_page("Account \"%s\" created.", lang) % lg)) + \
+                                  ("" if has_mail or not em else (" (bez e-maila – baza nie ma takiej kolumny)" if pl else _tr_page(" (no e-mail column in the database)", lang)))
                             form = {"login": "", "email": "", "social": ""}
                 except Exception as exc:  # noqa: BLE001
                     app.logger.warning("m2_theme: account creation failed (%s)", type(exc).__name__)
-                    msg = "Nie udało się utworzyć konta." if pl else "Could not create the account."
-        L = (lambda a, b: a if pl else b)
+                    msg = "Nie udało się utworzyć konta." if pl else _tr_page("Could not create the account.", lang)
+        L = (lambda a, b: a if pl else _tr_page(b, lang))      # tr: Turkish patch
         body = """<div class="card"><h3>{{ t_title }}</h3>
 {% if msg %}<p class="{{ 'm2p-acc-ok' if ok else 'm2p-acc-err' }}">{{ msg }}</p>{% endif %}
 <form method="post" class="m2p-acc-form" autocomplete="off"><input type="hidden" name="_csrf" value="{{ csrf_token }}">
@@ -3314,11 +3814,11 @@ def install(mod):
     def _chat_page():
         lang = _pg_lang()
         txt = {"title": _l("chat", lang),
-               "live": {"pl": "na żywo · co 4 s", "en": "live · every 4 s", "de": "live · alle 4 s", "tr": "canlı · 4 sn"}.get(lang),
+               "live": {"pl": "na żywo · co 4 s", "en": "live · every 4 s", "de": "live · alle 4 s", "tr": "canlı · her 4 sn"}.get(lang),
                "note": {"pl": "Ostatnie 100 wiadomości z Wołaj, Handlu i czatu. Nick otwiera kartę postaci. Tylko podgląd - nic nie wysyła do gry.",
                         "en": "The last 100 messages from Shout, Trade and chat. A name opens the character. Read only.",
                         "de": "Die letzten 100 Nachrichten aus Rufen, Handel und Chat. Nur Ansicht.",
-                        "tr": "Son 100 mesaj. Sadece görüntüleme."}.get(lang)}
+                        "tr": "Bağırma, Ticaret ve sohbetten son 100 mesaj. Bir ada tıklamak karakteri açar. Salt okunur."}.get(lang)}
         return render_template_string(mod.BASE.replace("__BODY__", CHAT_BODY), m2p_pg=txt)
     app.add_url_rule("/panel/czat", "m2p_chat", _chat_page)
 
@@ -3390,6 +3890,30 @@ def install(mod):
                     resp.set_data(html)
         except Exception:  # noqa: BLE001
             app.logger.exception("m2_theme: after_request")
+        return resp
+
+    # Iwakura's Patch 20, 4I: the warning bar's reading, and the bar itself on
+    # the map and the panel's first page, for a signed-in operator only.
+    @mod.login_required
+    def _perf_alert_api():
+        try:
+            return jsonify(perf_alert(mod))
+        except Exception as exc:  # noqa: BLE001
+            return jsonify({"ok": False, "error": str(exc)[:200]})
+    app.add_url_rule("/m2p/api/perf_alert", "m2p_perf_alert", _perf_alert_api)
+
+    @app.after_request
+    def _perf_alert_bar(resp):
+        try:
+            if (request.method == "GET" and request.path.rstrip("/") in ("/map", "/admin", "")
+                    and resp.status_code == 200 and resp.mimetype == "text/html" and not resp.direct_passthrough
+                    and (session.get("auth") or mod.local_open())):
+                html = resp.get_data(as_text=True)
+                if "m2p-perf-alert" not in html and "</body>" in html and "m2p-main" in html:
+                    lang_js = "pl" if mod.lang() == "pl" else "en"
+                    resp.set_data(html.replace("</body>", PERF_ALERT_JS.replace("__LANG__", lang_js) + "</body>", 1))
+        except Exception:  # noqa: BLE001 - the bar must never take a page down
+            app.logger.exception("m2_theme: perf alert")
         return resp
 
     _patch_front(mod, app)
@@ -3573,7 +4097,7 @@ box-shadow:0 2px 6px rgba(0,0,0,.6);user-select:none}
 body.m2p-red .m2p-pc-norm,body.m2p-brown .m2p-pc-norm{color:#c084fc}body.m2p-red .m2p-pc-rare,body.m2p-brown .m2p-pc-rare{color:#f87171}body.m2p-red .m2p-pc-gamb,body.m2p-brown .m2p-pc-gamb{color:#d8b4fe}body.m2p-red .m2p-pc-goal,body.m2p-brown .m2p-pc-goal{color:#60a5fa}
 /* Iwakura P19: statystyki pod mapą – box do dołu strony, równe kolumny i paski przewijania */
 body.m2p-ep-live_map .wrap div[style*="grid-template-columns:1fr 340px"]{align-items:stretch!important}
-.m2p-mapcol{display:flex;flex-direction:column}.m2p-mapcol>.card:first-child{flex:none}
+.m2p-mapcol{display:flex;flex-direction:column;height:auto!important;min-height:min-content;align-self:stretch}.m2p-mapcol>.card:first-child{flex:none}
 .m2p-mapcol>.m2p-world{flex:1 0 auto;display:flex;flex-direction:column;margin-bottom:0}
 .m2p-world .m2p-wgrid{flex:1 0 auto;min-height:280px;grid-auto-rows:1fr}
 .m2p-world .m2p-wgrid>div{display:flex;flex-direction:column;align-items:stretch;min-height:0;text-align:left}
@@ -4695,7 +5219,7 @@ JS = r"""
  // przelacznik koloru okien w stopce (zapamietany w tej przegladarce)
  var foot=d.querySelector('.m2p-foot');
  if(foot){
-  var PAL={pl:['Motyw','pergamin','czerwony','brązowy','niebieski','zielony','1963'],en:['Theme','parchment','red','brown','blue','green','1963']}[LANG]||['Theme','parchment','red','brown','blue','green','1963'];
+  var PAL={pl:['Motyw','pergamin','czerwony','brązowy','niebieski','zielony','1963'],en:['Theme','parchment','red','brown','blue','green','1963'],tr:["Tema", "parşömen", "kırmızı", "kahverengi", "mavi", "yeşil", "1963"]}[LANG]||['Theme','parchment','red','brown','blue','green','1963'];
   var KEYS=['parch','red','brown','blue','green','1963'];
   var pal=d.createElement('div'); pal.className='m2p-pal';
   pal.innerHTML=PAL[0]+': '+KEYS.map(function(k,i){ return '<a data-p="'+k+'">'+PAL[i+1]+'</a>'; }).join('|');
@@ -4770,6 +5294,8 @@ JS = r"""
    if(c&&c.quest&&c.quest!=='-'){
     html+='<div class="m2p-qrow on"><b>'+qEsc(c.title)+'</b> <span>'+qEsc(c.state)+(c.need>1?' · '+c.have+'/'+c.need:'')+'</span> <i>'+qEsc(c.doing_label||'')+'</i></div>';
    } else html+='<div class="muted">'+T2('Brak aktywnego questa.','No active quest.')+'</div>';
+   // Iwakura's Patch 20, 4J: the quests in progress with "Zakończ" (the reward preview and the confirmation).
+   html+='<div style="margin:4px 0 8px"><a class="btn" href="/player/'+pid+'/quests'+(c&&c.quest&&c.quest!=='-'?'/'+encodeURIComponent(c.quest):'')+'" target="_blank">'+T2('Zakończ questa →','Complete a quest →')+'</a> <a href="/player/'+pid+'/quests" target="_blank" style="font-size:11px">'+T2('wszystkie w toku','all in progress')+'</a></div>';
    if(c) html+='<div class="muted" style="font-size:11px;margin:4px 0 8px">'+T2('W dzienniku: ','Held: ')+c.held+' · '+T2('odłożone: ','put aside: ')+c.aside+' · '+T2('ukończone: ','done: ')+c.done+'</div>';
    var done=h.filter(function(x){ return x.result==='done'; }), other=h.filter(function(x){ return x.result!=='done'; });
    html+='<div class="m2p-qsec">'+T2('Ukończone','Completed')+' ('+done.length+')</div>';
@@ -4785,9 +5311,9 @@ JS = r"""
   fetch('/m2p/api/bot_books?pid='+pid,{credentials:'same-origin',cache:'no-store'}).then(function(r){ return r.json(); }).then(function(j){
    if(!j||!j.ok||!j.rows.length){ el.innerHTML='<div class="muted">'+T2('Brak zapisanych prób czytania (30 dni).','No reading attempts recorded (30 days).')+'</div>'; return; }
    var okN=j.rows.filter(function(x){ return x.ok===true; }).length, badN=j.rows.filter(function(x){ return x.ok===false; }).length;
-   el.innerHTML='<div class="muted" style="font-size:11px;margin-bottom:4px">'+T2('Przeczytane: ','Read: ')+okN+' · '+T2('spalone: ','failed: ')+badN+'</div>'+
+   el.innerHTML='<div class="muted" style="font-size:11px;margin-bottom:4px">'+T2('Przeczytane: ','Read: ')+okN+' · '+T2('nieudane: ','failed: ')+badN+'</div>'+
     '<table class="m2p-qt"><tr><th>'+T2('Kiedy','When')+'</th><th>'+T2('Księga','Book')+'</th><th>'+T2('Wynik','Result')+'</th></tr>'+j.rows.map(function(x){
-     var res=x.ok===true?'<b style="color:#16a34a">'+T2('przeczytana','read')+'</b>':(x.ok===false?'<b style="color:#dc2626">'+T2('spalona','failed')+'</b>':qEsc(x.how));
+     var res=x.ok===true?'<b style="color:#16a34a">'+T2('przeczytana','read')+'</b>':(x.ok===false?'<b style="color:#dc2626">'+T2('nieudana','failed')+'</b>':qEsc(x.how));
      return '<tr><td>'+x.time+'</td><td title="'+qEsc(x.how+' '+x.hint)+'">'+qEsc(x.skill)+'</td><td>'+res+'</td></tr>'; }).join('')+'</table>';
   }).catch(function(){ el.textContent=T2('Brak danych.','No data.'); });
  }
@@ -5055,7 +5581,7 @@ JS = r"""
  if(p9&&!d.querySelector('.rank-tab[onclick*="plus9_30"]')){
   var p30=p9.cloneNode(true);
   p30.setAttribute('onclick',"setRankCategory('plus9_30', this)"); p30.classList.remove('active');
-  p30.textContent=({pl:'Przedmiot +9 (21+ lv)',en:'Item +9 (lv 21+)',de:'Gegenstand +9 (Lv 21+)',tr:'+9 Eşya (21+ sv)'})[LANG]||'Item +9 (lv 21+)';
+  p30.textContent=({pl:'Przedmiot +9 (21+ lv)',en:'Item +9 (lv 21+)',de:'Gegenstand +9 (Lv 21+)',tr:"+9 Eşya (21+ Lv)"})[LANG]||'Item +9 (lv 21+)';
   p9.parentNode.insertBefore(p30,p9.nextSibling);
  }
  if(typeof window.renderRankings==='function'){
@@ -5073,7 +5599,7 @@ JS = r"""
  var W={pl:{yang:'Yang w obiegu',shops:'Sklepy offline',bots:'Boty w grze',pt:'W grupach',d24:'24 h',act:'Aktywności na tej mapie',maps:'Boty według map',lv:'Boty według poziomu',cls:'Klasy postaci',none:'Brak danych',other:'Inne',map:'Mapa'},
         en:{yang:'Yang in circulation',shops:'Offline shops',bots:'Bots in game',pt:'In groups',d24:'24 h',act:'Activities on this map',maps:'Bots by map',lv:'Bots by level',cls:'Classes',none:'No data',other:'Other',map:'Map'},
         de:{yang:'Yang im Umlauf',shops:'Offline-Läden',bots:'Bots im Spiel',pt:'In Gruppen',d24:'24 h',act:'Aktivitäten auf dieser Karte',maps:'Bots nach Karte',lv:'Bots nach Level',cls:'Klassen',none:'Keine Daten',other:'Andere',map:'Karte'},
-        tr:{yang:'Dolaşımdaki yang',shops:'Çevrimdışı dükkanlar',bots:'Oyundaki botlar',pt:'Gruplarda',d24:'24 sa',act:'Bu haritadaki etkinlikler',maps:'Haritaya göre botlar',lv:'Seviyeye göre botlar',cls:'Sınıflar',none:'Veri yok',other:'Diğer',map:'Harita'}}[LANG];
+        tr:{yang:"Dolaşımdaki Yang",shops:"Çevrimdışı dükkânlar",bots:'Oyundaki botlar',pt:'Gruplarda',d24:'24 sa',act:"Bu haritadaki aktiviteler",maps:'Haritaya göre botlar',lv:'Seviyeye göre botlar',cls:'Sınıflar',none:'Veri yok',other:'Diğer',map:'Harita'}}[LANG];
  function fmtN(n){ return Number(n||0).toLocaleString('pl-PL').replace(/ /g,' '); }
  var mapCard=d.querySelector('#mapViewport'); mapCard=mapCard&&mapCard.closest('.card');
  if(W&&mapCard&&mapCard.parentNode){
@@ -5091,6 +5617,11 @@ JS = r"""
    '<div><h4>'+W.lv+'</h4><div class="m2p-bars" data-b="lv"></div></div>'+
    '<div><h4>'+T2('Co robią boty','What bots do')+'</h4><div class="m2p-bars" data-b="cls"></div></div></div>';
   col.appendChild(ws);
+  var rankingPeer=col.nextElementSibling;
+  if(rankingPeer && window.ResizeObserver){
+   rankingPeer.style.boxSizing="border-box";
+   new ResizeObserver(function(){rankingPeer.style.minHeight=Math.ceil(col.getBoundingClientRect().height)+'px';}).observe(col);
+  }
   var mapNames={}; var mf=d.getElementById('mapFilter');
   if(mf) [].forEach.call(mf.options,function(o){ mapNames[o.value]=o.textContent.trim(); });
   function bars(key,list,clickMap){
@@ -5110,7 +5641,7 @@ JS = r"""
    if(FIGHT.test(a)) return T2('Walczy z potworem','Fighting a monster'); return a.replace(/\d+$/,'').trim()||W.other; }
   var REST_N=null;
   function loadResting(){ fetch('/m2p/api/resting',{credentials:'same-origin'}).then(function(r){ return r.ok?r.json():null; }).then(function(j){
-   if(j&&j.ok){ REST_N=j.resting; var rs=ws.querySelector('[data-k="bots"] small'); if(rs) rs.textContent=T2('(Odpoczywa '+fmtN(REST_N)+' botów)','('+fmtN(REST_N)+' bots resting)'); } }).catch(function(){}); }
+   if(j&&j.ok){ REST_N=j.resting; var rs=ws.querySelector('[data-k="bots"] small'); if(rs) rs.textContent=T2('Odpoczywa: '+fmtN(REST_N)+' botów','Resting: '+fmtN(REST_N)+' bots'); } }).catch(function(){}); }
   loadResting(); setInterval(loadResting,60000);
   function worldStats(){
    var all=window.g_bots||[], cur=String(window.g_selectedMap||'');
@@ -5123,7 +5654,7 @@ JS = r"""
    bars('cls',sorted(count(all,function(b){ return (b.goal||'').replace(/\s*\(.*$/,'').trim()||null; })).slice(0,25));
    var pt=all.filter(function(b){ return b.in_pt; }).length;
    ws.querySelector('[data-k="bots"] b').textContent=fmtN(all.length);
-   var rs=ws.querySelector('[data-k="bots"] small'); if(rs) rs.textContent=REST_N!=null?T2('(Odpoczywa '+fmtN(REST_N)+' botów)','('+fmtN(REST_N)+' bots resting)'):'';
+   var rs=ws.querySelector('[data-k="bots"] small'); if(rs) rs.textContent=REST_N!=null?T2('Odpoczywa: '+fmtN(REST_N)+' botów','Resting: '+fmtN(REST_N)+' bots'):'';
    ws.querySelector('[data-k="pt"] b').textContent=fmtN(pt);
    ws.querySelector('[data-k="pt"] small').textContent=all.length?Math.round(100*pt/all.length)+'%':'';
   }
@@ -5155,7 +5686,7 @@ JS = r"""
   var Y={pl:['Yang w obiegu','Brak historii - zapisuje ją Panel Sebana co kilka minut. Wykres pojawi się, gdy będą pierwsze pomiary.','zmiana'],
          en:['Yang in circulation','No history yet - Seban\'s panel records it every few minutes.','change'],
          de:['Yang im Umlauf','Noch kein Verlauf - Sebans Panel zeichnet ihn alle paar Minuten auf.','Änderung'],
-         tr:['Dolaşımdaki yang','Henüz geçmiş yok - Seban paneli birkaç dakikada bir kaydeder.','değişim']}[LANG]||['Yang','No data','change'];
+         tr:["Dolaşımdaki Yang",'Henüz geçmiş yok - Seban paneli birkaç dakikada bir kaydeder.','değişim']}[LANG]||['Yang','No data','change'];
   var cc=d.createElement('div'); cc.className='mk-card m2p-chart-card';
   cc.innerHTML='<div class="m2p-chart-head"><div><h4>'+Y[0]+'</h4><div class="m2p-chart-now">—</div></div>'+
    '<div class="m2p-rng">'+['24h','7d','14d','30d'].map(function(r){ return '<button type="button" data-r="'+r+'">'+r.replace('h',' h').replace('d',' d')+'</button>'; }).join('')+'</div></div>'+
@@ -5218,7 +5749,7 @@ JS = r"""
      item:'Item',n_sales:'Sales',units:'Units',revenue:'Turnover',avg:'Avg price/unit',pace:'Pace',offersC:'Offers',trend:'24 h change',
      time:'Time',seller:'Seller',empire:'Kingdom',qty:'Qty',price:'Price',when:'Last collector read: ',nodata:'No data in this range.',
      miss:'No data from Seban\'s collector - start Seban\'s panel, it records market history every few minutes.',shopsN:'shops',valueN:'value',
-     emps:['Shinsoo','Chunjo','Jinno'],refresh:'refreshes every 20 s'}};
+     emps:['Shinsoo','Chunjo','Jinno'],refresh:'refreshes every 20 s'},tr:{"shops": "Aktif dükkânlar", "shops_s": "açık tezgâhlar", "offers": "İlanlar / adet", "offers_s": "satır / toplam miktar", "value": "Pazar değeri", "value_s": "yang, ilanların toplamı", "yang": "Dolaşımdaki Yang", "yang_s": "aralıktaki değişim", "sales": "Satışlar 24 sa", "sales_s": "toplam: ", "rev": "Ciro 24 sa", "rev_s": "satışlardan yang", "vt": "Zaman içinde pazar değeri", "yt": "Dolaşımdaki Yang", "st": "Tezgâh satışları", "sh": "Zaman içinde dükkân sayısı", "emp": "Krallığa göre dükkânlar", "ts": "En çok satanlar (24 sa)", "tl": "Şu anda en çok listelenenler", "rc": "Son satışlar", "item": "Eşya", "n_sales": "Satış", "units": "Adet", "revenue": "Ciro", "avg": "Ort. fiyat/adet", "pace": "Tempo", "offersC": "İlanlar", "trend": "24 sa değişim", "time": "Zaman", "seller": "Satıcı", "empire": "Krallık", "qty": "Adet", "price": "Fiyat", "when": "Toplayıcının son okuması: ", "nodata": "Bu aralıkta veri yok.", "miss": "Seban panelinin toplayıcısından veri yok - Seban panelini başlat, pazar geçmişini birkaç dakikada bir kaydeder.", "shopsN": "dükkânlar", "valueN": "değer", "emps": ["Shinsoo", "Chunjo", "Jinno"], "refresh": "her 20 saniyede bir yenilenir"}};
   var M=MT[LANG]||MT.en;
   var EC=['#b3261e','#c08a1e','#2a5f9a'];
   var icons=null; fetch('/static/item_icons.json').then(function(r){return r.json();}).then(function(j){ icons=j; msBox.querySelectorAll('img[data-v]').forEach(function(im){ im.src=ico(im.getAttribute('data-v')); }); }).catch(function(){});
@@ -5322,7 +5853,7 @@ JS = r"""
   var RL={pl:{level:'Poziom',gold:'Yang',weapon30:'Bronie 30 lv',weapon:'Broń',armor:'Zbroja',items:'Przedmioty',horse:'Koń',biologist:'Biolog',hunting:'Polowanie',shops:'Otwarte sklepy',skills:'Umiejętności',plus9:'Przedmiot +9',plus9_30:'Przedmiot +9 (21+ lv)',
      pos:'#',who:'Postać',cls:'Klasa',lvl:'Poziom',score:'Wynik',none:'Brak danych.',eq:'założone',bag:'w plecaku',note:'Boty i gracze razem: 👤 oznacza postać gracza, postaci GM-ów nie są liczone. Kliknij nick, aby otworzyć kartę postaci.',items_short:'przedm.',horse:'Koń',open:'otwarty',avg:'śr.',skill:'um.'},
    en:{level:'Level',gold:'Yang',weapon30:'Lv 30 weapons',weapon:'Weapon',armor:'Armour',items:'Items',horse:'Horse',biologist:'Biologist',hunting:'Hunting',shops:'Open shops',skills:'Skills',plus9:'Item +9',plus9_30:'Item +9 (lv 21+)',
-     pos:'#',who:'Character',cls:'Class',lvl:'Level',score:'Score',none:'No data.',eq:'worn',bag:'in bag',note:'Bots and players together: 👤 marks a player, GM characters are not counted. Click a name to open the character.',items_short:'items',open:'open',avg:'avg',skill:'sk.'}}[LANG]||null;
+     pos:'#',who:'Character',cls:'Class',lvl:'Level',score:'Score',none:'No data.',eq:'worn',bag:'in bag',note:'Bots and players together: 👤 marks a player, GM characters are not counted. Click a name to open the character.',items_short:'items',open:'open',avg:'avg',skill:'sk.'},tr:{"level": "Seviye", "gold": "Yang", "weapon30": "Lv 30 silahlar", "weapon": "Silah", "armor": "Zırh", "items": "Eşyalar", "horse": "At", "biologist": "Biyolog", "hunting": "Av", "shops": "Açık dükkânlar", "skills": "Beceriler", "plus9": "+9 Eşya", "plus9_30": "+9 Eşya (21+ Lv)", "pos": "#", "who": "Karakter", "cls": "Sınıf", "lvl": "Seviye", "score": "Puan", "none": "Veri yok.", "eq": "kuşanılan", "bag": "çantada", "note": "Botlar ve oyuncular birlikte: 👤 bir oyuncuyu gösterir, GM karakterleri sayılmaz. Karakteri açmak için bir ada tıkla.", "items_short": "eşya", "open": "açık", "avg": "ort.", "skill": "bec."}}[LANG]||null;
   if(!RL) RL={}; var RLe={pl:1};
   var CATS=['level','gold','weapon30','weapon','armor','items','horse','biologist','shops','skills','plus9','plus9_30'];
   var CAT='level'; try{ CAT=localStorage.getItem('m2p_rk_cat')||'level'; }catch(e){} if(CATS.indexOf(CAT)<0) CAT='level';
@@ -5345,7 +5876,7 @@ JS = r"""
     case 'horse': return '<b>Lv '+(r.horse_level||0)+'</b>';
     case 'biologist': return '<b>'+esc(r.biologist_label||'0')+'</b>';
     case 'hunting': return '<b>'+esc(r.hunting_label||'—')+'</b>';
-    case 'shops': return '<b>'+RL.open+'</b>'+(r.stall_map?' <small class="muted">'+esc(r.stall_map)+'</small>':'');
+    case 'shops': return '<b>'+(r.item_count!=null&&r.item_count!==''?(fmtN(r.item_count)+' '+T2('przedmiotów','items')):RL.open)+'</b>'+(r.stall_map?' <small class="muted">'+esc(r.stall_map)+'</small>':'');
     case 'skills': return '<b>'+esc(r.skill_rank||'0')+'</b> '+esc(r.skill_rank_name||'');
     case 'plus9': case 'plus9_30': return itemTag(r);
     default: return '<b>Lv '+r.level+'</b>';
@@ -5367,7 +5898,7 @@ JS = r"""
    el.innerHTML='<table><tr><th>'+RL.pos+'</th><th>'+RL.who+'</th><th>'+RL.cls+'</th><th>'+RL.lvl+'</th><th>'+RL.score+'</th></tr>'+rows.map(function(r){
     var medal=r._i<=3?' m2p-rk-top m2p-rk-'+r._i:'';
     return '<tr class="'+(r.is_bot===false?'m2p-rk-person':'')+medal+'"><td class="m2p-rk-n">'+r._i+'</td>'+
-     '<td>'+rflag(r.empire)+' '+(r.is_bot===false?'👤 ':'')+(r.in_pt?'<small class="m2p-rk-pt">PT</small> ':'')+'<a href="/player/'+r.id+'">'+esc(r.name)+'</a> <a class="m2p-purse" data-pid="'+r.id+'" href="/map#bot='+r.id+'" title="'+T2('Ekwipunek, magazyn i sklep','Inventory, storage and shop')+'">💰</a></td>'+
+     '<td>'+rflag(r.empire)+' '+(r.is_bot===false?'👤 ':'')+(r.in_pt?'<small class="m2p-rk-pt">PT</small> ':'')+'<a href="/player/'+r.id+'">'+esc(r.name)+'</a>'+(r.retired?' <small class="muted">'+T2('Zakończył grę','Retired')+'</small>':'')+' <a class="m2p-purse" data-pid="'+r.id+'" href="/map#bot='+r.id+'" title="'+T2('Ekwipunek, magazyn i sklep','Inventory, storage and shop')+'">💰</a></td>'+
      '<td>'+esc(r.job||'')+'</td><td>Lv '+r.level+'</td><td>'+score(r)+'</td></tr>'; }).join('')+'</table>';
   }
   function loadRk(){
@@ -5388,7 +5919,7 @@ JS = r"""
  var chBox=d.getElementById('m2pChat');
  if(chBox){
   var CT={pl:{SHOUT:'Wołaj',TRADE:'Handel',NORMAL:'Czat',all:'Wszystko',none:'Brak wiadomości.',bots:'Boty',people:'Gracze'},
-          en:{SHOUT:'Shout',TRADE:'Trade',NORMAL:'Chat',all:'All',none:'No messages.',bots:'Bots',people:'Players'}}[LANG]||{SHOUT:'Shout',TRADE:'Trade',NORMAL:'Chat',all:'All',none:'No messages.',bots:'Bots',people:'Players'};
+          en:{SHOUT:'Shout',TRADE:'Trade',NORMAL:'Chat',all:'All',none:'No messages.',bots:'Bots',people:'Players'},tr:{"SHOUT": "Bağırma", "TRADE": "Ticaret", "NORMAL": "Sohbet", "all": "Tümü", "none": "Mesaj yok.", "bots": "Botlar", "people": "Oyuncular"}}[LANG]||{SHOUT:'Shout',TRADE:'Trade',NORMAL:'Chat',all:'All',none:'No messages.',bots:'Bots',people:'Players'};
   var FIL='all'; try{ FIL=localStorage.getItem('m2p_chat_f')||'all'; }catch(e){}
   var fl=d.getElementById('chFilter');
   fl.innerHTML=['all','SHOUT','TRADE','NORMAL','people'].map(function(k){ return '<button type="button" data-f="'+k+'">'+(CT[k]||k)+'</button>'; }).join('');
@@ -5410,7 +5941,7 @@ JS = r"""
  }
 
  // ===== wspolne narzedzia dla nowych stron =====
- function T2(pl,en){ return PL?pl:en; }
+ function T2(pl,en){ if(PL) return pl; var t=window.M2P_TR2; if(LANG==='tr'&&t&&Object.prototype.hasOwnProperty.call(t,en)) return t[en]; return en; }
  function n2(v){ return Number(v||0).toLocaleString('pl-PL').replace(/ /g,' '); }
  var ICONS2=null, icoWait=[];
  fetch('/static/item_icons.json').then(function(r){return r.json();}).then(function(j){ ICONS2=j; d.querySelectorAll('img[data-v2]').forEach(function(im){ im.src=ico2(im.getAttribute('data-v2')); }); }).catch(function(){});
@@ -5480,7 +6011,9 @@ JS = r"""
   var rr0=window.renderRankings;
   window.renderRankings=function(){ var r=rr0.apply(this,arguments);
    d.querySelectorAll('#topBotsList .rank-row').forEach(function(row){ var m=/#(\d+)/.exec(row.textContent||''); if(!m) return;
-    var bt=(window.g_rankData||[])[+m[1]-1]; if(!bt||!bt.weapon_vnum) return; var det=row.lastElementChild;
+    var bt=(window.g_rankData||[])[+m[1]-1];if(!bt)return;
+    if(bt.retired){var status=d.createElement('small');status.className='muted';status.textContent=T2('Zakończył grę','Retired');row.appendChild(status);}
+    if(!bt.weapon_vnum)return; var det=row.children[1];
     if(det){ det.setAttribute('data-tip-pid',bt.id); det.setAttribute('data-tip-vnum',bt.weapon_vnum); } });
    return r; };
  }
@@ -5634,7 +6167,7 @@ JS = r"""
     kpi2(T2('Śmierci','Deaths'),n2(dy.deaths),T2('w tym PvP: ','PvP: ')+n2(dy.pvp))+
     kpi2(T2('Awanse','Level-ups'),n2(dy.levels),T2('umiejętności: ','skills: ')+n2(dy.skills))+
     kpi2(T2('Ulepszenia','Upgrades'),n2(dy.refines),T2('nieudane: ','failed: ')+n2(dy.refine_fail))+
-    kpi2(T2('Otwarte skrzynie','Chests opened'),n2(dy.chests),'')+
+    (dy.chests!=null?kpi2(T2('Otwarte skrzynie','Chests opened'),n2(dy.chests),''):'')+
     kpi2(T2('+7 / +8 / +9 (7 dni)','+7 / +8 / +9 (7 days)'),rf?n2(rf.a7)+' / '+n2(rf.a8)+' / '+n2(rf.a9):'—',rf?T2('prób łącznie: ','tries: ')+n2(rf.tries):'')+'</div>'+
     card2(T2('Aktywność w ostatnich 48 h (na godzinę)','Activity, last 48 h (per hour)'),'<div class="m2p-legend"><span><i style="background:#2a5f9a"></i>'+T2('Metiny i bossowie','Metins & bosses')+'</span><span><i style="background:#b3261e"></i>'+T2('Śmierci','Deaths')+'</span><span><i style="background:#4f7a3a"></i>'+T2('Awanse i umiejętności','Level & skill ups')+'</span></div><div class="m2p-ms-chart" id="wsH"></div>')+
     (j.yang7&&j.yang7.length>1?card2(T2('Yang w obiegu (7 dni)','Yang in circulation (7 days)'),'<div class="m2p-ms-chart" id="wsY"></div>'):'')+
@@ -5870,8 +6403,8 @@ JS = r"""
   de:{shop:'Laden',depot:'Lager',tp:'Zum Laden teleportieren',none:'Dieser Bot hat keinen Offline-Laden.',empty:'Der Laden ist leer.',
       depot_empty:'Das Lager ist leer.',price:'Preis',list:'Preisliste',more:'+{n} Angebote passen nicht ins Ladenfenster.',
       expired:'abgelaufen',loading:'Lädt...',slots:'{n} / 45 Plätze'},
-  tr:{shop:'Dükkan',depot:'Depo',tp:'Dükkana ışınlan',none:'Bu botun çevrimdışı dükkanı yok.',empty:'Dükkan boş.',
-      depot_empty:'Depo boş.',price:'Fiyat',list:'Fiyat listesi',more:'+{n} teklif dükkan penceresine sığmıyor.',
+  tr:{shop:"Dükkân",depot:'Depo',tp:"Dükkâna ışınlan",none:"Bu botun çevrimdışı dükkânı yok.",empty:"Dükkân boş.",
+      depot_empty:'Depo boş.',price:'Fiyat',list:'Fiyat listesi',more:"+{n} ilan dükkân penceresine sığmıyor.",
       expired:'süresi doldu',loading:'Yükleniyor...',slots:'{n} / 45 yer'}
  }[LANG]||null;
  if(!TXT) TXT={shop:'Shop',depot:'Storage',tp:'Teleport to shop',none:'No offline shop.',empty:'The shop is empty.',depot_empty:'The storage is empty.',price:'Price',list:'Price list',more:'+{n} offers',expired:'expired',loading:'Loading...',slots:'{n} / 45'};

@@ -21,7 +21,7 @@ from functools import wraps
 
 import pymysql
 import markdown
-from flask import Flask, abort, flash, g, jsonify, redirect, render_template, render_template_string, request, send_file, session, url_for
+from flask import Flask, abort, flash, g, has_request_context, jsonify, redirect, render_template, render_template_string, request, send_file, session, url_for
 from markupsafe import Markup, escape
 from werkzeug.exceptions import HTTPException
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -558,6 +558,12 @@ try:
     GM_COMMANDS_EN = (Path(__file__).parent / "gm_commands.en.txt").read_text(encoding="utf-8", errors="replace")
 except OSError:
     GM_COMMANDS_EN = GM_COMMANDS
+try:
+    # Turkish patch: the same page in Turkish, a separately written file like
+    # the English one (the English stands in when it is missing).
+    GM_COMMANDS_TR = (Path(__file__).parent / "gm_commands.tr.txt").read_text(encoding="utf-8", errors="replace")
+except OSError:
+    GM_COMMANDS_TR = GM_COMMANDS_EN
 
 
 # MyISAM nie przezywa nieczystego zatrzymania, a ten panel czyta na stronie
@@ -889,15 +895,24 @@ def tieru_changelog_entries(limit=25):
 
 def settings():
     values = dict(DEFAULT_SETTINGS)
+    chosen_language = False
     try:
         for row in rows("SELECT name,value FROM player.web_seban_settings"):
             if row["name"] in values or row["name"].startswith("feature_"):
                 values[row["name"]] = str(row["value"])
+                chosen_language = chosen_language or row["name"] == "ui_language"
     except pymysql.MySQLError:
         pass
     # The Laka skin is the sole supported interface, including installations
     # that still have a legacy theme saved in the settings table.
     values["theme"] = "laka"
+    # Turkish patch: while nobody has chosen a language for this panel (no
+    # ui_language row yet), a browser whose first language is Turkish gets
+    # the Turkish panel; everybody else keeps the Polish default.
+    if not chosen_language and has_request_context():
+        first = (request.headers.get("Accept-Language") or "").split(",")[0].strip().lower()
+        if first == "tr" or first.startswith("tr-"):
+            values["ui_language"] = "tr"
     return values
 
 
@@ -1000,7 +1015,7 @@ def validate_display_settings(form):
         return None, "Nieprawidłowe ustawienia wyglądu lub monitoringu."
     if cursor_choice not in ("custom", "system"):
         return None, "Nieprawidłowy wybór kursora."
-    if language not in ("pl", "en"):
+    if language not in ("pl", "en", "tr"):
         return None, "Nieprawidłowy wybór języka."
     return {"panel_name": name, "stuck_minutes": str(stuck), "theme": "laka", "monitor_mode": monitor_mode, "cursor": cursor_choice, "ui_language": language}, None
 
@@ -1242,10 +1257,14 @@ _MOB_NAMES_BY_VNUM = translations._load_game_names("mob_names_en.json")
 
 def _decision_mob_name(vnum, lang):
     names = _MOB_NAMES_BY_VNUM.get(str(int(vnum or 0)))
+    if names and lang == "tr":
+        return translations.mob_name_for(names[0], "tr")
     return (names[1] if lang == "en" and len(names) > 1 else names[0]) if names else None
 
 
 decisions.NAME_SOURCES.update(skill=lambda skill_id: SKILL_NAMES.get(int(skill_id or 0)), mob=_decision_mob_name)
+# Turkish patch: a skill named in an explanation, in Turkish on a Turkish panel
+decisions.TURKISH_PHRASE = lambda text: translations.phrase(text, "tr")
 # Every ordinary Skill Book is vnum 50300 no matter which skill it teaches --
 # the skill itself only lives in socket0 (the "Instr." vnums from 50401 up
 # already carry their skill in locale_name and never need this). Kept as a
@@ -2336,7 +2355,22 @@ def update_csrf_token():
 
 
 EVENTS_FILE = RATES_SPOOL / "playerbot_events.tsv"
-EVENT_KINDS = ("chest", "exp", "drop", "yang", "tanaka", "zuo")
+# Kiciamol's Hexagonal Chest event (mt2009 only): a player's Metin drops the
+# hexagonal chest of its map while the event runs. The drop is the image's
+# quest (m2_hexagonal_event.lua), which reads a file of its own beside this
+# one, hexagonal_event.tsv; the core judges the rows of this file only to
+# announce the event on the chat. Both files are written from the same rows
+# here as the classic panel writes them (files/hexagonal_events.py), so a
+# save on this page keeps the classic panel's hexagonal rows instead of
+# dropping a kind it did not know (_dumitrualexandru, 16 October).
+EVENT_KINDS = ("chest", "exp", "drop", "yang", "tanaka", "zuo") + (("hexagonal",) if ENGINE_MT2009 else ())
+# The kinds whose rows and lines carry no value: a chest window is a window.
+EVENT_VALUELESS = ("chest", "hexagonal")
+HEXAGONAL_STATE_FILE = RATES_SPOOL / "hexagonal_event.tsv"
+HEXAGONAL_SETTINGS_FILE = RATES_SPOOL / "hexagonal_settings.json"
+# What the quest reads while the classic panel never saved a chance.
+HEXAGONAL_DEFAULT_PERMILLE = 200
+HEXAGONAL_CHEST_FIRST_VNUM, HEXAGONAL_CHEST_LAST_VNUM, HEXAGONAL_CHEST_M1_VNUM = 55000, 55020, 50037
 EVENT_WORLD_KINDS = ("tanaka", "zuo")
 EVENT_WORLD_DEFAULT = {"tanaka": 3, "zuo": 8}
 EVENT_WORLD_MAX = {"tanaka": 20, "zuo": 30}
@@ -2356,8 +2390,9 @@ EVENT_LABELS = {
     "yang": "Yang",
     "tanaka": "Pirat Tanaka",
     "zuo": "Zuo: deszcz Metinów",
+    "hexagonal": "Heksagonalne Szkatułki",
 }
-EVENT_ICONS = {"chest": "🎁", "exp": "⚡", "drop": "📦", "yang": "💰", "tanaka": "🏴‍☠️", "zuo": "☄️"}
+EVENT_ICONS = {"chest": "🎁", "exp": "⚡", "drop": "📦", "yang": "💰", "tanaka": "🏴‍☠️", "zuo": "☄️", "hexagonal": "🔷"}
 EVENT_DAY_NAMES = ("Pn", "Wt", "Śr", "Cz", "Pt", "Sb", "Nd")
 EVENT_NOW_MINUTES = (15, 30, 60, 120, 180, 360)
 EVENT_HHMM = re.compile(r"^([01]?\d|2[0-4]):([0-5]\d)$")
@@ -2508,6 +2543,63 @@ def write_events(rows, nows, event_settings=None):
     temporary = EVENTS_FILE.with_suffix(".tsv.new")
     temporary.write_text("\n".join(body) + "\n", encoding="utf-8")
     os.replace(temporary, EVENTS_FILE)
+    if "hexagonal" in EVENT_KINDS:
+        # The quest's own copy of the hexagonal rows and line, after the file
+        # the cores read; an OSError here is the caller's failure too.
+        write_hexagonal_state(rows, nows)
+
+
+def hexagonal_chance_permille():
+    """The hexagonal chests' chance as the classic panel keeps it (its
+    /events page sets it; files/hexagonal_events.py read_settings): 20% while
+    nothing was saved, 0% for a file that cannot be read - a corrupt setting
+    must not quietly enable a drop."""
+    try:
+        value = json.loads(HEXAGONAL_SETTINGS_FILE.read_text(encoding="utf-8"))["permille"]
+        if type(value) is not int or not 0 <= value <= 1000:
+            return 0
+        return value
+    except FileNotFoundError:
+        return HEXAGONAL_DEFAULT_PERMILLE
+    except (OSError, ValueError, KeyError, TypeError):
+        return 0
+
+
+def hexagonal_percent_text(permille):
+    return "%g" % (permille / 10.0)
+
+
+def hexagonal_state_text(rows, nows, permille, stamp=None):
+    """The quest's file (M2HEX1) for the events' rows and line, byte for byte
+    what files/hexagonal_events.py state_text writes."""
+    stamp = time.time() if stamp is None else stamp
+    body = ["M2HEX1", "chance\t%d" % permille]
+    now_event = nows.get("hexagonal")
+    if now_event and int(now_event.get("until", 0)) > stamp:
+        body.append("now\t%d" % int(now_event["until"]))
+    for row in rows:
+        if row.get("kind") != "hexagonal" or not row.get("on", True):
+            continue
+        days = ",".join(str(int(day)) for day in row.get("days", []) if 1 <= int(day) <= 7)
+        if not days:
+            continue
+        start, end = event_hhmm(row["start"]), event_hhmm(row["end"])
+        if not start or not end or start == "24:00":
+            continue  # the core and the quest refuse such a window as well
+        start_min = int(start[:2]) * 60 + int(start[3:])
+        end_min = int(end[:2]) * 60 + int(end[3:])
+        body.append("weekly\t%s\t%d\t%d" % (days, start_min, end_min))
+    return "\n".join(body) + "\n"
+
+
+def write_hexagonal_state(rows, nows):
+    """Written beside and renamed over: the quest reads it on its own clock,
+    from the game's account, which reads the shared spool through its group."""
+    text = hexagonal_state_text(rows, nows, hexagonal_chance_permille())
+    temporary = HEXAGONAL_STATE_FILE.with_suffix(".tsv.new")
+    temporary.write_text(text, encoding="utf-8")
+    os.chmod(temporary, 0o644)
+    os.replace(temporary, HEXAGONAL_STATE_FILE)
 
 
 def event_status_item(fields):
@@ -2642,6 +2734,16 @@ def event_run_stats(kind, started_at, ended_at, value):
     if kind == "chest":
         found = one("SELECT COUNT(*) AS n FROM log.log WHERE how='GET' AND vnum=%s AND time BETWEEN %s AND %s",
                      (MOONLIGHT_CHEST_VNUM, started_at, ended_at))
+        return {"chest_count": int(found["n"]) if found else 0, "yang_extra": None}
+    if kind == "hexagonal":
+        # The chests the quest drops: 55000-55020 and 50037, the first
+        # villages' (files/hexagonal_catalog.json). 50037 is also the
+        # package's own Hexagonal Treasure Chest, so a rare one from
+        # elsewhere in the window counts too.
+        found = one("SELECT COUNT(*) AS n FROM log.log WHERE how='GET' AND (vnum BETWEEN %s AND %s OR vnum=%s)"
+                    " AND time BETWEEN %s AND %s",
+                    (HEXAGONAL_CHEST_FIRST_VNUM, HEXAGONAL_CHEST_LAST_VNUM, HEXAGONAL_CHEST_M1_VNUM,
+                     started_at, ended_at))
         return {"chest_count": int(found["n"]) if found else 0, "yang_extra": None}
     if kind == "yang":
         found = one("SELECT COALESCE(SUM(what),0) AS total FROM log.log WHERE how='GET_GOLD' AND time BETWEEN %s AND %s",
@@ -4494,7 +4596,7 @@ def globals_for_templates():
         if not rank:
             return escape(label)
         return Markup('<span class="top-level-badge" title="Top 10 poziomu · #%d">%s</span>') % (rank, escape(label))
-    return {"tieru_url": tieru_url, "panel_brand": current_settings.get("panel_name", "Metin2 Singleplayer"), "settings": current_settings, "map_name": map_name, "item_icon": item_icon, "job_name": job_name, "class_label": class_label, "class_profile": class_profile, "class_portrait": class_portrait, "empire_info": empire_info, "empire_flag": empire_flag, "static_asset_url": static_asset_url, "level_badge": level_badge, "top_level_rank": lambda pid: top_level_rank_map().get(int(pid or 0)), "feature_enabled": lambda name: panel_feature_enabled(name, current_settings), "panel_features": panel_feature_states(current_settings), "ui_language": ui_language, "i18n_payload": translations.i18n_payload() if ui_language == "en" else None}
+    return {"tieru_url": tieru_url, "panel_brand": current_settings.get("panel_name", "Metin2 Singleplayer"), "settings": current_settings, "map_name": map_name, "item_icon": item_icon, "job_name": job_name, "class_label": class_label, "class_profile": class_profile, "class_portrait": class_portrait, "empire_info": empire_info, "empire_flag": empire_flag, "static_asset_url": static_asset_url, "level_badge": level_badge, "top_level_rank": lambda pid: top_level_rank_map().get(int(pid or 0)), "feature_enabled": lambda name: panel_feature_enabled(name, current_settings), "panel_features": panel_feature_states(current_settings), "ui_language": ui_language, "i18n_payload": translations.i18n_payload(ui_language) if ui_language in ("en", "tr") else None}
 
 
 @app.after_request
@@ -4542,8 +4644,9 @@ def translate_response(response):
             # MariaDB is unavailable.  Do not turn that diagnostic response
             # into another 500 merely to discover its display language.
             return response
-        if current_settings.get("ui_language", "pl") == "en":
-            response.set_data(translations.translate_html(response.get_data(as_text=True), "en"))
+        language = current_settings.get("ui_language", "pl")
+        if language in ("en", "tr"):
+            response.set_data(translations.translate_html(response.get_data(as_text=True), language))
     return response
 
 
@@ -5245,6 +5348,15 @@ def _decision_item_name(vnum):
     return proto["name"] if proto else f"VNUM {vnum}"
 
 
+def _decision_item_name_for(lang):
+    """Turkish patch: the explanations' item names in the panel's language - Turkish
+    by vnum on a Turkish panel (the explanation reaches the page as a fragment that
+    only static/i18n-watch.js sees, which knows no item names), else as before."""
+    if lang != "tr":
+        return _decision_item_name
+    return lambda vnum: translations.item_display_name(int(vnum or 0), _decision_item_name(vnum), "tr")
+
+
 def explain_shop_offer(item_id, counter_price):
     """Why this exact counter line exists and how its price was reached
     (log.playerbot_listing, Playerbots 2.2.39+'s "explained decisions").
@@ -5262,7 +5374,7 @@ def explain_shop_offer(item_id, counter_price):
     if not row:
         return None
     lang = settings().get("ui_language", "pl")
-    return decisions.explain_listing(row, lang, _decision_item_name, apply_text, counter_price=counter_price)
+    return decisions.explain_listing(row, lang, _decision_item_name_for(lang), apply_text, counter_price=counter_price)
 
 
 @app.get("/api/shop-explain/<int:item_id>")
@@ -5836,6 +5948,19 @@ def patch17_investment_label(row, language):
         return ""
     total = row["equipped"] + row["other"]
     actual = round(100.0*row["equipped"]/total, 1) if total else 0.0
+    if language == "tr":   # Turkish patch
+        label = "EKİPMAN / varlık: %%%s (hedef %%%s), açık: %s Yang" % (actual, row["target_percent"], format(row["gap"], ","))
+        if not row["depot_known"]:
+            label += " — depo henüz okunmadı"
+        if row["has_nine"]:
+            label += " | +9: var"
+        elif row["level"] < 35:
+            label += " | +9: 35. seviyeden itibaren"
+        elif row["goal_vnum"]:
+            label += " | +9: hedef eşya #%s (+%s)" % (row["goal_vnum"], row["goal_vnum"] % 10)
+        else:
+            label += " | +9: uygun ekipman arıyor"
+        return label
     label = ("EQ / assets: %s%% (target %s%%), gap: %s Yang" if language == "en" else
              "EQ / majątek: %s%% (cel %s%%), luka: %s Yang") % (actual, row["target_percent"], format(row["gap"], ","))
     if not row["depot_known"]:
@@ -6253,6 +6378,9 @@ def api_player_position(pid):
             "map_image": f"/static/maps/{image}" if image else None,
             "portrait": bool(bound and bound[2] != bound[3]), "x": x, "y": y, "px": px, "py": py}
 
+ADMIN_ITEM_SEARCH_LIMIT = 500
+
+
 @app.get("/api/admin/item-search")
 @login_required
 def api_admin_item_search():
@@ -6267,17 +6395,40 @@ def api_admin_item_search():
         where.append(category_sql[category])
     elif category == "other":
         where.append("type NOT IN (1,2,3,10,16,18,29)")
+    language = settings().get("ui_language", "pl")
+    term = term[:80]
     if term:
-        if term.isdigit():
-            where.append("(vnum=%s OR locale_name LIKE %s)")
-            params.extend((int(term), f"%{term}%"))
-        else:
-            where.append("locale_name LIKE %s")
-            params.append(f"%{term}%")
-    found = rows("SELECT vnum,locale_name,type FROM player.item_proto WHERE " + " AND ".join(where) +
-                 " ORDER BY vnum LIMIT 80", params)
-    return jsonify({"items": [{"vnum": int(item["vnum"]), "name": game_text(item.get("locale_name")) or f"VNUM {item['vnum']}"}
-                              for item in found]})
+        # The give-item box on a character's page (Turkish patch fix). It
+        # used to search the Polish proto name alone, while the list beside it
+        # is read in the panel's language: on an English panel "sword" found
+        # nothing, and a name with a letter CP1250 lacks ("Kılıç", "Ağaç") made
+        # MariaDB refuse the LIKE outright - "Illegal mix of collations
+        # (cp1250_polish_ci,IMPLICIT) and (utf8mb4_...,COERCIBLE)" - so the
+        # request answered 500 and the box silently kept its old list.
+        # item_name_search() is the item database's search with both fixed.
+        clause, clause_params = item_name_search(term, language, internal=False)
+        where.append(clause)
+        params.extend(clause_params)
+    # Up to ADMIN_ITEM_SEARCH_LIMIT rows (was 80), the exact vnum first; one
+    # row more tells whether there are others, and then how many in all, so
+    # the box can say "too many results, narrow the search".
+    order, order_params = " ORDER BY vnum", []
+    if term.isdigit() and len(term) <= 10:
+        order, order_params = " ORDER BY (vnum=%s) DESC, vnum", [int(term)]
+    predicate = " AND ".join(where)
+    found = rows("SELECT vnum,locale_name,type FROM player.item_proto WHERE " + predicate + order + " LIMIT %s",
+                 params + order_params + [ADMIN_ITEM_SEARCH_LIMIT + 1])
+    more = len(found) > ADMIN_ITEM_SEARCH_LIMIT
+    found = found[:ADMIN_ITEM_SEARCH_LIMIT]
+    total = one("SELECT COUNT(*) AS count FROM player.item_proto WHERE " + predicate, params).get("count", 0)         if more else len(found)
+    items = []
+    for item in found:
+        vnum = int(item["vnum"])
+        polish = game_text(item.get("locale_name"))
+        items.append({"vnum": vnum,
+                      "name": translations.item_display_name(vnum, polish, language) or f"VNUM {vnum}",
+                      "icon": item_icon_url(vnum) or ""})
+    return jsonify({"items": items, "more": more, "total": int(total or 0), "limit": ADMIN_ITEM_SEARCH_LIMIT})
 
 
 @app.post("/player/<int:pid>/action/game")
@@ -6794,7 +6945,7 @@ def economy():
       SELECT DATE_FORMAT(captured_at, '%%m-%%d %%H:%%i') AS captured_at, value FROM player.web_seban_metric_snapshot
       WHERE metric='total_yang' AND captured_at >= NOW() - INTERVAL 7 DAY ORDER BY captured_at
     """)
-    return render_template("economy.html", latest=latest, items=items[:500], query=query, trend=trend)
+    return render_template("economy.html", latest=latest, items=_turkish_item_names(items[:500], "item_name"), query=query, trend=trend)
 
 
 @app.route("/economy/item/<int:vnum>")
@@ -7619,7 +7770,15 @@ def economy_offers():
 @app.route("/api/shop-feed")
 @login_required
 def api_shop_feed():
-    return {"ok": True, "sales": recent_shop_sales(10)}
+    sales = recent_shop_sales(10)
+    if settings().get("ui_language", "pl") == "tr":
+        # Turkish patch: the feed's script draws these names itself, so they
+        # arrive in Turkish (an item name, else a skill book's panel phrase)
+        def turkish(name):
+            translated = translations.item_name_for(name, "tr")
+            return translated if translated != name else translations.phrase(name, "tr")
+        sales = [dict(sale, item_name=turkish(sale.get("item_name") or "")) for sale in sales]
+    return {"ok": True, "sales": sales}
 
 
 def shop_transaction_rows(limit=40, before_id=None, after_id=None, item_query=""):
@@ -7657,13 +7816,12 @@ def shop_transaction_rows(limit=40, before_id=None, after_id=None, item_query=""
       WHERE l.what='BUY_ITEM' AND l.time >= NOW() - INTERVAL 7 DAY{condition}
       ORDER BY l.id {order} LIMIT %s""", tuple(params))
     has_more = len(raw) > limit
-    english = settings().get("ui_language", "pl") == "en"
+    language = settings().get("ui_language", "pl")
     transactions = []
     for row in raw[:limit]:
         vnum = int(row["vnum"] or 0)
         name = resolve_item_display_name(vnum, row.get("socket0"), game_text(row["proto_name"]))
-        if english:
-            name = translations.ITEM_NAMES.get(name, name)
+        name = translations.item_name_for(name, language)
         transactions.append({
             "id": int(row["id"]), "time": row["time"].strftime("%d.%m.%Y %H:%M:%S"),
             "buyer_id": int(row["buyer_id"] or 0),
@@ -7706,20 +7864,68 @@ def api_shop_transactions():
     return {"ok": True, "transactions": transactions, "has_more": has_more}
 
 
-def item_name_search(query):
+def vnum_prefix_clause(query, column):
+    """(sql, params) matching `column` equal to the digits typed or starting
+    with them, written as BETWEEN ranges (index-friendly, no string casts, no
+    text in the SQL): "29" -> 29, 290..299, 2900..2999 ... up to the 32-bit
+    vnum range. None for a query that cannot be a vnum prefix (not digits,
+    longer than ten, a leading zero)."""
+    if not query.isdigit() or len(query) > 10 or (len(query) > 1 and query[0] == "0"):
+        return None, []
+    prefix = int(query)
+    parts, params = [column + "=%s"], [prefix]
+    for k in range(1, 11 - len(query)):
+        low, high = prefix * 10 ** k, (prefix + 1) * 10 ** k - 1
+        if low > 4294967295:
+            break
+        parts.append(column + " BETWEEN %s AND %s")
+        params += [low, min(high, 4294967295)]
+    return "(" + " OR ".join(parts) + ")", params
+
+
+def item_name_search(query, language=None, internal=True):
     """The item database's search: a VNUM, the Polish proto name or the
     internal one -- and on an English panel the official English name too,
     which the list shows (translations.ITEM_NAMES) and the database has never
     heard of. Matched by vnum, so an item whose Polish name another item
-    shares (and which therefore keeps it on the page) is found as well."""
-    clause = "p.vnum=%s OR p.locale_name LIKE %s OR p.name LIKE %s"
-    params = [int(query) if query.isdigit() else -1, f"%{query}%", f"%{query}%"]
-    if not query.isdigit() and settings().get("ui_language", "pl") == "en":
-        vnums = translations.item_vnums_named(query)
+    shares (and which therefore keeps it on the page) is found as well.
+
+    Turkish patch: on a Turkish panel the official Turkish names as well
+    (Turkish case rules, translations.fold_search). And the two name columns
+    are CP1250: a query holding a letter CP1250 cannot hold (Turkish ı, ğ, İ)
+    is no longer compared with them at all - MariaDB refused that comparison
+    with "Illegal mix of collations" and the page answered 500 - since no
+    Polish name can contain it anyway. `internal` False leaves p.name (the
+    proto's internal name) out, as the give-item box always did."""
+    language = language or settings().get("ui_language", "pl")
+    alias = "p." if internal else ""
+    parts, params = [], []
+    if query.isdigit():
+        # the vnum itself and every vnum that starts with these digits
+        # ("29" -> 29, 290-299, 2900-2999 ...), as numeric ranges
+        clause, clause_params = vnum_prefix_clause(query, alias + "vnum")
+        if clause:
+            parts.append(clause)
+            params += clause_params
+    try:
+        query.encode("cp1250")
+        polish_ok = True
+    except UnicodeEncodeError:
+        polish_ok = False
+    if polish_ok:
+        parts.append(alias + "locale_name LIKE %s")
+        params.append(f"%{query}%")
+        if internal:
+            parts.append("p.name LIKE %s")
+            params.append(f"%{query}%")
+    if not query.isdigit() and language in ("en", "tr"):
+        vnums = translations.item_vnums_named(query, language)
         if vnums:
-            clause += " OR p.vnum IN (" + ",".join(["%s"] * len(vnums)) + ")"
+            parts.append(alias + "vnum IN (" + ",".join(["%s"] * len(vnums)) + ")")
             params += vnums
-    return "(" + clause + ")", params
+    if not parts:
+        return "(0=1)", []
+    return "(" + " OR ".join(parts) + ")", params
 
 
 @app.get("/database/structure")
@@ -7752,6 +7958,20 @@ def database_structure():
                            db_name=db_name, table_name=table_name, tables=tables, columns=columns)
 
 
+def _turkish_item_names(records, key):
+    """Turkish patch: on a Turkish panel each row's item name by its vnum (the official
+    Turkish name), so a Polish name that several items share - which the page-wide
+    translation by name has to leave Polish - is shown in Turkish too. Skill books
+    keep their "<skill> — Księga Umiejętności" form (the panel table translates it)."""
+    if settings().get("ui_language", "pl") != "tr":
+        return records
+    for item in records:
+        vnum = int(item.get("vnum") or 0)
+        if vnum not in SKILLBOOK_VNUMS:
+            item[key] = translations.item_display_name(vnum, item.get(key) or "", "tr")
+    return records
+
+
 @app.route("/items")
 @login_required
 def items_database():
@@ -7770,6 +7990,7 @@ def items_database():
     records = rows("SELECT p.vnum,p.name,p.locale_name,p.type,p.subtype,p.size,p.gold,p.shop_buy_price FROM player.item_proto p" + predicate + " ORDER BY p.vnum", params)
     for item in records:
         item["name"] = game_text(item.get("locale_name") or item.get("name"))
+    _turkish_item_names(records, "name")
     types = rows("SELECT type,COUNT(*) AS count,MIN(vnum) AS icon_vnum FROM player.item_proto GROUP BY type ORDER BY type")
     for category in types:
         index = int(category["type"])
@@ -7809,6 +8030,7 @@ def api_items():
     records = rows("SELECT p.vnum,p.name,p.locale_name,p.type,p.subtype,p.size,p.gold,p.shop_buy_price FROM player.item_proto p" + predicate + " ORDER BY p.vnum LIMIT 500", params)
     for item in records:
         item["name"] = game_text(item.get("locale_name") or item.get("name"))
+    _turkish_item_names(records, "name")
     count_label = f"{total} przedmiotów" + (" pasuje do wyszukiwania" if query else (" w wybranej kategorii" if item_type else " · pełna lista bez stron"))
     if total > 500:
         count_label += " (pokazano pierwsze 500 — zawęź wyszukiwanie)"
@@ -8136,7 +8358,8 @@ def api_world_feed():
 @app.route("/gm-commands")
 @login_required
 def gm_commands():
-    commands = GM_COMMANDS_EN if settings().get("ui_language") == "en" else GM_COMMANDS
+    language = settings().get("ui_language")
+    commands = GM_COMMANDS_EN if language == "en" else (GM_COMMANDS_TR if language == "tr" else GM_COMMANDS)
     return render_template("gm_commands.html", commands=commands)
 
 
@@ -9117,12 +9340,12 @@ def decisions_page():
     entries = []
     for row in records:
         try:
-            ex = decisions.explain_listing(row, lang, _decision_item_name, apply_text)
+            ex = decisions.explain_listing(row, lang, _decision_item_name_for(lang), apply_text)
         except Exception:
             app.logger.exception("Nie można wyjaśnić decyzji")
             ex = None
         entries.append({"row": row, "ex": ex, "bot_name": game_text(row.get("bot_name")) or f"pid {row.get('pid')}",
-                        "item": _decision_item_name(row.get("vnum"))})
+                        "item": _decision_item_name_for(lang)(row.get("vnum"))})
     return render_template("decisions.html", entries=entries, bot=bot, hours=hours)
 
 
@@ -9301,7 +9524,7 @@ def events():
                     if map_id not in EVENT_MAP_IDS:
                         map_id = 0
                 new_rows.append({"kind": kind, "days": days, "start": start, "end": end,
-                                 "value": 0 if kind == "chest" else value, "map": map_id,
+                                 "value": 0 if kind in EVENT_VALUELESS else value, "map": map_id,
                                  "on": bool(request.form.get(f"r{index}_on"))})
             try:
                 write_events(new_rows, nows)
@@ -9333,10 +9556,12 @@ def events():
             # second map is a second event beside the first, the same map again
             # starts that one over.
             nows[event_now_key(kind, map_id)] = {"kind": kind, "until": started + minutes * 60,
-                                                "value": 0 if kind == "chest" else value,
+                                                "value": 0 if kind in EVENT_VALUELESS else value,
                                                 "map": map_id, "since": started}
             write_events(rows, nows)
-            if kind == "chest" and chest_event_drop_state()["blocked"]:
+            if kind == "hexagonal" and hexagonal_chance_permille() <= 0:
+                flash(f"Okno heksagonalnych szkatułek zapisane na {minutes} minut, ale ich szansa dropu wynosi 0%. Ustaw ją na stronie Eventy panelu klasycznego.", "warning")
+            elif kind == "chest" and chest_event_drop_state()["blocked"]:
                 flash(f"Okno blasków zapisane na {minutes} minut, ale ustawienia dropu wymagają uwagi. Sprawdź wyłącznik i szanse w ustawieniach zachowania.", "warning")
             else:
                 flash(f"Event aktywowany na {minutes} min. Rdzeń odczyta go w ciągu pięciu sekund.", "success")
@@ -9365,7 +9590,10 @@ def events():
                            now_epoch=int(time.time()), event_history=event_history,
                            event_icons=EVENT_ICONS, world_kinds=EVENT_WORLD_KINDS,
                            world_defaults=EVENT_WORLD_DEFAULT, world_max=EVENT_WORLD_MAX,
-                           event_maps=EVENT_MAPS, event_settings=read_event_settings())
+                           event_maps=EVENT_MAPS, event_settings=read_event_settings(),
+                           event_valueless=EVENT_VALUELESS,
+                           hexagonal_chance=(hexagonal_percent_text(hexagonal_chance_permille())
+                                             if "hexagonal" in EVENT_KINDS else None))
 
 @app.route("/manage")
 @login_required
@@ -9563,7 +9791,7 @@ def manage_settings():
 @login_required
 def set_language():
     language = request.form.get("language")
-    if language not in ("pl", "en"):
+    if language not in ("pl", "en", "tr"):
         abort(400)
     write_settings({"ui_language": language})
     destination = request.form.get("next", "")

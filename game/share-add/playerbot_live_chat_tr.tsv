@@ -1,0 +1,1577 @@
+# id	category	channel	gate	nastroj	text
+# tr twins of playerbot_live_chat_en.tsv, same ids and placeholders - rendered by
+# tr-build/tools/build_server_tr.py from tr-build/work/hand/live_chat.tsv.
+# ASCII (Turkish written without its letters, as players type it), like the English;
+# rendered text must fit 90 bytes. Placeholders filled from English data
+# ({mapa_gdzie}, {mapa_dokad}, {klasa}, {krol}...) arrive in English: the engine has no tr variants.
+A_001	A	global	refine9	radosc	+9 {skrot}!!!
+A_002	A	global	refine9	radosc	+9 {skrot} bastim xD
+A_007	A	global	refine8	radosc	demirci keyfi yerinde, +8 bastim
+A_008	A	global	refine9	radosc	+9 {skrot}, kiskandiniz mi xd
+A_010	A	global	refine8	radosc	oh be +8, yanacak sanmistim
+A_025	A	global	refine9	radosc	{skrot}+9 benim :D
+A_029	A	global	refine7	radosc	sadece +7 ama olsun
+C_001	C	global	reaction_success	radosc	hb
+C_002	C	global	reaction_success	radosc	tebrikler
+C_003	C	global	reaction_success	radosc	hb :D
+C_004	C	global	reaction_success	radosc	gg
+C_005	C	global	reaction_success	radosc	kiskandim
+C_007	C	global	reaction_success	radosc	goster bakalim
+C_008	C	global	reaction_success	radosc	ss yoksa yalan xD
+C_014	C	global	reaction_success	radosc	sansli
+C_020	C	global	reaction_success	radosc	vay be
+C_030	C	global	reaction_failure	smutek	rip
+C_032	C	global	reaction_failure	smutek	ayy
+C_034	C	global	reaction_failure	smutek	uzulme, gecer
+C_044	C	global	reaction_failure	smutek	tuh
+C_045	C	global	reaction_failure	smutek	gecmis olsun
+L_001	L	global	ambient	neutralny	naber
+L_002	L	global	ambient	neutralny	slm millet
+L_003	L	global	ambient	neutralny	kimse yok mu?
+L_004	L	global	ambient	neutralny	cok sikildim
+L_005	L	global	ambient	neutralny	sikildimmm
+L_009	L	global	ambient	neutralny	napiyosunuz
+L_029	L	global	silence	neutralny	chat olmus
+L_030	L	global	silence	neutralny	canli var mi?
+L_038	L	global	ambient	neutralny	simdi ne yapsak? fikri olan?
+L_055	L	global	ambient	neutralny	kim sura oynuyo?
+L_056	L	global	ambient	neutralny	solo mu pt mi?
+Q_004	Q	global	greeting	neutralny	selam selam
+Q_005	Q	global	greeting	neutralny	herkese selam
+Q_006	Q	global	greeting	neutralny	slm
+S_004	S	global	level	radosc	lv {lvl}!
+B_001	B	global	burn	smutek	+8 yandi...
+B_002	B	global	burn	smutek	hayiiiir
+B_007	B	global	burn	smutek	yandi. sorma
+B_011	B	global	burn	smutek	yine yandi
+B_012	B	global	burn	smutek	basa dondum...
+B_015	B	global	burn	smutek	hay allah, +8 yandi
+B_020	B	global	burn	smutek	ne diyim bilmiyorum
+B_024	B	global	burn	smutek	of ya
+B_025	B	global	burn	smutek	HAYIIIIR
+L_017	L	global	ambient	neutralny	cuma gecesi metin oynuyorum xd
+L_020	L	global	ambient	neutralny	bence en iyi map {mapa}
+L_021	L	global	ambient	neutralny	colu seven var mi? yok? biliyodum zaten
+L_022	L	global	ambient	neutralny	golemler oyunun en kotu seyi
+L_025	L	global	ambient	neutralny	bugun kac lvl atladiniz?
+L_026	L	global	ambient	neutralny	burda en yuksek lvl kimde?
+L_028	L	global	ambient	neutralny	lv {lvl} icin iyi yer var mi?
+L_032	L	global	ambient	neutralny	ninjalar neden hep kaciyo xd
+L_033	L	global	ambient	neutralny	sura en iyi sinif, nokta
+L_034	L	global	ambient	neutralny	samanlar sadece buff icin xd
+L_035	L	global	ambient	neutralny	cift el kilicli savasci da guzel ama
+L_040	L	global	ambient	neutralny	neden uyumuyosunuz xd
+L_041	L	global	ambient	neutralny	kim hala uyanik?
+L_042	L	global	ambient	neutralny	gunaydin xd
+S_001	S	global	level	radosc	lv 30, dolunay zamani xd
+S_003	S	global	level	radosc	sonunda 35
+S_005	S	global	level	radosc	lv {lvl} kutlamasi, kim geliyo? xd
+E_005	E	global	pk_warning	zlosc	dikkat edin {nick} pk atiyo {mapa_gdzie}
+D_002	D	global	boss_down	radosc	{boss} kesildi, ne dustu goren var mi?
+D_027	D	global	chief_down	radosc	ork reisi kesildi, siradaki ne zaman?
+F_001	F	global	war_declared	neutralny	{gildia} vs {gildia_wroga}, kim geliyor?
+F_008	F	global	war_declared	neutralny	{gildia_wroga} bize savas mi acti? gelsinler
+W_001	W	global	event_start	neutralny	etkinlik basladi: {event}!
+W_007	W	global	event_start	neutralny	event ne kadar surecek bilen var mi?
+W_008	W	global	event_start	neutralny	event basladi, herkes yerlerine
+W_026	W	global	event_end	neutralny	event bitti ;/
+W_028	W	global	event_end	neutralny	siradaki event ne zaman?
+W_030	W	global	event_end	neutralny	yazik cok kisaydi
+T_014	T	local	encounter	neutralny	ooo {nick}, sen burda napiyosun xd
+E_006	E	local	pk_repeat	zlosc	yine mi sen {nick}?
+E_030	E	local	pk_repeat	zlosc	{nick} seni unutmadim
+J_039	J	party	party_idle	neutralny	neredesiniz?
+J_042	J	party	party_idle	neutralny	pot olan var mi?
+J_043	J	party	party_idle	neutralny	tamam hazirim
+K_012	K	guild	guild_idle	neutralny	loncadan kasmaya gelen var mi?
+J_001	J	global	lfg_open	neutralny	pt ariyorum {mapa_dokad} {lvl}-{lvl2}, gelen var mi?
+J_003	J	global	lfg_open	neutralny	{lvl}-{lvl2} pt ariyorum {mapa_dokad}, gelen?
+J_012	J	global	lfg_open	neutralny	pt lazim {mapa_dokad} {lvl}-{lvl2}, kim gelir?
+J_013	J	global	lfg_open	neutralny	pt kuruyorum {mapa_dokad} {lvl}-{lvl2}, gelen var mi?
+J_014	J	global	lfg_open	neutralny	pt ariyorum {mapa_dokad} {lvl}-{lvl2}, kim var?
+J_020	J	global	lfg_retry	neutralny	hala pt ariyorum {mapa_gdzie}
+J_021	J	global	lfg_retry	neutralny	kimse yok mu? cidden mi?
+J_022	J	global	lfg_empty	neutralny	yok mu kimse? solo giderim o zaman
+J_024	J	global	lfg_reply	neutralny	ben
+J_025	J	global	lfg_reply	neutralny	+1
+J_026	J	global	lfg_reply	neutralny	pt at
+J_031	J	whisper	lfg_private	neutralny	bana pt at
+J_033	J	whisper	lfg_private	neutralny	ben de gelirim
+J_037	J	party	party_join	neutralny	slm
+J_038	J	party	party_join	neutralny	geldim
+D_008	D	global	mob_weapon	neutralny	mobdan {skrot} {sr} ort dustu xd
+D_009	D	global	drop40	radosc	{skrot} {sr} ort dustu, inanamiyorum
+V_001	V	global	drop40	radosc	{skrot} {sr} ort dustu!!!
+V_002	V	global	drop40	radosc	dropdan {skrot} {sr} ort, yok artik
+V_003	V	global	mob40	neutralny	beyler {skrot} {sr} ort, mobdan dustu xd
+V_004	V	global	drop40	radosc	{skrot} {sr} ort, satayim mi basayim mi?
+V_005	V	global	drop40	radosc	{skrot} {sr} ORT DUSTU
+V_006	V	global	drop40	radosc	dropdan {sr} ort geldi, bugun sansliyim
+V_007	V	global	drop40	radosc	{sr} ort ustu {skrot} olan var mi? xd
+V_009	V	global	drop40	radosc	{skrot} {sr} ort, yeter ki +9'da yanmasin...
+W_010	W	global	moon_pickup	neutralny	kac ayisigi sandigi topladiniz?
+W_016	W	global	moon_pickup	neutralny	sandiklar kumar gibi ama bagimlilik yapiyo xd
+W_017	W	global	moon_pickup	neutralny	sandiktan iyi bir sey cikan oldu mu?
+Z_001	Z	global	m3_drop	radosc	m3'te {skrot} dustu
+Z_004	Z	global	m3_good	neutralny	m3 bugun veriyo
+Z_009	Z	global	m3_drop	radosc	m3'te {skrot} tamamen sans isi
+T_010	T	local	ks_boss	zlosc	ks yapma ya...
+D_024	D	local	ks_boss	zlosc	ilk ben vurdum!!
+T_011	T	local	ks_stone	zlosc	o metin benimdi, ilk ben vurdum
+F_014	F	global	war_won	radosc	gg {gildia_wroga}, belki bir dahakine
+F_027	F	global	war_won	radosc	kazandik!!!
+F_028	F	global	war_won	radosc	{gildia} > {gildia_wroga}, nokta
+F_017	F	global	war_lost	smutek	nasil kaybettik...
+F_030	F	global	war_lost	smutek	onlara kaybetmek rezalet ;/
+F_021	F	guild	war_thanks	zlosc	sagolun ekip, guzel savasti
+H_001	H	global	trade_gear	neutralny	S> {skrot} +{plus} {cena}, pm
+H_003	H	global	trade_gear	neutralny	satiyorum {skrot} +{plus}, {cena}, pm at
+H_023	H	global	trade_material	neutralny	satiyorum {ulep} x{ile}, tanesi {cena}
+H_025	H	global	trade_sold	neutralny	satildi, sagol
+H_031	H	whisper	trade_offer	neutralny	{cena_mniej} veririm
+H_036	H	whisper	trade_refuse	neutralny	pazarlik yok
+H_037	H	whisper	trade_counter	neutralny	son fiyat {cena}
+H_038	H	whisper	trade_accept	neutralny	tamam, aliyorum
+N_034	N	global	loan_ask	neutralny	1kk borc veren var mi? yarin veririm
+N_036	N	whisper	loan_answer	neutralny	verebilirim, neredesin?
+N_038	N	whisper	loan_here	neutralny	buradayim, ticaret ac
+N_041	N	whisper	loan_cancel	neutralny	yarin o zaman, simdi olmaz
+N_042	N	whisper	loan_repay	neutralny	{nick} param geldi, neredesin?
+N_043	N	whisper	loan_returned	neutralny	sagol, borcumu odedim
+N_044	N	whisper	loan_human_thanks	zlosc	sagol {gracz}, yarin oderim
+N_035	N	global	loan_reminder	neutralny	{nick} aldigin parayi ode!!
+N_016	N	global	rumour_defend	zlosc	yok ya, {nick} iyi adamdir
+N_013	N	global	rumour_watch	zlosc	gercekten mi?
+N_015	N	global	rumour_watch	zlosc	ss var mi?
+N_017	N	global	rumour_watch	zlosc	dizi gibi drama lol
+N_018	N	global	rumour_watch	zlosc	cekirdekler hazir xd
+N_051	N	global	chronicle_debt	neutralny	{nick} dramasini hatirliyor musunuz? lol
+N_058	N	global	chronicle_refine	radosc	{nick} +9 {skrot} basmisti, hatirliyor musunuz?
+N_059	N	global	chronicle_dragon	neutralny	{nick} ejderhayi kesmisti, hatirlar misiniz?
+N_060	N	global	chronicle_war	neutralny	{gildia} savas serisini hatirlayan var mi?
+N_061	N	global	fame_rise	zdziwienie	{nick} burda iyice taninir oldu
+N_062	N	global	chronicle_rank	zdziwienie	{nick} top1 {skrot} {sr} ort, hatirlayan var mi?
+N_063	N	global	chronicle_pk	zlosc	{nick} {ile} pk yapmisti, hatirlar misiniz?
+N_064	N	global	fame_legend	zdziwienie	{nick}? bu ismi herkes bilir lol
+F_018	F	global	war_streak	neutralny	ust uste {ile}. galibiyet, siradaki kim?
+W_004	W	global	event_yang	neutralny	yang eventi, kacirmayin
+W_005	W	global	event_drop	radosc	drop artti mi yoksa bana mi oyle geliyo?
+W_006	W	global	event_chest	neutralny	ayisigi sandiklari geri geldi xd
+W_025	W	global	event_last_hour	neutralny	eventin son saati, acele edin
+A_003	A	global	refine9	radosc	+9 BASTIM
+A_013	A	global	refine9	radosc	demirci de iyi olabiliyomus
+A_016	A	global	refine9	radosc	anne bak +9 xD
+A_020	A	global	refine9	radosc	+9 bastim, takmaya korkuyorum xd
+A_021	A	global	refine9	radosc	+9'dan guzeli var mi? yok
+A_027	A	global	refine9	radosc	+9 bastim, artik olsem gam yemem
+A_030	A	global	refine7	radosc	sonunda bugun bi sey tuttu
+B_008	B	global	burn	smutek	demircinin bana kisisel bi garezi var
+B_016	B	global	burn	smutek	hep bana mi oluyo bu
+B_017	B	global	burn	smutek	yeter bu demirciyle isim bitti
+B_021	B	global	burn	smutek	gururumdan kalani isteyen var mi xd
+B_027	B	global	burn	smutek	bu mu sans yani? -.-
+C_016	C	global	reaction_success	radosc	belki ben de sansli cikarim
+C_017	C	global	reaction_success	radosc	guzel guzel
+C_021	C	global	reaction_success	radosc	yok artik
+C_024	C	global	reaction_success	radosc	tebrik ederim
+C_031	C	global	reaction_failure	smutek	F
+C_033	C	global	reaction_failure	smutek	herkesin basina gelir
+C_035	C	global	reaction_failure	smutek	demirci boyle iste
+C_040	C	global	reaction_failure	smutek	cok kotu ya
+C_041	C	global	reaction_failure	smutek	taktik vereyim: gece basma xd
+C_042	C	global	reaction_failure	smutek	demircinin chati okudugunu biliyo musun?
+C_043	C	global	reaction_failure	smutek	heh
+D_015	D	global	boss_down	radosc	{boss} sandigindan ne cikti?
+D_018	D	global	dragon_down	neutralny	ejderha kesildi!! orada olan bilir
+D_023	D	local	boss_claim	neutralny	{nick} o boss benim, dokunma
+J_027	J	global	lfg_reply	neutralny	davet at
+J_032	J	global	lfg_count_question	neutralny	hala ariyo musun?
+P_010	P	global	rod_upgrade	neutralny	sonunda olta +{plus}
+T_002	T	local	ks_boss	zlosc	burasi benim yerim
+T_003	T	local	ks_boss	zlosc	ya ben burda kasiyodum
+U_012	U	local	duel_won	neutralny	gg
+U_013	U	local	duel_won	neutralny	gg wp
+U_014	U	local	duel_won	neutralny	ez
+U_015	U	local	duel_lost	smutek	rovans?
+U_018	U	local	duel_lost	smutek	tamam sen daha iyisin
+V_010	V	global	reroll40	radosc	{skrot} {sr} ort geldi :D
+V_013	V	global	reroll40	radosc	sonunda {skrot} {sr} ort, artik efsun basmam
+V_014	V	global	reroll40	radosc	efsun {sr} ort verdi, bu kalsin
+X_010	X	global	rod_upgrade	neutralny	oltanin sonraki seviyesi icin ne lazim?
+X_019	X	global	rod_upgrade	neutralny	olta +{plus}!!!
+J_002	J	global	lfg_open	neutralny	{lvl}-{lvl2} icin pt ariyorum {mapa_dokad}, gelen?
+J_006	J	global	lfg_buff	neutralny	buff ariyorum {mapa_gdzie}
+J_015	J	global	lfg_buff	neutralny	pt icin saman ariyorum
+J_028	J	global	lfg_reply	neutralny	gelebilir miyim? {lvl} {klasa}
+J_035	J	global	lfg_reply	neutralny	buffum var, davet at
+J_044	J	party	party_buff	neutralny	buff atin xd
+J_045	J	party	party_buff	neutralny	saman buff!!
+J_051	J	party	party_end	neutralny	pt icin sagolun
+J_052	J	party	party_end	neutralny	yarin yine?
+H_045	H	whisper	trade_avoid	neutralny	senden almiyorum
+N_010	N	global	rumour_apology	zlosc	tamam kusura bakma, oderim
+N_011	N	global	rumour_deny	zlosc	lol ne oluyo hic bilmiyorum
+O_001	O	global	emotion_burn	smutek	a*k
+O_002	O	global	emotion_burn	smutek	ya a*k
+O_003	O	global	emotion_burn	smutek	s*ctik
+O_004	O	global	emotion_burn	smutek	ne a*k bu
+O_005	O	global	emotion_burn	smutek	of yaa
+O_006	O	global	emotion_burn	smutek	s*ktir et ya
+O_010	O	global	emotion_burn	smutek	lanet olsun
+O_011	O	global	emotion_burn	smutek	tuh
+O_012	O	global	emotion_burn	smutek	of be
+O_013	O	global	emotion_burn	smutek	berbat ya
+O_014	O	global	emotion_burn	smutek	dayanamiyorum artik
+O_015	O	global	emotion_burn	smutek	ay ya
+O_016	O	global	emotion_burn	smutek	yahu
+O_017	O	global	emotion_burn	smutek	aman allahim
+O_019	O	global	emotion_burn	smutek	bu da oldu
+O_020	O	global	emotion_burn	smutek	harika...
+C_006	C	global	refine_question	radosc	guzel, kac kutsama gitti?
+C_028	C	global	reaction_tease	neutralny	ee ne olmus
+C_036	C	global	reaction_tease	neutralny	demirci degil, sorun sende lol
+C_039	C	global	burn_question	smutek	kac ort vardi?
+C_049	C	global	reaction_tease	neutralny	oh olsun
+C_051	C	global	reaction_tease	neutralny	iyi olmus
+C_052	C	global	reaction_tease	neutralny	hahaha
+M_003	M	global	tangent	neutralny	bilezige hangi efsun iyi?
+M_007	M	global	tangent	neutralny	hangisi iyi, dolunay mi zehir mi?
+M_012	M	global	tangent	neutralny	ort ne demek?
+M_014	M	global	tangent	neutralny	bu oyunda nasil para kazaniliyo lol
+M_024	M	global	topic_unknown	neutralny	valla hic fikrim yok
+M_026	M	global	topic_unknown	neutralny	ne oynadigina bagli
+M_029	M	global	average_explain	radosc	ort ortalama hasar demek, mob kesmede fazlasi iyi
+M_031	M	global	topic_unknown	neutralny	benden akillisi gelir cevaplar lol
+O_018	O	global	tease_reply	neutralny	saka yapiyosun
+E_001	E	local	pk_local	zlosc	{nick} neden bana vuruyosun
+E_002	E	local	pk_local	zlosc	ya ne yapiyosun
+E_008	E	local	pk_repeat	zlosc	{nick} {ile}. kez oldurdun, sikayet ediyorum lol
+E_010	E	local	pk_local	zlosc	tamam {nick}, yarin rovans
+E_012	E	global	revenge	zlosc	beni oldurmustun {mapa_gdzie}, simdi sen yattin
+E_014	E	local	revenge	zlosc	haha {nick} yatti
+E_015	E	global	revenge	zlosc	{nick} gg, bir dahakine acimam
+E_020	E	local	pk_local	zlosc	{nick} git basimdan
+E_021	E	local	pk_local	zlosc	sakin {nick}, sadece kasiyorum
+E_022	E	local	pk_local	zlosc	{nick} bunun yerine duello?
+E_033	E	local	pk_local	zlosc	tamam {nick}, baris? biktim artik
+V_020	V	global	bracelet_maxcrit	radosc	sonunda bilezigimde 2k hp ve 10 krit
+V_021	V	global	necklace_maxpierce	radosc	kolyemde 2k hp + max delici vurus cikti
+V_022	V	global	shoes_maxattack	radosc	ayakkabida 2k hp + max saldiri hizi, kalsin
+V_024	V	global	max_bonus	radosc	2k hp ve {bon} geldi, yeter
+W_012	W	global	moon_reward	neutralny	ayisigi sandigindan {item} cikti :D
+X_001	X	global	fishing_trip	neutralny	balik tutmaya gidiyorum
+X_002	X	global	fishing_trip	neutralny	balik tutmaya gidiyorum, mola lazim
+X_003	X	global	fish_caught	neutralny	{ryba} yakaladim xd
+X_004	X	global	fish_caught	neutralny	{ryba} yakaladim, nadir mi?
+X_011	X	global	fishing_trip	neutralny	balik tutan var mi? tek basima sikici xd
+X_012	X	global	fishing_trip	neutralny	balik icin en iyi yer neresi?
+X_013	X	global	fishing_trip	neutralny	balik tutmak oyunun en guzel yani, cidden
+X_015	X	global	fishing_trip	neutralny	baligi mangalda mi yapiyoruz nasil oluyo xd
+X_016	X	global	fishing_trip	neutralny	herkes exp kasiyo ben balik tutuyorum
+X_020	X	global	fishing_trip	neutralny	emekli oldum ben, balik tutuyorum xd
+M_035	M	global	price_quote	neutralny	{cena} civari
+M_036	M	global	price_quote	neutralny	{cena} civari, efsunlara bagli
+M_037	M	global	price_quote	neutralny	belki {cena}, pazara da bi bak
+Q_007	Q	global	logout	neutralny	gorusuruz
+Q_008	Q	global	logout	neutralny	bb
+Q_009	Q	global	logout	neutralny	hoscakal
+Q_011	Q	global	logout	neutralny	ben ciktim, gorusuruz millet
+P_005	P	global	rare_metin	neutralny	metin ariyorum, {mapa_gdzie} goren var mi?
+P_011	P	global	rare_fishing	neutralny	burda beni sakinlestiren tek sey balik tutmak
+P_019	P	global	rare_addict	neutralny	ya +9 ya hic
+P_022	P	global	rare_gamble	neutralny	demirci beni ismimle taniyor
+P_026	P	global	rare_gamble	neutralny	demirciye sans denemeye gidiyorum
+P_027	P	global	rare_executor	zlosc	bugun pvp modundayim
+P_028	P	global	rare_books	zlosc	{skill} kitabi olan var mi?
+M_017	M	global	exp_answer	neutralny	{lvl} icin en iyisi {mapa}
+M_032	M	global	exp_guess	neutralny	ee belki {mapa}?
+M_038	M	global	human_unknown	neutralny	ne?
+M_039	M	global	human_unknown	neutralny	ne demek istedigini anlamadim
+M_040	M	global	human_calm	neutralny	sakin ol xd
+M_041	M	global	human_calm	neutralny	yavas ol kanka
+T_019	T	local	encounter	neutralny	alo? orda misin?
+C_018	C	global	reaction_success	radosc	{nick} nasil yapiyosun bunu
+C_019	C	global	reaction_success	radosc	hep sen sansli cikiyosun
+C_025	C	global	reaction_success	radosc	helal olsun {nick} :D
+T_008	T	local	defence_thanks	zlosc	yardim icin sagol
+R_009	R	whisper	human_guild_invite	neutralny	{gracz} loncaya katilir misin?
+R_010	R	global	human_buff	neutralny	{gracz} buffun var mi?
+H_046	H	whisper	trade_human_offer	neutralny	{item} icin {cena} veririm, tamam mi?
+H_047	H	whisper	trade_human_agree	neutralny	tamam {cena} yazip pazara koy, 10 dk bekliyorum
+H_048	H	whisper	trade_human_last	neutralny	en fazla {cena}, son teklif
+H_049	H	whisper	trade_human_repeat	neutralny	{cena} veriyorum, anlastik mi?
+H_050	H	whisper	trade_human_giveup	neutralny	daha fazla veremem, gorusuruz
+H_051	H	whisper	trade_human_decline	neutralny	tamam, bol satislar
+R_003	R	whisper	human_item	neutralny	{gracz} {skrot} satiyor musun?
+I_002	I	global	market_expensive	neutralny	{ulep} icin {cena} mi? xd
+I_004	I	global	market_cheap	neutralny	{ulep} ucuzluyor, bu kadar kim satiyo?
+Y_004	Y	global	medal_locked	neutralny	exp kilitli, madalya kasiyorum
+Y_006	Y	global	medal_goal	neutralny	madalyalar kendiliginden gelmez
+Y_009	Y	global	trade_medal	neutralny	S> at madalyonu x{ile}, tanesi {cena}, pm
+Y_013	Y	global	medal_goal	neutralny	maymunlar ikinci evim
+Y_016	Y	global	medal_goal	neutralny	iyi maymun yeri var mi?
+I_017	I	global	market_visit	neutralny	{ulep} {cena}, almaya deger mi?
+A_004	A	global	refine9	radosc	inanamiyorum, ilk denemede +9
+A_005	A	global	refine9	radosc	sonunda {skrot} +9, 4 kutsama gitti ama degdi
+A_009	A	global	refine9	radosc	3. denemede +9 :D
+A_011	A	global	refine9	radosc	{skrot} +9 {sr} ort hazir, sirada efsun var
+A_014	A	global	refine9	radosc	ust uste +7 +8 +9, bugun piyango bileti alirim xD
+A_017	A	global	refine9	radosc	ya kutsamasiz +9 bastim
+A_018	A	global	refine9	radosc	bu hafta 3. +9, bug var herhalde xd
+A_028	A	global	refine9	radosc	5 kere yandi, sonunda {skrot} +9, pes etmek yok xd
+B_003	B	global	burn	smutek	demirci yine {skrot} yedi
+B_004	B	global	burn	smutek	{skrot} +8 gitti
+B_009	B	global	burn	smutek	inanmiyorum, +8 icin 3. deneme
+B_010	B	global	burn	smutek	{cena} cope gitti
+B_019	B	global	burn	smutek	moral: sifir. {skrot}: kul oldu
+B_029	B	global	burn	smutek	{skrot} {sr} ort yandi... bebegim
+C_053	C	global	refine_scroll_answer	radosc	{ile} kutsama
+C_054	C	global	refine_average_answer	radosc	{sr} ort
+C_055	C	global	refine_question	radosc	kac ort?
+U_001	U	local	duel_invite	neutralny	duello?
+U_002	U	local	duel_invite	neutralny	{nick} duello? xd
+U_004	U	local	duel_invite	neutralny	hazir?
+U_009	U	local	duel_invite	neutralny	kutsama ve pot yok tamam mi?
+J_007	J	global	lfg_metin	neutralny	metin pt ariyorum, {lvl}+
+J_008	J	global	lfg_monkey_medium	neutralny	maymuna gelen var mi? madalya kasiyorum, pt {lvl}-{lvl2}
+J_010	J	global	lfg_ezo	neutralny	mistiklere pt? {lvl}-{lvl2}
+J_016	J	global	lfg_sohan	neutralny	sohan'a gelen var mi?
+Y_001	Y	global	lfg_monkey	neutralny	maymuna gelen var mi? madalya kasiyorum, pt {lvl}-{lvl2}
+Y_002	Y	global	lfg_monkey_medium	neutralny	maymun icin pt, madalya kasiyorum, {lvl}-{lvl2} gelsin
+Y_003	Y	global	lfg_monkey_buff	neutralny	maymuna kim gelir? madalya kasiyoruz, pt {lvl}-{lvl2}
+Z_008	Z	global	lfg_m3	neutralny	m3 kasan var mi? pt?
+H_002	H	global	trade_average	radosc	S> {skrot}+{plus} {sr} ort {cena}
+H_004	H	global	trade_average	radosc	S> {skrot} +{plus} {sr} ort, {cena} ustu teklif
+H_009	H	global	trade_book_three	neutralny	S> {skill} kitabi x3, tanesi {cena}, pm
+H_010	H	global	trade_ebony	neutralny	S> abanoz +{plus} {bon}, {cena}, pm
+H_011	H	global	trade_bracelet	neutralny	S> {skrot} +{plus} {bon}, {cena}, pm
+H_024	H	global	trade_rod	neutralny	S> {skrot} +{plus}, {cena}, pm
+X_014	X	global	trade_fish	neutralny	S> {skrot} x{ile}, tanesi {cena}, pm
+W_014	W	global	trade_moon	neutralny	S> ayisigi sandigi x{ile}, tanesi {cena} pm
+H_052	H	global	trade_item	neutralny	S> {skrot} x{ile}, tanesi {cena} pm
+H_022	H	global	trade_need_material	neutralny	aliyorum {ulep} x{ile}, tanesi {cena}, pm
+H_053	H	global	trade_need_material	neutralny	A> {ulep} x{ile}, tanesi max {cena} pm
+N_045	N	global	loan_public_returned	neutralny	{nick} borcunu odedi, drama icin kusura bakmayin
+N_071	N	global	loan_ask	neutralny	{cena} borc veren var mi? yarin veririm
+N_072	N	whisper	loan_funded	neutralny	sagol, {cena} geldi
+W_009	W	global	lfg_exp_event	neutralny	exp eventi icin pt, kim var?
+D_003	D	global	lfg_boss	neutralny	{boss} {mapa_gdzie} canli, kim geliyor?
+J_011	J	global	lfg_boss	neutralny	{boss} icin adam ariyorum
+J_005	J	global	lfg_tower	neutralny	seytan kulesine kim gelir? buff lazim
+J_060	J	global	lfg_tower	neutralny	seytan kulesi girisinde toplaniyoruz, kim geliyo?
+J_061	J	guild	tower_gather	neutralny	seytan kulesi 1. kat, metinin yaninda toplaniyoruz
+J_062	J	guild	tower_stone	neutralny	metini kesiyoruz, gelin
+H_005	H	global	trade_need_scroll	neutralny	A> kutsama kagidi, tanesi {cena}, pm
+H_006	H	global	trade_need_gear	neutralny	aliyorum {skrot} +{plus} max {cena}
+P11_BUY_K1	H	global	trade_need_gear	neutralny	A> {skrot} +{plus}, {cena} veririm, pm
+H_007	H	global	trade_need_book	neutralny	A> {skill} kitabi, {cena}, pm
+H_008	H	global	trade_need_forget	neutralny	A> {item}, {cena}, pm
+H_013	H	global	trade_need_gear	neutralny	aliyorum {skrot} +{plus} hp'li, max {cena}, pm
+H_020	H	global	trade_need_scroll	neutralny	kutsama kagidi aliyorum, tanesi {cena}, pm
+H_021	H	global	trade_need_gear	neutralny	abanoz +7 icin {cena} veririm
+W_015	W	global	trade_need_moon	neutralny	A> ayisigi sandigi, tanesi {cena}
+Y_010	Y	global	trade_need_medal	neutralny	A> at madalyonu, tanesi {cena}
+H_054	H	global	trade_need_item	neutralny	A> {item} x{ile}, toplam {cena} pm
+R_030	R	global	human_gz_thanks	zlosc	sagol
+U_019	U	local	duel_lost	smutek	{ile}:{ile}, devam mi?
+U_020	U	local	duel_lost	smutek	{nick} beni {ile} kez yendi, bidaha duello yok xd
+U_021	U	local	duel_lost	smutek	sura vs ninja, hep ayni...
+U_022	U	local	duel_lost	smutek	saman ile duello azap
+R_016	R	global	human_pk_repeat	zlosc	{gracz} seni unutmadim, {ile}:0 sende, rovansi alacagim
+R_017	R	global	human_pk_repeat	zlosc	{gracz} yine mi sen? xd
+U_030	U	local	duel_lost	smutek	{score}, rovans?
+U_031	U	local	duel_won	neutralny	{score}, gg
+E_060	E	local	revenge	zlosc	{score}
+H_055	H	whisper	trade_interest	neutralny	{item} satar misin?
+A_024	A	global	refine8	radosc	demirci 1 : ben 0... dur, oldu xD
+A_031	A	global	refine9	radosc	kalkan +9 xD kimse basmaz ama ben bastim
+A_032	A	global	refine9	radosc	abanoz +9, hp'm tank gibi oldu
+B_005	B	global	burn	smutek	4 kutsamaya ragmen yandi, demirci dolandirici
+B_014	B	global	burn	smutek	ucuz {skrot} var mi? benimki yandi
+C_009	C	global	reaction_tease	neutralny	yalan soyluyosun
+C_010	C	global	reaction_success	radosc	kaca satarsin?
+C_011	C	global	reaction_success	radosc	satiyo musun?
+C_012	C	global	reaction_success	radosc	pazara koy
+C_015	C	global	reaction_success	radosc	ismarlamalar senden o zaman
+D_014	D	global	drop_book	radosc	{skill} kitabi dustu, isteyen var mi?
+J_050	J	party	party_end	neutralny	cikiyorum, gorusuruz
+L_013	L	global	logout	neutralny	uyumaya gidiyorum, gorusuruz
+L_014	L	global	logout	neutralny	iyi geceler arkadaslar
+L_039	L	global	fishing_trip	neutralny	balik tutmaya gidiyorum, mola xd
+L_043	L	global	reaction_success	radosc	hahah
+L_044	L	global	reaction_success	radosc	hayirli olsun
+L_045	L	global	reaction_success	radosc	he ya
+L_046	L	global	reaction_success	radosc	evet
+L_047	L	global	reaction_failure	smutek	ciddi misin?
+L_048	L	global	reaction_failure	smutek	yok artik
+L_049	L	global	reaction_success	radosc	super
+L_052	L	global	reaction_failure	smutek	xdd
+L_053	L	global	reaction_failure	smutek	ne ya?
+L_054	L	global	topic_unknown	neutralny	bilmem ya
+M_001	M	global	question_exp	neutralny	{lvl} levelde nerede exp yapilir?
+M_004	M	global	question_price	neutralny	kutsama kagidi simdi kac?
+M_008	M	global	question_skill	neutralny	ilk hangi beceriye puan vereyim?
+M_020	M	global	blessing_quote	neutralny	kutsama kagidi simdi {cena} civari
+M_023	M	global	skill_advice	neutralny	ben once {skill} becerisini basardim
+M_025	M	global	market_unknown	neutralny	dukkanlara bak
+D_001	D	global	boss_chest	neutralny	{boss} sandik dusurdu :D
+D_005	D	local	ks_boss	zlosc	biri {boss} bossumu kapti, super
+D_032	D	global	drop30	radosc	{skrot} dustu {sr} ort :D
+N_019	N	global	rumour_watch	zlosc	haber icin sagol, onunla alisveris yapmam
+N_020	N	global	rumour_watch	zlosc	bu son zamanlarda dolap ceviren tip degil mi?
+N_073	N	global	rumour_reject	zlosc	ona inanmiyorum
+K_010	K	global	guild_left	neutralny	{gildia} loncasindan ayriliyorum, sagolun
+K_013	K	guild	guild_welcome	neutralny	{nick} loncaya hos geldin xd
+K_016	K	whisper	human_guild_invite	neutralny	{gildia} loncasina katilmak ister misin?
+P_003	P	global	rare_metin_daily	neutralny	bugun 15 metin kirdim
+P_006	P	global	rare_fish_caught	neutralny	{ryba} tuttum!
+P_008	P	global	rare_fish_stock	neutralny	balik isteyen var mi? 200 tane kadar var
+P_014	P	global	rare_book_failure	neutralny	beceri kitabi ust uste 5 kez tutmadi
+P_016	P	global	rare_book_failure	neutralny	okuyorum okuyorum hicbir sey olmuyor
+P_002	P	global	rare_metin_stolen	neutralny	o metini benden kim caldi
+P_004	P	global	rare_metin_found	neutralny	metin var, ilk gelen alir, {mapa_gdzie}
+O_009	O	global	emotion_burn	smutek	bu demirci sinirimi bozdu a*k
+M_006	M	global	question_rod	neutralny	olta nereden alinir?
+M_022	M	global	rod_vendor	neutralny	olta balikcida
+M_015	M	global	question_guild	neutralny	loncaya nasil girilir?
+K_002	K	global	question_guild	neutralny	lonca ariyorum, {lvl} {klasa}, aktifim
+K_003	K	global	question_guild	neutralny	beni loncaya kim alir?
+M_042	M	global	guild_advice	neutralny	{gildia} liderine sor
+V_016	V	global	reroll40	radosc	{sr} ort geldi ama beceri hasari dustu
+V_025	V	global	bracelet_maxcrit	radosc	bilezik tamam, 2k hp + {bon}
+V_026	V	global	achievement_question	neutralny	kac?? goster
+V_030	V	global	reaction_tease	neutralny	ss at yoksa yalan xd
+V_031	V	global	reaction_success	radosc	kiskandim
+V_033	V	global	mix_question	neutralny	kac efsun gitti?
+V_034	V	global	reaction_tease	neutralny	yalan atma xd
+V_036	V	global	reaction_success	radosc	yeter ki gece basma xd
+V_037	V	global	bonus_answer	neutralny	{bon}
+W_011	W	global	moon_potions50	neutralny	50 sandik actim, ise yarar bir sey yok
+W_013	W	global	moon_book	neutralny	sandiktan {skill} kitabi cikti, isteyen var mi?
+W_018	W	global	moon_open100	neutralny	100 sandik actim bile...
+W_019	W	global	moon_potions	neutralny	sandiklardan iksirden baska bir sey cikmiyor -.-
+P_007	P	global	rare_fish_hours	neutralny	6 saattir balik tutuyorum, gulmeyin
+P_009	P	global	fish_empty	neutralny	bugun hic balik cikmiyor
+X_005	X	global	fish_empty	neutralny	bugun baliklar yem almiyor
+X_006	X	global	fish_empty	neutralny	bir saattir balik tutuyorum, hic yok
+N_001	N	global	item_scam	zlosc	{nick} beni dolandirdi, guvenmeyin!!
+N_002	N	global	item_scam	zlosc	dikkat, {nick} parayi aldi esyayi vermedi
+N_003	N	global	item_scam	zlosc	{nick} takasta beni dolandirdi, onunla takas yapmayin
+N_004	N	global	item_scam	zlosc	hangisi daha kotu bilmiyorum, {nick} ya da demirci xd
+N_005	N	global	item_scam	zlosc	{nick} dolandirici, dikkat edin
+N_006	N	global	rumour_deny	zlosc	ben mi?? hicbir sey calmadim, yalan soyluyor
+N_008	N	global	rumour_deny	zlosc	saka yaptim xd
+H_056	H	whisper	item_promise	neutralny	{cena} ode, {item} veririm
+H_057	H	whisper	item_prepay	neutralny	tamam simdi oduyorum
+F_003	F	global	war_declared	neutralny	{gildia_wroga} simdiden aglamaya baslayin
+F_004	F	global	war_declared	neutralny	gecen sefer gibi ezeriz
+F_005	F	global	war_declared	neutralny	gecen sefer kazandik, yine aynisi xd
+F_006	F	global	war_declared	neutralny	gecen hafta yenildik, simdi intikam
+F_007	F	global	war_declared	neutralny	gecen sefer yendiler, bu sefer olmaz
+F_012	F	guild	war_prepare	neutralny	iksiri olmayanlara dagitin
+F_015	F	global	war_lost	smutek	kaybettik ama az farkla
+F_020	F	global	war_lost	smutek	rovans yok mu?
+F_022	F	global	war_won	radosc	bir dahaki sefere daha cok kisi getirin
+F_023	F	global	war_declared	neutralny	{gildia_wroga} en azindan buffci var mi? xd
+F_031	F	global	war_lost	smutek	bu yenilgi sinirimi bozdu a*k
+F_032	F	guild	war_guild_lost	smutek	nasil kaybettik ya...
+F_033	F	guild	war_guild_won	neutralny	kazandik xd
+N_031	N	global	drop_books_three	zlosc	3 beceri kitabi birden buldum, piyango vurdu
+Y_005	Y	global	medal_daily	neutralny	bugun {ile} madalyon xd
+Z_002	Z	global	m3_drop	radosc	m3'ten yine {skrot} dustu, {sr} ort off
+Z_010	Z	global	m3_good	neutralny	sonunda m3'ten 30 ustu ort geldi
+J_046	J	party	party_afk_start	neutralny	2 dk geliyorum
+J_047	J	party	party_afk_back	neutralny	geldim
+L_011	L	global	afk_start	neutralny	hemen geliyorum
+L_012	L	global	afk_back	neutralny	dondum
+N_057	N	global	afk_back	neutralny	karakteri spotta biraktim, dondum hala yasiyor, mucize
+M_002	M	global	question_weapon30	neutralny	{klasa} icin 30 level hangi silah?
+M_009	M	global	question_metin	neutralny	{lvl} level icin metinler nerede?
+Y_011	Y	global	question_medal_price	neutralny	at madalyonu simdi kac para?
+M_043	M	global	weapon30_advice	neutralny	30 levelde {item} esyasina bak
+M_044	M	global	metin_advice	neutralny	metin ariyorsan {mapa_gdzie}
+Y_019	Y	global	medal_quote	neutralny	madalyon tanesi {cena} civari
+V_011	V	global	reroll40	radosc	{ile} efsun gitti, sonunda {sr} ort
+V_015	V	global	reroll40	radosc	son efsunda {sr} ort geldi xD
+V_023	V	global	max_bonus	radosc	30 efsundan sonra 2k hp ve {bon} xd
+V_038	V	global	mix_count_answer	neutralny	{ile} efsun harcadim
+V_017	V	global	top_rank	neutralny	sunucudaki en iyi {skrot} benimki herhalde xd
+V_018	V	global	top_rank	neutralny	{skrot} {sr} ort, sunucuda 1 numara
+V_019	V	global	top_rank	neutralny	benimkinden iyi {skrot} var mi? sanmam
+N_074	N	global	chronicle_rank_burn	zdziwienie	{nick} +9 basarken top1 {skrot} {sr} ort yakti, hatirlayan var mi?
+M_010	M	global	question_soul_stone	neutralny	zihin tasi ne ise yariyor?
+M_011	M	global	question_npc_sale	neutralny	NPC'ye satmak mantikli mi?
+M_013	M	global	question_ebony	neutralny	abanoz kupe yukseltmeye deger mi?
+M_045	M	global	soul_stone_advice	neutralny	zihin taslari silah ve zirh yuvalarina takilir
+M_046	M	global	npc_sale_advice	neutralny	NPC {item} icin tanesi {cena} veriyor
+M_047	M	global	ebony_advice	neutralny	abanoz +0: {ile} HP, efsunlara bak
+M_005	M	global	question_v2	neutralny	orumcek 2'ye nasil gidilir?
+M_016	M	global	question_boss	neutralny	{boss} nerede?
+M_048	M	global	v2_route_advice	neutralny	orumceklere {mapa} uzerinden gidiyorum
+M_049	M	global	boss_location_advice	neutralny	{boss} yeri: {mapa_gdzie}
+U_005	U	local	duel_invite	neutralny	hazir
+U_006	U	local	duel_invite	neutralny	hadi
+U_007	U	local	duel_invite	neutralny	gel bakalim
+X_009	X	global	rod_upgrade	neutralny	balikci oltami +{plus} yapti
+Z_005	Z	global	m3_drop	radosc	m3'ten ucuncu {skrot}, ort hala dusuk
+L_050	L	global	reaction_success	radosc	dogru
+L_051	L	global	reaction_success	radosc	aynen
+M_033	M	global	topic_unknown	neutralny	google'da ara xd
+I_007	I	global	trade_need_material	neutralny	A> {ulep} x{ile}, tanesi {cena}, pm at
+H_030	H	whisper	trade_offer	neutralny	cok pahali
+H_033	H	whisper	trade_offer	neutralny	biraz indirir misin?
+H_035	H	whisper	trade_offer	neutralny	{cena_mniej} olursa alirim
+H_026	H	global	trade_sold	neutralny	artik yok
+H_040	H	global	trade_sold	neutralny	kusura bakma satildi
+H_043	H	global	trade_sold	neutralny	tamam, sagol
+C_023	C	global	reaction_tease	neutralny	bakalim ne kadar dayanacak xd
+C_029	C	global	reaction_tease	neutralny	bir sonraki basista yanar xd
+C_046	C	global	reaction_failure	smutek	kutsama hic ise yaramiyor, benden soylemesi
+Y_012	Y	global	monkey_third_day	neutralny	maymunlarda ucuncu gun, baska yere gitmiyorum xd
+Y_014	Y	global	monkey_again	neutralny	yine maymunlar, bikip usandim
+Y_017	Y	global	medal_daily	neutralny	bugun madalyonlar cilgin gibi dusuyor
+S_002	S	global	trade_need_gear	neutralny	A> {skrot} +{plus}, en fazla {cena}, 30 level, pm at
+S_009	S	global	level	radosc	{lvl} oldum hala savas atim yok ;/
+J_034	J	global	lfg_reply	neutralny	gelebilirim ama birkac level dusugum
+U_003	U	local	duel_invite	neutralny	duello isteyen var mi? {lvl} {klasa}
+E_013	E	global	revenge	zlosc	gelecegim demistim
+E_023	E	local	duel_invite	neutralny	hazir?
+E_024	E	local	duel_invite	neutralny	baslayalim
+E_025	E	local	duel_won	neutralny	gg wp
+E_026	E	local	duel_lost	smutek	oldum xd
+A_006	A	global	refine8	radosc	+8 girdi, +9 basiyorum dua edin
+A_012	A	global	review	neutralny	sonunda {skrot} +9, iki gun kastim
+A_015	A	global	review	neutralny	zirh sonunda +9, artik gidebilirim: {mapa_dokad}
+A_019	A	global	refine8	radosc	+8 oldu, +9 icin param yok ;/
+A_022	A	global	review	neutralny	+9 oldu, mutlu mesut yatiyorum
+A_023	A	global	review	neutralny	tamam +8 oldu, +9'u yarin deneyecegim
+A_026	A	global	trade_new_nine	neutralny	+9 direkt dukkana, isteyen var mi? xd
+B_006	B	global	review	neutralny	tamam bugunluk yeter, artik basmam
+B_013	B	global	burn	smutek	simdi +5 ile geziyorum xd
+B_018	B	global	review	neutralny	+9 yandi, biraz hava almaya cikiyorum
+B_022	B	global	review	neutralny	bir haftalik birikim bir saniyede gitti
+B_023	B	global	burn	smutek	elimdeki tek {skrot} buydu ;(
+B_026	B	global	review	neutralny	tamam sakinlesmek icin balik tutmaya gidiyorum
+B_028	B	global	review	neutralny	bir dahaki sefere sabah basacagim xd
+B_030	B	global	emotion_burn	smutek	a*k +9 yandi
+B_031	B	global	emotion_burn	smutek	a*k yine mi ya
+B_032	B	global	emotion_burn	smutek	a*k, +9 gitti
+C_013	C	global	reaction_success	radosc	benimki +8 de uc kere yandi ;/
+C_022	C	global	reaction_success	radosc	tamam ben de basmaya gidiyorum
+C_026	C	global	review	neutralny	{nick} simdi pt de beni sen tasiyorsun xd
+C_027	C	global	review	neutralny	pff bende bir haftadir +9 var
+C_037	C	global	reaction_failure	smutek	bana da dun ayni sey oldu
+C_038	C	global	reaction_failure	smutek	sakin ol, ben bir gunde iki +9 yaktim
+C_047	C	global	loan_friend_offer	neutralny	uzulme kanka, sana biraz borc verebilirim
+C_048	C	global	review	neutralny	{nick} uzulme, pt'de yenisini kasariz
+C_050	C	global	reaction_tease	neutralny	hakettin xd
+D_004	D	global	review	neutralny	{boss} bossunu kim kesti? 20 dk bekledim
+D_006	D	local	ks_boss	zlosc	yine bossu kaptilar...
+D_007	D	global	boss_spawn	neutralny	{boss} cikti, {mapa_gdzie}
+D_010	D	global	review	neutralny	ilk defa metinden guzel bir sey dustu
+D_011	D	global	review	neutralny	tapinakta bugun uc tas dustu
+D_012	D	global	review	neutralny	orumceklerde iki saat, hicbir sey dusmedi
+D_013	D	global	m3_drop	radosc	bugun droplar kotu
+D_016	D	global	review	neutralny	sandik actim ve... hicbir sey xd
+D_017	D	global	boss_fast_buff	neutralny	buffla {boss} bir dakikada indi xd
+D_019	D	global	boss_party_thanks	zlosc	boss pt icin sagolun, eglenceliydi
+D_020	D	global	review	neutralny	metinden sadece iksir dustu -.-
+D_021	D	global	review	neutralny	on metin kirdim tas yok, nasil ya
+D_022	D	global	review	neutralny	bilet dustu, orumcek 2'ye gidiyorum
+D_025	D	local	lfg_local_reply	neutralny	tamam paylasalim mi?
+D_026	D	local	drop_roomless	radosc	al sen, zaten cantam dolu
+D_028	D	global	review	neutralny	kralice orumcek pt'nin yarisini kesti xd
+D_029	D	global	review	neutralny	Dokuz Kuyruk yine sohan'da mi? neredeydi
+D_030	D	global	review	neutralny	{boss} malzemesi satan var mi? aliyorum
+D_031	D	global	boss_box_potions	neutralny	{boss} sandigi aciyorum... iyi bir sey yok
+E_003	E	global	pk_warning	zlosc	farm yerinde serbest pk mi, ciddi misin?
+E_004	E	global	review	neutralny	dikkat, {nick} herkesi kesiyor: {mapa_gdzie}
+E_007	E	global	pk_twice_today	zlosc	{nick} bugun ikinci kez, bunu unutmam
+E_009	E	global	review	neutralny	bir level atlayayim da gorursun
+E_011	E	global	pk_warning	zlosc	tamam {nick}, {score}
+E_016	E	global	review	neutralny	neden {krol_wroga} hep spotta pk atiyor
+E_017	E	guild	review	neutralny	{gildia} yardim, {nick} bana vuruyor, {mapa_gdzie}
+E_018	E	global	vendetta_search	neutralny	{nick} cok guclu, onu yenebilen var mi?
+E_019	E	global	review	neutralny	beni oldurup bossu kapti, harika
+E_027	E	global	review	neutralny	dusuk levelleri kesen bir {klasa} var {mapa_gdzie}
+E_028	E	global	review	neutralny	ben sadece iksir almaya gitmistim...
+E_029	E	global	review	neutralny	spotuma geldim yine {nick} var ;/
+E_031	E	global	vendetta_seen	neutralny	{nick} seni gordum, geliyorum: {mapa_gdzie}
+E_032	E	global	vendetta_search	neutralny	{nick} nerede, goren var mi? onunla hesabim var
+E_034	E	global	mob_death	smutek	golem beni oldurdu, sorma
+E_035	E	global	near_death	smutek	1 hp ile kurtuldum xD
+E_036	E	global	review	neutralny	50 hp ile atla kactim haha
+E_037	E	global	review	neutralny	a*k lag yuzunden oldum
+E_038	E	global	executor_kill	zlosc	bir tane daha
+E_039	E	global	executor_kill	zlosc	siradaki
+E_040	E	global	executor_kill	zlosc	{krol} en iyisi
+E_041	E	global	executor_kill	zlosc	siradaki kim xd
+E_042	E	global	executor_kill	zlosc	aglama
+E_043	E	global	executor_kill	zlosc	cok kolay
+E_044	E	global	review	neutralny	{krol_wroga} {klasa} {lvl} pk atiyor {mapa_gdzie}, yardim?
+E_045	E	global	review	neutralny	gelin {mapa_dokad}, hep beraber dovelim
+E_046	E	global	review	neutralny	yendik onu xD
+E_047	E	global	review	neutralny	korkak kacti
+F_002	F	guild	review	neutralny	{gildia_wroga} ile savas 20:00 de, herkes gelsin
+F_009	F	global	review	neutralny	siz kac kisisiniz? biz on ikiyiz
+F_010	F	global	review	neutralny	{gildia} hazir
+F_011	F	global	war_muster	neutralny	birazdan basliyor
+F_013	F	guild	war_prepare	neutralny	samanlar baslamadan once herkese buff atsin
+F_016	F	global	review	neutralny	{gildia_wroga} loncasindaki {nick} olmuyor, hp cok fazla xd
+F_019	F	global	review	neutralny	{gildia_wroga} kaciyor mu?
+F_024	F	guild	review	neutralny	{gildia} herkes hemen gelsin: {mapa_dokad}!
+F_025	F	guild	review	neutralny	gelmeyen atilir xd
+F_026	F	guild	review	neutralny	{nick} neredeydin? savas vardi
+F_029	F	global	review	neutralny	{gildia_wroga} hepsi afk
+G_001	G	global	review	neutralny	kirmizilar yine sohan'da takiliyor
+G_002	G	global	review	neutralny	sirinler colde, her zamanki gibi
+G_003	G	global	review	neutralny	sarilar yine buffsiz xd
+G_004	G	global	ambient	neutralny	{krol} en iyisi, tartisma bitti
+G_005	G	global	review	neutralny	neden {krol_wroga} tarafinda herkeste +9 var da bizde yok
+G_006	G	global	review	neutralny	maviler hep kacar xd
+G_007	G	global	review	neutralny	pancarlar yine metin yerini kapti
+G_008	G	global	review	neutralny	{krol} oyuncusu var mi {mapa_gdzie}? kisi lazim
+G_009	G	global	review	neutralny	{krol_wroga} sohan'i bize geri verin
+G_010	G	global	ambient	neutralny	{krol_wroga} ile bir sorunum yok, exp yapsinlar
+H_012	H	global	review	neutralny	S> bir suru degerli tas, pm at
+H_014	H	global	question_owned_price	neutralny	{skrot}+{plus} {sr} ort kac eder?
+H_015	H	global	question_price	neutralny	{item} simdi kac?
+H_016	H	global	question_owned_price	neutralny	{skrot}+{plus} {sr} ort kac para?
+H_017	H	global	review	neutralny	takas: {skrot} karsiliginda {skrot} + yang
+H_018	H	global	trade_shop_cheap	neutralny	dukkan m1 de demircinin yaninda, ucuz
+H_019	H	global	trade_material	neutralny	m1 deki dukkanimda ucuz malzeme var
+H_027	H	global	trade_repeat	neutralny	hala var
+H_028	H	global	trade_top	neutralny	S> {skrot}+{plus} {sr} ort {cena}, sunucunun en iyisi, pazarlik yok
+H_029	H	whisper	trade_offer	neutralny	kac para?
+H_032	H	global	trade_public_interest	neutralny	tamam pm at
+H_034	H	global	trade_public_interest	neutralny	dukkanlarda daha ucuz xd
+H_039	H	whisper	trade_offer	neutralny	hala var mi?
+H_041	H	global	trade_public_interest	neutralny	zirhin da var mi?
+H_042	H	whisper	trade_offer	neutralny	bekle, yangimi sayiyorum
+H_044	H	global	review	neutralny	{nick} bana daha once abanoz satmistin, iyiydi :D
+I_001	I	global	review	neutralny	kutsamalari kim topladi? tanesi {cena}, resmen soygun
+I_003	I	global	review	neutralny	bugun malzeme fiyatlari cilgin
+I_005	I	global	review	neutralny	degerli tas bol, simdi sadece {cena}
+I_006	I	global	review	neutralny	piyasada tek bir {skill} kitabi yok
+I_008	I	global	review	neutralny	yuksek ort dolunay simdi servet degerinde
+I_009	I	global	human_shop_expensive	neutralny	{skrot} {sr} ort gordum, fiyati {cena}, kim alir xd
+I_010	I	global	review	neutralny	fiyatlar dustu, tam alim zamani
+I_011	I	global	review	neutralny	dunden beri {ulep} ariyorum, yok
+I_012	I	global	review	neutralny	yine kimse saman satmiyor mu? a bitmis xd
+I_013	I	global	review	neutralny	hp bilezikleri pahalandi
+I_014	I	global	review	neutralny	kutsama eskiden 100k'ydi
+I_015	I	global	review	neutralny	iksirler pahalaniyor
+I_016	I	global	ambient	neutralny	iksir bile alamiyorum xd
+J_004	J	global	lfg_partial	neutralny	pt kuruyorum {mapa_gdzie}, 1 kisi lazim, pm
+J_009	J	global	review	neutralny	orumcek 2 icin pt, bilet bende
+J_017	J	global	lfg_partial	neutralny	pt 2 kisi lazim {mapa_gdzie}
+J_018	J	global	review	neutralny	{boss} icin pt, giriste bulusalim
+J_019	J	global	review	neutralny	buffci ariyorum, iksir veririm xd
+J_023	J	global	lfg_full	neutralny	pt doldu {mapa_gdzie}, sagolun
+J_029	J	global	review	neutralny	gelebilirim ama 5 dk sonra
+J_030	J	global	lfg_count_question	neutralny	kac kisi oldunuz?
+J_036	J	global	review	neutralny	sen degil xd
+J_040	J	party	party_idle	neutralny	geliyorum
+J_041	J	party	review	neutralny	giriste bekleyin
+J_048	J	party	review	neutralny	burada exp iyi
+J_049	J	party	party_idle	neutralny	burada mob az
+J_053	J	party	party_idle	neutralny	{nick} orada dikiliyorsun vurmuyorsun xd
+J_054	J	party	party_idle	neutralny	dikkat, boss
+J_055	J	party	party_idle	neutralny	olen var mi?
+J_056	J	party	party_idle	neutralny	bu metinde yardim eden var mi?
+K_001	K	global	review	neutralny	{gildia} oyuncu ariyor, {lvl}+, aktif, pm at
+K_004	K	global	review	neutralny	{gildia} saman ariyor
+K_005	K	global	review	neutralny	her aksam savas, pm atin
+K_006	K	global	review	neutralny	afkciler alinmaz xd
+K_007	K	global	guild_global	neutralny	{gildia} loncasindan kimse var mi?
+K_008	K	global	review	neutralny	beni loncadan sebepsiz attilar ;/
+K_009	K	global	guild_global	neutralny	{gildia} sunucunun en iyi loncasi
+K_011	K	guild	review	neutralny	herkes bu aksam 21:00 de toplansin: {mapa_gdzie}
+K_014	K	guild	guild_idle	neutralny	{nick} sessizsin, yasiyor musun?
+K_015	K	global	guild_global	neutralny	lider yine afk
+L_006	L	global	review	neutralny	bugun lag berbat
+L_007	L	global	review	neutralny	atildim, ne oldu
+L_008	L	global	review	neutralny	baska lag yasayan var mi?
+L_010	L	global	review	neutralny	yemek yiyecegim, geliyorum
+L_015	L	global	review	neutralny	yarin okul off
+L_016	L	global	review	neutralny	yarin is var, gorusuruz
+L_018	L	global	review	neutralny	benim kadar oynayan var mi? xd
+L_019	L	global	review	neutralny	eskiden 40 levelde seytan kulesi yapardik
+L_023	L	global	review	neutralny	ben gidince neden metin cikmiyor
+L_024	L	global	review	neutralny	bu spotta uc saat oldu, bittim artik
+L_027	L	global	review	neutralny	{nick} dun neredeydin?
+L_031	L	global	chat_revived	neutralny	tamam chat tekrar canlandi
+L_036	L	global	review	neutralny	atim internetimden hizli
+L_037	L	global	review	neutralny	bugun butun gun yang kasiyorum
+L_057	L	global	review	neutralny	belki sinif degistiririm xd
+L_058	L	global	review	neutralny	uc karakter oldu hala sinif secemedim
+L_059	L	global	potions_empty	neutralny	off yine iksirim bitti
+L_060	L	global	review	neutralny	iksir almayi unuttum ve oldum xd
+L_061	L	global	ambient	neutralny	atimi goren var mi? a burada imis xd
+L_062	L	global	review	neutralny	en kotusu exp bir saat %99.9da takilip kalinca
+L_063	L	global	review	neutralny	o metinin bir milyon hp'si falan vardi
+M_018	M	global	review	neutralny	sura ya da ninja icin dolunay, savasci icin zehir
+M_019	M	global	review	neutralny	bilezige once hp bas
+M_021	M	global	review	neutralny	once bilet lazim sonra orumcek 2, bilet mobdan duser
+M_027	M	global	review	neutralny	ben de oyle yaptim, ise yaradi
+M_028	M	global	review	neutralny	dinleme, {mapa} daha iyi
+M_030	M	global	ebony_advice	neutralny	abanoza her zaman deger
+M_034	M	global	knowledge_private_offer	neutralny	pm at anlatayim
+N_007	N	global	loan_paid_public	neutralny	{nick} sana borcumu odedim, cantana bak
+N_009	N	global	review	neutralny	onu hic tanimiyorum
+N_012	N	global	rumour_deny	zlosc	{nick} seninle isimiz bitmedi
+N_014	N	global	rumour_watch	zlosc	beni daha once de kazikladi
+N_021	N	global	review	neutralny	{nick} kesin bot, ayni yerde 8 saat
+N_022	N	global	review	neutralny	{nick} hic uyumuyor galiba
+N_023	N	global	bot_joke	neutralny	{nick} sen bot musun?
+N_024	N	global	bot_joke_reply	neutralny	bot degilim xD
+N_025	N	global	bot_joke_reply	neutralny	bot bunu yazmaz ;p
+N_026	N	global	drop_roomless	radosc	{skrot} kaybeden var mi? yerde duruyor, {mapa_gdzie} xd
+N_027	N	global	review	neutralny	{skrot}+{plus} veriyorum, ilk gelen alir
+N_028	N	global	review	neutralny	bedava iksir isteyen var mi? m1 deyim
+N_029	N	global	review	neutralny	bugun dogum gunum :D
+N_030	N	global	review	neutralny	bu sunucuda bugun 1 yilimi doldurdum
+N_032	N	global	review	neutralny	yanlislikla {skrot} npc ye sattim...
+N_033	N	global	review	neutralny	{ulep} 10 kat fiyata koymusum, duzelttim xd
+N_037	N	whisper	loan_location	neutralny	m1 de demircinin yaninda, gel
+N_039	N	whisper	loan_waiting	neutralny	bekliyorum
+N_040	N	whisper	loan_waiting	neutralny	seni goremiyorum, nerede duruyorsun?
+N_046	N	global	review	neutralny	yanlis yere yazdim pardon
+N_047	N	global	review	neutralny	pardon yanlis pencere
+N_048	N	global	review	neutralny	jjjjjjjjjjjjjjjjjj pardon kedi klavyede
+N_049	N	global	review	neutralny	bir sorum vardi... a buldum
+N_050	N	global	chronicle_dragon	neutralny	ilk ejderha kesilisini hatirlayan var mi?
+N_052	N	global	review	neutralny	sunucu bugun cokuyor mu? lag garip
+N_053	N	global	review	neutralny	yemin ederim o metinin hp si fazlaydi
+N_054	N	global	review	neutralny	ninjalar neden hep calilarda xd
+N_055	N	global	gm_seen	neutralny	gm goren var mi?
+N_056	N	global	review	neutralny	ogle yemegine gidiyorum, oldurmeyin
+P_001	P	global	review	neutralny	{mapa} temiz, metin kalmadi, baska yere gidiyorum
+P_012	P	global	review	neutralny	tum {skill} kitaplarini aldim, kusura bakmayin xd
+P_013	P	global	skill_master	neutralny	{skill} simdi M oldu
+P_015	P	global	review	neutralny	A> {skill} kitabi, kac tane olursa
+P_017	P	global	review	neutralny	bugun ne varsa basiyorum
+P_018	P	global	review	neutralny	A> birkac {skrot}+0
+P_020	P	global	trade_refined_full	radosc	dukkan +7 ve +8 dolu, ugrayin
+P_021	P	global	rare_gamble_finance	neutralny	yangim bitti ama iki +9 var xd
+P_023	P	global	review	neutralny	bir deneme daha... son
+P_024	P	global	review	neutralny	iksire param yok ama kutsamaya var
+P_025	P	global	review	neutralny	cellat, bkz. 12E
+Q_001	Q	global	review	neutralny	selam {nick}, seni uzun zamandir gormedim
+Q_002	Q	global	review	neutralny	aa {nick} geri dondu
+Q_003	Q	global	greeting	neutralny	{nick} naber
+Q_010	Q	global	review	neutralny	yarin gorusuruz
+Q_012	Q	global	review	neutralny	{nick} gorusuruz, yarin pt var mi?
+Q_013	Q	local	encounter	neutralny	{nick} defol
+Q_014	Q	global	review	neutralny	ayy yine {nick} geldi xd
+R_001	R	global	greeting	neutralny	{gracz} hos geldin
+R_002	R	global	reaction_success	radosc	{gracz} hb
+R_004	R	global	greeting	neutralny	{gracz} kac levelsin?
+R_005	R	global	greeting	neutralny	{gracz} {gildia} loncasinda misin?
+R_006	R	global	human_party_thanks	zlosc	{gracz} pt icin sagol
+R_007	R	global	greeting	neutralny	{gracz} dun beni sen mi kestin? xd
+R_008	R	global	review	neutralny	dikkat {gracz} herkesi kesiyor, {mapa_gdzie}
+R_011	R	global	human_boss_help	neutralny	{gracz} {boss} icin yardim eder misin?
+R_012	R	whisper	human_party_invite	neutralny	{gracz} seni gordum, pt ye gel: {mapa_gdzie}
+R_013	R	global	human_bought	neutralny	{gracz} senden {skrot} aldim, sagol
+R_014	R	global	human_shop_expensive	neutralny	{gracz} dukkanin pahali xd
+R_015	R	global	greeting	neutralny	{gracz} {skrot}+9 olan sen misin?
+S_006	S	global	ambient	neutralny	{lvl2} olmaya iki level kaldi
+S_007	S	global	ambient	neutralny	{lvl} levelde exp kabus
+S_008	S	global	experience_slow	neutralny	saatte yuzde bir exp... off
+S_010	S	global	review	neutralny	{lvl} oldum, gidiyorum: {mapa_dokad}
+T_001	T	local	boss_claim	neutralny	bu benim
+T_004	T	local	encounter	neutralny	baska yere git
+T_005	T	local	lfg_local_reply	neutralny	beraber kasalim mi?
+T_006	T	local	lfg_local_invite	neutralny	tamam beraber vuralim
+T_007	T	local	review	neutralny	kusura bakma gormedim
+T_009	T	local	boss_incoming	neutralny	dikkat boss geliyor
+T_012	T	local	lfg_local_reply	neutralny	paylasalim mi?
+T_013	T	local	review	neutralny	{nick} yine benim yerimde
+T_015	T	local	lfg_local_invite	neutralny	{nick} pt'ye gir, beraber daha hizli
+T_016	T	local	review	neutralny	burda iki kisiye mob yetmez
+T_017	T	local	review	neutralny	gidiyorum, yer senin
+T_018	T	local	review	neutralny	biri 1 saattir burada afk
+T_020	T	local	review	neutralny	s*ktir git yerimden
+U_008	U	local	review	neutralny	simdi olmaz, exp kasiyorum
+U_010	U	local	review	neutralny	ilk 3 alan kazanir?
+U_011	U	local	duel_lost	smutek	ugrasmicam xd
+U_016	U	local	duel_invite	neutralny	tekrar
+U_017	U	local	review	neutralny	lag vardi, sayilmaz xd
+U_023	U	local	duel_lost	smutek	tamam bitti, exp kasmaya gidiyorum
+V_008	V	global	review	neutralny	ilk defa {sr} ort dustu
+V_012	V	global	reroll40	radosc	{skrot} {sr} ort cikardim, + basmaya gidiyorum
+V_027	V	global	trade_public_interest	neutralny	satilik mi?
+V_028	V	global	trade_public_interest	neutralny	kaca bu
+V_029	V	global	review	neutralny	{cena} veririm
+V_032	V	global	review	neutralny	hb, 1 haftadir efsun ceviriyorum hala bisey yok
+V_035	V	global	reaction_success	radosc	simdi bi +9 bas, tanri olursun
+W_002	W	global	event_start	neutralny	{event} event, kasmaya gidiyorum
+W_003	W	global	review	neutralny	exp event? gidiyorum {mapa_dokad}
+W_020	W	global	review	neutralny	yang eventi var ama bende drop yok
+W_021	W	global	event_exp_progress	neutralny	exp yagiyor
+W_022	W	global	event_drop_progress	radosc	drop bugun gercekten iyi
+W_023	W	global	review	neutralny	event basindan beri kasiyorum, bittim xd
+W_024	W	global	event_last_hour	neutralny	event 1 saate bitiyor, kasin
+W_027	W	global	review	neutralny	event bitti, uyumaya gidiyorum xd
+W_029	W	global	event_end	neutralny	guzel eventti
+X_007	X	global	review	neutralny	oltaya yine cop geldi
+X_008	X	global	fish_no_bait	neutralny	yemim bitti
+X_017	X	global	review	neutralny	garip bisey tuttum, ne oldugunu bilmiyorum
+X_018	X	global	review	neutralny	ilk baligim :D
+Y_007	Y	global	review	neutralny	birkac madalya daha, zirh +9
+Y_008	Y	global	review	neutralny	sonunda {skrot}+9, madalya parasindan
+Y_015	Y	global	review	neutralny	kolay maymun cok basit, orta maymuna geciyorum
+Y_018	Y	global	review	neutralny	1 saattir madalya yok, ne oluyor
+Z_003	Z	global	review	neutralny	m3'te {skrot} kasiyorum, umarim ort iyi gelir
+Z_006	Z	global	review	neutralny	m3'te en iyi lv30 dropu var
+Z_007	Z	global	review	neutralny	S> m3'ten {skrot}, {sr} ort, ucuz
+Z_011	Z	global	review	neutralny	m3 dolu, vuracak yer yok
+Z_012	Z	global	review	neutralny	kendime bi {skrot} lazim, m3'e gidiyorum
+O_007	O	global	review	neutralny	s*ktir git yerimden
+O_008	O	global	review	neutralny	s*ktigimin lagi
+E_048	E	guild	vendetta_help	neutralny	{gildia}, kim yardim eder? {nick} {mapa_gdzie}
+E_049	E	guild	vendetta_help	neutralny	seni unutmadim {nick}. lonca, yardim edecek var mi?
+E_050	E	global	mob_death	smutek	{mob} beni oldurdu, cok guclu ;/
+E_051	E	global	mob_death	smutek	{mob} beni yendi xd
+M_050	M	global	owned_item_appraisal	neutralny	degeri {cena} civari, dukkanlara da bak
+J_063	J	global	lfg_count_answer	neutralny	su an pt'de {ile} kisi
+D_033	D	whisper	human_ks	zlosc	ya o mobu ben once vuruyordum
+D_034	D	whisper	human_ks	zlosc	siradakini bana birak, olur mu?
+D_035	D	whisper	human_ks	zlosc	ks yapma lutfen, ben vuruyordum
+D_036	D	whisper	human_ks	zlosc	ya birak da mobumu bitireyim
+P8_F01	A	global	p8_rare_fish	radosc	{ryba} yakaladim
+P8_F02	A	global	p8_rare_fish	radosc	{ryba} cikti, nadir bisey
+P8_F03	A	party	fish_caught	neutralny	{ryba} tuttum
+P8_LFG_001	J	party	p8_lfg_depart	neutralny	gidiyorum {mapa_dokad}, gelin
+P8_LFG_002	J	party	p8_lfg_arrived	neutralny	ben {mapa_gdzie}, girise yakinim
+P8_LFG_003	J	party	p8_lfg_wait	neutralny	hala orada misin? biraz daha beklerim
+P8_GM_greeting_0	G	global	ogloszenie_gm	radosc	vay GM
+P8_GM_greeting_1	G	global	ogloszenie_gm	radosc	selam GM
+P8_GM_greeting_2	G	global	ogloszenie_gm	radosc	oo GM burada
+P8_GM_greeting_3	G	global	ogloszenie_gm	radosc	merhaba GM
+P8_GM_greeting_4	G	global	ogloszenie_gm	radosc	slm GM
+P8_GM_greeting_5	G	global	ogloszenie_gm	radosc	selamlar GM
+P8_GM_greeting_6	G	global	ogloszenie_gm	radosc	vay be sunucuda GM var
+P8_GM_greeting_7	G	global	ogloszenie_gm	radosc	hos geldin GM
+P8_GM_greeting_8	G	global	ogloszenie_gm	radosc	GM naber
+P8_GM_greeting_9	G	global	ogloszenie_gm	radosc	selam
+P8_GM_greeting_10	G	global	ogloszenie_gm	radosc	GM bi dakikan var mi?
+P8_GM_greeting_11	G	global	ogloszenie_gm	radosc	ooo
+P8_GM_restart_0	G	global	ogloszenie_gm	neutralny	bakim ne kadar surecek?
+P8_GM_restart_1	G	global	ogloszenie_gm	neutralny	bitiriyorum
+P8_GM_restart_2	G	global	ogloszenie_gm	neutralny	bi metin daha kesecek vakit var mi?
+P8_GM_restart_3	G	global	ogloszenie_gm	neutralny	tamam, not aldim
+P8_GM_restart_4	G	global	ogloszenie_gm	neutralny	tamam, haber verdigin icin sagol
+P8_GM_restart_5	G	global	ogloszenie_gm	neutralny	umarim kisa surer
+P8_GM_restart_6	G	global	ogloszenie_gm	neutralny	degisiklik listesi var mi?
+P8_GM_restart_7	G	global	ogloszenie_gm	neutralny	umarim hizli biter
+P8_GM_restart_8	G	global	ogloszenie_gm	neutralny	tam kahve molasi
+P8_GM_restart_9	G	global	ogloszenie_gm	neutralny	yenilikler nerde yazilacak?
+P8_GM_event_0	G	global	ogloszenie_gm	podekscytowanie	EVENT
+P8_GM_event_1	G	global	ogloszenie_gm	podekscytowanie	hangi event?
+P8_GM_event_2	G	global	ogloszenie_gm	podekscytowanie	event ne kadar surecek?
+P8_GM_event_3	G	global	ogloszenie_gm	podekscytowanie	event bilgisi nerede?
+P8_GM_event_4	G	global	ogloszenie_gm	podekscytowanie	tamam, event duyurusunu okuyorum
+P8_GM_event_5	G	global	ogloszenie_gm	podekscytowanie	ooo event
+P8_GM_event_6	G	global	ogloszenie_gm	podekscytowanie	eventte neler dusecek?
+P8_GM_event_7	G	global	ogloszenie_gm	podekscytowanie	GM detay ver
+P8_GM_event_end_0	G	global	ogloszenie_gm	neutralny	tamam, event bitti
+P8_GM_event_end_1	G	global	ogloszenie_gm	neutralny	event icin sagolun
+P8_GM_event_end_2	G	global	ogloszenie_gm	neutralny	tamam, kasmaya devam
+P8_GM_event_end_3	G	global	ogloszenie_gm	neutralny	siradaki ne zaman?
+P8_GM_event_end_4	G	global	ogloszenie_gm	neutralny	tamam, sagol
+P8_GM_question_0	G	global	ogloszenie_gm	neutralny	tam olarak ne demek istiyorsun?
+P8_GM_question_1	G	global	ogloszenie_gm	neutralny	bi dur, okuyorum
+P8_GM_question_2	G	global	ogloszenie_gm	neutralny	birazdan cevaplarim
+P8_GM_question_3	G	global	ogloszenie_gm	neutralny	biraz acar misin?
+P8_GM_question_4	G	global	ogloszenie_gm	neutralny	GM'in sorusunu gordum
+P8_GM_info_0	G	global	ogloszenie_gm	neutralny	ok
+P8_GM_info_1	G	global	ogloszenie_gm	neutralny	bilgi icin sagol
+P8_GM_info_2	G	global	ogloszenie_gm	neutralny	guzel
+P8_GM_info_3	G	global	ogloszenie_gm	neutralny	tabi
+P8_GM_info_4	G	global	ogloszenie_gm	neutralny	peki
+P8_GM_info_5	G	global	ogloszenie_gm	neutralny	tamam, okuyorum
+P8_GM_info_6	G	global	ogloszenie_gm	neutralny	tamam, tesekkurler
+P8_GM_info_7	G	global	ogloszenie_gm	neutralny	iyi ki soyledin
+P8_GM_info_8	G	global	ogloszenie_gm	neutralny	tamam, haberim oldu
+P8_GM_info_9	G	global	ogloszenie_gm	neutralny	sagol GM
+P8_GM_info_10	G	global	ogloszenie_gm	neutralny	anlasildi
+P8_GM_info_11	G	global	ogloszenie_gm	neutralny	not aldim
+P10S2_Q01	M	global	trade_pytanie_o_cene	neutralny	bunu kaca satayim? {link}
+P10S2_Q02	M	global	trade_pytanie_o_cene	neutralny	bu ne kadar eder? {link}
+P10S2_Q03	M	global	trade_pytanie_o_cene	neutralny	buna kac verirsiniz? {link}
+P10S2_Q04	M	global	trade_pytanie_o_cene	neutralny	{przedmiot} kaca gidiyor bilen var mi?
+P10S2_Q05	M	global	trade_pytanie_o_cene	neutralny	{przedmiot} su an pazarda kaca gidiyor?
+P10S2_Q06	M	global	trade_pytanie_o_cene	neutralny	kaca koyayim? {link}
+P10S2_Q07	M	global	trade_pytanie_o_cene	neutralny	{link} bu kac eder acaba
+P10S2_Q08	M	global	review	neutralny	boyle bisey dustu, kac eder? {link}
+P10S2_Q09	M	global	trade_pytanie_o_cene	neutralny	satayim mi kalsin mi? {link}
+P10S2_Q10	M	global	trade_pytanie_o_cene	neutralny	bu para eder mi? {link}
+P10S2_Q11	M	global	trade_pytanie_o_cene	neutralny	fiyati ne bunun? {link}
+P10S2_Q12	M	global	trade_pytanie_o_cene	neutralny	{przedmiot} {sr} ort kaca?
+P10S2_Q13	M	global	trade_pytanie_o_cene	neutralny	{przedmiot} +{plus} kaca?
+P10S2_Q14	M	global	trade_pytanie_o_cene	neutralny	{przedmiot} kaca koyacagimi bilmiyorum, yardim xd
+P10S2_Q15	M	global	trade_pytanie_o_cene	neutralny	fiyat bilen var mi? {link}
+P10S2_Q16	M	global	trade_pytanie_o_cene	neutralny	{przedmiot} icin kac verirsin?
+P10S2_Q17	M	global	trade_pytanie_o_cene	neutralny	buna en fazla kac verilir? {link}
+P10S2_Q18	M	global	trade_pytanie_o_cene	neutralny	bu iyi mi cop mu? {link}
+P10S2_A01	M	global	trade_cena_odpowiedz	neutralny	rahat {cena} eder
+P10S2_A02	M	global	trade_cena_odpowiedz	neutralny	{cena} alirsin
+P10S2_A03	M	global	trade_cena_odpowiedz	neutralny	en fazla {cena}
+P10S2_A04	M	global	trade_cena_odpowiedz	neutralny	{cena} koy, satilir
+P10S2_A05	M	global	trade_cena_odpowiedz	neutralny	{cena} civari
+P10S2_A06	M	global	trade_cena_odpowiedz	neutralny	ben {cena} veririm
+P10S2_A07	M	global	trade_cena_sklepy	neutralny	{cena} diye satan gordum
+P10S2_A08	M	global	trade_cena_widelki	neutralny	{cena} - {cena_wyzsza}
+P10S2_A09	M	global	trade_cena_sklepy	neutralny	dukkanlarda {cena}
+P10S2_A10	M	global	trade_cena_odpowiedz	neutralny	en fazla {cena} eder
+P10S2_R01	M	global	trade_cena_zostaw_lepsze	neutralny	satma, giydiginden daha iyi
+P10S2_R02	M	global	trade_cena_zostaw_top	neutralny	sende kalsin, boylesini bulamazsin
+P10S2_R03	M	global	trade_cena_zostaw_top	podekscytowanie	bu efsane, ucuza verme
+P10S2_R04	M	global	trade_cena_zostaw_lepsze	neutralny	elinde tut
+P10S2_R05	M	global	trade_cena_zostaw_top	neutralny	sakla
+P10S2_R06	M	global	trade_cena_npc	ironia	npc'ye sat xd
+P10S2_R07	M	global	trade_cena_npc	neutralny	bu cop, kusura bakma
+P10S2_R08	M	global	trade_cena_npc	neutralny	bunu kimse almaz herhalde
+P10S2_R09	M	global	trade_cena_pokaz	neutralny	efsunlara bagli, goster
+P10S2_O01	M	global	trade_cena_oferta	neutralny	{cena} veririm
+P10S2_O02	M	global	trade_cena_oferta	neutralny	{cena_nizsza} veririm, pm
+P10S2_O03	M	global	trade_cena_oferta	neutralny	bana satar misin? pm
+P10S2_J01	M	global	trade_cena_zart	ironia	bi bobrek xd
+P10S2_J02	M	global	trade_cena_zart	ironia	paha bicilemez xd
+P10S2_J03	M	global	trade_cena_zart	ironia	sana 1 yang xd
+P10S2_K01	M	global	trade_cena_reakcja	radosc	tamam sagol
+P10S2_K02	M	global	trade_cena_reakcja	neutralny	sagol, pazara koyuyorum
+P10S2_K03	M	global	trade_cena_reakcja_malo	smutek	sadece bu kadar mi?
+P10S2_K04	M	global	trade_cena_reakcja_duzo	zdziwienie	gercekten o kadar mi?
+P10S2_K05	M	global	trade_cena_reakcja_zostaw	neutralny	tamam, bende kalsin
+P10S2_K06	M	global	review	ironia	tamam npc'ye gidiyor xd
+P10S2_K07	M	global	trade_cena_reakcja_pw	neutralny	{nick} pm
+P10S2_K08	M	global	trade_cena_reakcja	neutralny	tamam {cena} koyuyorum
+P10S4_U01	H	global	trade_podciecie_szt	neutralny	S> {przedmiot} {cena_nizsza}/adet, daha ucuz
+P10S4_U02	H	global	trade_podciecie	neutralny	bende {przedmiot} {cena_nizsza}
+P10S4_U03	H	global	trade_podciecie	neutralny	bende {cena_nizsza}
+P10S4_U04	H	global	trade_podciecie	neutralny	{przedmiot} {cena_nizsza}, fazla vermeyin
+P10S4_U05	H	global	trade_podciecie	neutralny	bende daha ucuz, {cena_nizsza}
+P10S4_U06	H	global	trade_podciecie	ironia	ne diye {cena}, bende {cena_nizsza} xd
+P10S4_U07	H	global	trade_podciecie	neutralny	{przedmiot} {cena_nizsza}, pm at cabuk
+P10S4_U08	H	global	trade_podciecie	neutralny	bende daha ucuz: {cena_nizsza}
+P10S4_U09	H	global	trade_podciecie_najtaniej	neutralny	S> {przedmiot} {cena_nizsza} - en ucuz
+P10S4_F01	H	global	trade_podciecie_runda	neutralny	o zaman bende {cena_nizsza}
+P10S4_F02	H	global	trade_podciecie_wyrownanie	neutralny	tamam, bende de {cena_nizsza}
+P10S4_F03	H	global	trade_podciecie_docinka	zlosc	piyasayi bozuyorsun
+P10S4_F04	H	global	trade_podciecie_docinka	ironia	tamam musteriler senin olsun xd
+P10S4_F05	H	global	trade_podciecie_znowu	zlosc	{nick} yine mi sen?
+P10S4_F06	H	global	trade_podciecie_docinka	ironia	yakinda bedavaya satarsin xd
+P10S4_F07	H	global	trade_podciecie_docinka	zlosc	fiyat kirma ya
+P10S4_F08	H	global	trade_podciecie_zmowa	neutralny	tamam fiyat kirmayalim, ikimiz {cena}
+P10S4_C01	H	global	trade_podciecie_komentarz	ironia	fiyat savasi xd
+P10S4_C02	H	global	trade_podciecie_komentarz	ironia	cekirdeklerimi aldim xd
+P10S4_C03	H	global	trade_podciecie_komentarz	radosc	devam, ben alirim xd
+P10S4_C04	H	global	trade_podciecie_komentarz	ironia	azcik daha bedava olur
+P10B_AD_01	H	global	trade_barter	neutralny	{przedmiot} verip {zyczenie} alirim
+P10B_AD_02	H	global	trade_barter	neutralny	takas: {skrot} +{plus} - {zyczenie}, pm
+P10B_AD_03	H	global	trade_barter	neutralny	takas: {przedmiot} veriyorum, {zyczenie} ariyorum
+P10B_AD_04	H	global	trade_barter_topup	neutralny	{przedmiot} - {zyczenie}? yang ekleyebilirim
+P10B_AD_05	H	global	trade_barter	neutralny	{przedmiot} icin ne verirsin? sadece takas
+P10B_AD_06	H	global	trade_barter	neutralny	{zyczenie} ariyorum, {przedmiot} veririm
+P10B_AD_07	H	global	trade_barter	neutralny	{przedmiot} ile {zyczenie} takas, pm at
+P10B_AD_08	H	global	trade_barter	neutralny	{zyczenie} olan var mi? {przedmiot} veririm
+P10B_AD_09	H	global	trade_barter	neutralny	{przedmiot} takasa acik, {zyczenie} istiyorum
+P10B_ASK_01	H	whisper	barter_ask	neutralny	goster
+P10B_ASK_02	H	whisper	barter_ask	neutralny	efsunlari ne?
+P10B_ASK_03	H	whisper	barter_ask	neutralny	linkle
+P10B_SHOW_01	H	whisper	barter_show	neutralny	buyur: {przedmiot}
+P10B_SHOW_02	H	whisper	barter_show	neutralny	{przedmiot}, sende ne var?
+P10B_SHOW_03	H	whisper	barter_show	neutralny	{przedmiot}, ne veriyorsun?
+P10B_OFFER_01	H	whisper	barter_offer	neutralny	ben {przedmiot} veriyorum
+P10B_OFFER_02	H	whisper	barter_offer	neutralny	bende {przedmiot} var, olur mu?
+P10B_ACC_01	H	whisper	barter_accept	radosc	tamam anlastik, neredesin?
+P10B_ACC_02	H	whisper	barter_accept	radosc	tamam, anlastik
+P10B_CNT_01	H	whisper	barter_counter	neutralny	{doplata} ekler misin?
+P10B_CNT_02	H	whisper	barter_counter	neutralny	ancak {doplata} eklersen
+P10B_TOP_01	H	whisper	barter_topup_yes	neutralny	tamam, {doplata} ekliyorum
+P10B_MAX_01	H	whisper	barter_topup_max	neutralny	en fazla {doplata} ekleyebilirim
+P10B_REF_01	H	whisper	barter_refuse	neutralny	kusura bakma, cok zayif
+P10B_REF_02	H	whisper	barter_refuse	neutralny	ama ben {zyczenie} istiyorum
+P10B_GIVE_01	H	whisper	barter_give_up	neutralny	tamam anlasamadik xd
+P10B_PLACE_01	H	whisper	barter_place	neutralny	demircide bulusalim {mapa_gdzie}
+P10B_PLACE_02	H	whisper	barter_place	neutralny	demirciye gel {mapa_gdzie}
+P10B_WALK_01	H	whisper	barter_place_walk	neutralny	geliyorum
+P10B_WALK_02	H	whisper	barter_place_walk	neutralny	yoldayim, bekle
+P10B_WAIT_01	H	whisper	barter_place_wait	neutralny	ben {mapa_gdzie}, gel
+P10B_COME_01	H	whisper	barter_coming	neutralny	geliyorum, az kaldi
+P10B_HERE_01	H	whisper	barter_here	neutralny	geldim, ticaret ac
+P10B_OK_01	H	whisper	barter_accept_window	neutralny	onayla
+P10B_WRONG_01	H	whisper	barter_wrong	zdziwienie	bu soyledigin gibi degil
+P10B_BONUS_01	H	whisper	barter_no_bonus	zdziwienie	efsunlar nerde?
+P10B_TOPUP_01	H	whisper	barter_no_topup	zdziwienie	yang eksik
+P10B_CHEAT_01	H	whisper	barter_cheat	zlosc	dolandirmaya calisma, seninle takas yok
+P10B_DONE_01	H	whisper	barter_done	radosc	sagol, guzel takasti :D
+P10B_STALE_01	H	whisper	barter_stale	neutralny	tamam, bos ver
+P10B_NOSHOW_01	H	whisper	barter_no_show	ironia	hic gelmedin xd
+P10B_NONE_01	H	whisper	barter_none	neutralny	takas edecek bisey yok
+P10B_NONE_02	H	whisper	barter_none	neutralny	onu takas etmem
+P10B_BUSY_01	H	whisper	barter_busy	neutralny	simdi olmaz, zaten takastayim
+P11_BARTER_Y1	H	whisper	barter_yang	neutralny	fark cok buyuk, sadece yang
+P11_BARTER_Y2	H	whisper	barter_yang	neutralny	boyle takas olmaz, yang olur
+P10_CD_LVL_1	L	global	p10_goal_level	neutralny	bugunku hedef: 1 level
+P10_CD_LVL_2	L	global	p10_goal_level	neutralny	bugun hedef level atlamak, kasmaya gidiyorum
+P10_CD_LVL_3	L	global	p10_goal_level	radosc	bugun level kasiyorum, merhamet yok xd
+P10_CD_EXP_1	L	global	p10_goal_exp	neutralny	bugunku hedef: %{ile} exp
+P10_CD_EXP_2	L	global	p10_goal_exp	neutralny	bugun %{ile} exp lazim
+P10_CD_LV2_1	L	global	p10_goal_levels	radosc	bugunku hedef: 2 level xd
+P10_CD_LV2_2	L	global	p10_goal_levels	neutralny	bugun 2 level ya da hic
+P10_CD_PT_1	L	global	p10_goal_party	neutralny	bugun sadece pt exp
+P10_CD_PT_2	L	global	p10_goal_party	neutralny	bugun hedef pt exp, solo yok
+P10_CD_YANG_1	L	global	p10_goal_yang	neutralny	yang kasmaya gidiyorum, {cena} lazim
+P10_CD_YANG_2	L	global	p10_goal_yang	neutralny	bugunku hedef: {cena} net kar
+P10_CD_MAT_1	L	global	p10_goal_material	neutralny	bugun {ulep} kasiyorum, {ile} tane
+P10_CD_MAT_2	L	global	p10_goal_material	neutralny	{ile}x {ulep} lazim, kasmaya gidiyorum
+P10_CD_MET_1	L	global	p10_goal_metins	neutralny	bugun sadece metin
+P10_CD_MET_2	L	global	p10_goal_metins	neutralny	bugunku hedef: {ile} metin
+P10_CD_BOSS_1	L	global	p10_goal_boss	neutralny	bugun {boss} kesecegim
+P10_CD_BOSS_2	L	global	p10_goal_boss	neutralny	bugunku hedef: {boss}
+P10_CD_MED_1	L	global	p10_goal_medals	neutralny	maymunlara gidiyorum, hedef {ile} madalya
+P10_CD_MED_2	L	global	p10_goal_medals	neutralny	bugun madalya kasiyorum, {ile} tane
+P10_CD_REF_1	L	global	p10_goal_refine	neutralny	bugun {skrot} + basicam
+P10_CD_REF_2	L	global	p10_goal_refine	neutralny	bugunku hedef: {skrot} +1
+P10_CD_BUY_1	L	global	p10_goal_buy	neutralny	bugun ekipmanima daha iyi bisey alacagim
+P10_CD_BUY_2	L	global	p10_goal_buy	neutralny	bugun pazarda daha iyi ekipman ariyorum
+P10_CD_SELL_1	L	global	p10_goal_sell	neutralny	bugun {cena} satis yapmam lazim
+P10_CD_SELL_2	L	global	p10_goal_sell	neutralny	bugunku hedef: dukkandan {cena}
+P10_CD_BOOK_1	L	global	p10_goal_books	neutralny	bugun kitap okuyorum, {ile} tane tutmali
+P10_CD_BOOK_2	L	global	p10_goal_books	neutralny	hedef: bugun {ile} beceri kitabi tutsun
+P10_CD_BUFF_1	L	global	p10_goal_buff	neutralny	bugun kimi bulursam buff atiyorum, {ile} kisi
+P10_CD_BUFF_2	L	global	p10_goal_buff	neutralny	bugunku hedef: {ile} kisiye buff
+P10_CD_HALF_1	L	global	p10_goal_half	radosc	yarisi tamam
+P10_CD_HALF_2	L	global	p10_goal_half	radosc	hedefin yarisi tamam
+P10_CD_SLOW_1	L	global	p10_goal_slow	smutek	kotu gidiyor ;/
+P10_CD_SLOW_2	L	global	p10_goal_slow	smutek	bugun iyi gitmiyor
+P10_CD_FAIL_1	L	global	p10_goal_failed	smutek	bugun hicbisey tutmuyor
+P10_CD_FAIL_2	L	global	p10_goal_failed	zlosc	hedef tutmadi -.-
+P10_FS_KID_1	S	global	p10_first_kid	podekscytowanie	SUNUCUDA ILK {lvl} NOOBLAR
+P10_FS_KID_2	S	global	p10_first_kid	radosc	{lvl} ILK BEN OLDUM xD
+P10_FS_KID_3	S	global	p10_first_kid	podekscytowanie	{lvl} ILK EZ
+P10_FS_KID_4	S	global	p10_first_kid	podekscytowanie	ilk {lvl} olan kim? BEN!!!
+P10_FS_KID_5	S	global	p10_first_kid	radosc	{lvl} ve ustte kimse yok, pardon nooblar xd
+P10_FS_KID_6	S	global	p10_first_kid	radosc	ilk {lvl} ez, kovalamaya devam xd
+P10_FS_KID_7	S	global	p10_first_kid	podekscytowanie	ILK {lvl}, ADIMI UNUTMAYIN
+P10_FS_KID_8	S	global	p10_first_kid	radosc	hepiniz geride kaldiniz, ilk {lvl} benim :P
+P10_FS_PLAIN_1	S	global	p10_first_plain	radosc	ilk {lvl} ez
+P10_FS_PLAIN_2	S	global	p10_first_plain	radosc	sunucuda ilk {lvl} :D
+P10_FS_PLAIN_3	S	global	p10_first_plain	radosc	evet! ilk {lvl}
+P10_FS_PLAIN_4	S	global	p10_first_plain	podekscytowanie	ilk {lvl} oldum, inanamiyorum xd
+P10_FS_PLAIN_5	S	global	p10_first_plain	radosc	ilk {lvl}, ama cok kastim
+P10_FS_PLAIN_6	S	global	review	radosc	ilk {lvl}, mutlu mutlu uyumaya gidiyorum xd
+P10_FS_PLAIN_7	S	global	p10_first_plain	zdziwienie	{lvl}, sunucuda ilk ben miyim?
+P10_FS_PLAIN_8	S	global	review	radosc	ilk {lvl} :D mola zamani
+P10_FS_CALM_1	S	global	p10_first_calm	radosc	{lvl} oldu, sanirim ilk benim :)
+P10_FS_CALM_2	S	global	p10_first_calm	radosc	{lvl} lvl :)
+P10_FS_CALM_3	S	global	p10_first_calm_party	radosc	ilk {lvl}, pt sayesinde
+P10_FS_CALM_4	S	global	p10_first_calm_party	radosc	iste ilk {lvl}, elinize saglik ekip
+P10_FS_REACT_1	S	global	p10_first_react	radosc	hb
+P10_FS_REACT_2	S	global	p10_first_react	radosc	tebrikler :D
+P10_FS_REACT_3	S	global	p10_first_react	ironia	nolife xd
+P10_FS_REACT_4	S	global	p10_first_react	zdziwienie	gunde kac saat oynuyorsun?
+P10_FS_REACT_5	S	global	p10_first_react	radosc	gg, ben daha {lvl2} lvl
+P10_FS_REACT_6	S	global	p10_first_react	ironia	kiskandim
+P10_FS_REACT_7	S	global	p10_first_react	ironia	tamam, pesindeyim
+P10_FS_REACT_8	S	global	p10_first_react	radosc	helal olsun
+P10_FS_REACT_9	S	global	p10_first_react	ironia	sen hic uyumuyor musun? xd
+P10_FS_REACT_10	S	global	p10_first_react	neutralny	bi gun yetiserim
+P10_FS_ENEMY_1	S	global	p10_first_react_enemy	zlosc	ne yani
+P10_FS_DISLIKE_1	S	global	p10_first_react_dislike	ironia	herhalde hep pt ve buff xd
+P10_FS_FRIEND_1	S	global	p10_first_react_friend	radosc	bravo {nick} :D
+P10_FS_SECOND_1	S	global	p10_first_second	radosc	ikinci {lvl}, kil payi kacti xd
+P10_FS_SECOND_2	S	global	p10_first_second	neutralny	{lvl} ikinci oldum, bi dahakine birinci
+P10_FS_THIRD_1	S	global	p10_first_third	radosc	ucuncu {lvl}, yine de sayilir :P
+P10_FS_BEATEN_1	S	global	p10_first_beaten	smutek	{nick} beni 1 saat farkla gecti ;/
+P10_FS_AFTER_1	S	global	p10_first_after_human	neutralny	ikinci {lvl}, {gracz} az once yapti, yine de sayilir
+P10_FS_HUMAN_1	S	global	p10_first_human	radosc	hb {gracz} ilk {lvl}!
+P10_FS_HUMAN_2	S	global	p10_first_human	zdziwienie	{gracz} nasil bu kadar hizli yaptin xd
+P10_FS_HUMAN_3	S	global	p10_first_human	ironia	{gracz} nolife xd hb
+P10_FS_HUMAN_4	S	global	p10_first_human	neutralny	{gracz} pesindeyim
+P10_FS_CHRON_1	N	global	chronicle_first	neutralny	sunucuda ilk {lvl} kimdi? {nick} xd
+P10_FS_CHRON_2	N	global	chronicle_first	neutralny	{nick} bi zamanlar en ustteydi, ya simdi?
+P11_BOSS_Q1	D	global	boss_down	neutralny	{boss} ne dusuruyor?
+P11_BOSS_Q2	D	global	boss_down	radosc	{boss} kesildi, ne dusuruyor?
+P11_METIN_Q1	D	global	metin_question	neutralny	{metin} ne dusuruyor?
+P11_METIN_Q2	D	global	metin_question	neutralny	{metin} kesmeye deger mi?
+P11_MAP_Q1	D	global	map_question	neutralny	ne kasiyorsunuz {mapa_gdzie}?
+P11_MAP_Q2	D	global	map_question	neutralny	exp nasil {mapa_gdzie}?
+P11_MERC_1	J	local	merc_advert	neutralny	pt veriyorum {mapa_dokad}, {cena}/saat, pm
+P11_MERC_2	J	local	merc_advert	neutralny	kiralik pt {mapa_dokad}, {cena}/saat
+P11_MERC_3	J	local	merc_advert	neutralny	kiralik pt, {cena}/saat, pm at
+P11_BARTER_Z1	H	global	trade_barter	neutralny	takas {skrot} +{plus} - {zyczenie}, pm
+P11_TRADER_G1	H	global	trade_trader_gear	neutralny	satiyorum {skrot}+{plus} {cena} pm
+P11_TRADER_G2	H	global	trade_trader_gear	neutralny	satiyom {skrot} +{plus}, {cena}, pm
+P11_TRADER_G3	H	global	trade_trader_gear	neutralny	S> {skrot}+{plus} {cena} pm pm
+P11_TRADER_G4	H	global	trade_trader_gear	neutralny	{skrot} +{plus} satilik, {cena}
+P11_TRADER_G5	H	global	trade_trader_gear	neutralny	{skrot}+{plus} isteyen? {cena}, pm
+P11_TRADER_G6	H	global	trade_trader_gear	radosc	{skrot}+{plus} {cena}, bedava gibi
+P11_TRADER_A1	H	global	trade_trader_average	neutralny	satiyorum {skrot}+{plus} %{sr} ort {cena} pm
+P11_TRADER_A2	H	global	trade_trader_average	neutralny	S> {skrot}+{plus} {sr} ort, {cena}, pm
+P11_TRADER_A3	H	global	trade_trader_average	neutralny	satiyom {skrot} +{plus} {sr} ort {cena}
+P11_TRADER_S1	H	global	trade_trader_stack	neutralny	satiyorum {ulep} x{ile}, tanesi {cena} pm
+P11_TRADER_S2	H	global	trade_trader_stack	neutralny	S> {ulep} x{ile}, tanesi {cena}
+P11_TRADER_S3	H	global	trade_trader_stack	neutralny	{ulep} x{ile} var, tanesi {cena}, pm
+P11_TRADER_S4	H	global	trade_trader_stack	neutralny	dukkan: {ulep} x{ile} ucuz, tanesi {cena}
+P11M_PLACE_1	H	whisper	meet_place	neutralny	ch{kanal}, {miejsce} {punkt}
+P11M_PLACE_2	H	whisper	meet_place	neutralny	bulusalim ch{kanal}, {miejsce} {punkt}
+P11M_PLACE_3	H	whisper	meet_place	neutralny	{miejsce} {punkt}, ch{kanal}, gel
+P11M_SPOT_1	H	whisper	meet_spot	neutralny	yakinim, geliyorum
+P11M_SPOT_2	H	whisper	meet_spot	neutralny	yakindayim, hemen geliyorum
+P11M_FAR_1	H	whisper	meet_unreachable	neutralny	oraya gelemiyorum, {miejsce} {punkt} olur mu?
+P11M_FAR_2	H	whisper	meet_unreachable	neutralny	oraya yetisemem, belki {miejsce} {punkt}?
+P11M_HERE_1	H	whisper	meet_here	neutralny	geldim, tam olarak nerdesin?
+P11M_HERE_2	H	whisper	meet_here	neutralny	buradayim
+P11M_HERE_3	H	whisper	meet_here	neutralny	geldim, neredesin?
+P11M_SEE_1	H	whisper	meet_see	neutralny	seni gordum
+P11M_SEE_2	H	whisper	meet_see	neutralny	ha gordum seni, geliyorum
+P11M_LATE_1	H	whisper	meet_late	neutralny	kusura bakma, az kaldi
+P11M_LATE_2	H	whisper	meet_late	neutralny	geliyorum, 2 dk
+P11M_LATE_3	H	whisper	meet_late	neutralny	bi saniye, yoldayim
+P11M_NUDGE_1	H	whisper	meet_nudge	neutralny	orada misin?
+P11M_NUDGE_2	H	whisper	meet_nudge	neutralny	alo?
+P11M_CANCEL_1	H	whisper	meet_cancel	neutralny	kusura bakma, gitmem lazim
+P11M_CANCEL_2	H	whisper	meet_cancel	neutralny	baska yerden aldim zaten
+P11M_CANCEL_3	H	whisper	meet_cancel	neutralny	plan degisti, kusura bakma
+P11M_CANCEL_4	H	whisper	meet_cancel	neutralny	bos ver
+P11M_NOSHOW_1	H	whisper	meet_no_show	neutralny	yoksun, gidiyorum
+P11M_NOSHOW_2	H	whisper	meet_no_show	neutralny	kimse yok, ben gidiyorum
+P11M_SILENT_1	H	whisper	meet_no_answer	neutralny	tamam o zaman bye
+P11M_SILENT_2	H	whisper	meet_no_answer	neutralny	tamam, cevap yok, bye
+P11M_CH_1	H	whisper	meet_channel	neutralny	ch{kanal} geciyorum, bi sn
+P11M_CH_2	H	whisper	meet_channel	neutralny	tamam, ch{kanal} geliyorum
+P11M_OWNCH_1	H	whisper	meet_own_channel	neutralny	ben ch{kanal}, gelebilir misin?
+P11M_OWNCH_2	H	whisper	meet_own_channel	neutralny	kanal degistiremem, ch{kanal} gel
+P11M_CHHERE_1	H	whisper	meet_channel_arrived	neutralny	ch{kanal} geldim, pm at
+P11M_CHHERE_2	H	whisper	meet_channel_arrived	neutralny	tamam, ch{kanal} geldim
+P11M_AGAIN_1	H	whisper	meet_cooldown	neutralny	az once denedik, belki sonra
+P11M_DONE_1	H	whisper	barter_done	radosc	sagol, gorusuruz
+P11M_DONE_2	H	whisper	barter_done	radosc	tsk
+P11M_DONE_3	H	whisper	barter_done	radosc	sagol
+P11D_SQ_1	H	whisper	deal_sale_quote	neutralny	{przedmiot} {cena}, olur mu?
+P11D_SQ_2	H	whisper	deal_sale_quote	neutralny	bende {przedmiot} var, {cena}
+P11D_SQ_3	H	whisper	deal_sale_quote	neutralny	{przedmiot} verebilirim, fiyat {cena}
+P11D_SC_1	H	whisper	deal_sale_counter	neutralny	{cena} kadar inebilirim
+P11D_SC_2	H	whisper	deal_sale_counter	neutralny	tamam, {cena}, daha asagi yok
+P11D_SA_1	H	whisper	deal_sale_accept	radosc	tamam, {cena}, neredesin?
+P11D_SA_2	H	whisper	deal_sale_accept	radosc	tamam, {cena} anlastik
+P11D_SR_1	H	whisper	deal_sale_refuse	neutralny	kusura bakma, cok dusuk
+P11D_SR_2	H	whisper	deal_sale_refuse	neutralny	o fiyata satmam, en az {cena}
+P11D_BYE_1	H	whisper	deal_bye	neutralny	tamam, bos ver
+P11D_BYE_2	H	whisper	deal_bye	neutralny	np, bye
+P11D_KA_1	H	whisper	deal_skup_ask	neutralny	kac tane var? tanesine {cena} veriyorum
+P11D_KA_2	H	whisper	deal_skup_ask	neutralny	tanesi {cena}, kac tane?
+P11D_KO_1	H	whisper	deal_skup_offer	neutralny	{ile} tane var, tanesi {cena}
+P11D_KO_2	H	whisper	deal_skup_offer	neutralny	{ile} tane verebilirim, tanesi {cena}
+P11D_KK_1	H	whisper	deal_skup_accept	radosc	{ile} tane alirim, toplam {suma}, neredesin?
+P11D_KK_2	H	whisper	deal_skup_accept	radosc	tmm, {ile} tane, toplam {suma}
+P11D_KN_1	H	whisper	deal_skup_none	neutralny	artik lazim degil, kusura bakma
+P11D_KN_2	H	whisper	deal_skup_none	neutralny	zaten aldim, sagol
+P11D_WR_1	H	whisper	deal_wrong	zdziwienie	anlastigimiz bu degildi ki
+P11D_NY_1	H	whisper	deal_no_yang	zdziwienie	yang eksik, {cena} demistik
+P11D_CNT_1	H	whisper	deal_count	zdziwienie	{ile} adet olacakti
+P11D_ROOM_1	H	whisper	deal_no_room	neutralny	kusura bakma, envanterde yer yok
+P11P_CALL_1	U	global	pvp_duel_call	neutralny	m1 de 1v1 atan var mi?
+P11P_CALL_2	U	global	pvp_duel_call	neutralny	m1 de 1v1 var mi? {lvl} {klasa}
+P11P_CALL_3	U	global	pvp_duel_call	neutralny	1v1 m1 kim var? sikildim
+P11P_CALL_4	U	global	pvp_duel_call	neutralny	kim duello ister m1? {klasa} {lvl}
+P11P_ANSWER_1	U	global	pvp_duel_answer	neutralny	{nick} ben
+P11P_ANSWER_2	U	global	pvp_duel_answer	neutralny	{nick} olur, geliyorum
+P11P_ANSWER_3	U	global	pvp_duel_answer	neutralny	ben varim 1v1
+P11P_ANSWER_4	U	global	pvp_duel_answer	neutralny	{nick} ben varim, geliyorum
+P15_A_001	Q	local	p15_quest_doing	ironia	{quest} gorevini yapiyorum ama cok sikici
+P15_A_002	Q	local	p15_quest_doing	ironia	of bu {quest} gorevi de... sikici
+P15_A_003	Q	local	p15_quest_doing	neutralny	{ile}/{ile_max} azcik daha
+P15_A_004	Q	local	p15_quest_doing	neutralny	{reszta} tane daha, sonra teslim
+P15_A_005	Q	local	p15_quest_doing	neutralny	{quest} gorevi bitmek uzere
+P15_A_006	Q	local	p15_quest_doing	neutralny	az kaldi, {reszta} adet {item} daha lazim
+P15_A_007	Q	local	p15_quest_doing	zlosc	bu {mob} daha ne kadar kasilir ya
+P15_A_008	Q	local	p15_quest_doing	smutek	{item} bi turlu dusmuyor...
+P15_A_009	Q	local	p15_quest_doing	zlosc	30 {mob} kestim, hala bir sey yok
+P15_A_010	Q	local	p15_quest_doing	ironia	{item} dusme sansi rezalet
+P15_A_011	Q	local	p15_quest_doing	ironia	bu gorevi kim dusundu ya
+P15_A_012	Q	local	p15_quest_doing	neutralny	kasma yerinde exp kotu, bari gorev yapiyorum
+P15_A_013	Q	local	p15_quest_doing	neutralny	{quest} yapiyorum, baska yapan var mi?
+P15_A_014	Q	local	p15_quest_doing	neutralny	{quest} bitince tekrar kasmaya donerim
+P15_A_015	Q	local	p15_quest_doing	ironia	bu gorevi yapacagima gider metin keserim
+P15_A_016	Q	local	p15_quest_doing	smutek	{quest} bitmek bilmiyor
+P15_A_017	Q	local	p15_quest_doing	neutralny	tamam sadece teslim etmek kaldi
+P15_A_018	Q	local	p15_quest_doing	smutek	yine {npc} yanina kosturuyorum...
+P15_A_019	Q	local	p15_quest_doing	ironia	bu npc beni haritanin her yerine yolluyor
+P15_A_020	Q	local	p15_quest_doing	zlosc	{npc} niye bu kadar uzakta
+P15_A_021	Q	local	p15_quest_doing	neutralny	{ile}/{ile_max}... yavas yavas
+P15_A_022	Q	local	p15_quest_doing	neutralny	yarisi bitti
+P15_A_023	Q	local	p15_quest_doing	neutralny	tamam, {quest} gorevinin yarisi bitti
+P15_A_024	Q	local	p15_quest_doing	neutralny	{ile} oldu bile, az kaldi
+P15_A_025	Q	local	p15_quest_doing	neutralny	birkac {mob} daha
+P15_A_026	Q	local	p15_quest_doing	zlosc	drop gorevlerinden nefret ederim
+P15_A_027	Q	local	p15_quest_doing	ironia	sanirim bu drop bug olmus
+P15_A_028	Q	local	p15_quest_doing	ironia	20 mobda 1 {item}, harika
+P15_A_029	Q	local	p15_quest_doing	zlosc	bu {mob} beni deli ediyor
+P15_A_030	Q	local	p15_quest_doing	neutralny	gorevi teslim edip geliyorum
+P15_A_031	Q	local	p15_quest_doing	ironia	gorev gorev gorev... levelim ayni yerde
+P15_A_032	Q	local	p15_quest_doing	smutek	bir saattir {quest} yapiyorum
+P15_A_033	Q	local	p15_quest_doing	smutek	bu gorev niye bu kadar uzun
+P15_A_034	Q	local	p15_quest_doing	ironia	{npc} cok fazla sey istiyor
+P15_A_035	Q	local	p15_quest_doing	ironia	{npc} yine bir sey istiyor
+P15_A_036	Q	local	p15_quest_doing	neutralny	tamam bir adim daha
+P15_A_037	Q	local	p15_quest_doing	smutek	{quest} icin bir adim daha, bitmiyor
+P15_A_038	Q	local	p15_quest_doing	neutralny	{mapa} ile sehir arasinda kosuyorum
+P15_A_039	Q	local	p15_quest_doing	ironia	tp, gorev, tp, gorev...
+P15_A_040	Q	local	p15_quest_doing	neutralny	gorev icin {mob} kasiyorum, calmayin pls
+P15_A_041	Q	local	p15_quest_doing	neutralny	gorevdeyim, yanimdaki {mob} mobuna vurmayin pls
+P15_A_042	Q	local	p15_quest_doing	neutralny	sakin ol, gorev icin sadece {mob} kesiyorum
+P15_A_043	Q	local	p15_quest_doing	neutralny	cantada {ile} {item} var, {reszta} kaldi
+P15_A_044	Q	local	p15_quest_doing	neutralny	tamam artik nereye gidecegimi biliyorum
+P15_A_045	Q	local	p15_quest_doing	smutek	bu gorev hizli biter sanmistim
+P15_A_046	Q	local	p15_quest_doing	ironia	{lvl} levelde o kadar gorev var ki kasmaya vakit yok
+P15_A_047	Q	local	p15_quest_doing	radosc	gorev + exp, bir tasla iki kus
+P15_A_048	Q	local	p15_quest_doing	neutralny	kasarken gorev de yapiyorum
+P15_A_049	Q	local	p15_quest_doing	zlosc	{mob} her yerde, lazim oldugu yer haric
+P15_A_050	Q	local	p15_quest_doing	neutralny	bu goreve devam
+P15_A_051	Q	local	p15_quest_doing	podekscytowanie	azcik daha, odul geliyor
+P15_A_052	Q	local	p15_quest_doing	zdziwienie	bu gorev ne verecek acaba
+P15_A_053	Q	local	p15_quest_doing	neutralny	umarim odul buna deger
+P15_A_054	Q	local	p15_quest_doing	ironia	odul olarak kagit gelse fena olmaz
+P15_A_055	Q	local	p15_quest_doing	ironia	umarim sadece pot degildir
+P15_B_001	Q	local	p15_quest_done	radosc	sonunda teslim ettim
+P15_B_002	Q	local	p15_quest_done	radosc	{quest} bitti :)
+P15_B_003	Q	local	p15_quest_done	smutek	{quest} teslim, odul zayif
+P15_B_004	Q	local	p15_quest_done	radosc	{quest} teslim, odul fena degilmis
+P15_B_005	Q	local	p15_quest_done	radosc	gorevden {nagroda_przedmiot} geldi
+P15_B_006	Q	local	p15_quest_done	neutralny	gorev bitti, siradaki
+P15_B_007	Q	local	p15_quest_done	radosc	oh be, {mob} isi bitti
+P15_B_008	Q	local	p15_quest_done	ironia	bitti, bu gorevi bir daha yapmam
+P15_B_009	Q	local	p15_quest_done	radosc	gorevden {nagroda_exp} exp, fena degil
+P15_B_010	Q	local	p15_quest_done	neutralny	tamam aldim, devam
+P15_B_011	Q	local	p15_quest_done	radosc	yess, {quest} tamam
+P15_B_012	Q	local	p15_quest_done	radosc	eziyet bitti
+P15_B_013	Q	local	p15_quest_done	radosc	sonunda
+P15_B_014	Q	local	p15_quest_done	neutralny	tamam, {quest} halloldu
+P15_B_015	Q	local	p15_quest_done	neutralny	gorev teslim, kasmaya devam
+P15_B_016	Q	local	p15_quest_done	radosc	bu gorevden guzel exp geldi
+P15_B_017	Q	local	p15_quest_done	ironia	bu kadarmis yani
+P15_B_018	Q	local	p15_quest_done	smutek	odul... daha fazlasini bekliyordum
+P15_B_019	Q	local	p15_quest_done	ironia	pot vermisler, vay be... xd
+P15_B_020	Q	local	p15_quest_done	radosc	{nagroda_przedmiot}, ise yarar
+P15_B_021	Q	local	p15_quest_done	neutralny	{nagroda_przedmiot} satarim herhalde
+P15_B_022	Q	local	p15_quest_done	radosc	{npc} mutlu, ben de
+P15_B_023	Q	local	p15_quest_done	zdziwienie	dusundugumden hizli bitti
+P15_B_024	Q	local	p15_quest_done	radosc	daha kotu sanmistim
+P15_B_025	Q	local	p15_quest_done	radosc	kolay gorev
+P15_B_026	Q	local	p15_quest_done	radosc	bu aslinda eglenceliydi
+P15_B_027	Q	local	p15_quest_done	podekscytowanie	simdiye kadarki en iyi gorev
+P15_B_028	Q	local	p15_quest_done	neutralny	{quest} bitti
+P15_B_029	Q	local	p15_quest_done	radosc	gg {quest}
+P15_B_030	Q	local	p15_quest_done	neutralny	tamam listedeki siradaki gorev
+P15_B_031	Q	local	p15_quest_done	neutralny	{quest} bitti, yardim isteyen var mi?
+P15_B_032	Q	local	p15_quest_done	neutralny	{quest} yapan varsa soyleyin, yardim ederim
+P15_C_001	Q	global	p15_quest_frustration	zlosc	nefret ettim bu gorevlerden, hep oluyorum
+P15_C_002	Q	global	p15_quest_frustration	zlosc	bu gorev kabus, 7 kere oldum
+P15_C_003	Q	global	p15_quest_frustration	zlosc	{mob} beni yiyor, bu gorevi kim yapti?
+P15_C_004	Q	global	p15_quest_frustration	smutek	yine oldum... {quest} bana gore degil
+P15_C_005	Q	global	p15_quest_frustration	smutek	daha iyi esya lazim, {quest} yapamiyorum
+P15_C_006	Q	global	p15_quest_frustration	zlosc	demirciye gidiyorum, bu {mob} beni mahvediyor
+P15_C_007	Q	global	p15_quest_frustration	smutek	yardim, {quest} icin yardim eden var mi? hep oluyorum
+P15_C_008	Q	global	p15_quest_frustration	zlosc	bu gorevi birakiyorum, imkansiz
+P15_C_009	Q	global	p15_quest_frustration	zlosc	bir gorevde kac kere olunur ya
+P15_C_010	Q	global	p15_quest_frustration	smutek	{quest} icin esyam cok zayif, yang kasmaya gidiyorum
+P15_C_011	Q	global	p15_quest_frustration	zlosc	bu levelde bu gorevi kim veriyor ya
+P15_C_012	Q	global	p15_quest_frustration	ironia	15 dk da 7 kez oldum, tebrikler bana
+P15_C_013	Q	global	p15_quest_frustration	zlosc	off yine
+P15_C_014	Q	global	p15_quest_frustration	zlosc	ciddi misin, yine mi oldum
+P15_C_015	Q	global	p15_quest_frustration	zlosc	bu {mob} boss gibi vuruyor
+P15_C_016	Q	global	p15_quest_frustration	zlosc	bu gorevin ayarini kim yapti ya
+P15_C_017	Q	global	p15_quest_frustration	smutek	pot bitti gorev hala bitmedi
+P15_C_018	Q	global	p15_quest_frustration	ironia	pota odulden cok yang gitti
+P15_C_019	Q	global	p15_quest_frustration	neutralny	tamam, daha iyi esya alip geliyorum
+P15_C_020	Q	global	p15_quest_frustration	smutek	levelim {quest} icin dusuk galiba
+P15_C_021	Q	global	p15_quest_frustration	neutralny	bir dahakine pt ile
+P15_C_022	Q	global	p15_quest_frustration	neutralny	solo yapamiyorum, kim geliyor?
+P15_C_023	Q	global	p15_quest_frustration	zlosc	3 {mob} birden geldi, bittim
+P15_C_024	Q	global	p15_quest_frustration	zlosc	sinir oldum, gorevi birakiyorum
+P15_C_025	Q	global	p15_quest_frustration	ironia	gorev yerine yukseltme zamani
+P15_C_026	Q	global	p15_quest_frustration	smutek	spam icin sorry ama bu gorev beni bitirecek
+P15_C_027	Q	global	p15_quest_frustration	smutek	balik tutmaya gidiyorum, gorevden biktim
+P15_C_028	Q	global	p15_quest_frustration	zlosc	{mapa} haritasindan nefret ediyorum
+P15_C_029	Q	global	p15_quest_frustration	zlosc	{mob} bu kadar sert vursun diye kim ayarladi
+P15_C_030	Q	global	p15_quest_frustration	smutek	yarin yaparim bugun halim yok
+P15_C_031	Q	global	p15_quest_frustration	smutek	{quest} solo imkansiz
+P15_C_032	Q	global	p15_quest_frustration	ironia	-1 esya, -pot, gorev duruyor
+P15_C_033	Q	global	p15_quest_frustration	zlosc	olum ustune olum
+P15_C_034	Q	global	p15_quest_frustration	smutek	galiba daha iyi esyayla bastan baslarim
+P15_C_035	Q	global	p15_quest_frustration	zlosc	tamam bittim ben
+P15_H_001	Q	local	p15_quest_abandon	neutralny	{quest} birakiyorum, zaman kaybi
+P15_H_002	Q	local	p15_quest_abandon	neutralny	bu gorevi bos ver
+P15_H_003	Q	local	p15_quest_abandon	neutralny	{quest} gorevini level kasinca yaparim
+P15_H_004	Q	local	p15_quest_abandon	neutralny	gorev beklesin, kasmaya gidiyorum
+P15_H_005	Q	local	p15_quest_abandon	neutralny	degmez, vazgectim
+P15_H_006	Q	local	p15_quest_abandon	neutralny	belki {quest} gorevine bir gun donerim
+P15_H_007	Q	local	p15_quest_abandon	neutralny	cok uzun
+P15_H_008	Q	local	p15_quest_abandon	smutek	odul emege degmiyor
+P15_H_009	Q	local	p15_quest_abandon	smutek	{quest} gorevinden vazgectim
+P15_H_010	Q	local	p15_quest_abandon	neutralny	gorev sonraya
+P15_H_011	Q	local	p15_quest_abandon	neutralny	once level, sonra gorev
+P15_H_012	Q	local	p15_quest_abandon	zlosc	bu gorev icin sabrim yok
+P15_H_013	Q	local	p15_quest_abandon	neutralny	gorev bekleyebilir
+P15_G_001	L	global	p15_goal_quests	neutralny	bugunun hedefi: {ile} gorev yapmak
+P15_G_002	L	global	p15_goal_quests	neutralny	bugunun plani: {ile} gorev bitirmek
+P15_G_003	L	global	p15_goal_quests	podekscytowanie	bugun gorev gunu, {ile} tane bitmeli
+P15_G_101	L	global	p15_goal_quest	neutralny	bugunun hedefi: {quest} gorevini bitirmek
+P15_G_102	L	global	p15_goal_quest	neutralny	bugunun plani: {quest} sonuna kadar
+P15_G_103	L	global	p15_goal_quest	podekscytowanie	bugun sonunda {quest} gorevini yapiyorum
+P15D_MOB_1	Q	local	p15_ask_mob	neutralny	{mob} nerede cikiyor?
+P15D_MOB_2	Q	local	p15_ask_mob	neutralny	{mapa} haritasinda {mob} var mi, yoksa baska yerde mi?
+P15D_MOB_3	Q	local	p15_ask_mob	neutralny	{mob} nerede ya, 10 dk dir ariyorum
+P15D_DUN_1	Q	local	p15_ask_dungeon	zdziwienie	{mob} dedigin zindandakiler mi?
+P15D_ITEM_1	Q	local	p15_ask_item	neutralny	{item} nereden dusuyor bilen var mi?
+P15D_ITEM_2	Q	local	p15_ask_item	neutralny	{item} kimden dusuyor?
+P15D_ITEM_3	Q	local	p15_ask_item	neutralny	{quest} icin kac tane {item} lazim?
+P15D_NPC_1	Q	local	p15_ask_npc	neutralny	{npc} nerede?
+P15D_NPC_2	Q	local	p15_ask_npc	neutralny	benim krallikta {npc} nerede?
+P15D_NPC_3	Q	local	p15_ask_npc	neutralny	{quest} yapan var mi? {npc} sonrasi nereye?
+P15D_NPC_4	Q	local	p15_ask_npc	neutralny	{quest} gorevinde nereye gidicem? ok isareti kayboldu
+P15D_REW_1	Q	local	p15_ask_reward	neutralny	{quest} gorevinin odulu ne?
+P15D_WORTH_1	Q	local	p15_ask_worth	neutralny	{quest} yapmaya deger mi?
+P15D_SOLO_1	Q	local	p15_ask_solo	neutralny	{quest} solo yapilir mi?
+P15D_SOLO_2	Q	local	p15_ask_solo	neutralny	{quest} nasil yapilir?
+P15D_SOLO_3	Q	local	p15_ask_solo	neutralny	{quest} ne kadar surer?
+P15D_LVL_1	Q	local	p15_ask_level	neutralny	{quest} icin kac level lazim?
+P15D_OPT_1	Q	local	p15_ask_option	neutralny	{npc} sorusuna ne desem?
+P15D_OPT_2	Q	local	p15_ask_option	neutralny	{npc} sorusunda ne seceyim, gorevi bozmak istemem
+P15D_MON_1	Q	local	p15_ask_monument	neutralny	{quest} gorevindeki anit nerede bilen var mi?
+P15E_MOB_1	Q	local	p15_answer_where_mob	neutralny	{mapa} haritasinda {mob} var, en cok {miejsce}
+P15E_MOB_2	Q	local	p15_answer_where_mob	neutralny	{mapa} haritasinda {mob} var ama dikkat, sert vuruyorlar
+P15E_MOB_3	Q	local	p15_answer_where_mob	neutralny	{mob} cogunlukla su civarda: {miejsce}
+P15E_MOB_4	Q	local	p15_answer_where_mob	neutralny	tam hatirlamiyorum ama sanirim {mapa}
+P15E_MOB_5	Q	local	p15_answer_where_mob	neutralny	en hizlisi isinlanmak, {mapa_dokad}
+P15E_MOB_6	Q	local	p15_answer_where_mob	neutralny	wikide yaziyor ama {mapa}
+P15E_NPC_1	Q	local	p15_answer_where_npc	neutralny	{mapa} haritasinda {npc} duruyor, {miejsce}
+P15E_NPC_2	Q	local	p15_answer_where_npc	neutralny	ok isareti {npc} yerini gosteriyor, takip et
+P15E_NPC_3	Q	local	p15_answer_where_npc	neutralny	gosterebilirim, kanalim ch{kanal}
+P15E_NPC_4	Q	local	p15_answer_where_npc	neutralny	yaptim, odulu almak icin git, {npc} bekliyor
+P15E_DROP_1	Q	local	p15_answer_drop	neutralny	{mob} keserken {item} dusuyor ama nadir
+P15E_DROP_2	Q	local	p15_answer_drop	neutralny	{ile_max} tane {item} lazim, drop kotu
+P15E_DUNNO_1	Q	local	p15_answer_dunno	neutralny	hatirlamiyorum, kusura bakma
+P15E_DUNNO_2	Q	local	p15_answer_dunno	neutralny	baskasina sor, uzun zaman once yaptim
+P15E_DUNNO_3	Q	local	p15_answer_dunno	neutralny	ben de bir saat aradim xd
+P15E_SOLO_1	Q	local	p15_answer_solo	neutralny	+7 silahla solo olur
+P15E_PARTY_1	Q	local	p15_answer_party	neutralny	pt ile daha iyi, solo eziyet
+P15E_LVL_1	Q	local	p15_answer_level	neutralny	{lvl}+ levelde kolay
+P15E_WGOOD_1	Q	local	p15_answer_worth_good	neutralny	degiyor, cok exp veriyor
+P15E_WGOOD_2	Q	local	p15_answer_worth_good	neutralny	odul pek degil ama exp iyi
+P15E_WWEAK_1	Q	local	p15_answer_worth_weak	neutralny	degmez, kasmak daha iyi
+P15E_OPT_1	Q	local	p15_answer_option	neutralny	{npc} sorusunda ilk sikki sec, gerisi vazgecmek
+P15E_OPT_2	Q	local	p15_answer_option	neutralny	bilmiyorum secenegine tiklama, yoksa bastan baslarsin
+P15E_MON_1	Q	local	p15_answer_monument	neutralny	anit {mapa} haritasinda, {miejsce}
+P15E_THX_1	Q	local	p15_answer_thanks	radosc	sagol, gidiyorum
+P15E_THX_2	Q	local	p15_answer_thanks	radosc	ooo sagol
+P15E_THX_3	Q	local	p15_answer_thanks	radosc	thx, yoldayim
+P15F_SEEK_1	Q	global	p15_party_seek	neutralny	{quest} icin pt {lvl}+, gorevi olan var mi?
+P15F_SEEK_2	Q	global	p15_party_seek	neutralny	{quest} yapan var mi? pt olalim
+P15F_SEEK_3	Q	global	p15_party_seek	neutralny	gorev icin pt ariyorum, {mob} keseriz
+P15F_SEEK_4	Q	global	p15_party_seek	neutralny	{quest} icin pt topluyorum, ch{kanal} {mapa}
+P15F_SEEK_5	Q	global	p15_party_seek	neutralny	{quest} gorevi olan pt ister mi? daha hizli
+P15F_SEEK_6	Q	global	p15_party_seek	neutralny	pt {quest} {ile}/8, gelin
+P15F_LAST_1	Q	global	p15_party_last	neutralny	pt {quest} 1 kisi eksik
+P15F_WAIT_1	Q	global	p15_party_wait	neutralny	pt icin 5 dk daha bekliyorum, sonra solo
+P15F_WAIT_2	Q	global	p15_party_wait	neutralny	pt de bos yer var, {quest} kimde
+P15F_NONE_1	Q	global	p15_party_none	smutek	{quest} yapan yok mu ya? :(
+P15F_JOIN_1	Q	party	p15_party_join	neutralny	bende {quest} var, katiliyorum
+P15F_JOIN_2	Q	party	p15_party_join	neutralny	pt de 3 kat hizli
+P15F_HELP_1	Q	party	p15_party_help	neutralny	{quest} icin yardim edebilirim, zaten yaptim
+P15F_PROG_1	Q	party	p15_party_progress	neutralny	{reszta} {item} daha, sonra herkeste tamam
+P15F_PROG_2	Q	party	p15_party_progress	neutralny	birlikte kalin, {mob} sert vuruyor
+P15F_PROG_3	Q	party	p15_party_progress	neutralny	lider, bizi {mob} bolgesine goturur musun
+P15F_PROG_4	Q	party	p15_party_progress	neutralny	helal pt, herkes aldi mi?
+P15F_CRED_1	Q	party	p15_party_credit	radosc	{mob} mobunu kim kesti? bana sayildi, sagol
+P15F_DONE_1	Q	party	p15_party_done	radosc	pt icin sagolun, gorev bitti
+P15F_DONE_2	Q	party	p15_party_done	radosc	{quest} yardimi icin sagolun :)
+P15F_MDONE_1	Q	party	p15_party_member_done	neutralny	bende tamam, teslime gidiyorum, sagol pt
+P15F_MDONE_2	Q	party	p15_party_member_done	neutralny	pt dagiliyor, gorevi tamamladim
+P15K_1	Q	global	p15_quest_skup	neutralny	A> {item} gorev icin
+P15K_2	Q	global	p15_quest_skup	neutralny	{ile} tane {item} olan var mi? oderim
+P15K_3	Q	global	p15_quest_skup	neutralny	A> {item} gorev icin, pm at
+P15K_4	Q	global	p15_quest_skup	neutralny	A> {ile}x {item}, iyi fiyat
+P15K_5	Q	global	p15_quest_skup	neutralny	{item} ariyorum, gorev icin lazim
+P15K_6	Q	global	p15_quest_skup	neutralny	{item} satan var mi? acil
+P15K_7	Q	global	p15_quest_skup	neutralny	A> {item} ya da takas yaparim
+P15K_8	Q	global	p15_quest_skup	neutralny	{reszta} {item} eksigim var, kimde var?
+P15K_9	Q	global	p15_quest_skup	neutralny	A> {item} acil, gorev bekliyor
+P15I_DID_1	Q	local	p15_human_done_did	neutralny	haha ben de, hic bitmeyecek sandim
+P15I_DID_2	Q	local	p15_human_done_did	neutralny	kulube hos geldin xd
+P15I_DID_3	Q	local	p15_human_done_did	neutralny	senin ne kadar surdu? bende neredeyse 2 saat
+P15I_DID_4	Q	local	p15_human_done_did	neutralny	ben yarida biraktim xd
+P15I_DID_5	Q	local	p15_human_done_did	neutralny	bence oyunun en kotu gorevi
+P15I_DID_6	Q	local	p15_human_done_did	neutralny	ben de, odul de idare eder
+P15I_DID_7	Q	local	p15_human_done_did	neutralny	helal, ben orada surekli oluyordum
+P15I_DID_8	Q	local	p15_human_done_did	neutralny	ben pt de yaptim, hizli gecti
+P15I_DID_9	Q	local	p15_human_done_did	neutralny	evet o gorev eziyet, gg
+P15I_DID_10	Q	local	p15_human_done_did	neutralny	ben dun bitirdim, ben de sinir oldum
+P15I_DID_11	Q	local	p15_human_done_did	neutralny	iyi ki bitti, sonrakiler daha iyi
+P15I_DID_12	Q	local	p15_human_done_did	neutralny	solo mu yaptin? helal
+P15I_DOING_1	Q	local	p15_human_done_doing	neutralny	hb, ben hala eziyet cekiyorum
+P15I_DOING_2	Q	local	p15_human_done_doing	neutralny	sanslisin, bende {ile}/{ile_max}
+P15I_DOING_3	Q	local	p15_human_done_doing	neutralny	yeni basliyorum, cok zor mu?
+P15I_DOING_4	Q	local	p15_human_done_doing	neutralny	kulube hos geldin xd
+P15I_WDUNNO_1	Q	local	p15_human_where_dunno	neutralny	bilmiyorum, ben de ariyorum
+P15I_WDUNNO_2	Q	local	p15_human_where_dunno	neutralny	daha yapmadim, kusura bakma
+P15I_WDUNNO_3	Q	local	p15_human_where_dunno	neutralny	ch1 de sor, orada daha cok kisi var
+P15I_WGOOD_1	Q	local	p15_human_worth_good	neutralny	degiyor, {nagroda_exp} exp veriyor
+P15I_WGOOD_2	Q	local	p15_human_worth_good	neutralny	vaktin varsa yap, exp fena degil
+P15I_WWEAK_1	Q	local	p15_human_worth_weak	neutralny	idare eder, odul zayif
+P15I_WWEAK_2	Q	local	p15_human_worth_weak	neutralny	zaman kaybi, {mapa} haritasinda kasmak daha iyi
+P15I_WITEM_1	Q	local	p15_human_worth_item	neutralny	{nagroda_przedmiot} icin degiyor
+P15I_WPARTY_1	Q	local	p15_human_worth_party	neutralny	sadece pt ile, solo hp israfi
+P15I_STUCK_1	Q	local	p15_human_stuck	neutralny	sorun sende degil, o gorev zor
+P15I_STUCK_2	Q	local	p15_human_stuck	neutralny	silahina + bas, sonra rahat gecersin
+P15I_STUCK_3	Q	local	p15_human_stuck	neutralny	pt ile yap, daha kolay
+P15I_STUCK_4	Q	local	p15_human_stuck	neutralny	ben de oluyorum, merak etme
+P15I_STUCK_5	Q	local	p15_human_stuck	neutralny	yardim edebilirim, kac levelsin?
+P15I_STUCK_6	Q	local	p15_human_stuck	neutralny	daha cok pot al, yandan gel
+P15I_STUCK_7	Q	local	p15_human_stuck	neutralny	teker teker vur, birden cok cekme
+P15I_OFFER_1	Q	local	p15_human_stuck_offer	neutralny	pt ister misin? {quest} icin yardim ederim
+P15I_REW_1	Q	local	p15_human_reward	neutralny	{nagroda_exp} exp ve {nagroda_przedmiot}
+P15I_RGOOD_1	Q	local	p15_human_reward_good	neutralny	odul iyi, degiyor
+P15I_RWEAK_1	Q	local	p15_human_reward_weak	neutralny	bir sey veriyor, ozel bir sey degil
+P15I_RDUNNO_1	Q	local	p15_human_reward_dunno	neutralny	tam hatirlamiyorum, yang ve pot sanirim
+P15I_OPT_1	Q	local	p15_human_option	neutralny	sec: {opcja}
+P15I_OGEN_1	Q	local	p15_human_option_generic	neutralny	ilk secenek, vazgec secenegine tiklama
+P15I_OGEN_2	Q	local	p15_human_option_generic	neutralny	yanlis secersen basa donersin, dikkat
+P15I_ODUNNO_1	Q	local	p15_human_option_dunno	neutralny	hatirlamiyorum, kusura bakma
+P15I_OCARE_1	Q	local	p15_human_option_careful	neutralny	yanlis secersen basa donersin, dikkat
+P15I_PHAVE_1	Q	local	p15_human_party_have	neutralny	bende de var, katiliyorum
+P15I_PHELP_1	Q	local	p15_human_party_help	neutralny	yardim edebilirim, davet et
+P15I_PNONE_1	Q	local	p15_human_party_none	neutralny	o gorev bende yok, kusura bakma
+P15I_PLOW_1	Q	local	p15_human_party_low	neutralny	levelim bunun icin dusuk
+P15I_BRAG_1	Q	local	p15_human_brag	radosc	hb!
+P15I_BRAG_2	Q	local	p15_human_brag	radosc	oo guzel, bana dusmedi
+P15I_BRAG_3	Q	local	p15_human_brag	radosc	sanslisin
+P15I_BRAG_4	Q	local	p15_human_brag	radosc	bende de ayni cikti, ozel degil xd
+P15I_BRAG_5	Q	local	p15_human_brag	radosc	bana ver xd
+P15I_MOAN_1	Q	local	p15_human_complain	ironia	gorevler seytan isi xd
+P15I_MOAN_2	Q	local	p15_human_complain	ironia	napalim, exp lazim
+P15I_MOAN_3	Q	local	p15_human_complain	ironia	ben gorevleri biraz severim
+P15I_MOAN_4	Q	local	p15_human_complain	ironia	en azindan bir seyler oluyor
+P15I_MOAN_5	Q	local	p15_human_complain	ironia	ben metin kesmeyi tercih ederim
+P15I_MOAN_6	Q	local	p15_human_complain	ironia	su {npc} hep bir sey istiyor
+P15J_001	Q	local	p15_q_find_squareguard	neutralny	ilk gorev, satici kadindan iksir
+P15J_002	Q	local	p15_q_main_quest_lv1	neutralny	hos geldin hos geldin, gardiyan bekliyor
+P15J_003	Q	local	p15_q_main_quest_lv2	neutralny	gardiyan icin kopek kesmek, kolay is
+P15J_004	Q	local	p15_q_main_quest_lv2	neutralny	{mob} saklaniyor, gardiyan bekliyor
+P15J_005	Q	local	p15_q_main_quest_lv3	neutralny	saticidan saticiya kosuyorum
+P15J_006	Q	local	p15_q_main_quest_lv6	neutralny	demirci, depocu, demirci... koy turu
+P15J_007	Q	local	p15_q_subquest_1	neutralny	saticiya bos sise, yaban domuzundan tohum
+P15J_008	Q	local	p15_q_subquest_1	neutralny	{mob} tohumu vermiyor
+P15J_009	Q	local	p15_q_main_quest_lv7	neutralny	balikciya olta, demircinin isi var
+P15J_010	Q	local	p15_q_new_quest_lv7	neutralny	cicek buketi... cicekci aciyorum xd
+P15J_011	Q	local	p15_q_new_quest_lv7	neutralny	cicekler ac kurtlarda, ciddi misin
+P15J_012	Q	local	p15_q_subquest_2	neutralny	tuccara aksam yemegi, ne yer ki
+P15J_013	Q	local	p15_q_subquest_3	neutralny	ilac icin kurt karacigeri, iyy
+P15J_014	Q	local	p15_q_main_quest_lv9	neutralny	gardiyan yine cagiriyor, gidiyorum
+P15J_015	Q	local	p15_q_subquest_4	neutralny	demirciden mektup, postaciyim ben
+P15J_016	Q	local	p15_q_main_quest_lv10	neutralny	yuzbasi cagiriyor, bakalim ne var
+P15J_017	Q	local	p15_q_subquest_18	neutralny	soon diye birini ariyorum, goren var mi?
+P15J_018	Q	local	p15_q_subquest_5	neutralny	soon icin yelpaze, sira onemli
+P15J_019	Q	local	p15_q_subquest_6	neutralny	zirh siparisi, demirci malzeme istiyor
+P15J_020	Q	local	p15_q_main_quest_lv12	neutralny	yuzbasi icin gri kurtlar, bol bol var
+P15J_021	Q	local	p15_q_subquest_7	neutralny	yemek kitabi... bense yemek yapamam
+P15J_022	Q	local	p15_q_subquest_19	neutralny	kurt postu, lazim olunca kurtlar kaciyor
+P15J_023	Q	local	p15_q_main_quest_lv14	neutralny	gorev icin savas metini, kim yardim eder?
+P15J_024	Q	local	p15_q_main_quest_lv15	neutralny	yuzbasi ve muzisyen, garip gorev
+P15J_025	Q	local	p15_q_subquest_8	neutralny	yas pasta mi? ciddi misin, pasta icin koca gorev
+P15J_026	Q	local	p15_q_main_quest_lv16	neutralny	her yerde casus xd
+P15J_027	Q	local	p15_q_main_quest_lv16	neutralny	casus mektubu yeminlilerde
+P15J_028	Q	local	p15_q_subquest_9	neutralny	altin balta dusmuyor
+P15J_029	Q	local	p15_q_new_quest_lv17	neutralny	chaegirab icin mu-rang postu
+P15J_030	Q	local	p15_q_subquest_10	neutralny	sac tokasi, okcularda
+P15J_031	Q	local	p15_q_new_quest_lv19	neutralny	lanetli hayvanlar, koca bir suru
+P15J_032	Q	local	p15_q_subquest_11	neutralny	mirinenin kardesini ariyorum, nereye gitti
+P15J_033	Q	local	p15_q_subquest_12	neutralny	mi-jung burada bir yerde, dikkat
+P15J_034	Q	local	p15_q_subquest_13	neutralny	urielin paketi kaplanlarda
+P15J_035	Q	local	p15_q_new_quest_lv22	neutralny	belirtiler... bas agrisi mi bogaz agrisi mi? xd
+P15J_036	Q	local	p15_q_find_brother_article	neutralny	kardesin hatirasi delide
+P15J_037	Q	local	p15_q_subquest_15	neutralny	eun-jung kesilecek, goren var mi?
+P15J_038	Q	local	p15_q_subquest_33	neutralny	define haritasi buldum, aramaya gidiyorum
+P15J_039	Q	local	p15_q_subquest_33	neutralny	define mi? 4 harita bir sandik... bakalim
+P15J_040	Q	local	p15_q_subquest_16	neutralny	suvari, tum sehirde kosuyorum
+P15J_041	Q	local	p15_q_new_quest_lv26	neutralny	asker kacagi, her yerde casus xd
+P15J_042	Q	local	p15_q_main_quest_lv27	neutralny	siyah metin nerede?
+P15J_043	Q	local	p15_q_main_quest_lv27	neutralny	gorev metini gitti
+P15J_044	Q	local	p15_q_subquest_17	neutralny	ariyoungun yuzugu goo-paede
+P15J_045	Q	local	p15_q_new_quest_lv28	neutralny	ayi pencesi dusmuyor
+P15J_046	Q	local	p15_q_new_quest_lv28	neutralny	bera beni kovaliyor, ben onu degil
+P15J_047	Q	local	p15_q_new_quest_lv29	neutralny	kirik porselen, atlara saman... ne alaka
+P15J_048	Q	local	p15_q_main_quest_lv30	neutralny	her yerde anit, turist gibi geziyorum
+P15J_049	Q	local	p15_q_subquest_20	neutralny	yabanilerin mizraklari, yavas gidiyor
+P15J_050	Q	local	p15_q_subquest_25	neutralny	ariyoung icin cicek, romantik
+P15J_051	Q	local	p15_q_main_quest_lv32	neutralny	yine bir kitap sayfasi, kac tane var
+P15J_052	Q	local	p15_q_subquest_30	neutralny	gorev icin maden kaziyorum, madenci oldum
+P15J_053	Q	local	p15_q_subquest_31	neutralny	zirh icin maden, yine kaziyorum
+P15J_054	Q	local	p15_q_subquest_22	neutralny	deokbaenin altin baltasi generalde
+P15J_055	Q	local	p15_q_subquest_23	neutralny	yu-hwan ortada yok, nereye gitti
+P15J_056	Q	local	p15_q_subquest_44	neutralny	zilli orumcek ariyorum, goren var mi?
+P15J_057	Q	local	p15_q_subquest_44	neutralny	zili duyuyorum ama orumcegi goremiyorum xd
+P15J_058	Q	local	p15_q_subquest_27	neutralny	tapinak kitabi, fanatiklerde
+P15J_059	Q	local	p15_q_subquest_24	neutralny	yas pasta mi? ciddi misin, pasta icin koca gorev
+P15J_060	Q	local	p15_q_main_quest_lv40	neutralny	13 sayfa... bunu kim yazdi
+P15J_061	Q	local	p15_q_main_quest_lv40	neutralny	yine bir kitap sayfasi, kac tane var
+P15J_062	Q	local	p15_q_subquest_34	neutralny	siyah ruzgar generalleri nerede?
+P15J_063	Q	local	p15_q_subquest_34	neutralny	3 general var, 1 tanesi gitti
+P15J_064	Q	local	p15_q_subquest_32	neutralny	100 ork disi, ciddi misin?
+P15J_065	Q	local	p15_q_subquest_32	neutralny	ork disi, kaplan, iplik... tuccar dukkan mi aciyor
+P15J_066	Q	local	p15_q_new_quest_lv42	neutralny	balina mizragi mi? bu haritada mi?
+P15J_067	Q	local	p15_q_new_quest_lv43	neutralny	uzucu bir gorev ;/
+P15J_068	Q	local	p15_q_subquest_38	neutralny	maymunlar dovdu hala yay yok
+P15J_069	Q	local	p15_q_subquest_42	neutralny	hwang gezinti yeri degil
+P15J_070	Q	local	p15_q_main_quest_lv47	neutralny	colde kitap sayfalari, sicak
+P15J_071	Q	local	p15_q_subquest_36	neutralny	gorev icin 10 saman, olan var mi?
+P15J_072	Q	local	p15_q_subquest_36	neutralny	atlar icin saman, kahraman olacagimi sanmistim
+P15J_073	Q	local	p15_q_subquest_21	neutralny	ilac, ot, ilac... eczaci oldum
+P15J_074	Q	local	p15_q_subquest_41	neutralny	100 orumcek gozu... bunu kim dusundu?
+P15J_075	Q	local	p15_q_subquest_41	neutralny	{ile}/100 goz, biri beni vursun
+P15J_076	Q	local	p15_q_subquest_41	neutralny	orumcek gozleri damla damla dusuyor
+P15J_077	Q	local	p15_q_main_quest_lv50	neutralny	yine bir kitap sayfasi, kac tane var
+P15J_078	Q	local	p15_q_subquest_47	neutralny	gizli mesajin sifresi, dusunuyorum
+P15J_079	Q	local	p15_q_subquest_37	neutralny	porselen porselen... daha ne kadar
+P15J_080	Q	local	p15_q_new_quest_lv52	neutralny	yuzbasidan mektup, mistiklerden intikam
+P15J_081	Q	local	p15_q_subquest_46	neutralny	gorev icin 50 kristal cevheri, satan var mi?
+P15J_082	Q	local	p15_q_subquest_46	neutralny	porselen porselen... daha ne kadar
+P15J_083	Q	local	p15_q_main_quest_lv55	neutralny	her yerde anit, turist gibi geziyorum
+P15J_084	Q	local	p15_q_subquest_39	neutralny	ilac, ot, ilac... eczaci oldum
+P15J_085	Q	local	p15_q_subquest_40	neutralny	hastalikli okcular can yakiyor
+P15J_086	Q	local	p15_q_subquest_40	neutralny	bir suru ok ucu, bir de bana ates ediyorlar
+P15J_087	Q	local	p15_q_subquest_26	neutralny	octavio icin kurbaga bacagi, afiyet olsun
+P15J_088	Q	local	p15_q_subquest_48	neutralny	her yerde casus xd
+P15J_089	Q	local	p15_q_subquest_49	neutralny	bingsu... ne oldugunu bile bilmiyorum
+P15J_090	Q	local	p15_q_subquest_49	neutralny	50 parca buz, usudum
+P15J_091	Q	local	p15_q_subquest_49	neutralny	suruplu dondurma, simdi aciktim
+P15J_092	Q	local	p15_q_subquest_45	neutralny	tapinaktaki haberciler beni oldurup duruyor
+P15J_093	Q	local	p15_q_black_steel_crafting	neutralny	min-sun icin bir iyilik, nerede ki
+P20_GZ_01	S	global	level_gz	radosc	gz
+P20_GZ_02	S	global	level_gz	radosc	gg
+P20_GZ_03	S	global	level_gz	radosc	wp
+P20_GZ_04	S	global	level_gz	radosc	tebrikler
+P20_GZ_05	S	global	level_gz	radosc	tebrikler!
+P20_GZ_06	S	global	level_gz	radosc	fena degil
+P20_GZ_07	S	global	level_gz	radosc	grats
+P20_GZ_08	S	global	level_gz	radosc	gj
+P20_GZ_09	S	global	level_gz	radosc	bravo
+P20_GZ_10	S	global	level_gz	radosc	cabuk oldu
+P20_GZ_11	S	global	level_gz	radosc	gz {lvl}
+P20_GZ_12	S	global	level_gz	radosc	{lvl} oldu bile mi?
+P20_GZ_13	S	global	level_gz	radosc	vay vay, {lvl} seviye
+P20_GZ_14	S	global	level_gz	radosc	{lvl} hayirli olsun
+P20_GZ_15	S	global	level_gz	radosc	gz, boyle devam
+P20_GZ_16	S	global	level_gz	radosc	o, {lvl} mi? gz
+P20_GZT_01	S	global	level_gz_thanks	radosc	tesekkurler
+P20_GZT_02	S	global	level_gz_thanks	radosc	sag olun
+P20_GZT_03	S	global	level_gz_thanks	radosc	ty all
+P20_GZT_04	S	global	level_gz_thanks	radosc	thx
+P20_GZT_05	S	global	level_gz_thanks	radosc	tesekkurler millet
+P20_GZT_06	S	global	level_gz_thanks	radosc	herkese tesekkurler

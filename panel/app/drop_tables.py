@@ -209,6 +209,10 @@ class Msg(object):
         return hash((self.code, tuple(sorted(self.args.items()))))
 
 
+# Turkish patch: set by the panel to its English -> Turkish lookup (panel_tr).
+TRANSLATE = None
+
+
 def describe(msg, lang="en"):
     if not isinstance(msg, Msg):
         return str(msg)
@@ -216,6 +220,13 @@ def describe(msg, lang="en"):
     if texts is None:
         return msg.code
     template = texts[1] if lang == "pl" else texts[0]
+    if lang == "tr" and TRANSLATE is not None:
+        # Turkish patch: the Turkish of the English text (the panel sets
+        # TRANSLATE to its panel_tr); the English when it has none.
+        try:
+            template = TRANSLATE(texts[0])
+        except Exception:  # noqa: BLE001 - a message is a nicety
+            template = texts[0]
     args = {}
     for key, value in msg.args.items():
         args[key] = describe(value, lang) if isinstance(value, Msg) else value

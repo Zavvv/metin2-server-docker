@@ -40,6 +40,7 @@ quest collect_quest_lv70  begin
 	state go_to_disciple begin
 		when letter begin
 			send_letter(gameforge.collect_quest_lv60._220_sendLetter)
+			collect_data.send_delay()
 
 		end
 		when button or info begin
@@ -47,11 +48,14 @@ quest collect_quest_lv70  begin
 			say(gameforge.collect_quest_lv70._60_say)
 			say_item_vnum(30165)
 			say_reward(string.format(gameforge.collect_quest_lv70._70_sayReward, pc.getqf("collect_count")))
+			collect_data.say_delay()
 		end
 
 		when 2301.kill or  2302.kill or 2303.kill or 2304.kill or 2305.kill or  2311.kill or  2312.kill or  2313.kill or 2314.kill or 2315.kill  begin
 			local s = number(1, 200)
-			if s == 1 and pc.count_item(30165)==0 then
+			-- Iwakura's Patch 20, point 7: the branches stack (item_proto 200),
+			-- so one in the bag no longer stops the next from dropping.
+			if s == 1 then
 				pc.give_item2(30165)
 				send_letter(gameforge.collect_quest_lv70._110_sendLetter)
 			end
@@ -61,6 +65,7 @@ quest collect_quest_lv70  begin
 			if collect_data.is_wait() then
 				say_title(gameforge.collect_quest_lv60._50_sayTitle)
 				say(gameforge.collect_quest_lv70._170_say)
+				collect_data.say_delay()
 				return
 			end
 			if pc.count_item(30165) < 1 then

@@ -239,11 +239,32 @@ TEXTS = {
 }
 
 
+def turkish(en):
+    """Turkish patch: the Turkish of an English text (the panel's panel_tr,
+    static/i18n/panel_tr.json), else the English. A list or tuple of texts
+    (the empires', the classes') is translated text by text."""
+    if isinstance(en, (list, tuple)):
+        return type(en)(turkish(x) for x in en)
+    try:
+        from . import ns
+        lookup = ns().get("panel_tr")
+        return lookup(en) if lookup else en
+    except Exception:                                # noqa: BLE001 - no panel
+        return en
+
+
+def pick(pl, en, language):
+    """A (Polish, English) pair in the reader's language ('tr' included)."""
+    if language == "pl":
+        return pl
+    return turkish(en) if language == "tr" else en
+
+
 def text(key, language):
     pair = TEXTS[key]
-    return pair[0] if language == "pl" else pair[1]
+    return pick(pair[0], pair[1], language)
 
 
 def for_language(language):
     """Every text in one language, for the page's script."""
-    return {key: (pair[0] if language == "pl" else pair[1]) for key, pair in TEXTS.items()}
+    return {key: pick(pair[0], pair[1], language) for key, pair in TEXTS.items()}

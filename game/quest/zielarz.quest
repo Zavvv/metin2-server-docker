@@ -1,0 +1,424 @@
+-- metin2-suite: Zielarz, the Herbalist's Path (Said / saido_0, 17 October;
+-- docs/notes/gathering.md). Ranks 0-5 taken at Baek-Go (20018) by an exam -
+-- level, recipe knowledge, the equipped knife, herbs, potions and a fee -
+-- Baek-Go's Herbalist's Workshop (crafting window 111, recipes 401-427 of
+-- world.crafting_proto, mariadb/playerbot/zielarz_world.sql) and his orders of
+-- the day, which pay experience and a draw of the groups 10712-10716
+-- (zielarz/special_item_group.zielarz.txt). Players only for now (Tieru, 17
+-- October): no bot clicks Baek-Go's chat, and playerbot_quest_cards.h lists
+-- its 75 quests by name, so the bots' quest pass never takes this one.
+--
+-- Flags:
+--   zielarz.rank            0..5, the Herbalist Rank
+--   crafting.progress_400   the rank again, which window 111's rows read as
+--                           their recipe knowledge (recipe_vnum 400,
+--                           req_progress = the rank a row needs)
+--   zielarz.order_day_<n>   the day order slot n was last handed in
+-- Said's design keeps every text in a translate.zielarz table; here they are
+-- our quests' t(pl, en) pairs (playerbot_lang.quest, playerbot_quest_texts.lua),
+-- and item_name() is the client's own [ITEM value;N] token, which the client
+-- names in its reader's language.
+quest zielarz begin
+    state start begin
+        function t(pl, en)
+            if pc.getf("playerbot_lang", "en") == 1 then
+                return playerbot_quest_text ~= nil and playerbot_quest_text(en) or en
+            end
+            return pl
+        end
+
+        -- Word wrap at 50 characters, an [ITEM value;N] token kept whole.
+        function sayw(text)
+            text = string.gsub(text, "%[ITEM value;", "[ITEM\1value;")
+            local line = ""
+            for word in string.gfind(text, "%S+") do
+                if line == "" then
+                    line = word
+                elseif string.len(line) + 1 + string.len(word) > 50 then
+                    say((string.gsub(line, "\1", " ")))
+                    line = word
+                else
+                    line = line .. " " .. word
+                end
+            end
+            if line ~= "" then
+                say((string.gsub(line, "\1", " ")))
+            end
+        end
+
+        function yang(n)
+            local s = tostring(math.floor(n))
+            local out = ""
+            while string.len(s) > 3 do
+                out = " " .. string.sub(s, -3) .. out
+                s = string.sub(s, 1, -4)
+            end
+            return s .. out
+        end
+
+        function rank()
+            return pc.getf("zielarz", "rank")
+        end
+
+        function rank_name(r)
+            if r <= 0 then
+                return zielarz.t("Nowicjusz", "Novice")
+            elseif r == 1 then
+                return zielarz.t("Uczen Zielarza", "Apprentice Herbalist")
+            elseif r == 2 then
+                return zielarz.t("Czeladnik Zielarski", "Journeyman Herbalist")
+            elseif r == 3 then
+                return zielarz.t("Zielarz", "Herbalist")
+            elseif r == 4 then
+                return zielarz.t("Mistrz Zielarz", "Master Herbalist")
+            end
+            return zielarz.t("Arcymistrz Zielarstwa", "Grandmaster Herbalist")
+        end
+
+        function introduced()
+            -- 2 = the first potion crafted (the crafting lib), 3 = the
+            -- introduction rewarded (herbalism_onboarding.quest)
+            return pc.getf("herbalism_onboarding", "completed") >= 2
+        end
+
+        function knife_grade()
+            local w = pc.get_weapon()
+            if w >= 29201 and w <= 29210 then
+                return w - 29201
+            end
+            return -1
+        end
+
+        function knowledge()
+            -- successful reads of every herbal recipe (window 102's rows that have a scroll)
+            local ids = {11, 14, 17, 20, 23, 26, 29, 32, 35, 38, 41, 44, 48, 52, 54, 56, 57, 67,
+                         71, 72, 73, 74, 78, 79, 80, 81, 82, 83, 86, 92, 93, 94, 95}
+            local sum = 0
+            for i = 1, table.getn(ids) do
+                sum = sum + pc.getf("crafting", "progress_" .. ids[i])
+            end
+            return sum
+        end
+
+        function any_list(kind)
+            if kind == "juice" then
+                return {51700, 51705, 51710, 51715, 51720, 51725, 51730, 51735, 51740, 51745, 51750, 51800, 51805}
+            elseif kind == "water" then
+                return {51701, 51706, 51711, 51716, 51721, 51726, 51731, 51736, 51741, 51746, 51751, 51801, 51806}
+            end
+            return {51702, 51707, 51712, 51717, 51722, 51727, 51732, 51737, 51742, 51747, 51752, 51802, 51807}
+        end
+
+        function any_label(kind)
+            if kind == "juice" then
+                return zielarz.t("dowolny Sok", "any Juice")
+            elseif kind == "water" then
+                return zielarz.t("dowolna Woda", "any Water")
+            end
+            return zielarz.t("dowolna Rosa", "any Dew")
+        end
+
+        -- an entry is {vnum, count} or {"juice"|"water"|"dew", count}
+        function entry_have(e)
+            if type(e[1]) == "string" then
+                local list = zielarz.any_list(e[1])
+                local n = 0
+                for i = 1, table.getn(list) do
+                    n = n + pc.count_item(list[i])
+                end
+                return n
+            end
+            return pc.count_item(e[1])
+        end
+
+        function entry_label(e)
+            if type(e[1]) == "string" then
+                return zielarz.any_label(e[1])
+            end
+            return item_name(e[1])
+        end
+
+        function entry_take(e)
+            if type(e[1]) == "string" then
+                local list = zielarz.any_list(e[1])
+                local left = e[2]
+                for i = 1, table.getn(list) do
+                    if left > 0 then
+                        local n = math.min(pc.count_item(list[i]), left)
+                        if n > 0 then
+                            pc.remove_item(list[i], n)
+                            left = left - n
+                        end
+                    end
+                end
+                return
+            end
+            pc.remove_item(e[1], e[2])
+        end
+
+        -- ------------------------------------------------------------ the exams
+        function req(r)
+            local t = {
+                {level = 20, know = 4, knife = 0, fee = 20000,
+                 items = {{50721, 20}, {50722, 20}, {27103, 5}}, gift = {50908, 1}},
+                {level = 35, know = 16, knife = 1, fee = 100000,
+                 items = {{50723, 30}, {50724, 30}, {"juice", 10}, {50736, 5}}, gift = {50902, 10}},
+                {level = 50, know = 36, knife = 3, fee = 500000,
+                 items = {{50725, 30}, {50726, 30}, {"water", 10}, {50733, 5}, {50735, 5}}, gift = {50903, 10}},
+                {level = 65, know = 60, knife = 5, fee = 2000000,
+                 items = {{50727, 30}, {50728, 30}, {"dew", 5}, {50734, 5}, {50732, 5}}, gift = {51782, 1}},
+                {level = 80, know = 90, knife = 6, fee = 5000000,
+                 items = {{50729, 20}, {50730, 20}, {50731, 10}, {51748, 2}, {51753, 2}}, gift = {71153, 1}},
+            }
+            return t[r]
+        end
+
+        function mark(ok)
+            if ok then
+                return "[OK] "
+            end
+            return "[--] "
+        end
+
+        function check(r, show)
+            local q = zielarz.req(r)
+            local all = true
+            local ok = pc.get_level() >= q.level
+            all = all and ok
+            if show then
+                zielarz.sayw(zielarz.mark(ok) .. string.format(zielarz.t("Poziom postaci: %d (masz %d)",
+                    "Character level: %d (you: %d)"), q.level, pc.get_level()))
+            end
+            local know = zielarz.knowledge()
+            ok = know >= q.know
+            all = all and ok
+            if show then
+                zielarz.sayw(zielarz.mark(ok) .. string.format(zielarz.t("Wiedza o recepturach: %d (masz %d)",
+                    "Recipe knowledge: %d (you: %d)"), q.know, know))
+            end
+            ok = zielarz.knife_grade() >= q.knife
+            all = all and ok
+            if show then
+                zielarz.sayw(zielarz.mark(ok) .. string.format(zielarz.t("Zalozony Nozyk Zielarza +%d lub lepszy",
+                    "Herbalist's Knife +%d or better, equipped"), q.knife))
+            end
+            ok = pc.get_gold() >= q.fee
+            all = all and ok
+            if show then
+                zielarz.sayw(zielarz.mark(ok) .. string.format(zielarz.t("Oplata: %s Yang", "Fee: %s Yang"),
+                    zielarz.yang(q.fee)))
+                -- the items on a page of their own
+                wait()
+                say_title(string.format(zielarz.t("Egzamin: %s", "Exam: %s"), zielarz.rank_name(r)))
+                zielarz.sayw(zielarz.t("Do oddania (zostana zabrane):", "To hand in (they will be taken):"))
+            end
+            for i = 1, table.getn(q.items) do
+                local e = q.items[i]
+                local have = zielarz.entry_have(e)
+                ok = have >= e[2]
+                all = all and ok
+                if show then
+                    zielarz.sayw(zielarz.mark(ok) .. string.format(zielarz.t("%dx %s (masz %d)", "%dx %s (you: %d)"),
+                        e[2], zielarz.entry_label(e), have))
+                end
+            end
+            return all
+        end
+
+        function set_rank(r)
+            pc.setf("zielarz", "rank", r)
+            pc.setf("crafting", "progress_400", r)
+        end
+
+        function no_space()
+            zielarz.sayw(string.format(zielarz.t("Zrob miejsce w ekwipunku (wolne pola: %d).",
+                "Make room in your inventory (free slots: %d)."), 2))
+        end
+
+        when login begin
+            -- The window reads the rank as crafting.progress_400; keep the two equal.
+            if pc.getf("crafting", "progress_400") ~= zielarz.rank() then
+                pc.setf("crafting", "progress_400", zielarz.rank())
+            end
+            -- A character that finished the introduction before completed 3
+            -- existed, or had it ended by a GM's skip, is let in by the
+            -- introduction's own login in its state "complete"
+            -- (herbalism_onboarding.settle()).
+        end
+
+        when letter with zielarz.introduced() and pc.get_level() >= 20 begin
+            send_letter(zielarz.t("Ranga Zielarza", "Herbalist Rank"))
+        end
+
+        when button or info begin
+            local r = zielarz.rank()
+            say_title(zielarz.t("Ranga Zielarza", "Herbalist Rank"))
+            zielarz.sayw(string.format(zielarz.t("Twoja ranga zielarza: %s (%d/5).", "Your herbalist rank: %s (%d/5)."),
+                zielarz.rank_name(r), r))
+            if r < 5 then
+                zielarz.sayw(string.format(zielarz.t("Nastepna ranga od %d poziomu - zapytaj Baek-Go o Sciezke Zielarza.",
+                    "Next rank from level %d - ask Baek-Go about the Herbalist's Path."), zielarz.req(r + 1).level))
+            end
+            if r >= 1 then
+                zielarz.sayw(string.format(zielarz.t("Zlecenia dnia u Baek-Go: %d dziennie.",
+                    "Baek-Go's orders of the day: %d per day."), zielarz.order_slots(r)))
+                zielarz.sayw(zielarz.t("Pracownia Zielarza: rozmawiaj z Baek-Go.", "Herbalist's Workshop: talk to Baek-Go."))
+            end
+        end
+
+        when 20018.chat.zielarz.t("Sciezka Zielarza", "Herbalist's Path") with zielarz.introduced() and pc.get_level() >= 20 begin
+            local r = zielarz.rank()
+            say_title(mob_name(20018))
+            zielarz.sayw(string.format(zielarz.t("Twoja ranga: %s.", "Your rank: %s."), zielarz.rank_name(r)))
+            if r >= 5 then
+                zielarz.sayw(zielarz.t("Osiagnales najwyzsza range. Nie mam juz czego cie uczyc - teraz to ja ucze sie od ciebie.",
+                    "You have reached the highest rank. I have nothing left to teach you - now I learn from you."))
+                return
+            end
+            zielarz.sayw(zielarz.t("Kazdy zielarz zaczyna od nozyka i garsci kwiatow. Pokaz mi, czego sie nauczyles, a otworze przed toba kolejne tajemnice.",
+                "Every herbalist starts with a knife and a handful of flowers. Show me what you have learned and I will open the next secrets to you."))
+            zielarz.sayw(zielarz.t("Wiedza to suma udanych odczytow wszystkich twoich receptur zielarskich.",
+                "Knowledge is the sum of the successful reads of all your herbal recipes."))
+            wait()
+            say_title(string.format(zielarz.t("Egzamin: %s", "Exam: %s"), zielarz.rank_name(r + 1)))
+            if not zielarz.check(r + 1, true) then
+                wait()
+                say_title(mob_name(20018))
+                zielarz.sayw(zielarz.t("Jeszcze nie spelniasz wszystkich warunkow. Wroc, gdy bedziesz gotow.",
+                    "You do not meet all the conditions yet. Come back when you are ready."))
+                return
+            end
+            wait()
+            say_title(mob_name(20018))
+            zielarz.sayw(zielarz.t("Czy chcesz teraz przystapic do egzaminu?", "Do you want to take the exam now?"))
+            if select(zielarz.t("Tak", "Yes"), zielarz.t("Nie teraz", "Not now")) ~= 1 then
+                return
+            end
+            -- Again: the bag, the purse and the knife may have changed while
+            -- the dialog was open. No wait or select from here to set_rank.
+            say_title(mob_name(20018))
+            if not zielarz.check(r + 1, false) then
+                zielarz.sayw(zielarz.t("Jeszcze nie spelniasz wszystkich warunkow. Wroc, gdy bedziesz gotow.",
+                    "You do not meet all the conditions yet. Come back when you are ready."))
+                return
+            end
+            if pc.get_empty_inventory_count() < 2 then
+                zielarz.no_space()
+                return
+            end
+            local q = zielarz.req(r + 1)
+            for i = 1, table.getn(q.items) do
+                zielarz.entry_take(q.items[i])
+            end
+            pc.change_money(-q.fee)
+            zielarz.set_rank(r + 1)
+            pc.give_item2(q.gift[1], q.gift[2])
+            zielarz.sayw(string.format(zielarz.t("Gratulacje! Od dzis twoja ranga to: %s.",
+                "Congratulations! From today your rank is: %s."), zielarz.rank_name(r + 1)))
+            zielarz.sayw(zielarz.t("W Pracowni Zielarza czekaja na ciebie nowe receptury.",
+                "New recipes are waiting for you in the Herbalist's Workshop."))
+            zielarz.sayw(zielarz.t("Przyjmij ten drobny podarunek.", "Accept this small gift."))
+            say_item_vnum(q.gift[1])
+        end
+
+        -- ------------------------------------------------------------ the Workshop
+        -- Window 111 is crafting_data[111], which m2_crafting_windows.lua fills
+        -- from world.crafting_window; crafting.create (quest/systems/crafting.lua)
+        -- serves it like any other window.
+        when 20018.chat.zielarz.t("Pracownia Zielarza", "Herbalist's Workshop") with zielarz.rank() >= 1 begin
+            crafting.open(111)
+            setskin(NOWINDOW)
+        end
+
+        -- ------------------------------------------------------------ the order of the day
+        function order_slots(r)
+            local t = {1, 1, 2, 2, 3}
+            return t[r]
+        end
+
+        function order_exp_pct(r)
+            local t = {4, 5, 6, 7, 8}
+            return t[r]
+        end
+
+        function today()
+            -- a calendar day of UTC+1: it changes at midnight CET
+            return math.floor((get_time() + 3600) / 86400)
+        end
+
+        function order_pool(r)
+            local t = {
+                {{50721, 30}, {50722, 30}, {50723, 30}, {50724, 30}, {27103, 10}, {27100, 10}},
+                {{50725, 30}, {50726, 30}, {"juice", 10}, {50736, 10}, {50733, 10}},
+                {{50727, 20}, {50728, 20}, {"water", 5}, {50735, 10}, {50734, 10}, {50732, 10}},
+                {{50729, 10}, {50730, 10}, {50731, 5}, {"dew", 2}, {50734, 15}, {50732, 15}},
+                {{50729, 15}, {50730, 15}, {50731, 10}, {51748, 1}, {51753, 1}, {"dew", 4}},
+            }
+            return t[r]
+        end
+
+        function order_of(o_rank, slot, day)
+            -- fixed for the character and the day: a relog or a channel does not change it
+            local pool = zielarz.order_pool(o_rank)
+            local idx = math.mod(pc.get_player_id() + day * (2 * slot + 1) + slot, table.getn(pool)) + 1
+            return pool[idx]
+        end
+
+        function free_slot(r, day)
+            for s = 1, zielarz.order_slots(r) do
+                if pc.getf("zielarz", "order_day_" .. s) ~= day then
+                    return s
+                end
+            end
+            return 0
+        end
+
+        when 20018.chat.zielarz.t("Zlecenie dnia", "Order of the day") with zielarz.rank() >= 1 begin
+            local r = zielarz.rank()
+            local day = zielarz.today()
+            local slot = zielarz.free_slot(r, day)
+            say_title(mob_name(20018))
+            if slot == 0 then
+                zielarz.sayw(zielarz.t("Na dzis nie mam juz zlecen. Wroc jutro.", "I have no more orders today. Come back tomorrow."))
+                return
+            end
+            -- slot 1 is an order of the player's rank, slot 2 one rank lower, slot 3 two
+            local o_rank = r - (slot - 1)
+            local e = zielarz.order_of(o_rank, slot, day)
+            local exp = math.floor(pc.get_next_exp() * zielarz.order_exp_pct(o_rank) / 100)
+            say_title(string.format(zielarz.t("Zlecenie %d z %d", "Order %d of %d"), slot, zielarz.order_slots(r)))
+            zielarz.sayw(zielarz.t("Dzis potrzebuje:", "Today I need:"))
+            zielarz.sayw(string.format(zielarz.t("%dx %s (masz %d)", "%dx %s (you: %d)"),
+                e[2], zielarz.entry_label(e), zielarz.entry_have(e)))
+            zielarz.sayw(string.format(zielarz.t("Nagroda: %s pkt. doswiadczenia i cos z moich zapasow.",
+                "Reward: %s experience and something from my stores."), zielarz.yang(exp)))
+            if zielarz.entry_have(e) < e[2] then
+                zielarz.sayw(zielarz.t("Brakuje ci jeszcze czesci towaru.", "You are still missing part of the goods."))
+                return
+            end
+            zielarz.sayw(zielarz.t("Oddajesz towar?", "Will you hand the goods in?"))
+            if select(zielarz.t("Tak", "Yes"), zielarz.t("Nie teraz", "Not now")) ~= 1 then
+                return
+            end
+            -- again after the dialog; no wait or select from here on
+            say_title(mob_name(20018))
+            if pc.getf("zielarz", "order_day_" .. slot) == day then
+                zielarz.sayw(zielarz.t("Na dzis nie mam juz zlecen. Wroc jutro.", "I have no more orders today. Come back tomorrow."))
+                return
+            end
+            if zielarz.entry_have(e) < e[2] then
+                zielarz.sayw(zielarz.t("Brakuje ci jeszcze czesci towaru.", "You are still missing part of the goods."))
+                return
+            end
+            if pc.get_empty_inventory_count() < 2 then
+                zielarz.no_space()
+                return
+            end
+            zielarz.entry_take(e)
+            pc.setf("zielarz", "order_day_" .. slot, day)
+            pc.give_exp2(exp)
+            pc.give_item_from_special_item_group(10711 + o_rank)
+            zielarz.sayw(zielarz.t("Dziekuje, to mi wystarczy. Zajrzyj jutro.", "Thank you, that will do. Drop by tomorrow."))
+        end
+    end
+end

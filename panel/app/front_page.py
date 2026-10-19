@@ -261,7 +261,7 @@ S = {
     "rk_name": {"pl": "Nazwa", "en": "Name", "de": "Name", "tr": "İsim"},
     "rk_level": {"pl": "Poziom", "en": "Level", "de": "Stufe", "tr": "Seviye"},
     "rk_exp": {"pl": "Exp", "en": "Exp", "de": "Exp", "tr": "Tecrübe"},
-    "rk_empire": {"pl": "Królestwo", "en": "Empire", "de": "Reich", "tr": "İmparatorluk"},
+    "rk_empire": {"pl": "Królestwo", "en": "Empire", "de": "Reich", "tr": "Krallık"},
     "gr_win": {"pl": "Zwycięstwa", "en": "Wins", "de": "Siege", "tr": "Galibiyet"},
     "gr_draw": {"pl": "Remisy", "en": "Draws", "de": "Unentschieden", "tr": "Beraberlik"},
     "gr_loss": {"pl": "Porażki", "en": "Losses", "de": "Niederlagen", "tr": "Mağlubiyet"},
@@ -281,7 +281,7 @@ S = {
         "pl": "Lv",
         "en": "Lv",
         "de": "Lv",
-        "tr": "Sv."
+        "tr": "Lv"
     },
 
     # home
@@ -371,7 +371,7 @@ S = {
         "pl": "Setki autonomicznych graczy-botów expią, ulepszają ekwipunek, handlują na straganach i polują na bossy w Twoim prywatnym świecie.",
         "en": "Hundreds of autonomous player bots gain experience, upgrade their equipment, trade at stalls and hunt bosses in your private world.",
         "de": "Hunderte autonome Spieler-Bots sammeln Erfahrung, verbessern ihre Ausrüstung, handeln an Ständen und jagen Bosse in deiner privaten Welt.",
-        "tr": "Yüzlerce otonom oyuncu botu deneyim kazanır, ekipmanlarını geliştirir, pazarlarda ticaret yapar ve özel dünyanda boss avlar."
+        "tr": "Yüzlerce otonom oyuncu botu tecrübe kazanır, ekipmanlarını yükseltir, tezgâhlarda ticaret yapar ve özel dünyanda boss avlar."
     },
 
     "about_f3": {
@@ -392,14 +392,14 @@ S = {
         "pl": "Wszystko czego potrzebujesz do uruchomienia gry – pobierasz jedną paczkę i grasz bez zbędnych komplikacji.",
         "en": "Everything you need to start playing — download a single package and play without unnecessary complications.",
         "de": "Alles, was du zum Spielen brauchst – lade ein einziges Paket herunter und spiele ohne unnötige Komplikationen.",
-        "tr": "Oynamaya başlamak için ihtiyacın olan her şey burada — tek bir paket indir ve gereksiz komplikasyonlar olmadan oyna."
+        "tr": "Oynamaya başlamak için ihtiyacın olan her şey burada — tek bir paket indir ve gereksiz zahmet olmadan oyna."
     },
 
     "about_p1": {
         "pl": "Wielu z nas doskonale pamięta nieprzespane noce w Dolinie Orków, na Pustyni czy pod Wieżą Demonów w 2009 roku. Niestety, dzisiejsze serwery MMORPG to najczęściej bezlitosny wyścig szczurów, agresywne mikropłatności Pay-to-Win oraz społeczność, w której trudno o relaks.",
         "en": "Many of us still remember the sleepless nights in the Valley of Seungryong, the Desert or beneath the Demon Tower back in 2009. Unfortunately, today's MMORPG servers are often a ruthless rat race, filled with aggressive pay-to-win microtransactions and communities where it is hard to simply relax.",
         "de": "Viele von uns erinnern sich noch gut an die schlaflosen Nächte im Orktal, in der Wüste oder unter dem Dämonenturm im Jahr 2009. Leider sind heutige MMORPG-Server oft ein erbarmungsloser Wettlauf, geprägt von aggressiven Pay-to-win-Mikrotransaktionen und einer Community, in der Entspannung kaum möglich ist.",
-        "tr": "Birçoğumuz 2009 yılında Ork Vadisi'nde, Çöl'de veya Şeytan Kulesi'nin altında geçirilen uykusuz geceleri hâlâ çok iyi hatırlıyoruz. Ne yazık ki günümüz MMORPG sunucuları çoğunlukla acımasız bir rekabet, agresif pay-to-win mikro ödemeleri ve rahatlamanın zor olduğu topluluklar anlamına geliyor."
+        "tr": "Birçoğumuz 2009 yılında Seungryong Vadisi'nde, Çöl'de veya Şeytan Kulesi'nin altında geçirilen uykusuz geceleri hâlâ çok iyi hatırlıyoruz. Ne yazık ki günümüz MMORPG sunucuları çoğunlukla acımasız bir rekabet, agresif pay-to-win mikro ödemeleri ve rahatlamanın zor olduğu topluluklar anlamına geliyor."
     },
 
     "about_p2": {
@@ -413,7 +413,7 @@ S = {
         "pl": "✓Grasz kiedy chcesz, pauzujesz kiedy musisz ✓Zero mikropłatności, ItemShopu i sztucznego blokowania postępu ✓Idealna płynność i stabilność bez lagów sieciowych",
         "en": "✓ Play whenever you want, pause whenever you need ✓ Zero microtransactions, Item Shop or artificial progression barriers ✓ Smooth and stable gameplay without network lag",
         "de": "✓ Spiele, wann du möchtest, und pausiere, wann du musst ✓ Keine Mikrotransaktionen, kein Item-Shop und keine künstlichen Fortschrittsbarrieren ✓ Flüssiges und stabiles Gameplay ohne Netzwerk-Lags",
-        "tr": "✓ İstediğin zaman oyna, gerektiğinde duraklat ✓ Sıfır mikro ödeme, Item Shop ve yapay ilerleme engelleri ✓ Ağ gecikmesi olmadan akıcı ve stabil oyun deneyimi"
+        "tr": "✓ İstediğin zaman oyna, gerektiğinde duraklat ✓ Mikro ödeme, Nesne Market ve yapay ilerleme engeli yok ✓ Ağ gecikmesi olmadan akıcı ve stabil oyun deneyimi"
     },
 
     # register page
@@ -720,7 +720,7 @@ S.update({
         "pl": "Ta strona nie wyświetla hasła administratora. Gdy go nie znasz, skontaktuj się z właścicielem serwera. Właściciel zarządza hasłem przez launcher lub konfigurację serwera.",
         "en": "This page never displays the administrator password. If you do not know it, contact the server owner. The owner manages it through the launcher or server configuration.",
         "de": "Diese Seite zeigt das Administratorpasswort niemals an. Wenn du es nicht kennst, wende dich an den Serverbetreiber. Er verwaltet es im Launcher oder in der Serverkonfiguration.",
-        "tr": "Bu sayfa yönetici şifresini asla göstermez. Şifreyi bilmiyorsan sunucu sahibiyle iletişime geç. Sunucu sahibi şifreyi başlatıcı veya sunucu yapılandırması üzerinden yönetir."},
+        "tr": "Bu sayfa yönetici şifresini asla göstermez. Şifreyi bilmiyorsan sunucu sahibiyle iletişime geç. Sunucu sahibi şifreyi launcher veya sunucu yapılandırması üzerinden yönetir."},
     "err_pw_chars": {
         "pl": "Hasło: 6–16 znaków ASCII bez spacji (litery, cyfry i symbole).",
         "en": "Password: 6–16 ASCII characters without spaces (letters, digits and symbols).",

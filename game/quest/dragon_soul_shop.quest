@@ -28,7 +28,7 @@ quest dragon_soul_shop begin
 	state start begin
 		function t(pl, en)
 			if pc.getf("playerbot_lang", "en") == 1 then
-				return en
+				return playerbot_quest_text ~= nil and playerbot_quest_text(en) or en
 			end
 			return pl
 		end

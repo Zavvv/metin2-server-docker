@@ -1,0 +1,1025 @@
+# The engine's own lines (LC_TEXT) in French, for a player whose client names
+# the language (the fourth word of /playerbot_lang) - rendered by
+# tools/generate_engine_languages.py from Tyrion's translation of 16 October
+# (data/engine_texts_fr.tsv, from locale_string_en.tsv's English), DO NOT
+# EDIT, re-run it. The English file's layout: the FNV-1a of the Polish the
+# English was matched to, the key, the French text in CP1252, "hand". A key not
+# here is said in English.
+#
+# 1016 of the English file's 1016 keys
+a09af30f	Everyone will be teleported into the city shortly.	Tout le monde va bientôt être téléporté en ville.	hand
+b36155b5	This item does not exist.	Cet objet n'existe pas.	hand
+405d1557	The box suddenly exploded! You have lost Hit Points (HP).	Le coffre a soudain explosé ! Vous avez perdu des points de vie (PV).	hand
+912a2dc7	If you inhale the green smoke that is coming out of the box, the poison will spread through your body!	Si vous inhalez la fumée verte qui sort du coffre, le poison se répandra dans votre corps !	hand
+f178436c	You have received %s, %d units.	Vous avez reçu %s, %d unités.	hand
+6f0f078c	The box contains %s.	Le coffre contient %s.	hand
+7f404243	This key does not seem to fit the lock.	Cette clé ne semble pas aller dans la serrure.	hand
+ca3115e6	You have not received anything.	Vous n'avez rien reçu.	hand
+7f7d468a	You do not have enough Yang to use this item.	Vous n'avez pas assez de Yang pour utiliser cet objet.	hand
+5cfddc53	You have lowered your Skill Level.	Vous avez baissé le niveau de votre compétence.	hand
+b2c6d644	You cannot lower your Skill Level.	Vous ne pouvez pas baisser le niveau de votre compétence.	hand
+e24884a8	This effect is already activated.	Cet effet est déjà activé.	hand
+b949c454	This item can only be used in an Internet cafe.	Cet objet ne peut être utilisé que dans un cybercafé.	hand
+c9da8b8b	That is over the limit.	C'est au-delà de la limite.	hand
+3dd9b60e	Unfortunately you don't have enough space in your inventory.	Malheureusement, vous n'avez pas assez de place dans votre inventaire.	hand
+7f8859a6	Used Moon Cake or Seed.	Gâteau de lune ou graine utilisé.	hand
+bdd9bdef	You cannot wear a Wedding Ring if you are not married.	Vous ne pouvez pas porter d'alliance si vous n'êtes pas marié.	hand
+47c85423	You cannot use the Event Detector from this position.	Vous ne pouvez pas utiliser le détecteur d'événement depuis cette position.	hand
+74dbff14	This item cannot be absorbed.	Cet objet ne peut pas être absorbé.	hand
+b9af7c91	The Event Detector vanished in a mysterious light.	Le détecteur d'événement a disparu dans une lumière mystérieuse.	hand
+a0169e44	The Event Detector has vanished.	Le détecteur d'événement a disparu.	hand
+acf0fc42	The Compass for Metin Stones does not work in dungeons.	La boussole des pierres Metin ne fonctionne pas dans les donjons.	hand
+23877dba	The Compass for Metin Stones has vanished in the mysterious light.	La boussole des pierres Metin a disparu dans une lumière mystérieuse.	hand
+539c2687	Receive: %s - %d	Reçu : %s - %d	hand
+9c47cc3d	The Compass for Metin Stones has vanished.	La boussole des pierres Metin a disparu.	hand
+f5716abf	You find a simple Piece of Stone in the Clam.	Vous trouvez un simple morceau de pierre dans le coquillage.	hand
+67e6a9e3	The Clam has vanished.	Le coquillage a disparu.	hand
+f6c4b8cb	There is a White Pearl inside the Clam.	Il y a une perle blanche dans le coquillage.	hand
+44570c84	There is a Blue Pearl inside the Clam.	Il y a une perle bleue dans le coquillage.	hand
+26dd6a04	There is a Blood-Red Pearl inside the Clam.	Il y a une perle rouge sang dans le coquillage.	hand
+44ebcda4	It isn't easy to understand this book.	Ce livre n'est pas facile à comprendre.	hand
+d1afbd74	This book will not help you.	Ce livre ne vous aidera pas.	hand
+7dc1797c	You need to have a minimum level of 30 to understand this book.	Il vous faut au moins le niveau 30 pour comprendre ce livre.	hand
+7cd0c3f1	You need a minimum level of 50 to understand this book.	Il vous faut au moins le niveau 50 pour comprendre ce livre.	hand
+14cd35dd	You need a minimum level of %d to understand this book.	Il vous faut au moins le niveau %d pour comprendre ce livre.	hand
+670e42b3	You can't train any more Combos.	Vous ne pouvez plus entraîner de combos.	hand
+e8ac1ecd	%s has captured the flag of %s!	%s a capturé le drapeau de %s !	hand
+1c7234e5	You already understand this language.	Vous comprenez déjà cette langue.	hand
+d4c869ef	You have to improve your Level to read this Book.	Vous devez monter de niveau pour lire ce livre.	hand
+522bd4c8	The book is too hard for practising.	Ce livre est trop difficile pour s'entraîner.	hand
+8c21a7d0	You cannot train with this Book any more.	Vous ne pouvez plus vous entraîner avec ce livre.	hand
+0e5f2e22	Taxes are set to %d%%.	Les taxes sont fixées à %d%%.	hand
+ed86562d	You need a minimum level of 50 to get riding training.	Il vous faut au moins le niveau 50 pour l'entraînement d'équitation.	hand
+00f64c16	You have escaped the evil ghost curse with the help of an Exorcism Scroll.	Grâce à un parchemin d'exorcisme, vous avez échappé à la malédiction du mauvais esprit.	hand
+34f78acf	You cannot read any more Riding Guides.	Vous ne pouvez plus lire de manuels d'équitation.	hand
+a880dec0	You read the Horse Riding Manual and received a Riding Point.	Vous avez lu le manuel d'équitation et reçu un point d'équitation.	hand
+d9acd9f1	You can use this point to improve your riding skill!	Vous pouvez utiliser ce point pour améliorer votre compétence d'équitation !	hand
+ee664336	The guild %s's flag has been stolen by player %s.	Le drapeau de la guilde %s a été volé par le joueur %s.	hand
+6a13e7e7	You did not understand the riding guide.	Vous n'avez pas compris le manuel d'équitation.	hand
+c7cfa253	Your mind is clear. You can concentrate really well now.	Votre esprit est clair. Vous pouvez maintenant très bien vous concentrer.	hand
+ba164034	Your rank has increased by %d points.	Votre rang a augmenté de %d points.	hand
+38c28216	You cannot dye or bleach your current hairstyle.	Vous ne pouvez pas teindre ni décolorer votre coiffure actuelle.	hand
+f30c8ba9	You need to have reached level %d to be able to dye your hair again.	Vous devez avoir atteint le niveau %d pour teindre à nouveau vos cheveux.	hand
+16102d5f	This item can only be opened by the another gender.	Cet objet ne peut être ouvert que par l'autre sexe.	hand
+42a67e31	You cannot use this from your current position.	Vous ne pouvez pas utiliser ceci depuis votre position actuelle.	hand
+46170ea4	You are ready to warp, so you cannot use the Scroll of the Location.	Vous êtes prêt à être téléporté, vous ne pouvez donc pas utiliser le parchemin de lieu.	hand
+758d8fe0	You are being brought back to the place of origin.	Vous êtes ramené à votre point de départ.	hand
+9e65da68	%s%s cannot be used in a dungeon.	%s%s ne peut pas être utilisé dans un donjon.	hand
+9dec600f	[Quest] You have already received your reward.	[Quête] Vous avez déjà reçu votre récompense.	hand
+b40eb21c	the	the	hand
+773364f6	There aren't any Soul Stones available for extraction.	Il n'y a aucune pierre d'âme à extraire.	hand
+6e3d54ef	There aren't any Pieces of Broken Stone available for removal.	Il n'y a aucun morceau de pierre brisée à retirer.	hand
+0cdaeca2	You cannot change the upgrade of this item.	Vous ne pouvez pas changer l'amélioration de cet objet.	hand
+2d1beec4	There is no upgrade that you can change.	Il n'y a aucune amélioration que vous puissiez changer.	hand
+85af4782	You can only do this %d minutes after an upgrade. (%d minutes left)	Possible seulement %d minutes après une amélioration. (Encore %d minutes)	hand
+9331dd3f	You have changed the upgrade.	Vous avez changé l'amélioration.	hand
+05d061e9	Upgrade successfully added.	Amélioration ajoutée avec succès.	hand
+7777d20f	No upgrade added.	Aucune amélioration ajoutée.	hand
+4fd1bfce	You must use the Blessing Marble in order to add another bonus to this item.	Vous devez utiliser la Bille de bénédiction pour ajouter un autre bonus à cet objet.	hand
+69fb4bfb	You cannot use this on war map.	Vous ne pouvez pas utiliser ceci sur une carte de guerre.	hand
+0bff4934	You cannot summon horse here.	Vous ne pouvez pas appeler de cheval ici.	hand
+2ad7a0fd	You cannot use this in the duel arena.	Vous ne pouvez pas utiliser ceci dans l'arène de duel.	hand
+fcb6758e	This item can no longer be improved. The maximum number of bonuses has been reached.	Cet objet ne peut plus être amélioré. Le nombre maximal de bonus est atteint.	hand
+3c446b65	You can only use the Blessing Marble with an item which already has 4 bonuses.	La Bille de bénédiction ne peut être utilisée que sur un objet qui a déjà 4 bonus.	hand
+502a67ab	Socket successfully added.	Emplacement ajouté avec succès.	hand
+4b4b5ae8	No socket added.	Aucun emplacement ajouté.	hand
+3ec9c5f5	No additional sockets could be added to this item.	Aucun emplacement supplémentaire n'a pu être ajouté à cet objet.	hand
+6b0b6cf0	You cannot add a socket to this item.	Vous ne pouvez pas ajouter d'emplacement à cet objet.	hand
+a4260b34	Arming successful.	Sertissage réussi.	hand
+9e318710	Arming has failed.	Le sertissage a échoué.	hand
+b02c1e36	You have to add a socket first. Use a diamond in order to do this.	Vous devez d'abord ajouter un emplacement. Utilisez un diamant pour cela.	hand
+46b7f64f	There are no sockets for gemstones in this item.	Cet objet n'a pas d'emplacement pour gemmes.	hand
+a96a8ae1	You can do this when you wear an Emotion Mask.	Vous pouvez le faire en portant un Masque d'émotion.	hand
+44c12adb	EMOTIONS_ONLY_PREMIUM	Les émotions sont réservées aux abonnés Premium.	hand
+1f61341a	You have to add a socket if you want to use a Diamond.	Vous devez ajouter un emplacement si vous voulez utiliser un diamant.	hand
+9b23fdbb	No more gems can be added to this item.	Aucune autre gemme ne peut être ajoutée à cet objet.	hand
+a0e1e03d	These items cannot be used together.	Ces objets ne peuvent pas être utilisés ensemble.	hand
+307134d5	You cannot change the Bait whilst fishing.	Vous ne pouvez pas changer d'appât pendant la pêche.	hand
+b8b35504	You are exchanging the current Bait for %s.	Vous remplacez l'appât actuel par %s.	hand
+77381559	You attached %s to the hook as bait.	Vous avez accroché %s à l'hameçon comme appât.	hand
+4801db11	You are missing some ingredients to make the potion.	Il vous manque des ingrédients pour préparer la potion.	hand
+e238cc72	You do not have enough material (%s).	Vous n'avez pas assez de matériaux (%s).	hand
+3e227e0e	You do not have enough empty bottles.	Vous n'avez pas assez de flacons vides.	hand
+23e64617	The potion production has failed.	La préparation de la potion a échoué.	hand
+dd3cb204	Only women can do this.	Seules les femmes peuvent faire cela.	hand
+56236ce5	You cannot attach several stones of the same type.	Vous ne pouvez pas sertir plusieurs pierres du même type.	hand
+24a21b1e	This Spirit Stone cannot be attached to this type of item.	Cette pierre spirituelle ne peut pas être sertie dans ce type d'objet.	hand
+41b00f40	You cannot attach this Spirit Stone to a weapon.	Vous ne pouvez pas sertir cette pierre spirituelle dans une arme.	hand
+0e6162c3	You have attached the Spirit Stone successfully.	Vous avez serti la pierre spirituelle avec succès.	hand
+cf803543	The Spirit Stone broke while being attached.	La pierre spirituelle s'est brisée pendant le sertissage.	hand
+1da0bc82	No slot free.	Aucun emplacement libre.	hand
+3f8242e7	This function is not available right now.	Cette fonction n'est pas disponible pour le moment.	hand
+3b4e78b4	You cannot teleport your partner currently.	Vous ne pouvez pas téléporter votre partenaire pour le moment.	hand
+7c309a65	You cannot save position here.	Vous ne pouvez pas enregistrer la position ici.	hand
+adff6a6c	You cannot use this item here.	Vous ne pouvez pas utiliser cet objet ici.	hand
+c9ca97aa	You cannot use a Scroll of the Location whilst taking part in a kingdom battle.	Vous ne pouvez pas utiliser de parchemin de lieu pendant une bataille de royaumes.	hand
+a4195688	After opening the Storeroom you cannot use a Scroll of the Location for %d seconds.	Après avoir ouvert l'entrepôt, vous ne pouvez pas utiliser de parchemin de lieu pendant %d secondes.	hand
+aee579fc	You cannot use a Scroll of the Location while another window is open.	Vous ne pouvez pas utiliser de parchemin de lieu tant qu'une autre fenêtre est ouverte.	hand
+18d90ee9	This person does not exist.	Cette personne n'existe pas.	hand
+e6aaf714	WAIT_BEFORE_NEXT_REFINE	Attendez un moment avant la prochaine amélioration.	hand
+49925d70	After a trade, you cannot use a scroll for another %d seconds.	Après un échange, vous ne pouvez pas utiliser de parchemin pendant %d secondes.	hand
+a4195688	After opening a storeroom you cannot use a Scroll of the Location for another %d seconds.	Après avoir ouvert un entrepôt, vous ne pouvez pas utiliser de parchemin de lieu pendant encore %d secondes.	hand
+7564dc1a	You cannot use the Scroll of the Location because the distance is too small.	Vous ne pouvez pas utiliser le parchemin de lieu car la distance est trop courte.	hand
+eea37950	After a trade you cannot use a Scroll of the Location for %d seconds.	Après un échange, vous ne pouvez pas utiliser de parchemin de lieu pendant %d secondes.	hand
+420f478d	You cannot open the Storeroom if another window is already open.	Vous ne pouvez pas ouvrir l'entrepôt si une autre fenêtre est déjà ouverte.	hand
+43de791b	You cannot drop this item.	Vous ne pouvez pas jeter cet objet.	hand
+e4aeeddc	The dropped item will vanish in %d minutes.	L'objet jeté disparaîtra dans %d minutes.	hand
+5d41d6e7	%s received	%s reçu	hand
+1dfa263c	%s %d received	%s %d reçu	hand
+47222386	%s received (Horse Inventory)	%s reçu (inventaire du cheval)	hand
+004e9bb3	%s %d received (Horse Inventory)	%s %d reçu (inventaire du cheval)	hand
+8aa5fab4	Owner has too many items in his inventory.	Le propriétaire a trop d'objets dans son inventaire.	hand
+a8b13c22	You have too many items in your inventory.	Vous avez trop d'objets dans votre inventaire.	hand
+909a8d32	%s receives %s.	%s reçoit %s.	hand
+f0ccd091	You are too near.	Vous êtes trop près.	hand
+1281e9cc	Item Trade: %s, %s	Échange : %s, %s	hand
+86839325	You cannot change the equipped item while you are transformed.	Vous ne pouvez pas changer d'équipement pendant que vous êtes transformé.	hand
+8438eb9e	You have to stand still to equip the item.	Vous devez rester immobile pour équiper l'objet.	hand
+999025d8	Monkey Herbs cannot be fed to living horses. It is used to revive dead horses.	Les herbes de singe ne se donnent pas aux chevaux vivants. Elles servent à ranimer les chevaux morts.	hand
+40120cb8	You cannot feed a dead Horse.	Vous ne pouvez pas nourrir un cheval mort.	hand
+4a206984	You fed the Horse with Herbs.	Vous avez nourri le cheval avec des herbes.	hand
+45f5296c	You have fed the Horse.	Vous avez nourri le cheval.	hand
+6f1263ab	Your level is too low to wear this Hairstyle.	Votre niveau est trop bas pour cette coiffure.	hand
+6bd788f5	You already have this Hairstyle.	Vous avez déjà cette coiffure.	hand
+562598f7	You have already transformed.	Vous êtes déjà transformé.	hand
+227f2083	You are too far away.	Vous êtes trop loin.	hand
+bee8793b	That's the wrong trading item.	Ce n'est pas le bon objet d'échange.	hand
+b2aff223	You cannot transform into a monster who has a higher level than you.	Vous ne pouvez pas vous transformer en un monstre de niveau supérieur au vôtre.	hand
+3568bba1	Your level is too low to equip this item.	Votre niveau est trop bas pour équiper cet objet.	hand
+c4af512b	You are not strong enough to equip yourself with this item.	Vous n'êtes pas assez fort pour équiper cet objet.	hand
+f1dc35d2	Your intelligence is too low to equip yourself with this item.	Votre intelligence est trop basse pour équiper cet objet.	hand
+fcfcdc40	Your dexterity is too low to equip yourself with this item.	Votre dextérité est trop basse pour équiper cet objet.	hand
+0371d746	Your vitality is too low to equip yourself with this item.	Votre vitalité est trop basse pour équiper cet objet.	hand
+42bbfcc6	You cannot use this item because you are not married.	Vous ne pouvez pas utiliser cet objet car vous n'êtes pas marié.	hand
+983a9407	You cannot equip this item twice.	Vous ne pouvez pas équiper cet objet deux fois.	hand
+b7905351	Time left until the removal of the socket of %s: %d	Temps restant avant le retrait de l'emplacement de %s : %d	hand
+4b92b668	This action can only be done with another gender.	Cette action n'est possible qu'avec l'autre sexe.	hand
+8b55b89a	A gem socketed in the %s has vanished.	Une gemme sertie dans %s a disparu.	hand
+8005d896	[Guild] This guild name is invalid.	[Guilde] Ce nom de guilde n'est pas valide.	hand
+93a8058d	[Guild] This guild name is already taken.	[Guilde] Ce nom de guilde est déjà pris.	hand
+d40549a6	[Guild] You cannot found a guild.	[Guilde] Vous ne pouvez pas fonder de guilde.	hand
+076e0e5e	The guild %s has declared war on %s!	La guilde %s a déclaré la guerre à %s !	hand
+8d45777f	[Guild] %s has refused the Guild war.	[Guilde] %s a refusé la guerre de guilde.	hand
+174eb60e	<Guild> The player is busy.	<Guilde> Le joueur est occupé.	hand
+b2753cea	The guild war between %s and %s will start in a few seconds!	La guerre de guilde entre %s et %s va commencer dans quelques secondes !	hand
+0d433b93	The guild war between %s and %s has begun!	La guerre de guilde entre %s et %s a commencé !	hand
+54ab5b6b	The guild war between %s and %s has ended in a draw.	La guerre de guilde entre %s et %s s'est terminée sur une égalité.	hand
+26ac5735	%s has won the guild war against %s.	%s a gagné la guerre de guilde contre %s.	hand
+007ce44e	You need your fellow player's approval for this.	Il vous faut l'accord de l'autre joueur pour cela.	hand
+b3b0a39d	[Guild] The guild war has been cancelled.	[Guilde] La guerre de guilde a été annulée.	hand
+b10731d5	The guild war between %s and %s has been cancelled.	La guerre de guilde entre %s et %s a été annulée.	hand
+028a3609	Close	Fermer	hand
+a4f6cdf7	Action cancelled. You have entered a battle.	Action annulée. Vous êtes entré en combat.	hand
+53590541	Someone has logged into your account. You will be disconnected from the server.	Quelqu'un s'est connecté à votre compte. Vous allez être déconnecté du serveur.	hand
+4fbec6cc	A mysterious light appears from the tree.	Une lumière mystérieuse apparaît dans l'arbre.	hand
+f7159b58	%d Playtime added to your account. (Payment number %d)	%d de temps de jeu ajouté à votre compte. (Paiement n° %d)	hand
+19ebf2fb	You can participate in the guild battle in viewer mode.	Vous pouvez suivre la bataille de guilde en mode spectateur.	hand
+e5f533b9	While choosing a character, an icon appears.	Lors du choix du personnage, une icône apparaît.	hand
+625dfd37	There are no opponents.	Il n'y a aucun adversaire.	hand
+20402a05	The battle with %s has begun!	Le combat contre %s a commencé !	hand
+8532c205	If no enemy can be found, the guild war will be ended automatically.	Si aucun ennemi n'est trouvé, la guerre de guilde se terminera automatiquement.	hand
+c6665a7e	Because the guild war finished early, the result will judged as a draw.	La guerre de guilde s'étant terminée plus tôt, le résultat est jugé comme une égalité.	hand
+d9386506	The energy is reflected because of the Emperors Blessing.	L'énergie est renvoyée grâce à la Bénédiction de l'Empereur.	hand
+d3c59975	After %d seconds you can use the Emperors Blessing.	Vous pourrez utiliser la Bénédiction de l'Empereur dans %d secondes.	hand
+0f202ddf	Not enough tax income : %d.	Recettes fiscales insuffisantes : %d.	hand
+a93b6149	[TEST_ONLY]Tax : %d	[TEST_ONLY]Taxe : %d	hand
+c6001b06	Transformation error.	Erreur de transformation.	hand
+6553fe72	You learned the transmutation completely.	Vous avez complètement appris la transformation.	hand
+86b478dc	Please call your Horse first.	Appelez d'abord votre cheval.	hand
+28c5153e	You have sent your horse away.	Vous avez renvoyé votre cheval.	hand
+a0b6540b	%s challenged you to a battle!	%s vous a défié en combat !	hand
+289ab6fd	You have to get off your Horse.	Vous devez descendre de votre cheval.	hand
+cee3b913	You cannot feed your Horse whilst sitting on it.	Vous ne pouvez pas nourrir votre cheval quand vous êtes dessus.	hand
+5a0f48cd	You have fed the Horse with %s%s.	Vous avez nourri le cheval avec %s%s.	hand
+33af84ac	You need %s.	Il vous faut %s.	hand
+cf41a835	%d seconds until Exit.	Fermeture dans %d secondes.	hand
+40d91249	The game will be closed in %d seconds.	Le jeu va se fermer dans %d secondes.	hand
+a277b791	Your logout has been cancelled.	Votre déconnexion a été annulée.	hand
+c0ef82e9	Back to login window. Please wait.	Retour à la fenêtre de connexion. Patientez.	hand
+4571bec5	You have been disconnected from the server. Please wait.	Vous avez été déconnecté du serveur. Patientez.	hand
+8d0078ed	You have challenged %s to a battle.	Vous avez défié %s en combat.	hand
+716b82b8	You are changing character. Please wait.	Changement de personnage. Patientez.	hand
+30973976	A new start is not possible at the moment. Please wait %d seconds.	Impossible de recommencer pour le moment. Attendez %d secondes.	hand
+30973976	You cannot restart yet. Please wait another %d seconds.	Vous ne pouvez pas encore recommencer. Attendez encore %d secondes.	hand
+d2740855	You cannot restart in the city yet. Wait another %d seconds.	Vous ne pouvez pas encore recommencer en ville. Attendez encore %d secondes.	hand
+bcd6be31	The waiting time has expired. You will be revived in the city.	Le temps d'attente est écoulé. Vous allez être ranimé en ville.	hand
+68197d55	You cannot change your status while you are transformed.	Vous ne pouvez pas changer vos statuts pendant que vous êtes transformé.	hand
+e2100fad	You cannot learn while you are transformed.	Vous ne pouvez pas apprendre pendant que vous êtes transformé.	hand
+249a77b0	This player is currently fighting.	Ce joueur est en train de combattre.	hand
+5e65ac63	[Guild] It does not belong to the guild.	[Guilde] N'appartient pas à la guilde.	hand
+6d087168	[Guild] You do not have the authority to change the level of the guild skills.	[Guilde] Vous n'avez pas le droit de changer le niveau des compétences de guilde.	hand
+5ff2b25e	Your choice is incorrect.	Votre choix est incorrect.	hand
+796e166c	[Storeroom] You have entered an incorrect password.	[Entrepôt] Vous avez saisi un mot de passe incorrect.	hand
+079ae79d	[Storeroom] The Storeroom is already open.	[Entrepôt] L'entrepôt est déjà ouvert.	hand
+bf309b45	[Storeroom] You have to wait 10 seconds before you can open the Storeroom again.	[Entrepôt] Vous devez attendre 10 secondes avant de pouvoir rouvrir l'entrepôt.	hand
+ae0cd10f	[Storeroom] You are too far away to open the storeroom.	[Entrepôt] Vous êtes trop loin pour ouvrir l'entrepôt.	hand
+26165609	[Group] The server cannot execute this group request.	[Groupe] Le serveur ne peut pas traiter cette demande de groupe.	hand
+5e06b398	[Group] You cannot leave a group while you are in a dungeon.	[Groupe] Vous ne pouvez pas quitter un groupe pendant que vous êtes dans un donjon.	hand
+841d1a6a	[Group] You have left the group.	[Groupe] Vous avez quitté le groupe.	hand
+5128d85e	[Guild] Your guild is already participating in another war.	[Guilde] Votre guilde participe déjà à une autre guerre.	hand
+ae2c434d	[Guild] No one is entitled to a guild war.	[Guilde] Personne n'a le droit de faire une guerre de guilde.	hand
+5fc089ca	[Guild] No guild with this name exists.	[Guilde] Aucune guilde de ce nom n'existe.	hand
+ec9191a9	There already is a candidacy.	Il y a déjà une candidature.	hand
+9562d05c	[Guild] This guild is already participating in a war.	[Guilde] Cette guilde participe déjà à une guerre.	hand
+b087a463	[Guild] Not enough Yang to participate in a guild war.	[Guilde] Pas assez de Yang pour participer à une guerre de guilde.	hand
+0ba15df7	[Guild] The guild does not have enough Yang to participate in a guild war.	[Guilde] La guilde n'a pas assez de Yang pour participer à une guerre de guilde.	hand
+44983751	[Guild] This Guild is already scheduled for another war.	[Guilde] Cette guilde est déjà inscrite pour une autre guerre.	hand
+93d80fec	[Guild] This guild is already participating in another war.	[Guilde] Cette guilde participe déjà à une autre guerre.	hand
+2e505e03	[Guild] A minimum of %d players are needed to participate in a guild war.	[Guilde] Il faut au moins %d joueurs pour participer à une guerre de guilde.	hand
+0c514984	[Guild] The guild does not have enough points to participate in a guild war.	[Guilde] La guilde n'a pas assez de points pour participer à une guerre de guilde.	hand
+2c129e4c	[Guild] The guild does not have enough members to participate in a guild war.	[Guilde] La guilde n'a pas assez de membres pour participer à une guerre de guilde.	hand
+7cd35260	Your level has to be higher than 20 to register a cell phone number.	Votre niveau doit être supérieur à 20 pour enregistrer un numéro de portable.	hand
+9bf8d474	You do not have the emperor qualification.	Vous n'avez pas la qualité d'empereur.	hand
+82ed8cea	%s declined the invitation.	%s a refusé l'invitation.	hand
+3b532208	You cannot accept the invitation because you are already in the group.	Vous ne pouvez pas accepter l'invitation car vous êtes déjà dans le groupe.	hand
+741c4b6b	Only the emperor can use this.	Seul l'empereur peut utiliser ceci.	hand
+b400e9da	Cooldown time for approximately %d seconds	Temps de recharge d'environ %d secondes	hand
+5673a5d3	Lack of Taxes. Current Capital : %u Missing Capital : %u	Taxes insuffisantes. Capital actuel : %u Capital manquant : %u	hand
+cc4d4f0d	Command: warpto <character name>	Commande : warpto <nom du personnage>	hand
+0cd209f0	You cannot be warped to an unknown player.	Vous ne pouvez pas être téléporté vers un joueur inconnu.	hand
+584131b9	Adding player %d into the channel. (Present channel %d)	Ajout du joueur %d au canal. (Canal actuel %d)	hand
+8d33583d	Warp to player %s.	Téléportation vers le joueur %s.	hand
+e703b5f1	You cannot call unknown players.	Vous ne pouvez pas appeler des joueurs inconnus.	hand
+90a88dfb	[Guild] There are no experience points for hunting during a guild war.	[Guilde] La chasse ne rapporte pas de points d'expérience pendant une guerre de guilde.	hand
+cc1535a0	When the Blessing of the Emperor is used %s the HP and SP are restored again.	Quand la Bénédiction de l'Empereur est utilisée %s, les PV et PM sont restaurés.	hand
+8144203c	My information about the emperor	Mes informations sur l'empereur	hand
+42752f11	[%sMonarch] : %s Yang owned %lld	[%sMonarque] : %s Yang possédés %lld	hand
+fe0843ca	[%sMonarch] : %s	[%sMonarque] : %s	hand
+d814c04f	Information about the emperor	Informations sur l'empereur	hand
+ed5e15e7	Only an emperor can use this.	Seul un empereur peut utiliser ceci.	hand
+9404fe6c	Choose a number between 1 and 50.	Choisissez un nombre entre 1 et 50.	hand
+4d308c68	The Monster cannot be called. Check the Mob Number.	Le monstre ne peut pas être appelé. Vérifiez le numéro du monstre.	hand
+c5994231	Hit Points +%d	Points de vie +%d	hand
+8c1644dd	Spell Points +%d	Points de magie +%d	hand
+07344eac	The Emperor Blessing is activated.	La Bénédiction de l'Empereur est activée.	hand
+d705a214	Endurance +%d	Endurance +%d	hand
+e5d474d8	Intelligence +%d	Intelligence +%d	hand
+206d6d0d	Strength +%d	Force +%d	hand
+7dae761d	Dexterity +%d	Dextérité +%d	hand
+f4f482f3	Attack Speed +%d	Vitesse d'attaque +%d	hand
+b22a9147	Movement Speed %d	Vitesse de déplacement %d	hand
+25b92ab1	Cooldown Time -%d	Temps de recharge -%d	hand
+dc0b02a9	Energy Recovery +%d	Régénération d'énergie +%d	hand
+e1593f95	Spell Point Recovery +%d	Régénération des PM +%d	hand
+5931d3fd	Poison Attack %d	Attaque empoisonnée %d	hand
+114d9d3a	Star +%d	Étoile +%d	hand
+bb43ce3c	Speed Reduction +%d	Ralentissement +%d	hand
+1ec33e5b	Critical Attack with a chance of %d%%	Coup critique avec %d%% de chance	hand
+636693c3	Chance of a Speared Attack of %d%%	Coup perçant avec %d%% de chance	hand
+9592da54	Player's Attack Power against Monsters +%d%%	Valeur d'attaque du joueur contre les monstres +%d%%	hand
+3f3e47e0	Horse's Attack Power against Monsters +%d%%	Valeur d'attaque du cheval contre les monstres +%d%%	hand
+fff154f5	Attack Boost against Wonggui + %d%%	Bonus d'attaque contre les demi-humains + %d%%	hand
+ca577c84	Attack Boost against Milgyo + %d%%	Bonus d'attaque contre les ésotériques + %d%%	hand
+e0f29d77	Attack boost against zombies + %d%%	Bonus d'attaque contre les morts-vivants + %d%%	hand
+88a5b8e6	Attack boost against devils + %d%%	Bonus d'attaque contre les démons + %d%%	hand
+dbe35f81	Due to Emperor Sa-Za-Hu, the player %s will receive an attack power increase of 10 %% for 3 minutes in this area.	Grâce à l'empereur Sa-Za-Hu, le joueur %s reçoit 10 %% de puissance d'attaque en plus pendant 3 minutes dans cette zone.	hand
+9d0ff2f1	Absorbing of Energy %d%% while attacking.	Absorption d'énergie de %d%% en attaquant.	hand
+307cd54f	Absorption of Spell Points (SP) %d%% while attacking.	Absorption de PM de %d%% en attaquant.	hand
+6f640aac	With a chance of %d%% Spell Points (SP) will be taken from the enemy.	Avec %d%% de chance, des PM sont pris à l'ennemi.	hand
+4108401f	Absorbing of Spell Points (SP) with a chance of %d%%	Absorption de PM avec %d%% de chance	hand
+3e931d50	%d%% Chance of blocking a close-combat attack	%d%% de chance de bloquer une attaque au corps à corps	hand
+73f0f3ed	%d%% Chance of blocking a long range attack	%d%% de chance de bloquer une attaque à distance	hand
+88b7f5dd	One-Handed Sword defence %d%%	Défense contre épée à une main %d%%	hand
+bf4096fc	Two-Handed Sword Defence %d%%	Défense contre épée à deux mains %d%%	hand
+561e6b03	Bell Defence %d%%	Défense contre cloche %d%%	hand
+c5ad2be6	By the Emperor Geum-Gang-Gwon the player %s gets 10 %% more armour for 3 minutes.	Grâce à l'empereur Geum-Gang-Gwon, le joueur %s reçoit 10 %% d'armure en plus pendant 3 minutes.	hand
+fc8c70d7	Fan Defence %d%%	Défense contre éventail %d%%	hand
+79128992	Distant Attack Resistance %d%%	Résistance aux attaques à distance %d%%	hand
+71bfecc7	Fire Resistance %d%%	Résistance au feu %d%%	hand
+e88f478d	Lightning Resistance %d%%	Résistance à la foudre %d%%	hand
+8244dfa6	Magic Resistance %d%%	Résistance à la magie %d%%	hand
+cd6652a1	Wind Resistance %d%%	Résistance au vent %d%%	hand
+b8c86f69	Reflect Direct Hit: %d%%	Renvoi des coups directs : %d%%	hand
+efb45389	Reflect Curse: %d%%	Renvoi de malédiction : %d%%	hand
+7e1a2e90	Poison Resistance %d%%	Résistance au poison %d%%	hand
+89fb179d	Spell Points (SP) will be increased by %d%% if you win.	Les PM augmentent de %d%% en cas de victoire.	hand
+971a156f	The event is already running. (Flag: %d)	L'événement est déjà en cours. (Flag : %d)	hand
+75239f24	Experience increases by %d%% if you win against an opponent.	L'expérience augmente de %d%% si vous battez un adversaire.	hand
+57f252e5	Increase of Yang up to %d%% if you win.	Jusqu'à %d%% de Yang en plus en cas de victoire.	hand
+91ef8c07	Increase of captured Items up to %d%% if you win.	Jusqu'à %d%% d'objets récupérés en plus en cas de victoire.	hand
+92d16200	Power increase of up to %d%% after taking the potion.	Jusqu'à %d%% de puissance en plus après la potion.	hand
+e3fa23eb	%d%% Chance of filling up Hit Points after a victory.	%d%% de chance de remplir les PV après une victoire.	hand
+b52993ec	No Dizziness %d%%	Pas d'étourdissement %d%%	hand
+8f7f0a60	No Slowing Down %d%%	Pas de ralentissement %d%%	hand
+d5c1e2f6	No falling down %d%%	Pas de chute %d%%	hand
+097eac89	Attack Power + %d	Valeur d'attaque + %d	hand
+2c5bdb22	Armour + %d	Armure + %d	hand
+1f5c720a	OX quiz script could not be loaded.	Le script du quiz OX n'a pas pu être chargé.	hand
+ae082a46	Magical Attack + %d	Attaque magique + %d	hand
+c42fd97c	Magical Defence + %d	Défense magique + %d	hand
+896ca0a4	Maximum Endurance + %d	Endurance maximale + %d	hand
+ddde1a1e	Strong against Warriors + %d%%	Fort contre les guerriers + %d%%	hand
+2f6230c6	Strong against Ninjas + %d%%	Fort contre les ninjas + %d%%	hand
+ab1f86f7	Strong against Sura + %d%%	Fort contre les suras + %d%%	hand
+65d3c3e6	Strong against Shamans + %d%%	Fort contre les chamanes + %d%%	hand
+da426983	Strength against monsters + %d%%	Fort contre les monstres + %d%%	hand
+0b62f896	Attack + %d%%	Attaque + %d%%	hand
+d31c5660	Defence + %d%%	Défense + %d%%	hand
+ca3d15f0	OX quiz script has loaded.	Le script du quiz OX a été chargé.	hand
+8f68911c	Experience %d%%	Expérience %d%%	hand
+4550cc79	Chance to find an Item %. 1f	Chance de trouver un objet %.1f	hand
+cf25c27b	Chance to find Yang %. 1f	Chance de trouver du Yang %.1f	hand
+3eef5f74	Maximum Energy +%d%%	Énergie maximale +%d%%	hand
+e1802f63	Skill Damage %d%%	Dégâts des compétences %d%%	hand
+1c02a034	Hit Damage %d%%	Dégâts moyens %d%%	hand
+ce27cbdf	Resistance against Skill Damage %d%%	Résistance aux dégâts des compétences %d%%	hand
+a1f91aed	Resistance against Hits %d%%	Résistance aux dégâts moyens %d%%	hand
+9663a553	%d%% Resistance against Warrior Attacks	%d%% de résistance aux attaques des guerriers	hand
+3f2e668c	Welcome to Metin2.	Bienvenue sur Metin2.	hand
+50728718	%d%% Resistance against Ninja Attacks	%d%% de résistance aux attaques des ninjas	hand
+fe9c32cd	%d%% Resistance against Sura Attacks	%d%% de résistance aux attaques des suras	hand
+de9d3aab	%d%% Resistance against Shaman Attacks	%d%% de résistance aux attaques des chamanes	hand
+c5e31a88	(Procedure: %d y- %d m - %d d)	(Échéance : %d a - %d m - %d j)	hand
+fd9fa7c8	Your chat is blocked.	Votre chat est bloqué.	hand
+e4e3208e	You need a higher level to be able to call.	Il vous faut un niveau plus élevé pour pouvoir crier.	hand
+4962d17f	You need a minimum level of %d to be able to call.	Il vous faut au moins le niveau %d pour pouvoir crier.	hand
+921fcc1c	You are not in this Group.	Vous n'êtes pas dans ce groupe.	hand
+cd1a2f1e	You did not join this Guild.	Vous n'avez pas rejoint cette guilde.	hand
+ce42f06a	The player has rejected your request to add him to your friend list.	Le joueur a refusé d'être ajouté à votre liste d'amis.	hand
+a3b61471	OX Event has started.	L'événement OX a commencé.	hand
+0132fa0c	[Friends] You cannot add a GM to your list.	[Amis] Vous ne pouvez pas ajouter un MJ à votre liste.	hand
+4be99dd6	%s is not online.	%s n'est pas en ligne.	hand
+56b03020	After a trade, you have to wait %d seconds before you can open a shop.	Après un échange, vous devez attendre %d secondes avant d'ouvrir un étal.	hand
+0dde1995	You can trade again in %d seconds.	Vous pourrez échanger de nouveau dans %d secondes.	hand
+86cedc3d	You have more than 2 Billion Yang. You cannot trade.	Vous avez plus de 2 milliards de Yang. Vous ne pouvez pas échanger.	hand
+daf16021	You cannot open a private shop while another window is open.	Vous ne pouvez pas ouvrir d'étal privé tant qu'une autre fenêtre est ouverte.	hand
+200124bf	The player has more than 2 Billion Yang. You cannot trade with him.	Le joueur a plus de 2 milliards de Yang. Vous ne pouvez pas échanger avec lui.	hand
+9f4152fe	[Storeroom] No movement possible.	[Entrepôt] Déplacement impossible.	hand
+733ab2f2	[Storeroom] The item cannot be stored.	[Entrepôt] L'objet ne peut pas être stocké.	hand
+692f376b	[Group] The player who invited you is not online.	[Groupe] Le joueur qui vous a invité n'est pas en ligne.	hand
+2c8a78d3	Uriel allowed to enter.	Uriel a autorisé l'entrée.	hand
+4df0787f	[Group] Only the group leader can change this.	[Groupe] Seul le chef de groupe peut changer ceci.	hand
+7a90cc4f	[Group] The target is not a member of your group.	[Groupe] La cible n'est pas membre de votre groupe.	hand
+e66a53ff	[Group] You cannot kick out a player while you are in a dungeon.	[Groupe] Vous ne pouvez pas exclure un joueur pendant que vous êtes dans un donjon.	hand
+c7ca8c05	[Group] You have been out kicked of the group.	[Groupe] Vous avez été exclu du groupe.	hand
+6768b3d1	[Group] You cannot kick out group members.	[Groupe] Vous ne pouvez pas exclure des membres du groupe.	hand
+f7ec2486	[Guild] After disbanding a guild, you cannot create a new one for %d days.	[Guilde] Après la dissolution d'une guilde, vous ne pouvez pas en créer une nouvelle pendant %d jours.	hand
+3e4ec7e6	[Guild] After leaving a guild, you cannot create a new one for %d days.	[Guilde] Après avoir quitté une guilde, vous ne pouvez pas en créer une nouvelle pendant %d jours.	hand
+ddad1338	This guild name is invalid.	Ce nom de guilde n'est pas valide.	hand
+163bf840	We request the participation of a lot of players.	Nous demandons la participation de nombreux joueurs.	hand
+7913ada9	[Guild] [%s] guild has been created.	[Guilde] La guilde [%s] a été créée.	hand
+6898cced	[Guild] Creation of the guild has failed.	[Guilde] La création de la guilde a échoué.	hand
+c3cb63de	[Group] Only the group leader can use group skills.	[Groupe] Seul le chef de groupe peut utiliser les compétences de groupe.	hand
+d3ea9d8b	[Group] The target has not been found.	[Groupe] La cible est introuvable.	hand
+4c8987f1	[Guild] That is not the correct amount of Yang.	[Guilde] Ce n'est pas le bon montant de Yang.	hand
+49aa9c0b	[Guild] You do not have enough Yang.	[Guilde] Vous n'avez pas assez de Yang.	hand
+2c5699b6	[Guild] The person you were searching for cannot be found.	[Guilde] La personne recherchée est introuvable.	hand
+61947d3c	[Guild] This person is not in the same guild.	[Guilde] Cette personne n'est pas dans la même guilde.	hand
+83109163	[Guild] You do not have the authority to kick out guild members.	[Guilde] Vous n'avez pas le droit d'exclure des membres de la guilde.	hand
+d93bdf21	[Guild] The guild member %s has been kicked out of the Guild.	[Guilde] Le membre %s a été exclu de la guilde.	hand
+ec222095	OX The Event has not ended yet. An error has occurred. (flag: %d)	OX L'événement n'est pas encore terminé. Une erreur s'est produite. (flag : %d)	hand
+c6575105	[Guild] You have kicked a guild member out.	[Guilde] Vous avez exclu un membre de la guilde.	hand
+fa34f765	[Guild] You do not have the authority to change your rank name.	[Guilde] Vous n'avez pas le droit de changer le nom de votre rang.	hand
+32ed0be2	[Guild] The guild leader's rights cannot be changed.	[Guilde] Les droits du chef de guilde ne peuvent pas être modifiés.	hand
+bd5b3ac4	[Guild] This rank name is invalid.	[Guilde] Ce nom de rang n'est pas valide.	hand
+1e4a480e	[Guild] You do not have the authority to change your position.	[Guilde] Vous n'avez pas le droit de changer votre position.	hand
+9b4eb5a0	[Guild] The rights of the guild leader cannot be changed.	[Guilde] Les droits du chef de guilde ne peuvent pas être modifiés.	hand
+802c8104	[Guild] %u experience points used.	[Guilde] %u points d'expérience utilisés.	hand
+ad388eac	[Guild] Experience usage has failed.	[Guilde] L'utilisation de l'expérience a échoué.	hand
+cee15e7b	[Guild] Insufficient Yang in the guild treasury.	[Guilde] Pas assez de Yang dans le trésor de la guilde.	hand
+ab7a774e	[Guild] Dragon ghost was not restored.	[Guilde] L'esprit du dragon n'a pas été restauré.	hand
+87a82f04	The OX Event will be restarted shortly.	L'événement OX va bientôt redémarrer.	hand
+ecd004a4	[Guild] You do not have the authority to make an announcement.	[Guilde] Vous n'avez pas le droit de faire une annonce.	hand
+4c395785	[Guild] You do not have the authority to change the position.	[Guilde] Vous n'avez pas le droit de changer la position.	hand
+1ff8602b	[Guild] The guild leader's position cannot be changed.	[Guilde] La position du chef de guilde ne peut pas être changée.	hand
+d63caf5b	[Guild] You cannot make yourself guild leader.	[Guilde] Vous ne pouvez pas vous nommer vous-même chef de guilde.	hand
+8921cb7e	[Guild] You do not have the authority to choose the guild leader.	[Guilde] Vous n'avez pas le droit de choisir le chef de guilde.	hand
+712d0a7d	[Guild] You cannot choose any more guild leaders.	[Guilde] Vous ne pouvez plus choisir de chefs de guilde.	hand
+edcfc939	You cannot trade this item.	Vous ne pouvez pas échanger cet objet.	hand
+538989d5	Illegal software has been detected. The game is being shut down.	Un logiciel illégal a été détecté. Le jeu va se fermer.	hand
+86cedc3d	You have more than 2 Billion Yang with you. You cannot trade.	Vous avez plus de 2 milliards de Yang sur vous. Vous ne pouvez pas échanger.	hand
+04c65388	Invalid Yang.	Montant de Yang invalide.	hand
+6f019c6b	The present event is limited to one area.	L'événement actuel est limité à une zone.	hand
+ba30ffaa	Start Item Roulette.	Lancer la roulette d'objets.	hand
+beb75e07	Start Yang Roulette.	Lancer la roulette de Yang.	hand
+07af46bb	The player is online. Please use whisper to chat.	Le joueur est en ligne. Utilisez le chuchotement pour discuter.	hand
+c4f63e7b	The cell phone number is not registered.	Le numéro de portable n'est pas enregistré.	hand
+f3ee48b8	You need to be at least on level 20 to be able to send text messages.	Il vous faut au moins le niveau 20 pour envoyer des SMS.	hand
+efdd387c	You need 2000 DT to send a text message.	Il vous faut 2000 DT pour envoyer un SMS.	hand
+ee32652f	Your text message has been sent.	Votre SMS a été envoyé.	hand
+e1ca7c40	%s of the Guild %s raised up to %d%% !	%s de la guilde %s a augmenté jusqu'à %d%% !	hand
+89eb1dec	%s of the Guild %s normal again.	%s de la guilde %s est revenu à la normale.	hand
+8d8ded16	%s: %s has increased by %d%%!	%s : %s a augmenté de %d%% !	hand
+fad55044	%s 's %s normal again.	%s : %s est revenu à la normale.	hand
+b88538c4	Your mining points have reached their maximum. (%d)	Vos points de minage ont atteint leur maximum. (%d)	hand
+853698d9	Your mining points have reached their maximum level.	Vos points de minage ont atteint leur niveau maximal.	hand
+d3fe7637	You can get lumberjack Deokbae to upgrade your Pickaxe.	Le bûcheron Deokbae peut améliorer votre pioche.	hand
+5c612904	Your Mining Points have increased! (%d/%d)	Vos points de minage ont augmenté ! (%d/%d)	hand
+5f795a91	You cannot mine without a Pick.	Vous ne pouvez pas miner sans pioche.	hand
+048ef12c	Nothing to mine here.	Il n'y a rien à miner ici.	hand
+5ec85802	The mining has been successful.	Le minage a réussi.	hand
+b6520004	The mining has failed.	Le minage a échoué.	hand
+9f014e25	[Friends] You have added %s as a friend.	[Amis] Vous avez ajouté %s comme ami.	hand
+2d3f4bca	The player will be teleported into the city shortly.	Le joueur va bientôt être téléporté en ville.	hand
+a69bc94e	[Friends] You have deleted %s from the list.	[Amis] Vous avez supprimé %s de la liste.	hand
+3872977d	A critical server error has occurred. The server will restart automatically.	Une erreur critique du serveur s'est produite. Le serveur va redémarrer automatiquement.	hand
+49bb2a8b	You will be disconnected automatically in 10 seconds.	Vous serez déconnecté automatiquement dans 10 secondes.	hand
+c7211a25	You can connect again after 5 minutes.	Vous pourrez vous reconnecter dans 5 minutes.	hand
+6e64c21d	(%s) guild has been created. [Temporary]	La guilde (%s) a été créée. [Temporaire]	hand
+24ad26c0	This guild is at war.	Cette guilde est en guerre.	hand
+cc24533b	%s: This guild does not exist.	%s : cette guilde n'existe pas.	hand
+341f0cd6	A guild with this name or number does not exist.	Aucune guilde de ce nom ou de ce numéro n'existe.	hand
+2c4f19d6	The building does not exist.	Le bâtiment n'existe pas.	hand
+4183e753	This type of building can only be erected once.	Ce type de bâtiment ne peut être construit qu'une seule fois.	hand
+3b6c0950	Close the OX event card first. (Flag: %d)	Fermez d'abord la carte de l'événement OX. (Flag : %d)	hand
+168a1fc1	The Main Building has to be erected first.	Le bâtiment principal doit d'abord être construit.	hand
+4a92f9da	Building failed because of incorrect pricing.	La construction a échoué à cause d'un prix incorrect.	hand
+8ae26c8e	Your guild does not have enough Yang to erect this building.	Votre guilde n'a pas assez de Yang pour construire ce bâtiment.	hand
+33be22f4	You do not have enough resources to build a building.	Vous n'avez pas assez de ressources pour construire un bâtiment.	hand
+246e23fa	You cannot erect a building at this place.	Vous ne pouvez pas construire de bâtiment à cet endroit.	hand
+cce3ee86	This character does not exist.	Ce personnage n'existe pas.	hand
+c0147a48	Duel has not been successfully cancelled.	Le duel n'a pas pu être annulé.	hand
+f4891d57	Duel cancelled successfully.	Duel annulé avec succès.	hand
+6fdfee0d	The duel has been successfully started.	Le duel a bien commencé.	hand
+a151b267	There is a problem with initiating the duel.	Il y a un problème au lancement du duel.	hand
+dcf79c40	No errors occurred.	Aucune erreur ne s'est produite.	hand
+a26f818f	There are no combatants.	Il n'y a aucun combattant.	hand
+a8454965	No status points left.	Il ne reste plus de points de statut.	hand
+e61c8735	Remaining status points are too low.	Les points de statut restants sont insuffisants.	hand
+fb4d2e5c	You entered an incorrect value.	Vous avez saisi une valeur incorrecte.	hand
+8b159b2a	Suborder or the Order is incorrect.	La sous-commande ou la commande est incorrecte.	hand
+996a386c	Broken contract between player %d and player %d.	Contrat rompu entre le joueur %d et le joueur %d.	hand
+7d199e21	Turn the Roulette for %d Yang.	Faites tourner la roulette pour %d Yang.	hand
+3703e92a	The Item log placed into the syslog.	Le journal des objets a été placé dans le syslog.	hand
+b25d8019	Information for the Kingdoms	Informations sur les royaumes	hand
+ed79e248	Choose the Map Information of the Holy Land %d Entrance %d %d %d	Choisissez les informations de carte de la Terre sainte %d Entrée %d %d %d	hand
+de2ee12b	An error has occurred.	Une erreur s'est produite.	hand
+c63a8a10	An error has occurred. code %s	Une erreur s'est produite. Code %s	hand
+63b8f019	%s killcount %d mobkillcount %d bosskillcount %d Number Holy Land %d	%s killcount %d mobkillcount %d bosskillcount %d Terre sainte n° %d	hand
+a51dbdbd	Information about the status of the kingdom battle	Informations sur l'état de la bataille de royaumes	hand
+5bdbcebd	Your request is loading. Please wait.	Votre demande est en cours de chargement. Patientez.	hand
+61f727d5	You cannot open a Storeroom while another window is open.	Vous ne pouvez pas ouvrir d'entrepôt tant qu'une autre fenêtre est ouverte.	hand
+1348c396	[Storeroom] Storeroom password has been changed.	[Entrepôt] Le mot de passe de l'entrepôt a été changé.	hand
+b5952787	[Storeroom] You have entered the wrong password.	[Entrepôt] Vous avez saisi un mauvais mot de passe.	hand
+f3f794e7	Your playing time is going to run out in %d minutes.	Votre temps de jeu se termine dans %d minutes.	hand
+78bbfd30	Regularly voted.	Vote enregistré.	hand
+0cfc4ae1	Already voted.	Déjà voté.	hand
+8fe2420a	%s player already in the vote.	Le joueur %s participe déjà au vote.	hand
+875c7321	OX Event is over. No errors occurred. (Flag: %d)	L'événement OX est terminé. Aucune erreur ne s'est produite. (Flag : %d)	hand
+5317491e	Cannot run for office.	Candidature impossible.	hand
+71c99862	%s still has %u Yang available.	%s a encore %u Yang disponibles.	hand
+c6606489	%s still has %d Yang available.	%s a encore %d Yang disponibles.	hand
+2b96d76e	You do not have enough Yang.	Vous n'avez pas assez de Yang.	hand
+6363c1ed	Item price has changed.	Le prix de l'objet a changé.	hand
+541fd92f	%s is deleted as an Emperor Candidate.	%s a été retiré des candidats à l'empereur.	hand
+864fa256	%s is not a candidate for the emperor elections.	%s n'est pas candidat à l'élection de l'empereur.	hand
+b7afe051	%s has been nominated as emperor.	%s a été nommé empereur.	hand
+e87daf08	%s cannot be nominated as emperor.	%s ne peut pas être nommé empereur.	hand
+c137f46c	The %s Emperor gets driven out.	L'empereur de %s est chassé.	hand
+e7cadf9f	The %s Emperor cannot be driven out.	L'empereur de %s ne peut pas être chassé.	hand
+0debe1d5	OX Event is not accepting any more participants.	L'événement OX n'accepte plus de participants.	hand
+0526629c	Shinsoo Kingdom	Royaume de Shinsoo	hand
+2737f1ee	Chunjo Kingdom	Royaume de Chunjo	hand
+999dc9e5	Jinno Kingdom	Royaume de Jinno	hand
+17b9ff16	Your fishing points have increased! (%d/%d)	Vos points de pêche ont augmenté ! (%d/%d)	hand
+4214316e	You have reached the maximum number of fishing points.	Vous avez atteint le nombre maximal de points de pêche.	hand
+55b5b980	Go to the Fisherman and get your Fishing Pole upgraded!	Allez voir le pêcheur pour faire améliorer votre canne à pêche !	hand
+608237ba	You lost your bait to the fish.	Le poisson vous a pris l'appât.	hand
+5e68c75d	You have caught a fish! (%s)	Vous avez attrapé un poisson ! (%s)	hand
+ae3ad6eb	The length of the captured fish is %.2fcm.	Le poisson attrapé mesure %.2fcm.	hand
+4ac343a1	Fishing Event 'Great Zander'	Événement de pêche 'Grand sandre'	hand
+8c6449e4	OX The other event participants are being noted down.	OX Les autres participants sont enregistrés.	hand
+420045e8	Fishing Event 'Carp'	Événement de pêche 'Carpe'	hand
+04f01bea	%s: %d	%s : %d	hand
+f835a5e0	You have caught %d of %d .	Vous en avez attrapé %d sur %d.	hand
+5a7cac3c	The fish vanished in the depths of the water.	Le poisson a disparu dans les profondeurs.	hand
+9f315c22	There is a Clam inside the Fish.	Il y a un coquillage dans le poisson.	hand
+ef061a33	There is a Worm inside the Fish.	Il y a un ver dans le poisson.	hand
+0651d804	You are roasting %s over the fire.	Vous faites griller %s sur le feu.	hand
+a86c6dda	You cannot trade because you are carrying more than 2 billion Yang.	Vous ne pouvez pas échanger car vous portez plus de 2 milliards de Yang.	hand
+8081d607	MONEY_WILL_EXCEED_OVER_LIMIT	Impossible de continuer : votre Yang dépasserait la limite de 2 milliards.	hand
+413c8154	You can't give your shop an invalid name.	Vous ne pouvez pas donner un nom invalide à votre étal.	hand
+c15f6405	You can't sell Item-Shop items in a private shop.	Vous ne pouvez pas vendre d'objets de l'Item-Shop dans un étal privé.	hand
+074018f4	OX The other event participants have not been noted down.	OX Les autres participants n'ont pas été enregistrés.	hand
+ba6ba28c	Mining is finished.	Le minage est terminé.	hand
+d8bb6b5c	You need a Pickaxe in order to extract ore!	Il vous faut une pioche pour extraire du minerai !	hand
+577f2f64	Please choose a Fishing Pole.	Choisissez une canne à pêche.	hand
+bade997e	Place the Bait on the Hook first.	Mettez d'abord l'appât sur l'hameçon.	hand
+0c96e845	You can't go fishing without a fishing pole!	Vous ne pouvez pas pêcher sans canne à pêche !	hand
+cbb4deeb	YOU_CANT_FISH_HERE	Vous ne pouvez pas pêcher ici.	hand
+06b18236	[Group] You cannot make a request because the group leader is not online.	[Groupe] Vous ne pouvez pas faire de demande car le chef de groupe n'est pas en ligne.	hand
+9babd704	[Group] You cannot form a group with players from another kingdom.	[Groupe] Vous ne pouvez pas former de groupe avec des joueurs d'un autre royaume.	hand
+a7a51f67	[Group] You cannot invite players while you are in a dungeon.	[Groupe] Vous ne pouvez pas inviter de joueurs pendant que vous êtes dans un donjon.	hand
+5c2981de	[Group] You cannot invite a player while you are in observer mode.	[Groupe] Vous ne pouvez pas inviter de joueur en mode observateur.	hand
+c861b7e2	[Group] Only players with a level difference of -30 to +30 can be invited.	[Groupe] Seuls les joueurs avec un écart de niveau de -30 à +30 peuvent être invités.	hand
+84df24b6	Number of other participants : %d	Nombre d'autres participants : %d	hand
+dd1f2764	[Group] You cannot invite this player, as their level is too low.	[Groupe] Vous ne pouvez pas inviter ce joueur, son niveau est trop bas.	hand
+82c862f4	[Group] You cannot invite this player, as their level is too high.	[Groupe] Vous ne pouvez pas inviter ce joueur, son niveau est trop élevé.	hand
+8ca0dd29	[Group] You cannot invite any more players into your group.	[Groupe] Vous ne pouvez plus inviter de joueurs dans votre groupe.	hand
+781e93a4	You want to join %s's group.	Vous voulez rejoindre le groupe de %s.	hand
+131497d3	This player is not in this group.	Ce joueur n'est pas dans ce groupe.	hand
+94bba6cb	[Group] You cannot join this group because it is already full.	[Groupe] Vous ne pouvez pas rejoindre ce groupe, il est déjà complet.	hand
+b732242c	[Group] You do not have the right to invite someone.	[Groupe] Vous n'avez pas le droit d'inviter quelqu'un.	hand
+aa424996	[Group] %s has declined your group invitation.	[Groupe] %s a refusé votre invitation de groupe.	hand
+c615daed	[Group] %s is already in the group.	[Groupe] %s est déjà dans le groupe.	hand
+aa042c75	[Group] You cannot accept an invitation into a dungeon.	[Groupe] Vous ne pouvez pas accepter d'invitation dans un donjon.	hand
+05a1a2ee	OX Event is finishing.	L'événement OX se termine.	hand
+c9764f61	[Group] You cannot accept the invitation.	[Groupe] Vous ne pouvez pas accepter l'invitation.	hand
+03a2dc66	[Group] %s has declined your invitation.	[Groupe] %s a refusé votre invitation.	hand
+40b5af1c	[Group] %s has joined your group.	[Groupe] %s a rejoint votre groupe.	hand
+b99c7c77	[Group] %s has joined your Group.	[Groupe] %s a rejoint votre groupe.	hand
+72132590	You can't use a private shop now.	Vous ne pouvez pas utiliser d'étal privé maintenant.	hand
+b4805a7c	This player is already trading with another player.	Ce joueur échange déjà avec un autre joueur.	hand
+4b288bff	Metin2 Confirmation Number: %s	Numéro de confirmation Metin2 : %s	hand
+569253d8	Your Confirmation Number is not correct. Please try again.	Votre numéro de confirmation est incorrect. Réessayez.	hand
+fbb1876a	The mobile phone number is registered.	Le numéro de portable est enregistré.	hand
+d1ab9024	You cannot teleport to the player.	Vous ne pouvez pas vous téléporter vers le joueur.	hand
+fdc376c3	OX The prize has been awarded. ID: %d Quantity: %d	OX Le prix a été attribué. ID : %d Quantité : %d	hand
+5b6a6eee	This player is not online.	Ce joueur n'est pas en ligne.	hand
+38be71c4	The player is playing on channel %d. (You are on channel %d.)	Le joueur joue sur le canal %d. (Vous êtes sur le canal %d.)	hand
+45b3b974	After opening the Storeroom, you cannot go anywhere else for %d seconds.	Après avoir ouvert l'entrepôt, vous ne pouvez aller nulle part ailleurs pendant %d secondes.	hand
+e5040e10	You cannot go elsewhere for a period of time after the trade.	Après l'échange, vous ne pouvez aller nulle part ailleurs pendant un moment.	hand
+d34b6738	After trading you cannot go elsewhere for %d seconds.	Après l'échange, vous ne pouvez aller nulle part ailleurs pendant %d secondes.	hand
+af967ed5	The duel has finished, because your combatant vanished.	Le duel est terminé car votre adversaire a disparu.	hand
+45c49f26	There is no limit for Potions.	Il n'y a pas de limite de potions.	hand
+3587ce40	You can use up to %d potions.	Vous pouvez utiliser jusqu'à %d potions.	hand
+61610362	The fight will start in 10 seconds.	Le combat commence dans 10 secondes.	hand
+d1e5b3b6	The duel has begun.	Le duel a commencé.	hand
+501b0925	TRUE	TRUE	hand
+00dc1099	The duel is being finished because there is a problem in the duel arena.	Le duel se termine car il y a un problème dans l'arène.	hand
+b9901ebc	The duel has finished because of a timeout.	Le duel s'est terminé faute de temps.	hand
+a93e656e	In 10 seconds you will be teleported into the city.	Dans 10 secondes, vous serez téléporté en ville.	hand
+9ea75a47	The duel has been stopped because there is a problem in the arena.	Le duel a été arrêté car il y a un problème dans l'arène.	hand
+d7937cd1	Your combatant has got some problems. The duel is being cancelled.	Votre adversaire a un problème. Le duel est annulé.	hand
+f5219d63	The duel is being cancelled as there is a problem with the combatant.	Le duel est annulé car il y a un problème avec l'adversaire.	hand
+0ca27599	%s has won the duel.	%s a gagné le duel.	hand
+1a8b59a4	%s has won.	%s a gagné.	hand
+e26a5714	You will be teleported into the city in 10 seconds.	Vous serez téléporté en ville dans 10 secondes.	hand
+b22a1dfd	The next round will begin in 10 seconds.	La prochaine manche commence dans 10 secondes.	hand
+ee597878	FALSE	FALSE	hand
+5ae5e50b	The combatants have been separated. The duel has been stopped.	Les combattants ont été séparés. Le duel a été arrêté.	hand
+baa3ac99	The quota of the Item Drop is at the moment plus %d%%	Le taux de drop d'objets est actuellement de plus %d%%	hand
+eb4d5b76	The quota of the Yang Drop is at the moment plus %d%%	Le taux de drop de Yang est actuellement de plus %d%%	hand
+ef56cf7e	The drop rate for Yang rain is currently %d%% higher.	Le taux de pluie de Yang est actuellement supérieur de %d%%.	hand
+0d7878ff	The experience bonus is currently an additional %d%%.	Le bonus d'expérience est actuellement de %d%% supplémentaires.	hand
+956d835e	You do not have the correct client version. Please install the normal patch.	Vous n'avez pas la bonne version du client. Installez le patch normal.	hand
+92095c53	You cannot trade in the shop while another window is open.	Vous ne pouvez pas commercer dans la boutique tant qu'une autre fenêtre est ouverte.	hand
+3e704526	You are too far away from the shop to buy something.	Vous êtes trop loin de la boutique pour acheter quelque chose.	hand
+ab7f90f2	You are too far away from the shop to sell something.	Vous êtes trop loin de la boutique pour vendre quelque chose.	hand
+49c00456	Total number of the Quiz: %d	Nombre total de questions du quiz : %d	hand
+a1a8b729	This sale will be taxed %d%%.	Cette vente sera taxée à %d%% (%lld Yang).	hand
+a5106ce8	You cannot ride a Horse while you are transformed.	Vous ne pouvez pas monter à cheval pendant que vous êtes transformé.	hand
+34933335	You cannot ride while you are wearing a Wedding Dress or a Tuxedo.	Vous ne pouvez pas monter à cheval en robe de mariée ou en smoking.	hand
+882e276e	You do not have a Horse.	Vous n'avez pas de cheval.	hand
+71887717	Your Horse is dead.	Votre cheval est mort.	hand
+d79a4edc	Your Horse's endurance is too low.	L'endurance de votre cheval est trop basse.	hand
+81fe2036	Calling the Horse has failed.	L'appel du cheval a échoué.	hand
+3c526407	's Horse	 - cheval	hand
+566694c6	The wedding is finishing soon.	Le mariage se termine bientôt.	hand
+0033cd19	Will be left automatically.	Départ automatique.	hand
+f72f2c2a	The war is already over.	La guerre est déjà terminée.	hand
+01d82efb	The result will follow in 10 seconds.	Le résultat sera annoncé dans 10 secondes.	hand
+19b49be3	You cannot trade while observing.	Vous ne pouvez pas échanger en tant que spectateur.	hand
+9b09a319	If the window is open, you cannot trade with others.	Tant que la fenêtre est ouverte, vous ne pouvez pas échanger avec les autres.	hand
+6c4a247e	The other person is currently busy so you cannot trade right now.	L'autre personne est occupée, vous ne pouvez pas échanger maintenant.	hand
+1b072f58	The other person has cancelled the trade.	L'autre personne a annulé l'échange.	hand
+62e36f60	Not enough Yang or not enough space in the inventory.	Pas assez de Yang ou de place dans l'inventaire.	hand
+83f20b7b	The other person does not have enough Yang or does not have any space left in their inventory.	L'autre personne n'a pas assez de Yang ou plus de place dans son inventaire.	hand
+d406725c	The other person has no space left in their inventory.	L'autre personne n'a plus de place dans son inventaire.	hand
+bba8e617	The trade with %s has been successful.	L'échange avec %s a réussi.	hand
+bf1e44d3	You did not lose any Experience because of the Blessing of the Dragon God.	Grâce à la Bénédiction du Dieu Dragon, vous n'avez pas perdu d'expérience.	hand
+39c31704	Current score: Shinsoo %d, Chunjo %d, Jinno %d	Score actuel : Shinsoo %d, Chunjo %d, Jinno %d	hand
+29fa8acd	The correct answer is:	La bonne réponse est :	hand
+8203f534	%s deadcount %d Empire %d killcount %d(Purpose %d) killmobcount %d, RegenFlag %d	%s deadcount %d Royaume %d killcount %d(Objectif %d) killmobcount %d, RegenFlag %d	hand
+cb12c958	The devil of the hallowed place: [ENTER][ENTER]	Le démon du lieu sacré : [ENTER][ENTER]	hand
+32f902a5	, you don't have any right to be here! The members of your kingdom will leave this hallowed ground in 10 seconds.	, vous n'avez aucun droit d'être ici ! Les membres de votre royaume quitteront ce sol sacré dans 10 secondes.	hand
+eb0b0c33	%s has been defeated and drops out of the Kingdom Battle.	%s a été vaincu et quitte la bataille de royaumes.	hand
+6b46d68f	Number of Monsters in the Kingdom Battle:	Nombre de monstres dans la bataille de royaumes :	hand
+8dca9d0b	If you defeat the Guard of the Holy Place, you will become the owner of it.	Si vous battez le gardien du lieu sacré, vous en devenez le propriétaire.	hand
+5665e663	You did not drop any Item(s) as you are protected by the Dragon God.	Vous n'avez perdu aucun objet car le Dieu Dragon vous protège.	hand
+274787ae	Additional Stabbing Weapon Damage %d	Dégâts supplémentaires des armes perforantes %d	hand
+6f4d51a0	%s block! (%d%%)	%s bloque ! (%d%%)	hand
+ce3fb967	%s avoid! (%d%%)	%s esquive ! (%d%%)	hand
+2441a363	Yes (O)	Oui (O)	hand
+11207cf9	%s[%d]'s Attack Position: %d %d	Position d'attaque de %s[%d] : %d %d	hand
+b24faf12	Please enter the Order in full length.	Saisissez la commande en entier.	hand
+c11d5a09	You cannot do this whilst sitting on a Horse.	Vous ne pouvez pas faire cela à cheval.	hand
+16d238cb	You cannot do that while you are lying on the ground.	Vous ne pouvez pas faire cela allongé par terre.	hand
+32697ced	In my Dreams? What?	Dans mes rêves ? Quoi ?	hand
+138742af	Get up first.	Relevez-vous d'abord.	hand
+4b3bf36e	This command does not exist.	Cette commande n'existe pas.	hand
+1fc161ac	[Group] This group has been disbanded.	[Groupe] Ce groupe a été dissous.	hand
+e2417fc1	[Group] You cannot call the target.	[Groupe] Vous ne pouvez pas appeler la cible.	hand
+6f74a9ad	[Group] You cannot call group members over to your current position.	[Groupe] Vous ne pouvez pas appeler les membres du groupe à votre position actuelle.	hand
+f94cb58c	No (X)	Non (X)	hand
+87319232	Your group works well together, and group members near the group leader will receive an experience bonus.	Votre groupe travaille bien ensemble : les membres proches du chef de groupe reçoivent un bonus d'expérience.	hand
+04fed051	Leader	Chef	hand
+a5842e10	Member	Membre	hand
+5a37c511	[Guild] Provided Experience is larger then left Experience.	[Guilde] L'expérience indiquée est supérieure à l'expérience restante.	hand
+13d3fb4b	[Guild] This message cannot be deleted.	[Guilde] Ce message ne peut pas être supprimé.	hand
+c82ddd47	[Guild] Not enough Dragon Ghost. (%d, %d)	[Guilde] Pas assez d'esprit du dragon. (%d, %d)	hand
+ae67300c	[Guild] You cannot use the guild skills yet.	[Guilde] Vous ne pouvez pas encore utiliser les compétences de guilde.	hand
+51f5fae5	[Guild] %d skill has been applied (%d, %d) to %u.	[Guilde] La compétence %d a été appliquée (%d, %d) à %u.	hand
+3756b233	[Guild] This player is on channel %d. (Current channel: %d)	[Guilde] Ce joueur est sur le canal %d. (Canal actuel : %d)	hand
+cc1aabb3	[Guild] This player is not online.	[Guilde] Ce joueur n'est pas en ligne.	hand
+20633a3d	In 5 sec. everyone who gave an incorrect answer will be removed.	Dans 5 s, tous ceux qui ont mal répondu seront retirés.	hand
+8bbc627a	[Guild] This guild skill can only be used during war.	[Guilde] Cette compétence de guilde n'est utilisable qu'en guerre.	hand
+9e5c4753	[Guild] %u Dragon ghost points have been restored.	[Guilde] %u points d'esprit du dragon ont été restaurés.	hand
+f7005f97	[Guild] Only the guild leader can withdraw Yang.	[Guilde] Seul le chef de guilde peut retirer du Yang.	hand
+52c466d2	[Guild] The player has declined the guild invitation.	[Guilde] Le joueur a refusé l'invitation de guilde.	hand
+0ebc99a0	[Guild] You do not have the authority to invite someone to join the guild.	[Guilde] Vous n'avez pas le droit d'inviter quelqu'un dans la guilde.	hand
+c1326d59	[Guild] You cannot invite players from another kingdom into the guild.	[Guilde] Vous ne pouvez pas inviter de joueurs d'un autre royaume dans la guilde.	hand
+cb82c952	[Guild] This player can be invited again after %d day(s).	[Guilde] Ce joueur pourra être réinvité dans %d jour(s).	hand
+a4909fae	[Guild] After the rearrangement you can invite members again after %d days.	[Guilde] Après la réorganisation, vous pourrez de nouveau inviter des membres dans %d jours.	hand
+b939e464	[Guild] This person is already a member of another Guild.	[Guilde] Cette personne est déjà membre d'une autre guilde.	hand
+aca48db8	[Guild] The maximum guild capacity has been reached.	[Guilde] La capacité maximale de la guilde est atteinte.	hand
+768f1681	Ready for the next question?	Prêt pour la prochaine question ?	hand
+d577a34b	You cannot train this skill.	Vous ne pouvez pas entraîner cette compétence.	hand
+a49e7290	You cannot train this skill up to Grand Master level.	Vous ne pouvez pas entraîner cette compétence jusqu'au niveau Grand Maître.	hand
+94afc0e6	You already are a Master of this skill. You cannot train this skill any further.	Vous êtes déjà maître de cette compétence. Vous ne pouvez plus l'entraîner.	hand
+0f037122	Your Skill is not high enough to become a Grand Master.	Votre compétence n'est pas assez élevée pour devenir Grand Maître.	hand
+b11cdc75	That did not work. Damn!	Ça n'a pas marché. Zut !	hand
+f623f01a	Training has failed. Please try again later.	L'entraînement a échoué. Réessayez plus tard.	hand
+691baf9e	My body is full of energy!	Mon corps est plein d'énergie !	hand
+51bb204d	The training seems to be working already...	L'entraînement semble déjà fonctionner...	hand
+02f69d0c	You successfully finished your training with the book.	Vous avez terminé avec succès votre entraînement avec le livre.	hand
+23f7fde9	You cannot read this due to your lack of experience.	Vous ne pouvez pas lire ceci par manque d'expérience.	hand
+3a8c7857	Question.	Question.	hand
+1bfde0c5	You cannot train this skill with a Book.	Vous ne pouvez pas entraîner cette compétence avec un livre.	hand
+fdece878	This skill's level is not high enough to be trained with a Book.	Le niveau de cette compétence est trop bas pour l'entraîner avec un livre.	hand
+1d63419d	I'm making progress, but I still haven't understood everything.	Je progresse, mais je n'ai pas encore tout compris.	hand
+e5adadf6	These instructions are difficult to understand. I have to carry on studying.	Ces instructions sont difficiles à comprendre. Je dois continuer à étudier.	hand
+abbc857b	I understand this chapter. But I've got to carry on working hard.	Je comprends ce chapitre. Mais je dois continuer à travailler dur.	hand
+02f69d0c	You have successfully finished your training with the Book.	Vous avez terminé avec succès votre entraînement avec le livre.	hand
+756427a9	Teleportation has failed.	La téléportation a échoué.	hand
+7646b489	No Horse here. Ask the Stable Boy.	Pas de cheval ici. Demande au palefrenier.	hand
+5054d15e	Please use an item to call a Horse.	Utilisez un objet pour appeler un cheval.	hand
+57f2f7ae	%s FP-Consumption: %d	%s consommation de PE : %d	hand
+21403576	If it's correct, then go to O. If it's wrong, go to X.	Si c'est vrai, allez sur O. Si c'est faux, allez sur X.	hand
+2b325970	I am burning inside, but it is calming down my body. My Chi has to stabilise.	Je brûle de l'intérieur, mais cela apaise mon corps. Mon chi doit se stabiliser.	hand
+88d82cfc	A little slow, but steady... Without stopping!	Un peu lent, mais régulier... Sans s'arrêter !	hand
+ca91186b	Yes, that feels great. My body is full of Chi.	Oui, c'est génial. Mon corps est plein de chi.	hand
+3da86a2a	I have read it! Now the Chi will spread through my body.	Je l'ai lu ! Maintenant, le chi va se répandre dans mon corps.	hand
+cb02105d	The training is completed.	L'entraînement est terminé.	hand
+b539b1b7	I am on the last page of the book. The training is nearly finished!	J'en suis à la dernière page du livre. L'entraînement est presque fini !	hand
+448f9db0	Nearly finished! Just a little bit more to go!	Presque fini ! Encore un petit effort !	hand
+a9157f1b	Eureka! I have nearly finished reading it!	Eurêka ! J'ai presque fini de le lire !	hand
+b045efa4	Only a few more pages and then I'll have read everything.	Encore quelques pages et j'aurai tout lu.	hand
+7f47bf4a	I feel refreshed.	Je me sens revigoré.	hand
+1b524bf9	Correct!	Correct !	hand
+48c809d2	Now I understand it!	Maintenant, je comprends !	hand
+029d4f77	Okay I have to stay concentrated!	D'accord, je dois rester concentré !	hand
+a78e450d	I keep reading the same line over and over again.	Je relis sans cesse la même ligne.	hand
+cdc453c6	I do not want to learn any more.	Je ne veux plus rien apprendre.	hand
+bdc1d92b	It is a lot more complicated and more difficult to understand than I thought.	C'est bien plus compliqué et difficile à comprendre que je ne le pensais.	hand
+a5ffd4f3	It's hard for me to concentrate. I should take a break.	J'ai du mal à me concentrer. Je devrais faire une pause.	hand
+5b698363	Your chat has been blocked by a GM.	Votre chat a été bloqué par un MJ.	hand
+9aa87544	Your chat block has been lifted.	Le blocage de votre chat a été levé.	hand
+1cded1fe	The Build window is already open.	La fenêtre de construction est déjà ouverte.	hand
+072ae5ec	You cannot build something while another trade/storeroom window is open.	Vous ne pouvez rien construire tant qu'une fenêtre d'échange ou d'entrepôt est ouverte.	hand
+bbba9b1f	No further improvements possible.	Aucune autre amélioration possible.	hand
+bf9a8932	The build window is not open.	La fenêtre de construction n'est pas ouverte.	hand
+7f1e725a	You do not have the right material.	Vous n'avez pas le bon matériau.	hand
+5e432777	[Guild] Please try again later.	[Guilde] Réessayez plus tard.	hand
+aad4f65e	You have to read %d more skill books to improve this skill.	Vous devez lire encore %d livres de compétence pour améliorer cette compétence.	hand
+2b991821	You are only able to use this function while you are at the castle.	Vous ne pouvez utiliser cette fonction qu'au château.	hand
+336a35f0	TEST: The Gold Bar has been paid back to your kingdom's safe.	TEST : le lingot d'or a été remboursé au trésor de votre royaume.	hand
+c36c5df9	TEST: In your kingdom's safe there are: %d	TEST : le trésor de votre royaume contient : %d	hand
+acbd2d7f	TEST: You cannot pay the Gold Bar back into your kingdom's safe.	TEST : vous ne pouvez pas rembourser le lingot d'or au trésor de votre royaume.	hand
+db7d2a70	[Guild] The guild has reached %d points.	[Guilde] La guilde a atteint %d points.	hand
+fa66b738	This item cannot be improved.	Cet objet ne peut pas être amélioré.	hand
+b13693ba	REFINE_BONUS_USE_LEVEL_ERROR	Le bonus d'amélioration ne peut être utilisé que sur un objet jusqu'au niveau %d.	hand
+ef5d0a42	REFINE_BONUS_REFINE_LEVEL_ERROR	Le bonus d'amélioration ne peut être utilisé que sur un objet amélioré à +%d au maximum.	hand
+820ae132	REFINE_BONUS_ONLY_ARMOR	Le bonus d'amélioration ne peut être utilisé que sur les armures, casques et boucliers.	hand
+a86cd27f	REFINE_BONUS_ONLY_JEWELRY	Le bonus d'amélioration ne peut être utilisé que sur les bijoux.	hand
+bd0f30f3	REFINE_BONUS_ONLY_WEAPON	Le bonus d'amélioration ne peut être utilisé que sur les armes.	hand
+5b295aae	The free weapon improvements can only be used on weapons up to level 20.	Les améliorations d'arme gratuites ne s'appliquent qu'aux armes jusqu'au niveau 20.	hand
+382de93c	You cannot use this item because you do not fulfil all the requirements.	Vous ne pouvez pas utiliser cet objet car vous ne remplissez pas toutes les conditions.	hand
+75ed320a	You are not able to use that item because you do not have the right gender.	Vous ne pouvez pas utiliser cet objet car vous n'avez pas le bon sexe.	hand
+9a94c58e	Use: transfer <name>	Utilisation : transfer <nom>	hand
+d9965b28	This function can only be used by the emperor.	Seul l'empereur peut utiliser cette fonction.	hand
+7ece9d96	You cannot recruit players from another kingdom.	Vous ne pouvez pas recruter de joueurs d'un autre royaume.	hand
+4d522fb3	The player %s is on channel %d at the moment. (Your channel: %d)	Le joueur %s est actuellement sur le canal %d. (Votre canal : %d)	hand
+cf71b307	You have recruited %s players.	Vous avez recruté %s joueurs.	hand
+44f0ae79	There is no user with this name.	Il n'y a aucun utilisateur de ce nom.	hand
+190b714d	You cannot recruit yourself.	Vous ne pouvez pas vous recruter vous-même.	hand
+87a26765	Your level is too low to use this item.	Votre niveau est trop bas pour utiliser cet objet.	hand
+de223429	You cannot upgrade anything while another window is open.	Vous ne pouvez rien améliorer tant qu'une autre fenêtre est ouverte.	hand
+0115da91	The emperor of %s has changed to %s.	L'empereur de %s est désormais %s.	hand
+2b525e94	There are %s wars to inflame the bonfires.	Il y a %s guerres pour allumer les feux de signal.	hand
+1e380768	%s has successfully defended.	%s a défendu avec succès.	hand
+41aaa07a	30 minutes from now on the player %s can get a reward because he destroyed the bonfire.	Pendant 30 minutes, le joueur %s peut recevoir une récompense pour avoir détruit le feu de signal.	hand
+5395d2ea	30 minutes are over. The bonfires have disappeared.	Les 30 minutes sont écoulées. Les feux de signal ont disparu.	hand
+171b3339	A bonfire was inflamed at %s to warn because of a battle.	Un feu de signal a été allumé à %s pour avertir d'une bataille.	hand
+51e6c526	%s has destroyed the bonfire.	%s a détruit le feu de signal.	hand
+492c87b3	%s lost the war as they have not been able to defend the castle.	%s a perdu la guerre faute d'avoir pu défendre le château.	hand
+51e6c526	%s has destroyed all the bonfires.	%s a détruit tous les feux de signal.	hand
+9d273b58	You can only open the shop if you take off your armour.	Vous ne pouvez ouvrir l'étal qu'en retirant votre armure.	hand
+4e255cd0	%d hours %d minutes %d seconds left on your chat block	Blocage du chat : encore %d heures %d minutes %d secondes	hand
+54b284ca	%d hours %d seconds left on your chat block	Blocage du chat : encore %d heures %d secondes	hand
+33382ab0	%d minutes %d seconds left on your chat block	Blocage du chat : encore %d minutes %d secondes	hand
+6d53ec7f	Yang rain drop rate	Taux de pluie de Yang	hand
+22b6b72d	Not the right material for an upgrade.	Ce n'est pas le bon matériau pour une amélioration.	hand
+233fab22	All kingdoms	Tous les royaumes	hand
+73e9f987	Item drop rate in percent	Taux de drop d'objets en pourcentage	hand
+7d34374e	Yang drop rate in percent	Taux de drop de Yang en pourcentage	hand
+089a47d8	Experience percentage	Expérience en pourcentage	hand
+d977df32	%d seconds left on your chat block	Blocage du chat : encore %d secondes	hand
+64b77fb0	You cannot express emotions whilst riding a horse.	Vous ne pouvez pas exprimer d'émotions à cheval.	hand
+78e458dd	You cannot use emotions with a player who is riding on a Horse.	Vous ne pouvez pas utiliser d'émotions avec un joueur à cheval.	hand
+f84267d5	[Guild] The enemy's guild leader is offline.	[Guilde] Le chef de la guilde ennemie est hors ligne.	hand
+3a163ccd	[Guild] This guild is taking part in a battle at the moment.	[Guilde] Cette guilde participe actuellement à une bataille.	hand
+a480466b	You're already riding. Get off first.	Vous êtes déjà à cheval. Descendez d'abord.	hand
+949eaf0a	You cannot upgrade items with this Scroll.	Vous ne pouvez pas améliorer d'objets avec ce parchemin.	hand
+4f2ce0aa	You can only be rewarded once for the Demon Tower Quest.	Vous ne pouvez être récompensé qu'une seule fois pour la quête de la Tour des démons.	hand
+0bb6c000	Dragon Stone has been removed.	La pierre du dragon a été retirée.	hand
+7eefa042	You cannot move the item within the refinement window.	Vous ne pouvez pas déplacer l'objet dans la fenêtre de raffinement.	hand
+caff3802	Dragon Stone remaining duration has been extracted.	La durée restante de la pierre du dragon a été extraite.	hand
+b22d5802	Remaining duration extraction failed.	L'extraction de la durée restante a échoué.	hand
+27e52cd0	Removal of Dragon Stone failed. But you have received the following: %s	Le retrait de la pierre du dragon a échoué. Mais vous avez reçu : %s	hand
+ac6dd864	Removal of Dragon Stone failed.	Le retrait de la pierre du dragon a échoué.	hand
+334eb0c9	This item is not required for improving the clarity level.	Cet objet n'est pas nécessaire pour améliorer le niveau de pureté.	hand
+bf8bd0fe	This item cannot be advanced this way.	Cet objet ne peut pas être amélioré de cette façon.	hand
+5967694c	Improvement of the clarity level successful.	Amélioration du niveau de pureté réussie.	hand
+a2a230f6	Refinement up one class failed.	Le raffinement d'une classe a échoué.	hand
+db8e6f9f	This item is not required for refinement.	Cet objet n'est pas nécessaire pour le raffinement.	hand
+23f54956	Refinement up one class was successful.	Raffinement d'une classe réussi.	hand
+9fc280b0	Improvement of the clarity level failed.	L'amélioration du niveau de pureté a échoué.	hand
+07008d77	You do not own the materials required to strengthen the Dragon Stone.	Vous n'avez pas les matériaux nécessaires pour renforcer la pierre du dragon.	hand
+ff765d6f	This Dragon Stone cannot be used for strengthening.	Cette pierre du dragon ne peut pas servir au renforcement.	hand
+1272a219	Strengthening was successful.	Renforcement réussi.	hand
+b704aa25	Strengthening failed.	Le renforcement a échoué.	hand
+cfd4854a	You are already carrying a Dragon Stone of this type.	Vous portez déjà une pierre du dragon de ce type.	hand
+ae9b38b0	The Dragon Stone cannot be removed.	La pierre du dragon ne peut pas être retirée.	hand
+c464ddf3	You have already equipped this kind of Dragon Stone.	Vous avez déjà équipé ce type de pierre du dragon.	hand
+fcfb40af	Before you open the Cor Draconis, you have to complete the Dragon Stone quest and activate the Dragon Stone Alchemy.	Avant d'ouvrir le Cor Draconis, vous devez terminer la quête de la pierre du dragon et activer l'alchimie des pierres du dragon.	hand
+992ed023	You can only discard the belt when there are no longer any items in its inventory.	Vous ne pouvez retirer la ceinture que lorsque son inventaire est vide.	hand
+09e4c537	You can combine the Blessing Scroll with the Magic Iron Ore.	Vous pouvez combiner le parchemin de bénédiction avec le minerai de fer magique.	hand
+6f2c34ee	You cannot equip this item in your belt inventory.	Vous ne pouvez pas placer cet objet dans l'inventaire de ceinture.	hand
+4a397e22	[1106-??]No puedes unir esto.	[1106-??]Vous ne pouvez pas combiner ceci.	hand
+f409f60d	You have invested %d Yang.	Vous avez investi %d Yang.	hand
+ff516bd3	There is no Stone available to take out.	Il n'y a aucune pierre à retirer.	hand
+34645587	You cannot store this location.	Vous ne pouvez pas enregistrer cet endroit.	hand
+5e3b9985	You cannot save location placed in opposite kingdom.	Vous ne pouvez pas enregistrer un lieu situé dans le royaume adverse.	hand
+c395a8e5	There isn't enough space in your inventory.	Il n'y a pas assez de place dans votre inventaire.	hand
+e43f79f1	You cannot teleport to a safe position in a foreign Kingdom.	Vous ne pouvez pas vous téléporter vers une position sûre dans un royaume étranger.	hand
+c97f2bd4	You don't have enough HP.	Vous n'avez pas assez de PV.	hand
+ec99502c	You don't have enough Spell Points (SP) to use this.	Vous n'avez pas assez de PM pour utiliser ceci.	hand
+956a5759	You'll reach your destination in %d seconds.	Vous atteindrez votre destination dans %d secondes.	hand
+321daa51	You can only use a Moon Cake every 5 seconds.	Vous ne pouvez utiliser un gâteau de lune que toutes les 5 secondes.	hand
+acfb4add	You cannot use this item in a duel.	Vous ne pouvez pas utiliser cet objet en duel.	hand
+29e2ea9b	You have won %d Yang.	Vous avez gagné %d Yang.	hand
+c879065c	You cannot build a campfire here.	Vous ne pouvez pas faire de feu de camp ici.	hand
+8bfc6709	You cannot build a campfire under water.	Vous ne pouvez pas faire de feu de camp sous l'eau.	hand
+d8189125	Closed. You should look for the key.	Fermé. Vous devriez chercher la clé.	hand
+23d2bf85	This item cannot be opened with a key.	Cet objet ne s'ouvre pas avec une clé.	hand
+5a021c10	That's the right key.	C'est la bonne clé.	hand
+795c0773	You have received %d Yang.	Vous avez reçu %d Yang.	hand
+c9af058d	A mysterious light comes out of the box.	Une lumière mystérieuse sort du coffre.	hand
+b486e4a4	You have received %d experience points.	Vous avez reçu %d points d'expérience.	hand
+f34b3943	Look what came out of the box!	Regardez ce qui est sorti du coffre !	hand
+471339e2	[Guild] The guild level is too low.	[Guilde] Le niveau de la guilde est trop bas.	hand
+62781b54	If you inhale the red smoke coming out of the box, your speed will increase!	Si vous inhalez la fumée rouge qui sort du coffre, votre vitesse augmentera !	hand
+bf9493dd	You cannot add more bonus.	Vous ne pouvez plus ajouter de bonus.	hand
+8a5e2b56	New bonus added successfully.	Nouveau bonus ajouté avec succès.	hand
+ddede1f9	You cannot change the bonuses.	Vous ne pouvez pas changer les bonus.	hand
+081f15e9	ITEM_PRISM_NEED	Il vous faut un Verre de clairvoyance ou un abonnement Premium actif.	hand
+0b2c4198	%s needed.	%s requis.	hand
+1ec3a11f	OX-Question: 	Question OX : 	hand
+71493299	MYSHOP_BUY %d %s %d	Quelqu'un a acheté %dx %s dans votre étal pour %d Yang.	hand
+a08721fb	SHOP_SUCCESS_CLOSE	L'étal a été fermé ; les objets restants et le Yang gagné sont dans son dépôt.	hand
+d0e1cedb	SHOP_MAX_ERR	Vous ne pouvez plus ouvrir d'étals.	hand
+2f325678	INVENTORY_FULL_ERROR	Vous n'avez pas assez de place dans votre inventaire.	hand
+e17ce80f	UNKNOW_ERROR	Une erreur s'est produite	hand
+128310da	SHOP_YANG_ADD	Le Yang a été retiré du dépôt de l'étal.	hand
+a5c96f51	SHOP_YANG_TOO_LOW	Le montant est trop faible.	hand
+78b1b2cf	SHOP_YANG_NO_MONEY	Le montant dépasse le Yang gagné.	hand
+a11aa25b	GIFT_ADD_SUCCESS	L'objet a été ajouté à votre inventaire	hand
+9a766b67	GIFT_ADD_ALL_SUCCESS	Les objets ont été ajoutés à votre inventaire	hand
+d586be7b	SHOP_REASON	Étal fermé	hand
+baf386ea	SHOP_ITEM_REASON	Objet retiré	hand
+0d9ddc8b	SHOP_NAME	Étal de #PLAYER_NAME#	hand
+121d9aa9	SHOP_NAME_FORMAT	Étal - %s	hand
+58f6513a	SHOP_PRIV_ERROR	L'ouverture d'étals est bloquée pour votre rang !	hand
+ace96459	SHOP_OX_ERROR	Vous ne pouvez pas ouvrir d'étal ici.	hand
+ace96459	SHOP_CANNOT_OPEN_HERE	Vous ne pouvez pas ouvrir d'étal ici.	hand
+eb3a38bc	OFFLINE_SHOP_CANNOT_OPEN_HERE	Vous ne pouvez pas ouvrir d'étal hors ligne ici.	hand
+be1f6f73	OFFLINE_SHOP_REMINDER_CANNOT_OPEN_HERE	N'oubliez pas qu'aucun étal hors ligne ne peut être installé sur cette carte.	hand
+d1e04a24	SHOP_NEED_MONEY	Il vous faut %lld Yang pour ouvrir ce type d'étal	hand
+7643e78e	SHOP_MAX_LIMIT_FREE	Il y a trop d'étals sur ce canal. Un étal Premium est nécessaire pour dépasser la limite gratuite.	hand
+80864bd9	SHOP_MAX_LIMIT	Ce canal a atteint sa limite d'étals hors ligne. Vous ne pouvez pas ouvrir d'étal.	hand
+9dc9a216	SHOP_TEMP_OFF 	L'ouverture d'étals est désactivée pour le moment	hand
+140e18f1	SHOP_EDIT_SUCCESS	Les objets ont été mis à jour.	hand
+bfca709c	Dropped Yang will disappear after %d seconds.	Le Yang jeté disparaîtra au bout de %d secondes.	hand
+5f57ee2f	SHOP_BLOCK_ACTION_TIME	Attendez %d secondes avant votre prochaine modification de l'étal.	hand
+b1973f6f	SHOP_DIFF_MAP	Vous devez être sur la même carte que l'étal.	hand
+65dd0a6d	SHOP_DIFF_CHANNEL	Vous devez être sur le même canal que l'étal.	hand
+5af69b6d	SHOP_TOO_FAR	Vous devez vous tenir à côté de l'étal.	hand
+b01900b5	SHOP_DOESNT_EXIST	Vous n'avez pas d'étal.	hand
+d1ebc236	SHOP_NO_PREMIUM	Vous n'avez pas d'étal Premium.	hand
+3d60ac84	SHOP_LOCKED_SLOTS	Certains objets de l'étal sont sur des emplacements verrouillés.	hand
+ddf00e6b	SHOP_WRONG_CONFIGURATION	Certains objets de l'étal se chevauchent.	hand
+06570b1b	CLEAR_SHOP_DEPOSIT_FIRST	Il reste des objets dans le dépôt de votre étal hors ligne.	hand
+4d70bac0	SHOP_NO_CREATION_ITEM	Il vous faut un Baluchon pour ouvrir un étal.	hand
+43fa5ead	SHOP_CANNOT_BUY_FROM_MYSELF	Vous ne pouvez pas vous acheter à vous-même.	hand
+0c5f931f	SHOP_VALUE_EXCEED_GOLD_MAX	La valeur de l'étal et votre Yang dépassent ensemble le Yang autorisé (2 milliards).	hand
+ebac0509	Moving channel has been interrupted.	Le changement de canal a été interrompu.	hand
+690bfc59	You cannot change channel.	Vous ne pouvez pas changer de canal.	hand
+9fb6aa7d	Currently, you cannot switch to that channel.	Vous ne pouvez pas passer sur ce canal pour le moment.	hand
+347805b6	Please wait a moment. Changing channel...	Patientez un instant. Changement de canal...	hand
+27d666a6	%d seconds till channel change.	%d secondes avant le changement de canal.	hand
+992518ec	You cannot sell equiped items.	Vous ne pouvez pas vendre des objets équipés.	hand
+a9986c9f	You cannot sell locked items.	Vous ne pouvez pas vendre des objets verrouillés.	hand
+fd77a766	USE_SKILL_STAMINA%d	%d d'endurance requise	hand
+34b7b036	USE_SKILL_STAMINA_TOO_HIGH_MOVEMENT%d	Vous ne pouvez pas sprinter à pied à votre vitesse de déplacement (>= %d)	hand
+7e3a4b58	FISHING_NOTIFY1	On dirait que %s est au bout de l'hameçon.	hand
+ae44a180	FISHING_NOTIFY2	On aurait dit que %s était au bout de l'hameçon.	hand
+ea0006a8	FISHING_SUCCESS1	Vous avez obtenu %s !	hand
+2e1551ae	FISHING_SUCCESS2	Vous avez attrapé %s !	hand
+e9a1e690	FISHING_UNKNOWN	Quelque chose a mordu, mais vous ne voyez pas ce que c'est.	hand
+b0fa48f1	FISHING_BLOCK_MOUNT	Vous ne pouvez pas monter à cheval en pêchant.	hand
+70c86b22	FISHING_MAP_INDEX	Vous ne pouvez pêcher qu'en M1.	hand
+e9657652	ITEM_ROD_REFINE_ONLY_FISHER	Seul le pêcheur peut améliorer une canne à pêche.	hand
+b8174b73	ITEM_ROD_REFINE_ONLY_HERBALIST	Seul l'herboriste peut améliorer un couteau d'herboriste.	hand
+071b37e9	ITEM_PICKAXE_REFINE_ONLY_DEOKBAE	Seul Deokbae peut améliorer une pioche.	hand
+aa688d93	TOO_FAR_FROM_REFINE_NPC	Vous êtes trop loin du forgeron.	hand
+5083108b	ITEMSHOP_ITEM_AWARD	Vous n'avez plus de place dans votre inventaire. L'objet a été envoyé dans votre entrepôt de l'ItemShop.	hand
+4db6270c	ITEMSHOP_AUCTION_NOT_AVAILABLE	Cette enchère n'est plus disponible.	hand
+ff25c6eb	ITEMSHOP_NO_DRAGON_COINS	Vous n'avez pas assez de Pièces du Dragon.	hand
+b50fd128	ITEMSHOP_NO_DRAGON_MARKS	Vous n'avez pas assez de Marques du Dragon.	hand
+f77977be	NEXT_ACTION_WAIT	Attendez %d secondes avant votre prochaine action.	hand
+96cd39da	NEXT_ACTION_WAIT_NO_FORMAT	Attendez un moment avant votre prochaine action.	hand
+99f3d134	ITEMSHOP_TIME_AUCTION_ACCOUNT_LIMIT	Ce compte a épuisé ses achats pour cette enchère (%d au maximum).	hand
+ad116a3d	ITEMSHOP_TIME_AUCTION_PURCHASE_WOULD_EXCEED_LIMIT	Cet achat dépasserait la limite par compte. Achetez moins.	hand
+1248b9f3	ITEMSHOP_BUY_VIP_INFO	Reconnectez-vous pour que l'effet VIP soit bien appliqué.	hand
+48fb6275	ITEMSHOP_LOW_LEVEL_FOR_ITEM	Votre personnage doit être au moins niveau %u pour acheter cet objet.	hand
+39dd1af6	CANNOT_ACTION_WHILE_DEAD	Vous ne pouvez pas faire cela pendant que vous êtes mort.	hand
+86cd0f7b	CANNOT_RIDE_WHILE_CARRY_ITEM	Vous ne pouvez pas monter à cheval en portant un objet.	hand
+85f0aa78	CANNOT_TELEPORT_WHILE_CARRY_ITEM	Vous ne pouvez pas vous téléporter en portant un objet.	hand
+46751eb5	CANNOT_SPRINT_WHILE_CARRY_ITEM	Vous ne pouvez pas sprinter en portant un objet.	hand
+8d4a6a9f	CANNOT_SPRINT_WHILE_SLOW	Vous ne pouvez pas sprinter pendant que vous êtes ralenti.	hand
+81d5942a	SKILL_ALREADY_MAX_LEVEL%d	Cette compétence est déjà à son niveau maximal (%d).	hand
+609de584	LEARN_NO_FAIL_TIME	Malgré l'entraînement, vous ne vous sentez pas fatigué.	hand
+23cbb23b	POTION_COOLDOWN_MINUTE%d	Vous devez attendre %d min avant de l'utiliser à nouveau.	hand
+10664d1c	POTION_COOLDOWN_SECOND%d	Vous devez attendre %d s avant de l'utiliser à nouveau.	hand
+1e729da7	FISHING_NEED_ONBOARDING	Ces eaux sont très pauvres, il n'y a presque pas de poissons. Parlez au pêcheur.	hand
+f99076c8	CANT_OPEN_SHOP_HERE	Vous ne pouvez pas ouvrir d'étal ici. Vous êtes trop près d'un autre étal.	hand
+94ac60c2	NO_METIN_STONES_HERE	Cet endroit est libéré du fléau des pierres Metin.	hand
+cf46df96	HORSE_IS_HUNGRY_CANNOT_SPRINT	Votre cheval est affamé et ne peut pas fournir d'effort dans cet état.	hand
+b7b09d85	CHANNEL_IS_PREMIUM	Ce canal est réservé aux comptes Premium.	hand
+0c77bf15	BUY_VIP_WITH_SUBSCRIPTION_ACTIVE_ERROR	Les effets VIP ne se cumulent pas avec un abonnement Premium. Vous ne pouvez pas faire cet achat.	hand
+8bc8c294	CANNOT_REMOVE_SOCKET_FROM_JEWELRY	Vous ne pouvez pas retirer la pierre sertie.	hand
+97a7e5b2	CANNOT_WEAR_ON_HORSE	Vous ne pouvez pas porter cet objet à cheval.	hand
+7f17b01e	CANNOT_USE_ON_HORSE	Vous ne pouvez pas utiliser cet objet à cheval.	hand
+1a96bf5b	CANNOT_UNMOUNT	Vous ne pouvez pas descendre de cheval pour le moment.	hand
+a8bc25d9	DICE_MYSELF	Vous avez obtenu %d. (%d-%d)	hand
+20279b5a	DICE_OTHER	%s a obtenu %d. (%d-%d)	hand
+59dde698	GUILD_CHARGE_SP	[Guilde] %d unités d'esprit du dragon ont été chargées.	hand
+584d5bdc	GUILD_JOIN_OTHER_IS_BUSY	[Guilde] La personne invitée est occupée.	hand
+41fb6c9c	GUILD_JOIN_IS_IN_WAR	[Guilde] La guilde est en guerre.	hand
+e3746c54	GUILD_REMOVE_MEMBER_IN_WAR	[Guilde] Vous ne pouvez pas retirer un membre de la guilde pendant une guerre.	hand
+ed78278c	GUILD_INVITE_LIMIT	[Guilde] La guilde a atteint sa limite d'invitations.	hand
+7dbd7d19	GUILD_OFFER_MAX_LEVEL	La guilde est à son niveau maximal, mais elle accepte votre don.	hand
+2d80e92a	CANNOT_SELL_EQUIPPED_ITEM	Vous ne pouvez pas vendre un objet que vous portez.	hand
+e13c5233	MESSENGER_ADD_BUSY	Le joueur invité est occupé.	hand
+8b7bbd2b	LEARN_SKILL_DELAY	Attendez encore %s avant votre prochain entraînement.	hand
+17c43189	WAIT_DELAY_DH	%d jours %d heures	hand
+79804232	WAIT_DELAY_DHM	%d jours %d heures et %d minutes	hand
+14b0f1a8	WAIT_DELAY_HM	%d heures et %d minutes	hand
+71388639	WAIT_DELAY_M	%d minutes	hand
+d0e91d33	WORLDBOSS_TRENT2_SPAWN	Un bruissement inquiétant emplit la forêt... le Seigneur de l'arbre fantôme s'éveille !	hand
+d70fdaa5	WORLDBOSS_TRENT2_POSTKILL_DIALOG1	La Forêt rouge cache bien des secrets que vous ignoriez.	hand
+fe653977	WORLDBOSS_TRENT2_POSTKILL_DIALOG2	La mort n'est pas la fin, mais le début d'un nouveau chemin.	hand
+576f1f64	WORLDBOSS_TRENT2_POSTKILL_DIALOG3	Il reste une chose que je dois réparer... une chose qui n'aurait jamais dû arriver.	hand
+48dfbfa5	WORLDBOSS_TRENT2_POSTKILL_DIALOG4	Ce n'était pas moi... mais ils vous ont choisi. Nous nous reverrons, plus tôt que vous ne le pensez.	hand
+85b39622	GIANT_BOSS_START_BATTLE	Moi vous montrer de pas me déranger !	hand
+8587e8a4	You cannot fish here.	Vous ne pouvez pas pêcher ici.	hand
+31324940	You cannot sell items you have equipped.	Vous ne pouvez pas vendre les objets équipés.	hand
+4e559644	%s[%d]s Attack Position: %d %d	Position d'attaque de %s[%d] : %d %d	hand
+8cc15270	You cannot ride while falling.	Vous ne pouvez pas monter à cheval pendant une chute.	hand
+7b851e6a	Charged for %d seconds	Chargé pendant %d secondes	hand
+b01fe1cf	+3 spirit stones can not be upgraded by this item.	Les pierres spirituelles +3 ne peuvent pas être améliorées avec cet objet.	hand
+9ca56d76	You cannot open a warehouse in this area.	Vous ne pouvez pas ouvrir d'entrepôt dans cette zone.	hand
+e7a806fc	Not available.	Non disponible.	hand
+34470b0a	The item will disappear in %d minutes.	L'objet disparaîtra dans %d minutes.	hand
+9a680157	You cannot wear Tuxido on a horse.	Vous ne pouvez pas porter de smoking à cheval.	hand
+36e15886	This item cannot be used on accesories.	Cet objet ne peut pas être utilisé sur les bijoux.	hand
+c7245ce6	You cannot read books while transformed.	Vous ne pouvez pas lire de livres pendant que vous êtes transformé.	hand
+dad0a8c4	No metin stone to take out.	Aucune pierre Metin à retirer.	hand
+177a8d3f	Your rank cannot raise any more.	Votre rang ne peut plus augmenter.	hand
+452d4147	You can only drop gold once in every 10 seconds.	Vous ne pouvez jeter du Yang que toutes les 10 secondes.	hand
+68ceb671	You can only drop item once in every %d seconds.	Vous ne pouvez jeter un objet que toutes les %d secondes.	hand
+03ca4106	You cannot use it now.	Vous ne pouvez pas l'utiliser maintenant.	hand
+efc2e25c	The spirit stone can not be advanced by this item.	La pierre spirituelle ne peut pas être améliorée avec cet objet.	hand
+f2d3763c	You cannot upgrade this item.	Vous ne pouvez pas améliorer cet objet.	hand
+2ca0d040	This item can only be used on weapons or armor up to level 40.	Cet objet ne peut être utilisé que sur les armes ou armures jusqu'au niveau 40.	hand
+16454b16	Test server time limit passed	Limite de temps du serveur de test dépassée	hand
+9c649021	Your inventory is full.	Votre inventaire est plein.	hand
+739be77e	%s rolled dice and got %d. (%d-%d)	%s a lancé les dés et obtenu %d. (%d-%d)	hand
+23189d62	You rolled dice and got %d. (%d-%d)	Vous avez lancé les dés et obtenu %d. (%d-%d)	hand
+59797db5	Lack of Taxes. Current Capital : %u Needed Capital : %u	Taxes insuffisantes. Capital actuel : %u Capital nécessaire : %u	hand
+bc9dcfb3	You can use this skill only in your land.	Vous ne pouvez utiliser cette compétence que sur vos terres.	hand
+ceeee380	Failed to craft.	La fabrication a échoué.	hand
+d776ffef	You managed to defeat the dragon in %d seconds!	Vous avez vaincu le dragon en %d secondes !	hand
+41fb6c9c	<Guild> The Guild is at war.	<Guilde> La guilde est en guerre.	hand
+bc6b5c6c	<Guild> %d Skills used (%d, %d) to %u	<Guilde> %d compétences utilisées (%d, %d) sur %u	hand
+9e5c4753	<Guild> %u Dragon ghost restored.	<Guilde> %u d'esprit du dragon restauré.	hand
+19d9e2b2	<Guild> The Guild has already reached maximum level.	<Guilde> La guilde a déjà atteint le niveau maximal.	hand
+9090f914	<Guild> During a guild war, you cannot kick out other guild members.	<Guilde> Pendant une guerre de guilde, vous ne pouvez pas exclure d'autres membres.	hand
+8da4f831	<Storage> Cannot move items in safebox.	<Entrepôt> Impossible de déplacer les objets dans l'entrepôt.	hand
+fd88288d	Time remaining %d seconds.	Temps restant %d secondes.	hand
+2c9947c2	The recipient cannot receive friend invitation.	Le destinataire ne peut pas recevoir d'invitation d'ami.	hand
+fe5c3b2d	%s is connected on %d channel. (current channel:%d)	%s est connecté sur le canal %d. (Canal actuel : %d)	hand
+6b74bbc2	%s is near you.	%s est près de vous.	hand
+075601b5	Summon request has been sent.	La demande d'invocation a été envoyée.	hand
+787b3000	You cannot sell items you are already equipped.	Vous ne pouvez pas vendre des objets que vous avez déjà équipés.	hand
+618504ad	Items you are using cannot be sold in your personal shop.	Les objets que vous utilisez ne peuvent pas être vendus dans votre étal privé.	hand
+715aedbb	The Dragon Soul Stone box is not activated.	Le coffre de pierres du dragon n'est pas activé.	hand
+37abff8d	The detector was activated, but no spirit stones were detected.	Le détecteur a été activé, mais aucune pierre spirituelle n'a été détectée.	hand
+447b7d44	Cannot charge.	Impossible de charger.	hand
+bd866f6d	You cannot summon to that area.	Vous ne pouvez pas invoquer dans cette zone.	hand
+83da1e00	<Guild> New membership is currently restricted.	<Guilde> Les nouvelles adhésions sont actuellement limitées.	hand
+17e4c161	There may be forced battles on this map.	Des combats forcés peuvent avoir lieu sur cette carte.	hand
+8bd99ec7	If you do not agree to these terms	Si vous n'acceptez pas ces conditions	hand
+9b3320a3	Please return to your original state and original location.	Revenez à votre état et à votre emplacement d'origine.	hand
+809c7e7c	<Party> The party cannot be disbanded because there are party members inside the dungeon.	<Groupe> Le groupe ne peut pas être dissous car des membres sont dans le donjon.	hand
+b7cb48f1	You cannot move to that area.	Vous ne pouvez pas aller dans cette zone.	hand
+cc913734	The server will be closed in 10 minutes due to the maintenance.	Le serveur fermera dans 10 minutes pour maintenance.	hand
+5521eef2	FEATURE_UNAVAILABLE	Cette fonction est momentanément indisponible.	hand
+51d6087b	MYSHOP_NOT_THIS_CHANNEL	Vous n'avez pas d'étal sur ce canal. (Trouvé sur le canal %d.)	hand
+d4e952c4	MYSHOP_NOT_THIS_MAP	Vous n'avez pas d'étal sur cette carte.	hand
+8ee647eb	MYSHOP_NOT_FOUND	Vous n'avez pas d'étal ouvert.	hand
+2617ccfc	MYSHOP_POSITION_SENT	La position de votre étal est indiquée par une flèche.	hand
+83b768d0	CANNOT_OPEN_NEW_SHOP	Vous avez déjà un étal ouvert, ou le dépôt de votre étal contient des objets.	hand
+6e98dfcc	YOU_DONT_MEET_SHOP_REQUIREMENTS	Vous ne remplissez pas les conditions pour ouvrir votre propre étal.	hand
+64ed839d	You cannot use this item if you're using quests	Vous ne pouvez pas utiliser cet objet pendant une quête	hand
+0d74a6a0	WAIT_AFTER_EXCHANGE	Attendez un moment après un échange.	hand
+91af5f9b	CANNOT_CONTINUE_WHEN_BUSY	Vous ne pouvez pas continuer tant qu'une autre fenêtre est ouverte.	hand
+e2293f35	You cannot perform this operation right now.	Vous ne pouvez pas effectuer cette opération maintenant.	hand
+02d0c950	You need a minimum level of %d to buy this item.	Il vous faut au moins le niveau %d pour acheter cet objet.	hand
+ebc59d2e	You need certain items to buy this item.	Il vous faut certains objets pour acheter cet objet.	hand
+337fb859	Not enough inventory space.	Pas assez de place dans l'inventaire.	hand
+5d7a7df6	SPECIAL_SHOP_LIMIT_REPUTATION	Cet achat nécessite plus de réputation.	hand
+080f5182	SPECIAL_SHOP_TIME_DELAY	Attendez encore %s avant d'acheter.	hand
+e5ddc16b	SPECIAL_SHOP_ACCOUNT_LIMIT	Ce compte a acheté cet objet autant de fois que permis.	hand
+da249082	SPECIAL_SHOP_PRICE_NO_REPUTATION	Vous n'avez pas assez de réputation.	hand
+1fefb621	USE_AFFECT_TARGET_NO_TARGET	Il vous faut une cible.	hand
+5eafc9ec	USE_AFFECT_TARGET_PLAYER_CHARACTER	Ceci ne peut pas être utilisé sur un autre joueur.	hand
+db1c1f99	POISON_ONLY_GIANT_TURTLE	Le poison ne peut être utilisé que sur la Tortue géante.	hand
+b4c7158a	REPUTATION_DESERT_REWARD	Vous avez reçu %d de réputation (Fils du désert)	hand
+6ababe48	REPUTATION_ORC_VALLEY_REWARD	Vous avez reçu %d de réputation (Garde royale)	hand
+5e5b0b33	WAIT_%d_BEFORE_USING_ITEM	Attendez %d secondes avant d'utiliser cet objet.	hand
+ea351042	WHILE_FLAG_DELAY%d	Vous pouvez utiliser le Drapeau blanc toutes les %d minutes.	hand
+8947d60a	YOU_CANNOT_WARP_NOW	Vous ne pouvez pas vous téléporter maintenant.	hand
+e0cb9840	CANNOT_WHILE_DEAD	Votre personnage est mort et ne peut pas faire cela.	hand
+3d45d5fa	[Guild] You cannot use guild skills outside the guild war arena.	[Guilde] Vous ne pouvez pas utiliser les compétences de guilde hors de l'arène de guerre.	hand
+1292f9e1	The war between %s and %s will start after %d minutes!	La guerre entre %s et %s commencera dans %d minutes !	hand
+266b78e2	Your group consists of each class, which you will recieve an experience bonus.	Votre groupe compte toutes les classes, vous recevez donc un bonus d'expérience.	hand
+2b1290b6	You need room for atleast 3 slot item to open the box.	Il vous faut de la place pour au moins un objet de 3 cases pour ouvrir le coffre.	hand
+6d24b94e	DAILY_MAP_RESET_PREINFO	Dans 5 minutes, les emplacements seront réinitialisés automatiquement !	hand
+bff60534	DAILY_MAP_RESET_INFO	Tous les monstres des cartes ont été tués !	hand
+dffb565c	SPECIAL_SHOP_OFFER_CHANGED	L'offre de l'étal a changé.	hand
+f79c8734	You cannot pickup this item if you're using quests	Vous ne pouvez pas ramasser cet objet pendant une quête	hand
+d480a7d2	You cannot pickup item while busy.	Vous ne pouvez pas ramasser d'objet quand vous êtes occupé.	hand
+bbaf7ef2	OFFLINE_SHOP_CANNOT_REOPEN	Vous ne pouvez pas ouvrir cet étal. Récupérez d'abord tous ses objets.	hand
+05b203d3	OFFLINE_SHOP_CANNOT_REOPEN_EMPTY	Vous ne pouvez pas ouvrir un étal vide.	hand
+921e6641	OFFLINE_SHOP_MANAGE_MUST_BE_OPEN	La fenêtre de gestion de l'étal doit être ouverte.	hand
+4ad1e6bb	OFFLINE_SHOP_IS_CLOSED	L'étal est fermé.	hand
+738e5bdc	SHOP_ITEM_ERROR	Une erreur d'objet s'est produite à l'ouverture de l'étal.	hand
+42e1fc7e	SHOP_ITEM_WRONG_POS	L'un des objets se trouve à un emplacement non autorisé.	hand
+56280516	SHOP_ITEM_WRONG_PRICE%s	L'un des objets a un prix non autorisé (%s).	hand
+4d70bac0	SHOP_CREATE_NO_ITEM	Il vous faut un Baluchon pour ouvrir un étal.	hand
+031d421f	You can't advance this skill further. Use Skill Reset Scroll or Band of Oblivion.	Vous ne pouvez pas monter cette compétence davantage. Utilisez un parchemin de réinitialisation ou le Bandeau de l'oubli.	hand
+41e96e35	You have to wait few seconds before changing channel.	Vous devez attendre quelques secondes avant de changer de canal.	hand
+19e742bb	You cannot warp to this person.	Vous ne pouvez pas vous téléporter vers cette personne.	hand
+f35253fd	AUTOPOTION_IS_EMPTY	L'élixir est vide. Faites-le remplir par l'alchimiste.	hand
+7fb0534f	DUEL_SUMMARY%d/%d(%d%%)	Vous avez gagné le duel avec %d/%d (%d%%) PV !	hand
+ca5329f4	MESSENGER_BLOCK_NO_PLAYER	Aucun joueur de ce nom n'a été trouvé.	hand
+758b7e71	MESSENGER_BLOCK_YOURSELF	Vous ne pouvez pas vous bloquer vous-même.	hand
+c8622a53	MESSENGER_BLOCK_IS_FRIEND	Cette personne est dans votre liste d'amis.	hand
+04742b80	MESSENGER_ADD_IS_BLOCKED	Vous ne pouvez pas ajouter une personne bloquée à vos amis.	hand
+5c62b7d0	MESSENGER_BLOCK_MAX_LIMIT%d	Vous ne pouvez pas bloquer plus de %d personnes.	hand
+dcc5ac38	MESSENGER_FRIEND_MAX_LIMIT%d	Vous ne pouvez pas avoir plus de %d amis.	hand
+a85056f1	MESSENGER_BLOCK_SUCCESS%s	Le joueur %s a été ajouté à votre liste de blocage.	hand
+f677be1a	MESSENGER_UNBLOCK_SUCCESS%s	Le joueur %s a été retiré de votre liste de blocage.	hand
+00e5f393	The shop was recently edited by the owner. Please wait a while.	L'étal vient d'être modifié par son propriétaire. Patientez un peu.	hand
+f245c8f3	You have to wait %d minutes to use this option again.	Vous devez attendre %d minutes pour réutiliser cette option.	hand
+0a37cfe7	You have to wait a while after combat before using this option.	Après un combat, vous devez attendre un peu avant d'utiliser cette option.	hand
+1ffe307e	You have successfully freed yourself.	Vous vous êtes libéré avec succès.	hand
+c192e569	You are not stuck.	Vous n'êtes pas coincé.	hand
+55e51c85	Searching was stopped. Found above %d shops with specified item.	Recherche arrêtée. Plus de %d étals avec l'objet indiqué trouvés.	hand
+478f82db	Searching ended. Found %d shops.	Recherche terminée. %d étals trouvés.	hand
+f56e41fe	Wait %s before using the scroll again.	Attendez %s avant de réutiliser le parchemin.	hand
+a5f54f35	You are already friends with %s.	Vous êtes déjà ami avec %s.	hand
+027bad39	<Party> The party leader is inside a dungeon.	<Groupe> Le chef de groupe est dans un donjon.	hand
+f4d42672	<Party> The party can't invite people if members are inside a dungeon.	<Groupe> Le groupe ne peut inviter personne si des membres sont dans un donjon.	hand
+92b33bf9	You cannot change PvP mode on war.	Vous ne pouvez pas changer de mode JcJ en guerre.	hand
+7acebf62	Remaining time: %.2f	Temps restant : %.2f	hand
+0d0e059b	Remaining time: %.1f	Temps restant : %.1f	hand
+35720435	Wedding is still ongoing!	Le mariage est toujours en cours !	hand
+defe9215	One of the wedding quests is not ready to leave the wedding.	Une des quêtes du mariage n'est pas prête à quitter le mariage.	hand
+6f7e4a91	Please wait a moment. Leaving the map.	Patientez un instant. Sortie de la carte.	hand
+17e79654	Exit map was interrupted.	La sortie de la carte a été interrompue.	hand
+96fbc811	%d seconds till map exit.	%d secondes avant de quitter la carte.	hand
+cf6d0d3c	You have to wait few seconds before exiting the map.	Vous devez attendre quelques secondes avant de quitter la carte.	hand
+e6319170	You cannot do that on special channel.	Vous ne pouvez pas faire cela sur un canal spécial.	hand
+862f69e1	You must wear a wedding dress to equip a bouquet.	Vous devez porter une robe de mariée pour équiper un bouquet.	hand
+424e202b	You must unequip bouquet first.	Vous devez d'abord retirer le bouquet.	hand
+1cd4ae19	Summon your horse to get access to horse inventory.	Appelez votre cheval pour accéder à son inventaire.	hand
+ad24c3a7	You cannot add items from horse inventory to normal shop.	Vous ne pouvez pas ajouter d'objets de l'inventaire du cheval à un étal normal.	hand
+380e698e	Affects are not loaded yet!	Les effets ne sont pas encore chargés !	hand
+c91032fc	This feature is temporarily unavailable.	Cette fonction est temporairement indisponible.	hand
+beb07a78	The shop is not in edit mode.	L'étal n'est pas en mode édition.	hand
+48ea3814	The shop is in edit mode.	L'étal est en mode édition.	hand
+ce0332ac	The shop is open.	L'étal est ouvert.	hand
+fb3adee4	Item price edited successfully.	Le prix de l'objet a été modifié avec succès.	hand

@@ -544,6 +544,9 @@ def sheet_price(itype, vnum, socket0=0, plus=-1):
     """Iwakura's sheet price of one unit at x1.0, 0 where his sheet has none
     (or marks the piece the merchant's)."""
     itype, vnum = int(itype or 0), int(vnum or 0)
+    custom = getattr(sheet, 'CUSTOM_PRICES', {}).get(vnum)
+    if custom is not None:
+        return custom
     if itype in (ITEM_WEAPON, ITEM_ARMOR):
         row = sheet.GEAR.get(vnum - vnum % 10)
         refine = vnum % 10

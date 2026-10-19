@@ -1,0 +1,1574 @@
+# id	category	channel	gate	nastroj	text
+# de twins of playerbot_live_chat_en.tsv (16.10.2026), same ids and placeholders. ASCII (no accents), like the English.
+# Placeholders filled from English data ({mapa_gdzie}, {mapa_dokad}, {klasa}, {krol}...) need de variants in the engine.
+A_001	A	global	refine9	radosc	+9 {skrot}!!!
+A_002	A	global	refine9	radosc	+9 {skrot} bekommen xD
+A_007	A	global	refine8	radosc	schmied gut drauf, +8 bekommen
+A_008	A	global	refine9	radosc	+9 {skrot}, schon neidisch xd
+A_010	A	global	refine8	radosc	puh +8, dachte es geht kaputt
+A_025	A	global	refine9	radosc	{skrot}+9 gehoert mir :D
+A_029	A	global	refine7	radosc	nur +7 aber nehm ich
+C_001	C	global	reaction_success	radosc	gz
+C_002	C	global	reaction_success	radosc	glueckwunsch
+C_003	C	global	reaction_success	radosc	gw :D
+C_004	C	global	reaction_success	radosc	gg
+C_005	C	global	reaction_success	radosc	neidisch
+C_007	C	global	reaction_success	radosc	zeig her
+C_008	C	global	reaction_success	radosc	pics or didnt happen xD
+C_014	C	global	reaction_success	radosc	glueck gehabt
+C_020	C	global	reaction_success	radosc	wow
+C_030	C	global	reaction_failure	smutek	rip
+C_032	C	global	reaction_failure	smutek	autsch
+C_034	C	global	reaction_failure	smutek	halt durch
+C_044	C	global	reaction_failure	smutek	ups
+C_045	C	global	reaction_failure	smutek	pech
+L_001	L	global	ambient	neutralny	yo
+L_002	L	global	ambient	neutralny	hey leute
+L_003	L	global	ambient	neutralny	jemand da?
+L_004	L	global	ambient	neutralny	so langweilig
+L_005	L	global	ambient	neutralny	langweiliggg
+L_009	L	global	ambient	neutralny	was machst du
+L_029	L	global	silence	neutralny	chat ist tot
+L_030	L	global	silence	neutralny	lebt noch wer?
+L_038	L	global	ambient	neutralny	und jetzt? ideen?
+L_055	L	global	ambient	neutralny	wer spielt sura?
+L_056	L	global	ambient	neutralny	solo oder gruppe?
+Q_004	Q	global	greeting	neutralny	hey hey
+Q_005	Q	global	greeting	neutralny	hey alle
+Q_006	Q	global	greeting	neutralny	hey
+S_004	S	global	level	radosc	lvl {lvl}!
+B_001	B	global	burn	smutek	+8 fehlgeschlagen...
+B_002	B	global	burn	smutek	neeeeein
+B_007	B	global	burn	smutek	fehlgeschlagen. frag nicht
+B_011	B	global	burn	smutek	schon wieder kaputt
+B_012	B	global	burn	smutek	zurueck auf anfang...
+B_015	B	global	burn	smutek	mist +8 fehlgeschlagen
+B_020	B	global	burn	smutek	keine worte
+B_024	B	global	burn	smutek	ugh
+B_025	B	global	burn	smutek	NEEEEIN
+L_017	L	global	ambient	neutralny	freitagabend und ich spiel metin xd
+L_020	L	global	ambient	neutralny	beste map ist {mapa} ehrlich
+L_021	L	global	ambient	neutralny	wer mag die wueste? keiner? dachte ich mir
+L_022	L	global	ambient	neutralny	golems sind das schlimmste im spiel
+L_025	L	global	ambient	neutralny	wie viele level heute?
+L_026	L	global	ambient	neutralny	wer hat hier das hoechste level?
+L_028	L	global	ambient	neutralny	guter spot fuer lvl {lvl}?
+L_032	L	global	ambient	neutralny	warum rennen ninjas immer weg xd
+L_033	L	global	ambient	neutralny	sura beste klasse, punkt
+L_034	L	global	ambient	neutralny	schamanen nur fuer buffs xd
+L_035	L	global	ambient	neutralny	krieger mit zweihaender aber
+L_040	L	global	ambient	neutralny	warum schlaft ihr nicht xd
+L_041	L	global	ambient	neutralny	wer ist noch wach?
+L_042	L	global	ambient	neutralny	morgen xd
+S_001	S	global	level	radosc	lvl 30, zeit fuer fms xd
+S_003	S	global	level	radosc	endlich 35
+S_005	S	global	level	radosc	wer feiert lvl {lvl} mit mir? xd
+E_005	E	global	pk_warning	zlosc	passt auf {nick} auf {mapa_gdzie}
+D_002	D	global	boss_down	radosc	{boss} ist down, hat wer den loot gesehen?
+D_027	D	global	chief_down	radosc	ork-haeuptling down, wie lang bis zum naechsten?
+F_001	F	global	war_declared	neutralny	{gildia} vs {gildia_wroga}, wer kommt?
+F_008	F	global	war_declared	neutralny	{gildia_wroga} hat uns krieg erklaert? na gut
+W_001	W	global	event_start	neutralny	{event} event!
+W_007	W	global	event_start	neutralny	weiss wer wie lang das event laeuft?
+W_008	W	global	event_start	neutralny	event laeuft, alle an die spots
+W_026	W	global	event_end	neutralny	event vorbei ;/
+W_028	W	global	event_end	neutralny	wann ist das naechste event?
+W_030	W	global	event_end	neutralny	schade, war so kurz
+T_014	T	local	encounter	neutralny	oh {nick}, was machst du hier xd
+E_006	E	local	pk_repeat	zlosc	du schon wieder {nick}?
+E_030	E	local	pk_repeat	zlosc	{nick} ich erinner mich an dich
+J_039	J	party	party_idle	neutralny	wo seid ihr?
+J_042	J	party	party_idle	neutralny	hat wer potts?
+J_043	J	party	party_idle	neutralny	ok bereit
+K_012	K	guild	guild_idle	neutralny	geht wer aus der gilde grinden?
+J_001	J	global	lfg_open	neutralny	suche gruppe {mapa_dokad} {lvl}-{lvl2}, wer kommt?
+J_003	J	global	lfg_open	neutralny	suche gruppe {mapa_dokad} {lvl}-{lvl2}, wer kommt?
+J_012	J	global	lfg_open	neutralny	suche gruppe {mapa_dokad} {lvl}-{lvl2}, wer kommt?
+J_013	J	global	lfg_open	neutralny	suche gruppe {mapa_dokad} {lvl}-{lvl2}, wer kommt?
+J_014	J	global	lfg_open	neutralny	suche gruppe {mapa_dokad} {lvl}-{lvl2}, wer kommt?
+J_020	J	global	lfg_retry	neutralny	suche noch gruppe {mapa_gdzie}
+J_021	J	global	lfg_retry	neutralny	keiner? ernsthaft?
+J_022	J	global	lfg_empty	neutralny	keiner? dann solo
+J_024	J	global	lfg_reply	neutralny	ich
+J_025	J	global	lfg_reply	neutralny	+1
+J_026	J	global	lfg_reply	neutralny	inv
+J_031	J	whisper	lfg_private	neutralny	lad mich ein
+J_033	J	whisper	lfg_private	neutralny	ich will mit
+J_037	J	party	party_join	neutralny	hi
+J_038	J	party	party_join	neutralny	bin da
+D_008	D	global	mob_weapon	neutralny	{skrot} mit {sr} avg von nem mob gelootet xd
+D_009	D	global	drop40	radosc	{skrot} mit {sr} avg gedroppt, unfassbar
+V_001	V	global	drop40	radosc	{skrot} {sr} avg gedroppt!!!
+V_002	V	global	drop40	radosc	{skrot} {sr} avg aus nem drop, never
+V_003	V	global	mob40	neutralny	leute {skrot} {sr}%, von nem mob xd
+V_004	V	global	drop40	radosc	{sr} avg auf {skrot}, verkaufen oder verbessern?
+V_005	V	global	drop40	radosc	DROP {skrot} {sr} AVG
+V_006	V	global	drop40	radosc	{sr} avg aus nem drop, glueckstag heute
+V_007	V	global	drop40	radosc	hat wer {skrot} besser als {sr} avg? xd
+V_009	V	global	drop40	radosc	{skrot} {sr} avg, jetzt nur nicht auf +9 verbrennen...
+W_010	W	global	moon_pickup	neutralny	wie viele mondlichttruhen habt ihr?
+W_016	W	global	moon_pickup	neutralny	truhen sind lotto aber macht suechtig xd
+W_017	W	global	moon_pickup	neutralny	hat wer was gutes aus truhen?
+Z_001	Z	global	m3_drop	radosc	{skrot} auf m3 gedroppt
+Z_004	Z	global	m3_good	neutralny	m3 zahlt heute aus
+Z_009	Z	global	m3_drop	radosc	{skrot} auf m3 ist lotto
+T_010	T	local	ks_boss	zlosc	ks...
+D_024	D	local	ks_boss	zlosc	ich hab zuerst geschlagen!!
+T_011	T	local	ks_stone	zlosc	der metin war meiner, hab zuerst geschlagen
+F_014	F	global	war_won	radosc	gg {gildia_wroga}, vielleicht naechstes mal
+F_027	F	global	war_won	radosc	wir haben gewonnen!!!
+F_028	F	global	war_won	radosc	{gildia} > {gildia_wroga}, punkt
+F_017	F	global	war_lost	smutek	wie haben wir verloren...
+F_030	F	global	war_lost	smutek	gegen die verlieren ist peinlich ;/
+F_021	F	guild	war_thanks	zlosc	danke team, guter krieg
+H_001	H	global	trade_gear	neutralny	VK {skrot} +{plus} {cena}, pn
+H_003	H	global	trade_gear	neutralny	verkaufe {skrot} +{plus}, {cena}, pn
+H_023	H	global	trade_material	neutralny	verkaufe {ulep} x{ile}, {cena} pro stueck
+H_025	H	global	trade_sold	neutralny	verkauft, danke
+H_031	H	whisper	trade_offer	neutralny	biete {cena_mniej}
+H_036	H	whisper	trade_refuse	neutralny	preis ist fest
+H_037	H	whisper	trade_counter	neutralny	letzter preis {cena}
+H_038	H	whisper	trade_accept	neutralny	ok, nehm ich
+N_034	N	global	loan_ask	neutralny	leiht mir wer 1kk? morgen zurueck
+N_036	N	whisper	loan_answer	neutralny	ich kann, wo bist du?
+N_038	N	whisper	loan_here	neutralny	bin da, mach handel auf
+N_041	N	whisper	loan_cancel	neutralny	dann morgen, geht grad nicht
+N_042	N	whisper	loan_repay	neutralny	{nick} hab das geld, wo bist du?
+N_043	N	whisper	loan_returned	neutralny	danke, zurueckgezahlt
+N_044	N	whisper	loan_human_thanks	zlosc	danke {gracz}, zahl dir morgen zurueck
+N_035	N	global	loan_reminder	neutralny	{nick} zahl das geliehene geld zurueck!!
+N_016	N	global	rumour_defend	zlosc	never, {nick} ist korrekt
+N_013	N	global	rumour_watch	zlosc	echt?
+N_015	N	global	rumour_watch	zlosc	screen?
+N_017	N	global	rumour_watch	zlosc	seifenoper drama lol
+N_018	N	global	rumour_watch	zlosc	popcorn
+N_051	N	global	chronicle_debt	neutralny	wisst ihr noch das drama mit {nick}? lol
+N_058	N	global	chronicle_refine	radosc	wisst ihr noch {nick}s +9 {skrot}?
+N_059	N	global	chronicle_dragon	neutralny	wisst ihr noch wie {nick} den drachen gekillt hat?
+N_060	N	global	chronicle_war	neutralny	wisst ihr noch die siegesserie von {gildia}?
+N_061	N	global	fame_rise	zdziwienie	{nick} wird hier echt bekannt
+N_062	N	global	chronicle_rank	zdziwienie	wisst ihr noch {nick} mit dem top1 {skrot}, {sr}avg?
+N_063	N	global	chronicle_pk	zlosc	wisst ihr noch {nick} und die {ile} pks?
+N_064	N	global	fame_legend	zdziwienie	{nick}? den namen muss doch jeder kennen lol
+F_018	F	global	war_streak	neutralny	sieg nummer {ile} in folge, wer ist der naechste?
+W_004	W	global	event_yang	neutralny	yang event, nicht verschwenden
+W_005	W	global	event_drop	radosc	ist der drop erhoeht oder bild ich mir das ein?
+W_006	W	global	event_chest	neutralny	mondlichttruhen sind zurueck xd
+W_025	W	global	event_last_hour	neutralny	letzte stunde vom event, beeilt euch
+A_003	A	global	refine9	radosc	+9 GESCHAFFT
+A_013	A	global	refine9	radosc	wer haette gedacht dass der schmied nett sein kann
+A_016	A	global	refine9	radosc	mama schau +9 xD
+A_020	A	global	refine9	radosc	+9 bekommen und jetzt hab ich angst es anzuziehen xd
+A_021	A	global	refine9	radosc	wisst ihr was schoener ist als +9? nichts
+A_027	A	global	refine9	radosc	ok +9 bekommen, jetzt kann ich gluecklich sterben
+A_030	A	global	refine7	radosc	endlich hat heute mal was geklappt
+B_008	B	global	burn	smutek	der schmied hat was gegen mich persoenlich
+B_016	B	global	burn	smutek	warum passiert das immer mir
+B_017	B	global	burn	smutek	nee mit dem schmied bin ich fertig
+B_021	B	global	burn	smutek	will wer den rest meiner wuerde xd
+B_027	B	global	burn	smutek	und das soll glueck sein? -.-
+C_016	C	global	reaction_success	radosc	vielleicht hab ich auch mal glueck
+C_017	C	global	reaction_success	radosc	nice nice
+C_021	C	global	reaction_success	radosc	oh krass
+C_024	C	global	reaction_success	radosc	herzlichen glueckwunsch
+C_031	C	global	reaction_failure	smutek	F
+C_033	C	global	reaction_failure	smutek	passiert jedem
+C_035	C	global	reaction_failure	smutek	so ist der schmied halt
+C_040	C	global	reaction_failure	smutek	das ist mies
+C_041	C	global	reaction_failure	smutek	profi tipp: nachts nicht verbessern xd
+C_042	C	global	reaction_failure	smutek	weisst du dass der schmied den chat liest?
+C_043	C	global	reaction_failure	smutek	heh
+D_015	D	global	boss_down	radosc	was ist in der {boss} truhe?
+D_018	D	global	dragon_down	neutralny	drache down!! ihr wisst wenn ihr dabei wart
+D_023	D	local	boss_claim	neutralny	{nick} lass den boss, der ist meiner
+J_027	J	global	lfg_reply	neutralny	schick inv
+J_032	J	global	lfg_count_question	neutralny	sucht ihr noch?
+P_010	P	global	rod_upgrade	neutralny	endlich angel +{plus}
+T_002	T	local	ks_boss	zlosc	das ist mein spot
+T_003	T	local	ks_boss	zlosc	hey ich hab hier gekaempft
+U_012	U	local	duel_won	neutralny	gg
+U_013	U	local	duel_won	neutralny	gg wp
+U_014	U	local	duel_won	neutralny	ez
+U_015	U	local	duel_lost	smutek	revanche?
+U_018	U	local	duel_lost	smutek	ok du bist besser
+V_010	V	global	reroll40	radosc	{sr}avg auf {skrot} gewuerfelt :D
+V_013	V	global	reroll40	radosc	endlich {sr}avg auf {skrot}, fertig mit wuerfeln
+V_014	V	global	reroll40	radosc	umwandlung gab {sr}avg, behalt ich
+X_010	X	global	rod_upgrade	neutralny	wie viel fuer die naechste angelstufe?
+X_019	X	global	rod_upgrade	neutralny	angel +{plus}!!!
+J_002	J	global	lfg_open	neutralny	suche gruppe {mapa_dokad} {lvl}-{lvl2}, wer kommt?
+J_006	J	global	lfg_buff	neutralny	suche buff {mapa_gdzie}
+J_015	J	global	lfg_buff	neutralny	suche schamane fuer gruppe
+J_028	J	global	lfg_reply	neutralny	darf ich? {lvl} {klasa}
+J_035	J	global	lfg_reply	neutralny	hab buffs, inv
+J_044	J	party	party_buff	neutralny	buff bitte xd
+J_045	J	party	party_buff	neutralny	schamanen buff!!
+J_051	J	party	party_end	neutralny	danke fuer die gruppe
+J_052	J	party	party_end	neutralny	morgen wieder?
+H_045	H	whisper	trade_avoid	neutralny	von dir kauf ich nix
+N_010	N	global	rumour_apology	zlosc	ok sorry, ich zahls zurueck
+N_011	N	global	rumour_deny	zlosc	lol keine ahnung was los ist
+O_001	O	global	emotion_burn	smutek	sch***
+O_002	O	global	emotion_burn	smutek	oh sch***
+O_003	O	global	emotion_burn	smutek	verd***
+O_004	O	global	emotion_burn	smutek	was zum t***
+O_005	O	global	emotion_burn	smutek	ffs
+O_006	O	global	emotion_burn	smutek	sch*** drauf
+O_010	O	global	emotion_burn	smutek	mist
+O_011	O	global	emotion_burn	smutek	verflixt
+O_012	O	global	emotion_burn	smutek	verdammt
+O_013	O	global	emotion_burn	smutek	das ist mies
+O_014	O	global	emotion_burn	smutek	ich kann nicht mehr
+O_015	O	global	emotion_burn	smutek	oh mann
+O_016	O	global	emotion_burn	smutek	meine guete
+O_017	O	global	emotion_burn	smutek	oh gott
+O_019	O	global	emotion_burn	smutek	na dann
+O_020	O	global	emotion_burn	smutek	toll...
+C_006	C	global	refine_question	radosc	nice, wie viele segensrollen?
+C_028	C	global	reaction_tease	neutralny	na und
+C_036	C	global	reaction_tease	neutralny	nicht der schmied, du bist es lol
+C_039	C	global	burn_question	smutek	welchen avg hatte es?
+C_049	C	global	reaction_tease	neutralny	geschieht dir recht
+C_051	C	global	reaction_tease	neutralny	gut
+C_052	C	global	reaction_tease	neutralny	hahaha
+M_003	M	global	tangent	neutralny	was kommt aufs armband?
+M_007	M	global	tangent	neutralny	was ist besser, fms oder rib?
+M_012	M	global	tangent	neutralny	was ist avg?
+M_014	M	global	tangent	neutralny	wie macht man in dem spiel geld lol
+M_024	M	global	topic_unknown	neutralny	ehrlich keine ahnung
+M_026	M	global	topic_unknown	neutralny	kommt drauf an was du spielst
+M_029	M	global	average_explain	radosc	avg ist durchschnittsschaden, mehr hilft gegen mobs
+M_031	M	global	topic_unknown	neutralny	wart auf wen schlaueren lol
+O_018	O	global	tease_reply	neutralny	du machst witze
+E_001	E	local	pk_local	zlosc	{nick} warum schlaegst du mich
+E_002	E	local	pk_local	zlosc	hey was machst du
+E_008	E	local	pk_repeat	zlosc	{nick} kill nummer {ile}, wird gemeldet lol
+E_010	E	local	pk_local	zlosc	ok {nick}, revanche morgen
+E_012	E	global	revenge	zlosc	weisst noch wie du mich {mapa_gdzie} gekillt hast? jetzt liegst du
+E_014	E	local	revenge	zlosc	haha {nick} liegt
+E_015	E	global	revenge	zlosc	{nick} gg, naechstes mal halt ich mich nicht zurueck
+E_020	E	local	pk_local	zlosc	{nick} geh weg
+E_021	E	local	pk_local	zlosc	ruhig {nick}, ich grinde nur
+E_022	E	local	pk_local	zlosc	{nick} lieber ein duell?
+E_033	E	local	pk_local	zlosc	ok {nick}, waffenstillstand? hab keine lust mehr
+V_020	V	global	bracelet_maxcrit	radosc	endlich 2k tp und 10 krit auf meinem armband
+V_021	V	global	necklace_maxpierce	radosc	2k tp + max durchbohren auf der kette gewuerfelt
+V_022	V	global	shoes_maxattack	radosc	schuhe mit 2k tp und max angriffstempo, behalt ich
+V_024	V	global	max_bonus	radosc	2k tp und {bon} gewuerfelt, reicht
+W_012	W	global	moon_reward	neutralny	{item} aus ner mondlichttruhe :D
+X_001	X	global	fishing_trip	neutralny	geh angeln
+X_002	X	global	fishing_trip	neutralny	geh angeln, brauch ne pause
+X_003	X	global	fish_caught	neutralny	{ryba} gefangen xd
+X_004	X	global	fish_caught	neutralny	{ryba} gefangen, ist das selten?
+X_011	X	global	fishing_trip	neutralny	angelt wer? allein langweilig xd
+X_012	X	global	fishing_trip	neutralny	wo angelt man am besten?
+X_013	X	global	fishing_trip	neutralny	angeln ist das beste am spiel, ernsthaft
+X_015	X	global	fishing_trip	neutralny	grillt ihr fische oder wie geht das xd
+X_016	X	global	fishing_trip	neutralny	alle leveln und ich angel
+X_020	X	global	fishing_trip	neutralny	angeln ist meine rente
+M_035	M	global	price_quote	neutralny	{cena} oder so
+M_036	M	global	price_quote	neutralny	um {cena}, kommt auf die boni an
+M_037	M	global	price_quote	neutralny	vielleicht {cena}, schau auch in die laeden
+Q_007	Q	global	logout	neutralny	cya
+Q_008	Q	global	logout	neutralny	bb
+Q_009	Q	global	logout	neutralny	tschau
+Q_011	Q	global	logout	neutralny	bin weg, cya alle
+P_005	P	global	rare_metin	neutralny	suche metins, welche gesehen {mapa_gdzie}?
+P_011	P	global	rare_fishing	neutralny	angeln ist das einzige was mich hier beruhigt
+P_019	P	global	rare_addict	neutralny	entweder +9 oder nichts
+P_022	P	global	rare_gamble	neutralny	der schmied kennt mich beim namen
+P_026	P	global	rare_gamble	neutralny	versuch mein glueck beim schmied
+P_027	P	global	rare_executor	zlosc	heute bock auf pvp
+P_028	P	global	rare_books	zlosc	hat wer ein {skill} buch?
+M_017	M	global	exp_answer	neutralny	mit {lvl} ist {mapa} am besten
+M_032	M	global	exp_guess	neutralny	aeh vielleicht {mapa}?
+M_038	M	global	human_unknown	neutralny	was?
+M_039	M	global	human_unknown	neutralny	weiss nicht was du meinst
+M_040	M	global	human_calm	neutralny	hey chill xd
+M_041	M	global	human_calm	neutralny	ruhig kumpel
+T_019	T	local	encounter	neutralny	hallo? bist du da?
+C_018	C	global	reaction_success	radosc	{nick} wie machst du das
+C_019	C	global	reaction_success	radosc	du hast immer glueck
+C_025	C	global	reaction_success	radosc	gut gemacht {nick} :D
+T_008	T	local	defence_thanks	zlosc	danke fuer die hilfe
+R_009	R	whisper	human_guild_invite	neutralny	{gracz} willst in die gilde?
+R_010	R	global	human_buff	neutralny	{gracz} hast du buffs?
+H_046	H	whisper	trade_human_offer	neutralny	{item} biete {cena}, deal?
+H_047	H	whisper	trade_human_agree	neutralny	ok gesetzt {cena}, warte 10 min
+H_048	H	whisper	trade_human_last	neutralny	max {cena}, letztes angebot
+H_049	H	whisper	trade_human_repeat	neutralny	biete {cena}, deal?
+H_050	H	whisper	trade_human_giveup	neutralny	hoeher geh ich nicht, cya
+H_051	H	whisper	trade_human_decline	neutralny	ok, viel glueck beim verkaufen
+R_003	R	whisper	human_item	neutralny	{gracz} verkaufst du {skrot}?
+I_002	I	global	market_expensive	neutralny	{ulep} fuer {cena}? xd
+I_004	I	global	market_cheap	neutralny	{ulep} wird billiger, wer verkauft so viel?
+Y_004	Y	global	medal_locked	neutralny	exp gesperrt und medaillen farmen
+Y_006	Y	global	medal_goal	neutralny	medaillen farmen sich nicht von selbst
+Y_009	Y	global	trade_medal	neutralny	VK pferdemedaillen x{ile}, {cena}/stk, pn
+Y_013	Y	global	medal_goal	neutralny	die affen sind mein zweites zuhause
+Y_016	Y	global	medal_goal	neutralny	gute affen spots?
+I_017	I	global	market_visit	neutralny	{ulep} fuer {cena}, lohnt sich das?
+A_004	A	global	refine9	radosc	unglaublich, +9 beim ersten versuch
+A_005	A	global	refine9	radosc	endlich {skrot} +9, 4 segen gebraucht aber lohnt sich
+A_009	A	global	refine9	radosc	dritter versuch und +9 :D
+A_011	A	global	refine9	radosc	{skrot} +9 {sr} avg fertig, jetzt boni
+A_014	A	global	refine9	radosc	+7 +8 +9 hintereinander, lottozeit xD
+A_017	A	global	refine9	radosc	hey +9 ohne segen
+A_018	A	global	refine9	radosc	drittes +9 diese woche, irgendein bug xd
+A_028	A	global	refine9	radosc	{skrot} +9 nach 5 mal verbrennen, niemals aufgeben xd
+B_003	B	global	burn	smutek	schmied hat mein {skrot} wieder gefressen
+B_004	B	global	burn	smutek	{skrot} +8 weg
+B_009	B	global	burn	smutek	unglaublich, dritter versuch fuer +8
+B_010	B	global	burn	smutek	{cena} im eimer
+B_019	B	global	burn	smutek	meine laune: zerstoert. mein {skrot}: zerstoert
+B_029	B	global	burn	smutek	{skrot} {sr} avg verbrannt... mein baby
+C_053	C	global	refine_scroll_answer	radosc	{ile} segen
+C_054	C	global	refine_average_answer	radosc	{sr} avg
+C_055	C	global	refine_question	radosc	wie viel avg?
+U_001	U	local	duel_invite	neutralny	duell?
+U_002	U	local	duel_invite	neutralny	{nick} duell? xd
+U_004	U	local	duel_invite	neutralny	r?
+U_009	U	local	duel_invite	neutralny	ohne segensrollen und potts ok?
+J_007	J	global	lfg_metin	neutralny	suche metin gruppe, {lvl}+
+J_008	J	global	lfg_monkey_medium	neutralny	wer kommt zu den affen? medaillen farmen, gruppe {lvl}-{lvl2}
+J_010	J	global	lfg_ezo	neutralny	esoteriker gruppe? {lvl}-{lvl2}
+J_016	J	global	lfg_sohan	neutralny	kommt wer zum sohan?
+Y_001	Y	global	lfg_monkey	neutralny	wer kommt zu den affen? medaillen farmen, gruppe {lvl}-{lvl2}
+Y_002	Y	global	lfg_monkey_medium	neutralny	wer kommt zu den affen? medaillen farmen, gruppe {lvl}-{lvl2}
+Y_003	Y	global	lfg_monkey_buff	neutralny	wer kommt zu den affen? medaillen farmen, gruppe {lvl}-{lvl2}
+Z_008	Z	global	lfg_m3	neutralny	farmt wer m3? gruppe?
+H_002	H	global	trade_average	radosc	vk {skrot}+{plus} {sr}avg {cena}
+H_004	H	global	trade_average	radosc	V> {skrot} +{plus} {sr}% angebot {cena}
+H_009	H	global	trade_book_three	neutralny	vk {skill} buch x3, {cena}/stk, pn
+H_010	H	global	trade_ebony	neutralny	V> ebenholz +{plus} {bon}, {cena}, pn
+H_011	H	global	trade_bracelet	neutralny	V> {skrot} +{plus} {bon}, {cena}, pn
+H_024	H	global	trade_rod	neutralny	V> {skrot} +{plus}, {cena}, pn
+X_014	X	global	trade_fish	neutralny	V> {skrot} x{ile}, {cena}/stk, pn
+W_014	W	global	trade_moon	neutralny	V> mondlichttruhen x{ile}, {cena}/stk pn
+H_052	H	global	trade_item	neutralny	V> {skrot} x{ile}, {cena}/stk pn
+H_022	H	global	trade_need_material	neutralny	kaufe {ulep} x{ile} zu {cena}/stk, pn
+H_053	H	global	trade_need_material	neutralny	K> {ulep} x{ile}, bis {cena}/stk pn
+N_045	N	global	loan_public_returned	neutralny	ok {nick} hat mir zurueckgezahlt, sorry fuers drama
+N_071	N	global	loan_ask	neutralny	kann mir wer {cena} leihen? morgen zurueck
+N_072	N	whisper	loan_funded	neutralny	danke, {cena} bekommen
+W_009	W	global	lfg_exp_event	neutralny	gruppe fuers exp event, wer?
+D_003	D	global	lfg_boss	neutralny	{boss} {mapa_gdzie} lebt, wer kommt?
+J_011	J	global	lfg_boss	neutralny	suche leute fuer {boss}
+J_005	J	global	lfg_tower	neutralny	wer kommt zum DT? brauch buff
+J_060	J	global	lfg_tower	neutralny	DT treffen am eingang, wer kommt?
+J_061	J	guild	tower_gather	neutralny	DT treffen im erdgeschoss beim stein
+J_062	J	guild	tower_stone	neutralny	mach den stein kaputt, kommt
+H_005	H	global	trade_need_scroll	neutralny	K> segensrollen, zahle {cena}/stk, pn
+H_006	H	global	trade_need_gear	neutralny	kaufe {skrot} +{plus} bis {cena}
+P11_BUY_K1	H	global	trade_need_gear	neutralny	SK {skrot} +{plus}, zahle {cena}, pn
+H_007	H	global	trade_need_book	neutralny	SK {skill} buch, {cena}, pn
+H_008	H	global	trade_need_forget	neutralny	SK {item}, {cena}, pn
+H_013	H	global	trade_need_gear	neutralny	kaufe {skrot} +{plus} mit tp, bis {cena}, pn
+H_020	H	global	trade_need_scroll	neutralny	kaufe segensrollen zu {cena}/stk, pn
+H_021	H	global	trade_need_gear	neutralny	biete {cena} fuer ebenholz +7
+W_015	W	global	trade_need_moon	neutralny	K> mondlichttruhen, zahle {cena}/stk
+Y_010	Y	global	trade_need_medal	neutralny	K> pferdemedaillen, zahle {cena}/stk
+H_054	H	global	trade_need_item	neutralny	K> {item} x{ile}, {cena} gesamt pn
+R_030	R	global	human_gz_thanks	zlosc	danke
+U_019	U	local	duel_lost	smutek	{ile}:{ile}, weiter?
+U_020	U	local	duel_lost	smutek	{nick} hat mich {ile} mal geschlagen, kein duell mehr mit dem xd
+U_021	U	local	duel_lost	smutek	sura gegen ninja, immer dasselbe...
+U_022	U	local	duel_lost	smutek	schamanen duelle sind eine strafe
+R_016	R	global	human_pk_repeat	zlosc	{gracz} ich erinner mich an dich, {ile}:0 fuer dich, das zahl ich dir heim
+R_017	R	global	human_pk_repeat	zlosc	{gracz} du schon wieder? xd
+U_030	U	local	duel_lost	smutek	{score}, revanche?
+U_031	U	local	duel_won	neutralny	{score}, gg
+E_060	E	local	revenge	zlosc	{score}
+H_055	H	whisper	trade_interest	neutralny	verkaufst du {item}?
+A_024	A	global	refine8	radosc	schmied 1 : ich 0... moment, hat geklappt xD
+A_031	A	global	refine9	radosc	schild +9 xD keiner verbessert schilde, aber ich
+A_032	A	global	refine9	radosc	ebenholz +9, tp wie ein panzer jetzt
+B_005	B	global	burn	smutek	4 segen und trotzdem kaputt, der schmied ist ein betrueger
+B_014	B	global	burn	smutek	hat wer ein billiges {skrot}? meins ist verbrannt
+C_009	C	global	reaction_tease	neutralny	du luegst
+C_010	C	global	reaction_success	radosc	wie viel willst du dafuer?
+C_011	C	global	reaction_success	radosc	verkaufst du es?
+C_012	C	global	reaction_success	radosc	stell es in deinen laden
+C_015	C	global	reaction_success	radosc	dann gibst du einen aus
+D_014	D	global	drop_book	radosc	{skill} buch gedroppt, braucht das wer?
+J_050	J	party	party_end	neutralny	geh jetzt, cya
+L_013	L	global	logout	neutralny	geh schlafen, cya
+L_014	L	global	logout	neutralny	gute nacht leute
+L_039	L	global	fishing_trip	neutralny	geh angeln, mach pause xd
+L_043	L	global	reaction_success	radosc	haha
+L_044	L	global	reaction_success	radosc	gw
+L_045	L	global	reaction_success	radosc	jo
+L_046	L	global	reaction_success	radosc	jup
+L_047	L	global	reaction_failure	smutek	ernsthaft?
+L_048	L	global	reaction_failure	smutek	never
+L_049	L	global	reaction_success	radosc	cool
+L_052	L	global	reaction_failure	smutek	lol
+L_053	L	global	reaction_failure	smutek	was?
+L_054	L	global	topic_unknown	neutralny	kp
+M_001	M	global	question_exp	neutralny	wo leveln mit {lvl}?
+M_004	M	global	question_price	neutralny	was kostet eine segensrolle gerade?
+M_008	M	global	question_skill	neutralny	welchen skill zuerst hochziehen?
+M_020	M	global	blessing_quote	neutralny	segen kosten gerade so {cena}
+M_023	M	global	skill_advice	neutralny	ich wuerd zuerst {skill} hochziehen
+M_025	M	global	market_unknown	neutralny	schau in die laeden
+D_001	D	global	boss_chest	neutralny	truhe von {boss} bekommen :D
+D_005	D	local	ks_boss	zlosc	jemand hat mir {boss} geklaut, super
+D_032	D	global	drop30	radosc	{skrot} {sr}avg gedroppt :D
+N_019	N	global	rumour_watch	zlosc	danke fuer die info, mit dem handel ich nicht
+N_020	N	global	rumour_watch	zlosc	ist das der typ der neulich was vorhatte?
+N_073	N	global	rumour_reject	zlosc	ich glaub ihm nicht
+K_010	K	global	guild_left	neutralny	verlasse {gildia}, danke fuer alles
+K_013	K	guild	guild_welcome	neutralny	{nick} willkommen in der gilde xd
+K_016	K	whisper	human_guild_invite	neutralny	willst du zu {gildia}?
+P_003	P	global	rare_metin_daily	neutralny	heute 15 metins kaputt
+P_006	P	global	rare_fish_caught	neutralny	{ryba} gefangen!
+P_008	P	global	rare_fish_stock	neutralny	will wer fisch? hab so 200
+P_014	P	global	rare_book_failure	neutralny	skill buch 5 mal hintereinander fehlgeschlagen
+P_016	P	global	rare_book_failure	neutralny	lese und lese und nix
+P_002	P	global	rare_metin_stolen	neutralny	wer hat mir den metin geklaut
+P_004	P	global	rare_metin_found	neutralny	metin {mapa_gdzie}, wer zuerst kommt
+O_009	O	global	emotion_burn	smutek	der schmied regt mich so auf
+M_006	M	global	question_rod	neutralny	wo kann ich eine angel kaufen?
+M_022	M	global	rod_vendor	neutralny	angel beim fischer
+M_015	M	global	question_guild	neutralny	wie komm ich in eine gilde?
+K_002	K	global	question_guild	neutralny	suche gilde, {lvl} {klasa}, aktiv
+K_003	K	global	question_guild	neutralny	wer kann mich in eine gilde nehmen?
+M_042	M	global	guild_advice	neutralny	frag den leiter von {gildia}
+V_016	V	global	reroll40	radosc	{sr}avg gewuerfelt aber fertigkeitsschaden schlechter
+V_025	V	global	bracelet_maxcrit	radosc	armband fertig, 2k tp + {bon}
+V_026	V	global	achievement_question	neutralny	wie viel?? zeig
+V_030	V	global	reaction_tease	neutralny	screen oder es ist nicht passiert xd
+V_031	V	global	reaction_success	radosc	neidisch
+V_033	V	global	mix_question	neutralny	wie viele umwandlungssteine?
+V_034	V	global	reaction_tease	neutralny	du luegst xd
+V_036	V	global	reaction_success	radosc	nur nicht nachts verbessern xd
+V_037	V	global	bonus_answer	neutralny	{bon}
+W_011	W	global	moon_potions50	neutralny	50 truhen geoeffnet und nix interessantes
+W_013	W	global	moon_book	neutralny	truhe gab mir ein buch fuer {skill}, braucht das wer?
+W_018	W	global	moon_open100	neutralny	schon 100 truhen geoeffnet...
+W_019	W	global	moon_potions	neutralny	nur potts in den truhen -.-
+P_007	P	global	rare_fish_hours	neutralny	6 std angeln, nicht urteilen
+P_009	P	global	fish_empty	neutralny	die fische beissen heute nicht
+X_005	X	global	fish_empty	neutralny	die fische beissen heute nicht
+X_006	X	global	fish_empty	neutralny	eine stunde angeln und nix
+N_001	N	global	item_scam	zlosc	{nick} hat mich abgezogen, traut ihm nicht!!
+N_002	N	global	item_scam	zlosc	passt auf {nick} auf, geld genommen und kein item gegeben
+N_003	N	global	item_scam	zlosc	{nick} hat mich beim handel betrogen, nicht mit ihm handeln
+N_004	N	global	item_scam	zlosc	weiss nicht wer schlimmer ist, {nick} oder der schmied xd
+N_005	N	global	item_scam	zlosc	{nick} ist ein betrueger, aufpassen
+N_006	N	global	rumour_deny	zlosc	ich?? hab nix geklaut, er luegt
+N_008	N	global	rumour_deny	zlosc	war ein witz xd
+H_056	H	whisper	item_promise	neutralny	zahl {cena}, dann geb ich {item}
+H_057	H	whisper	item_prepay	neutralny	ok zahl jetzt
+F_003	F	global	war_declared	neutralny	{gildia_wroga} fangt schon mal an zu heulen
+F_004	F	global	war_declared	neutralny	machen sie platt wie letztes mal
+F_005	F	global	war_declared	neutralny	letztes mal gewonnen, wieder so xd
+F_006	F	global	war_declared	neutralny	wisst ihr noch die niederlage letzte woche? jetzt rache
+F_007	F	global	war_declared	neutralny	letztes mal haben sie uns geschlagen, nicht nochmal
+F_012	F	guild	war_prepare	neutralny	teilt potts mit denen die keine haben
+F_015	F	global	war_lost	smutek	verloren, aber war knapp
+F_020	F	global	war_lost	smutek	keine revanche?
+F_022	F	global	war_won	radosc	naechstes mal mehr leute mitbringen
+F_023	F	global	war_declared	neutralny	{gildia_wroga} habt ihr wenigstens nen buffer? xd
+F_031	F	global	war_lost	smutek	die niederlage regt mich auf
+F_032	F	guild	war_guild_lost	smutek	wie haben wir verloren...
+F_033	F	guild	war_guild_won	neutralny	wir haben gewonnen xd
+N_031	N	global	drop_books_three	zlosc	3 skill buecher auf einmal gefunden, lotto gewonnen
+Y_005	Y	global	medal_daily	neutralny	{ile} medaillen heute xd
+Z_002	Z	global	m3_drop	radosc	noch ein {skrot} aus m3, {sr} avg naja
+Z_010	Z	global	m3_good	neutralny	endlich ueber 30 avg aus m3
+J_046	J	party	party_afk_start	neutralny	brb 2 min
+J_047	J	party	party_afk_back	neutralny	bin zurueck
+L_011	L	global	afk_start	neutralny	brb
+L_012	L	global	afk_back	neutralny	wieder da
+N_057	N	global	afk_back	neutralny	char hier gelassen, lebt noch, ein wunder
+M_002	M	global	question_weapon30	neutralny	welche lvl 30 waffe fuer {klasa}?
+M_009	M	global	question_metin	neutralny	wo sind metins fuer level {lvl}?
+Y_011	Y	global	question_medal_price	neutralny	was kosten pferdemedaillen gerade?
+M_043	M	global	weapon30_advice	neutralny	mit 30 schau dir {item} an
+M_044	M	global	metin_advice	neutralny	metins {mapa_gdzie}
+Y_019	Y	global	medal_quote	neutralny	medaillen so {cena} pro stueck
+V_011	V	global	reroll40	radosc	{ile} umwandlungen und endlich {sr} durchschnitt
+V_015	V	global	reroll40	radosc	letzte umwandlung und {sr} durchschnitt xD
+V_023	V	global	max_bonus	radosc	nach 30 umwandlungen 2k tp und {bon} xd
+V_038	V	global	mix_count_answer	neutralny	{ile} umwandlungen benutzt
+V_017	V	global	top_rank	neutralny	glaub mein {skrot} ist das beste am server xd
+V_018	V	global	top_rank	neutralny	{skrot} {sr} durchschnitt, server top 1
+V_019	V	global	top_rank	neutralny	hat wer ein besseres {skrot}? bezweifel ich
+N_074	N	global	chronicle_rank_burn	zdziwienie	wisst ihr noch? {nick} hat top1 {skrot} {sr}avg bei +9 verbrannt
+M_010	M	global	question_soul_stone	neutralny	was mach ich mit geiststeinen?
+M_011	M	global	question_npc_sale	neutralny	lohnt sich verkaufen an npcs?
+M_013	M	global	question_ebony	neutralny	lohnt sich ebenholz ohrringe verbessern?
+M_045	M	global	soul_stone_advice	neutralny	geiststeine kommen in waffen und ruestungssockel
+M_046	M	global	npc_sale_advice	neutralny	npc gibt {cena} pro stueck fuer {item}
+M_047	M	global	ebony_advice	neutralny	ebenholz +0: {ile} tp, boni pruefen
+M_005	M	global	question_v2	neutralny	wie komm ich nach v2?
+M_016	M	global	question_boss	neutralny	wo ist {boss}?
+M_048	M	global	v2_route_advice	neutralny	mein weg zu den spinnen geht durch {mapa}
+M_049	M	global	boss_location_advice	neutralny	{boss} ist {mapa_gdzie}
+U_005	U	local	duel_invite	neutralny	bereit
+U_006	U	local	duel_invite	neutralny	los
+U_007	U	local	duel_invite	neutralny	komm schon
+X_009	X	global	rod_upgrade	neutralny	der fischer hat meine angel auf +{plus} gebracht
+Z_005	Z	global	m3_drop	radosc	drittes {skrot} aus m3, immer noch wenig durchschnittsschaden
+L_050	L	global	reaction_success	radosc	stimmt
+L_051	L	global	reaction_success	radosc	genau
+M_033	M	global	topic_unknown	neutralny	google es xd
+I_007	I	global	trade_need_material	neutralny	k> {ulep} x{ile}, zahle {cena}/stk, pn
+H_030	H	whisper	trade_offer	neutralny	zu teuer
+H_033	H	whisper	trade_offer	neutralny	geht billiger?
+H_035	H	whisper	trade_offer	neutralny	ich kauf wenn du auf {cena_mniej} runtergehst
+H_026	H	global	trade_sold	neutralny	nicht mehr verfuegbar
+H_040	H	global	trade_sold	neutralny	sorry schon verkauft
+H_043	H	global	trade_sold	neutralny	erledigt, danke
+C_023	C	global	reaction_tease	neutralny	mal sehen wie lang das haelt xd
+C_029	C	global	reaction_tease	neutralny	die naechste verbesserung verbrennt es xd
+C_046	C	global	reaction_failure	smutek	segensrollen helfen nie, sag ich dir
+Y_012	Y	global	monkey_third_day	neutralny	dritter tag bei den affen, geh nirgends anders hin xd
+Y_014	Y	global	monkey_again	neutralny	schon wieder affen, hab die so satt
+Y_017	Y	global	medal_daily	neutralny	medaillen droppen heute wie verrueckt
+S_002	S	global	trade_need_gear	neutralny	level 30, kaufe {skrot} +{plus} bis {cena}, pn
+S_009	S	global	level	radosc	{lvl} und immer noch kein kampfpferd ;/
+J_034	J	global	lfg_reply	neutralny	ich kann, aber bin ein paar level drunter
+U_003	U	local	duel_invite	neutralny	wer will ein duell? {lvl} {klasa}
+E_013	E	global	revenge	zlosc	hab ja gesagt ich komm wieder
+E_023	E	local	duel_invite	neutralny	r?
+E_024	E	local	duel_invite	neutralny	los
+E_025	E	local	duel_won	neutralny	gg wp
+E_026	E	local	duel_lost	smutek	tot xd
+A_006	A	global	refine8	radosc	+8 ging rein, versuch +9 drueckt mir die daumen
+A_012	A	global	review	neutralny	endlich {skrot} +9, zwei tage farmen
+A_015	A	global	review	neutralny	ruestung endlich +9, jetzt kann ich {mapa_dokad}
+A_019	A	global	refine8	radosc	+8 fertig, +9 kann ich mir grad nicht leisten ;/
+A_022	A	global	review	neutralny	ok +9 fertig, geh gluecklich schlafen
+A_023	A	global	review	neutralny	ok +8 fertig, versuch +9 morgen
+A_026	A	global	trade_new_nine	neutralny	+9 direkt in meinen laden, wer will? xd
+B_006	B	global	review	neutralny	ok das wars, heute kein verbessern mehr
+B_013	B	global	burn	smutek	jetzt lauf ich mit +5 rum xd
+B_018	B	global	review	neutralny	+9 verbrannt, geh frische luft schnappen
+B_022	B	global	review	neutralny	eine woche sparen in einer sekunde weg
+B_023	B	global	burn	smutek	das war mein einziges {skrot} ;(
+B_026	B	global	review	neutralny	ok geh angeln zum runterkommen
+B_028	B	global	review	neutralny	naechstes mal verbesser ich morgens xd
+B_030	B	global	emotion_burn	smutek	sch*** +9 verbrannt
+B_031	B	global	emotion_burn	smutek	verd*** schon wieder
+B_032	B	global	emotion_burn	smutek	sch***, +9 weg
+C_013	C	global	reaction_success	radosc	meins ist dreimal bei +8 kaputt gegangen ;/
+C_022	C	global	reaction_success	radosc	ok ich geh auch verbessern
+C_026	C	global	review	neutralny	{nick} jetzt traegst du mich in der gruppe xd
+C_027	C	global	review	neutralny	pff hab +9 schon seit ner woche
+C_037	C	global	reaction_failure	smutek	mir ist gestern dasselbe passiert
+C_038	C	global	reaction_failure	smutek	entspann dich, ich hab zwei +9 an einem tag verbrannt
+C_047	C	global	loan_friend_offer	neutralny	halt durch, ich kann dir was leihen
+C_048	C	global	review	neutralny	{nick} keine sorge, wir machen in der gruppe ein neues
+C_050	C	global	reaction_tease	neutralny	karma dafuer xd
+D_004	D	global	review	neutralny	wer hat {boss} gekillt? hab 20 min gewartet
+D_006	D	local	ks_boss	zlosc	boss ks schon wieder...
+D_007	D	global	boss_spawn	neutralny	{boss} ist {mapa_gdzie} gespawnt
+D_010	D	global	review	neutralny	erster guter drop von nem metin ueberhaupt
+D_011	D	global	review	neutralny	esos gaben heute drei steine
+D_012	D	global	review	neutralny	zwei stunden bei den spinnen und keine drops
+D_013	D	global	m3_drop	radosc	drops sind heute schwach
+D_016	D	global	review	neutralny	truhe geoeffnet und... nichts xd
+D_017	D	global	boss_fast_buff	neutralny	{boss} in einer minute down mit buffs xd
+D_019	D	global	boss_party_thanks	zlosc	danke fuer die boss gruppe, hat spass gemacht
+D_020	D	global	review	neutralny	metin hat nur potts gedroppt -.-
+D_021	D	global	review	neutralny	zehn metins und keine steine, wie
+D_022	D	global	review	neutralny	pass bekommen, geh nach v2
+D_025	D	local	lfg_local_reply	neutralny	ok teilen wir?
+D_026	D	local	drop_roomless	radosc	nimm es, meine tasche ist eh voll
+D_028	D	global	review	neutralny	spinnenkoenigin hat die halbe gruppe gekillt xd
+D_029	D	global	review	neutralny	neunschwanz wieder am sohan? wo war er
+D_030	D	global	review	neutralny	verkauft wer {boss} materialien? kaufe
+D_031	D	global	boss_box_potions	neutralny	{boss} truhe, oeffne... nichts gutes
+E_003	E	global	pk_warning	zlosc	freier modus am farmspot, echt jetzt?
+E_004	E	global	review	neutralny	{nick} killt alle {mapa_gdzie}, aufpassen
+E_007	E	global	pk_twice_today	zlosc	{nick} zum zweiten mal heute, merk ich mir
+E_009	E	global	review	neutralny	wartet nur bis ich hochlevel
+E_011	E	global	pk_warning	zlosc	ok {nick}, {score}
+E_016	E	global	review	neutralny	warum pken {krol_wroga} immer an den spots
+E_017	E	guild	review	neutralny	{gildia} hilfe, {nick} schlaegt mich {mapa_gdzie}
+E_018	E	global	vendetta_search	neutralny	wer kann {nick} schlagen? zu stark
+E_019	E	global	review	neutralny	hat mich gekillt und den boss genommen, super
+E_027	E	global	review	neutralny	ein {klasa} {mapa_gdzie} killt lowies
+E_028	E	global	review	neutralny	wollte nur potts kaufen...
+E_029	E	global	review	neutralny	zurueck am spot und schon wieder {nick} ;/
+E_031	E	global	vendetta_seen	neutralny	{nick} ich seh dich {mapa_gdzie}, ich komme
+E_032	E	global	vendetta_search	neutralny	hat wer {nick} gesehen? hab was mit ihm zu klaeren
+E_034	E	global	mob_death	smutek	ein golem hat mich gekillt, frag nicht
+E_035	E	global	near_death	smutek	war einen tp vom tod entfernt xD
+E_036	E	global	review	neutralny	mit 50 tp aufm pferd entkommen haha
+E_037	E	global	review	neutralny	sch*** lag, deswegen gestorben
+E_038	E	global	executor_kill	zlosc	noch einer
+E_039	E	global	executor_kill	zlosc	naechster bitte
+E_040	E	global	executor_kill	zlosc	{krol} regiert
+E_041	E	global	executor_kill	zlosc	wer ist der naechste xd
+E_042	E	global	executor_kill	zlosc	nicht heulen
+E_043	E	global	executor_kill	zlosc	zu einfach
+E_044	E	global	review	neutralny	{klasa} {lvl} {krol_wroga} pkt {mapa_gdzie}, hilfe?
+E_045	E	global	review	neutralny	kommt {mapa_dokad}, wir schlagen ihn zusammen
+E_046	E	global	review	neutralny	wir haben ihn geschlagen xD
+E_047	E	global	review	neutralny	feigling ist abgehauen
+F_002	F	guild	review	neutralny	krieg gegen {gildia_wroga} um 20 uhr, alle kommen
+F_009	F	global	review	neutralny	wie viele seid ihr? wir sind zwoelf
+F_010	F	global	review	neutralny	{gildia} bereit
+F_011	F	global	war_muster	neutralny	geht gleich los
+F_013	F	guild	war_prepare	neutralny	schamane buff alle bevor wir anfangen
+F_016	F	global	review	neutralny	{nick} von {gildia_wroga} hat zu viel tp xd
+F_019	F	global	review	neutralny	{gildia_wroga} laufen weg?
+F_024	F	guild	review	neutralny	alle von {gildia} {mapa_dokad}, sofort!
+F_025	F	guild	review	neutralny	wer es verpasst hat fliegt xd
+F_026	F	guild	review	neutralny	{nick} wo warst du? wir hatten krieg
+F_029	F	global	review	neutralny	{gildia_wroga} alle afk
+G_001	G	global	review	neutralny	die roten sitzen schon wieder am sohan
+G_002	G	global	review	neutralny	schluempfe in der wueste, wie immer
+G_003	G	global	review	neutralny	gelbe ohne buffs wie immer xd
+G_004	G	global	ambient	neutralny	{krol} am besten, ende der diskussion
+G_005	G	global	review	neutralny	warum haben alle {krol_wroga} +9 und wir nicht
+G_006	G	global	review	neutralny	die blauen laufen immer weg xd
+G_007	G	global	review	neutralny	die roten ruben haben wieder den metin spot
+G_008	G	global	review	neutralny	{krol} {mapa_gdzie}? wir brauchen leute
+G_009	G	global	review	neutralny	{krol_wroga} gebt uns den sohan zurueck
+G_010	G	global	ambient	neutralny	nix gegen {krol_wroga}, lasst sie exp machen
+H_012	H	global	review	neutralny	hab viele edelsteine zu verkaufen, pn
+H_014	H	global	question_owned_price	neutralny	PC {skrot}+{plus} {sr}avg?
+H_015	H	global	question_price	neutralny	was kostet {item} gerade?
+H_016	H	global	question_owned_price	neutralny	wie viel fuer {skrot}+{plus} {sr}%?
+H_017	H	global	review	neutralny	tausche {skrot} gegen {skrot} plus yang
+H_018	H	global	trade_shop_cheap	neutralny	laden in m1 beim schmied, billig
+H_019	H	global	trade_material	neutralny	billige materialien in meinem m1 laden
+H_027	H	global	trade_repeat	neutralny	noch zu haben
+H_028	H	global	trade_top	neutralny	V> {skrot}+{plus} {sr}avg {cena}, server top, fest
+H_029	H	whisper	trade_offer	neutralny	wie viel?
+H_032	H	global	trade_public_interest	neutralny	ok pn
+H_034	H	global	trade_public_interest	neutralny	in den laeden billiger xd
+H_039	H	whisper	trade_offer	neutralny	hast du es noch?
+H_041	H	global	trade_public_interest	neutralny	hast auch ruestung?
+H_042	H	whisper	trade_offer	neutralny	warte, zaehl mein yang
+H_044	H	global	review	neutralny	{nick} du hast mir mal ebenholz verkauft, war gut :D
+I_001	I	global	review	neutralny	wer hat alle segen gekauft? {cena} pro stueck ist diebstahl
+I_003	I	global	review	neutralny	materialpreise sind heute verrueckt
+I_005	I	global	review	neutralny	edelsteine fluten den markt, nur noch {cena}
+I_006	I	global	review	neutralny	kein einziges {skill} buch auf dem markt
+I_008	I	global	review	neutralny	fms mit gutem avg kostet jetzt ein vermoegen
+I_009	I	global	human_shop_expensive	neutralny	{skrot} {sr}avg fuer {cena} gesehen, wer kauft das xd
+I_010	I	global	review	neutralny	preise runter, gute zeit zum kaufen
+I_011	I	global	review	neutralny	suche {ulep} seit gestern, keins da
+I_012	I	global	review	neutralny	verkauft wieder keiner heu? oh ist weg xd
+I_013	I	global	review	neutralny	tp armbaender sind teuer geworden
+I_014	I	global	review	neutralny	segen kosteten frueher 100k
+I_015	I	global	review	neutralny	potts werden teuer
+I_016	I	global	ambient	neutralny	kann mir nicht mal potts leisten xd
+J_004	J	global	lfg_partial	neutralny	gruppe {mapa_gdzie}, ein platz frei, pn
+J_009	J	global	review	neutralny	gruppe fuer spinnen v2, hab nen pass
+J_017	J	global	lfg_partial	neutralny	zwei plaetze in gruppe {mapa_gdzie}
+J_018	J	global	review	neutralny	gruppe fuer {boss}, treffen am eingang
+J_019	J	global	review	neutralny	suche buffer, geb potts xd
+J_023	J	global	lfg_full	neutralny	gruppe {mapa_gdzie} voll, danke
+J_029	J	global	review	neutralny	kann, aber in fuenf minuten
+J_030	J	global	lfg_count_question	neutralny	wie viele schon?
+J_036	J	global	review	neutralny	du nicht xd
+J_040	J	party	party_idle	neutralny	komme
+J_041	J	party	review	neutralny	wartet am eingang
+J_048	J	party	review	neutralny	gute exp hier
+J_049	J	party	party_idle	neutralny	nicht viele mobs hier
+J_053	J	party	party_idle	neutralny	{nick} du stehst da und schlaegst nicht xd
+J_054	J	party	party_idle	neutralny	achtung, boss
+J_055	J	party	party_idle	neutralny	ist wer gestorben?
+J_056	J	party	party_idle	neutralny	hilft wer bei dem metin?
+K_001	K	global	review	neutralny	{gildia} rekrutiert {lvl}+, aktiv, pn
+K_004	K	global	review	neutralny	{gildia} sucht einen schamanen
+K_005	K	global	review	neutralny	kriege jeden abend, schreibt uns
+K_006	K	global	review	neutralny	keine afkler xd
+K_007	K	global	guild_global	neutralny	jemand von {gildia} da?
+K_008	K	global	review	neutralny	haben mich grundlos aus der gilde geworfen ;/
+K_009	K	global	guild_global	neutralny	{gildia} beste gilde am server
+K_011	K	guild	review	neutralny	alle {mapa_gdzie} heute um 21 uhr
+K_014	K	guild	guild_idle	neutralny	{nick} warum so still, lebst du?
+K_015	K	global	guild_global	neutralny	leiter schon wieder afk
+L_006	L	global	review	neutralny	furchtbarer lag heute
+L_007	L	global	review	neutralny	wurde gekickt, was war los
+L_008	L	global	review	neutralny	laggt noch wer?
+L_010	L	global	review	neutralny	geh essen, brb
+L_015	L	global	review	neutralny	morgen schule ehh
+L_016	L	global	review	neutralny	morgen arbeit, tschau
+L_018	L	global	review	neutralny	spielt wer so viel wie ich? xd
+L_019	L	global	review	neutralny	frueher haben wir dt mit level 40 gemacht
+L_023	L	global	review	neutralny	warum gibts keine metins wenn ich hingeh
+L_024	L	global	review	neutralny	drei stunden an dem spot, reicht
+L_027	L	global	review	neutralny	{nick} wo warst du gestern?
+L_031	L	global	chat_revived	neutralny	ok chat lebt wieder
+L_036	L	global	review	neutralny	mein pferd ist schneller als mein internet
+L_037	L	global	review	neutralny	heute den ganzen tag yang farmen
+L_057	L	global	review	neutralny	vielleicht wechsel ich die klasse xd
+L_058	L	global	review	neutralny	drei chars und kann mich immer noch nicht entscheiden
+L_059	L	global	potions_empty	neutralny	ehh schon wieder keine potts
+L_060	L	global	review	neutralny	potts vergessen und gestorben xd
+L_061	L	global	ambient	neutralny	hat wer mein pferd gesehen? ah da ist es xd
+L_062	L	global	review	neutralny	am schlimmsten wenn exp eine stunde bei 99,9% haengt
+L_063	L	global	review	neutralny	der metin hatte so ne million tp
+M_018	M	global	review	neutralny	fms fuer sura oder ninja, rib fuer krieger
+M_019	M	global	review	neutralny	mach zuerst tp aufs armband
+M_021	M	global	review	neutralny	erst ein pass dann v2, pass kommt aus drops
+M_027	M	global	review	neutralny	hab ich so gemacht und hat geklappt
+M_028	M	global	review	neutralny	hoer nicht drauf, {mapa} ist besser
+M_030	M	global	ebony_advice	neutralny	ebenholz lohnt sich immer
+M_034	M	global	knowledge_private_offer	neutralny	schreib mir, ich erklaers
+N_007	N	global	loan_paid_public	neutralny	{nick} hab dir zurueckgezahlt, schau in deine tasche
+N_009	N	global	review	neutralny	kenn ihn nicht mal
+N_012	N	global	rumour_deny	zlosc	{nick} wir reden nochmal
+N_014	N	global	rumour_watch	zlosc	mich hat er auch schon betrogen
+N_021	N	global	review	neutralny	{nick} sicher ein bot, acht stunden an einem spot
+N_022	N	global	review	neutralny	{nick} schlaeft wohl nie
+N_023	N	global	bot_joke	neutralny	{nick} bist du ein bot?
+N_024	N	global	bot_joke_reply	neutralny	bin kein bot xD
+N_025	N	global	bot_joke_reply	neutralny	ein bot wuerde das nicht schreiben ;p
+N_026	N	global	drop_roomless	radosc	hat wer {skrot} {mapa_gdzie} verloren? liegt am boden xd
+N_027	N	global	review	neutralny	verschenke {skrot}+{plus}, wer zuerst kommt
+N_028	N	global	review	neutralny	will wer gratis potts? steh in m1
+N_029	N	global	review	neutralny	hab heute geburtstag :D
+N_030	N	global	review	neutralny	heute ein jahr auf dem server
+N_032	N	global	review	neutralny	aus versehen {skrot} an npc verkauft...
+N_033	N	global	review	neutralny	{ulep} zum zehnfachen preis reingestellt, korrigiert xd
+N_037	N	whisper	loan_location	neutralny	m1 beim schmied, komm her
+N_039	N	whisper	loan_waiting	neutralny	warte
+N_040	N	whisper	loan_waiting	neutralny	seh dich nicht, wo stehst du?
+N_046	N	global	review	neutralny	falscher chat ups
+N_047	N	global	review	neutralny	sorry falsches fenster
+N_048	N	global	review	neutralny	jjjjjjjjjjjjjjjjjj sorry katze auf der tastatur
+N_049	N	global	review	neutralny	hab ne frage... ah hab's rausgefunden
+N_050	N	global	chronicle_dragon	neutralny	wisst ihr noch den ersten drachenkill hier?
+N_052	N	global	review	neutralny	crasht der server heute? lag fuehlt sich komisch an
+N_053	N	global	review	neutralny	schwoer der metin hatte mehr tp als normal
+N_054	N	global	review	neutralny	warum sind ninjas immer in buechen xd
+N_055	N	global	gm_seen	neutralny	hat wer einen gm gesehen?
+N_056	N	global	review	neutralny	geh mittagessen, killt mich nicht
+P_001	P	global	review	neutralny	{mapa} frei von metins, weiter gehts
+P_012	P	global	review	neutralny	alle {skill} buecher gekauft, sorry xd
+P_013	P	global	skill_master	neutralny	{skill} jetzt auf M
+P_015	P	global	review	neutralny	kaufe jede menge {skill} buecher
+P_017	P	global	review	neutralny	verbesser heute alles was ich hab
+P_018	P	global	review	neutralny	kaufe mehrere {skrot}+0
+P_020	P	global	trade_refined_full	radosc	laden voll mit +7 und +8, kommt vorbei
+P_021	P	global	rare_gamble_finance	neutralny	kein yang mehr aber zwei +9 xd
+P_023	P	global	review	neutralny	noch ein versuch... der letzte
+P_024	P	global	review	neutralny	potts kann ich mir nicht leisten aber segen schon
+P_025	P	global	review	neutralny	Henker, siehe 12E
+Q_001	Q	global	review	neutralny	hey {nick}, ewig nicht gesehen
+Q_002	Q	global	review	neutralny	oh {nick} ist zurueck
+Q_003	Q	global	greeting	neutralny	{nick} was geht
+Q_010	Q	global	review	neutralny	bis morgen
+Q_012	Q	global	review	neutralny	{nick} tschau, morgen gruppe?
+Q_013	Q	local	encounter	neutralny	{nick} verschwinde
+Q_014	Q	global	review	neutralny	oh nein, {nick} ist zurueck xd
+R_001	R	global	greeting	neutralny	{gracz} willkommen
+R_002	R	global	reaction_success	radosc	{gracz} gw
+R_004	R	global	greeting	neutralny	{gracz} welches level bist du?
+R_005	R	global	greeting	neutralny	{gracz} bist du in {gildia}?
+R_006	R	global	human_party_thanks	zlosc	{gracz} danke fuer die gruppe
+R_007	R	global	greeting	neutralny	{gracz} hast du mich gestern gekillt? xd
+R_008	R	global	review	neutralny	passt auf {gracz} auf {mapa_gdzie}, killt alle
+R_011	R	global	human_boss_help	neutralny	{gracz} hilfst bei {boss}?
+R_012	R	whisper	human_party_invite	neutralny	{gracz} ich seh dich {mapa_gdzie}, komm in die gruppe
+R_013	R	global	human_bought	neutralny	{gracz} hab {skrot} von dir gekauft, danke
+R_014	R	global	human_shop_expensive	neutralny	{gracz} dein laden ist teuer xd
+R_015	R	global	greeting	neutralny	{gracz} der mit dem {skrot}+9?
+S_006	S	global	ambient	neutralny	noch zwei level bis {lvl2}
+S_007	S	global	ambient	neutralny	exp mit {lvl} ist ein albtraum
+S_008	S	global	experience_slow	neutralny	ein prozent exp pro stunde... ehh
+S_010	S	global	review	neutralny	{lvl} erreicht, geh {mapa_dokad}
+T_001	T	local	boss_claim	neutralny	besetzt
+T_004	T	local	encounter	neutralny	geh woanders hin
+T_005	T	local	lfg_local_reply	neutralny	koennen wir zusammen farmen?
+T_006	T	local	lfg_local_invite	neutralny	ok lass zusammen hauen
+T_007	T	local	review	neutralny	sorry hab dich nicht gesehen
+T_009	T	local	boss_incoming	neutralny	achtung, boss kommt
+T_012	T	local	lfg_local_reply	neutralny	teilen wir?
+T_013	T	local	review	neutralny	{nick} schon wieder an meinem spot
+T_015	T	local	lfg_local_invite	neutralny	{nick} komm in die gruppe, zusammen schneller
+T_016	T	local	review	neutralny	hier nicht genug mobs fuer zwei
+T_017	T	local	review	neutralny	geh, dein spot
+T_018	T	local	review	neutralny	hier ist wer seit ner stunde afk
+T_020	T	local	review	neutralny	verp*** dich von meinem spot
+U_008	U	local	review	neutralny	nicht jetzt, mach exp
+U_010	U	local	review	neutralny	wer zuerst drei gewinnt?
+U_011	U	local	duel_lost	smutek	keine lust xd
+U_016	U	local	duel_invite	neutralny	nochmal
+U_017	U	local	review	neutralny	gelaggt, zaehlt nicht xd
+U_023	U	local	duel_lost	smutek	ok fertig, geh exp machen
+V_008	V	global	review	neutralny	erster {sr}avg drop ueberhaupt
+V_012	V	global	reroll40	radosc	{skrot} {sr}avg gewuerfelt, geh verbessern
+V_027	V	global	trade_public_interest	neutralny	verkaufst du?
+V_028	V	global	trade_public_interest	neutralny	wie viel dafuer
+V_029	V	global	review	neutralny	ich geb {cena}
+V_032	V	global	review	neutralny	gw, ich wuerfel seit ner woche ohne erfolg
+V_035	V	global	reaction_success	radosc	jetzt +9 und du bist ein gott
+W_002	W	global	event_start	neutralny	{event} event, geh farmen
+W_003	W	global	review	neutralny	exp event? geh {mapa_dokad}
+W_020	W	global	review	neutralny	yang event und keine drops fuer mich
+W_021	W	global	event_exp_progress	neutralny	exp fliegt rein
+W_022	W	global	event_drop_progress	radosc	drops heute wirklich besser
+W_023	W	global	review	neutralny	farm seit eventbeginn, voellig fertig xd
+W_024	W	global	event_last_hour	neutralny	event endet in einer stunde, farmt
+W_027	W	global	review	neutralny	event vorbei, geh schlafen xd
+W_029	W	global	event_end	neutralny	das war ein gutes event
+X_007	X	global	review	neutralny	schon wieder schrott an der angel
+X_008	X	global	fish_no_bait	neutralny	keine koeder mehr
+X_017	X	global	review	neutralny	was komisches gefangen, keine ahnung was
+X_018	X	global	review	neutralny	erster fisch ueberhaupt :D
+Y_007	Y	global	review	neutralny	noch ein paar medaillen und ruestung +9
+Y_008	Y	global	review	neutralny	endlich {skrot}+9 mit geld aus medaillen
+Y_015	Y	global	review	neutralny	leichte affen zu leicht, geh zu mittel
+Y_018	Y	global	review	neutralny	seit ner stunde keine medaillen, was ist los
+Z_003	Z	global	review	neutralny	farm {skrot} in m3, hoffe auf gutes avg
+Z_006	Z	global	review	neutralny	m3 hat die besten level 30 drops
+Z_007	Z	global	review	neutralny	V> {skrot} aus m3, {sr}avg, billig
+Z_011	Z	global	review	neutralny	m3 voller leute, kein platz zum hauen
+Z_012	Z	global	review	neutralny	geh nach m3 fuer mein eigenes {skrot}
+O_007	O	global	review	neutralny	verp*** dich von meinem spot
+O_008	O	global	review	neutralny	sch*** lag
+E_048	E	guild	vendetta_help	neutralny	{gildia}, wer hilft bei {nick} {mapa_gdzie}?
+E_049	E	guild	vendetta_help	neutralny	ich erinner mich an dich {nick}, gilde, kann wer helfen?
+E_050	E	global	mob_death	smutek	{mob} hat mich gekillt, zu stark ;/
+E_051	E	global	mob_death	smutek	{mob} hat mich geschlagen xd
+M_050	M	global	owned_item_appraisal	neutralny	schaetzung so {cena}, schau auch in die laeden
+J_063	J	global	lfg_count_answer	neutralny	bisher {ile} in der gruppe
+D_033	D	whisper	human_ks	zlosc	hey, ich hab den mob zuerst geschlagen
+D_034	D	whisper	human_ks	zlosc	lass mir den naechsten, ja?
+D_035	D	whisper	human_ks	zlosc	kein ks bitte, ich hab gegen den gekaempft
+D_036	D	whisper	human_ks	zlosc	hey, lass mich meinen mob fertig machen
+P8_F01	A	global	p8_rare_fish	radosc	{ryba} gefangen
+P8_F02	A	global	p8_rare_fish	radosc	Oh, {ryba}. Seltener fang fuer mich
+P8_F03	A	party	fish_caught	neutralny	{ryba} bekommen
+P8_LFG_001	J	party	p8_lfg_depart	neutralny	Geh {mapa_dokad}, kommt mit.
+P8_LFG_002	J	party	p8_lfg_arrived	neutralny	Bin {mapa_gdzie}, beim Eingang.
+P8_LFG_003	J	party	p8_lfg_wait	neutralny	Noch da? Ich warte noch etwas.
+P8_GM_greeting_0	G	global	ogloszenie_gm	radosc	wow GM
+P8_GM_greeting_1	G	global	ogloszenie_gm	radosc	hey GM
+P8_GM_greeting_2	G	global	ogloszenie_gm	radosc	oh GM ist da
+P8_GM_greeting_3	G	global	ogloszenie_gm	radosc	hallo GM
+P8_GM_greeting_4	G	global	ogloszenie_gm	radosc	hi GM
+P8_GM_greeting_5	G	global	ogloszenie_gm	radosc	hey GM
+P8_GM_greeting_6	G	global	ogloszenie_gm	radosc	oh wow GM auf dem server
+P8_GM_greeting_7	G	global	ogloszenie_gm	radosc	willkommen GM
+P8_GM_greeting_8	G	global	ogloszenie_gm	radosc	GM wie laeufts
+P8_GM_greeting_9	G	global	ogloszenie_gm	radosc	hey du
+P8_GM_greeting_10	G	global	ogloszenie_gm	radosc	GM hast du kurz zeit?
+P8_GM_greeting_11	G	global	ogloszenie_gm	radosc	ooo
+P8_GM_restart_0	G	global	ogloszenie_gm	neutralny	wie lang dauert die pause?
+P8_GM_restart_1	G	global	ogloszenie_gm	neutralny	mach noch fertig
+P8_GM_restart_2	G	global	ogloszenie_gm	neutralny	zeit fuer noch einen stein?
+P8_GM_restart_3	G	global	ogloszenie_gm	neutralny	alles klar, notiert
+P8_GM_restart_4	G	global	ogloszenie_gm	neutralny	okay, danke fuer die warnung
+P8_GM_restart_5	G	global	ogloszenie_gm	neutralny	hoffentlich gehts schnell
+P8_GM_restart_6	G	global	ogloszenie_gm	neutralny	gibts eine liste der aenderungen?
+P8_GM_restart_7	G	global	ogloszenie_gm	neutralny	hoffe es geht schnell
+P8_GM_restart_8	G	global	ogloszenie_gm	neutralny	zeit fuer ne kaffeepause
+P8_GM_restart_9	G	global	ogloszenie_gm	neutralny	wo kommen die news hin?
+P8_GM_event_0	G	global	ogloszenie_gm	podekscytowanie	EVENT
+P8_GM_event_1	G	global	ogloszenie_gm	podekscytowanie	was fuer ein event?
+P8_GM_event_2	G	global	ogloszenie_gm	podekscytowanie	wie lang ist das event?
+P8_GM_event_3	G	global	ogloszenie_gm	podekscytowanie	wo sind die event infos?
+P8_GM_event_4	G	global	ogloszenie_gm	podekscytowanie	alles klar, lese ueber das event
+P8_GM_event_5	G	global	ogloszenie_gm	podekscytowanie	ooo event
+P8_GM_event_6	G	global	ogloszenie_gm	podekscytowanie	was koennen wir farmen?
+P8_GM_event_7	G	global	ogloszenie_gm	podekscytowanie	GM gib uns details
+P8_GM_event_end_0	G	global	ogloszenie_gm	neutralny	okay, event vorbei
+P8_GM_event_end_1	G	global	ogloszenie_gm	neutralny	danke fuers event
+P8_GM_event_end_2	G	global	ogloszenie_gm	neutralny	alles klar, zurueck zum grinden
+P8_GM_event_end_3	G	global	ogloszenie_gm	neutralny	wann ist das naechste?
+P8_GM_event_end_4	G	global	ogloszenie_gm	neutralny	okay, danke
+P8_GM_question_0	G	global	ogloszenie_gm	neutralny	was meinst du genau?
+P8_GM_question_1	G	global	ogloszenie_gm	neutralny	moment, lese
+P8_GM_question_2	G	global	ogloszenie_gm	neutralny	antworte gleich
+P8_GM_question_3	G	global	ogloszenie_gm	neutralny	kannst du das erklaeren?
+P8_GM_question_4	G	global	ogloszenie_gm	neutralny	seh die frage vom GM
+P8_GM_info_0	G	global	ogloszenie_gm	neutralny	ok
+P8_GM_info_1	G	global	ogloszenie_gm	neutralny	danke fuer die info
+P8_GM_info_2	G	global	ogloszenie_gm	neutralny	nice
+P8_GM_info_3	G	global	ogloszenie_gm	neutralny	klar
+P8_GM_info_4	G	global	ogloszenie_gm	neutralny	passt
+P8_GM_info_5	G	global	ogloszenie_gm	neutralny	alles klar, lese
+P8_GM_info_6	G	global	ogloszenie_gm	neutralny	okay, danke
+P8_GM_info_7	G	global	ogloszenie_gm	neutralny	gut zu wissen
+P8_GM_info_8	G	global	ogloszenie_gm	neutralny	info bekommen
+P8_GM_info_9	G	global	ogloszenie_gm	neutralny	danke GM
+P8_GM_info_10	G	global	ogloszenie_gm	neutralny	verstanden
+P8_GM_info_11	G	global	ogloszenie_gm	neutralny	notiert
+P10S2_Q01	M	global	trade_pytanie_o_cene	neutralny	fuer wie viel soll ich das verkaufen? {link}
+P10S2_Q02	M	global	trade_pytanie_o_cene	neutralny	was ist das wert? {link}
+P10S2_Q03	M	global	trade_pytanie_o_cene	neutralny	was wuerdet ihr dafuer geben? {link}
+P10S2_Q04	M	global	trade_pytanie_o_cene	neutralny	weiss wer was {przedmiot} kostet?
+P10S2_Q05	M	global	trade_pytanie_o_cene	neutralny	was kostet {przedmiot} gerade auf dem markt?
+P10S2_Q06	M	global	trade_pytanie_o_cene	neutralny	zu welchem preis soll ichs reinstellen? {link}
+P10S2_Q07	M	global	trade_pytanie_o_cene	neutralny	{link} was koennte das wert sein
+P10S2_Q08	M	global	review	neutralny	so was gedroppt, wie viel? {link}
+P10S2_Q09	M	global	trade_pytanie_o_cene	neutralny	verkaufen oder behalten? {link}
+P10S2_Q10	M	global	trade_pytanie_o_cene	neutralny	ist das was wert? {link}
+P10S2_Q11	M	global	trade_pytanie_o_cene	neutralny	was ist der preis dafuer? {link}
+P10S2_Q12	M	global	trade_pytanie_o_cene	neutralny	wie viel fuer {przedmiot} {sr} avg?
+P10S2_Q13	M	global	trade_pytanie_o_cene	neutralny	wie viel fuer {przedmiot} +{plus}?
+P10S2_Q14	M	global	trade_pytanie_o_cene	neutralny	keine ahnung zu welchem preis {przedmiot}, hilfe xd
+P10S2_Q15	M	global	trade_pytanie_o_cene	neutralny	kennt wer die preise? {link}
+P10S2_Q16	M	global	trade_pytanie_o_cene	neutralny	was wuerdet ihr fuer {przedmiot} zahlen?
+P10S2_Q17	M	global	trade_pytanie_o_cene	neutralny	was ist das maximum dafuer? {link}
+P10S2_Q18	M	global	trade_pytanie_o_cene	neutralny	ist das gut oder schrott? {link}
+P10S2_A01	M	global	trade_cena_odpowiedz	neutralny	{cena} locker
+P10S2_A02	M	global	trade_cena_odpowiedz	neutralny	du kriegst {cena}
+P10S2_A03	M	global	trade_cena_odpowiedz	neutralny	{cena} max
+P10S2_A04	M	global	trade_cena_odpowiedz	neutralny	stell es fuer {cena} rein, geht weg
+P10S2_A05	M	global	trade_cena_odpowiedz	neutralny	{cena} oder so
+P10S2_A06	M	global	trade_cena_odpowiedz	neutralny	ich wuerd {cena} geben
+P10S2_A07	M	global	trade_cena_sklepy	neutralny	hab sie fuer {cena} gesehen
+P10S2_A08	M	global	trade_cena_widelki	neutralny	{cena} - {cena_wyzsza}
+P10S2_A09	M	global	trade_cena_sklepy	neutralny	in laeden fuer {cena}
+P10S2_A10	M	global	trade_cena_odpowiedz	neutralny	nicht mehr als {cena}
+P10S2_R01	M	global	trade_cena_zostaw_lepsze	neutralny	nicht verkaufen, ist besser als was du traegst
+P10S2_R02	M	global	trade_cena_zostaw_top	neutralny	behalt es, so eins kaufst du nicht
+P10S2_R03	M	global	trade_cena_zostaw_top	podekscytowanie	das ist top, nicht billig verkaufen
+P10S2_R04	M	global	trade_cena_zostaw_lepsze	neutralny	behalt es
+P10S2_R05	M	global	trade_cena_zostaw_top	neutralny	behalt es
+P10S2_R06	M	global	trade_cena_npc	ironia	an den npc xd
+P10S2_R07	M	global	trade_cena_npc	neutralny	das ist schrott sorry
+P10S2_R08	M	global	trade_cena_npc	neutralny	kauft wahrscheinlich keiner
+P10S2_R09	M	global	trade_cena_pokaz	neutralny	kommt auf die boni an, zeig mal
+P10S2_O01	M	global	trade_cena_oferta	neutralny	ich geb {cena}
+P10S2_O02	M	global	trade_cena_oferta	neutralny	ich geb {cena_nizsza}, pn
+P10S2_O03	M	global	trade_cena_oferta	neutralny	verkaufst du es mir? pn
+P10S2_J01	M	global	trade_cena_zart	ironia	eine million xd
+P10S2_J02	M	global	trade_cena_zart	ironia	unbezahlbar xd
+P10S2_J03	M	global	trade_cena_zart	ironia	fuer dich 1 yang xd
+P10S2_K01	M	global	trade_cena_reakcja	radosc	ok danke
+P10S2_K02	M	global	trade_cena_reakcja	neutralny	danke, stell es rein
+P10S2_K03	M	global	trade_cena_reakcja_malo	smutek	nur so wenig?
+P10S2_K04	M	global	trade_cena_reakcja_duzo	zdziwienie	echt so viel?
+P10S2_K05	M	global	trade_cena_reakcja_zostaw	neutralny	ok, ich behalts
+P10S2_K06	M	global	review	ironia	ok dann npc xd
+P10S2_K07	M	global	trade_cena_reakcja_pw	neutralny	{nick} pn
+P10S2_K08	M	global	trade_cena_reakcja	neutralny	ok stell es fuer {cena} rein
+P10S4_U01	H	global	trade_podciecie_szt	neutralny	VK {przedmiot} {cena_nizsza}/stk, billiger
+P10S4_U02	H	global	trade_podciecie	neutralny	hab {przedmiot} fuer {cena_nizsza}
+P10S4_U03	H	global	trade_podciecie	neutralny	meins kostet {cena_nizsza}
+P10S4_U04	H	global	trade_podciecie	neutralny	{przedmiot} {cena_nizsza}, nicht zu viel zahlen
+P10S4_U05	H	global	trade_podciecie	neutralny	bei mir billiger, {cena_nizsza}
+P10S4_U06	H	global	trade_podciecie	ironia	warum {cena} wenn meins {cena_nizsza} kostet xd
+P10S4_U07	H	global	trade_podciecie	neutralny	{przedmiot} {cena_nizsza} pn, schnell
+P10S4_U08	H	global	trade_podciecie	neutralny	hab es billiger: {cena_nizsza}
+P10S4_U09	H	global	trade_podciecie_najtaniej	neutralny	VK {przedmiot} {cena_nizsza} - am billigsten
+P10S4_F01	H	global	trade_podciecie_runda	neutralny	dann meins {cena_nizsza}
+P10S4_F02	H	global	trade_podciecie_wyrownanie	neutralny	na gut, meins auch {cena_nizsza}
+P10S4_F03	H	global	trade_podciecie_docinka	zlosc	du machst den markt kaputt
+P10S4_F04	H	global	trade_podciecie_docinka	ironia	ok nimm die kunden xd
+P10S4_F05	H	global	trade_podciecie_znowu	zlosc	{nick} du schon wieder?
+P10S4_F06	H	global	trade_podciecie_docinka	ironia	bald verkaufst du es gratis xd
+P10S4_F07	H	global	trade_podciecie_docinka	zlosc	hey nicht unterbieten
+P10S4_F08	H	global	trade_podciecie_zmowa	neutralny	ok nicht unterbieten, beide {cena}
+P10S4_C01	H	global	trade_podciecie_komentarz	ironia	preiskrieg xd
+P10S4_C02	H	global	trade_podciecie_komentarz	ironia	popcorn
+P10S4_C03	H	global	trade_podciecie_komentarz	radosc	weiter so, ich kauf xd
+P10S4_C04	H	global	trade_podciecie_komentarz	ironia	noch ein bisschen und es ist gratis
+P10B_AD_01	H	global	trade_barter	neutralny	tausche {przedmiot} gegen {zyczenie}
+P10B_AD_02	H	global	trade_barter	neutralny	tausche {skrot} +{plus} gegen {zyczenie}, pn
+P10B_AD_03	H	global	trade_barter	neutralny	tausch: geb {przedmiot}, suche {zyczenie}
+P10B_AD_04	H	global	trade_barter_topup	neutralny	{przedmiot} gegen {zyczenie}? kann yang drauflegen
+P10B_AD_05	H	global	trade_barter	neutralny	was gebt ihr fuer {przedmiot}? nur tausch
+P10B_AD_06	H	global	trade_barter	neutralny	suche {zyczenie}, geb {przedmiot}
+P10B_AD_07	H	global	trade_barter	neutralny	{przedmiot} gegen {zyczenie}, pn
+P10B_AD_08	H	global	trade_barter	neutralny	hat wer {zyczenie}? ich geb {przedmiot}
+P10B_AD_09	H	global	trade_barter	neutralny	{przedmiot} zum tausch, will {zyczenie}
+P10B_ASK_01	H	whisper	barter_ask	neutralny	zeig mal
+P10B_ASK_02	H	whisper	barter_ask	neutralny	welche boni?
+P10B_ASK_03	H	whisper	barter_ask	neutralny	link es
+P10B_SHOW_01	H	whisper	barter_show	neutralny	hier: {przedmiot}
+P10B_SHOW_02	H	whisper	barter_show	neutralny	{przedmiot}, was hast du?
+P10B_SHOW_03	H	whisper	barter_show	neutralny	{przedmiot}, was bietest du?
+P10B_OFFER_01	H	whisper	barter_offer	neutralny	ich geb {przedmiot}
+P10B_OFFER_02	H	whisper	barter_offer	neutralny	hab {przedmiot}, gut?
+P10B_ACC_01	H	whisper	barter_accept	radosc	ok deal, wo bist du?
+P10B_ACC_02	H	whisper	barter_accept	radosc	na gut, deal
+P10B_CNT_01	H	whisper	barter_counter	neutralny	legst du {doplata} drauf?
+P10B_CNT_02	H	whisper	barter_counter	neutralny	nur wenn du {doplata} drauflegst
+P10B_TOP_01	H	whisper	barter_topup_yes	neutralny	ok, ich leg {doplata} drauf
+P10B_MAX_01	H	whisper	barter_topup_max	neutralny	kann max {doplata} drauflegen
+P10B_REF_01	H	whisper	barter_refuse	neutralny	sorry, zu schwach
+P10B_REF_02	H	whisper	barter_refuse	neutralny	ich will aber {zyczenie}
+P10B_GIVE_01	H	whisper	barter_give_up	neutralny	ok wir werden uns nicht einig xd
+P10B_PLACE_01	H	whisper	barter_place	neutralny	treffen beim schmied {mapa_gdzie}
+P10B_PLACE_02	H	whisper	barter_place	neutralny	komm zum schmied {mapa_gdzie}
+P10B_WALK_01	H	whisper	barter_place_walk	neutralny	komm zu dir
+P10B_WALK_02	H	whisper	barter_place_walk	neutralny	bin unterwegs, warte
+P10B_WAIT_01	H	whisper	barter_place_wait	neutralny	bin {mapa_gdzie}, komm her
+P10B_COME_01	H	whisper	barter_coming	neutralny	komme, fast da
+P10B_HERE_01	H	whisper	barter_here	neutralny	hier, mach handel auf
+P10B_OK_01	H	whisper	barter_accept_window	neutralny	klick auf annehmen
+P10B_WRONG_01	H	whisper	barter_wrong	zdziwienie	das hast du nicht gesagt
+P10B_BONUS_01	H	whisper	barter_no_bonus	zdziwienie	wo sind die boni?
+P10B_TOPUP_01	H	whisper	barter_no_topup	zdziwienie	das yang fehlt
+P10B_CHEAT_01	H	whisper	barter_cheat	zlosc	kein betrug, ich handel nicht mit dir
+P10B_DONE_01	H	whisper	barter_done	radosc	danke, guter deal :D
+P10B_STALE_01	H	whisper	barter_stale	neutralny	ok, vergiss es
+P10B_NOSHOW_01	H	whisper	barter_no_show	ironia	du bist nie aufgetaucht xd
+P10B_NONE_01	H	whisper	barter_none	neutralny	hab nix zum tauschen
+P10B_NONE_02	H	whisper	barter_none	neutralny	das tausch ich nicht
+P10B_BUSY_01	H	whisper	barter_busy	neutralny	nicht jetzt, handel schon
+P11_BARTER_Y1	H	whisper	barter_yang	neutralny	zu grosser unterschied fuer tausch, nur yang
+P11_BARTER_Y2	H	whisper	barter_yang	neutralny	so tausch ich nicht, aber yang geht
+P10_CD_LVL_1	L	global	p10_goal_level	neutralny	ziel fuer heute: ein level
+P10_CD_LVL_2	L	global	p10_goal_level	neutralny	ziel heute ist ein level up, geh grinden
+P10_CD_LVL_3	L	global	p10_goal_level	radosc	heute wird gelevelt, gnadenlos xd
+P10_CD_EXP_1	L	global	p10_goal_exp	neutralny	ziel heute: {ile}% exp
+P10_CD_EXP_2	L	global	p10_goal_exp	neutralny	brauch heute {ile}% exp
+P10_CD_LV2_1	L	global	p10_goal_levels	radosc	ziel heute: 2 level xd
+P10_CD_LV2_2	L	global	p10_goal_levels	neutralny	heute 2 level oder nichts
+P10_CD_PT_1	L	global	p10_goal_party	neutralny	heute nur gruppen exp
+P10_CD_PT_2	L	global	p10_goal_party	neutralny	ziel heute ist gruppen exp, nicht solo
+P10_CD_YANG_1	L	global	p10_goal_yang	neutralny	geh yang farmen, brauch {cena}
+P10_CD_YANG_2	L	global	p10_goal_yang	neutralny	ziel heute: {cena} reingewinn
+P10_CD_MAT_1	L	global	p10_goal_material	neutralny	farme heute {ulep}, {ile} stueck
+P10_CD_MAT_2	L	global	p10_goal_material	neutralny	brauch {ile}x {ulep}, geh farmen
+P10_CD_MET_1	L	global	p10_goal_metins	neutralny	heute nur metins
+P10_CD_MET_2	L	global	p10_goal_metins	neutralny	ziel fuer heute: {ile} metins
+P10_CD_BOSS_1	L	global	p10_goal_boss	neutralny	heute kill ich {boss}
+P10_CD_BOSS_2	L	global	p10_goal_boss	neutralny	ziel fuer heute: {boss}
+P10_CD_MED_1	L	global	p10_goal_medals	neutralny	ab zu den affen, ziel {ile} medaillen
+P10_CD_MED_2	L	global	p10_goal_medals	neutralny	farme heute medaillen, {ile} stueck
+P10_CD_REF_1	L	global	p10_goal_refine	neutralny	verbesser heute mein {skrot}
+P10_CD_REF_2	L	global	p10_goal_refine	neutralny	ziel fuer heute: +1 auf mein {skrot}
+P10_CD_BUY_1	L	global	p10_goal_buy	neutralny	kauf heute was besseres fuer meine ausruestung
+P10_CD_BUY_2	L	global	p10_goal_buy	neutralny	such heute bessere ausruestung auf dem markt
+P10_CD_SELL_1	L	global	p10_goal_sell	neutralny	muss heute fuer {cena} verkaufen
+P10_CD_SELL_2	L	global	p10_goal_sell	neutralny	ziel fuer heute: {cena} aus meinem laden
+P10_CD_BOOK_1	L	global	p10_goal_books	neutralny	lese heute buecher, {ile} muessen klappen
+P10_CD_BOOK_2	L	global	p10_goal_books	neutralny	ziel: heute {ile} erfolgreiche skill buecher
+P10_CD_BUFF_1	L	global	p10_goal_buff	neutralny	buffe heute jeden den ich kann, {ile} leute
+P10_CD_BUFF_2	L	global	p10_goal_buff	neutralny	ziel fuer heute: {ile} leute buffen
+P10_CD_HALF_1	L	global	p10_goal_half	radosc	halb fertig
+P10_CD_HALF_2	L	global	p10_goal_half	radosc	ziel halb erreicht
+P10_CD_SLOW_1	L	global	p10_goal_slow	smutek	laeuft schlecht ;/
+P10_CD_SLOW_2	L	global	p10_goal_slow	smutek	laeuft heute nicht gut
+P10_CD_FAIL_1	L	global	p10_goal_failed	smutek	heute klappt bei mir nix
+P10_CD_FAIL_2	L	global	p10_goal_failed	zlosc	ziel verfehlt -.-
+P10_FS_KID_1	S	global	p10_first_kid	podekscytowanie	ERSTER {lvl} AUF DEM SERVER NOOBS
+P10_FS_KID_2	S	global	p10_first_kid	radosc	{lvl} ALS ERSTER xD
+P10_FS_KID_3	S	global	p10_first_kid	podekscytowanie	{lvl} ERSTER EZ
+P10_FS_KID_4	S	global	p10_first_kid	podekscytowanie	wer hat {lvl} zuerst? ICH!!!
+P10_FS_KID_5	S	global	p10_first_kid	radosc	{lvl} und keiner hoeher, sorry noobs xd
+P10_FS_KID_6	S	global	p10_first_kid	radosc	erster {lvl} ez, jagt mich ruhig xd
+P10_FS_KID_7	S	global	p10_first_kid	podekscytowanie	{lvl} ERSTER, MERKT EUCH MEINEN NAMEN
+P10_FS_KID_8	S	global	p10_first_kid	radosc	ihr seid alle zurueck, erster {lvl} gehoert mir :P
+P10_FS_PLAIN_1	S	global	p10_first_plain	radosc	erster {lvl} ez
+P10_FS_PLAIN_2	S	global	p10_first_plain	radosc	{lvl} als erster auf dem server :D
+P10_FS_PLAIN_3	S	global	p10_first_plain	radosc	ja! erster {lvl}
+P10_FS_PLAIN_4	S	global	p10_first_plain	podekscytowanie	{lvl} als erster, kann's nicht glauben xd
+P10_FS_PLAIN_5	S	global	p10_first_plain	radosc	erster {lvl}, das war ein grind
+P10_FS_PLAIN_6	S	global	review	radosc	{lvl} erster, geh gluecklich schlafen xd
+P10_FS_PLAIN_7	S	global	p10_first_plain	zdziwienie	{lvl}, erster auf dem server glaub ich?
+P10_FS_PLAIN_8	S	global	review	radosc	erster {lvl} :D zeit fuer ne pause
+P10_FS_CALM_1	S	global	p10_first_calm	radosc	{lvl} geschafft, erster glaub ich :)
+P10_FS_CALM_2	S	global	p10_first_calm	radosc	{lvl} lvl :)
+P10_FS_CALM_3	S	global	p10_first_calm_party	radosc	erster {lvl}, dank der gruppe
+P10_FS_CALM_4	S	global	p10_first_calm_party	radosc	also {lvl} als erster, gute arbeit team
+P10_FS_REACT_1	S	global	p10_first_react	radosc	gw
+P10_FS_REACT_2	S	global	p10_first_react	radosc	glueckwunsch :D
+P10_FS_REACT_3	S	global	p10_first_react	ironia	nolife xd
+P10_FS_REACT_4	S	global	p10_first_react	zdziwienie	wie viel spielst du am tag?
+P10_FS_REACT_5	S	global	p10_first_react	radosc	gg, ich bin erst {lvl2}
+P10_FS_REACT_6	S	global	p10_first_react	ironia	neidisch
+P10_FS_REACT_7	S	global	p10_first_react	ironia	ok, ich komm dich holen
+P10_FS_REACT_8	S	global	p10_first_react	radosc	respekt
+P10_FS_REACT_9	S	global	p10_first_react	ironia	schlaefst du ueberhaupt? xd
+P10_FS_REACT_10	S	global	p10_first_react	neutralny	ich hol eines tages auf
+P10_FS_ENEMY_1	S	global	p10_first_react_enemy	zlosc	na und
+P10_FS_DISLIKE_1	S	global	p10_first_react_dislike	ironia	bestimmt alles gruppe und buffs xd
+P10_FS_FRIEND_1	S	global	p10_first_react_friend	radosc	gut gemacht {nick} :D
+P10_FS_SECOND_1	S	global	p10_first_second	radosc	zweiter {lvl}, so knapp xd
+P10_FS_SECOND_2	S	global	p10_first_second	neutralny	{lvl} als zweiter, naechstes mal erster
+P10_FS_THIRD_1	S	global	p10_first_third	radosc	dritter {lvl}, zaehlt trotzdem :P
+P10_FS_BEATEN_1	S	global	p10_first_beaten	smutek	eine stunde hinter {nick} ;/
+P10_FS_AFTER_1	S	global	p10_first_after_human	neutralny	zweiter {lvl} direkt nach {gracz}, zaehlt trotzdem
+P10_FS_HUMAN_1	S	global	p10_first_human	radosc	gw {gracz} erster {lvl}!
+P10_FS_HUMAN_2	S	global	p10_first_human	zdziwienie	{gracz} wie hast du das so schnell geschafft xd
+P10_FS_HUMAN_3	S	global	p10_first_human	ironia	{gracz} nolife xd gw
+P10_FS_HUMAN_4	S	global	p10_first_human	neutralny	{gracz} ich komm dich holen
+P10_FS_CHRON_1	N	global	chronicle_first	neutralny	wisst ihr noch den ersten {lvl} auf dem server? {nick} xd
+P10_FS_CHRON_2	N	global	chronicle_first	neutralny	{nick} war mal der hoechste hier, und jetzt?
+P11_BOSS_Q1	D	global	boss_down	neutralny	was droppt {boss}?
+P11_BOSS_Q2	D	global	boss_down	radosc	{boss} down, was droppt der?
+P11_METIN_Q1	D	global	metin_question	neutralny	was droppt der {metin}?
+P11_METIN_Q2	D	global	metin_question	neutralny	lohnt sich der {metin}?
+P11_MAP_Q1	D	global	map_question	neutralny	was jagt ihr {mapa_gdzie}?
+P11_MAP_Q2	D	global	map_question	neutralny	wie ist der grind {mapa_gdzie}?
+P11_MERC_1	J	local	merc_advert	neutralny	biete gruppe {mapa_dokad}, {cena}/std, pn
+P11_MERC_2	J	local	merc_advert	neutralny	soeldner zu mieten, gruppe {mapa_dokad} fuer {cena}/std
+P11_MERC_3	J	local	merc_advert	neutralny	gruppe zu mieten, {cena}/std, pn
+P11_BARTER_Z1	H	global	trade_barter	neutralny	TAUSCHE {skrot} +{plus} gegen {zyczenie}, pn
+P11_TRADER_G1	H	global	trade_trader_gear	neutralny	verkaufe {skrot}+{plus} {cena} pn
+P11_TRADER_G2	H	global	trade_trader_gear	neutralny	verkauf {skrot} +{plus}, {cena}, pn
+P11_TRADER_G3	H	global	trade_trader_gear	neutralny	vk {skrot}+{plus} {cena} pn pn
+P11_TRADER_G4	H	global	trade_trader_gear	neutralny	{skrot} +{plus} zu verkaufen, {cena}
+P11_TRADER_G5	H	global	trade_trader_gear	neutralny	wer will {skrot}+{plus}? {cena}, pn
+P11_TRADER_G6	H	global	trade_trader_gear	radosc	verkaufe {skrot}+{plus} fuer {cena}, geschenkt
+P11_TRADER_A1	H	global	trade_trader_average	neutralny	verkaufe {skrot}+{plus} {sr}%avg {cena} pn
+P11_TRADER_A2	H	global	trade_trader_average	neutralny	vk {skrot}+{plus} {sr}avg, {cena}, pn
+P11_TRADER_A3	H	global	trade_trader_average	neutralny	verkauf {skrot} +{plus} {sr} avg fuer {cena}
+P11_TRADER_S1	H	global	trade_trader_stack	neutralny	verkaufe {ulep} x{ile}, {cena}/stk pn
+P11_TRADER_S2	H	global	trade_trader_stack	neutralny	vk {ulep} x{ile} zu {cena}/stk
+P11_TRADER_S3	H	global	trade_trader_stack	neutralny	hab {ulep} x{ile}, {cena} pro stueck, pn
+P11_TRADER_S4	H	global	trade_trader_stack	neutralny	laden: {ulep} x{ile} billig, {cena}/stk
+P11M_PLACE_1	H	whisper	meet_place	neutralny	ch{kanal}, {miejsce} {punkt}
+P11M_PLACE_2	H	whisper	meet_place	neutralny	treffen auf ch{kanal}, {miejsce} {punkt}
+P11M_PLACE_3	H	whisper	meet_place	neutralny	{miejsce} {punkt}, ch{kanal}, komm her
+P11M_SPOT_1	H	whisper	meet_spot	neutralny	bin nah, komme
+P11M_SPOT_2	H	whisper	meet_spot	neutralny	bin in der naehe, gleich da
+P11M_FAR_1	H	whisper	meet_unreachable	neutralny	komm da nicht hin, treffen in {miejsce} {punkt}?
+P11M_FAR_2	H	whisper	meet_unreachable	neutralny	schaff es nicht dahin, vielleicht {miejsce} {punkt}?
+P11M_HERE_1	H	whisper	meet_here	neutralny	hier, wo stehst du?
+P11M_HERE_2	H	whisper	meet_here	neutralny	bin da
+P11M_HERE_3	H	whisper	meet_here	neutralny	hier, wo bist du?
+P11M_SEE_1	H	whisper	meet_see	neutralny	seh dich
+P11M_SEE_2	H	whisper	meet_see	neutralny	oh seh dich, komme
+P11M_LATE_1	H	whisper	meet_late	neutralny	sorry, fast da
+P11M_LATE_2	H	whisper	meet_late	neutralny	komme, 2 min
+P11M_LATE_3	H	whisper	meet_late	neutralny	noch ne sekunde, bin unterwegs
+P11M_NUDGE_1	H	whisper	meet_nudge	neutralny	bist du da?
+P11M_NUDGE_2	H	whisper	meet_nudge	neutralny	hallo?
+P11M_CANCEL_1	H	whisper	meet_cancel	neutralny	sorry, muss los
+P11M_CANCEL_2	H	whisper	meet_cancel	neutralny	hab schon eins woanders
+P11M_CANCEL_3	H	whisper	meet_cancel	neutralny	planaenderung, sorry
+P11M_CANCEL_4	H	whisper	meet_cancel	neutralny	egal
+P11M_NOSHOW_1	H	whisper	meet_no_show	neutralny	du bist nicht da, geh
+P11M_NOSHOW_2	H	whisper	meet_no_show	neutralny	keiner hier, bin weg
+P11M_SILENT_1	H	whisper	meet_no_answer	neutralny	ok dann tschau
+P11M_SILENT_2	H	whisper	meet_no_answer	neutralny	ok, keine antwort, tschau
+P11M_CH_1	H	whisper	meet_channel	neutralny	wechsel zu ch{kanal}, sekunde
+P11M_CH_2	H	whisper	meet_channel	neutralny	ok, komme auf ch{kanal}
+P11M_OWNCH_1	H	whisper	meet_own_channel	neutralny	bin auf ch{kanal}, kannst du rueberkommen?
+P11M_OWNCH_2	H	whisper	meet_own_channel	neutralny	kann den kanal nicht wechseln, komm auf ch{kanal}
+P11M_CHHERE_1	H	whisper	meet_channel_arrived	neutralny	bin jetzt auf ch{kanal}, schreib mir
+P11M_CHHERE_2	H	whisper	meet_channel_arrived	neutralny	ok, bin auf ch{kanal}
+P11M_AGAIN_1	H	whisper	meet_cooldown	neutralny	haben wir grad probiert, vielleicht spaeter
+P11M_DONE_1	H	whisper	barter_done	radosc	danke, cya
+P11M_DONE_2	H	whisper	barter_done	radosc	thx
+P11M_DONE_3	H	whisper	barter_done	radosc	ty
+P11D_SQ_1	H	whisper	deal_sale_quote	neutralny	{przedmiot} fuer {cena}, ok?
+P11D_SQ_2	H	whisper	deal_sale_quote	neutralny	hab {przedmiot} in der tasche, {cena}
+P11D_SQ_3	H	whisper	deal_sale_quote	neutralny	kann {przedmiot} fuer {cena} geben
+P11D_SC_1	H	whisper	deal_sale_counter	neutralny	kann auf {cena} runter
+P11D_SC_2	H	whisper	deal_sale_counter	neutralny	na gut, {cena}, nicht weniger
+P11D_SA_1	H	whisper	deal_sale_accept	radosc	ok, {cena}, wo bist du?
+P11D_SA_2	H	whisper	deal_sale_accept	radosc	alles klar, verkauft fuer {cena}
+P11D_SR_1	H	whisper	deal_sale_refuse	neutralny	sorry, zu wenig
+P11D_SR_2	H	whisper	deal_sale_refuse	neutralny	dafuer verkauf ich nicht, min {cena}
+P11D_BYE_1	H	whisper	deal_bye	neutralny	ok, vergiss es
+P11D_BYE_2	H	whisper	deal_bye	neutralny	np, cya
+P11D_KA_1	H	whisper	deal_skup_ask	neutralny	wie viele hast du? zahle {cena} pro stueck
+P11D_KA_2	H	whisper	deal_skup_ask	neutralny	{cena} pro stueck, wie viele?
+P11D_KO_1	H	whisper	deal_skup_offer	neutralny	hab {ile}, verkaufe zu {cena} pro stueck
+P11D_KO_2	H	whisper	deal_skup_offer	neutralny	kann {ile} zu {cena} geben
+P11D_KK_1	H	whisper	deal_skup_accept	radosc	nehm {ile}, {suma} gesamt, wo bist du?
+P11D_KK_2	H	whisper	deal_skup_accept	radosc	ok, {ile} fuer {suma}
+P11D_KN_1	H	whisper	deal_skup_none	neutralny	brauch es nicht mehr, sorry
+P11D_KN_2	H	whisper	deal_skup_none	neutralny	hab es schon, danke
+P11D_WR_1	H	whisper	deal_wrong	zdziwienie	das war nicht abgemacht
+P11D_NY_1	H	whisper	deal_no_yang	zdziwienie	yang fehlt, es waren {cena}
+P11D_CNT_1	H	whisper	deal_count	zdziwienie	es waren {ile} stueck
+P11D_ROOM_1	H	whisper	deal_no_room	neutralny	sorry, kein platz in der tasche
+P11P_CALL_1	U	global	pvp_duel_call	neutralny	wer 1v1 m1?
+P11P_CALL_2	U	global	pvp_duel_call	neutralny	wer 1v1 in m1? {lvl} {klasa}
+P11P_CALL_3	U	global	pvp_duel_call	neutralny	1v1 m1 wer? langweilig
+P11P_CALL_4	U	global	pvp_duel_call	neutralny	wer will ein duell m1? {klasa} {lvl}
+P11P_ANSWER_1	U	global	pvp_duel_answer	neutralny	{nick} ich
+P11P_ANSWER_2	U	global	pvp_duel_answer	neutralny	{nick} klar, bin unterwegs
+P11P_ANSWER_3	U	global	pvp_duel_answer	neutralny	ich kann 1v1
+P11P_ANSWER_4	U	global	pvp_duel_answer	neutralny	{nick} nehm ich, komme
+P15_A_001	Q	local	p15_quest_doing	ironia	mach die {quest} quest aber ist langweilig
+P15_A_002	Q	local	p15_quest_doing	ironia	ehh diese {quest} quest... langweilig
+P15_A_003	Q	local	p15_quest_doing	neutralny	{ile}/{ile_max} noch ein bisschen
+P15_A_004	Q	local	p15_quest_doing	neutralny	noch {reszta} und ich geb ab
+P15_A_005	Q	local	p15_quest_doing	neutralny	fast fertig mit {quest}
+P15_A_006	Q	local	p15_quest_doing	neutralny	fast da, noch {reszta} {item}
+P15_A_007	Q	local	p15_quest_doing	zlosc	wie lange kann man diese {mob} farmen
+P15_A_008	Q	local	p15_quest_doing	smutek	{item} will einfach nicht droppen...
+P15_A_009	Q	local	p15_quest_doing	zlosc	30 {mob} und immer noch nichts
+P15_A_010	Q	local	p15_quest_doing	ironia	die {item} droprate ist ein witz
+P15_A_011	Q	local	p15_quest_doing	ironia	wer hat sich diese quest ausgedacht
+P15_A_012	Q	local	p15_quest_doing	neutralny	mach quests weil exp am spot schlecht ist
+P15_A_013	Q	local	p15_quest_doing	neutralny	mach {quest}, noch wer?
+P15_A_014	Q	local	p15_quest_doing	neutralny	wenn {quest} fertig ist geh ich zurueck grinden
+P15_A_015	Q	local	p15_quest_doing	ironia	lieber metins hauen als diese quest
+P15_A_016	Q	local	p15_quest_doing	smutek	{quest} dauert ewig
+P15_A_017	Q	local	p15_quest_doing	neutralny	ok muss nur noch abgeben
+P15_A_018	Q	local	p15_quest_doing	smutek	lauf schon wieder zu {npc}...
+P15_A_019	Q	local	p15_quest_doing	ironia	der npc schickt mich ueber die ganze karte
+P15_A_020	Q	local	p15_quest_doing	zlosc	warum steht {npc} so weit weg
+P15_A_021	Q	local	p15_quest_doing	neutralny	{ile}/{ile_max}... langsam
+P15_A_022	Q	local	p15_quest_doing	neutralny	halb fertig
+P15_A_023	Q	local	p15_quest_doing	neutralny	ok, haelfte von {quest} geschafft
+P15_A_024	Q	local	p15_quest_doing	neutralny	schon {ile}, wird langsam
+P15_A_025	Q	local	p15_quest_doing	neutralny	noch ein paar von diesen {mob}
+P15_A_026	Q	local	p15_quest_doing	zlosc	ich hasse drop quests
+P15_A_027	Q	local	p15_quest_doing	ironia	glaub der drop ist verbuggt
+P15_A_028	Q	local	p15_quest_doing	ironia	1 {item} pro 20 mobs, super
+P15_A_029	Q	local	p15_quest_doing	zlosc	diese {mob} machen mich wahnsinnig
+P15_A_030	Q	local	p15_quest_doing	neutralny	geh die quest abgeben, brb
+P15_A_031	Q	local	p15_quest_doing	ironia	quest quest quest... und mein level steht still
+P15_A_032	Q	local	p15_quest_doing	smutek	mach {quest} seit ner stunde
+P15_A_033	Q	local	p15_quest_doing	smutek	warum ist die quest so lang
+P15_A_034	Q	local	p15_quest_doing	ironia	{npc} will viel zu viel
+P15_A_035	Q	local	p15_quest_doing	ironia	{npc} will schon wieder was
+P15_A_036	Q	local	p15_quest_doing	neutralny	ok noch ein schritt
+P15_A_037	Q	local	p15_quest_doing	smutek	noch ein schritt von {quest}, nimmt kein ende
+P15_A_038	Q	local	p15_quest_doing	neutralny	lauf zwischen {mapa} und stadt hin und her
+P15_A_039	Q	local	p15_quest_doing	ironia	teleport, quest, teleport, quest...
+P15_A_040	Q	local	p15_quest_doing	neutralny	farm {mob} fuer ne quest, bitte nicht klauen
+P15_A_041	Q	local	p15_quest_doing	neutralny	bitte nicht die {mob} neben mir hauen, mach ne quest
+P15_A_042	Q	local	p15_quest_doing	neutralny	ruhig, ich nehm nur {mob} fuer ne quest
+P15_A_043	Q	local	p15_quest_doing	neutralny	{ile} {item} in der tasche, noch {reszta}
+P15_A_044	Q	local	p15_quest_doing	neutralny	ok jetzt weiss ich wohin
+P15_A_045	Q	local	p15_quest_doing	smutek	dachte die quest geht schnell
+P15_A_046	Q	local	p15_quest_doing	ironia	so viele quests mit {lvl}, keine zeit zum grinden
+P15_A_047	Q	local	p15_quest_doing	radosc	quest + exp, zwei fliegen mit einer klappe
+P15_A_048	Q	local	p15_quest_doing	neutralny	mach ne quest beim grinden
+P15_A_049	Q	local	p15_quest_doing	zlosc	{mob} ueberall nur nicht wo ich sie brauch
+P15_A_050	Q	local	p15_quest_doing	neutralny	weiter mit der quest
+P15_A_051	Q	local	p15_quest_doing	podekscytowanie	noch ein bisschen und dann die belohnung
+P15_A_052	Q	local	p15_quest_doing	zdziwienie	frag mich was die quest gibt
+P15_A_053	Q	local	p15_quest_doing	neutralny	hoffe die belohnung lohnt sich
+P15_A_054	Q	local	p15_quest_doing	ironia	haette nichts gegen ne rolle als belohnung
+P15_A_055	Q	local	p15_quest_doing	ironia	hoffe es sind nicht nur potts
+P15_B_001	Q	local	p15_quest_done	radosc	endlich abgegeben
+P15_B_002	Q	local	p15_quest_done	radosc	{quest} fertig :)
+P15_B_003	Q	local	p15_quest_done	smutek	{quest} abgegeben, schwache belohnung
+P15_B_004	Q	local	p15_quest_done	radosc	{quest} abgegeben, eigentlich ordentliche belohnung
+P15_B_005	Q	local	p15_quest_done	radosc	{nagroda_przedmiot} aus der quest bekommen
+P15_B_006	Q	local	p15_quest_done	neutralny	quest fertig, die naechste
+P15_B_007	Q	local	p15_quest_done	radosc	puh, fertig mit {mob}
+P15_B_008	Q	local	p15_quest_done	ironia	fertig, nie wieder diese quest
+P15_B_009	Q	local	p15_quest_done	radosc	{nagroda_exp} exp aus der quest, nicht schlecht
+P15_B_010	Q	local	p15_quest_done	neutralny	ok hab's, weiter
+P15_B_011	Q	local	p15_quest_done	radosc	ja, {quest} erledigt
+P15_B_012	Q	local	p15_quest_done	radosc	das leiden ist vorbei
+P15_B_013	Q	local	p15_quest_done	radosc	endlich
+P15_B_014	Q	local	p15_quest_done	neutralny	ok, {quest} aus dem weg
+P15_B_015	Q	local	p15_quest_done	neutralny	quest abgegeben, zurueck zum grinden
+P15_B_016	Q	local	p15_quest_done	radosc	gute exp von der quest
+P15_B_017	Q	local	p15_quest_done	ironia	und das wars
+P15_B_018	Q	local	p15_quest_done	smutek	die belohnung... naja, hab mehr erhofft
+P15_B_019	Q	local	p15_quest_done	ironia	potts als belohnung, wow... xd
+P15_B_020	Q	local	p15_quest_done	radosc	{nagroda_przedmiot}, kann ich brauchen
+P15_B_021	Q	local	p15_quest_done	neutralny	{nagroda_przedmiot} kommt wohl in den verkauf
+P15_B_022	Q	local	p15_quest_done	radosc	{npc} ist zufrieden, ich auch
+P15_B_023	Q	local	p15_quest_done	zdziwienie	schneller fertig als gedacht
+P15_B_024	Q	local	p15_quest_done	radosc	dachte es wird schlimmer
+P15_B_025	Q	local	p15_quest_done	radosc	einfache quest
+P15_B_026	Q	local	p15_quest_done	radosc	die hat sogar spass gemacht
+P15_B_027	Q	local	p15_quest_done	podekscytowanie	beste quest bisher
+P15_B_028	Q	local	p15_quest_done	neutralny	{quest} fertig
+P15_B_029	Q	local	p15_quest_done	radosc	gg {quest}
+P15_B_030	Q	local	p15_quest_done	neutralny	ok naechste quest auf der liste
+P15_B_031	Q	local	p15_quest_done	neutralny	{quest} fertig, braucht wer hilfe dabei?
+P15_B_032	Q	local	p15_quest_done	neutralny	wenn wer {quest} macht sagt bescheid, ich helf
+P15_C_001	Q	global	p15_quest_frustration	zlosc	ich hasse diese quests, sterb dauernd
+P15_C_002	Q	global	p15_quest_frustration	zlosc	die quest ist ein albtraum, 7 mal gestorben
+P15_C_003	Q	global	p15_quest_frustration	zlosc	{mob} fressen mich lebendig, wer hat die quest gemacht?
+P15_C_004	Q	global	p15_quest_frustration	smutek	schon wieder tot... {quest} ist nix fuer mich
+P15_C_005	Q	global	p15_quest_frustration	smutek	brauch bessere ausruestung, schaff {quest} nicht
+P15_C_006	Q	global	p15_quest_frustration	zlosc	geh zum schmied, diese {mob} machen mich fertig
+P15_C_007	Q	global	p15_quest_frustration	smutek	hilfe, hilft wer bei {quest}? sterb dauernd
+P15_C_008	Q	global	p15_quest_frustration	zlosc	lass die quest, ist unmoeglich
+P15_C_009	Q	global	p15_quest_frustration	zlosc	wie oft kann man bei einer quest sterben
+P15_C_010	Q	global	p15_quest_frustration	smutek	meine ausruestung ist zu schwach fuer {quest}, geh yang farmen
+P15_C_011	Q	global	p15_quest_frustration	zlosc	wer gibt solche quests auf meinem level
+P15_C_012	Q	global	p15_quest_frustration	ironia	7 tode in 15 min, glueckwunsch an mich
+P15_C_013	Q	global	p15_quest_frustration	zlosc	oh nein, schon wieder
+P15_C_014	Q	global	p15_quest_frustration	zlosc	ernsthaft, noch ein tod
+P15_C_015	Q	global	p15_quest_frustration	zlosc	dieser {mob} haut wie ein boss
+P15_C_016	Q	global	p15_quest_frustration	zlosc	wer hat die quest gebalanced
+P15_C_017	Q	global	p15_quest_frustration	smutek	keine potts mehr und die quest ist immer noch nicht fertig
+P15_C_018	Q	global	p15_quest_frustration	ironia	mehr fuer potts ausgegeben als die belohnung wert ist
+P15_C_019	Q	global	p15_quest_frustration	neutralny	ok, hol bessere ausruestung und komm wieder
+P15_C_020	Q	global	p15_quest_frustration	smutek	mein level ist wohl zu niedrig fuer {quest}
+P15_C_021	Q	global	p15_quest_frustration	neutralny	naechstes mal mit gruppe
+P15_C_022	Q	global	p15_quest_frustration	neutralny	solo schaff ich's nicht, wer kommt?
+P15_C_023	Q	global	p15_quest_frustration	zlosc	{mob} x3 auf mir und ich bin hin
+P15_C_024	Q	global	p15_quest_frustration	zlosc	rage, lass die quest
+P15_C_025	Q	global	p15_quest_frustration	ironia	zeit zu verbessern statt zu questen
+P15_C_026	Q	global	p15_quest_frustration	smutek	sorry fuer spam aber die quest bringt mich um
+P15_C_027	Q	global	p15_quest_frustration	smutek	geh angeln, hab genug von quests
+P15_C_028	Q	global	p15_quest_frustration	zlosc	ich hasse {mapa}
+P15_C_029	Q	global	p15_quest_frustration	zlosc	wer hat {mob} so stark gemacht
+P15_C_030	Q	global	p15_quest_frustration	smutek	mach ich morgen, heute keine kraft
+P15_C_031	Q	global	p15_quest_frustration	smutek	null chance solo bei {quest}
+P15_C_032	Q	global	p15_quest_frustration	ironia	-1 ausruestung, -potts, quest steht immer noch
+P15_C_033	Q	global	p15_quest_frustration	zlosc	tod nach tod
+P15_C_034	Q	global	p15_quest_frustration	smutek	fang wohl mit besserer ausruestung neu an
+P15_C_035	Q	global	p15_quest_frustration	zlosc	ok ich bin raus
+P15_H_001	Q	local	p15_quest_abandon	neutralny	lass {quest}, zeitverschwendung
+P15_H_002	Q	local	p15_quest_abandon	neutralny	vergiss die quest
+P15_H_003	Q	local	p15_quest_abandon	neutralny	mach {quest} wenn ich hoeher bin
+P15_H_004	Q	local	p15_quest_abandon	neutralny	quest pausiert, geh grinden
+P15_H_005	Q	local	p15_quest_abandon	neutralny	lohnt sich nicht, geb auf
+P15_H_006	Q	local	p15_quest_abandon	neutralny	vielleicht komm ich irgendwann zu {quest} zurueck
+P15_H_007	Q	local	p15_quest_abandon	neutralny	zu lang
+P15_H_008	Q	local	p15_quest_abandon	smutek	belohnung nicht die muehe wert
+P15_H_009	Q	local	p15_quest_abandon	smutek	geb {quest} auf
+P15_H_010	Q	local	p15_quest_abandon	neutralny	quest fuer spaeter
+P15_H_011	Q	local	p15_quest_abandon	neutralny	erst level, dann quests
+P15_H_012	Q	local	p15_quest_abandon	zlosc	keine geduld fuer die quest
+P15_H_013	Q	local	p15_quest_abandon	neutralny	die quest kann warten
+P15_G_001	L	global	p15_goal_quests	neutralny	ziel heute: {ile} quests machen
+P15_G_002	L	global	p15_goal_quests	neutralny	plan fuer heute: {ile} quests abschliessen
+P15_G_003	L	global	p15_goal_quests	podekscytowanie	heute quests, {ile} muessen fertig werden
+P15_G_101	L	global	p15_goal_quest	neutralny	ziel heute: die quest {quest} abschliessen
+P15_G_102	L	global	p15_goal_quest	neutralny	plan fuer heute: {quest} bis zum ende
+P15_G_103	L	global	p15_goal_quest	podekscytowanie	heute mach ich endlich {quest}
+P15D_MOB_1	Q	local	p15_ask_mob	neutralny	wo finde ich {mob}?
+P15D_MOB_2	Q	local	p15_ask_mob	neutralny	sind {mob} auf {mapa} oder woanders?
+P15D_MOB_3	Q	local	p15_ask_mob	neutralny	wo sind die {mob}, such seit 10 min
+P15D_DUN_1	Q	local	p15_ask_dungeon	zdziwienie	sind {mob} die im dungeon?
+P15D_ITEM_1	Q	local	p15_ask_item	neutralny	weiss wer wo {item} droppt?
+P15D_ITEM_2	Q	local	p15_ask_item	neutralny	was droppt {item}?
+P15D_ITEM_3	Q	local	p15_ask_item	neutralny	wie viele {item} fuer {quest}?
+P15D_NPC_1	Q	local	p15_ask_npc	neutralny	wo ist {npc}?
+P15D_NPC_2	Q	local	p15_ask_npc	neutralny	wo ist {npc} in meinem reich?
+P15D_NPC_3	Q	local	p15_ask_npc	neutralny	hat wer {quest} gemacht? was nach {npc}?
+P15D_NPC_4	Q	local	p15_ask_npc	neutralny	wohin in {quest}? mein pfeil ist weg
+P15D_REW_1	Q	local	p15_ask_reward	neutralny	was ist die belohnung fuer {quest}?
+P15D_WORTH_1	Q	local	p15_ask_worth	neutralny	lohnt sich {quest}?
+P15D_SOLO_1	Q	local	p15_ask_solo	neutralny	kann man {quest} solo machen?
+P15D_SOLO_2	Q	local	p15_ask_solo	neutralny	wie macht man {quest}?
+P15D_SOLO_3	Q	local	p15_ask_solo	neutralny	wie lange dauert {quest}?
+P15D_LVL_1	Q	local	p15_ask_level	neutralny	welches level fuer {quest}?
+P15D_OPT_1	Q	local	p15_ask_option	neutralny	was antworte ich {npc}?
+P15D_OPT_2	Q	local	p15_ask_option	neutralny	was waehl ich bei {npc}, will die quest nicht kaputt machen
+P15D_MON_1	Q	local	p15_ask_monument	neutralny	weiss wer wo das monument in {quest} ist?
+P15E_MOB_1	Q	local	p15_answer_where_mob	neutralny	{mob} sind auf {mapa}, am besten {miejsce}
+P15E_MOB_2	Q	local	p15_answer_where_mob	neutralny	{mob} auf {mapa}, aber vorsicht die hauen hart
+P15E_MOB_3	Q	local	p15_answer_where_mob	neutralny	{mob} spawnen {miejsce}, die meisten dort
+P15E_MOB_4	Q	local	p15_answer_where_mob	neutralny	weiss nicht genau, aber glaub {mapa}
+P15E_MOB_5	Q	local	p15_answer_where_mob	neutralny	am schnellsten mit dem teleport {mapa_dokad}
+P15E_MOB_6	Q	local	p15_answer_where_mob	neutralny	steht im wiki, aber {mapa}
+P15E_NPC_1	Q	local	p15_answer_where_npc	neutralny	{npc} steht in {mapa}, {miejsce}
+P15E_NPC_2	Q	local	p15_answer_where_npc	neutralny	der pfeil zeigt {npc}, folg ihm
+P15E_NPC_3	Q	local	p15_answer_where_npc	neutralny	kann's dir zeigen, bin auf ch{kanal}
+P15E_NPC_4	Q	local	p15_answer_where_npc	neutralny	hab's gemacht, geh zu {npc} fuer die belohnung
+P15E_DROP_1	Q	local	p15_answer_drop	neutralny	{item} droppt von {mob}, aber selten
+P15E_DROP_2	Q	local	p15_answer_drop	neutralny	du brauchst {ile_max} {item}, der drop ist schlecht
+P15E_DUNNO_1	Q	local	p15_answer_dunno	neutralny	weiss nicht mehr, sorry
+P15E_DUNNO_2	Q	local	p15_answer_dunno	neutralny	frag wen anders, ist lange her
+P15E_DUNNO_3	Q	local	p15_answer_dunno	neutralny	hab selbst ne stunde gesucht xd
+P15E_SOLO_1	Q	local	p15_answer_solo	neutralny	solo geht mit ner +7 waffe
+P15E_PARTY_1	Q	local	p15_answer_party	neutralny	besser mit gruppe, solo ist folter
+P15E_LVL_1	Q	local	p15_answer_level	neutralny	mit {lvl}+ ist es einfach
+P15E_WGOOD_1	Q	local	p15_answer_worth_good	neutralny	lohnt sich, gibt viel exp
+P15E_WGOOD_2	Q	local	p15_answer_worth_good	neutralny	belohnung naja, aber die exp ist gut
+P15E_WWEAK_1	Q	local	p15_answer_worth_weak	neutralny	lohnt sich nicht, lieber grinden
+P15E_OPT_1	Q	local	p15_answer_option	neutralny	nimm die erste option bei {npc}, der rest ist aufgeben
+P15E_OPT_2	Q	local	p15_answer_option	neutralny	nicht auf weiss nicht klicken, sonst faengst du neu an
+P15E_MON_1	Q	local	p15_answer_monument	neutralny	das monument ist in {mapa}, {miejsce}
+P15E_THX_1	Q	local	p15_answer_thanks	radosc	danke, geh hin
+P15E_THX_2	Q	local	p15_answer_thanks	radosc	oh, danke
+P15E_THX_3	Q	local	p15_answer_thanks	radosc	thx, bin unterwegs
+P15F_SEEK_1	Q	global	p15_party_seek	neutralny	gruppe fuer {quest} {lvl}+, wer hat die quest?
+P15F_SEEK_2	Q	global	p15_party_seek	neutralny	macht wer {quest}? koennen uns zusammentun
+P15F_SEEK_3	Q	global	p15_party_seek	neutralny	suche gruppe auf {mob} fuer ne quest
+P15F_SEEK_4	Q	global	p15_party_seek	neutralny	sammle gruppe fuer {quest}, ch{kanal} {mapa}
+P15F_SEEK_5	Q	global	p15_party_seek	neutralny	wer mit {quest} will in die gruppe? geht schneller
+P15F_SEEK_6	Q	global	p15_party_seek	neutralny	gruppe {quest} {ile}/8, kommt rein
+P15F_LAST_1	Q	global	p15_party_last	neutralny	gruppe {quest} braucht noch 1
+P15F_WAIT_1	Q	global	p15_party_wait	neutralny	warte noch 5 min auf gruppe, dann solo
+P15F_WAIT_2	Q	global	p15_party_wait	neutralny	gruppe hat einen freien platz, wer hat {quest}
+P15F_NONE_1	Q	global	p15_party_none	smutek	macht keiner {quest}? traurig
+P15F_JOIN_1	Q	party	p15_party_join	neutralny	hab {quest}, komm in die gruppe
+P15F_JOIN_2	Q	party	p15_party_join	neutralny	in der gruppe 3x schneller
+P15F_HELP_1	Q	party	p15_party_help	neutralny	kann bei {quest} helfen, hab's schon gemacht
+P15F_PROG_1	Q	party	p15_party_progress	neutralny	noch {reszta} {item} und alle haben es
+P15F_PROG_2	Q	party	p15_party_progress	neutralny	bleibt zusammen, {mob} haut hart
+P15F_PROG_3	Q	party	p15_party_progress	neutralny	leiter fuehr uns zu den {mob}
+P15F_PROG_4	Q	party	p15_party_progress	neutralny	gute arbeit gruppe, haben alle?
+P15F_CRED_1	Q	party	p15_party_credit	radosc	wer hat {mob} gekillt? hat bei mir gezaehlt, danke
+P15F_DONE_1	Q	party	p15_party_done	radosc	danke fuer die gruppe, quest fertig
+P15F_DONE_2	Q	party	p15_party_done	radosc	danke fuer die hilfe bei {quest} :)
+P15F_MDONE_1	Q	party	p15_party_member_done	neutralny	hab's, geh abgeben, danke gruppe
+P15F_MDONE_2	Q	party	p15_party_member_done	neutralny	gruppe loest sich auf, hab die quest schon
+P15K_1	Q	global	p15_quest_skup	neutralny	kaufe {item} fuer ne quest
+P15K_2	Q	global	p15_quest_skup	neutralny	hat wer {ile} {item}? zahle
+P15K_3	Q	global	p15_quest_skup	neutralny	k> {item} fuer ne quest, pn
+P15K_4	Q	global	p15_quest_skup	neutralny	k> {ile}x {item}, guter preis
+P15K_5	Q	global	p15_quest_skup	neutralny	suche {item}, brauch es fuer ne quest
+P15K_6	Q	global	p15_quest_skup	neutralny	verkauft wer {item}? dringend
+P15K_7	Q	global	p15_quest_skup	neutralny	k> {item} oder ich tausch was dafuer
+P15K_8	Q	global	p15_quest_skup	neutralny	mir fehlen {reszta} {item}, wer?
+P15K_9	Q	global	p15_quest_skup	neutralny	kaufe {item} schnell, die quest wartet
+P15I_DID_1	Q	local	p15_human_done_did	neutralny	haha ich auch, dachte es hoert nie auf
+P15I_DID_2	Q	local	p15_human_done_did	neutralny	willkommen im club xd
+P15I_DID_3	Q	local	p15_human_done_did	neutralny	wie lange hast du gebraucht? bei mir fast 2 std
+P15I_DID_4	Q	local	p15_human_done_did	neutralny	ich hab mittendrin aufgegeben xd
+P15I_DID_5	Q	local	p15_human_done_did	neutralny	schlimmste quest im spiel imo
+P15I_DID_6	Q	local	p15_human_done_did	neutralny	ich auch, und die belohnung ist mittelmaessig
+P15I_DID_7	Q	local	p15_human_done_did	neutralny	respekt, ich bin da dauernd gestorben
+P15I_DID_8	Q	local	p15_human_done_did	neutralny	hab's in der gruppe gemacht, ging schnell
+P15I_DID_9	Q	local	p15_human_done_did	neutralny	ja die quest ist folter, gg
+P15I_DID_10	Q	local	p15_human_done_did	neutralny	hab sie gestern fertig gemacht, war auch sauer
+P15I_DID_11	Q	local	p15_human_done_did	neutralny	gut dass es vorbei ist, die naechsten sind besser
+P15I_DID_12	Q	local	p15_human_done_did	neutralny	du hast es solo gemacht? respekt
+P15I_DOING_1	Q	local	p15_human_done_doing	neutralny	gw, ich leide noch
+P15I_DOING_2	Q	local	p15_human_done_doing	neutralny	glueck, ich hab {ile}/{ile_max}
+P15I_DOING_3	Q	local	p15_human_done_doing	neutralny	fang grad erst an, tut das weh?
+P15I_DOING_4	Q	local	p15_human_done_doing	neutralny	willkommen im club xd
+P15I_WDUNNO_1	Q	local	p15_human_where_dunno	neutralny	weiss nicht, such selbst
+P15I_WDUNNO_2	Q	local	p15_human_where_dunno	neutralny	hab's noch nicht gemacht, sorry
+P15I_WDUNNO_3	Q	local	p15_human_where_dunno	neutralny	frag auf ch1, da sind mehr leute
+P15I_WGOOD_1	Q	local	p15_human_worth_good	neutralny	lohnt sich, gibt {nagroda_exp} exp
+P15I_WGOOD_2	Q	local	p15_human_worth_good	neutralny	wenn du zeit hast mach es, exp ist ok
+P15I_WWEAK_1	Q	local	p15_human_worth_weak	neutralny	naja, die belohnung ist schwach
+P15I_WWEAK_2	Q	local	p15_human_worth_weak	neutralny	zeitverschwendung, lieber auf {mapa} grinden
+P15I_WITEM_1	Q	local	p15_human_worth_item	neutralny	lohnt sich fuer {nagroda_przedmiot}
+P15I_WPARTY_1	Q	local	p15_human_worth_party	neutralny	nur mit gruppe, solo ist tp verschwendung
+P15I_STUCK_1	Q	local	p15_human_stuck	neutralny	liegt nicht an dir, die quest ist schwer
+P15I_STUCK_2	Q	local	p15_human_stuck	neutralny	verbesser deine waffe, dann geht's
+P15I_STUCK_3	Q	local	p15_human_stuck	neutralny	mach es in der gruppe, einfacher
+P15I_STUCK_4	Q	local	p15_human_stuck	neutralny	ich sterb auch, keine sorge
+P15I_STUCK_5	Q	local	p15_human_stuck	neutralny	kann helfen, welches level bist du?
+P15I_STUCK_6	Q	local	p15_human_stuck	neutralny	nimm mehr potts und komm von der seite
+P15I_STUCK_7	Q	local	p15_human_stuck	neutralny	hau sie einzeln, nicht mehrere ziehen
+P15I_OFFER_1	Q	local	p15_human_stuck_offer	neutralny	willst ne gruppe? helf bei {quest}
+P15I_REW_1	Q	local	p15_human_reward	neutralny	{nagroda_exp} exp und {nagroda_przedmiot}
+P15I_RGOOD_1	Q	local	p15_human_reward_good	neutralny	gute belohnung, lohnt sich
+P15I_RWEAK_1	Q	local	p15_human_reward_weak	neutralny	gibt was, nix besonderes
+P15I_RDUNNO_1	Q	local	p15_human_reward_dunno	neutralny	weiss nicht genau, yang und potts glaub ich
+P15I_OPT_1	Q	local	p15_human_option	neutralny	nimm {opcja}
+P15I_OGEN_1	Q	local	p15_human_option_generic	neutralny	erste option, nicht auf aufgeben klicken
+P15I_OGEN_2	Q	local	p15_human_option_generic	neutralny	wenn du falsch waehlst gehst du zurueck, vorsicht
+P15I_ODUNNO_1	Q	local	p15_human_option_dunno	neutralny	weiss nicht mehr, sorry
+P15I_OCARE_1	Q	local	p15_human_option_careful	neutralny	wenn du falsch waehlst gehst du zurueck, vorsicht
+P15I_PHAVE_1	Q	local	p15_human_party_have	neutralny	hab sie auch, komm rein
+P15I_PHELP_1	Q	local	p15_human_party_help	neutralny	kann helfen, lad mich ein
+P15I_PNONE_1	Q	local	p15_human_party_none	neutralny	hab die quest nicht, sorry
+P15I_PLOW_1	Q	local	p15_human_party_low	neutralny	mein level ist zu niedrig dafuer
+P15I_BRAG_1	Q	local	p15_human_brag	radosc	gw!
+P15I_BRAG_2	Q	local	p15_human_brag	radosc	oh nice, bei mir nicht gedroppt
+P15I_BRAG_3	Q	local	p15_human_brag	radosc	glueck gehabt
+P15I_BRAG_4	Q	local	p15_human_brag	radosc	hab dasselbe bekommen, nix besonderes xd
+P15I_BRAG_5	Q	local	p15_human_brag	radosc	gib's mir xd
+P15I_MOAN_1	Q	local	p15_human_complain	ironia	quests sind boese xd
+P15I_MOAN_2	Q	local	p15_human_complain	ironia	was willst machen, brauchst die exp
+P15I_MOAN_3	Q	local	p15_human_complain	ironia	ich mag quests eigentlich
+P15I_MOAN_4	Q	local	p15_human_complain	ironia	wenigstens passiert was
+P15I_MOAN_5	Q	local	p15_human_complain	ironia	lieber hau ich metins
+P15I_MOAN_6	Q	local	p15_human_complain	ironia	der {npc} will immer was
+P15J_001	Q	local	p15_q_find_squareguard	neutralny	erste quest, potts von der ladenfrau
+P15J_002	Q	local	p15_q_main_quest_lv1	neutralny	willkommen willkommen, die wache wartet
+P15J_003	Q	local	p15_q_main_quest_lv2	neutralny	hunde fuer die wache killen, einfach
+P15J_004	Q	local	p15_q_main_quest_lv2	neutralny	die {mob} verstecken sich und die wache wartet
+P15J_005	Q	local	p15_q_main_quest_lv3	neutralny	lauf von haendler zu haendler
+P15J_006	Q	local	p15_q_main_quest_lv6	neutralny	schmied, verwalter, schmied... dorfrundgang
+P15J_007	Q	local	p15_q_subquest_1	neutralny	eine leere flasche fuer den laden, ein samen von ebern
+P15J_008	Q	local	p15_q_subquest_1	neutralny	{mob} geben den samen nicht her
+P15J_009	Q	local	p15_q_main_quest_lv7	neutralny	eine angel fuer den fischer, der schmied hat arbeit
+P15J_010	Q	local	p15_q_new_quest_lv7	neutralny	ein blumenstrauss... mach nen blumenladen auf xd
+P15J_011	Q	local	p15_q_new_quest_lv7	neutralny	hungrige woelfe haben die blumen, echt jetzt
+P15J_012	Q	local	p15_q_subquest_2	neutralny	abendessen fuer den haendler, was isst der
+P15J_013	Q	local	p15_q_subquest_3	neutralny	wolfsleber fuer medizin, igitt
+P15J_014	Q	local	p15_q_main_quest_lv9	neutralny	die wache ruft wieder, geh hin
+P15J_015	Q	local	p15_q_subquest_4	neutralny	ein brief vom schmied, ich bin postbote
+P15J_016	Q	local	p15_q_main_quest_lv10	neutralny	der hauptmann ruft, was wohl jetzt
+P15J_017	Q	local	p15_q_subquest_18	neutralny	such soon, hat wer sie gesehen?
+P15J_018	Q	local	p15_q_subquest_5	neutralny	faecher fuer soon, die reihenfolge zaehlt
+P15J_019	Q	local	p15_q_subquest_6	neutralny	ruestungsauftrag, der schmied will materialien
+P15J_020	Q	local	p15_q_main_quest_lv12	neutralny	graue woelfe fuer den hauptmann, jede menge
+P15J_021	Q	local	p15_q_subquest_7	neutralny	ein kochbuch... und ich kann nicht kochen
+P15J_022	Q	local	p15_q_subquest_19	neutralny	wolfsfell, die woelfe rennen weg wenn ich sie brauch
+P15J_023	Q	local	p15_q_main_quest_lv14	neutralny	metin des kampfes fuer die quest, wer hilft?
+P15J_024	Q	local	p15_q_main_quest_lv15	neutralny	der hauptmann und ein musiker, seltsame quest
+P15J_025	Q	local	p15_q_subquest_8	neutralny	ein reiskuchen, ernsthaft, ne ganze quest fuer nen kuchen
+P15J_026	Q	local	p15_q_main_quest_lv16	neutralny	ueberall spione xd
+P15J_027	Q	local	p15_q_main_quest_lv16	neutralny	der spionbrief, die vereidigten haben ihn
+P15J_028	Q	local	p15_q_subquest_9	neutralny	die goldene axt will nicht droppen
+P15J_029	Q	local	p15_q_new_quest_lv17	neutralny	mu-rang fell fuer chaegirab
+P15J_030	Q	local	p15_q_subquest_10	neutralny	eine haarnadel, die bogenschuetzen haben sie
+P15J_031	Q	local	p15_q_new_quest_lv19	neutralny	verfluchte tiere, ein ganzes rudel
+P15J_032	Q	local	p15_q_subquest_11	neutralny	such mirines bruder, wo ist der hin
+P15J_033	Q	local	p15_q_subquest_12	neutralny	mi-jung ist hier irgendwo, passt auf
+P15J_034	Q	local	p15_q_subquest_13	neutralny	uriels paket, die tiger haben es
+P15J_035	Q	local	p15_q_new_quest_lv22	neutralny	symptome... kopfweh oder halsweh? xd
+P15J_036	Q	local	p15_q_find_brother_article	neutralny	das andenken der brueder, der wahnsinnige hat es
+P15J_037	Q	local	p15_q_subquest_15	neutralny	eun-jung killen, hat wer sie gesehen?
+P15J_038	Q	local	p15_q_subquest_33	neutralny	hab ne schatzkarte, geh suchen
+P15J_039	Q	local	p15_q_subquest_33	neutralny	schatz? 4 karten und ne schatulle... mal sehen
+P15J_040	Q	local	p15_q_subquest_16	neutralny	die kavallerie, lauf durch die ganze stadt
+P15J_041	Q	local	p15_q_new_quest_lv26	neutralny	ein deserteur, ueberall spione xd
+P15J_042	Q	local	p15_q_main_quest_lv27	neutralny	wo ist der metin der dunkelheit?
+P15J_043	Q	local	p15_q_main_quest_lv27	neutralny	quest metin down
+P15J_044	Q	local	p15_q_subquest_17	neutralny	ariyoungs ring, goo-pae hat ihn
+P15J_045	Q	local	p15_q_new_quest_lv28	neutralny	die baerentatzen wollen nicht droppen
+P15J_046	Q	local	p15_q_new_quest_lv28	neutralny	bera jagt mich statt ich ihn
+P15J_047	Q	local	p15_q_new_quest_lv29	neutralny	zerbrochenes porzellan, heu fuer pferde... was
+P15J_048	Q	local	p15_q_main_quest_lv30	neutralny	ueberall monumente, lauf rum wie ein tourist
+P15J_049	Q	local	p15_q_subquest_20	neutralny	die speere der wilden, geht langsam
+P15J_050	Q	local	p15_q_subquest_25	neutralny	blumen fuer ariyoung, romantisch
+P15J_051	Q	local	p15_q_main_quest_lv32	neutralny	noch eine buchseite, wie viele gibt es
+P15J_052	Q	local	p15_q_subquest_30	neutralny	erz abbauen fuer ne quest, bin jetzt bergmann
+P15J_053	Q	local	p15_q_subquest_31	neutralny	erz fuer ruestung, schon wieder graben
+P15J_054	Q	local	p15_q_subquest_22	neutralny	deokbaes goldene axt, der general hat sie
+P15J_055	Q	local	p15_q_subquest_23	neutralny	such yu-hwan, wo ist der hin
+P15J_056	Q	local	p15_q_subquest_44	neutralny	such die spinne mit der glocke, hat wer sie gesehen?
+P15J_057	Q	local	p15_q_subquest_44	neutralny	hoer die glocke aber seh die spinne nicht xd
+P15J_058	Q	local	p15_q_subquest_27	neutralny	das tempelbuch, die fanatiker haben es
+P15J_059	Q	local	p15_q_subquest_24	neutralny	ein reiskuchen, ernsthaft, ne ganze quest fuer nen kuchen
+P15J_060	Q	local	p15_q_main_quest_lv40	neutralny	13 seiten... wer hat das geschrieben
+P15J_061	Q	local	p15_q_main_quest_lv40	neutralny	noch eine buchseite, wie viele gibt es
+P15J_062	Q	local	p15_q_subquest_34	neutralny	wo sind die generaele des schwarzen windes?
+P15J_063	Q	local	p15_q_subquest_34	neutralny	3 generaele, 1 ist down
+P15J_064	Q	local	p15_q_subquest_32	neutralny	100 orkzaehne, ernsthaft?
+P15J_065	Q	local	p15_q_subquest_32	neutralny	orkzaehne, tiger, faeden... der haendler macht nen laden auf
+P15J_066	Q	local	p15_q_new_quest_lv42	neutralny	eine walharpune? auf dieser karte?
+P15J_067	Q	local	p15_q_new_quest_lv43	neutralny	traurige quest ;/
+P15J_068	Q	local	p15_q_subquest_38	neutralny	die affen hauen mich und immer noch kein bogen
+P15J_069	Q	local	p15_q_subquest_42	neutralny	hwang ist kein ort fuer nen spaziergang
+P15J_070	Q	local	p15_q_main_quest_lv47	neutralny	buchseiten in der wueste, heiss
+P15J_071	Q	local	p15_q_subquest_36	neutralny	10 heu fuer ne quest, wer?
+P15J_072	Q	local	p15_q_subquest_36	neutralny	heu fuer pferde, und ich dachte ich werd ein held
+P15J_073	Q	local	p15_q_subquest_21	neutralny	medizin, kraut, medizin... bin apotheker
+P15J_074	Q	local	p15_q_subquest_41	neutralny	100 spinnenaugen... wer hat sich das ausgedacht?
+P15J_075	Q	local	p15_q_subquest_41	neutralny	{ile}/100 augen, macht mich fertig
+P15J_076	Q	local	p15_q_subquest_41	neutralny	spinnenaugen droppen so selten wie nix
+P15J_077	Q	local	p15_q_main_quest_lv50	neutralny	noch eine buchseite, wie viele gibt es
+P15J_078	Q	local	p15_q_subquest_47	neutralny	das passwort fuer die geheimbotschaft, ueberleg
+P15J_079	Q	local	p15_q_subquest_37	neutralny	porzellan porzellan... wie lange noch
+P15J_080	Q	local	p15_q_new_quest_lv52	neutralny	ein brief vom hauptmann, rache an den esoterikern
+P15J_081	Q	local	p15_q_subquest_46	neutralny	50 kristallerz fuer ne quest, verkauft wer?
+P15J_082	Q	local	p15_q_subquest_46	neutralny	porzellan porzellan... wie lange noch
+P15J_083	Q	local	p15_q_main_quest_lv55	neutralny	ueberall monumente, lauf rum wie ein tourist
+P15J_084	Q	local	p15_q_subquest_39	neutralny	medizin, kraut, medizin... bin apotheker
+P15J_085	Q	local	p15_q_subquest_40	neutralny	die infizierten bogenschuetzen tun weh
+P15J_086	Q	local	p15_q_subquest_40	neutralny	so viele pfeilspitzen, und die schiessen auf mich
+P15J_087	Q	local	p15_q_subquest_26	neutralny	froschschenkel fuer octavio, guten appetit
+P15J_088	Q	local	p15_q_subquest_48	neutralny	ueberall spione xd
+P15J_089	Q	local	p15_q_subquest_49	neutralny	bingsu... weiss nicht mal was das ist
+P15J_090	Q	local	p15_q_subquest_49	neutralny	50 stueck eis, mir ist kalt
+P15J_091	Q	local	p15_q_subquest_49	neutralny	eis mit sirup, jetzt hab ich hunger
+P15J_092	Q	local	p15_q_subquest_45	neutralny	die beschwoerer im tempel killen mich staendig
+P15J_093	Q	local	p15_q_black_steel_crafting	neutralny	ein gefallen fuer min-sun, wo ist sie
+P20_GZ_01	S	global	level_gz	radosc	gz
+P20_GZ_02	S	global	level_gz	radosc	gg
+P20_GZ_03	S	global	level_gz	radosc	wp
+P20_GZ_04	S	global	level_gz	radosc	glueckwunsch
+P20_GZ_05	S	global	level_gz	radosc	herzlichen glueckwunsch
+P20_GZ_06	S	global	level_gz	radosc	nicht schlecht
+P20_GZ_07	S	global	level_gz	radosc	grats
+P20_GZ_08	S	global	level_gz	radosc	gj
+P20_GZ_09	S	global	level_gz	radosc	bravo
+P20_GZ_10	S	global	level_gz	radosc	das ging schnell
+P20_GZ_11	S	global	level_gz	radosc	gz {lvl}
+P20_GZ_12	S	global	level_gz	radosc	schon {lvl}?
+P20_GZ_13	S	global	level_gz	radosc	na sowas, lvl {lvl}
+P20_GZ_14	S	global	level_gz	radosc	glueckwunsch zu {lvl}
+P20_GZ_15	S	global	level_gz	radosc	gz, weiter so
+P20_GZ_16	S	global	level_gz	radosc	oh, {lvl}? gz
+P20_GZT_01	S	global	level_gz_thanks	radosc	danke
+P20_GZT_02	S	global	level_gz_thanks	radosc	thx
+P20_GZT_03	S	global	level_gz_thanks	radosc	ty all
+P20_GZT_04	S	global	level_gz_thanks	radosc	thx
+P20_GZT_05	S	global	level_gz_thanks	radosc	danke leute
+P20_GZT_06	S	global	level_gz_thanks	radosc	danke an alle

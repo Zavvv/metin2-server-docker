@@ -1,0 +1,37 @@
+-- The GM's quest skip (Kiciamol, 15-16 October): F9's "Misje", the target
+-- board's "Misje" and the panel's "Misje graczy" (gm_quest_admin.lua,
+-- gm_quest_full_skip.lua and the generated gm_quest_catalog.lua, libs/other).
+-- The core's own timer reads the queue (player.web_quest_admin_actions); a
+-- character's own two-second timer carries out what is queued for it - and a
+-- bot's descriptor has none, so nothing queued by F9 for a bot ever runs.
+-- Iwakura's Patch 20, 4J: the panel's "Zakoncz" for a bot of the population is
+-- a row of source 'panel_bot' and a QUESTDONE row the bot's core serves: the
+-- core marks the action in the bot's flags and fires qa_bot.timer for it once
+-- (playerbot_admin_grants.h), the same execution as a person's. "/gm_quests"
+-- is the F9 page's command.
+quest gm_quest_admin begin
+	state start begin
+		when login begin
+			if gm_quest_admin_lib.armed ~= true then
+				gm_quest_admin_lib.armed = true
+				server_loop_timer("qa_core", 5, 0)
+			end
+			if not pc.is_playerbot() then
+				loop_timer("qa_player", 2)
+			end
+		end
+		when qa_core.server_timer begin
+			-- NO pc.*, pc.select or player context in this handler.
+			gm_quest_admin_lib.poll()
+		end
+		when qa_player.timer begin
+			gm_quest_admin_lib.apply_pending()
+		end
+		when qa_bot.timer begin
+			gm_quest_admin_lib.apply_bot()
+		end
+		when write with mes.get_message() == "gm_quests" begin
+			gm_quest_admin_lib.command(mes.get_arguments())
+		end
+	end
+end
