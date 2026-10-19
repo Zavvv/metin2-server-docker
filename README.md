@@ -13,6 +13,7 @@ Non sovrascrivere mai questi file con quelli dell'archivio di update:
 - `panel/Dockerfile`
 - `docker-compose.updater.yml`
 - `docker-compose.restore.yml`
+- `mariadb/Dockerfile`
 
 Gli ultimi due sono i nomi realmente presenti nel branch remoto al momento
 della configurazione. Sono le configurazioni locali di update e restore; il
@@ -44,8 +45,37 @@ esplicita.
    configurazione, `initdb.d/` e `playerbot/`, perché il servizio
    `playerbot-migrate` esegue `/opt/playerbot/apply.sh` dalla stessa immagine.
 8. Confrontare gli hash SHA-256 dei file protetti prima e dopo la copia.
-9. Controllare `git status`, stageare il risultato e rivedere il diff prima di
+9. Il hook `pre-commit` rigenera automaticamente le percentuali personali
+   dell'alchimia prima del commit; il hook `pre-push` ne verifica la presenza e
+   blocca il push se il Dockerfile non e' conforme.
+10. Controllare `git status`, stageare il risultato e rivedere il diff prima di
    qualsiasi commit o push.
+
+## Regola locale: refining dell'alchimia al 100%
+
+Le percentuali personalizzate sono versionate in
+`config/dragon-soul-refine.json`. Attualmente sia
+`grade_success_percent` sia `step_success_percent` sono `100`: ogni
+raffinamento di grado e ogni avanzamento di chiarezza hanno un solo esito
+possibile, con probabilita' del 100%.
+
+Lo script `scripts/sync-dragon-soul-refine.ps1` genera in modo deterministico i
+blocchi `RefineGradeTables` e `RefineStepTables` dentro `game/Dockerfile` e li
+puo' anche verificare senza modificarli:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\sync-dragon-soul-refine.ps1 -Mode Apply
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\sync-dragon-soul-refine.ps1 -Mode Verify
+```
+
+Gli hook versionati in `.githooks/` rendono la regola automatica: `pre-commit`
+esegue `Apply` e stagea il Dockerfile rigenerato; `pre-push` esegue `Verify` e
+annulla il push se i blocchi non corrispondono alla configurazione. Su ogni
+clone di lavoro, attivare una volta gli hook con:
+
+```powershell
+git config core.hooksPath .githooks
+```
 
 ## Deploy con Portainer
 

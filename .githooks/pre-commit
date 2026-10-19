@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+
+# Reapply the versioned Dragon Soul refining policy after every package overlay.
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/sync-dragon-soul-refine.ps1 -Mode Apply
+git add game/Dockerfile
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/sync-dragon-soul-refine.ps1 -Mode Verify
