@@ -17,6 +17,15 @@ every version here.
 
 ---
 
+## 2.2.111 — 2026-10-19
+
+Aktualizacja naprawcza z klientem 2.0.115 x64:
+
+- Poprawiliśmy błąd interfejsu, który mógł przerwać teleport, zmianę kanału lub wyjście z gry oraz powodować komunikat błędu przy zamykaniu niektórych okien.
+- Naprawiliśmy wyjmowanie i przekładanie przedmiotów w jukach konnych, również podczas korzystania z innych obsługiwanych wierzchowców.
+
+Obie poprawki zostały sprawdzone lokalnie w grze. Dziękujemy za zgłoszenia i testy. Zamknij grę, zaktualizuj serwer i launcher, uruchom launcher ponownie, a następnie zaktualizuj klienta. Wydanie chronione; postacie i ustawienia zostają zachowane. Błędy zgłaszaj z logami przez launcher.
+
 ## 2.2.110 — 2026-10-18
 
 Wygodniejsze zarządzanie botami, skalowanie interfejsu oraz kolejna porcja poprawek Waszych zgłoszeń. Klient 2.0.114 x64 zawiera nowe EXE.
