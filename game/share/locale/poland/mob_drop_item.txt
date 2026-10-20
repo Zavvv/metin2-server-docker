@@ -3171,7 +3171,7 @@ Group	Setaou-K?pfer87
 	1	250	1	0.07	-- Demoniczne Ostrze+0
 	2	12525	1	0.4	-- Zamkowy Hełm+5
 	3	50060	1	0.04	-- Instr. Jazdy Konnej
-	4	27987	1	0.05	-- Małż
+	4	27987	1	0.5	-- Małż
 	5	50721	2	0.63	-- Kwiat Brzoskwini
 	6	50725	2	0.63	-- Bez
 	7	70050	1	0.2	-- Symb. Króla Przepowiedni
@@ -3185,8 +3185,8 @@ Group	Setaou-K?pfer87
 	15	11285	1	0.1	-- Zbroja Boga Smoków+5
 	16	190	1	0.04	-- Lwi Miecz+0
 	17	180	1	0.04	-- Zatruty miecz+0
-	18	50124	1	0.02	-- Spróchniała Skrzynia
-	19	50121	1	0.06	-- Żelazne Pudełko
+	18	50124	1	0.2	-- Spróchniała Skrzynia
+	19	50121	1	0.6	-- Żelazne Pudełko
 }
 Group	Setaou-J?er89
 {
@@ -3199,7 +3199,7 @@ Group	Setaou-J?er89
 	4	8105	1	0.42	-- Srebrny Grot
 	5	12385	1	0.4	-- Stalowa Maska+5
 	6	14184	1	0.25	-- Ametystowa Bransoleta+4
-	7	27987	1	0.05	-- Małż
+	7	27987	1	0.5	-- Małż
 	8	50722	2	0.63	-- Pokrzywa
 	9	50726	2	0.63	-- Grzyb Tue
 	10	1106	1	0.08	-- Smoczy Nóż+6
@@ -3211,8 +3211,8 @@ Group	Setaou-J?er89
 	16	11685	1	0.15	-- Duchowa Zbroja Płyt.+5
 	17	2170	1	0.04	-- Stalowy Łuk Kruka+0
 	18	1130	1	0.04	-- Skrzydła Demona Chakr.+0
-	19	50124	1	0.02	-- Spróchniała Skrzynia
-	20	50120	1	0.06	-- Żelazna Szkatułka
+	19	50124	1	0.2	-- Spróchniała Skrzynia
+	20	50120	1	0.6	-- Żelazna Szkatułka
 }
 Group	Setaou-Seherin89
 {
@@ -3223,7 +3223,7 @@ Group	Setaou-Seherin89
 	2	12665	1	0.8	-- Świetlista Czapka+5
 	3	14164	1	0.34	-- Kryształowa Bransoleta+4
 	4	17163	1	0.85	-- Kryształowe Kolczyki+3
-	5	27987	1	0.1	-- Małż
+	5	27987	1	1	-- Małż
 	6	50723	2	1.25	-- Kwiat Kaki
 	7	50727	2	1.25	-- Róża Alpejska
 	8	5096	1	0.2	-- Dzwon Burzowego Ptaka+6
@@ -3235,8 +3235,8 @@ Group	Setaou-Seherin89
 	14	7155	1	0.15	-- Ekstazyjny Wachlarz+5
 	15	70031	1	0.007	-- Broszura Szermierki
 	16	5120	1	0.04	-- Bambusowy Dzwon+0
-	17	50124	1	0.02	-- Spróchniała Skrzynia
-	18	50122	1	0.06	-- Żelazna Skrzynia
+	17	50124	1	0.2	-- Spróchniała Skrzynia
+	18	50122	1	0.6	-- Żelazna Skrzynia
 }
 Group	Refine_2404
 {
@@ -3269,9 +3269,9 @@ Group	Setaou-Anf?rer90
 	18	1131	1	0.05	-- Skrzydła Demona Chakr.+1
 	19	5121	1	0.05	-- Bambusowy Dzwon+1
 	20	2171	1	0.05	-- Stalowy Łuk Kruka+1
-	21	50120	1	0.02	-- Żelazna Szkatułka
-	22	50121	1	0.02	-- Żelazne Pudełko
-	23	50122	1	0.02	-- Żelazna Skrzynia
+	21	50120	1	0.2	-- Żelazna Szkatułka
+	22	50121	1	0.2	-- Żelazne Pudełko
+	23	50122	1	0.2	-- Żelazna Skrzynia
 }
 Group	Setaou-Soldat91
 {
@@ -3282,7 +3282,7 @@ Group	Setaou-Soldat91
 	2	12526	1	0.1	-- Zamkowy Hełm+6
 	3	14204	1	0.22	-- Bransol. Z Niebiań.Łez+4
 	4	50060	1	0.08	-- Instr. Jazdy Konnej
-	5	27987	1	0.1	-- Małż
+	5	27987	1	1	-- Małż
 	6	50721	5	0.65	-- Kwiat Brzoskwini
 	7	50725	5	0.65	-- Bez
 	8	156	1	0.16	-- Miecz Szponu Ducha+6
@@ -3291,7 +3291,7 @@ Group	Setaou-Soldat91
 	11	70031	1	0.01	-- Broszura Szermierki
 	12	182	1	0.1	-- Zatruty miecz+2
 	13	192	1	0.1	-- Lwi Miecz+2
-	14	50121	1	0.06	-- Żelazne Pudełko
+	14	50121	1	0.6	-- Żelazne Pudełko
 	15	30196	1	0.02	-- Demoniczne Prochy
 }
 Group	Setaou-J?er93
@@ -3305,7 +3305,7 @@ Group	Setaou-J?er93
 	4	8105	1	0.85	-- Srebrny Grot
 	5	12386	1	0.17	-- Stalowa Maska+6
 	6	14186	1	0.28	-- Ametystowa Bransoleta+6
-	7	27987	1	0.1	-- Małż
+	7	27987	1	1	-- Małż
 	8	50722	2	0.75	-- Pokrzywa
 	9	50726	2	0.75	-- Grzyb Tue
 	10	144	1	0.16	-- Miecz Bojowy+4
@@ -3314,7 +3314,7 @@ Group	Setaou-J?er93
 	13	70031	1	0.01	-- Broszura Szermierki
 	14	2170	1	0.1	-- Stalowy Łuk Kruka+0
 	15	1130	1	0.1	-- Skrzydła Demona Chakr.+0
-	16	50120	1	0.06	-- Żelazna Szkatułka
+	16	50120	1	0.6	-- Żelazna Szkatułka
 	17	30196	1	0.03	-- Demoniczne Prochy
 }
 Group	Refine_2413
@@ -3335,7 +3335,7 @@ Group	Setaou-Seherin95
 	4	15164	1	0.38	-- Ekstazyjne Buty+4
 	5	17164	1	0.41	-- Kryształowe Kolczyki+4
 	6	17183	1	0.68	-- Ametystowe Kolczyki+3
-	7	27987	1	0.1	-- Małż
+	7	27987	1	1	-- Małż
 	8	50723	5	1.25	-- Kwiat Kaki
 	9	50727	5	1.25	-- Róża Alpejska
 	10	154	1	0.16	-- Miecz Szponu Ducha+4
@@ -3344,7 +3344,7 @@ Group	Setaou-Seherin95
 	13	7144	1	0.26	-- Wachlarz Zbawienia+4
 	14	70031	1	0.01	-- Broszura Szermierki
 	15	5122	1	0.1	-- Bambusowy Dzwon+2
-	16	50122	1	0.06	-- Żelazna Skrzynia
+	16	50122	1	0.6	-- Żelazna Skrzynia
 }
 Group	Refine_2414
 {
@@ -3363,9 +3363,9 @@ Group	Setaou_Commander
 	3	1132	1	0.2	-- Skrzydła Demona Chakr.+2
 	4	5122	1	0.2	-- Bambusowy Dzwon+2
 	5	2172	1	0.2	-- Stalowy Łuk Kruka+2
-	6	50120	1	0.02	-- Żelazna Szkatułka
-	7	50121	1	0.02	-- Żelazne Pudełko
-	8	50122	1	0.02	-- Żelazna Skrzynia
+	6	50120	1	0.2	-- Żelazna Szkatułka
+	7	50121	1	0.2	-- Żelazne Pudełko
+	8	50122	1	0.2	-- Żelazna Skrzynia
 }
 Group	Setaou-General1
 {
