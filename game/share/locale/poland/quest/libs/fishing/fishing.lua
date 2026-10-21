@@ -111,7 +111,9 @@ local function simulate_calm()
         syschat(get_lctext("You find a simple Piece of Stone in the Clam."))
         pc.give_item2(27990)
     else
-        local prob_table = {95, 97, 99}
+        -- Oyster outcome thresholds on the 1..100 roll:
+        -- no pearl 31%, white 7%, blue 7%, blood-red 5%.
+        local prob_table = {81, 88, 95}
 
         if r <= prob_table[1] then
             syschat(get_lctext("The Clam has vanished."))
