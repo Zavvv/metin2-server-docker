@@ -1909,6 +1909,22 @@ if [ "$yang_ground_env" != "$((yang_ground + 1))" ]; then
         echo "[playerbot-migrate] WARNING: could not write the yang drop flag; the cores keep the last one" >&2
     fi
 fi
+# A normal skill from seventeen (Said and Tieru, 20 October): the official
+# rule, a roll at every point to twenty (0, the default), or 2.2.14's stop at
+# seventeen after one roll (1). The cores read m2_skill_stuck_17 at every
+# point (playerbotify apply_skill_master_rule_switch). Apply .env only when
+# changed, so a live panel choice survives a start.
+case "$(printf '%s' "${M2_SKILL_STUCK_17:-0}" | tr 'A-Z' 'a-z' | tr -d ' \r')" in 1|on|yes|true) skill_stuck_17=1 ;; *) skill_stuck_17=0 ;; esac
+skill_stuck_17_env=$(db -N -e "SELECT lValue FROM player.quest WHERE dwPID = 0 AND szName = 'm2_skill_stuck_17_env' LIMIT 1;" 2>/dev/null | tr -d ' \r')
+if [ "$skill_stuck_17_env" != "$((skill_stuck_17 + 1))" ]; then
+    if db_retry -e "REPLACE INTO player.quest (dwPID, szName, szState, lValue) VALUES
+            (0, 'm2_skill_stuck_17', '', $skill_stuck_17),
+            (0, 'm2_skill_stuck_17_env', '', $((skill_stuck_17 + 1)));"; then
+        echo "[playerbot-migrate] Skills from 17: $([ "$skill_stuck_17" = 1 ] && echo 'one roll at 17, then stuck (2.2.14)' || echo 'a roll at every point to 20 (official)') (from .env)"
+    else
+        echo "[playerbot-migrate] WARNING: could not write the skill rule flag; the cores keep the last one" >&2
+    fi
+fi
 
 # The world's monster health (the operator, 30 September, for Frelik's
 # proposal): a percent of the max_hp of every monster, boss and Metin
@@ -2221,6 +2237,18 @@ case "$casual_vnum" in
             echo "[playerbot-migrate] WARNING: could not take the casual shop's lines out" >&2
         fi ;;
 esac
+
+# Any shop past its 40 places (issue #44, launcher report 1ea9c979): 22 items
+# added in the database editor to shop 1's 24 made the db core of 2.2.111 and
+# older write the rest past its table and die at every start, before it
+# listened - the server stayed offline with nothing in a syserr. A newer core
+# skips the rest; either way the shop is named here and nothing is taken out,
+# because what a shop sells is the operator's (the editor's Shops page).
+over_shops=$(db -e "SELECT CONCAT('#', shop_vnum, ' (', COUNT(*), ')') FROM world.shop_item
+                     GROUP BY shop_vnum HAVING COUNT(*) > 40 ORDER BY shop_vnum;" 2>/dev/null | tr '\r\n' '  ')
+if [ -n "$(printf '%s' "$over_shops" | tr -d ' ')" ]; then
+    echo "[playerbot-migrate] WARNING: shop(s) with more than 40 items: $over_shops- the game sells 40 of a shop at most and the db core of 2.2.111 and older does not start; remove the rest in the database editor (Shops) and start the server again" >&2
+fi
 
 # The ItemShop's prices as a percent (Jeremus-Sama, 1 October: "ItemShop -
 # control over prices"): .env's M2_ITEMSHOP_PRICE_PCT, 10 to 1000, 100 by

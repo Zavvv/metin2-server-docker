@@ -98,6 +98,15 @@
 		if (preg_match('/^((?:&nbsp;)?[\d ]+) (SM|SZ)(\.?)$/u', $key, $m)) {
 			return $m[1] . ' ' . ($m[2] === 'SM' ? 'EP' : 'EM') . $m[3];
 		}
+		// pages/buy.php's texts split by its echoes (Said, 20 October): the
+		// heading "Zakup <item>" and the refusal's balance against the price
+		if (preg_match('/^Masz (\d+), przedmiot kosztuje (\d+) \((Smocze Monety|Smocze Znaki)\)\.$/u', $key, $m)) {
+			return 'Bakiyen: ' . $m[1] . ', eşyanın fiyatı: ' . $m[2] . ' ('
+				. ($m[3] === 'Smocze Monety' ? 'Ejderha Parası' : 'Ejderha Markası') . ').';
+		}
+		if (preg_match('/^Zakup (.+)$/u', $key, $m)) {
+			return 'Satın alma ' . $m[1];
+		}
 		return null;
 	}
 

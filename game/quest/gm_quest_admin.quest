@@ -8,7 +8,8 @@
 -- a row of source 'panel_bot' and a QUESTDONE row the bot's core serves: the
 -- core marks the action in the bot's flags and fires qa_bot.timer for it once
 -- (playerbot_admin_grants.h), the same execution as a person's. "/gm_quests"
--- is the F9 page's command.
+-- is the F9 page's command. At every login the flags a plan's end sets are put
+-- right for a character a skip ended a quest for (repair_unlocks, issue #48).
 quest gm_quest_admin begin
 	state start begin
 		when login begin
@@ -16,6 +17,9 @@ quest gm_quest_admin begin
 				gm_quest_admin_lib.armed = true
 				server_loop_timer("qa_core", 5, 0)
 			end
+			-- Issue #48: the flags a skip before the fix left unset (the
+			-- Fisherman's introduction), put right without a second reward.
+			gm_quest_admin_lib.repair_unlocks()
 			if not pc.is_playerbot() then
 				loop_timer("qa_player", 2)
 			end

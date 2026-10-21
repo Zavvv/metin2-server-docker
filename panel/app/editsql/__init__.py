@@ -562,6 +562,16 @@ def _save(module_id, spec, pk_values):
     return _redirect(back)
 
 
+def _shop_full_text(shop_vnum, held):
+    return (T("Sklep %s ma już %d pozycji, a gra mieści w sklepie najwyżej %d - "
+              "kolejna nie zostanie dodana. Rdzeń bazy (db) z wersji 2.2.111 i starszych "
+              "wyłączał się przy starcie przez taki sklep.",
+              "Shop %s already holds %d items and the game holds %d in a shop at most - "
+              "no more is added. The db core of version 2.2.111 and older crashed at its "
+              "start over such a shop.")
+            % (shop_vnum, held, modules.SHOP_ITEMS_MAX))
+
+
 def _child_add(spec, pk_values):
     """Dodanie pozycji do sklepu (jeden wiersz, walidowany, z audytem)."""
     panel = db.ns()
@@ -572,12 +582,18 @@ def _child_add(spec, pk_values):
         _put_message("error", T("Nie ma tabeli world.shop_item.", "There is no world.shop_item table."))
         return _redirect(back)
     shop_vnum = pk_values[0]
+    # A shop holds SHOP_HOST_ITEM_MAX_NUM (5 x 8) lines. The db core wrote every
+    # row past them beyond its table and died at its next start: 22 items added
+    # here to shop 1's 24 kept a player's server offline (report 1ea9c979, #44).
+    held = db.scalar("SELECT COUNT(*) AS n FROM %s WHERE `shop_vnum`=%%s"
+                     % db.qt(child_db, child_table), (shop_vnum,), 0) or 0
+    held = int(held)
     bulk = (request.form.get("bulk") or "").strip()
     if bulk:
         # Iwakura P19: kilka pozycji naraz – linie „vnum [ilość]”.
         # Every line passes the single form's checks: the column's own bounds,
         # an item the world has, a count above zero and no duplicate row.
-        added, failed = 0, []
+        added, failed, full = 0, [], False
         items = schema.table("world", "item_proto")
         shop_col = schema.table(child_db, child_table)["by_name"]
         if items is None:
@@ -600,6 +616,9 @@ def _child_add(spec, pk_values):
             if db.scalar("SELECT COUNT(*) AS n FROM %s WHERE `shop_vnum`=%%s AND `item_vnum`=%%s AND `count`=%%s"
                          % db.qt(child_db, child_table), (shop_vnum, iv, cnt), 0):
                 failed.append(line.strip()[:40]); continue
+            if held + added >= modules.SHOP_ITEMS_MAX:
+                full = True
+                failed.append(line.strip()[:40]); continue
             try:
                 safety.insert_row(child_db, child_table, {"shop_vnum": shop_vnum, "item_vnum": iv, "count": cnt},
                                   pages._admin_name(), note="pozycja sklepu %s" % shop_vnum)
@@ -608,7 +627,8 @@ def _child_add(spec, pk_values):
                 failed.append(line.strip()[:40])
         _put_message("ok" if added else "error",
                      T("Dodano %d pozycji do sklepu %s.", "Added %d entries to shop %s.") % (added, shop_vnum)
-                     + ((" " + T("Pominięte: ", "Skipped: ") + ", ".join(failed[:10])) if failed else ""))
+                     + ((" " + T("Pominięte: ", "Skipped: ") + ", ".join(failed[:10])) if failed else "")
+                     + ((" " + _shop_full_text(shop_vnum, held + added)) if full else ""))
         return _redirect(back)
     raw_item = (request.form.get("item_vnum") or "").strip()
     raw_count = (request.form.get("count") or "1").strip()
@@ -622,6 +642,9 @@ def _child_add(spec, pk_values):
     if not item_vnum or not count or count < 1:
         _put_message("error", T("Podaj VNUM przedmiotu i ilość większą od zera.",
                                 "Give the item's VNUM and a count above zero."))
+        return _redirect(back)
+    if held >= modules.SHOP_ITEMS_MAX:
+        _put_message("error", _shop_full_text(shop_vnum, held))
         return _redirect(back)
     items = schema.table("world", "item_proto")
     if items is None:

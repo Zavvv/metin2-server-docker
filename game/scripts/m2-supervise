@@ -40,14 +40,56 @@ SHUTTING_DOWN=0
 log() { printf '%s [supervise] %s\n' "$(date -u '+%Y-%m-%d %H:%M:%SZ')" "$*"; }
 
 # -----------------------------------------------------------------------------
+# A core that has died: its status, its own backtrace and the last lines of its
+# syslog and stdout, so that they reach `docker logs` and with it the support
+# bundle. Its syslog is otherwise read by nobody: the bundle greps it for a few
+# tags, and a core that died at boot - before it wrote anything a grep asks
+# for - left no trace of what it was doing (#44: the db core dying in the
+# shop table after its last locale line).
+# -----------------------------------------------------------------------------
+report_core_death() { # <name> <pid> [when]
+  local name="$1" pid="$2" when="${3:-}" dir rc sig=""
+  dir="${CORE_DIR[$name]}"
+  wait "$pid" 2>/dev/null; rc=$?
+  [ "$rc" -gt 128 ] && sig=" (signal $(( rc - 128 ))$( [ "$rc" = 139 ] && printf ', SIGSEGV' )$( [ "$rc" = 134 ] && printf ', SIGABRT' ))"
+  log "CORE DIED: $name (pid $pid) exited with status $rc$sig${when:+ $when}"
+  if [ -s "$dir/crash.txt" ]; then
+    log "backtrace of $name (mangled names: pipe through c++filt):"
+    sed 's/^/    /' "$dir/crash.txt"
+    mv -f "$dir/crash.txt" "$dir/crash-$(date -u +%Y%m%d-%H%M%S).txt" 2>/dev/null || rm -f "$dir/crash.txt"
+  fi
+  if [ -s "$dir/syslog" ]; then
+    log "the last lines of $name's syslog:"
+    tail -n 15 "$dir/syslog" 2>/dev/null | sed 's/^/    syslog| /'
+  fi
+  if [ -s "$dir/container.log" ]; then
+    log "the last lines $name printed:"
+    tail -n 5 "$dir/container.log" 2>/dev/null | sed 's/^/    stdout| /'
+  fi
+  CORE_PID[$name]=""
+}
+
+# -----------------------------------------------------------------------------
 # Port readiness.  bash's /dev/tcp keeps netcat out of the runtime image.
 # -----------------------------------------------------------------------------
 port_open() { (exec 3<>"/dev/tcp/127.0.0.1/$1") 2>/dev/null; }
 
-wait_for_port() { # <port> <label>
-  local port="$1" label="$2" deadline=$(( SECONDS + M2_PORT_WAIT_TIMEOUT ))
+wait_for_port() { # <port> <label> [core] -- 3: the core died before it listened
+  local port="$1" label="$2" core="${3:-}" deadline=$(( SECONDS + M2_PORT_WAIT_TIMEOUT )) pid
   while ! port_open "$port"; do
     if [ "$SHUTTING_DOWN" = "1" ]; then return 1; fi
+    # A core that died before it ever listened is not a slow one. The boot
+    # waited out its two minutes all the same, and every core after it its
+    # own, while bash's "Segmentation fault" was the only word of it: the db
+    # core of launcher report 1ea9c979 (#44) died at every start over a shop
+    # of 46 items and the server sat "offline" for sixteen minutes a start.
+    if [ -n "$core" ]; then
+      pid="${CORE_PID[$core]:-}"
+      if [ -n "$pid" ] && ! kill -0 "$pid" 2>/dev/null; then
+        report_core_death "$core" "$pid" "during boot, before it opened port $port"
+        return 3
+      fi
+    fi
     if [ "$SECONDS" -ge "$deadline" ]; then
       log "WARNING: $label did not open port $port within ${M2_PORT_WAIT_TIMEOUT}s; continuing anyway"
       return 1
@@ -201,7 +243,7 @@ log "boot plan: ${CORE_ORDER[*]}"
 #     2  a core could not be started at all
 # -----------------------------------------------------------------------------
 boot_cores() {
-  local name rc=0
+  local name rc=0 wrc
 
   for name in "${CORE_ORDER[@]}"; do
     [ "$SHUTTING_DOWN" = "0" ] || return "$rc"
@@ -214,11 +256,24 @@ boot_cores() {
         # and initialising tables afterwards; a core that connects during that
         # window gets "Got packets out of order" from MariaDB. The port check
         # plus a settle pause is what the bring-up scripts converged on.
-        wait_for_port "${CORE_PORT[$name]}" "$name" || rc=1
+        wait_for_port "${CORE_PORT[$name]}" "$name" "$name"; wrc=$?
+        if [ "$wrc" = "3" ]; then
+          # No other core can do anything without db, and starting them
+          # only buried this under seven more two-minute timeouts.
+          log "db died while it started, so no other core is started. Its last"
+          log "  lines are above; a crash right after loading is nearly always the"
+          log "  game's data (a shop of more than 40 items, a row edited by hand)."
+          # As the watch loop does for a db that dies later: the container
+          # goes down and Docker starts it again, a loop the launcher sees.
+          shutdown_all
+        fi
+        [ "$wrc" = "0" ] || rc=1
         log "letting db settle for ${M2_DB_SETTLE_SECONDS}s before starting the rest"
         sleep "$M2_DB_SETTLE_SECONDS"
         ;;
       *)
+        # Asked by port alone: a game core that died here keeps its pid for
+        # the watch loop, which reports it and starts it again.
         wait_for_port "${CORE_PORT[$name]}" "$name" || rc=1
         sleep "$M2_CORE_START_DELAY"
         ;;
@@ -400,16 +455,11 @@ while :; do
     [ -n "$pid" ] || continue
     kill -0 "$pid" 2>/dev/null && continue
 
-    wait "$pid" 2>/dev/null; rc=$?
-    log "CORE DIED: $name (pid $pid) exited with status $rc"
     # The core's own backtrace (libthecore's crash handler writes crash.txt
-    # in its directory). Printed here so it reaches `docker logs` and with it
-    # the support bundle, then kept beside the syserr under a timestamp.
-    if [ -s "${CORE_DIR[$name]}/crash.txt" ]; then
-      log "backtrace of $name (mangled names: pipe through c++filt):"
-      sed 's/^/    /' "${CORE_DIR[$name]}/crash.txt"
-      mv -f "${CORE_DIR[$name]}/crash.txt" "${CORE_DIR[$name]}/crash-$(date -u +%Y%m%d-%H%M%S).txt" 2>/dev/null || rm -f "${CORE_DIR[$name]}/crash.txt"
-    fi
+    # in its directory) and its last syslog lines, printed so they reach
+    # `docker logs` and with it the support bundle; the backtrace is kept
+    # beside the syserr under a timestamp.
+    report_core_death "$name" "$pid"
 
     if [ "${CORE_KIND[$name]}" = "db" ]; then
       # db is built without -DNDEBUG, so its assert()s are live and it aborts

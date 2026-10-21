@@ -250,7 +250,11 @@ quest horse_upgrade begin
 				pc.setqf("make_time", get_time()+m2_horse_wait("upgrade"))
 			end
 			if get_time()>=pc.getqf("make_time") then
-				say("Gotowe! Porozmawiaj ze mna jeszcze raz.")
+				if pc.getf("playerbot_lang", "en") == 1 then
+					say(playerbot_quest_text ~= nil and playerbot_quest_text("Done! Talk to me once more.") or "Done! Talk to me once more.")
+				else
+					say("Gotowe! Porozmawiaj ze mna jeszcze raz.")
+				end
 				setstate(buy)
 			else
 				say(gameforge.horse_upgrade._210_say)

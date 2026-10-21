@@ -303,6 +303,41 @@ function M.execute_full(row,p)
     syschat(M.t("GM wykonal pelny skip misji: ","A GM completed the quest for you: ")..C[key].label..
         M.t(". Odswiez dziennik przez przelogowanie.",". Log in again to refresh the quest list."))
 end
+-- Ours (issue #48, fdf4cb41, 20 October): a quest whose own end sets a flag
+-- that opens a system - fishing_onboarding's completed 1, which char.cpp's
+-- fishing asks before every cast - left a character a GM had skipped through
+-- it at "complete" with the flag at 0, and a quest at its end cannot be taken
+-- again. The plan's flags are set by execute_full now; a character skipped
+-- before has the flags put right at its next login: only a non-zero flag of a
+-- plan, only at the plan's final stage, only for a character the skip marked
+-- (qa_reward_id), never lowered, and nothing paid again. A repeatable quest's
+-- plan (cycle_flag, cycle_context) ends where it began and is left out.
+function M.unlock_repairs()
+    if M.repairs then return M.repairs end
+    local out={}
+    for key,c in pairs(C) do
+        local f=c.full_skip
+        if f and not f.cycle_flag and not f.cycle_context then
+            for _,p in pairs(f.plans) do
+                local value=c.states[p.terminal or f.terminal]
+                for _,v in ipairs(p.flags or {}) do
+                    if value and v[2]~=0 then table.insert(out,{key,value,v[1],v[2]}) end
+                end
+            end
+        end
+    end
+    M.repairs=out
+    return out
+end
+function M.repair_unlocks()
+    local fixed=0
+    for _,r in ipairs(M.unlock_repairs()) do
+        if pc.getf(r[1],"__status")==r[2] and pc.getf(r[1],"qa_reward_id")~=0 and pc.getf(r[1],r[3])<r[4] then
+            pc.setf(r[1],r[3],r[4]);fixed=fixed+1
+        end
+    end
+    return fixed
+end
 -- Preserve the existing bounded queue/atomic claim. Only replace resolution
 -- and effects, and validate the repeat-cycle and permanent nonrepeat guard.
 M.prepare=function(key,signature,row) return M.prepare_full(row) end
@@ -356,6 +391,7 @@ function M.command(args)
         elseif p.spec.native=="warehouse" then table.insert(lines,M.t("Odblokowanie drugiej strony magazynu.","Unlocks the storage's second page."))
         elseif p.spec.native=="dragon_soul" then table.insert(lines,M.t("Odblokowanie alchemii smoczych kamieni.","Unlocks the Dragon Stone Alchemy."))
         elseif p.spec.native=="herbalism" then table.insert(lines,M.t("Zielarstwo odblokowane; 5% EXP poziomu; Nozyk Zielarza+0, jesli postac go nie ma.","Herbalism unlocked; 5% of a level's EXP; a Herbalist's Knife+0 if the character has none."))
+        elseif p.spec.native=="fishing" then table.insert(lines,M.t("Wedkarstwo odblokowane (rozmowa z Rybakiem zaliczona).","Fishing unlocked (the Fisherman's introduction counts as done)."))
         elseif p.spec.native=="skill_group" then table.insert(lines,M.t("Wybrana profesja: ","Skill group: ")..p.spec.group) end
         if p.spec.reputation then table.insert(lines,M.t("Reputacja: +","Reputation: +")..p.spec.reputation[2]) end
         table.insert(lines,M.t("Koncowy etap: ","Final stage: ")..p.terminal..M.t(". Wczesniejsze nagrody nie sa powtarzane.",". Earlier rewards are not paid again."))

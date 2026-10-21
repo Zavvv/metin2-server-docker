@@ -991,6 +991,38 @@ quest web_admin begin
 				end
 			end
 
+			-- Said and Tieru, 20 October: a normal skill from seventeen - the
+			-- official rule, a roll at every point to twenty (0), or 2.2.14's
+			-- stop at seventeen (1); the cores read m2_skill_stuck_17 at every
+			-- point. Its own block, so its locals end with it.
+			do
+				local krows = wa_query("SELECT id, arg1 FROM player.web_admin_queue WHERE status='pending' AND cmd='SKILL_STUCK_17' ORDER BY id ASC LIMIT 3")
+				if type(krows) == "table" then
+					local ki
+					for ki = 1, table.getn(krows) do
+						local kr = krows[ki]
+						if type(kr) == "table" then
+							local kqid = tonumber(kr.id)
+							local kval = nil
+							if kr.arg1 == "0" or kr.arg1 == "1" then
+								kval = tonumber(kr.arg1)
+							end
+							if kqid ~= nil then
+								local kres = "done"
+								if kval == nil then
+									kres = "bad_args"
+								elseif game.set_event_flag == nil then
+									kres = "failed"
+								else
+									game.set_event_flag("m2_skill_stuck_17", kval)
+								end
+								wa_query("UPDATE player.web_admin_queue SET status='" .. kres .. "' WHERE id=" .. kqid .. " AND status='pending' LIMIT 1")
+							end
+						end
+					end
+				end
+			end
+
 			-- Malina, 3 October: the shared owner-defence switch.
 			local arows = wa_query("SELECT id, arg1 FROM player.web_admin_queue WHERE status='pending' AND cmd='OWNER_DEFENCE' ORDER BY id ASC LIMIT 3")
 			if type(arows) == "table" then

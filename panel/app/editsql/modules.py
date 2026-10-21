@@ -1309,6 +1309,10 @@ def objects_on_land(land_id):
 # -----------------------------------------------------------------------------
 #  Pozycje sklepu - z dodawaniem i usuwaniem po jednym wierszu
 # -----------------------------------------------------------------------------
+# A shop's window in the game: SHOP_HOST_ITEM_MAX_NUM, 5 x 8 cells (common/length.h).
+SHOP_ITEMS_MAX = 40
+
+
 def shop_items_html(shop_vnum):
     table = schema.table("world", "shop_item")
     if table is None:
@@ -1356,9 +1360,24 @@ def shop_items_html(shop_vnum):
                  % (action, render.csrf_input(), render._esc(T("Wiele pozycji naraz: vnum ilość (jedna na linię)",
                                                                 "Many at once: vnum count (one per line)")),
                     render._esc(T("Dodaj wszystkie", "Add all"))))
+    # Only past the limit, so the pages of every shop the game can hold are as
+    # they were (tests/data/editsql_pl_golden.json.gz). Issue #44: such a shop
+    # stopped the db core of 2.2.111 and older at every start.
+    over = ""
+    if len(rows) > SHOP_ITEMS_MAX:
+        over = ('<div class="esq-note esq-note-warn">%s</div>'
+                % render._esc(T("Ten sklep ma %d pozycji, a gra mieści w sklepie najwyżej %d. "
+                                "Rdzeń bazy (db) z wersji 2.2.111 i starszych wyłącza się przez to przy "
+                                "każdym starcie i serwer zostaje offline - usuń %d pozycji i uruchom "
+                                "serwer ponownie. Nowszy rdzeń pomija nadmiar.",
+                                "This shop holds %d items and the game holds %d in a shop at most. "
+                                "The db core of version 2.2.111 and older crashes over it at every "
+                                "start and the server stays offline - remove %d items and start the "
+                                "server again. A newer core skips the rest.")
+                              % (len(rows), SHOP_ITEMS_MAX, len(rows) - SHOP_ITEMS_MAX)))
     return render.box(T("Pozycje sklepu (%d)", "Shop items (%d)") % len(rows),
-                      render.table([T("Przedmiot", "Item"), T("Ilość", "Count"), ""], body,
-                                   empty=T("Sklep jest pusty.", "The shop is empty.")) + add_form,
+                      over + render.table([T("Przedmiot", "Item"), T("Ilość", "Count"), ""], body,
+                                          empty=T("Sklep jest pusty.", "The shop is empty.")) + add_form,
                       T("Każde dodanie i usunięcie to jeden wiersz w world.shop_item i jeden wpis "
                         "w historii.",
                         "Every addition and removal is one row of world.shop_item and one entry "

@@ -15,6 +15,18 @@
 -- (GetPlayerBotBiologistWaitLeft, playerbot_missions.h); keep the two alike.
 m2_difficulty = {}
 
+-- A text of ours for a reader of English, in the reader's language where our
+-- quests' table has it (quest_language.lua's playerbot_quest_text: de, fr, pt,
+-- ro and tr), the English otherwise - and on a core without the table (Said,
+-- 20 October: the Biologist's potions spoke English to a Turkish reader).
+-- tools/generate_quest_languages.py reads the literal it is called with.
+local function quest_text_in(en)
+	if playerbot_quest_text ~= nil then
+		return playerbot_quest_text(en)
+	end
+	return en
+end
+
 -- Seconds an event flag asks for; a missing or negative flag is no wait.
 m2_difficulty.seconds = function(name)
 	local v = game.get_event_flag(name)
@@ -97,7 +109,7 @@ collect_data.take_chance = function(chance)
 			pc.remove_item(elixir, 1)
 			chance = math.min(100, chance + m2_difficulty.RESEARCH_ELIXIR_POINTS)
 			if pc.getf("playerbot_lang", "en") == 1 then
-				syschat(string.format("The Researcher's Elixir was used: the chance of this hand-in is %d%%.", math.floor(chance)))
+				syschat(string.format(quest_text_in("The Researcher's Elixir was used: the chance of this hand-in is %d%%."), math.floor(chance)))
 			else
 				syschat(string.format("Uzyto Eliksiru Poszukiwacza: szansa tego oddania to %d%%.", math.floor(chance)))
 			end
@@ -158,16 +170,16 @@ m2_difficulty.say_quick_analysis = function(what)
 	local pl, eng
 	if what == "used" then
 		pl = "Mikstura Szybkiej Analizy: Biolog przyjmie nastepny przedmiot bez czekania."
-		eng = "Quick Analysis Potion: the Biologist will take the next item without a wait."
+		eng = quest_text_in("Quick Analysis Potion: the Biologist will take the next item without a wait.")
 	elseif what == "lifted" then
 		pl = "Mikstura Szybkiej Analizy: koniec czekania, Biolog przyjmie nastepny przedmiot od razu."
-		eng = "Quick Analysis Potion: the wait is over, the Biologist takes the next item at once."
+		eng = quest_text_in("Quick Analysis Potion: the wait is over, the Biologist takes the next item at once.")
 	elseif what == "ready" then
 		pl = "Mikstura Szybkiej Analizy dziala: jesli Biolog uzna nastepny przedmiot za uszkodzony, nie bedziesz czekac."
-		eng = "Quick Analysis Potion is active: if the Biologist finds the next item damaged, you will not have to wait."
+		eng = quest_text_in("Quick Analysis Potion is active: if the Biologist finds the next item damaged, you will not have to wait.")
 	else
 		pl = "Na tym swiecie Biolog nie kaze czekac - Mikstura Szybkiej Analizy nie jest potrzebna."
-		eng = "The Biologist keeps no wait in this world - the Quick Analysis Potion is not needed."
+		eng = quest_text_in("The Biologist keeps no wait in this world - the Quick Analysis Potion is not needed.")
 	end
 	if en then
 		syschat(eng)

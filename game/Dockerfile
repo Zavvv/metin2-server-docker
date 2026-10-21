@@ -631,6 +631,10 @@ RUN set -eu; L=/opt/metin2/share/locale/poland; Z=/tmp/zielarz-add; n=0 \
 # (playerbot_language.h). Read once from here by every core; without it every
 # name is the proto's Polish one.
 COPY share-add/playerbot_names_en.tsv /opt/metin2/share/playerbot_names_en.tsv
+# The same names in Turkish for a client that names it (tools/
+# generate_language_names.py; Said, 20 October), CP1254: an NPC over its head
+# for a Turkish reader. A language without its file reads the English.
+COPY share-add/playerbot_names_tr.tsv /opt/metin2/share/playerbot_names_tr.tsv
 # The market searches the same names as each non-PL/EN client's item_names.
 # Keep the client ANSI bytes; the matcher selects their code page per reader.
 COPY share-add/playerbot_market_search_names.tsv /opt/metin2/share/playerbot_market_search_names.tsv

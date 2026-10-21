@@ -4828,6 +4828,13 @@ T = {
  "yg_save": {"pl": "Zapisz ustawienie yang", "en": "Save the yang setting", "de": "Yang-Einstellung speichern", "tr": "Yang ayarını kaydet"},
  "yg_saved_live": {"pl": "Zapisano. Yang z potworów przełączony na żywo, bez restartu.", "en": "Saved. Yang from monsters was switched live, without a restart.", "de": "Gespeichert. Yang von Monstern wurde ohne Neustart umgeschaltet.", "tr": "Kaydedildi. Canavarlardan Yang yeniden başlatmadan değiştirildi."},
  "yg_saved_restart": {"pl": "Zapisano ustawienie, ale serwer nie potwierdził zmiany na żywo. Spróbuj zapisać ponownie; inaczej zostanie zastosowana przy następnym starcie.", "en": "Setting saved, but the server did not confirm the live change. Try saving again; otherwise it applies at the next start.", "de": "Einstellung gespeichert, aber der Server hat die sofortige Änderung nicht bestätigt. Erneut speichern; sonst gilt sie beim nächsten Start.", "tr": "Ayar kaydedildi ancak sunucu anlık değişikliği onaylamadı. Tekrar kaydet; aksi halde sonraki başlangıçta uygulanır."},
+ "s17_title": {"pl": "Umiejętności od 17 punktu", "en": "Skills from their 17th point", "de": "Fertigkeiten ab Punkt 17", "tr": "17. puandan itibaren beceriler"},
+ "s17_help": {"pl": "Oficjalna zasada (domyślnie): każdy punkt od 17 do 19 to kolejny rzut na Mistrza - przy 17 jedna szansa na cztery, przy 18 na trzy, przy 19 na dwie - a 20. punkt daje M1 na pewno, więc umiejętność kosztuje od 17 do 20 punktów i nigdy nie utyka. Stara zasada (od 2.2.14): jeden rzut przy 17. punkcie (25%, 45% poniżej 35 poziomu, +25% za każdy reset u Starszej Pani); po porażce umiejętność stoi na 17 na każdym poziomie, a dalej prowadzi tylko Księga Zapomnienia, Zwój Powrotu Umiejętności albo Starsza Pani (do 30 poziomu). W obu zasadach zwój daje pewnego Mistrza przy następnym 17. punkcie. Boty i Towarzysz grają tą samą zasadą. Zmiana działa na żywo bez restartu i zostaje po ponownym starcie, dopóki nie zmienisz tej opcji w launcherze (Poziom trudności, M2_SKILL_STUCK_17).", "en": "The official rule (the default): every point from 17 to 19 is another roll for Master - at 17 one chance in four, at 18 in three, at 19 in two - and the 20th point is a sure M1, so a skill costs 17 to 20 points and never gets stuck. The old rule (since 2.2.14): one roll at the 17th point (25%, 45% below level 35, +25% for every reset at the Old Woman); a failed one leaves the skill at 17 at every level, and only a Book of Oblivion, the Skill Reset Scroll or the Old Woman (up to level 30) move it on. Under both, the scroll makes the next 17th point a sure Master. Bots and the Companion play the same rule. Changes are live without a restart and survive the next start until you change this option in the launcher (Difficulty, M2_SKILL_STUCK_17).", "de": "Die offizielle Regel (Standard): jeder Punkt von 17 bis 19 ist ein weiterer Wurf auf den Meister - bei 17 eine Chance von vier, bei 18 von drei, bei 19 von zwei - und der 20. Punkt gibt sicher M1, also kostet eine Fertigkeit 17 bis 20 Punkte und bleibt nie hängen. Die alte Regel (seit 2.2.14): ein Wurf beim 17. Punkt (25 %, 45 % unter Stufe 35, +25 % für jeden Reset bei der alten Frau); nach einem Fehlschlag bleibt die Fertigkeit auf jeder Stufe bei 17, und nur ein Buch des Vergessens, die Fertigkeits-Reset-Schriftrolle oder die alte Frau (bis Stufe 30) bringen sie weiter. Bei beiden gibt die Schriftrolle beim nächsten 17. Punkt sicher den Meister. Bots und der Begleiter spielen nach derselben Regel. Änderungen gelten ohne Neustart und bleiben nach dem nächsten Start erhalten, bis du diese Option im Launcher änderst (Schwierigkeitsgrad, M2_SKILL_STUCK_17).", "tr": "Resmi kural (varsayılan): 17 ile 19 arasındaki her puan Usta için yeni bir zardır - 17'de dörtte bir, 18'de üçte bir, 19'da ikide bir şans - ve 20. puan kesin M1 verir; böylece bir beceri 17 ile 20 puan arasında tutar ve asla takılı kalmaz. Eski kural (2.2.14'ten beri): 17. puanda tek bir zar (%25, 35. seviyenin altında %45, Yaşlı Kadın'daki her sıfırlama için +%25); başarısız olursa beceri her seviyede 17'de kalır ve onu yalnızca Unutkanlık Kitabı, Beceri Sıfırlama Parşömeni veya Yaşlı Kadın (30. seviyeye kadar) ilerletir. Her iki kuralda da parşömen bir sonraki 17. puanda kesin Usta yapar. Botlar ve Yoldaş aynı kuralla oynar. Değişiklik yeniden başlatmadan geçerli olur ve launcher'da bu seçeneği değiştirene kadar sonraki başlangıçta da korunur (Zorluk Seviyesi, M2_SKILL_STUCK_17)."},
+ "s17_official": {"pl": "Oficjalna zasada: rzut przy każdym punkcie, 20 = M1 (domyślnie)", "en": "The official rule: a roll at every point, 20 = M1 (the default)", "de": "Offizielle Regel: ein Wurf bei jedem Punkt, 20 = M1 (Standard)", "tr": "Resmi kural: her puanda bir zar, 20 = M1 (varsayılan)"},
+ "s17_stuck": {"pl": "Stara zasada (2.2.14): jeden rzut przy 17, potem blokada na 17", "en": "The old rule (2.2.14): one roll at 17, then stuck at 17", "de": "Alte Regel (2.2.14): ein Wurf bei 17, danach bei 17 gesperrt", "tr": "Eski kural (2.2.14): 17'de tek zar, sonra 17'de takılı"},
+ "s17_save": {"pl": "Zapisz zasadę umiejętności", "en": "Save the skill rule", "de": "Fertigkeitsregel speichern", "tr": "Beceri kuralını kaydet"},
+ "s17_saved_live": {"pl": "Zapisano. Zasada umiejętności od 17 punktu przełączona na żywo, bez restartu.", "en": "Saved. The skill rule from the 17th point was switched live, without a restart.", "de": "Gespeichert. Die Fertigkeitsregel ab Punkt 17 wurde ohne Neustart umgeschaltet.", "tr": "Kaydedildi. 17. puandan itibaren beceri kuralı yeniden başlatmadan değiştirildi."},
+ "s17_saved_restart": {"pl": "Zapisano ustawienie, ale serwer nie potwierdził zmiany na żywo. Spróbuj zapisać ponownie; inaczej zostanie zastosowana przy następnym starcie.", "en": "Setting saved, but the server did not confirm the live change. Try saving again; otherwise it applies at the next start.", "de": "Einstellung gespeichert, aber der Server hat die sofortige Änderung nicht bestätigt. Erneut speichern; sonst gilt sie beim nächsten Start.", "tr": "Ayar kaydedildi ancak sunucu anlık değişikliği onaylamadı. Tekrar kaydet; aksi halde sonraki başlangıçta uygulanır."},
  "dbonus_title": {"pl": "Szansa na bonus w wydropionym przedmiocie", "en": "Chance of bonuses on dropped items", "de": "Bonuschance bei gedroppten Gegenständen", "tr": "Düşen eşyalarda bonus şansı"},
  "dbonus_help": {"pl": "Jak często broń i zbroja (także biżuteria, buty, hełmy i tarcze) wypadające z potworów mają bonusy i ile: procent szansy z gry, 100% = jak w grze. Zmienia szansę na pierwszy bonus oraz na drugi i trzeci — najwyżej trzy, jak w grze, a ich wartości zostają takie same. W grze broń ze zwykłych potworów nie ma bonusów (tylko z Metinów, bossów i wodzów); powyżej 100% dostaje je z szansą z tabeli przedmiotu razy nadwyżka (przy 200% tyle, ile ma w tabeli). Tylko drop z potworów — sklepy, nagrody z questów, skrzynie i ItemShop bez zmian. Boty też częściej dropią przedmioty z bonusami i wystawiają je na swoich straganach. Zmiana działa od następnego dropu, bez restartu, i zostaje po restarcie, dopóki nie zmienisz jej w launcherze (przycisk POZIOM TRUDNOŚCI, M2_DROP_BONUS_PCT w .env).", "en": "How often weapons and armour (jewellery, boots, helmets and shields too) dropped by monsters come with bonuses, and how many: a percent of the game's own chance, 100% = as in the game. It changes the chance of the first bonus and of the second and third - three at most, as in the game, and their values stay the same. In the game weapons from ordinary monsters have no bonuses (only from Metin stones, bosses and chiefs); above 100% they get them at the item's own chance times the excess (at 200% what its table says). Monster drops only - shops, quest rewards, chests and the ItemShop stay as they are. The bots drop bonused gear more often too and put it on their stalls. A change applies from the next drop, without a restart, and stays across a restart until it is changed in the launcher (the DIFFICULTY button, M2_DROP_BONUS_PCT in .env).", "de": "Wie oft Waffen und Rüstungen (auch Schmuck, Schuhe, Helme und Schilde), die Monster fallen lassen, Boni haben und wie viele: ein Prozentsatz der Chance im Spiel, 100% = wie im Spiel. Es ändert die Chance auf den ersten Bonus und auf den zweiten und dritten - höchstens drei, wie im Spiel, und ihre Werte bleiben gleich. Im Spiel haben Waffen von gewöhnlichen Monstern keine Boni (nur von Metinsteinen, Bossen und Anführern); über 100% bekommen sie welche mit der eigenen Chance des Gegenstands mal dem Überschuss (bei 200% so viel, wie seine Tabelle sagt). Nur Monster-Drops - Läden, Quest-Belohnungen, Truhen und der ItemShop bleiben unverändert. Auch die Bots droppen öfter Ausrüstung mit Boni und stellen sie an ihre Stände. Eine Änderung gilt ab dem nächsten Drop, ohne Neustart, und bleibt nach einem Neustart erhalten, bis du sie im Launcher änderst (Button SCHWIERIGKEITSGRAD, M2_DROP_BONUS_PCT in der .env).", "tr": "Canavarların düşürdüğü silah ve zırhların (mücevher, ayakkabı, kask ve kalkanlar da) ne sıklıkla ve kaç bonusla geldiği: oyundaki şansın yüzdesi, %100 = oyundaki gibi. İlk bonusun ve ikinci ile üçüncünün şansını değiştirir - oyundaki gibi en fazla üç, değerleri aynı kalır. Oyunda sıradan canavarların silahlarında bonus yoktur (yalnızca Metin taşlarından, bosslardan ve reislerden); %100'ün üstünde, eşyanın kendi şansı çarpı fazlalık kadar bonus alırlar (%200'de tablosundaki kadar). Yalnızca canavar dropları - dükkânlar, görev ödülleri, sandıklar ve ItemShop olduğu gibi kalır. Botlar da daha sık bonuslu eşya düşürür ve tezgâhlarına koyar. Değişiklik bir sonraki drop'tan itibaren, yeniden başlatmadan geçerli olur ve sen launcher'da (ZORLUK SEVİYESİ düğmesi, .env içinde M2_DROP_BONUS_PCT) değiştirene kadar yeniden başlatmadan sonra da kalır."},
  "dbonus_label": {"pl": "Procent szansy z gry (10–1000):", "en": "Percent of the game's chance (10–1000):", "de": "Prozent der Chance im Spiel (10–1000):", "tr": "Oyundaki şansın yüzdesi (10–1000):"},
@@ -6859,6 +6866,21 @@ def read_yang_ground_mt2009():
         row = cur.fetchone()
     return int((row["lValue"] if isinstance(row, dict) else row[0]) or 0) > 0 if row else False
 
+# Said and Tieru, 20 October: a normal skill from its seventeenth point - the
+# official rule, a roll at every point to twenty (the default, the flag absent
+# or 0), or 2.2.14's stop at seventeen after one roll - the event flag
+# m2_skill_stuck_17, which the cores read at every point (playerbotify
+# apply_skill_master_rule_switch) and the bots' AI with them. The migrator
+# applies .env's M2_SKILL_STUCK_17 only when it changed since the last start,
+# so this card's choice stays until the launcher's changes; web_admin.quest's
+# SKILL_STUCK_17 makes it live.
+def read_skill_stuck_17_mt2009():
+    """Missing or nonpositive flag is the official rule."""
+    with db() as c, c.cursor() as cur:
+        cur.execute("SELECT lValue FROM player.quest WHERE dwPID=0 AND szName=%s LIMIT 1", ("m2_skill_stuck_17",))
+        row = cur.fetchone()
+    return int((row["lValue"] if isinstance(row, dict) else row[0]) or 0) > 0 if row else False
+
 def read_mob_hp_mt2009():
     """The percent as the card shows it and the choices it offers: 100 and 80,
     and a percent of the operator's own from .env beside them."""
@@ -8598,6 +8620,16 @@ regenLabel("regen_metin");regenLabel("regen_boss");regenLabel("regen_mob");
 <button class="big" style="margin-top:12px">{{t('yg_save')}}</button>
 </form></div>
 {% endif %}
+{% if skill_stuck_17 is not none %}
+<div class="card"><form method="post" action="{{url_for('rates_skill_stuck_17')}}">
+<input type="hidden" name="_csrf" value="{{csrf_token}}">
+<h3>📘 {{t('s17_title')}}</h3>
+<p class="muted">{{t('s17_help')}}</p>
+<p><label><input type="radio" name="stuck" value="0"{% if not skill_stuck_17 %} checked{% endif %}> {{t('s17_official')}}</label></p>
+<p><label><input type="radio" name="stuck" value="1"{% if skill_stuck_17 %} checked{% endif %}> {{t('s17_stuck')}}</label></p>
+<button class="big" style="margin-top:12px">{{t('s17_save')}}</button>
+</form></div>
+{% endif %}
 {% if channels %}
 <div class="card">
 <form method="post" action="{{url_for('rates_channels')}}">
@@ -10048,7 +10080,7 @@ for _lang, _texts in {
 # the page (apply_meta_for), so an English page carries no Polish.
 APPLY_TEXTS = {
  1: ("flat", {"pl": "Max PŻ: +%d", "en": "Max. HP +%d",
-         "de": "Max. TP +%d", "tr": "Max. HP +%d"}),
+         "de": "Max. TP +%d", "tr": "Maks. HP +%d"}),
  2: ("flat", {"pl": "Max PE: +%d", "en": "Max. SP +%d",
          "de": "Max. MP +%d", "tr": "Max. SP +%d"}),
  3: ("flat", {"pl": "Witalność +%d", "en": "Vitality +%d",
@@ -10180,7 +10212,7 @@ APPLY_TEXTS = {
  68: ("multiplier", {"pl": "Szansa na zdobycie Yang pomnożona o %.1f", "en": "Chance of capturing Yang multiplied with %.1f",
          "de": "Drop-Chance für Yang multipliziert mit %.1f", "tr": "Yang düşürme şansı %.1f ile çarpılır"}),
  69: ("percent", {"pl": "Maks. PŻ +%d%%", "en": "Max. HP +%d%%",
-         "de": "Max. TP +%d%%", "tr": "Max. HP +%d%%"}),
+         "de": "Max. TP +%d%%", "tr": "Maks. HP +%d%%"}),
  70: ("percent", {"pl": "Maks. PE +%d%% ", "en": "Max. SP +%d%% ",
          "de": "Max. MP +%d%%", "tr": "Max. SP +%d%%"}),
  71: ("percent", {"pl": "Obrażenie Umiejętności: %d%%", "en": "Skill Damage %d%%",
@@ -21205,6 +21237,7 @@ def rates():
     owner_defence = None
     world_extras = None
     yang_ground = None
+    skill_stuck_17 = None
     if ENGINE_MT2009:
         try:
             regen = read_regen_mt2009()
@@ -21247,6 +21280,10 @@ def rates():
             yang_ground = read_yang_ground_mt2009()
         except Exception:
             yang_ground = None
+        try:
+            skill_stuck_17 = read_skill_stuck_17_mt2009()
+        except Exception:
+            skill_stuck_17 = None
     channels = None
     if ENGINE_MT2009:
         try:
@@ -21258,7 +21295,7 @@ def rates():
                                   difficulty=difficulty, owner_defence=owner_defence, difficulty_levels=DIFFICULTY_LEVELS,
                                   difficulty_max=DIFFICULTY_MAX_HOURS, autohunt=autohunt,
                                   starter_chest=starter_chest, mob_hp=mob_hp, world_extras=world_extras,
-                                  yang_ground=yang_ground, drop_bonus=drop_bonus,
+                                  yang_ground=yang_ground, skill_stuck_17=skill_stuck_17, drop_bonus=drop_bonus,
                                   drop_bonus_min=DROP_BONUS_MIN_PERCENT, drop_bonus_max=DROP_BONUS_MAX_PERCENT,
                                   move_speed=move_speed, move_speed_min=MOVE_SPEED_MIN_PERCENT,
                                   move_speed_max=MOVE_SPEED_MAX_PERCENT,
@@ -21734,6 +21771,40 @@ def rates_yang_ground():
             except Exception:
                 pass
         flash(t("yg_saved_restart"))
+    return redirect(url_for("rates"))
+
+
+@app.post("/rates/skill_stuck_17")
+@login_required
+def rates_skill_stuck_17():
+    """Said and Tieru, 20 October: persist and apply the skill rule from seventeen live."""
+    if not ENGINE_MT2009:
+        return redirect(url_for("rates"))
+    value = (request.form.get("stuck", "") or "").strip()
+    if value not in ("0", "1"):
+        return redirect(url_for("rates"))
+    try:
+        with db() as c, c.cursor() as cur:
+            cur.execute("REPLACE INTO player.quest (dwPID, szName, szState, lValue) "
+                        "VALUES (0, 'm2_skill_stuck_17', '', %s)", (int(value),))
+    except Exception:
+        flash(t("db_down"), "error")
+        return redirect(url_for("rates"))
+    try:
+        status, qid = queue_and_wait("", "SKILL_STUCK_17", value, "", wait=RATES_LIVE_WAIT)
+    except Exception:
+        status, qid = "failed", 0
+    if status == "done":
+        flash(t("s17_saved_live"))
+    else:
+        if status == "timeout":
+            try:
+                with db() as c, c.cursor() as cur:
+                    cur.execute("UPDATE player.web_admin_queue SET status='cancelled' "
+                                "WHERE id=%s AND status='pending'", (qid,))
+            except Exception:
+                pass
+        flash(t("s17_saved_restart"))
     return redirect(url_for("rates"))
 
 

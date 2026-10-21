@@ -318,6 +318,11 @@ def register(app, db, base, login_required, lang=lambda: 'pl', item_name=None, t
             # first knife for a character that has none (kaethasger, 18 October).
             lines.append(tr('Zielarstwo odblokowane u Baek-Go; 5% EXP poziomu; Nozyk Zielarza+0, jesli postac go nie ma.',
                             "Herbalism unlocked at Baek-Go; 5% of a level's EXP; a Herbalist's Knife+0 if the character has none."))
+        elif native == 'fishing':
+            # The plan's flag completed 1, which char.cpp's fishing asks
+            # (issue #48, fdf4cb41).
+            lines.append(tr('Wedkarstwo odblokowane (rozmowa z Rybakiem zaliczona).',
+                            "Fishing unlocked (the Fisherman's introduction counts as done)."))
         if rplan.get('horse_target'):
             lines.append(tr('Poziom konia po skipie: {}.', 'Horse level after the skip: {}.').format(rplan['horse_target']))
         if rplan['spec'].get('reputation'):

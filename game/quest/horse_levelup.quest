@@ -461,6 +461,29 @@ quest horse_levelup begin
 		end
 	end
 	state need_item50050 begin
+		-- metin2-suite: our own lines, in the reader's language (playerbot_lang.quest).
+		function t(pl, en)
+			if pc.getf("playerbot_lang", "en") == 1 then
+				return playerbot_quest_text ~= nil and playerbot_quest_text(en) or en
+			end
+			return pl
+		end
+		-- metin2-suite: the stable keeper keeps the option while the quest waits
+		-- for a Horse Medal. The state went back to start only at a login with
+		-- the medal (or the letter's click), so a player who fetched the medal in
+		-- the same session found no training at the stable keeper at all
+		-- ("Brak opcji podnoszenia poziomu konia u stajennego. Posiadam konia na
+		-- 1lvl i medal konny", MajkeLLowsky, report 9c4e9252, issue #43).
+		when 20349.chat.gameforge.horse_levelup._230_npcChat with horse.get_grade()==2 begin
+			say_title(gameforge.horse_levelup._240_sayTitle)
+			if pc.countitem("50050")<1 then
+				say(gameforge.horse_levelup._260_say)
+			else
+				setstate(start)
+				say(horse_levelup.t("Widze, ze masz juz Medal Konny. Porozmawiaj ze mna jeszcze raz.",
+					"I see you have a Horse Medal now. Talk to me again."))
+			end
+		end
 		when login or levelup or enter with pc.countitem("50050") >= 1 begin
 			set_state(start)
 		end

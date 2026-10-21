@@ -1562,8 +1562,27 @@
             "fishing_onboarding"
           ],
           "items": [],
-          "flags": [],
-          "remove": [],
+          "native": "fishing",
+          "flags": [
+            [
+              "completed",
+              1
+            ]
+          ],
+          "remove": [
+            [
+              30361,
+              1
+            ],
+            [
+              30362,
+              1
+            ],
+            [
+              30363,
+              1
+            ]
+          ],
           "follow": [],
           "exp": 0,
           "gold": 0,

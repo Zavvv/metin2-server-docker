@@ -7324,6 +7324,11 @@ quest_texts_tr.gameforge = {
 	{"warehouse._70_say", "183:576388F9", "G\252venlik nedeniyle bunu de\240i\254tirmelisin.[ENTER][ENTER]45 kutunun yetmeyece\240ini d\252\254\252nebilirsin. Kim[ENTER]bilir, belki birbirimizi daha iyi tan\253y\253nca sana[ENTER]daha fazla yer veririm. Hehe! "},
 	{"warehouse._80_say", "86:778E3D9E", "Pekala, kimseyi zorlam\253yorum. Fikrini[ENTER]de\240i\254tirirsen sonra tekrar u\240ra."},
 	{"warehouse._90_npcChat", "15:86BBA89F", "Depoyu a\231"},
+	{"devilcatacomb_zone._250_say", "83:965156B5", "K\252\231\252len Kafa'ya sahipsin ve art\253k 3. kata[ENTER]\253\254\253nlanabilirsin. "},
+	{"devilcatacomb_zone._260_say", "86:29700003", "K\252\231\252len Kafa'ya sahip de\240ilsin. O nedenle \254imdi[ENTER]\222eytan Katakombu'ndan d\253\254ar\253 \231\253kar\253lacaks\253n. "},
+	{"find_squareguard._70_say", "20:3385BE74", "Bilinmeyen D\252\240me [%s] "},
+	{"horse_upgrade._70_say", "20:3385BE74", "Bilinmeyen D\252\240me [%s] "},
+	{"horse_upgrade2._220_say", "20:3385BE74", "Bilinmeyen D\252\240me [%s] "},
 }
 quest_texts_tr.translate = {
 	{"beta.collect.already_completed", "31:F2E6D72C", "Bu bonus zaten verildi."},
