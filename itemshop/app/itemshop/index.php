@@ -7,6 +7,8 @@
 	// Turkish patch: the finished page goes through itemshop_tr_html (lang_tr.php),
 	// which returns it unchanged for a Polish reader.
 	require(__DIR__ . "/lang_tr.php");
+	// mt2009: the game has its own ItemShop and this one sells nothing (#124).
+	require(__DIR__ . "/native_shop.php");
 	ob_start('itemshop_tr_html');
 	session_start();
 	require("../user/config.php");

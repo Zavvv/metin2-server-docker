@@ -1,11 +1,14 @@
 -- Patch 18 shared contracts. Run before cores/panels; preserve older rows.
 USE player;
+-- utf8mb4, never the player database's default: on mt2009 that is cp1250, and
+-- the cores join player_name to the latin1 player.name (errno 1267, Said,
+-- 21 October). apply.sh converts a queue an older start made in cp1250.
 CREATE TABLE IF NOT EXISTS web_admin_queue (
  id INT AUTO_INCREMENT PRIMARY KEY, player_name VARCHAR(24) NOT NULL,
  cmd VARCHAR(16) NOT NULL,arg1 VARCHAR(64),arg2 VARCHAR(64),
  status VARCHAR(24) DEFAULT 'pending',created DATETIME DEFAULT CURRENT_TIMESTAMP,
  KEY status_idx(status)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ALTER TABLE web_admin_queue ADD COLUMN IF NOT EXISTS player_id INT UNSIGNED NULL;
 ALTER TABLE web_admin_queue ADD INDEX IF NOT EXISTS persona_pid (cmd,player_id,status);
 CREATE TABLE IF NOT EXISTS web_m2p_persona_catalog (

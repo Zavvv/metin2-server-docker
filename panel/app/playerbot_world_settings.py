@@ -139,6 +139,142 @@ document.getElementById('p21-result').textContent=j.ok?__SAVED__:j.error;if(j.ok
 }).catch(function(){document.getElementById('p21-result').textContent=__FAILED__;});});})();</script>'''
 
 
+# The bots' nickname pool by the world's language (Tieru, 21 October: "nicki
+# pod dane jezyki maja byc inne"). playerbot_names.sql writes which pool the
+# world deals (common.playerbot_name_world) and which pools the release carries
+# (common.playerbot_name_pools); the panel only asks for another one, and the
+# migrator moves the world at its next start. A text is pl/en/de/tr, as every
+# text of this panel.
+NAME_LANGUAGE_NAMES = {'pl': 'Polski', 'tr': 'Türkçe', 'en': 'English', 'de': 'Deutsch', 'fr': 'Français',
+                       'pt': 'Português', 'ro': 'Română', 'es': 'Español', 'it': 'Italiano'}
+NAME_TEXTS = {
+    'title': ('Nicki botów według języka', 'Bot nicknames by language', 'Bot-Namen nach Sprache',
+              'Dile göre bot takma adları'),
+    'deals': ('Ten świat rozdaje botom nicki z puli:', 'This world names its bots from the pool:',
+              'Diese Welt benennt ihre Bots aus dem Pool:', 'Bu dünya botlarına şu havuzdan ad veriyor:'),
+    'asked': ('Język gry przy tworzeniu świata:', 'Game language when the world was made:',
+              'Spielsprache bei der Erstellung der Welt:', 'Dünya oluşturulurken oyun dili:'),
+    'count': ('Boty według puli nicków:', 'Bots by nickname pool:', 'Bots nach Namenspool:',
+              'Ad havuzuna göre botlar:'),
+    'keep': ('Zmiana języka klienta nie zmienia nicków. Poniższa zamiana nadaje nowe nicki z wybranej puli '
+             'przy następnym starcie serwera wszystkim botom, które noszą nick z innej puli. Nicki nadane ręcznie '
+             'i nicki Towarzyszy zostają; postacie, przedmioty i poziomy się nie zmieniają.',
+             'Changing the client\'s language changes no nickname. The switch below gives every bot that wears a '
+             'nickname of another pool a new one from the chosen pool at the next server start. Names given by '
+             'hand and companions\' names stay; characters, items and levels do not change.',
+             'Eine andere Clientsprache ändert keinen Namen. Der Wechsel unten gibt beim nächsten Serverstart jedem '
+             'Bot mit einem Namen aus einem anderen Pool einen neuen aus dem gewählten Pool. Von Hand vergebene '
+             'Namen und die Namen der Begleiter bleiben; Charaktere, Gegenstände und Stufen ändern sich nicht.',
+             'İstemci dilini değiştirmek hiçbir adı değiştirmez. Aşağıdaki değişiklik, sunucunun bir sonraki '
+             'başlangıcında başka bir havuzdan ad taşıyan her bota seçilen havuzdan yeni bir ad verir. Elle verilen '
+             'adlar ve yoldaşların adları kalır; karakterler, eşyalar ve seviyeler değişmez.'),
+    'button': ('Zmień nicki botów przy następnym starcie', 'Rename the bots at the next start',
+               'Bots beim nächsten Start umbenennen', 'Botları bir sonraki başlangıçta yeniden adlandır'),
+    'confirm': ('Przy następnym starcie serwera boty dostaną nicki z wybranej puli. Kontynuować?',
+                'At the next server start the bots get nicknames from the chosen pool. Continue?',
+                'Beim nächsten Serverstart bekommen die Bots Namen aus dem gewählten Pool. Fortfahren?',
+                'Sunucunun bir sonraki başlangıcında botlar seçilen havuzdan ad alacak. Devam edilsin mi?'),
+    'pending': ('Zaplanowano zmianę na pulę:', 'Scheduled switch to the pool:', 'Geplanter Wechsel zum Pool:',
+                'Planlanan havuz değişikliği:'),
+    'restart': ('zadziała przy następnym starcie serwera.', 'it takes effect at the next server start.',
+                'wirkt beim nächsten Serverstart.', 'sunucunun bir sonraki başlangıcında geçerli olur.'),
+    'cancel': ('Anuluj zmianę', 'Cancel the switch', 'Wechsel abbrechen', 'Değişikliği iptal et'),
+    'unknown': ('Ten świat nie ma jeszcze zapisanego języka nicków - zapisze go następny start serwera.',
+                'This world has no nickname language recorded yet - the next server start records it.',
+                'Diese Welt hat noch keine Namenssprache gespeichert - der nächste Serverstart speichert sie.',
+                'Bu dünyanın henüz kayıtlı bir ad dili yok - sunucunun bir sonraki başlangıcı kaydedecek.'),
+    'saved': ('Zapisano.', 'Saved.', 'Gespeichert.', 'Kaydedildi.'),
+    'failed': ('Błąd zapisu.', 'Save failed.', 'Speichern fehlgeschlagen.', 'Kaydedilemedi.'),
+    'same': ('Świat już rozdaje tę pulę.', 'The world already deals this pool.',
+             'Die Welt verwendet diesen Pool bereits.', 'Dünya zaten bu havuzu kullanıyor.'),
+}
+
+
+def name_text(mod, key):
+    pl, en, de, tr = NAME_TEXTS[key]
+    return {'pl': pl, 'de': de, 'tr': tr}.get(mod.lang(), en)
+
+
+def name_language_label(code):
+    return '%s (%s)' % (NAME_LANGUAGE_NAMES.get(code, code), code)
+
+
+def name_language_state(mod):
+    """What the world deals, what was asked for, the pools on offer and the
+    bots by pool; None while the migrator has not written the tables yet."""
+    with mod.db() as con, con.cursor() as cur:
+        cur.execute("SELECT COUNT(*) AS n FROM information_schema.tables WHERE table_schema='common' "
+                    "AND table_name IN ('playerbot_name_world','playerbot_name_pools')")
+        if int(cur.fetchone()['n']) < 2:
+            return None
+        cur.execute('SELECT language, asked, requested FROM common.playerbot_name_world WHERE singleton=1')
+        world = cur.fetchone()
+        cur.execute('SELECT language, names FROM common.playerbot_name_pools ORDER BY language')
+        pools = [r['language'] for r in cur.fetchall()]
+        cur.execute("SELECT IF(name_language='', 'pl', name_language) AS language, COUNT(*) AS n "
+                    "FROM common.playerbot_name_history WHERE pool_version<>'sidekick' GROUP BY 1 ORDER BY 1")
+        counts = [(r['language'], int(r['n'])) for r in cur.fetchall()]
+    if not world:
+        return None
+    return {'language': world['language'], 'asked': world['asked'], 'requested': world['requested'],
+            'pools': pools, 'counts': counts}
+
+
+NAME_CARD = '''<section class="card" id="pb-name-language"><h2>{{t('title')}}</h2>
+{% if not state %}<p>{{t('unknown')}}</p>{% else %}
+<p>{{t('deals')}} <b>{{label(state.language)}}</b>{% if state.asked %} &middot; {{t('asked')}} {{label(state.asked)}}{% endif %}</p>
+{% if state.counts %}<p>{{t('count')}} {% for code, n in state.counts %}{{label(code)}}: {{n}}{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+<p>{{t('keep')}}</p>
+{% if state.requested %}<p><b>{{t('pending')}} {{label(state.requested)}}</b> - {{t('restart')}}
+<button data-names-action="cancel">{{t('cancel')}}</button></p>{% endif %}
+<label><select id="pb-name-language-pick">{% for code in state.pools %}<option value="{{code}}" {{'selected' if code == (state.requested or state.language) else ''}}>{{label(code)}}</option>{% endfor %}</select></label>
+<button data-names-action="request">{{t('button')}}</button>{% endif %}
+<p id="pb-name-language-result" role="status"></p></section>'''
+
+NAME_SCRIPT = r'''<script>(function(){var root=document.getElementById('pb-name-language');if(!root)return;
+root.addEventListener('click',function(e){var a=e.target.dataset.namesAction;if(!a)return;
+if(a==='request'&&!window.confirm(__CONFIRM__))return;var f=new FormData();f.append('_csrf',__CSRF__);f.append('action',a);
+var pick=document.getElementById('pb-name-language-pick');f.append('language',pick?pick.value:'');
+fetch('/world-settings/bot-names',{method:'POST',body:f,credentials:'same-origin'}).then(function(r){return r.json();}).then(function(j){
+document.getElementById('pb-name-language-result').textContent=j.ok?(j.message||__SAVED__):(j.message||j.error);if(j.ok&&!j.message)location.reload();
+}).catch(function(){document.getElementById('pb-name-language-result').textContent=__FAILED__;});});})();</script>'''
+
+
+def name_language_card(mod):
+    state = name_language_state(mod)
+    html = render_template_string(NAME_CARD, t=lambda key: name_text(mod, key), label=name_language_label,
+                                  state=state)
+    return html + (NAME_SCRIPT.replace('__CSRF__', json.dumps(mod.csrf_token()))
+                   .replace('__CONFIRM__', json.dumps(name_text(mod, 'confirm')))
+                   .replace('__SAVED__', json.dumps(name_text(mod, 'saved')))
+                   .replace('__FAILED__', json.dumps(name_text(mod, 'failed'))))
+
+
+def request_name_language(mod, action, language):
+    """Ask for another pool, or take the request back. The migrator carries it
+    out at the next start (playerbot_names.sql), only with names on."""
+    with mod.db() as con, con.cursor() as cur:
+        if action == 'cancel':
+            cur.execute("UPDATE common.playerbot_name_world SET requested='' WHERE singleton=1")
+            con.commit()
+            return None
+        if action != 'request' or not isinstance(language, str) or len(language) != 2 or \
+                not language.isascii() or not language.isalpha():
+            raise ValueError('invalid_language')
+        language = language.lower()
+        cur.execute('SELECT 1 FROM common.playerbot_name_pools WHERE language=%s', (language,))
+        if not cur.fetchone():
+            raise ValueError('no_pool')
+        cur.execute('SELECT language FROM common.playerbot_name_world WHERE singleton=1')
+        world = cur.fetchone()
+        if not world:
+            raise ValueError('no_world_language')
+        requested = '' if world['language'] == language else language
+        cur.execute('UPDATE common.playerbot_name_world SET requested=%s WHERE singleton=1', (requested,))
+        con.commit()
+        return None if requested else 'same'
+
+
 def resting_ids(mod, live, now=None):
     """Union the native log, persisted realism and selected rotation pool."""
     now = int(time.time()) if now is None else now
@@ -211,6 +347,18 @@ def register(mod):
             return jsonify(ok=True)
         except (ValueError, OSError) as exc:
             return jsonify(ok=False, error=str(exc)), 400
+
+    @app.route('/world-settings/bot-names', methods=['POST'])
+    @mod.login_required
+    def pb_name_language():
+        try:
+            note = request_name_language(mod, request.form.get('action', ''), request.form.get('language', ''))
+            return jsonify(ok=True, message=name_text(mod, note) if note else '')
+        except ValueError as exc:
+            return jsonify(ok=False, error=str(exc)), 400
+        except Exception:  # noqa: BLE001 - a world without the tables, a lost connection
+            app.logger.exception('bot names: request not saved')
+            return jsonify(ok=False, error='unavailable'), 503
 
     @app.route('/world-settings/pin/<int:pid>', methods=['POST'])
     @mod.login_required
@@ -322,6 +470,10 @@ def register(mod):
             if request.endpoint == 'ai_weights':
                 extra = render_template_string(CONTROLS, tr=tr, fields=FIELDS, values=values)
                 extra += SCRIPT.replace('__CSRF__', csrf).replace('__SAVED__', json.dumps(tr('Zapisano.', 'Saved.'))).replace('__FAILED__', json.dumps(tr('Błąd zapisu.', 'Save failed.')))
+                try:
+                    extra += name_language_card(mod)
+                except Exception:  # noqa: BLE001 - the rotation card stays without it
+                    app.logger.exception('bot names: card unavailable')
             elif request.endpoint == 'events':
                 label = tr('Szkatułki prosto do ekwipunku (boty i gracze)', 'Moonlight Chests directly to inventory (bots and players)')
                 help_text = tr('Szkatułka trafia do torby właściciela dropu. Pełna torba — szkatułka spada na ziemię.',

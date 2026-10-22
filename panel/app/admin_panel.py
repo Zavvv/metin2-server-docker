@@ -12590,7 +12590,7 @@ function showItemTooltip(ev, item, extra, wide) {
     var hasSock = false;
     var sockHtml = '<div class="m2-tt-divider"></div>';
     item.sockets.forEach(function(sVal, sIdx) {
-      // Iwakura P18: poza bronią i zbroją gniazdo to dane (umiejętność księgi, potwór marmuru) – są już w nazwie.
+      // Iwakura P18: outside a weapon and an armour a socket is data (a book's skill, a marble's monster), already in the name.
       if (def.type !== 1 && def.type !== 2) return;
       hasSock = true;
       if (sVal === 0) {
@@ -12859,35 +12859,36 @@ function empireFlag(empire, height) {
          'border-radius:2px;box-shadow:0 0 3px rgba(0,0,0,.6)">';
 }
 
-// Iwakura's Patch 20, 4A and 4B: "Wyślij przedmiot" and the EXP button in
+// Iwakura's Patch 20, 4A and 4B: "Send item" and the EXP button in
 // the card's header, between the BOT badge and the teleport bar. The rows go
 // to the bots' core through web_admin_queue as 'await' (api_bot_send_item,
 // api_bot_card_exp); CSRF as every form of the panel.
 var P20_CSRF = '{{ csrf_token }}';
-var P20_PL = '{{ curlang }}' === 'pl';
-function p20T(pl, en) { return P20_PL ? pl : en; }
+// Every word below is the server's, in the reader's language alone: a page
+// for an English, German or Turkish reader carries no Polish (p20 is a macro).
+{% macro p20(pl, en) %}{{ (pl if curlang == 'pl' else en)|tojson }}{% endmacro %}
 var P20_STATUS = {
-  'await': ['czeka, aż bot wejdzie do gry', 'waiting for the bot to enter the game'],
-  'done': ['wysłano', 'sent'], 'cancelled': ['anulowano', 'cancelled'],
-  'full': ['błąd: brak miejsca w torbie', 'error: no room in the bag'],
-  'bad_args': ['błąd: złe dane', 'error: bad request'], 'failed': ['błąd', 'error'],
-  'qty_too_big': ['błąd: za dużo sztuk', 'error: too many pieces']
+  'await': {{ p20('czeka, aż bot wejdzie do gry', 'waiting for the bot to enter the game') }},
+  'done': {{ p20('wysłano', 'sent') }}, 'cancelled': {{ p20('anulowano', 'cancelled') }},
+  'full': {{ p20('błąd: brak miejsca w torbie', 'error: no room in the bag') }},
+  'bad_args': {{ p20('błąd: złe dane', 'error: bad request') }}, 'failed': {{ p20('błąd', 'error') }},
+  'qty_too_big': {{ p20('błąd: za dużo sztuk', 'error: too many pieces') }}
 };
 function p20Status(s) {
   var e = P20_STATUS[s];
-  if (e) return p20T(e[0], e[1]);
-  if (String(s).charAt(0) === 'w') return p20T('wysyłanie…', 'sending…');
-  return p20T('błąd: ', 'error: ') + s;
+  if (e) return e;
+  if (String(s).charAt(0) === 'w') return {{ p20('wysyłanie…', 'sending…') }};
+  return {{ p20('błąd: ', 'error: ') }} + s;
 }
 function p20Post(url, data) {
   var body = new URLSearchParams(data || {}); body.append('_csrf', P20_CSRF);
   return fetch(url, {method: 'POST', credentials: 'same-origin', body: body}).then(function (r) { return r.json(); });
 }
 var P20_EXP_WHY = {
-  companion: ['To Towarzysz gracza: blokadę expa trzyma właściciel pierścieniem.', "A player's companion: its owner holds the EXP lock with the ring."],
-  dropper: ['Rola wymaga stałego poziomu – najpierw zakończ rolę.', 'The role needs a fixed level – end the role first.'],
-  pending: ['Poprzedni rozkaz czeka na bota.', 'The previous order is waiting for the bot.'],
-  free: ['Bot nie ma blokady expa.', 'The bot has no EXP lock.']
+  companion: {{ p20('To Towarzysz gracza: blokadę expa trzyma właściciel pierścieniem.', "A player's companion: its owner holds the EXP lock with the ring.") }},
+  dropper: {{ p20('Rola wymaga stałego poziomu – najpierw zakończ rolę.', 'The role needs a fixed level – end the role first.') }},
+  pending: {{ p20('Poprzedni rozkaz czeka na bota.', 'The previous order is waiting for the bot.') }},
+  free: {{ p20('Bot nie ma blokady expa.', 'The bot has no EXP lock.') }}
 };
 function p20CardBar(pid) {
   setTimeout(function () { p20FillBar(pid); }, 0);
@@ -12899,21 +12900,21 @@ function p20FillBar(pid) {
   fetch('/api/bot_card_actions/' + pid, {credentials: 'same-origin', cache: 'no-store'}).then(function (r) { return r.json(); }).then(function (j) {
     if (!j || !j.ok || !j.bot) { bar.remove(); return; }
     var st = 'font-weight:700;padding:5px 10px;border:none;border-radius:4px;cursor:pointer;font-size:12px;color:#fff;';
-    var h = j.send ? '<button type="button" id="p20Send" style="' + st + 'background:#7c3aed">🎁 ' + p20T('Wyślij przedmiot', 'Send item') + '</button>' : '';
+    var h = j.send ? '<button type="button" id="p20Send" style="' + st + 'background:#7c3aed">🎁 ' + {{ p20('Wyślij przedmiot', 'Send item') }} + '</button>' : '';
     var e = j.exp || {};
     if (e.mode === 'unlock' || e.mode === 'lock' || e.why === 'companion' || e.why === 'dropper' || e.why === 'pending') {
       var lock = e.mode === 'lock';
       var dis = !e.mode;
-      var why = dis ? (P20_EXP_WHY[e.why] || ['', ''])[P20_PL ? 0 : 1] : '';
+      var why = dis ? (P20_EXP_WHY[e.why] || '') : '';
       h += '<button type="button" id="p20Exp" data-mode="' + (e.mode || '') + '" ' + (dis ? 'disabled ' : '') + 'title="' + escapeHtml(why) + '" style="' + st +
            'background:' + (dis ? '#4b5563;cursor:not-allowed' : (lock ? '#b45309' : '#0e7490')) + '">' +
-           (lock ? '🔒 ' + p20T('Zablokuj expa', 'Lock EXP') : '🔓 ' + p20T('Odblokuj expa', 'Unlock EXP')) + '</button>';
-      if (e.why === 'pending') h += '<span class="muted" style="font-size:12px;align-self:center">' + p20T('czeka', 'waiting') + '</span>';
+           (lock ? '🔒 ' + {{ p20('Zablokuj expa', 'Lock EXP') }} : '🔓 ' + {{ p20('Odblokuj expa', 'Unlock EXP') }}) + '</button>';
+      if (e.why === 'pending') h += '<span class="muted" style="font-size:12px;align-self:center">' + {{ p20('czeka', 'waiting') }} + '</span>';
     }
     h += '<span id="p20ExpSt" class="muted" style="font-size:12px;align-self:center"></span>';
     var rotation=j.rotation||{};
-    if(j.rotation)h += '<label id="p21CardPinLabel" style="font-size:12px;font-weight:normal"><input type="checkbox" id="p21CardPin" '+(rotation.pin?'checked ':'')+(rotation.retired?'disabled ':'')+'> '+p20T('Zawsze w grze','Always online')+'</label>';
-    if(rotation.retired)h += '<span class="badge">'+p20T('Zakończył grę','Retired')+'</span>';
+    if(j.rotation)h += '<label id="p21CardPinLabel" style="font-size:12px;font-weight:normal"><input type="checkbox" id="p21CardPin" '+(rotation.pin?'checked ':'')+(rotation.retired?'disabled ':'')+'> '+{{ p20('Zawsze w grze', 'Always online') }}+'</label>';
+    if(rotation.retired)h += '<span class="badge">'+{{ p20('Zakończył grę', 'Retired') }}+'</span>';
     bar.innerHTML = h;
     var edit=document.querySelector('#botModalContent .bot-editor-open');
     if(edit){
@@ -12931,21 +12932,21 @@ function p20FillBar(pid) {
     if (eb && !eb.disabled) eb.onclick = function () {
       var mode = eb.getAttribute('data-mode');
       var q = mode === 'unlock'
-        ? p20T('Bot porzuci blokadę poziomu i będzie dalej zdobywał doświadczenie. Kontynuować?', 'The bot drops its level lock and goes on gaining experience. Continue?')
-        : p20T('Bot zostanie zablokowany na obecnym poziomie (' + j.level + '). Kontynuować?', 'The bot will be held at its current level (' + j.level + '). Continue?');
+        ? {{ p20('Bot porzuci blokadę poziomu i będzie dalej zdobywał doświadczenie. Kontynuować?', 'The bot drops its level lock and goes on gaining experience. Continue?') }}
+        : {{ p20('Bot zostanie zablokowany na obecnym poziomie (', 'The bot will be held at its current level (') }} + j.level + {{ p20('). Kontynuować?', '). Continue?') }};
       if (!confirm(q)) return;
       eb.disabled = true;
-      var out = document.getElementById('p20ExpSt'); out.textContent = p20T('czeka…', 'waiting…');
+      var out = document.getElementById('p20ExpSt'); out.textContent = {{ p20('czeka…', 'waiting…') }};
       p20Post('/api/bot_card_exp/' + pid, {mode: mode}).then(function (r) {
         if (r && r.ok && r.status === 'done') {
-          out.textContent = mode === 'unlock' ? p20T('odblokowano', 'unlocked') : p20T('zablokowano', 'locked');
+          out.textContent = mode === 'unlock' ? {{ p20('odblokowano', 'unlocked') }} : {{ p20('zablokowano', 'locked') }};
           setTimeout(function () { openBotModal(pid); }, 900);
         } else if (r && r.ok) {
           out.textContent = p20Status(r.status);
         } else {
-          out.textContent = p20T('błąd: ', 'error: ') + ((r && r.error) || '?');
+          out.textContent = {{ p20('błąd: ', 'error: ') }} + ((r && r.error) || '?');
         }
-      }).catch(function () { out.textContent = p20T('błąd', 'error'); });
+      }).catch(function () { out.textContent = {{ p20('błąd', 'error') }}; });
     };
   }).catch(function () { bar.remove(); });
 }
@@ -12954,16 +12955,16 @@ function p20SendDialog(pid, card) {
   var d = document.createElement('div'); d.id = 'p20Dlg';
   d.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:10050;display:flex;align-items:center;justify-content:center';
   d.innerHTML = '<div style="background:#1a150e;border:1px solid #6b5228;border-radius:8px;padding:16px;width:min(440px,92vw);color:#e8d49a">' +
-    '<h3 style="margin:0 0 10px">🎁 ' + p20T('Wyślij przedmiot', 'Send item') + ' – ' + escapeHtml(card.name) + '</h3>' +
-    '<input id="p20Q" type="text" placeholder="' + p20T('VNUM albo nazwa…', 'VNUM or name…') + '" style="width:100%;margin-bottom:6px">' +
+    '<h3 style="margin:0 0 10px">🎁 ' + {{ p20('Wyślij przedmiot', 'Send item') }} + ' – ' + escapeHtml(card.name) + '</h3>' +
+    '<input id="p20Q" type="text" placeholder="' + {{ p20('VNUM albo nazwa…', 'VNUM or name…') }} + '" style="width:100%;margin-bottom:6px">' +
     '<div id="p20List" style="max-height:180px;overflow:auto;font-size:12px;margin-bottom:8px"></div>' +
-    '<div style="display:flex;gap:8px;align-items:center">' + p20T('Ilość', 'Count') +
+    '<div style="display:flex;gap:8px;align-items:center">' + {{ p20('Ilość', 'Count') }} +
     ' <input id="p20N" type="number" min="1" max="200" value="1" style="width:80px">' +
-    '<small class="muted">' + p20T('1–200 dla stosów, 1–20 dla pozostałych', '1–200 for stacks, 1–20 for the rest') + '</small></div>' +
+    '<small class="muted">' + {{ p20('1–200 dla stosów, 1–20 dla pozostałych', '1–200 for stacks, 1–20 for the rest') }} + '</small></div>' +
     '<div id="p20Pick" class="muted" style="margin:8px 0;font-size:12px"></div>' +
     '<div id="p20Out" style="font-size:12px;margin-bottom:8px"></div>' +
-    '<div style="display:flex;gap:8px;justify-content:flex-end"><button type="button" id="p20Go" disabled>' + p20T('Wyślij', 'Send') + '</button>' +
-    '<button type="button" id="p20Close">' + p20T('Zamknij', 'Close') + '</button></div></div>';
+    '<div style="display:flex;gap:8px;justify-content:flex-end"><button type="button" id="p20Go" disabled>' + {{ p20('Wyślij', 'Send') }} + '</button>' +
+    '<button type="button" id="p20Close">' + {{ p20('Zamknij', 'Close') }} + '</button></div></div>';
   document.body.appendChild(d);
   var pick = null, timer = null, ids = [];
   function choose(v, n) {
@@ -12989,7 +12990,7 @@ function p20SendDialog(pid, card) {
       document.getElementById('p20Out').innerHTML = rows.map(function (r) {
         if (r.status === 'await' || String(r.status).charAt(0) === 'w') waiting = true;
         return '#' + r.id + ': ' + escapeHtml(p20Status(r.status)) +
-          (r.status === 'await' ? ' <button type="button" data-cancel="' + r.id + '" style="font-size:11px">' + p20T('Anuluj', 'Cancel') + '</button>' : '');
+          (r.status === 'await' ? ' <button type="button" data-cancel="' + r.id + '" style="font-size:11px">' + {{ p20('Anuluj', 'Cancel') }} + '</button>' : '');
       }).join('<br>');
       if (waiting) setTimeout(poll, 3000);
     }).catch(function () {});
@@ -13007,14 +13008,14 @@ function p20SendDialog(pid, card) {
     var n = parseInt(document.getElementById('p20N').value, 10) || 1, out = document.getElementById('p20Out');
     this.disabled = true;
     p20Post('/api/bot_send_item/' + pid, {vnum: pick, qty: n}).then(function (r) {
-      if (r && r.ok) { ids = r.ids || []; out.textContent = p20T('czeka…', 'waiting…'); poll(); }
+      if (r && r.ok) { ids = r.ids || []; out.textContent = {{ p20('czeka…', 'waiting…') }}; poll(); }
       else {
-        var why = r && r.error === 'qty_single' ? p20T('ten przedmiot się nie łączy: najwyżej 20 sztuk', 'this item does not stack: 20 pieces at most')
-                : r && r.error === 'no_such_item' ? p20T('nie ma takiego przedmiotu', 'no such item') : ((r && r.error) || '?');
-        out.textContent = p20T('błąd: ', 'error: ') + why;
+        var why = r && r.error === 'qty_single' ? {{ p20('ten przedmiot się nie łączy: najwyżej 20 sztuk', 'this item does not stack: 20 pieces at most') }}
+                : r && r.error === 'no_such_item' ? {{ p20('nie ma takiego przedmiotu', 'no such item') }} : ((r && r.error) || '?');
+        out.textContent = {{ p20('błąd: ', 'error: ') }} + why;
         document.getElementById('p20Go').disabled = false;
       }
-    }).catch(function () { out.textContent = p20T('błąd', 'error'); document.getElementById('p20Go').disabled = false; });
+    }).catch(function () { out.textContent = {{ p20('błąd', 'error') }}; document.getElementById('p20Go').disabled = false; });
   };
 }
 
@@ -13078,13 +13079,13 @@ function openBotModal(pid) {
       html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;font-size:12px;background:#1a150e;padding:10px;border-radius:6px">' +
               '<div><b>HP:</b> <span style="color:#ef4444">' + (p.hp || 0) + '</span> / <b>MP:</b> <span style="color:#38bdf8">' + (p.mp || 0) + '</span></div>' +
               '<div><b>Yang:</b> <span style="color:#eab308;font-weight:700">' + (p.gold || 0).toLocaleString() + '</span></div>' +
-              // Iwakura, Patch 18 pkt 6B: linii „EQ / majątek …” nie pokazujemy na karcie (zostaje w eksporcie).
+              // Iwakura, Patch 18 point 6B: the "EQ / wealth" line is not shown on the card (it stays in the export).
               '<div><b>' + I18N.position + ':</b> (' + p.x + ', ' + p.y + ')</div>' +
               // What the AI is doing is a bot's alone: a person reached from a
               // ranking (blipu, 28 September) has no personality, goal or action,
               // and the defaults read as though he had.
               (isBot ?
-              // Iwakura P18: Osobowość (z listą wyboru) w całym wierszu, Charakter jako osobna pozycja.
+              // Iwakura P18: the personality (with its picker) on a whole row, the character as an entry of its own.
               '<div style="grid-column:1 / -1"><b>' + I18N.personality + ':</b> <span style="color:#c084fc;font-weight:700">' + escapeHtml(p.personality) + '</span></div>' +
               (p.charakter ? '<div style="grid-column:1 / -1"><b>' + I18N.charakter + ':</b> <span style="color:#c084fc;font-weight:700">' + escapeHtml(p.charakter) + '</span></div>' : '') +
               '<div><b>' + I18N.ambition + ':</b> <span style="color:#86efac;font-weight:700">' + escapeHtml(p.ambition) + '</span></div>' +
@@ -29517,6 +29518,7 @@ def _drops_protos(fresh=False):
             raise
         return _DROPS_PROTO
     items, ds, mobs, items_en, mobs_en = {}, set(), {}, {}, {}
+    boxes = set()
     items_tr, mobs_tr = {}, {}
     for r in irows:
         vnum = int(r.get("vnum") or 0)
@@ -29529,6 +29531,8 @@ def _drops_protos(fresh=False):
             items_tr[vnum] = name_tr
         if int(r.get("type") or 0) == _drops.ITEM_DS:
             ds.add(vnum)
+        if int(r.get("type") or 0) in _drops.ITEM_BOXES:
+            boxes.add(vnum)
     for r in mrows:
         vnum = int(r.get("vnum") or 0)
         mobs[vnum] = log_text(r.get("name")).strip()
@@ -29540,7 +29544,7 @@ def _drops_protos(fresh=False):
             mobs_tr[vnum] = name_tr
     if not items:
         raise RuntimeError("player.item_proto has no rows")
-    _DROPS_PROTO.update(at=now, items=items, ds=ds, mobs=mobs, items_en=items_en, mobs_en=mobs_en,
+    _DROPS_PROTO.update(at=now, items=items, ds=ds, boxes=boxes, mobs=mobs, items_en=items_en, mobs_en=mobs_en,
                         items_tr=items_tr, mobs_tr=mobs_tr)
     return _DROPS_PROTO
 
@@ -30085,6 +30089,24 @@ TPL_DROPS_GROUP = BASE.replace("__BODY__", """
 {% endif %}
 {% endif %}
 </div>
+{% if engine %}
+<div class="card" id="dtengine">
+<h3>{{t('dt_ev_title')}}</h3>
+<p class="muted">{{t('dt_ev_help')}}</p>
+{% if engine.hint %}<p class="muted">{{engine.hint}}</p>{% endif %}
+{% if engine.rows %}
+<div style="overflow-x:auto"><table>
+<tr><th>{{t('dt_e_item')}}</th><th>{{t('dt_e_name')}}</th><th>{{t('dt_e_count')}}</th><th>{{t('dt_ev_chance')}}</th><th>{{t('dt_ev_via')}}</th></tr>
+{% for r in engine.rows %}
+<tr><td>{{r.vnum}}</td><td>{{r.name}}{% if r.chest %} · <a href="{{url_for('drops_group', slug='chests', key=r.chest)}}">{{t('dt_ev_chest')}}</a>{% endif %}</td><td>{{r.count}}</td><td>{{r.chance}}</td><td class="muted">{{r.via}}</td></tr>
+{% endfor %}
+</table></div>
+{% else %}<p class="muted">{{t('dt_ev_none')}}</p>{% endif %}
+{% if engine.others %}<p>{{t('dt_ev_others')}} {% for o in engine.others %}<a href="{{url_for('drops_group', slug=slug, key=o.kslug)}}">{{o.key}}</a>{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+{% if engine.same %}<p>⚠️ {{t('dt_ev_same')}} {% for o in engine.same %}<a href="{{url_for('drops_group', slug=slug, key=o.kslug)}}">{{o.mob}}</a>{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+<p class="muted">{{t('dt_ev_elsewhere')}}</p>
+</div>
+{% endif %}
 <script>
 function dtAddRow(){
   var rows=document.querySelectorAll('#dttable tr.dtrow'), counter=document.getElementById('dtrows');
@@ -30214,10 +30236,52 @@ def _drops_form_rows(st, g, protos):
         c = chance[i] if i < len(chance) else None
         rows.append({"item": e.item, "count": e.count, "prob": e.prob, "rare": e.rare, "src": i,
                      "label": _drops_entry_label(e, protos, english),
-                     "chance": ("%.2f%%" % c) if c is not None else ""})
+                     "chance": _drops_pct(c) if c is not None else ""})
     for _n in range(DROPS_ROWS_EXTRA):
         rows.append({"item": "", "count": "", "prob": "", "rare": "", "src": -1, "label": "", "chance": ""})
     return rows
+
+
+def _drops_pct(c):
+    """A chance as a reader reads it: 0.075%, 1.4604%, 100%."""
+    text = ("%.4f" % c) if c >= 0.01 else ("%.6f" % c)
+    return (text.rstrip("0").rstrip(".") or "0") + "%"
+
+
+def _drops_engine_view(st, g, protos):
+    """A monster's group as the engine rolls it, for reading only (issue
+    #119): every item its lines can give - a line `s<n>` opened into the
+    items of special group n, a casket named with the group it opens - at
+    the base chance a kill; the monster's other groups; and the monsters of
+    the same name (three are called Metin Morderstwa)."""
+    if st["kind"] != "mob" or g is None:
+        return None
+    special = _drops_state(_drops.FILES[0])
+    index = _drops.special_index(special["groups"]) if special["image"] else {}
+    english = _drops_english()
+    boxes = protos.get("boxes")
+    rows = []
+    for r in _drops.engine_drops(g, index):
+        via = [(t("dt_ev_direct") if v == "" else t("dt_ev_group").format(n=v)) for v in r["via"]]
+        rows.append({"vnum": r["vnum"], "count": r["count"], "via": ", ".join(via),
+                     "name": _drops_item_name(protos, r["vnum"], english) or t("dt_unknown"),
+                     "chance": _drops_pct(r["chance"]),
+                     "chest": str(r["vnum"]) if r["chest"] and (boxes is None or r["vnum"] in boxes) else ""})
+    mob = g.fields.get("mob", "")
+    others = [{"key": o.key, "kslug": _drops_key_slug(o.key)}
+              for o in st["groups"] if o.fields.get("mob") == mob and o.key != g.key]
+    title = _drops_group_title(st, g, protos)
+    same = []
+    if title:
+        seen = set()
+        for o in st["groups"]:
+            m = o.fields.get("mob", "")
+            if m != mob and m not in seen and _drops_group_title(st, o, protos) == title:
+                seen.add(m)
+                same.append({"mob": m, "kslug": _drops_key_slug(o.key)})
+    hint = t("dt_ev_limit") if g.fields.get("type") == "limit" else (
+        t("dt_ev_gloves") if g.fields.get("type") == "thiefgloves" else "")
+    return {"rows": rows, "others": others, "same": same, "hint": hint}
 
 
 def _drops_render_group(fname, st, g, op, protos, form=None):
@@ -30241,7 +30305,8 @@ def _drops_render_group(fname, st, g, op, protos, form=None):
     if kind == "special":
         prob_head = t("dt_e_prob_pct") if (form.get("type") or "").lower() == "pct" else t("dt_e_prob_w")
     else:
-        prob_head = t("dt_e_prob_w") if form.get("type") == "kill" else t("dt_e_prob_p")
+        prob_head = t("dt_e_prob_w") if form.get("type") == "kill" else (
+            t("dt_e_prob_p") if form.get("type") == "limit" else t("dt_e_prob_drop"))
         if op == "add":
             prob_head = t("dt_e_prob_any")
     title = t("dt_edit_t").format(key=g.key) if g is not None else t("dt_new_t")
@@ -30251,6 +30316,7 @@ def _drops_render_group(fname, st, g, op, protos, form=None):
         TPL_DROPS_GROUP, slug=st["slug"], kind=kind, op=op, key=g.key if g is not None else "",
         title=title, notes=notes, form=form, rows=_drops_form_rows(st, g, protos), with_rare=with_rare,
         prob_head=prob_head, mob_types=_drops.MOB_TYPES,
+        engine=_drops_engine_view(st, g, protos) if op == "edit" else None,
         type_options=[("", t("dt_type_normal")), ("Pct", "Pct"), ("Quest", "Quest"), ("special", "special")],
         state=_drops_group_state(st, g.key) if g is not None else "game")
 
@@ -30428,12 +30494,14 @@ T.update({
         "en": "A normal chest gives one line, drawn by weight. Pct rolls every line on its own - its number is "
               "the percent chance. Leave Quest and special as the game has them.", "tr": "Normal bir sandık, ağırlığa göre çekilen tek bir satır verir. Pct her satırı ayrı ayrı dener - satırın sayısı yüzde şansıdır. Quest ve special türlerini oyundaki gibi bırak."},
     "dt_type_help_mob": {
-        "pl": "kill: co kill_drop zab\u00f3jstw (\u015brednio) jedna linia wed\u0142ug wag; drop: ka\u017cda linia ma sw\u00f3j procent; "
-              "limit: jak drop, od poziomu level_limit; thiefgloves: jak drop, tylko z R\u0119kawic\u0105 Z\u0142odzieja. "
-              "Procenty mno\u017cy jeszcze drop \u015bwiata i r\u00f3\u017cnica poziom\u00f3w.",
-        "en": "kill: one line by weight about every kill_drop kills; drop: each line has its own percent; limit: "
-              "like drop, from level level_limit; thiefgloves: like drop, only with the Thief's Glove. The "
-              "world's drop rate and the level difference still scale the percents.", "tr": "kill: yaklaşık her kill_drop öldürmede ağırlığa göre bir satır; drop: her satırın kendi yüzdesi vardır; limit: drop gibi, level_limit seviyesinden itibaren; thiefgloves: drop gibi, yalnızca Hırsızın Eldivenleri ile. Yüzdeleri yine de dünyanın drop oranı ve seviye farkı çarpar."},
+        "pl": "kill: co kill_drop zab\u00f3jstw (\u015brednio) jedna linia wed\u0142ug wag; drop: ka\u017cda linia losowana osobno, "
+              "jej liczba podzielona przez 4 to szansa na zabicie (400 = zawsze, 0.3 = 0.075%); "
+              "limit: liczba to procent, od poziomu level_limit; thiefgloves: jak drop, tylko z R\u0119kawic\u0105 Z\u0142odzieja. "
+              "Szanse mno\u017cy jeszcze drop \u015bwiata i r\u00f3\u017cnica poziom\u00f3w.",
+        "en": "kill: one line by weight about every kill_drop kills; drop: each line is rolled on its own, its "
+              "number over 4 is the chance a kill (400 = always, 0.3 = 0.075%); limit: the number is the "
+              "percent, from level level_limit; thiefgloves: like drop, only with the Thief's Glove. The "
+              "world's drop rate and the level difference still scale the chances.", "tr": "kill: yaklaşık her kill_drop öldürmede ağırlığa göre bir satır; drop: her satır ayrı ayrı denenir, sayısının 4'e bölümü öldürme başına şanstır (400 = her zaman, 0.3 = %0.075); limit: sayı yüzdedir, level_limit seviyesinden itibaren; thiefgloves: drop gibi, yalnızca Hırsızın Eldivenleri ile. Şansları yine de dünyanın drop oranı ve seviye farkı çarpar."},
     "dt_kill_drop_help": {"pl": "Mniej = cz\u0119\u015bciej. 0 wy\u0142\u0105cza grup\u0119.", "en": "Lower = more often. 0 switches the group off.", "tr": "Ne kadar düşükse o kadar sık. 0 grubu kapatır."},
     "dt_level_limit_help": {"pl": "Od kt\u00f3rego poziomu zab\u00f3jcy grupa dzia\u0142a.",
                             "en": "The killer's level from which the group works.", "tr": "Grubun çalışmaya başladığı, öldüren karakterin seviyesi."},
@@ -30445,7 +30513,54 @@ T.update({
     "dt_e_prob_any": {"pl": "Waga / procent", "en": "Weight / percent", "tr": "Ağırlık / yüzde"},
     "dt_e_rare": {"pl": "Rzadki %", "en": "Rare %", "tr": "Nadir %"},
     "dt_e_name": {"pl": "Nazwa", "en": "Name", "tr": "Ad"},
+    "dt_e_prob_drop": {"pl": "Liczba (400 = zawsze)", "en": "Number (400 = always)", "tr": "Sayı (400 = her zaman)"},
     "dt_e_chance": {"pl": "Szansa linii", "en": "Line's chance", "tr": "Satırın şansı"},
+    "dt_ev_title": {"pl": "Co naprawdę wypada z tej grupy (tylko do odczytu)",
+                    "en": "What this group really drops (read only)",
+                    "tr": "Bu grubun gerçekte düşürdükleri (salt okunur)"},
+    "dt_ev_help": {
+        "pl": "Tak losuje silnik: linia s<numer> daje jeden przedmiot z tej grupy skrzyń (według wag), "
+              "a szkatułka bossa to osobny przedmiot - jej zawartość wypada dopiero po otwarciu. "
+              "Szansa bazowa na zabicie: zabójca na poziomie potwora, drop świata 100%, bez Rękawic, premium "
+              "i eventów. Tak samo liczą Wiki i \"?\" na pasku celu w grze. Dopisanie przedmiotu, który już tu "
+              "jest, dodaje drugie, osobne losowanie.",
+        "en": "This is how the engine rolls: a line s<number> gives one item of that chest group (by weight), "
+              "and a boss's casket is an item of its own - what it holds drops only when it is opened. "
+              "Base chance a kill: a killer at the monster's level, the world's drop rate at 100%, no Gloves, premium "
+              "or events. The Wiki and the \"?\" on the target's bar in the game count it the same way. Adding an item "
+              "that is already here adds a second, separate roll.",
+        "tr": "Motor böyle çeker: s<numara> satırı o sandık grubundan (ağırlığa göre) bir eşya verir, bir patronun "
+              "sandığı ise ayrı bir eşyadır - içindekiler ancak açıldığında düşer. Öldürme başına temel şans: canavarın "
+              "seviyesinde bir öldüren, dünyanın drop oranı %100, Eldiven, premium ve etkinlik yok. Wiki ve oyundaki hedef "
+              "çubuğunun \"?\" düğmesi de aynı şekilde sayar. Burada zaten olan bir eşyayı eklemek ikinci, ayrı bir çekiliş ekler."},
+    "dt_ev_limit": {"pl": "Grupa limit działa tylko dla zabójcy od poziomu level_limit.",
+                    "en": "A limit group works only for a killer from level level_limit.",
+                    "tr": "Bir limit grubu yalnızca level_limit seviyesinden itibaren öldürenler için çalışır."},
+    "dt_ev_gloves": {"pl": "Grupa thiefgloves działa tylko z Rękawicą Złodzieja albo premium.",
+                     "en": "A thiefgloves group works only with the Thief's Glove or premium.",
+                     "tr": "Bir thiefgloves grubu yalnızca Hırsızın Eldiveni ya da premium ile çalışır."},
+    "dt_ev_chance": {"pl": "Szansa na zabicie", "en": "Chance a kill", "tr": "Öldürme başına şans"},
+    "dt_ev_via": {"pl": "Skąd", "en": "From", "tr": "Kaynak"},
+    "dt_ev_direct": {"pl": "własna linia", "en": "its own line", "tr": "kendi satırı"},
+    "dt_ev_group": {"pl": "grupa skrzyń s{n}", "en": "chest group s{n}", "tr": "sandık grubu s{n}"},
+    "dt_ev_chest": {"pl": "zawartość po otwarciu", "en": "contents when opened", "tr": "açıldığında içindekiler"},
+    "dt_ev_none": {"pl": "Ta grupa nic nie daje.", "en": "This group gives nothing.", "tr": "Bu grup hiçbir şey vermez."},
+    "dt_ev_others": {"pl": "Inne grupy tego potwora (też losowane przy każdym zabiciu):",
+                     "en": "This monster's other groups (rolled at every kill too):",
+                     "tr": "Bu canavarın diğer grupları (her öldürmede onlar da çekilir):"},
+    "dt_ev_same": {"pl": "Ta sama nazwa, inny potwór (inny numer, inny drop):",
+                   "en": "The same name, another monster (another number, another drop):",
+                   "tr": "Aynı ad, başka canavar (başka numara, başka drop):"},
+    "dt_ev_elsewhere": {
+        "pl": "Poza tym plikiem potwór dropi też: wspólny drop wg poziomu (common_drop_item.txt, ten sam dla "
+              "wszystkich potworów danej rangi), drop specjalny (etc_drop_item.txt i \"Drop specjalny\" w edytorze "
+              "bazy), kamień duchowy Metina, księgi i zwoje z kamieni oraz dropy eventów i questów.",
+        "en": "Outside this file the monster also drops: the common drop by level (common_drop_item.txt, the same for "
+              "every monster of a rank), the special drop (etc_drop_item.txt and \"Special drop\" in the database "
+              "editor), a Metin's spirit stone, the stones' books and scrolls, and the events' and quests' drops.",
+        "tr": "Bu dosyanın dışında canavar şunları da düşürür: seviyeye göre ortak drop (common_drop_item.txt, aynı "
+              "rütbedeki tüm canavarlar için aynı), özel drop (etc_drop_item.txt ve veritabanı düzenleyicisindeki "
+              "\"Özel drop\"), bir Metin'in ruh taşı, taşların kitapları ve parşömenleri, etkinliklerin ve görevlerin dropları."},
     "dt_e_del": {"pl": "Usu\u0144", "en": "Delete", "tr": "Sil"},
     "dt_e_add": {"pl": "+ wiersz", "en": "+ row", "tr": "+ satır"},
     "dt_item_help": {

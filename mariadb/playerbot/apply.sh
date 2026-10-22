@@ -531,6 +531,20 @@ fi
 # cash alone. IF NOT EXISTS keeps it a no-op after the first time.
 db_retry -e "ALTER TABLE account.account ADD COLUMN IF NOT EXISTS mileage INT NOT NULL DEFAULT 0;"
 db_retry -e "ALTER TABLE account.account ADD COLUMN IF NOT EXISTS jackpot INT NOT NULL DEFAULT 0;"
+# The PHP ItemShop sells nothing on this line any more (Said, 21 October,
+# #124): the game keeps the Dragon Marks in cash_mark and never reads
+# mileage, which only the PHP shop wrote (10% of a purchase) and spent. What
+# a player got there would be stranded, so it goes to the game's marks, one
+# for one. The same statement empties mileage, so a second start moves
+# nothing; nothing else on this engine writes the column. The dump leaves
+# cash_mark nullable, hence the COALESCE: NULL + mileage would lose both.
+moved=$(db_retry -e "UPDATE account.account SET cash_mark = COALESCE(cash_mark, 0) + mileage, mileage = 0 WHERE mileage > 0; SELECT ROW_COUNT();" || echo x)
+moved=$(printf '%s' "$moved" | tr -d '[:space:]')
+if [ "$moved" = "x" ]; then
+    echo "[playerbot-migrate] WARNING: could not move the PHP ItemShop's Dragon Marks (mileage) to cash_mark" >&2
+elif [ -n "$moved" ] && [ "$moved" != "0" ]; then
+    echo "[playerbot-migrate] ItemShop: the Dragon Marks of $moved account(s) moved from mileage to cash_mark"
+fi
 # Fishing from thirty, which is what the wiki says and what the operator
 # asked for. This line shipped fifty in three places and moving two was not
 # enough: CHARACTER::fishing() (playerbotify.py lowers it), the AI gate, and
@@ -944,6 +958,26 @@ db_retry -e "UPDATE world.item_proto SET antiflag = antiflag & ~32768, flag = fl
 # and the switcher buys nothing at an index that sells anything else.
 # Idempotent.
 db_retry -e "CREATE TABLE IF NOT EXISTS common.m2_itemshop_removed (\`index\` INT NOT NULL PRIMARY KEY, removed_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB; INSERT IGNORE INTO common.itemshop_items (\`index\`, vnum, count, price, currency, minLevel) SELECT s.i, s.v, s.c, s.p, s.cur, s.lv FROM (SELECT 617 AS i, 71084 AS v, 20 AS c, 1035 AS p, 'DRAGON_COIN' AS cur, 0 AS lv) AS s WHERE s.i NOT IN (SELECT \`index\` FROM common.m2_itemshop_removed);" || echo "[playerbot-migrate] WARNING: could not add the ItemShop's twenty change stones" >&2
+# Said's catalogue v1 (21 October, #106): fourteen offers the engine or a
+# quest handles, each inside its page's range - Equipment 11-13, Upgrading
+# 453-455, Potions 501-504, Scrolls and books 618, Dragon Marks 707, 712,
+# 714 - and no costume, pet or thing a bot buys (the bots buy by the vnums
+# of their needs, playerbot_itemshop_rules.h). No Horse Medal and no
+# Moonlight chest (the team, 21 October). A line the operator changed
+# by hand is kept (INSERT IGNORE), one deleted in the database editor stays
+# deleted (common.m2_itemshop_removed). Idempotent.
+db_retry -e "CREATE TABLE IF NOT EXISTS common.m2_itemshop_removed (\`index\` INT NOT NULL PRIMARY KEY, removed_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB; INSERT IGNORE INTO common.itemshop_items (\`index\`, vnum, count, price, currency, minLevel) SELECT s.i, s.v, s.c, s.p, s.cur, s.lv FROM (SELECT 11 AS i, 71133 AS v, 1 AS c, 99 AS p, 'DRAGON_COIN' AS cur, 0 AS lv UNION ALL SELECT 12, 71127, 1, 79, 'DRAGON_COIN', 20 UNION ALL SELECT 13, 71128, 1, 79, 'DRAGON_COIN', 20 UNION ALL SELECT 453, 71085, 1, 69, 'DRAGON_COIN', 0 UNION ALL SELECT 454, 71151, 1, 25, 'DRAGON_COIN', 0 UNION ALL SELECT 455, 71152, 1, 25, 'DRAGON_COIN', 0 UNION ALL SELECT 501, 71034, 1, 15, 'DRAGON_COIN', 0 UNION ALL SELECT 502, 71153, 1, 25, 'DRAGON_COIN', 0 UNION ALL SELECT 503, 71017, 1, 25, 'DRAGON_COIN', 0 UNION ALL SELECT 504, 71035, 1, 29, 'DRAGON_COIN', 0 UNION ALL SELECT 618, 70037, 1, 29, 'DRAGON_COIN', 0 UNION ALL SELECT 707, 71018, 5, 99, 'DRAGON_MARK', 0 UNION ALL SELECT 712, 71019, 5, 99, 'DRAGON_MARK', 0 UNION ALL SELECT 714, 71107, 1, 149, 'DRAGON_MARK', 0) AS s WHERE s.i NOT IN (SELECT \`index\` FROM common.m2_itemshop_removed);" || echo "[playerbot-migrate] WARNING: could not add the ItemShop's catalogue v1" >&2
+# 710 sold Magiczny Metal (71026) for 599 Dragon Marks, the item 451 sells
+# for 59 Dragon Coins, which no refine set, cube row or quest of this world
+# asks for: it becomes five Blessings of the Dragon (71020) for 99. Only the
+# stock line moves - a line priced by hand (own = 1, or a price that is
+# neither its base nor what the price step wrote: repriced since the last
+# start, which only that step marks), moved to another item, under a
+# promotion or a time auction stays - and its price base with it, so
+# the price step below goes on scaling it by M2_ITEMSHOP_PRICE_PCT. Before
+# that step, which makes the base table on a new world: made here too, the
+# step's own definition. Idempotent.
+db_retry -e "CREATE TABLE IF NOT EXISTS common.m2_itemshop_price_base (\`index\` INT NOT NULL PRIMARY KEY, base INT NOT NULL, applied INT NOT NULL, own TINYINT NOT NULL DEFAULT 0) ENGINE=InnoDB; UPDATE common.itemshop_items AS i LEFT JOIN common.m2_itemshop_price_base AS b ON b.\`index\` = i.\`index\` SET i.vnum = 71020, i.count = 5, i.price = 99, b.base = 99, b.applied = 99 WHERE i.\`index\` = 710 AND i.vnum = 71026 AND i.count = 1 AND i.currency = 'DRAGON_MARK' AND ((b.\`index\` IS NULL AND i.price = 599) OR (b.base = 599 AND b.own = 0 AND (i.price = b.applied OR i.price = b.base))) AND i.\`index\` NOT IN (SELECT item_index FROM common.itemshop_promotions) AND i.\`index\` NOT IN (SELECT item_index FROM common.itemshop_time_auctions);" || echo "[playerbot-migrate] WARNING: could not change the ItemShop's line 710" >&2
 # BEGIN collector schema
 # The collector's warehouse (Magazyn kolekcjonera, playerbot_collector_rules.h):
 # a player's storage entry is the item's own row of player.item in the window
@@ -1204,6 +1238,36 @@ if [ -s "$patch18_schema" ]; then
         fi
     fi
 fi
+# BEGIN admin queue charset
+# player.web_admin_queue in a charset the player names compare with. The cores
+# join its player_name to player.player.name, which is latin1, and on mt2009
+# from 2.2.91 to 2.2.112 the first thing to make the queue on a fresh world
+# was patch18_contracts.sql above, with no charset - so it took the player
+# database's cp1250, and cp1250 against latin1 is errno 1267: every poll of
+# PLAYERBOT_ADMIN_GRANT failed, a minute apart, and no ITEM, GOLD, DELITEM,
+# EXPUNLOCK or market TP from a panel ever reached the game (Said, 21 October,
+# on Windows, and before that on his VPS until he converted the table by hand).
+# Seban's collector makes the table in utf8mb4, and a Unicode side wins the
+# comparison, which is why a world his collector reached first never saw it.
+# A queue already in utf8mb4, or in player.name's own charset (latin1 on the
+# r40250 line), is left alone; any other is converted, and CONVERT TO
+# transcodes the rows, so a name or an argument a panel wrote reads the same
+# afterwards. The cores compare the names in utf8mb4 themselves too, so a
+# start that cannot take the table's lock only warns, and the next one tries.
+admin_queue_charset=$(db -e "SELECT CONCAT(q.CHARACTER_SET_NAME, ' ', IFNULL(p.CHARACTER_SET_NAME, '')) FROM information_schema.COLUMNS q LEFT JOIN information_schema.COLUMNS p ON p.TABLE_SCHEMA='player' AND p.TABLE_NAME='player' AND p.COLUMN_NAME='name' WHERE q.TABLE_SCHEMA='player' AND q.TABLE_NAME='web_admin_queue' AND q.COLUMN_NAME='player_name';" 2>/dev/null) || admin_queue_charset=
+case "$admin_queue_charset" in
+    ''|'utf8mb4 '*) ;;
+    *)
+        if [ "${admin_queue_charset% *}" = "${admin_queue_charset#* }" ]; then
+            :
+        elif db_retry -e "SET SESSION lock_wait_timeout = 30; ALTER TABLE player.web_admin_queue CONVERT TO CHARACTER SET utf8mb4;" >/dev/null; then
+            echo "[playerbot-migrate] admin queue: player.web_admin_queue converted from ${admin_queue_charset% *} to utf8mb4 (player.name is ${admin_queue_charset#* }); the panels' commands reach the bots again"
+        else
+            echo "[playerbot-migrate] WARNING: could not convert player.web_admin_queue from ${admin_queue_charset% *} to utf8mb4; the cores compare its names in utf8mb4 anyway, and the next start tries again" >&2
+        fi
+        ;;
+esac
+# END admin queue charset
 # log.log's history kept M2_DB_LOG_KEEP_DAYS days (30; 0 keeps everything).
 #
 # Nothing ever deleted a row of log.log: every drop, sale, refine and kill of
@@ -2460,10 +2524,21 @@ if [ -s "$names" ]; then
         0|false|FALSE|no|NO) human=0 ;;
         restore|RESTORE) human=restore ;;
     esac
-    echo "[playerbot-migrate] human nicknames: $human"
+    # The language whose pool a new world's bots are named from: the
+    # launcher's game language (M2_PLAYERBOT_NAME_LANGUAGE, two letters). Only
+    # a world that names nobody yet takes it; playerbot_names.sql keeps the one
+    # a world was made with in common.playerbot_name_world, so a client moved
+    # to another language later renames nobody.
+    name_language=$(printf '%s' "${M2_PLAYERBOT_NAME_LANGUAGE:-}" | tr 'A-Z' 'a-z')
+    case "$name_language" in
+        [a-z][a-z]) ;;
+        *) name_language='' ;;
+    esac
+    echo "[playerbot-migrate] human nicknames: $human (a new world's language: ${name_language:-pl})"
     names_out=/tmp/playerbot-names.out
     if { printf 'SET @playerbot_human_names = %s;
-' "'$human'"; cat "$names"; } |
+SET @playerbot_name_language = %s;
+' "'$human'" "'$name_language'"; cat "$names"; } |
             db_retry --show-warnings >"$names_out" 2>&1; then
         [ ! -s "$names_out" ] || cat "$names_out"
     else

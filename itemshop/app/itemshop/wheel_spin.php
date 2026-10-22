@@ -17,6 +17,13 @@
 
 	const WHEEL_SPIN_COST = 10;
 
+	// mt2009 sells in the game, not here (native_shop.php, #124).
+	require(__DIR__ . "/native_shop.php");
+	if (itemshop_is_native()) {
+		echo json_encode(array('ok' => false, 'error' => itemshop_native_notice_text(itemshop_lang())));
+		exit;
+	}
+
 	if (!isset($_SESSION['id']) || !isset($_SESSION['acc_id'])) {
 		echo json_encode(array('ok' => false, 'error' => 'Musisz byc zalogowany.'));
 		exit;

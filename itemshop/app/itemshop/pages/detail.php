@@ -59,7 +59,12 @@
 					$currencyLabel = ($currency === 'mileage') ? 'Smocze Znaki' : 'Smocze Monety';
 					$balance = (int)$info[$currency];
 				?>
-				<?php if ($isPreview) { ?>
+				<?php if (!$isPreview && itemshop_is_native()) { ?>
+				<div class="priceSelect">
+					<div class="sprice">Cena: <span id="priceAmount"><?php echo $item['price']; ?></span> <?php echo $currencyLabel; ?></div>
+				</div>
+				<?php echo itemshop_native_notice_html(itemshop_lang()); ?>
+				<?php } else if ($isPreview) { ?>
 				<a id="buyItemLink" class="tip assignMarks" href="?s=buy&id=<?php echo $id . $pv; ?>">Kup teraz!</a>
 				<?php } else { ?>
 				<div class="priceSelect">

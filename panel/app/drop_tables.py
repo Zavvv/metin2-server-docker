@@ -58,6 +58,7 @@ FILE_OF_SLUG = dict((v, k) for k, v in SLUG.items())
 # (ClientManagerBoot.cpp, ENABLE_AUTODETECT_VNUMRANGE: dwVnumRange = 99), and
 # ITEM_MANAGER::GetTable finds 110003 under 110000.
 ITEM_DS = 29
+ITEM_BOXES = (20, 23)                                 # ITEM_TREASURE_BOX, ITEM_GIFTBOX: opened into a group
 
 SPECIAL_KEYWORDS = ("exp", "mob", "slow", "drain_hp", "poison", "group", "gold")
 SPECIAL_TYPES = ("", "pct", "quest", "special")      # "attr" groups are not edited here
@@ -1173,23 +1174,152 @@ def check_group(group, item_exists, mob_exists, special_keys, is_new=False):
     return problems
 
 
+# What CreateDropItem rolls against (GetDropPct's iRandRange) and what a kill
+# group's roll is worth: `40000 * iDeltaPercent / kill_drop >= number(1,
+# 4000000)`. A drop or thief-gloves line's dwPct is its number times 10000, so
+# "400" is certain and "0.3" one kill in 1333 (0.075 %) - a quarter of what
+# the number reads as a percent (issue #119: the column said 0.30 %). A limit
+# line is rolled against 1000000, so its number is its percent.
+ENGINE_RAND_RANGE = 4000000
+KILL_GROUP_ROLL = 40000
+LIMIT_RAND_RANGE = 1000000
+
+
+def _weights(group):
+    return [int(e.prob) if UINT_RE.fullmatch(e.prob or "") else 0 for e in group.entries]
+
+
+def kill_roll_pct(group):
+    """A kill group's chance in percent that a kill draws from it at all."""
+    kd = c_strtol((group.fields.get("kill_drop") or "").encode("latin1"))
+    if kd <= 0:
+        return None
+    return min(100.0, 100.0 * KILL_GROUP_ROLL * 100 / kd / ENGINE_RAND_RANGE)
+
+
 def chances(group):
-    """Each line's chance in percent as the group rolls it (None where the
-    line has no number to read): a share of the weights for a normal chest
-    and a kill group, the line's own number for a Pct chest and the drop
-    types (which the world's drop rate and the level difference then scale)."""
+    """Each line's base chance in percent as the engine rolls it (None where
+    the line has no number to read). A chest: a share of the weights, a Pct
+    chest's line its own number. A monster: per kill, for a killer at the
+    monster's level (PERCENT_LVDELTA is 100 there), at the world's drop rate
+    of 100 % and without gloves, premium, events or the bonus lines that
+    GetDropPct adds - a kill group's share of the weights times its one roll,
+    a drop or thief-gloves line its number over four (iRandRange), a limit
+    line its own number. A line `s<group>` is that roll; what it gives is
+    one item of the group (`engine_drops`)."""
     if group.kind == "special":
         typ = (group.fields.get("type") or "").lower()
-        probs = [int(e.prob) if UINT_RE.fullmatch(e.prob or "") else 0 for e in group.entries]
+        probs = _weights(group)
         if typ == "pct":
             return [float(min(p, 100)) for p in probs]
         total = sum(probs)
         return [(100.0 * p / total) if total else 0.0 for p in probs]
-    if group.fields.get("type") == "kill":
-        probs = [int(e.prob) if UINT_RE.fullmatch(e.prob or "") else 0 for e in group.entries]
+    typ = group.fields.get("type")
+    if typ == "kill":
+        probs = _weights(group)
         total = sum(probs)
-        return [(100.0 * p / total) if total else 0.0 for p in probs]
-    return [float(e.prob) if PERCENT_RE.fullmatch(e.prob or "") else None for e in group.entries]
+        roll = kill_roll_pct(group)
+        roll = 100.0 if roll is None else roll
+        return [(roll * p / total) if total else 0.0 for p in probs]
+    # dwPct = number * 10000, rolled against the range: a percent of it.
+    scale = 10000.0 * 100.0 / (LIMIT_RAND_RANGE if typ == "limit" else ENGINE_RAND_RANGE)
+    return [min(100.0, float(e.prob) * scale) if PERCENT_RE.fullmatch(e.prob or "") else None
+            for e in group.entries]
+
+
+def special_index(groups):
+    """The special item groups the engine can draw from by number
+    (GetSpecialItemGroup: m_map_pkSpecialItemGroup - not the quest groups,
+    not the attr groups), the first group of a vnum as the reader keeps it."""
+    index = {}
+    for g in groups:
+        if g.kind != "special":
+            continue
+        typ = (g.fields.get("type") or "").lower()
+        if typ in ("quest", "attr"):
+            continue
+        vnum = g.fields.get("vnum", "")
+        if UINT_RE.fullmatch(vnum or "") and int(vnum) not in index:
+            index[int(vnum)] = g
+    return index
+
+
+def draw_items(group, index, depth=0, seen=()):
+    """What one draw of a special group gives, as GetSpecialItemGroupDropInfo
+    picks it: one line by its weight, a nested `s<n>` followed (a group it
+    cannot find gives nothing), an effect - yang, experience, a monster -
+    nothing a monster drops. {(vnum, count): share of the draw}."""
+    out = {}
+    if group is None or depth > 4:
+        return out
+    probs = _weights(group)
+    total = sum(probs)
+    if not total:
+        return out
+    here = tuple(seen) + (group.fields.get("vnum"),)
+    for e, p in zip(group.entries, probs):
+        if p <= 0:
+            continue
+        share = float(p) / total
+        item = e.item
+        if item[:1] == "s" and item[1:].isdigit():
+            sub = index.get(int(item[1:]))
+            if sub is None or sub.fields.get("vnum") in here:
+                continue
+            for k, s in draw_items(sub, index, depth + 1, here).items():
+                out[k] = out.get(k, 0.0) + share * s
+        elif item.isdigit():
+            k = (int(item), e.count)
+            out[k] = out.get(k, 0.0) + share
+    return out
+
+
+def engine_drops(group, index):
+    """What a monster's group really drops, item by item, for the editor's
+    read-only view (issue #119): [{vnum, count, chance, via, chest}] in the
+    order the lines first name them, the chance the base one of `chances` -
+    at least one of the item a kill, the lines being separate rolls (a kill
+    group's one draw adds its shares). `via` lists where the item comes
+    from: "" for a line of its own, "<n>" for a line `s<n>` whose group
+    draws it; `chest` is set when the item has a group of its own in
+    special_item_group.txt (a boss's casket: what it holds is that group's,
+    opened, and not this monster's drop)."""
+    line_chances = chances(group)
+    kill = group.fields.get("type") == "kill"
+    acc = {}
+    order = []
+
+    def add(vnum, count, p, via):
+        if vnum not in acc:
+            acc[vnum] = {"vnum": vnum, "count": count, "miss": 1.0, "sum": 0.0, "via": [],
+                         "chest": vnum in index}
+            order.append(vnum)
+        row = acc[vnum]
+        if via not in row["via"]:
+            row["via"].append(via)
+        if kill:
+            row["sum"] += p
+        else:
+            row["miss"] *= (1.0 - p)
+        if count and count.isdigit() and (not row["count"].isdigit() or int(count) > int(row["count"])):
+            row["count"] = count
+
+    for e, c in zip(group.entries, line_chances):
+        if c is None or c <= 0:
+            continue
+        p = c / 100.0
+        if e.item[:1] == "s" and e.item[1:].isdigit():
+            for (vnum, count), share in sorted(draw_items(index.get(int(e.item[1:])), index).items()):
+                add(vnum, count, p * share, e.item[1:])
+        elif e.item.isdigit():
+            add(int(e.item), e.count, p, "")
+    rows = []
+    for key in order:
+        row = acc[key]
+        chance = row["sum"] if kill else 1.0 - row["miss"]
+        rows.append({"vnum": row["vnum"], "count": row["count"], "chance": 100.0 * min(1.0, chance),
+                     "via": row["via"], "chest": row["chest"]})
+    return rows
 
 
 # =============================================================================

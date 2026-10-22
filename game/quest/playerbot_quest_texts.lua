@@ -285,4 +285,6 @@ playerbot_quest_texts = {
 	["A system script or an inactive definition; there is no one-time quest to complete."] = { tr = "Sistem beti\240i veya etkin olmayan bir tan\253m; tamamlanacak tek seferlik bir g\246rev yok." },
 	["The Biologist of 92 has an empty definition here (no task and no reward)."] = { tr = "92. seviye Biyolog'un bu da\240\253t\253mda bo\254 bir tan\253m\253 var (g\246rev ve \246d\252l yok)." },
 	["Done! Talk to me once more."] = { tr = "Haz\253r! Benimle bir kez daha konu\254." },
+	["I see you have a Horse Medal now. Talk to me again."] = { tr = "Art\253k At Madalyonun oldu\240unu g\246r\252yorum. Benimle tekrar konu\254." },
+	["Fishing unlocked (the Fisherman's introduction counts as done)."] = { tr = "Bal\253k\231\253l\253k a\231\253ld\253 (Bal\253k\231\253 ile tan\253\254ma tamamlanm\253\254 say\253l\253r)." },
 }

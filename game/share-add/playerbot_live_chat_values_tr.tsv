@@ -1,0 +1,803 @@
+# The values the bots' chat puts into a line, in Turkish, for a reader whose client
+# names Turkish (Said, saido_0, 21 October; his chat_values_tr.tsv as he sent it,
+# Said-TR-names-chat-20261021, the format rows after it, and the rows of his
+# reply the same day, english-values-for-said.tr.tsv, at the end). The core reads it
+# with the libraries (playerbot_live_chat.h; the rules are
+# playerbot_chat_value_rules.h): wherever a line of playerbot_live_chat_tr.tsv
+# would say the English value of a placeholder, it says this file's instead, and
+# the English where the file has no row. ASCII, as the libraries are.
+#
+# placeholder<TAB>key<TAB>en<TAB>tr<TAB>source
+#
+# The placeholder's own rows are looked up by the English value (en), not by the
+# key - the key says what Said rendered the row from: a skill's vnum, a skrot's
+# item vnums. Items, monsters and NPCs are playerbot_live_chat_names_tr.tsv.
+#
+# "format" rows are Turkish word order for a value made of parts, the key the
+# placeholder they apply to: {n} is a number, {x} the rest, said by that
+# placeholder's own rows. From Said's notes: "Turkish puts % first" (bon, and the
+# event's "+50% experience" the same way) and "<item> <n> bonuses" ->
+# "<n> efsunlu <item>"; and from his reply the trade's "10crit" -> "10 kritik"
+# and a wish's "30% avg+" -> "%30+ ort". A format is tried on the whole value
+# and then on each run of its pieces between spaces and commas.
+placeholder	key	en	tr	source
+skill	1	Three-Way Cut	Uc Yonlu Kesme	skill book 50401
+skill	2	Sword Spin	Kilic Cevirme	skill book 50402
+skill	3	Berserk	Ofke	skill book 50403
+skill	4	Aura of the Sword	Hava Kilici	skill book 50404
+skill	5	Dash	Hamle	skill book 50405
+skill	16	Spirit Strike (W)	Ruh Vurusu	skill book 50416
+skill	17	Bash	Siddetli Vurus	skill book 50417
+skill	18	Stump	Guclu Vurus	skill book 50418
+skill	19	Strong Body	Guclu Beden	skill book 50419
+skill	20	Sword Strike	Kilic Darbesi	skill book 50420
+skill	31	Ambush	Suikast	skill book 50431
+skill	32	Fast Attack	Hizli Saldiri	skill book 50432
+skill	33	Rolling Dagger	Bicak Cevirme	skill book 50433
+skill	34	Stealth	Kamuflaj	skill book 50434
+skill	35	Poisonous Cloud	Zehirli Bulut	skill book 50435
+skill	46	Repetitive Shot	Tekrarlanan Atis	skill book 50446
+skill	47	Spark	Kivilcim Vurusu	skill book 50447
+skill	48	Fire Arrow	Atesli Ok	skill book 50448
+skill	49	Feather Walk	Hafif Adim	skill book 50449
+skill	50	Poison Arrow	Zehirli Ok	skill book 50450
+skill	51	Arrow Shower	Ok Yagmuru	skill book 50451
+skill	61	Finger Strike	Parmak Darbesi	skill book 50461
+skill	62	Dragon Swirl	Ejderha Donusu	skill book 50462
+skill	63	Enchanted Blade	Buyulu Keskinlik	skill book 50463
+skill	64	Fear	Dehset	skill book 50464
+skill	65	Enchanted Armour	Buyulu Zirh	skill book 50465
+skill	66	Dispel	Buyu Cozme	skill book 50466
+skill	76	Dark Strike	Karanlik Vurus	skill book 50476
+skill	77	Flame Strike	Ates Vurus	skill book 50477
+skill	78	Flame Spirit	Ates Hayaleti	skill book 50478
+skill	79	Dark Protection	Karanlik Koruma	skill book 50479
+skill	80	Spirit Strike (S)	Hayalet Vurus	skill book 50480
+skill	81	Dark Orb	Karanlik Kure	skill book 50481
+skill	91	Flying Talisman	Ucan Tilsim	skill book 50491
+skill	92	Shooting Dragon	Ejderha Atisi	skill book 50492
+skill	93	Dragon's Roar	Ejder Kukremesi	skill book 50493
+skill	94	Blessing	Kutsama	skill book 50494
+skill	95	Reflect	Yansitma	skill book 50495
+skill	96	Dragon's Strength	Ejderha Yardimi	skill book 50496
+skill	106	Lightning Throw	Simsek Atmak	skill book 50506
+skill	107	Summon Lightning	Simsek Cagirma	skill book 50507
+skill	108	Lightning Claw	Simsek Pencesi	skill book 50508
+skill	109	Cure	Iyilestirme	skill book 50509
+skill	110	Swiftness	Hiz	skill book 50510
+skill	111	Attack Up	Yuksek Saldiri	skill book 50511
+skill	121	Leadership	Liderlik	skilldesc.txt
+skill	122	Combo	Kombo	skilldesc.txt
+skill	123	Fishing	Balikcilik	skilldesc.txt
+skill	124	Gathering	Madencilik	skilldesc.txt
+skill	125	Item Creation	Nesne Yaratma	skilldesc.txt
+skill	126	Shinsoo Language	Shinsoo Lisani	skilldesc.txt
+skill	127	Chunjo Language	Chunjo Lisani	skilldesc.txt
+skill	128	Jinno Language	Jinno Lisani	skilldesc.txt
+skill	129	Polymorph	Donusum	skilldesc.txt
+skill	130	Horse Riding	Binicilik	skilldesc.txt
+skill	131	Call Horse	At Cagirma	skilldesc.txt
+skill	132	Sprint	Sprint	skilldesc.txt
+skill	137	Horseback Slash	At Uzerinde Savas	skilldesc.txt
+skill	138	Horse Stump	At Yuruyusu	skilldesc.txt
+skill	139	Power Wave	Guc Dalgasi	skilldesc.txt
+skill	140	Arrow Storm	Ok Saganagi	skilldesc.txt
+skill	151	Dragon Eyes	Ejderha Gozleri	skilldesc.txt
+skill	152	Blood of Dragon God	Ejderha Tanrisi Kani	skilldesc.txt
+skill	153	Benediction of Dragon God	Ejderha Tanrisi Kutsamasi	skilldesc.txt
+skill	154	Holy Armour	Kutsal Zirh	skilldesc.txt
+skill	155	Acceleration	Hizlandirma	skilldesc.txt
+skill	156	Rage of Dragon God	Ejderha Tanrisi Ofkesi	skilldesc.txt
+skill	157	Casting Aid	Buyu Destegi	skilldesc.txt
+mapa	Joan	Joan	Joan	maps_tr.tsv
+mapa_gdzie	in Joan	in Joan	Joan'da	maps_tr.tsv
+mapa_gdzie	in the Joan	in the Joan	Joan'da	maps_tr.tsv
+mapa_dokad	to Joan	to Joan	Joan'a	maps_tr.tsv
+mapa_dokad	to the Joan	to the Joan	Joan'a	maps_tr.tsv
+mapa_dokad	into Joan	into Joan	Joan'a	maps_tr.tsv
+mapa_dokad	into the Joan	into the Joan	Joan'a	maps_tr.tsv
+mapa	Joan Area	Joan Area	Joan	maps_tr.tsv
+mapa_gdzie	in Joan Area	in Joan Area	Joan'da	maps_tr.tsv
+mapa_gdzie	in the Joan Area	in the Joan Area	Joan'da	maps_tr.tsv
+mapa_dokad	to Joan Area	to Joan Area	Joan'a	maps_tr.tsv
+mapa_dokad	to the Joan Area	to the Joan Area	Joan'a	maps_tr.tsv
+mapa_dokad	into Joan Area	into Joan Area	Joan'a	maps_tr.tsv
+mapa_dokad	into the Joan Area	into the Joan Area	Joan'a	maps_tr.tsv
+mapa	Yongan	Yongan	Yongan	maps_tr.tsv
+mapa_gdzie	in Yongan	in Yongan	Yongan'da	maps_tr.tsv
+mapa_gdzie	in the Yongan	in the Yongan	Yongan'da	maps_tr.tsv
+mapa_dokad	to Yongan	to Yongan	Yongan'a	maps_tr.tsv
+mapa_dokad	to the Yongan	to the Yongan	Yongan'a	maps_tr.tsv
+mapa_dokad	into Yongan	into Yongan	Yongan'a	maps_tr.tsv
+mapa_dokad	into the Yongan	into the Yongan	Yongan'a	maps_tr.tsv
+mapa	Yongan Area	Yongan Area	Yongan	maps_tr.tsv
+mapa_gdzie	in Yongan Area	in Yongan Area	Yongan'da	maps_tr.tsv
+mapa_gdzie	in the Yongan Area	in the Yongan Area	Yongan'da	maps_tr.tsv
+mapa_dokad	to Yongan Area	to Yongan Area	Yongan'a	maps_tr.tsv
+mapa_dokad	to the Yongan Area	to the Yongan Area	Yongan'a	maps_tr.tsv
+mapa_dokad	into Yongan Area	into Yongan Area	Yongan'a	maps_tr.tsv
+mapa_dokad	into the Yongan Area	into the Yongan Area	Yongan'a	maps_tr.tsv
+mapa	Pyungmoo	Pyungmoo	Pyungmoo	maps_tr.tsv
+mapa_gdzie	in Pyungmoo	in Pyungmoo	Pyungmoo'da	maps_tr.tsv
+mapa_gdzie	in the Pyungmoo	in the Pyungmoo	Pyungmoo'da	maps_tr.tsv
+mapa_dokad	to Pyungmoo	to Pyungmoo	Pyungmoo'ya	maps_tr.tsv
+mapa_dokad	to the Pyungmoo	to the Pyungmoo	Pyungmoo'ya	maps_tr.tsv
+mapa_dokad	into Pyungmoo	into Pyungmoo	Pyungmoo'ya	maps_tr.tsv
+mapa_dokad	into the Pyungmoo	into the Pyungmoo	Pyungmoo'ya	maps_tr.tsv
+mapa	Pyongmoo	Pyongmoo	Pyungmoo	maps_tr.tsv
+mapa_gdzie	in Pyongmoo	in Pyongmoo	Pyungmoo'da	maps_tr.tsv
+mapa_gdzie	in the Pyongmoo	in the Pyongmoo	Pyungmoo'da	maps_tr.tsv
+mapa_dokad	to Pyongmoo	to Pyongmoo	Pyungmoo'ya	maps_tr.tsv
+mapa_dokad	to the Pyongmoo	to the Pyongmoo	Pyungmoo'ya	maps_tr.tsv
+mapa_dokad	into Pyongmoo	into Pyongmoo	Pyungmoo'ya	maps_tr.tsv
+mapa_dokad	into the Pyongmoo	into the Pyongmoo	Pyungmoo'ya	maps_tr.tsv
+mapa	Pyungmoo Area	Pyungmoo Area	Pyungmoo	maps_tr.tsv
+mapa_gdzie	in Pyungmoo Area	in Pyungmoo Area	Pyungmoo'da	maps_tr.tsv
+mapa_gdzie	in the Pyungmoo Area	in the Pyungmoo Area	Pyungmoo'da	maps_tr.tsv
+mapa_dokad	to Pyungmoo Area	to Pyungmoo Area	Pyungmoo'ya	maps_tr.tsv
+mapa_dokad	to the Pyungmoo Area	to the Pyungmoo Area	Pyungmoo'ya	maps_tr.tsv
+mapa_dokad	into Pyungmoo Area	into Pyungmoo Area	Pyungmoo'ya	maps_tr.tsv
+mapa_dokad	into the Pyungmoo Area	into the Pyungmoo Area	Pyungmoo'ya	maps_tr.tsv
+mapa	Bokjung	Bokjung	Bokjung	maps_tr.tsv
+mapa_gdzie	in Bokjung	in Bokjung	Bokjung'da	maps_tr.tsv
+mapa_gdzie	in the Bokjung	in the Bokjung	Bokjung'da	maps_tr.tsv
+mapa_dokad	to Bokjung	to Bokjung	Bokjung'a	maps_tr.tsv
+mapa_dokad	to the Bokjung	to the Bokjung	Bokjung'a	maps_tr.tsv
+mapa_dokad	into Bokjung	into Bokjung	Bokjung'a	maps_tr.tsv
+mapa_dokad	into the Bokjung	into the Bokjung	Bokjung'a	maps_tr.tsv
+mapa	Bokjung Area	Bokjung Area	Bokjung	maps_tr.tsv
+mapa_gdzie	in Bokjung Area	in Bokjung Area	Bokjung'da	maps_tr.tsv
+mapa_gdzie	in the Bokjung Area	in the Bokjung Area	Bokjung'da	maps_tr.tsv
+mapa_dokad	to Bokjung Area	to Bokjung Area	Bokjung'a	maps_tr.tsv
+mapa_dokad	to the Bokjung Area	to the Bokjung Area	Bokjung'a	maps_tr.tsv
+mapa_dokad	into Bokjung Area	into Bokjung Area	Bokjung'a	maps_tr.tsv
+mapa_dokad	into the Bokjung Area	into the Bokjung Area	Bokjung'a	maps_tr.tsv
+mapa	Jayang	Jayang	Yayang	maps_tr.tsv
+mapa_gdzie	in Jayang	in Jayang	Yayang'da	maps_tr.tsv
+mapa_gdzie	in the Jayang	in the Jayang	Yayang'da	maps_tr.tsv
+mapa_dokad	to Jayang	to Jayang	Yayang'a	maps_tr.tsv
+mapa_dokad	to the Jayang	to the Jayang	Yayang'a	maps_tr.tsv
+mapa_dokad	into Jayang	into Jayang	Yayang'a	maps_tr.tsv
+mapa_dokad	into the Jayang	into the Jayang	Yayang'a	maps_tr.tsv
+mapa	Yayang	Yayang	Yayang	maps_tr.tsv
+mapa_gdzie	in Yayang	in Yayang	Yayang'da	maps_tr.tsv
+mapa_gdzie	in the Yayang	in the Yayang	Yayang'da	maps_tr.tsv
+mapa_dokad	to Yayang	to Yayang	Yayang'a	maps_tr.tsv
+mapa_dokad	to the Yayang	to the Yayang	Yayang'a	maps_tr.tsv
+mapa_dokad	into Yayang	into Yayang	Yayang'a	maps_tr.tsv
+mapa_dokad	into the Yayang	into the Yayang	Yayang'a	maps_tr.tsv
+mapa	Yayang Area	Yayang Area	Yayang	maps_tr.tsv
+mapa_gdzie	in Yayang Area	in Yayang Area	Yayang'da	maps_tr.tsv
+mapa_gdzie	in the Yayang Area	in the Yayang Area	Yayang'da	maps_tr.tsv
+mapa_dokad	to Yayang Area	to Yayang Area	Yayang'a	maps_tr.tsv
+mapa_dokad	to the Yayang Area	to the Yayang Area	Yayang'a	maps_tr.tsv
+mapa_dokad	into Yayang Area	into Yayang Area	Yayang'a	maps_tr.tsv
+mapa_dokad	into the Yayang Area	into the Yayang Area	Yayang'a	maps_tr.tsv
+mapa	Bakra	Bakra	Bakra	maps_tr.tsv
+mapa_gdzie	in Bakra	in Bakra	Bakra'da	maps_tr.tsv
+mapa_gdzie	in the Bakra	in the Bakra	Bakra'da	maps_tr.tsv
+mapa_dokad	to Bakra	to Bakra	Bakra'ya	maps_tr.tsv
+mapa_dokad	to the Bakra	to the Bakra	Bakra'ya	maps_tr.tsv
+mapa_dokad	into Bakra	into Bakra	Bakra'ya	maps_tr.tsv
+mapa_dokad	into the Bakra	into the Bakra	Bakra'ya	maps_tr.tsv
+mapa	Bakra Area	Bakra Area	Bakra	maps_tr.tsv
+mapa_gdzie	in Bakra Area	in Bakra Area	Bakra'da	maps_tr.tsv
+mapa_gdzie	in the Bakra Area	in the Bakra Area	Bakra'da	maps_tr.tsv
+mapa_dokad	to Bakra Area	to Bakra Area	Bakra'ya	maps_tr.tsv
+mapa_dokad	to the Bakra Area	to the Bakra Area	Bakra'ya	maps_tr.tsv
+mapa_dokad	into Bakra Area	into Bakra Area	Bakra'ya	maps_tr.tsv
+mapa_dokad	into the Bakra Area	into the Bakra Area	Bakra'ya	maps_tr.tsv
+mapa	Jungrang	Jungrang	Jungrang	maps_tr.tsv
+mapa_gdzie	in Jungrang	in Jungrang	Jungrang'da	maps_tr.tsv
+mapa_gdzie	in the Jungrang	in the Jungrang	Jungrang'da	maps_tr.tsv
+mapa_dokad	to Jungrang	to Jungrang	Jungrang'a	maps_tr.tsv
+mapa_dokad	to the Jungrang	to the Jungrang	Jungrang'a	maps_tr.tsv
+mapa_dokad	into Jungrang	into Jungrang	Jungrang'a	maps_tr.tsv
+mapa_dokad	into the Jungrang	into the Jungrang	Jungrang'a	maps_tr.tsv
+mapa	Waryong	Waryong	Waryong	maps_tr.tsv
+mapa_gdzie	in Waryong	in Waryong	Waryong'da	maps_tr.tsv
+mapa_gdzie	in the Waryong	in the Waryong	Waryong'da	maps_tr.tsv
+mapa_dokad	to Waryong	to Waryong	Waryong'a	maps_tr.tsv
+mapa_dokad	to the Waryong	to the Waryong	Waryong'a	maps_tr.tsv
+mapa_dokad	into Waryong	into Waryong	Waryong'a	maps_tr.tsv
+mapa_dokad	into the Waryong	into the Waryong	Waryong'a	maps_tr.tsv
+mapa	Imha	Imha	Imha	maps_tr.tsv
+mapa_gdzie	in Imha	in Imha	Imha'da	maps_tr.tsv
+mapa_gdzie	in the Imha	in the Imha	Imha'da	maps_tr.tsv
+mapa_dokad	to Imha	to Imha	Imha'ya	maps_tr.tsv
+mapa_dokad	to the Imha	to the Imha	Imha'ya	maps_tr.tsv
+mapa_dokad	into Imha	into Imha	Imha'ya	maps_tr.tsv
+mapa_dokad	into the Imha	into the Imha	Imha'ya	maps_tr.tsv
+mapa	Orc Valley	Orc Valley	Seungryong Vadisi	maps_tr.tsv
+mapa_gdzie	in Orc Valley	in Orc Valley	Seungryong Vadisi'nde	maps_tr.tsv
+mapa_gdzie	in the Orc Valley	in the Orc Valley	Seungryong Vadisi'nde	maps_tr.tsv
+mapa_dokad	to Orc Valley	to Orc Valley	Seungryong Vadisi'ne	maps_tr.tsv
+mapa_dokad	to the Orc Valley	to the Orc Valley	Seungryong Vadisi'ne	maps_tr.tsv
+mapa_dokad	into Orc Valley	into Orc Valley	Seungryong Vadisi'ne	maps_tr.tsv
+mapa_dokad	into the Orc Valley	into the Orc Valley	Seungryong Vadisi'ne	maps_tr.tsv
+mapa	Seungryong Valley	Seungryong Valley	Seungryong Vadisi	maps_tr.tsv
+mapa_gdzie	in Seungryong Valley	in Seungryong Valley	Seungryong Vadisi'nde	maps_tr.tsv
+mapa_gdzie	in the Seungryong Valley	in the Seungryong Valley	Seungryong Vadisi'nde	maps_tr.tsv
+mapa_dokad	to Seungryong Valley	to Seungryong Valley	Seungryong Vadisi'ne	maps_tr.tsv
+mapa_dokad	to the Seungryong Valley	to the Seungryong Valley	Seungryong Vadisi'ne	maps_tr.tsv
+mapa_dokad	into Seungryong Valley	into Seungryong Valley	Seungryong Vadisi'ne	maps_tr.tsv
+mapa_dokad	into the Seungryong Valley	into the Seungryong Valley	Seungryong Vadisi'ne	maps_tr.tsv
+mapa	Valley of Seungryong	Valley of Seungryong	Seungryong Vadisi	maps_tr.tsv
+mapa_gdzie	in Valley of Seungryong	in Valley of Seungryong	Seungryong Vadisi'nde	maps_tr.tsv
+mapa_gdzie	in the Valley of Seungryong	in the Valley of Seungryong	Seungryong Vadisi'nde	maps_tr.tsv
+mapa_dokad	to Valley of Seungryong	to Valley of Seungryong	Seungryong Vadisi'ne	maps_tr.tsv
+mapa_dokad	to the Valley of Seungryong	to the Valley of Seungryong	Seungryong Vadisi'ne	maps_tr.tsv
+mapa_dokad	into Valley of Seungryong	into Valley of Seungryong	Seungryong Vadisi'ne	maps_tr.tsv
+mapa_dokad	into the Valley of Seungryong	into the Valley of Seungryong	Seungryong Vadisi'ne	maps_tr.tsv
+mapa	Imji Valley	Imji Valley	Imji Vadisi	maps_tr.tsv
+mapa_gdzie	in Imji Valley	in Imji Valley	Imji Vadisi'nde	maps_tr.tsv
+mapa_gdzie	in the Imji Valley	in the Imji Valley	Imji Vadisi'nde	maps_tr.tsv
+mapa_dokad	to Imji Valley	to Imji Valley	Imji Vadisi'ne	maps_tr.tsv
+mapa_dokad	to the Imji Valley	to the Imji Valley	Imji Vadisi'ne	maps_tr.tsv
+mapa_dokad	into Imji Valley	into Imji Valley	Imji Vadisi'ne	maps_tr.tsv
+mapa_dokad	into the Imji Valley	into the Imji Valley	Imji Vadisi'ne	maps_tr.tsv
+mapa	Valley of Imji	Valley of Imji	Imji Vadisi	maps_tr.tsv
+mapa_gdzie	in Valley of Imji	in Valley of Imji	Imji Vadisi'nde	maps_tr.tsv
+mapa_gdzie	in the Valley of Imji	in the Valley of Imji	Imji Vadisi'nde	maps_tr.tsv
+mapa_dokad	to Valley of Imji	to Valley of Imji	Imji Vadisi'ne	maps_tr.tsv
+mapa_dokad	to the Valley of Imji	to the Valley of Imji	Imji Vadisi'ne	maps_tr.tsv
+mapa_dokad	into Valley of Imji	into Valley of Imji	Imji Vadisi'ne	maps_tr.tsv
+mapa_dokad	into the Valley of Imji	into the Valley of Imji	Imji Vadisi'ne	maps_tr.tsv
+mapa	Bangsan Valley	Bangsan Valley	Bangsan Vadisi	maps_tr.tsv
+mapa_gdzie	in Bangsan Valley	in Bangsan Valley	Bangsan Vadisi'nde	maps_tr.tsv
+mapa_gdzie	in the Bangsan Valley	in the Bangsan Valley	Bangsan Vadisi'nde	maps_tr.tsv
+mapa_dokad	to Bangsan Valley	to Bangsan Valley	Bangsan Vadisi'ne	maps_tr.tsv
+mapa_dokad	to the Bangsan Valley	to the Bangsan Valley	Bangsan Vadisi'ne	maps_tr.tsv
+mapa_dokad	into Bangsan Valley	into Bangsan Valley	Bangsan Vadisi'ne	maps_tr.tsv
+mapa_dokad	into the Bangsan Valley	into the Bangsan Valley	Bangsan Vadisi'ne	maps_tr.tsv
+mapa	Valley of Bangsan	Valley of Bangsan	Bangsan Vadisi	maps_tr.tsv
+mapa_gdzie	in Valley of Bangsan	in Valley of Bangsan	Bangsan Vadisi'nde	maps_tr.tsv
+mapa_gdzie	in the Valley of Bangsan	in the Valley of Bangsan	Bangsan Vadisi'nde	maps_tr.tsv
+mapa_dokad	to Valley of Bangsan	to Valley of Bangsan	Bangsan Vadisi'ne	maps_tr.tsv
+mapa_dokad	to the Valley of Bangsan	to the Valley of Bangsan	Bangsan Vadisi'ne	maps_tr.tsv
+mapa_dokad	into Valley of Bangsan	into Valley of Bangsan	Bangsan Vadisi'ne	maps_tr.tsv
+mapa_dokad	into the Valley of Bangsan	into the Valley of Bangsan	Bangsan Vadisi'ne	maps_tr.tsv
+mapa	Spider Dungeon	Spider Dungeon	Orumcek Zindani	maps_tr.tsv
+mapa_gdzie	in Spider Dungeon	in Spider Dungeon	Orumcek Zindani'nda	maps_tr.tsv
+mapa_gdzie	in the Spider Dungeon	in the Spider Dungeon	Orumcek Zindani'nda	maps_tr.tsv
+mapa_dokad	to Spider Dungeon	to Spider Dungeon	Orumcek Zindani'na	maps_tr.tsv
+mapa_dokad	to the Spider Dungeon	to the Spider Dungeon	Orumcek Zindani'na	maps_tr.tsv
+mapa_dokad	into Spider Dungeon	into Spider Dungeon	Orumcek Zindani'na	maps_tr.tsv
+mapa_dokad	into the Spider Dungeon	into the Spider Dungeon	Orumcek Zindani'na	maps_tr.tsv
+mapa	Spider Dungeon 1	Spider Dungeon 1	Orumcek Zindani	maps_tr.tsv
+mapa_gdzie	in Spider Dungeon 1	in Spider Dungeon 1	Orumcek Zindani'nda	maps_tr.tsv
+mapa_gdzie	in the Spider Dungeon 1	in the Spider Dungeon 1	Orumcek Zindani'nda	maps_tr.tsv
+mapa_dokad	to Spider Dungeon 1	to Spider Dungeon 1	Orumcek Zindani'na	maps_tr.tsv
+mapa_dokad	to the Spider Dungeon 1	to the Spider Dungeon 1	Orumcek Zindani'na	maps_tr.tsv
+mapa_dokad	into Spider Dungeon 1	into Spider Dungeon 1	Orumcek Zindani'na	maps_tr.tsv
+mapa_dokad	into the Spider Dungeon 1	into the Spider Dungeon 1	Orumcek Zindani'na	maps_tr.tsv
+mapa	Spider Dungeon 2	Spider Dungeon 2	Orumcek Zindani 2	maps_tr.tsv
+mapa_gdzie	in Spider Dungeon 2	in Spider Dungeon 2	Orumcek Zindani 2'de	maps_tr.tsv
+mapa_gdzie	in the Spider Dungeon 2	in the Spider Dungeon 2	Orumcek Zindani 2'de	maps_tr.tsv
+mapa_dokad	to Spider Dungeon 2	to Spider Dungeon 2	Orumcek Zindani 2'ye	maps_tr.tsv
+mapa_dokad	to the Spider Dungeon 2	to the Spider Dungeon 2	Orumcek Zindani 2'ye	maps_tr.tsv
+mapa_dokad	into Spider Dungeon 2	into Spider Dungeon 2	Orumcek Zindani 2'ye	maps_tr.tsv
+mapa_dokad	into the Spider Dungeon 2	into the Spider Dungeon 2	Orumcek Zindani 2'ye	maps_tr.tsv
+mapa	Spider Dungeon 3	Spider Dungeon 3	Orumcek Zindani 3	maps_tr.tsv
+mapa_gdzie	in Spider Dungeon 3	in Spider Dungeon 3	Orumcek Zindani 3'te	maps_tr.tsv
+mapa_gdzie	in the Spider Dungeon 3	in the Spider Dungeon 3	Orumcek Zindani 3'te	maps_tr.tsv
+mapa_dokad	to Spider Dungeon 3	to Spider Dungeon 3	Orumcek Zindani 3'e	maps_tr.tsv
+mapa_dokad	to the Spider Dungeon 3	to the Spider Dungeon 3	Orumcek Zindani 3'e	maps_tr.tsv
+mapa_dokad	into Spider Dungeon 3	into Spider Dungeon 3	Orumcek Zindani 3'e	maps_tr.tsv
+mapa_dokad	into the Spider Dungeon 3	into the Spider Dungeon 3	Orumcek Zindani 3'e	maps_tr.tsv
+mapa	Kuahlo Dong	Kuahlo Dong	Kuahlo Dong	maps_tr.tsv
+mapa_gdzie	in Kuahlo Dong	in Kuahlo Dong	Kuahlo Dong'da	maps_tr.tsv
+mapa_gdzie	in the Kuahlo Dong	in the Kuahlo Dong	Kuahlo Dong'da	maps_tr.tsv
+mapa_dokad	to Kuahlo Dong	to Kuahlo Dong	Kuahlo Dong'a	maps_tr.tsv
+mapa_dokad	to the Kuahlo Dong	to the Kuahlo Dong	Kuahlo Dong'a	maps_tr.tsv
+mapa_dokad	into Kuahlo Dong	into Kuahlo Dong	Kuahlo Dong'a	maps_tr.tsv
+mapa_dokad	into the Kuahlo Dong	into the Kuahlo Dong	Kuahlo Dong'a	maps_tr.tsv
+mapa	Monkey Dungeon	Monkey Dungeon	Maymun Zindani	maps_tr.tsv
+mapa_gdzie	in Monkey Dungeon	in Monkey Dungeon	Maymun Zindani'nda	maps_tr.tsv
+mapa_gdzie	in the Monkey Dungeon	in the Monkey Dungeon	Maymun Zindani'nda	maps_tr.tsv
+mapa_dokad	to Monkey Dungeon	to Monkey Dungeon	Maymun Zindani'na	maps_tr.tsv
+mapa_dokad	to the Monkey Dungeon	to the Monkey Dungeon	Maymun Zindani'na	maps_tr.tsv
+mapa_dokad	into Monkey Dungeon	into Monkey Dungeon	Maymun Zindani'na	maps_tr.tsv
+mapa_dokad	into the Monkey Dungeon	into the Monkey Dungeon	Maymun Zindani'na	maps_tr.tsv
+mapa	Monkey Dungeon I	Monkey Dungeon I	Maymun Zindani	maps_tr.tsv
+mapa_gdzie	in Monkey Dungeon I	in Monkey Dungeon I	Maymun Zindani'nda	maps_tr.tsv
+mapa_gdzie	in the Monkey Dungeon I	in the Monkey Dungeon I	Maymun Zindani'nda	maps_tr.tsv
+mapa_dokad	to Monkey Dungeon I	to Monkey Dungeon I	Maymun Zindani'na	maps_tr.tsv
+mapa_dokad	to the Monkey Dungeon I	to the Monkey Dungeon I	Maymun Zindani'na	maps_tr.tsv
+mapa_dokad	into Monkey Dungeon I	into Monkey Dungeon I	Maymun Zindani'na	maps_tr.tsv
+mapa_dokad	into the Monkey Dungeon I	into the Monkey Dungeon I	Maymun Zindani'na	maps_tr.tsv
+mapa	Monkey Dungeon II	Monkey Dungeon II	Maymun Zindani 2	maps_tr.tsv
+mapa_gdzie	in Monkey Dungeon II	in Monkey Dungeon II	Maymun Zindani 2'de	maps_tr.tsv
+mapa_gdzie	in the Monkey Dungeon II	in the Monkey Dungeon II	Maymun Zindani 2'de	maps_tr.tsv
+mapa_dokad	to Monkey Dungeon II	to Monkey Dungeon II	Maymun Zindani 2'ye	maps_tr.tsv
+mapa_dokad	to the Monkey Dungeon II	to the Monkey Dungeon II	Maymun Zindani 2'ye	maps_tr.tsv
+mapa_dokad	into Monkey Dungeon II	into Monkey Dungeon II	Maymun Zindani 2'ye	maps_tr.tsv
+mapa_dokad	into the Monkey Dungeon II	into the Monkey Dungeon II	Maymun Zindani 2'ye	maps_tr.tsv
+mapa	Monkey Dungeon III	Monkey Dungeon III	Maymun Zindani 3	maps_tr.tsv
+mapa_gdzie	in Monkey Dungeon III	in Monkey Dungeon III	Maymun Zindani 3'te	maps_tr.tsv
+mapa_gdzie	in the Monkey Dungeon III	in the Monkey Dungeon III	Maymun Zindani 3'te	maps_tr.tsv
+mapa_dokad	to Monkey Dungeon III	to Monkey Dungeon III	Maymun Zindani 3'e	maps_tr.tsv
+mapa_dokad	to the Monkey Dungeon III	to the Monkey Dungeon III	Maymun Zindani 3'e	maps_tr.tsv
+mapa_dokad	into Monkey Dungeon III	into Monkey Dungeon III	Maymun Zindani 3'e	maps_tr.tsv
+mapa_dokad	into the Monkey Dungeon III	into the Monkey Dungeon III	Maymun Zindani 3'e	maps_tr.tsv
+mapa	Hasun Dong	Hasun Dong	Hasun Dong	maps_tr.tsv
+mapa_gdzie	in Hasun Dong	in Hasun Dong	Hasun Dong'da	maps_tr.tsv
+mapa_gdzie	in the Hasun Dong	in the Hasun Dong	Hasun Dong'da	maps_tr.tsv
+mapa_dokad	to Hasun Dong	to Hasun Dong	Hasun Dong'a	maps_tr.tsv
+mapa_dokad	to the Hasun Dong	to the Hasun Dong	Hasun Dong'a	maps_tr.tsv
+mapa_dokad	into Hasun Dong	into Hasun Dong	Hasun Dong'a	maps_tr.tsv
+mapa_dokad	into the Hasun Dong	into the Hasun Dong	Hasun Dong'a	maps_tr.tsv
+mapa	Jungsun Dong	Jungsun Dong	Jungsun Dong	maps_tr.tsv
+mapa_gdzie	in Jungsun Dong	in Jungsun Dong	Jungsun Dong'da	maps_tr.tsv
+mapa_gdzie	in the Jungsun Dong	in the Jungsun Dong	Jungsun Dong'da	maps_tr.tsv
+mapa_dokad	to Jungsun Dong	to Jungsun Dong	Jungsun Dong'a	maps_tr.tsv
+mapa_dokad	to the Jungsun Dong	to the Jungsun Dong	Jungsun Dong'a	maps_tr.tsv
+mapa_dokad	into Jungsun Dong	into Jungsun Dong	Jungsun Dong'a	maps_tr.tsv
+mapa_dokad	into the Jungsun Dong	into the Jungsun Dong	Jungsun Dong'a	maps_tr.tsv
+mapa	Sangsun Dong	Sangsun Dong	Sangsun Dong	maps_tr.tsv
+mapa_gdzie	in Sangsun Dong	in Sangsun Dong	Sangsun Dong'da	maps_tr.tsv
+mapa_gdzie	in the Sangsun Dong	in the Sangsun Dong	Sangsun Dong'da	maps_tr.tsv
+mapa_dokad	to Sangsun Dong	to Sangsun Dong	Sangsun Dong'a	maps_tr.tsv
+mapa_dokad	to the Sangsun Dong	to the Sangsun Dong	Sangsun Dong'a	maps_tr.tsv
+mapa_dokad	into Sangsun Dong	into Sangsun Dong	Sangsun Dong'a	maps_tr.tsv
+mapa_dokad	into the Sangsun Dong	into the Sangsun Dong	Sangsun Dong'a	maps_tr.tsv
+mapa	Demon Tower	Demon Tower	Seytan Kulesi	maps_tr.tsv
+mapa_gdzie	in Demon Tower	in Demon Tower	Seytan Kulesi'nde	maps_tr.tsv
+mapa_gdzie	in the Demon Tower	in the Demon Tower	Seytan Kulesi'nde	maps_tr.tsv
+mapa_dokad	to Demon Tower	to Demon Tower	Seytan Kulesi'ne	maps_tr.tsv
+mapa_dokad	to the Demon Tower	to the Demon Tower	Seytan Kulesi'ne	maps_tr.tsv
+mapa_dokad	into Demon Tower	into Demon Tower	Seytan Kulesi'ne	maps_tr.tsv
+mapa_dokad	into the Demon Tower	into the Demon Tower	Seytan Kulesi'ne	maps_tr.tsv
+mapa	Devil's Catacomb	Devil's Catacomb	Seytan Katakombu	maps_tr.tsv
+mapa_gdzie	in Devil's Catacomb	in Devil's Catacomb	Seytan Katakombu'nda	maps_tr.tsv
+mapa_gdzie	in the Devil's Catacomb	in the Devil's Catacomb	Seytan Katakombu'nda	maps_tr.tsv
+mapa_dokad	to Devil's Catacomb	to Devil's Catacomb	Seytan Katakombu'na	maps_tr.tsv
+mapa_dokad	to the Devil's Catacomb	to the Devil's Catacomb	Seytan Katakombu'na	maps_tr.tsv
+mapa_dokad	into Devil's Catacomb	into Devil's Catacomb	Seytan Katakombu'na	maps_tr.tsv
+mapa_dokad	into the Devil's Catacomb	into the Devil's Catacomb	Seytan Katakombu'na	maps_tr.tsv
+mapa	Devil Catacomb	Devil Catacomb	Seytan Katakombu	maps_tr.tsv
+mapa_gdzie	in Devil Catacomb	in Devil Catacomb	Seytan Katakombu'nda	maps_tr.tsv
+mapa_gdzie	in the Devil Catacomb	in the Devil Catacomb	Seytan Katakombu'nda	maps_tr.tsv
+mapa_dokad	to Devil Catacomb	to Devil Catacomb	Seytan Katakombu'na	maps_tr.tsv
+mapa_dokad	to the Devil Catacomb	to the Devil Catacomb	Seytan Katakombu'na	maps_tr.tsv
+mapa_dokad	into Devil Catacomb	into Devil Catacomb	Seytan Katakombu'na	maps_tr.tsv
+mapa_dokad	into the Devil Catacomb	into the Devil Catacomb	Seytan Katakombu'na	maps_tr.tsv
+mapa	Catacomb	Catacomb	Seytan Katakombu	maps_tr.tsv
+mapa_gdzie	in Catacomb	in Catacomb	Seytan Katakombu'nda	maps_tr.tsv
+mapa_gdzie	in the Catacomb	in the Catacomb	Seytan Katakombu'nda	maps_tr.tsv
+mapa_dokad	to Catacomb	to Catacomb	Seytan Katakombu'na	maps_tr.tsv
+mapa_dokad	to the Catacomb	to the Catacomb	Seytan Katakombu'na	maps_tr.tsv
+mapa_dokad	into Catacomb	into Catacomb	Seytan Katakombu'na	maps_tr.tsv
+mapa_dokad	into the Catacomb	into the Catacomb	Seytan Katakombu'na	maps_tr.tsv
+mapa	Grotto	Grotto	Magara	maps_tr.tsv
+mapa_gdzie	in Grotto	in Grotto	Magara'da	maps_tr.tsv
+mapa_gdzie	in the Grotto	in the Grotto	Magara'da	maps_tr.tsv
+mapa_dokad	to Grotto	to Grotto	Magara'ya	maps_tr.tsv
+mapa_dokad	to the Grotto	to the Grotto	Magara'ya	maps_tr.tsv
+mapa_dokad	into Grotto	into Grotto	Magara'ya	maps_tr.tsv
+mapa_dokad	into the Grotto	into the Grotto	Magara'ya	maps_tr.tsv
+mapa	Grotto of Exile	Grotto of Exile	Surgun Magarasi	maps_tr.tsv
+mapa_gdzie	in Grotto of Exile	in Grotto of Exile	Surgun Magarasi'nda	maps_tr.tsv
+mapa_gdzie	in the Grotto of Exile	in the Grotto of Exile	Surgun Magarasi'nda	maps_tr.tsv
+mapa_dokad	to Grotto of Exile	to Grotto of Exile	Surgun Magarasi'na	maps_tr.tsv
+mapa_dokad	to the Grotto of Exile	to the Grotto of Exile	Surgun Magarasi'na	maps_tr.tsv
+mapa_dokad	into Grotto of Exile	into Grotto of Exile	Surgun Magarasi'na	maps_tr.tsv
+mapa_dokad	into the Grotto of Exile	into the Grotto of Exile	Surgun Magarasi'na	maps_tr.tsv
+mapa	Grotto of Exile 2	Grotto of Exile 2	Surgun Magarasi 2	maps_tr.tsv
+mapa_gdzie	in Grotto of Exile 2	in Grotto of Exile 2	Surgun Magarasi 2'de	maps_tr.tsv
+mapa_gdzie	in the Grotto of Exile 2	in the Grotto of Exile 2	Surgun Magarasi 2'de	maps_tr.tsv
+mapa_dokad	to Grotto of Exile 2	to Grotto of Exile 2	Surgun Magarasi 2'ye	maps_tr.tsv
+mapa_dokad	to the Grotto of Exile 2	to the Grotto of Exile 2	Surgun Magarasi 2'ye	maps_tr.tsv
+mapa_dokad	into Grotto of Exile 2	into Grotto of Exile 2	Surgun Magarasi 2'ye	maps_tr.tsv
+mapa_dokad	into the Grotto of Exile 2	into the Grotto of Exile 2	Surgun Magarasi 2'ye	maps_tr.tsv
+mapa	Mount Sohan	Mount Sohan	Sohan Dagi	maps_tr.tsv
+mapa_gdzie	in Mount Sohan	in Mount Sohan	Sohan Dagi'nda	maps_tr.tsv
+mapa_gdzie	in the Mount Sohan	in the Mount Sohan	Sohan Dagi'nda	maps_tr.tsv
+mapa_dokad	to Mount Sohan	to Mount Sohan	Sohan Dagi'na	maps_tr.tsv
+mapa_dokad	to the Mount Sohan	to the Mount Sohan	Sohan Dagi'na	maps_tr.tsv
+mapa_dokad	into Mount Sohan	into Mount Sohan	Sohan Dagi'na	maps_tr.tsv
+mapa_dokad	into the Mount Sohan	into the Mount Sohan	Sohan Dagi'na	maps_tr.tsv
+mapa	Sohan	Sohan	Sohan Dagi	maps_tr.tsv
+mapa_gdzie	in Sohan	in Sohan	Sohan Dagi'nda	maps_tr.tsv
+mapa_gdzie	in the Sohan	in the Sohan	Sohan Dagi'nda	maps_tr.tsv
+mapa_dokad	to Sohan	to Sohan	Sohan Dagi'na	maps_tr.tsv
+mapa_dokad	to the Sohan	to the Sohan	Sohan Dagi'na	maps_tr.tsv
+mapa_dokad	into Sohan	into Sohan	Sohan Dagi'na	maps_tr.tsv
+mapa_dokad	into the Sohan	into the Sohan	Sohan Dagi'na	maps_tr.tsv
+mapa	Yongbi Desert	Yongbi Desert	Yongbi Colu	maps_tr.tsv
+mapa_gdzie	in Yongbi Desert	in Yongbi Desert	Yongbi Colu'nde	maps_tr.tsv
+mapa_gdzie	in the Yongbi Desert	in the Yongbi Desert	Yongbi Colu'nde	maps_tr.tsv
+mapa_dokad	to Yongbi Desert	to Yongbi Desert	Yongbi Colu'ne	maps_tr.tsv
+mapa_dokad	to the Yongbi Desert	to the Yongbi Desert	Yongbi Colu'ne	maps_tr.tsv
+mapa_dokad	into Yongbi Desert	into Yongbi Desert	Yongbi Colu'ne	maps_tr.tsv
+mapa_dokad	into the Yongbi Desert	into the Yongbi Desert	Yongbi Colu'ne	maps_tr.tsv
+mapa	Desert	Desert	Yongbi Colu	maps_tr.tsv
+mapa_gdzie	in Desert	in Desert	Yongbi Colu'nde	maps_tr.tsv
+mapa_gdzie	in the Desert	in the Desert	Yongbi Colu'nde	maps_tr.tsv
+mapa_dokad	to Desert	to Desert	Yongbi Colu'ne	maps_tr.tsv
+mapa_dokad	to the Desert	to the Desert	Yongbi Colu'ne	maps_tr.tsv
+mapa_dokad	into Desert	into Desert	Yongbi Colu'ne	maps_tr.tsv
+mapa_dokad	into the Desert	into the Desert	Yongbi Colu'ne	maps_tr.tsv
+mapa	Doyyumhwan	Doyyumhwan	Doyyumhwan	maps_tr.tsv
+mapa_gdzie	in Doyyumhwan	in Doyyumhwan	Doyyumhwan'da	maps_tr.tsv
+mapa_gdzie	in the Doyyumhwan	in the Doyyumhwan	Doyyumhwan'da	maps_tr.tsv
+mapa_dokad	to Doyyumhwan	to Doyyumhwan	Doyyumhwan'a	maps_tr.tsv
+mapa_dokad	to the Doyyumhwan	to the Doyyumhwan	Doyyumhwan'a	maps_tr.tsv
+mapa_dokad	into Doyyumhwan	into Doyyumhwan	Doyyumhwan'a	maps_tr.tsv
+mapa_dokad	into the Doyyumhwan	into the Doyyumhwan	Doyyumhwan'a	maps_tr.tsv
+mapa	Doyyumhwaji	Doyyumhwaji	Doyyumhwan	maps_tr.tsv
+mapa_gdzie	in Doyyumhwaji	in Doyyumhwaji	Doyyumhwan'da	maps_tr.tsv
+mapa_gdzie	in the Doyyumhwaji	in the Doyyumhwaji	Doyyumhwan'da	maps_tr.tsv
+mapa_dokad	to Doyyumhwaji	to Doyyumhwaji	Doyyumhwan'a	maps_tr.tsv
+mapa_dokad	to the Doyyumhwaji	to the Doyyumhwaji	Doyyumhwan'a	maps_tr.tsv
+mapa_dokad	into Doyyumhwaji	into Doyyumhwaji	Doyyumhwan'a	maps_tr.tsv
+mapa_dokad	into the Doyyumhwaji	into the Doyyumhwaji	Doyyumhwan'a	maps_tr.tsv
+mapa	Fire Land	Fire Land	Doyyumhwan	maps_tr.tsv
+mapa_gdzie	in Fire Land	in Fire Land	Doyyumhwan'da	maps_tr.tsv
+mapa_gdzie	in the Fire Land	in the Fire Land	Doyyumhwan'da	maps_tr.tsv
+mapa_dokad	to Fire Land	to Fire Land	Doyyumhwan'a	maps_tr.tsv
+mapa_dokad	to the Fire Land	to the Fire Land	Doyyumhwan'a	maps_tr.tsv
+mapa_dokad	into Fire Land	into Fire Land	Doyyumhwan'a	maps_tr.tsv
+mapa_dokad	into the Fire Land	into the Fire Land	Doyyumhwan'a	maps_tr.tsv
+mapa	Hwang Temple	Hwang Temple	Hwang Tapinagi	maps_tr.tsv
+mapa_gdzie	in Hwang Temple	in Hwang Temple	Hwang Tapinagi'nda	maps_tr.tsv
+mapa_gdzie	in the Hwang Temple	in the Hwang Temple	Hwang Tapinagi'nda	maps_tr.tsv
+mapa_dokad	to Hwang Temple	to Hwang Temple	Hwang Tapinagi'na	maps_tr.tsv
+mapa_dokad	to the Hwang Temple	to the Hwang Temple	Hwang Tapinagi'na	maps_tr.tsv
+mapa_dokad	into Hwang Temple	into Hwang Temple	Hwang Tapinagi'na	maps_tr.tsv
+mapa_dokad	into the Hwang Temple	into the Hwang Temple	Hwang Tapinagi'na	maps_tr.tsv
+mapa	Ghost Forest	Ghost Forest	Hayalet Ormani	maps_tr.tsv
+mapa_gdzie	in Ghost Forest	in Ghost Forest	Hayalet Ormani'nda	maps_tr.tsv
+mapa_gdzie	in the Ghost Forest	in the Ghost Forest	Hayalet Ormani'nda	maps_tr.tsv
+mapa_dokad	to Ghost Forest	to Ghost Forest	Hayalet Ormani'na	maps_tr.tsv
+mapa_dokad	to the Ghost Forest	to the Ghost Forest	Hayalet Ormani'na	maps_tr.tsv
+mapa_dokad	into Ghost Forest	into Ghost Forest	Hayalet Ormani'na	maps_tr.tsv
+mapa_dokad	into the Ghost Forest	into the Ghost Forest	Hayalet Ormani'na	maps_tr.tsv
+mapa	Ghost Wood	Ghost Wood	Hayalet Ormani	maps_tr.tsv
+mapa_gdzie	in Ghost Wood	in Ghost Wood	Hayalet Ormani'nda	maps_tr.tsv
+mapa_gdzie	in the Ghost Wood	in the Ghost Wood	Hayalet Ormani'nda	maps_tr.tsv
+mapa_dokad	to Ghost Wood	to Ghost Wood	Hayalet Ormani'na	maps_tr.tsv
+mapa_dokad	to the Ghost Wood	to the Ghost Wood	Hayalet Ormani'na	maps_tr.tsv
+mapa_dokad	into Ghost Wood	into Ghost Wood	Hayalet Ormani'na	maps_tr.tsv
+mapa_dokad	into the Ghost Wood	into the Ghost Wood	Hayalet Ormani'na	maps_tr.tsv
+mapa	Red Forest	Red Forest	Kirmizi Orman	maps_tr.tsv
+mapa_gdzie	in Red Forest	in Red Forest	Kirmizi Orman'da	maps_tr.tsv
+mapa_gdzie	in the Red Forest	in the Red Forest	Kirmizi Orman'da	maps_tr.tsv
+mapa_dokad	to Red Forest	to Red Forest	Kirmizi Orman'a	maps_tr.tsv
+mapa_dokad	to the Red Forest	to the Red Forest	Kirmizi Orman'a	maps_tr.tsv
+mapa_dokad	into Red Forest	into Red Forest	Kirmizi Orman'a	maps_tr.tsv
+mapa_dokad	into the Red Forest	into the Red Forest	Kirmizi Orman'a	maps_tr.tsv
+mapa	Red Wood	Red Wood	Kirmizi Orman	maps_tr.tsv
+mapa_gdzie	in Red Wood	in Red Wood	Kirmizi Orman'da	maps_tr.tsv
+mapa_gdzie	in the Red Wood	in the Red Wood	Kirmizi Orman'da	maps_tr.tsv
+mapa_dokad	to Red Wood	to Red Wood	Kirmizi Orman'a	maps_tr.tsv
+mapa_dokad	to the Red Wood	to the Red Wood	Kirmizi Orman'a	maps_tr.tsv
+mapa_dokad	into Red Wood	into Red Wood	Kirmizi Orman'a	maps_tr.tsv
+mapa_dokad	into the Red Wood	into the Red Wood	Kirmizi Orman'a	maps_tr.tsv
+mapa	Guild Land	Guild Land	Lonca Arazisi	maps_tr.tsv
+mapa_gdzie	in Guild Land	in Guild Land	Lonca Arazisi'nde	maps_tr.tsv
+mapa_gdzie	in the Guild Land	in the Guild Land	Lonca Arazisi'nde	maps_tr.tsv
+mapa_dokad	to Guild Land	to Guild Land	Lonca Arazisi'ne	maps_tr.tsv
+mapa_dokad	to the Guild Land	to the Guild Land	Lonca Arazisi'ne	maps_tr.tsv
+mapa_dokad	into Guild Land	into Guild Land	Lonca Arazisi'ne	maps_tr.tsv
+mapa_dokad	into the Guild Land	into the Guild Land	Lonca Arazisi'ne	maps_tr.tsv
+mapa	Land of Giants	Land of Giants	Devler Diyari	maps_tr.tsv
+mapa_gdzie	in Land of Giants	in Land of Giants	Devler Diyari'nda	maps_tr.tsv
+mapa_gdzie	in the Land of Giants	in the Land of Giants	Devler Diyari'nda	maps_tr.tsv
+mapa_dokad	to Land of Giants	to Land of Giants	Devler Diyari'na	maps_tr.tsv
+mapa_dokad	to the Land of Giants	to the Land of Giants	Devler Diyari'na	maps_tr.tsv
+mapa_dokad	into Land of Giants	into Land of Giants	Devler Diyari'na	maps_tr.tsv
+mapa_dokad	into the Land of Giants	into the Land of Giants	Devler Diyari'na	maps_tr.tsv
+mapa	Thunder Mountains	Thunder Mountains	Yildirim Daglari	maps_tr.tsv
+mapa_gdzie	in Thunder Mountains	in Thunder Mountains	Yildirim Daglari'nda	maps_tr.tsv
+mapa_gdzie	in the Thunder Mountains	in the Thunder Mountains	Yildirim Daglari'nda	maps_tr.tsv
+mapa_dokad	to Thunder Mountains	to Thunder Mountains	Yildirim Daglari'na	maps_tr.tsv
+mapa_dokad	to the Thunder Mountains	to the Thunder Mountains	Yildirim Daglari'na	maps_tr.tsv
+mapa_dokad	into Thunder Mountains	into Thunder Mountains	Yildirim Daglari'na	maps_tr.tsv
+mapa_dokad	into the Thunder Mountains	into the Thunder Mountains	Yildirim Daglari'na	maps_tr.tsv
+mapa	Nephrite Bay	Nephrite Bay	Nefrit Korfezi	maps_tr.tsv
+mapa_gdzie	in Nephrite Bay	in Nephrite Bay	Nefrit Korfezi'nde	maps_tr.tsv
+mapa_gdzie	in the Nephrite Bay	in the Nephrite Bay	Nefrit Korfezi'nde	maps_tr.tsv
+mapa_dokad	to Nephrite Bay	to Nephrite Bay	Nefrit Korfezi'ne	maps_tr.tsv
+mapa_dokad	to the Nephrite Bay	to the Nephrite Bay	Nefrit Korfezi'ne	maps_tr.tsv
+mapa_dokad	into Nephrite Bay	into Nephrite Bay	Nefrit Korfezi'ne	maps_tr.tsv
+mapa_dokad	into the Nephrite Bay	into the Nephrite Bay	Nefrit Korfezi'ne	maps_tr.tsv
+mapa	Cape Dragon Fire	Cape Dragon Fire	Ejderha Atesi Burnu	maps_tr.tsv
+mapa_gdzie	in Cape Dragon Fire	in Cape Dragon Fire	Ejderha Atesi Burnu'nda	maps_tr.tsv
+mapa_gdzie	in the Cape Dragon Fire	in the Cape Dragon Fire	Ejderha Atesi Burnu'nda	maps_tr.tsv
+mapa_dokad	to Cape Dragon Fire	to Cape Dragon Fire	Ejderha Atesi Burnu'na	maps_tr.tsv
+mapa_dokad	to the Cape Dragon Fire	to the Cape Dragon Fire	Ejderha Atesi Burnu'na	maps_tr.tsv
+mapa_dokad	into Cape Dragon Fire	into Cape Dragon Fire	Ejderha Atesi Burnu'na	maps_tr.tsv
+mapa_dokad	into the Cape Dragon Fire	into the Cape Dragon Fire	Ejderha Atesi Burnu'na	maps_tr.tsv
+mapa	Cape Dragon Head	Cape Dragon Head	Ejderha Atesi Burnu	maps_tr.tsv
+mapa_gdzie	in Cape Dragon Head	in Cape Dragon Head	Ejderha Atesi Burnu'nda	maps_tr.tsv
+mapa_gdzie	in the Cape Dragon Head	in the Cape Dragon Head	Ejderha Atesi Burnu'nda	maps_tr.tsv
+mapa_dokad	to Cape Dragon Head	to Cape Dragon Head	Ejderha Atesi Burnu'na	maps_tr.tsv
+mapa_dokad	to the Cape Dragon Head	to the Cape Dragon Head	Ejderha Atesi Burnu'na	maps_tr.tsv
+mapa_dokad	into Cape Dragon Head	into Cape Dragon Head	Ejderha Atesi Burnu'na	maps_tr.tsv
+mapa_dokad	into the Cape Dragon Head	into the Cape Dragon Head	Ejderha Atesi Burnu'na	maps_tr.tsv
+mapa	Gautama Cliff	Gautama Cliff	Gautama Ucurumu	maps_tr.tsv
+mapa_gdzie	in Gautama Cliff	in Gautama Cliff	Gautama Ucurumu'nda	maps_tr.tsv
+mapa_gdzie	in the Gautama Cliff	in the Gautama Cliff	Gautama Ucurumu'nda	maps_tr.tsv
+mapa_dokad	to Gautama Cliff	to Gautama Cliff	Gautama Ucurumu'na	maps_tr.tsv
+mapa_dokad	to the Gautama Cliff	to the Gautama Cliff	Gautama Ucurumu'na	maps_tr.tsv
+mapa_dokad	into Gautama Cliff	into Gautama Cliff	Gautama Ucurumu'na	maps_tr.tsv
+mapa_dokad	into the Gautama Cliff	into the Gautama Cliff	Gautama Ucurumu'na	maps_tr.tsv
+mapa	Gumsan Tower	Gumsan Tower	Gumsan Kulesi	maps_tr.tsv
+mapa_gdzie	in Gumsan Tower	in Gumsan Tower	Gumsan Kulesi'nde	maps_tr.tsv
+mapa_gdzie	in the Gumsan Tower	in the Gumsan Tower	Gumsan Kulesi'nde	maps_tr.tsv
+mapa_dokad	to Gumsan Tower	to Gumsan Tower	Gumsan Kulesi'ne	maps_tr.tsv
+mapa_dokad	to the Gumsan Tower	to the Gumsan Tower	Gumsan Kulesi'ne	maps_tr.tsv
+mapa_dokad	into Gumsan Tower	into Gumsan Tower	Gumsan Kulesi'ne	maps_tr.tsv
+mapa_dokad	into the Gumsan Tower	into the Gumsan Tower	Gumsan Kulesi'ne	maps_tr.tsv
+mapa	Lungsam	Lungsam	Lungsam	maps_tr.tsv
+mapa_gdzie	in Lungsam	in Lungsam	Lungsam'da	maps_tr.tsv
+mapa_gdzie	in the Lungsam	in the Lungsam	Lungsam'da	maps_tr.tsv
+mapa_dokad	to Lungsam	to Lungsam	Lungsam'a	maps_tr.tsv
+mapa_dokad	to the Lungsam	to the Lungsam	Lungsam'a	maps_tr.tsv
+mapa_dokad	into Lungsam	into Lungsam	Lungsam'a	maps_tr.tsv
+mapa_dokad	into the Lungsam	into the Lungsam	Lungsam'a	maps_tr.tsv
+mapa	Snakefield	Snakefield	Yilan Vadisi	maps_tr.tsv
+mapa_gdzie	in Snakefield	in Snakefield	Yilan Vadisi'nde	maps_tr.tsv
+mapa_gdzie	in the Snakefield	in the Snakefield	Yilan Vadisi'nde	maps_tr.tsv
+mapa_dokad	to Snakefield	to Snakefield	Yilan Vadisi'ne	maps_tr.tsv
+mapa_dokad	to the Snakefield	to the Snakefield	Yilan Vadisi'ne	maps_tr.tsv
+mapa_dokad	into Snakefield	into Snakefield	Yilan Vadisi'ne	maps_tr.tsv
+mapa_dokad	into the Snakefield	into the Snakefield	Yilan Vadisi'ne	maps_tr.tsv
+mapa	Snake Field	Snake Field	Yilan Vadisi	maps_tr.tsv
+mapa_gdzie	in Snake Field	in Snake Field	Yilan Vadisi'nde	maps_tr.tsv
+mapa_gdzie	in the Snake Field	in the Snake Field	Yilan Vadisi'nde	maps_tr.tsv
+mapa_dokad	to Snake Field	to Snake Field	Yilan Vadisi'ne	maps_tr.tsv
+mapa_dokad	to the Snake Field	to the Snake Field	Yilan Vadisi'ne	maps_tr.tsv
+mapa_dokad	into Snake Field	into Snake Field	Yilan Vadisi'ne	maps_tr.tsv
+mapa_dokad	into the Snake Field	into the Snake Field	Yilan Vadisi'ne	maps_tr.tsv
+mapa	Red Dragon Fortress	Red Dragon Fortress	Kirmizi Ejderha Kalesi	maps_tr.tsv
+mapa_gdzie	in Red Dragon Fortress	in Red Dragon Fortress	Kirmizi Ejderha Kalesi'nde	maps_tr.tsv
+mapa_gdzie	in the Red Dragon Fortress	in the Red Dragon Fortress	Kirmizi Ejderha Kalesi'nde	maps_tr.tsv
+mapa_dokad	to Red Dragon Fortress	to Red Dragon Fortress	Kirmizi Ejderha Kalesi'ne	maps_tr.tsv
+mapa_dokad	to the Red Dragon Fortress	to the Red Dragon Fortress	Kirmizi Ejderha Kalesi'ne	maps_tr.tsv
+mapa_dokad	into Red Dragon Fortress	into Red Dragon Fortress	Kirmizi Ejderha Kalesi'ne	maps_tr.tsv
+mapa_dokad	into the Red Dragon Fortress	into the Red Dragon Fortress	Kirmizi Ejderha Kalesi'ne	maps_tr.tsv
+mapa	Nemere's Watchtower	Nemere's Watchtower	Nemere Gozlemevi	maps_tr.tsv
+mapa_gdzie	in Nemere's Watchtower	in Nemere's Watchtower	Nemere Gozlemevi'nde	maps_tr.tsv
+mapa_gdzie	in the Nemere's Watchtower	in the Nemere's Watchtower	Nemere Gozlemevi'nde	maps_tr.tsv
+mapa_dokad	to Nemere's Watchtower	to Nemere's Watchtower	Nemere Gozlemevi'ne	maps_tr.tsv
+mapa_dokad	to the Nemere's Watchtower	to the Nemere's Watchtower	Nemere Gozlemevi'ne	maps_tr.tsv
+mapa_dokad	into Nemere's Watchtower	into Nemere's Watchtower	Nemere Gozlemevi'ne	maps_tr.tsv
+mapa_dokad	into the Nemere's Watchtower	into the Nemere's Watchtower	Nemere Gozlemevi'ne	maps_tr.tsv
+mapa	Nemere Watchtower	Nemere Watchtower	Nemere Gozlemevi	maps_tr.tsv
+mapa_gdzie	in Nemere Watchtower	in Nemere Watchtower	Nemere Gozlemevi'nde	maps_tr.tsv
+mapa_gdzie	in the Nemere Watchtower	in the Nemere Watchtower	Nemere Gozlemevi'nde	maps_tr.tsv
+mapa_dokad	to Nemere Watchtower	to Nemere Watchtower	Nemere Gozlemevi'ne	maps_tr.tsv
+mapa_dokad	to the Nemere Watchtower	to the Nemere Watchtower	Nemere Gozlemevi'ne	maps_tr.tsv
+mapa_dokad	into Nemere Watchtower	into Nemere Watchtower	Nemere Gozlemevi'ne	maps_tr.tsv
+mapa_dokad	into the Nemere Watchtower	into the Nemere Watchtower	Nemere Gozlemevi'ne	maps_tr.tsv
+mapa	Colony	Colony	Koloni	maps_tr.tsv
+mapa_gdzie	in Colony	in Colony	Koloni'de	maps_tr.tsv
+mapa_gdzie	in the Colony	in the Colony	Koloni'de	maps_tr.tsv
+mapa_dokad	to Colony	to Colony	Koloni'ye	maps_tr.tsv
+mapa_dokad	to the Colony	to the Colony	Koloni'ye	maps_tr.tsv
+mapa_dokad	into Colony	into Colony	Koloni'ye	maps_tr.tsv
+mapa_dokad	into the Colony	into the Colony	Koloni'ye	maps_tr.tsv
+mapa	Castle Battle	Castle Battle	Kale Savasi	maps_tr.tsv
+mapa_gdzie	in Castle Battle	in Castle Battle	Kale Savasi'nda	maps_tr.tsv
+mapa_gdzie	in the Castle Battle	in the Castle Battle	Kale Savasi'nda	maps_tr.tsv
+mapa_dokad	to Castle Battle	to Castle Battle	Kale Savasi'na	maps_tr.tsv
+mapa_dokad	to the Castle Battle	to the Castle Battle	Kale Savasi'na	maps_tr.tsv
+mapa_dokad	into Castle Battle	into Castle Battle	Kale Savasi'na	maps_tr.tsv
+mapa_dokad	into the Castle Battle	into the Castle Battle	Kale Savasi'na	maps_tr.tsv
+ryba	27802	minnow	minik balik	item 27802
+ryba	27803	zander	sudak baligi	item 27803
+ryba	27804	mandarin fish	ringa baligi	item 27804
+ryba	27805	large zander	buyuk sudak baligi	item 27805
+ryba	27806	carp	sazan	item 27806
+ryba	27807	salmon	som baligi	item 27807
+ryba	27808	grass carp	ot sazani	item 27808
+ryba	27809	brook trout	dere alabaligi	item 27809
+ryba	27810	eel	zargana	item 27810
+ryba	27811	rainbow trout	gokkusagi alabaligi	item 27811
+ryba	27812	river trout	nehir alabaligi	item 27812
+ryba	27813	rudd	hamsi	item 27813
+ryba	27814	perch	levrek	item 27814
+ryba	27815	tenchi	tekir baligi	item 27815
+ryba	27816	catfish	yayin baligi	item 27816
+ryba	27817	loach	copra baligi	item 27817
+ryba	27818	lotus fish	lufer baligi	item 27818
+ryba	27819	sweetfish	sevimli balik	item 27819
+ryba	27820	smelt	palamut baligi	item 27820
+ryba	27821	shiri	kadife baligi	item 27821
+ryba	27822	mirror carp	aynali sazan	item 27822
+ryba	27823	goldfish	altin sudak baligi	item 27823
+skrot	290,291,292,293,294,295,296,297,298,299	Full Moon Sword	dolunay	attested
+skrot	180,181,182,183,184,185,186,187,188,189	Poison Sword	zehir	attested
+skrot	140,141,142,143,144,145,146,147,148,149	Battle Sword	muho	attested
+skrot	170,171,172,173,174,175,176,177,178,179	Sting Sword	azap	attested
+skrot	270,271,272,273,274,275,276,277,278,279	Triton Sword	triton	attested
+skrot	40,41,42,43,44,45,46,47,48,49	Bamboo Sword	bambu	attested
+skrot	70,71,72,73,74,75,76,77,78,79	Orchid Sword	orkide	attested
+skrot	100,101,102,103,104,105,106,107,108,109	Bloody Sword	kanli kilic	attested
+skrot	1170,1171,1172,1173,1174,1175,1176,1177,1178,1179	Black Leaf Dirk	syh	attested
+skrot	3210,3211,3212,3213,3214,3215,3216,3217,3218,3219	Red Iron Blade	kdp	attested
+skrot	13040,13041,13042,13043,13044,13045,13046,13047,13048,13049,13200,13201,13202,13203,13204,13205,13206,13207,13208,13209	Black Round Shield	syk	attested
+skrot	130,131,132,133,134,135,136,137,138,139	Half Moon Sword	yarimay	proposal
+skrot	220,221,222,223,224,225,226,227,228,229	Lunar Sword	ay kilici	proposal
+skrot	230,231,232,233,234,235,236,237,238,239	Heavenly Sword	ilahi kilic	proposal
+skrot	260,261,262,263,264,265,266,267,268,269	Baron Sword	baron	proposal
+skrot	280,281,282,283,284,285,286,287,288,289	Holy Sword	kutsal kilic	proposal
+skrot	250,251,252,253,254,255,256,257,258,259	Demon Blade	seytani pala	proposal
+skrot	3150,3151,3152,3153,3154,3155,3156,3157,3158,3159	Soul Stealing Blade	yari insan	proposal
+skrot	3100,3101,3102,3103,3104,3105,3106,3107,3108,3109	Twelve Spirit Sword	oniki ruh	proposal
+skrot	1080,1081,1082,1083,1084,1085,1086,1087,1088,1089	Rib Knife	kaburga	proposal
+skrot	1120,1121,1122,1123,1124,1125,1126,1127,1128,1129	Siamese Knife	siam	proposal
+skrot	1090,1091,1092,1093,1094,1095,1096,1097,1098,1099	Chakram	cakram	attested
+skrot	1130,1131,1132,1133,1134,1135,1136,1137,1138,1139	Devil Wing Chakram	seytan kanadi	proposal
+skrot	2160,2161,2162,2163,2164,2165,2166,2167,2168,2169	Giant Devil Bow	buyuk seytan yayi	proposal
+skrot	2170,2171,2172,2173,2174,2175,2176,2177,2178,2179	Crow Steel Bow	havali celik	proposal
+skrot	2180,2181,2182,2183,2184,2185,2186,2187,2188,2189	Blue Dragon Bow	mavi ejderha yayi	proposal
+skrot	5110,5111,5112,5113,5114,5115,5116,5117,5118,5119	Antique Bell	antik can	proposal
+skrot	5140,5141,5142,5143,5144,5145,5146,5147,5148,5149	Dragon Bell	ejderha cani	proposal
+skrot	14100,14101,14102,14103,14104,14105,14106,14107,14108,14109	Ebony Bracelet	abanoz bilezik	attested
+skrot	16100,16101,16102,16103,16104,16105,16106,16107,16108,16109	Ebony Necklace	abanoz kolye	attested
+skrot	17100,17101,17102,17103,17104,17105,17106,17107,17108,17109	Ebony Earrings	abanoz kupe	attested
+skrot	14200,14201,14202,14203,14204,14205,14206,14207,14208,14209	Heaven's Tear Bracelet	cennetin gozu bilezik	proposal
+skrot	16200,16201,16202,16203,16204,16205,16206,16207,16208,16209	Heaven's Tear Necklace	cennetin gozu kolye	proposal
+skrot	17200,17201,17202,17203,17204,17205,17206,17207,17208,17209	Heaven's Tear Earrings	cennetin gozu kupe	proposal
+skrot	14220,14221,14222,14223,14224,14225,14226,14227,14229	Soul Crystal Bracelet	ruh kristali bilezik	proposal
+skrot	16220,16221,16222,16223,16224,16225,16226,16227,16228,16229	Soul Crystal Necklace	ruh kristali kolye	proposal
+skrot	17220,17221,17222,17223,17224,17225,17226,17227,17228,17229	Soul Crystal Earrings	ruh kristali kupe	proposal
+klasa	warrior	warrior	savasci	hand
+klasa	assassin	assassin	ninja	TR players call the Assassin "ninja"
+klasa	ninja	ninja	ninja	hand
+klasa	sura	sura	sura	hand
+klasa	shaman	shaman	saman	hand
+klasa	lycan	lycan	lycan	hand
+krol	reds	reds	kirmizi	Shinsoo
+krol	yellows	yellows	sari	Chunjo
+krol	blues	blues	mavi	Jinno
+krol_wroga	reds	reds	kirmizi	Shinsoo
+krol_wroga	yellows	yellows	sari	Chunjo
+krol_wroga	blues	blues	mavi	Jinno
+nagroda_exp	a lot of	a lot of	bol	"gorevden bol exp, fena degil"
+nagroda_exp	a little	a little	az	hand
+nagroda_exp	some	some	biraz	hand
+nagroda_exp	little	little	az	hand
+nagroda_exp	huge	huge	cok	hand
+opcja	Yes	Yes	Evet	should be the option text of the Turkish quest dialog (quest_language tr)
+opcja	No	No	Hayir	hand
+punkt	by the blacksmith	by the blacksmith	demircinin yaninda	PLACEHOLDERS.tsv example
+punkt	by the storekeeper	by the storekeeper	depocunun yaninda	PLACEHOLDERS.tsv example
+punkt	by the general store	by the general store	marketin yaninda	hand
+punkt	by the weapon dealer	by the weapon dealer	silah saticisinin yaninda	hand
+punkt	by the armour dealer	by the armour dealer	zirh saticisinin yaninda	hand
+punkt	by the fisherman	by the fisherman	balikcinin yaninda	hand
+punkt	by the stable boy	by the stable boy	seyisin yaninda	hand
+punkt	by the teleporter	by the teleporter	isinlayicinin yaninda	hand
+punkt	by the guard	by the guard	muhafizin yaninda	hand
+punkt	at the fountain	at the fountain	cesmenin yaninda	hand
+punkt	at the gate	at the gate	kapinin yaninda	hand
+miejsce	in the north	in the north	kuzeyde	same as the client's playerbot_texts.txt
+miejsce	in the south	in the south	guneyde	hand
+miejsce	in the east	in the east	doguda	hand
+miejsce	in the west	in the west	batida	hand
+miejsce	in the north-east	in the north-east	kuzeydoguda	hand
+miejsce	in the north-west	in the north-west	kuzeybatida	hand
+miejsce	in the south-east	in the south-east	guneydoguda	hand
+miejsce	in the south-west	in the south-west	guneybatida	hand
+miejsce	in the middle of the map	in the middle of the map	haritanin ortasinda	hand
+miejsce	in the middle	in the middle	ortada	hand
+miejsce	in town	in town	sehirde	hand
+miejsce	by the blacksmith	by the blacksmith	demircinin yaninda	PLACEHOLDERS.tsv example of {miejsce}
+event	chest	chest	sandik	PLACEHOLDERS.tsv example; "etkinlik basladi: sandik!"
+event	exp	exp	exp	hand
+event	drop	drop	drop	hand
+event	OX	OX	OX	hand
+event	fishing	fishing	balik	hand
+event	okey	okey	okey	hand
+event	hunt	hunt	av	hand
+zyczenie	necklace 4 bonuses	necklace 4 bonuses	4 efsunlu kolye	pattern: "<item> <n> bonuses" -> "<n> efsunlu <item>"
+zyczenie	weapon	weapon	silah	item words for the {zyczenie} pattern
+zyczenie	armour	armour	zirh	hand
+zyczenie	helmet	helmet	kask	hand
+zyczenie	shield	shield	kalkan	hand
+zyczenie	bracelet	bracelet	bilezik	hand
+zyczenie	necklace	necklace	kolye	hand
+zyczenie	earrings	earrings	kupe	hand
+zyczenie	shoes	shoes	ayakkabi	hand
+zyczenie	belt	belt	kemer	hand
+bon	15% crit	15% crit	%15 kritik	pattern: "<n>% <bonus>" -> "%<n> <bonus>" (Turkish puts % first)
+bon	crit	crit	kritik	Kritik vurus sansi
+bon	pierce	pierce	delici	Delici vurus sansi
+bon	avg	avg	ortalama	Ortalama zarar
+bon	avg dmg	avg dmg	ortalama	hand
+bon	skill	skill	beceri	Beceri hasari
+bon	skill dmg	skill dmg	beceri hasari	hand
+bon	half-humans	half-humans	yari insan	Yari insanlara karsi guclu
+bon	half-human	half-human	yari insan	hand
+bon	monsters	monsters	canavar	Canavarlara karsi guclu
+bon	undead	undead	olumsuz	Olumsuzlere karsi guclu
+bon	devils	devils	seytan	Seytanlara karsi guclu
+bon	orcs	orcs	ork	Orklara karsi guclu
+bon	animals	animals	hayvan	Hayvanlara karsi guclu
+bon	mystics	mystics	mistik	Mistiklere karsi guclu
+bon	hp	hp	hp	"2k hp"
+bon	max hp	max hp	max hp	hand
+bon	sp	sp	sp	hand
+bon	attack speed	attack speed	saldiri hizi	hand
+bon	move speed	move speed	hareket hizi	hand
+bon	cast speed	cast speed	buyu hizi	hand
+bon	hp regen	hp regen	hp yenileme	hand
+bon	sp regen	sp regen	sp yenileme	hand
+bon	poison	poison	zehir	hand
+bon	stun	stun	sersemletme	hand
+bon	slow	slow	yavaslatma	hand
+bon	block	block	blok	hand
+bon	dodge	dodge	kacinma	Oklardan kacinma sansi
+bon	str	str	guc	hand
+bon	int	int	zeka	hand
+bon	dex	dex	ceviklik	hand
+bon	vit	vit	canlilik	hand
+bon	sword res	sword res	kilic savunmasi	hand
+bon	two-handed res	two-handed res	cift el savunmasi	hand
+bon	dagger res	dagger res	hancer savunmasi	hand
+bon	bell res	bell res	can savunmasi	hand
+bon	fan res	fan res	yelpaze savunmasi	hand
+bon	arrow res	arrow res	ok savunmasi	hand
+bon	magic res	magic res	buyu savunmasi	hand
+bon	attack value	attack value	saldiri degeri	hand
+bon	defence	defence	savunma	hand
+format	bon	{n}% {x}	%{n} {x}	Said: pattern "<n>% <bonus>" -> "%<n> <bonus>"
+format	event	+{n}% {x}	+%{n} {x}	the same order for an event's "+50% experience"
+format	zyczenie	{x} {n} bonuses	{n} efsunlu {x}	Said: pattern "<item> <n> bonuses" -> "<n> efsunlu <item>"
+bon	critical	critical	kritik	Said, 21 October (english-values-for-said.tr.tsv)
+bon	piercing	piercing	delici	Said, 21 October (english-values-for-said.tr.tsv)
+bon	atk speed	atk speed	saldiri hizi	Said, 21 October (english-values-for-said.tr.tsv)
+zyczenie	something better	something better	daha iyi bir sey	Said, 21 October (english-values-for-said.tr.tsv)
+zyczenie	an int piece for buffs	an int piece for buffs	buff icin zekali esya	Said, 21 October (english-values-for-said.tr.tsv)
+zyczenie	something	something	bir esya	Said, 21 October (english-values-for-said.tr.tsv)
+zyczenie	avg	avg	ort	Said, 21 October (english-values-for-said.tr.tsv)
+zyczenie	bonuses	bonuses	efsunlu	Said, 21 October (english-values-for-said.tr.tsv)
+zyczenie	with hp	with hp	hp'li	Said, 21 October (english-values-for-said.tr.tsv)
+zyczenie	with crit	with crit	kritikli	Said, 21 October (english-values-for-said.tr.tsv)
+zyczenie	with pierce	with pierce	delicili	Said, 21 October (english-values-for-said.tr.tsv)
+zyczenie	with attack speed	with attack speed	saldiri hizli	Said, 21 October (english-values-for-said.tr.tsv)
+zyczenie	with int	with int	zekali	Said, 21 October (english-values-for-said.tr.tsv)
+zyczenie	vs orcs	vs orcs	orklara karsi	Said, 21 October (english-values-for-said.tr.tsv)
+zyczenie	vs undead	vs undead	olumsuzlere karsi	Said, 21 October (english-values-for-said.tr.tsv)
+zyczenie	vs devils	vs devils	seytanlara karsi	Said, 21 October (english-values-for-said.tr.tsv)
+zyczenie	vs animals	vs animals	hayvanlara karsi	Said, 21 October (english-values-for-said.tr.tsv)
+zyczenie	vs mystics	vs mystics	mistiklere karsi	Said, 21 October (english-values-for-said.tr.tsv)
+punkt	here	here	burada	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Yongan	Yongan	Yongan'da	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Waryong	Waryong	Waryong'da	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Yayang	Yayang	Yayang'da	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Jungrang	Jungrang	Jungrang'da	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Monkey Dungeon	Monkey Dungeon	Maymun Zindani'nda	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Joan	Joan	Joan'da	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Bokjung	Bokjung	Bokjung'da	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Pyungmoo	Pyungmoo	Pyungmoo'da	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Bakra	Bakra	Bakra'da	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Imha	Imha	Imha'da	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Mount Sohan	Mount Sohan	Sohan Dagi'nda	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Doyyumhwan	Doyyumhwan	Doyyumhwan'da	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Yongbi Desert	Yongbi Desert	Yongbi Colu'nde	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Orc Valley	Orc Valley	Seungryong Vadisi'nde	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Hwang Temple	Hwang Temple	Hwang Tapinagi'nda	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Demon Tower	Demon Tower	Seytan Kulesi'nde	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Ghost Forest	Ghost Forest	Hayalet Ormani'nda	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Red Forest	Red Forest	Kirmizi Orman'da	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Grotto of Exile	Grotto of Exile	Surgun Magarasi'nda	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Grotto of Exile 2	Grotto of Exile 2	Surgun Magarasi 2'de	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Spider Dungeon 2	Spider Dungeon 2	Orumcek Zindani 2'de	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Spider Dungeon	Spider Dungeon	Orumcek Zindani'nda	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Monkey Dungeon II	Monkey Dungeon II	Maymun Zindani 2'de	Said, 21 October (english-values-for-said.tr.tsv)
+miejsce	Monkey Dungeon III	Monkey Dungeon III	Maymun Zindani 3'te	Said, 21 October (english-values-for-said.tr.tsv)
+event	experience	experience	exp	Said, 21 October (english-values-for-said.tr.tsv)
+event	drop chance	drop chance	drop sansi	Said, 21 October (english-values-for-said.tr.tsv)
+event	yang from monsters	yang from monsters	canavarlardan yang	Said, 21 October (english-values-for-said.tr.tsv)
+event	Moonlight Treasure Chests drop from monsters and Metin stones	Moonlight Treasure Chests drop from monsters and Metin stones	Ayisigi Define Sandiklari canavar ve Metinlerden dusuyor	Said, 21 October (english-values-for-said.tr.tsv)
+event	Moonlight Treasure Chests drop from monsters	Moonlight Treasure Chests drop from monsters	Ayisigi Define Sandiklari canavarlardan dusuyor	Said, 21 October (english-values-for-said.tr.tsv)
+event	Moonlight Treasure Chests drop from Metin stones	Moonlight Treasure Chests drop from Metin stones	Ayisigi Define Sandiklari Metinlerden dusuyor	Said, 21 October (english-values-for-said.tr.tsv)
+event	Moonlight Treasure Chests: drops disabled in settings	Moonlight Treasure Chests: drops disabled in settings	Ayisigi Define Sandiklari: ayarlarda drop kapali	Said, 21 October (english-values-for-said.tr.tsv)
+mapa_gdzie	on Mount Sohan	on Mount Sohan	Sohan Dagi'nda	Said, 21 October (english-values-for-said.tr.tsv)
+format	bon	{n}{x}	{n} {x}	Said, 21 October: Turkish order
+format	zyczenie	{n}% {x}+	%{n}+ {x}	Said, 21 October: Turkish order

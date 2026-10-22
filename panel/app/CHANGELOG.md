@@ -17,6 +17,53 @@ every version here.
 
 ---
 
+## 2.2.115 — 2026-10-22
+
+Aktualizacja z klientem 2.0.119 i nowym plikiem gry:
+
+- Okno gry (Kiciamol): w trybie okienkowym rozmiar okna zmienia się przeciągnięciem krawędzi albo maksymalizacją, a pasek zadań i okna gry dopasowują się do nowego rozmiaru. Skala interfejsu dalej ustawia się w opcjach.
+- Launcher (zgłosili rash.me i cago07): GRAJ czeka, aż serwer gry naprawdę odpowiada, a ekran logowania sam ponawia sprawdzenie kanałów, więc CH1 nie zostaje „off” po starcie świata.
+- Towarzysz (zgłosił a.8808): zsiada z konia, gdy walczy albo gdy właściciel jest pieszo obok.
+- Kopanie (zgłosił Dekri): górnicy, w tym Towarzysz, ulepszają pełny kilof.
+- Baza danych (zgłosił magicznytomasz): bufor bazy dobiera się do pamięci komputera lub VPS, co zmniejsza obciążenie dysku i procesora na dużych światach.
+- Wiki: opis, dlaczego niektóre przedmioty (np. Pazur Małpy) wypadają rzadko przy dużej przewadze poziomu nad potworem.
+- Klient: Dzwon Burzowego Ptaka pokazuje w opisie 15% szybkości ataku, tak jak działa na serwerze.
+
+Dziękujemy Kiciamolowi oraz rash.me, cago07, a.8808, Dekriemu i magicznytomaszowi za zgłoszenia!
+
+Zamknij grę, zaktualizuj serwer i launcher do 2.2.115, uruchom launcher ponownie, a następnie zaktualizuj klienta do 2.0.119. Wydanie chronione; postacie i ustawienia zostają zachowane. Błędy zgłaszaj z opisem i logami przez „Zgłoś błąd” w launcherze.
+
+## 2.2.114 — 2026-10-21
+
+Większa aktualizacja z klientem 2.0.118 (plik gry bez zmian):
+
+- Turecki (Said): kolejne tureckie teksty w kliencie, panelu i ItemShopie. Boty piszą na czacie tureckie nazwy przedmiotów, potworów, map i umiejętności. Przed nickiem w czacie gracz turecki, angielski i rumuński widzi [PM] zamiast [PW] (niemiecki [PN], francuski i portugalski [MP]).
+- Nicki botów według języka świata (Said): nowy świat z klientem po turecku dostaje tureckie nicki botów. Istniejący świat zachowuje swoje, a zmienić je można w panelu.
+- ItemShop (Said): nowe oferty, wyszukiwarka rozumiejąca polskie i tureckie litery, strona z miksturami i start na stronie z ofertami. Stary sklep w przeglądarce nie przyjmuje już zakupów - kupuje się w sklepie w grze.
+- Towarzysz (zgłosił javierwxw): po zmianie królestwa przez właściciela Towarzysz grający sam wraca do królestwa właściciela, a jego stoisko przenosi się do tamtejszej wioski.
+- Boty: zdejmują z lady i dokupują księgi Polimorfii i Dowodzenia, które mogą przeczytać. Ulepszają też przedmioty wysłane im z panelu w starszych wersjach, bo ochrona takiego daru trwa 24 godziny.
+- Boty (Tyrion): rozważniej dobierają kamienie duchowe i zwoje przy najlepszym sprzęcie oraz nie ponawiają w kółko nieudanych zakupów materiałów.
+- Klient: pasek życia przeciwnika-gracza pokazuje się od razu po uderzeniu (zgłosił Drip). Wybór kamery Bliżej/Dalej zostaje zapamiętany po restarcie gry.
+- Panel: w panelu GM (F9) jest Kamień Witalności. Edytor dropu pokazuje prawdziwą szansę każdej linii i zawartość grup oraz szkatułek.
+- Serwer (zgłosił magicznytomasz): koniec okresowych przycięć przy wielu sklepach botów.
+- Launcher: serwer stojący w sieci domowej działa w kliencie na tym samym komputerze (zgłosił Dog Food). Pełna paczka ma Launcher.bat w głównym folderze, a launcher raz proponuje skrót na pulpicie (pomysł Saida).
+
+Dziękujemy Saidowi i Tyrionowi oraz javierwxw, Dripowi, Dog Food i magicznytomaszowi za zgłoszenia!
+
+Zamknij grę, zaktualizuj serwer i launcher do 2.2.114, uruchom launcher ponownie, a następnie zaktualizuj klienta do 2.0.118. Wydanie chronione; postacie i ustawienia zostają zachowane. Błędy zgłaszaj z opisem i logami przez „Zgłoś błąd” w launcherze.
+
+## 2.2.113 — 2026-10-21
+
+Aktualizacja naprawcza z klientem 2.0.117 (plik gry bez zmian):
+
+- Auto Łowy (Colide, zgłosili DaTemox i iahgod): gra nie zamyka się już podczas teleportu, np. pierścieniem teleportacji, gdy w tej sesji otwierano okna Auto Łowów; po zmianie mapy Auto Łowy znów otwierają się klawiszem K i przyciskiem; przy wychodzeniu z gry nie wyskakuje już okienko z błędem; okno dodawania przedmiotu do „Własnych” otwiera się poprawnie i zamyka przyciskiem X oraz ESC; przełącznik „Filtr dla Z i `” od razu pokazuje swój stan.
+- Auto Łowy: przedmiot dopisany ręcznie do „Własnych” jest podnoszony, jeśli leży na ziemi i zwykłe podnoszenie go bierze - także gdy nie ma go w podstawowym katalogu filtra.
+- Panel (zgłosił Said): na światach założonych od wersji 2.2.91 polecenia z panelu - wysłanie przedmiotu lub yang, usunięcie przedmiotu, odblokowanie EXP, zakończenie questa i inne - znów docierają do gry. Naprawa dzieje się sama przy pierwszym starcie po aktualizacji.
+
+Dziękujemy Colide'owi za poprawki oraz DaTemox, iahgod i Saidowi za zgłoszenia!
+
+Zamknij grę, zaktualizuj serwer i launcher do 2.2.113, uruchom launcher ponownie, a następnie zaktualizuj klienta do 2.0.117. Wydanie chronione; postacie i ustawienia zostają zachowane. Błędy zgłaszaj z opisem i logami przez „Zgłoś błąd” w launcherze.
+
 ## 2.2.112 — 2026-10-21
 
 Duża porcja poprawek Waszych zgłoszeń, nowe Auto Łowy od Colide'a, wygodniejszy launcher z pomysłami z Easy Launchera Saida i poprawki wersji tureckiej. Klient 2.0.116 x64 zawiera nowe EXE.

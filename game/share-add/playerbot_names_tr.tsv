@@ -5442,8 +5442,8 @@ i	73010	Uzun saç (kýzýl)	f88a7ba5
 i	73011	Uzun saç (açýk kahve)	c93a3ddb
 i	73012	Uzun saç (açýk yeþil)	4139be94
 i	73051	Modern Saç (kýzýl)	20f3c36b
-i	73052	Havalý Kýsa Saç (açýk)	3a4c77ab
-i	73053	Havalý Kýsa Saç (mavi)	e44973de
+i	73052	Modern Saç (açýk)	3a4c77ab
+i	73053	Modern Saç (mavi)	e44973de
 i	73054	Modern Saç (kahve)	1a415a56
 i	73055	Bandana (kahve)	8a0346a1
 i	73056	Bandana (sarýþýn)	034197ae
@@ -5461,7 +5461,7 @@ i	73255	Güzel Kýsa Saç (kýzýl)	f69d9961
 i	73256	Güzel Kýsa Saç (kahve)	130492ef
 i	73257	Güzel Kýsa Saç (açýk)	69f0541d
 i	73258	Güzel Kýsa Saç (bordo)	6c4c954a
-i	73259	Kýsa Saç stili (kýzýl	f3c7c554
+i	73259	Kýsa Saç stili (kýzýl)	f3c7c554
 i	73260	Kýsa Saç stili (mavi)	0c21e949
 i	73261	Kýsa Saç stili (siyah)	02965a91
 i	73262	Kýsa Saç stili (sarý)	6f03c07a
@@ -5469,7 +5469,7 @@ i	73301	At kuyruðu (kahve)	af283cbc
 i	73302	At kuyruðu (yeþil)	898b6771
 i	73303	At kuyruðu (mavi)	f16a5591
 i	73304	At kuyruðu (fildiþi)	89c5454c
-i	73305	Güzel Kýsa Saç (kýzýl)	417e6431
+i	73305	Omuz Hiz. Saç (kýzýl)	417e6431
 i	73306	Omuz Hiz. Saç (kahve)	77472e1f
 i	73307	Omuz Hiz. Saç (açýk)	cb8c864b
 i	73308	Omuz Hiz. Saç (mor)	681d155a
@@ -5506,17 +5506,17 @@ i	73752	Zarif saç stili (siyah)	105a2d83
 i	73753	Zarif saç stili(mavi)	39e274bf
 i	73754	Zarif saç stili (beyaz)	aaf59047
 i	73755	Orta Uz. Saç (kahve)	48cd46bb
-i	73756	Orta Uz. Saç (siyah	84c2b24e
+i	73756	Orta Uz. Saç (siyah)	84c2b24e
 i	73757	Orta Uz. Saç (sarý)	c08a6831
 i	73758	Orta Uz. Saç (mor)	0d48178e
 i	73759	Eski saç stili (kahve)	b1cce3ef
-i	73760	Eski saç stili  (sarý)	5c2d4d9b
+i	73760	Eski saç stili (sarý)	5c2d4d9b
 i	73761	Eski Saç Stili (mor)	0b14e64a
-i	73762	Eski saç stili  (kahve)	ebf51c61
+i	73762	Eski saç stili (kýzýl)	ebf51c61
 i	73801	Gös. Saç Stili (kahve)	0d908d90
-i	73802	Gös. Saç Stili  (siyah)	e366548d
-i	73803	Gös. Saç Stili  (mavi)	0471b7b5
-i	73804	Gös. Saç Stili  (gri)	05aa335c
+i	73802	Gös. Saç Stili (siyah)	e366548d
+i	73803	Gös. Saç Stili (mavi)	0471b7b5
+i	73804	Gös. Saç Stili (gri)	05aa335c
 i	73805	Orta Uz. Saç (kahve)	b3c53796
 i	73806	Orta Uz. Saç (siyah)	16834031
 i	73807	Orta Uz. Saç (sarý)	c08a6831
@@ -6557,7 +6557,7 @@ m	9009	Balýkçý	edf15466
 m	9010	Genel Depocu Helen	687ee473
 m	9011	Evlenme Tasarýmcýsý	eb495b9e
 m	9012	Iþýnlayýcý	de72c5e9
-m	9013	Olay Yardýmcýsý	c6cc1026
+m	9013	Etkinlik Yardýmcýsý	c6cc1026
 m	10001	Jayang_Bölgesi 4002 8995	8b73b7ef
 m	10002	YounganBölgesi 4503 9050	ef119038
 m	10003	BokjungBölgesi 1118 2161	e93dd6f6
@@ -6936,7 +6936,7 @@ m	30305	Safir Damarý	ddf225a9
 m	33008	Jack Pumpkin	1218cbd2
 m	33009	Ruh Kristali Simyacýsý	67a47ed4
 m	33010	Yakut Simyacýsý	a0bcafed
-m	33011	Grena Simyacýsý	1277a068
+m	33011	Lal Simyacýsý	1277a068
 m	33012	Zümrüt Simyacýsý	14aa1cc2
 m	33013	Safir Simyacýsý	81127e5f
 m	34001	Ateþ Ankasý	bc16cfe7

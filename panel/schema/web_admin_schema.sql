@@ -38,6 +38,10 @@
 -- status index yourself. Only plain SQL that every MySQL and MariaDB accepts
 -- lives in here, so this file can be fed to a fresh database by anything,
 -- including a container entrypoint that has no shell logic to fall back on.
+--
+-- utf8mb4 on purpose: the game cores join player_name to player.player.name,
+-- which is latin1, and the mt2009 player database defaults to cp1250 - a queue
+-- made in it fails every such join with errno 1267 (Said, 21 October).
 CREATE TABLE IF NOT EXISTS web_admin_queue (
   id INT AUTO_INCREMENT PRIMARY KEY,
   player_name VARCHAR(24) NOT NULL,
@@ -46,7 +50,7 @@ CREATE TABLE IF NOT EXISTS web_admin_queue (
   status VARCHAR(24) DEFAULT 'pending',
   created DATETIME DEFAULT CURRENT_TIMESTAMP,
   KEY status_idx (status)
-);
+) DEFAULT CHARSET=utf8mb4;
 
 -- ---- server-wide rates ------------------------------------------------
 -- What the panel's "Server rates" page wants; apply_rates.sh reads it back

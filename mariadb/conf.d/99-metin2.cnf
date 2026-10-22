@@ -41,3 +41,12 @@ event_scheduler = ON
 # once a second instead loses at most a second of saves if the machine loses
 # power, and lets the queue drain as fast as the disk can write.
 innodb_flush_log_at_trx_commit = 2
+
+# The redo log's 96 MB default is checkpointed every few seconds under the
+# game's writes, and every checkpoint writes the pages it covers out again:
+# with the buffer pool grown to a gigabyte or two (the entrypoint in the
+# compose file sizes it) a 96 MB log would flush most of it over and over -
+# a VPS of 16 GB wrote 179 GB a day (report 5acdc810, issue #130). 512 MB lets
+# a page change many times between two writes of it, at 416 MB more on the
+# disk. MariaDB 11.8 resizes the log of an existing world at its next start.
+innodb_log_file_size = 512M

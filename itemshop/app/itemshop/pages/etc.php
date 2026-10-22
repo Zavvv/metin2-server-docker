@@ -11,7 +11,7 @@
 	<?php if (!$isPreview) { ?>
 	<div class="boxSigns">
 		<span class="heading">Smocze Znaki (SZ):</span>
-		<span class="marksValue"><?php echo (int)$info['mileage'];?></span>
+		<span class="marksValue"><?php echo (int)$info[itemshop_marks_column()];?></span>
 	</div>
 	<div class="boxCoins">
 		<span class="heading">Smocze Monety (SM):</span>
@@ -19,6 +19,7 @@
 	</div>
 	<?php } ?>
 </div>
+<?php if (itemshop_is_native()) { echo itemshop_native_notice_html(itemshop_lang()); } ?>
 <?php if (!$isPreview) { ?>
 <div class="userdataDiv">
 	<a title="Historia zakupow" href="?s=userdata" class="tip userdataIcon"></a>

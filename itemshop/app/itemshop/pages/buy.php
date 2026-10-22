@@ -23,13 +23,33 @@
 			$currency = ($item['currency'] === 'mileage') ? 'mileage' : 'cash';
 			$currencyLabel = ($currency === 'mileage') ? 'Smocze Znaki' : 'Smocze Monety';
 			$balance = (int)$info[$currency];
+			// mt2009 sells in the game, not here (native_shop.php, #124): no
+			// write below runs, whatever the balance.
+			$nativeRefuse = !$isPreview && itemshop_is_native();
 		?>
 		<h1>Zakup <?echo $items; ?></h1>
 		<?php
 			// Tryb podgladu: pokaz DOKLADNIE ten sam ekran sukcesu co przy prawdziwym
 			// zakupie w grze, ale bez zadnego zapisu do bazy - zaden przedmiot ani
 			// waluta nigdzie nie sa przydzielane.
-			if($isPreview || $balance >= $item['price']){
+			if ($nativeRefuse) {
+		?>
+		<div class="dynContent">
+			<div id="confirmBox" class="item">
+				<div class="itemDesc confirmDesc">
+					<div class="thumbnailBgSmall">
+						<img width="63px" height="63px" src="img/error.png"></img>
+					</div>
+					<p>
+						<span class="confirmTitle"><font color="red">Zakup nieudany</font></span>
+					</p>
+					<?php echo itemshop_native_notice_html(itemshop_lang()); ?>
+					<br class="clearfloat"></br>
+				</div>
+			</div>
+		</div>
+		<?php
+			} else if($isPreview || $balance >= $item['price']){
 			if (!$isPreview) {
 			$data = date('Y-m-d H:i:s');
 			mysqli_query($sqlServ, "INSERT INTO itemshop.ishop_log (buyer_name, item_name, date_of_buy, vnum_icon) VALUES ('".$_SESSION['id']."', '".$item['name_item']."', '$data', '".$item['vnum_icon']."')");
@@ -105,7 +125,7 @@
 			}
 		?>
 		<?php
-			if(!$isPreview && $balance >= $item['price']){
+			if(!$isPreview && !$nativeRefuse && $balance >= $item['price']){
 		?>
 		<div class="hint">
 			<div class="itemDesc messageDesc">
