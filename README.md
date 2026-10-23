@@ -46,8 +46,8 @@ esplicita.
    `playerbot-migrate` esegue `/opt/playerbot/apply.sh` dalla stessa immagine.
 8. Confrontare gli hash SHA-256 dei file protetti prima e dopo la copia.
 9. Il hook `pre-commit` rigenera automaticamente le percentuali personali
-   dell'alchimia e dell'apertura Clam prima del commit; il hook `pre-push` ne
-   verifica la presenza e blocca il push se il Dockerfile non e' conforme.
+   dell'alchimia prima del commit; il hook `pre-push` ne verifica la presenza e
+   blocca il push se il Dockerfile non e' conforme.
 10. Controllare `git status`, stageare il risultato e rivedere il diff prima di
    qualsiasi commit o push.
 
@@ -79,27 +79,6 @@ clone di lavoro, attivare una volta gli hook con:
 ```powershell
 git config core.hooksPath .githooks
 ```
-
-## Regola locale: apertura delle Clam
-
-Il core `game` protetto gestisce nativamente le Clam (`27987`), senza esporne
-le probabilita' in un file dati. Per non dipendere dai sorgenti del core,
-`game/quest/clam_opening.quest` intercetta l'evento `27987.use`, consuma una
-Clam e assegna il risultato definito in `config/clam-opening.json`.
-
-Le percentuali attuali sono: pietra 50%, nessun oggetto 16%, perla bianca 12%,
-perla blu 12% e perla rosso sangue 10%. Lo script
-`scripts/sync-clam-opening.ps1` rigenera e verifica sia la quest sia la sua
-presenza nella lista di compilazione di `game/Dockerfile`:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts\sync-clam-opening.ps1 -Mode Apply
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts\sync-clam-opening.ps1 -Mode Verify
-```
-
-La quest viene compilata nella build Docker. Dopo il primo redeploy che la
-include, verificare l'apertura reale di un piccolo lotto di Clam: e' il test
-finale che conferma l'intercettazione del comportamento nativo.
 
 ## Deploy con Portainer
 
