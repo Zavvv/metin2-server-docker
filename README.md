@@ -80,6 +80,16 @@ clone di lavoro, attivare una volta gli hook con:
 git config core.hooksPath .githooks
 ```
 
+## Personalizzazione locale: perle dai Setaou
+
+Le perle sono drop diretti dei gruppi Setaou in
+`game/share/locale/poland/mob_drop_item.txt`; questa personalizzazione resta
+quindi preservata durante gli update incrementali. I quattro Setaou di
+Atlantide 1, incluso il Capo, hanno: bianca 0,3%, blu 0,2%, rosso sangue 0,1%.
+I quattro Setaou di Atlantide 2, incluso il Comandante, hanno: bianca 0,5%,
+blu 0,4%, rosso sangue 0,3%. Sono probabilita' dirette e indipendenti dalla
+logica nativa di apertura delle Clam.
+
 ## Deploy con Portainer
 
 Questo progetto non usa `update.sh`. Dopo ogni importazione, eseguire il

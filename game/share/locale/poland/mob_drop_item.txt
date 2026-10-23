@@ -3187,6 +3187,9 @@ Group	Setaou-K?pfer87
 	17	180	1	0.04	-- Zatruty miecz+0
 	18	50124	1	0.2	-- Spróchniała Skrzynia
 	19	50121	1	0.6	-- Żelazne Pudełko
+	20	27992	1	0.3	-- Biała Perła
+	21	27993	1	0.2	-- Niebieska Perła
+	22	27994	1	0.1	-- Krwawa Perła
 }
 Group	Setaou-J?er89
 {
@@ -3213,6 +3216,9 @@ Group	Setaou-J?er89
 	18	1130	1	0.04	-- Skrzydła Demona Chakr.+0
 	19	50124	1	0.2	-- Spróchniała Skrzynia
 	20	50120	1	0.6	-- Żelazna Szkatułka
+	21	27992	1	0.3	-- Biała Perła
+	22	27993	1	0.2	-- Niebieska Perła
+	23	27994	1	0.1	-- Krwawa Perła
 }
 Group	Setaou-Seherin89
 {
@@ -3237,6 +3243,9 @@ Group	Setaou-Seherin89
 	16	5120	1	0.04	-- Bambusowy Dzwon+0
 	17	50124	1	0.2	-- Spróchniała Skrzynia
 	18	50122	1	0.6	-- Żelazna Skrzynia
+	19	27992	1	0.3	-- Biała Perła
+	20	27993	1	0.2	-- Niebieska Perła
+	21	27994	1	0.1	-- Krwawa Perła
 }
 Group	Refine_2404
 {
@@ -3272,6 +3281,9 @@ Group	Setaou-Anf?rer90
 	21	50120	1	0.2	-- Żelazna Szkatułka
 	22	50121	1	0.2	-- Żelazne Pudełko
 	23	50122	1	0.2	-- Żelazna Skrzynia
+	24	27992	1	0.3	-- Biała Perła
+	25	27993	1	0.2	-- Niebieska Perła
+	26	27994	1	0.1	-- Krwawa Perła
 }
 Group	Setaou-Soldat91
 {
@@ -3293,6 +3305,9 @@ Group	Setaou-Soldat91
 	13	192	1	0.1	-- Lwi Miecz+2
 	14	50121	1	0.6	-- Żelazne Pudełko
 	15	30196	1	0.02	-- Demoniczne Prochy
+	16	27992	1	0.5	-- Biała Perła
+	17	27993	1	0.4	-- Niebieska Perła
+	18	27994	1	0.3	-- Krwawa Perła
 }
 Group	Setaou-J?er93
 {
@@ -3316,6 +3331,9 @@ Group	Setaou-J?er93
 	15	1130	1	0.1	-- Skrzydła Demona Chakr.+0
 	16	50120	1	0.6	-- Żelazna Szkatułka
 	17	30196	1	0.03	-- Demoniczne Prochy
+	19	27992	1	0.5	-- Biała Perła
+	20	27993	1	0.4	-- Niebieska Perła
+	21	27994	1	0.3	-- Krwawa Perła
 }
 Group	Refine_2413
 {
@@ -3345,6 +3363,9 @@ Group	Setaou-Seherin95
 	14	70031	1	0.01	-- Broszura Szermierki
 	15	5122	1	0.1	-- Bambusowy Dzwon+2
 	16	50122	1	0.6	-- Żelazna Skrzynia
+	17	27992	1	0.5	-- Biała Perła
+	18	27993	1	0.4	-- Niebieska Perła
+	19	27994	1	0.3	-- Krwawa Perła
 }
 Group	Refine_2414
 {
@@ -3366,6 +3387,9 @@ Group	Setaou_Commander
 	6	50120	1	0.2	-- Żelazna Szkatułka
 	7	50121	1	0.2	-- Żelazne Pudełko
 	8	50122	1	0.2	-- Żelazna Skrzynia
+	9	27992	1	0.5	-- Biała Perła
+	10	27993	1	0.4	-- Niebieska Perła
+	11	27994	1	0.3	-- Krwawa Perła
 }
 Group	Setaou-General1
 {
