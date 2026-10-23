@@ -63,14 +63,13 @@ BIOLOGIST_MISSIONS = (
 BIOLOGIST_UNREACHABLE = frozenset()
 BIOLOGIST_REACHABLE = tuple(
     m for m in BIOLOGIST_MISSIONS if m[0] not in BIOLOGIST_UNREACHABLE)
-# What a person can do and what a bot's AI will do are two sets past seventy.
-# Tugyi's Tablet comes only from the Giants of metin2_map_nusluck01 (70), a map
-# no bot travels to, so the core has no home for that row and steps over it
-# (PLAYERBOT_BIOLOGIST_MISSIONS, playerbot_types.h); lv85 and lv90 follow it in
-# the chain and the core has no rows for them. A person is counted against
-# every row; a bot against the rows its AI can finish, or every bot of eighty
-# would read 11/14 for ever.
-BIOLOGIST_BOT_UNREACHABLE = frozenset(("collect_quest_lv80", "collect_quest_lv85", "collect_quest_lv90"))
+# What a person can do and what a bot's AI will do are two sets past eighty.
+# Tugyi's Tablet comes only from the Giants of metin2_map_nusluck01 (70), which
+# bots go to for that row since 22 October (PLAYERBOT_MAP_GIANTS, issue #159);
+# lv85 and lv90 follow it in the chain and the core has no rows for them. A
+# person is counted against every row; a bot against the rows its AI can
+# finish, or every bot of eighty-five would read 12/14 for ever.
+BIOLOGIST_BOT_UNREACHABLE = frozenset(("collect_quest_lv85", "collect_quest_lv90"))
 BIOLOGIST_BOT_ROWS = tuple(
     m for m in BIOLOGIST_REACHABLE if m[0] not in BIOLOGIST_BOT_UNREACHABLE)
 
@@ -14893,6 +14892,7 @@ DECISION_CODE_NAMES = {
   27: "OFF_FEED_CAP",
   28: "OFF_PERSON_SALE",
   29: "OFF_LOW_HEAD_SHIELD",
+  30: "OFF_RECLAIM_SCROLL",
  },
  "STEP": {
   1: "STEP_CONTEXT", 2: "STEP_BONUS_LINE", 3: "STEP_BONUS_MAX_LINES", 4: "STEP_BONUS_PERCENT", 5: "STEP_INVESTMENT",
@@ -30679,11 +30679,15 @@ def _client_data_base():
 
 
 def _client_data_world():
-    """world.item_proto and world.mob_proto through the editor's connection
-    (stored bytes back, so a CP1250 name is the client's bytes)."""
+    """world.item_proto, world.mob_proto and world.skill_proto through the
+    editor's connection (stored bytes back, so a CP1250 name is the client's
+    bytes). The skills are None where the world has no skill table the client
+    reads (issue #168)."""
     conn = _editsql.db.connect()
     try:
-        return _cprotos.fetch_world(conn)
+        items, mobs = _cprotos.fetch_world(conn)
+        skills = _cprotos.fetch_world_skills(conn) if hasattr(_cprotos, "fetch_world_skills") else None
+        return items, mobs, skills
     finally:
         conn.close()
 
@@ -30702,13 +30706,13 @@ def _client_data_build():
     """(zip bytes, manifest) for the world as it is, cached while neither the
     world nor the base changes."""
     index, data, info = _client_data_base()
-    items, mobs = _client_data_world()
-    key = (info.get("sha256"), _cprotos.world_checksum(items, mobs))
+    items, mobs, skills = _client_data_world()
+    key = (info.get("sha256"), _cprotos.world_checksum(items, mobs, skills))
     with _CLIENT_DATA_LOCK:
         hit = _CLIENT_DATA_CACHE.get("zip")
         if hit and hit[0] == key:
             return hit[1], hit[2]
-        out_index, out_data, report = _cprotos.build(index, data, items, mobs)
+        out_index, out_data, report = _cprotos.build(index, data, items, mobs, skills=skills)
         blob, manifest = _cprotos.make_zip(out_index, out_data, report, info, BRAND)
         _CLIENT_DATA_CACHE["zip"] = (key, blob, manifest)
         return blob, manifest
@@ -30726,7 +30730,7 @@ TPL_CLIENT_DATA = BASE.replace("__BODY__", """
 <h3>{{t('cd_status_t')}}</h3>
 {% if error %}<p class="bad-t">{{error}}</p>{% else %}
 <p class="muted">{{base_text}}</p>
-<p class="{{ 'ok-t' if not changed else '' }}">{{items_text}}<br>{{mobs_text}}</p>
+<p class="{{ 'ok-t' if not changed else '' }}">{{items_text}}<br>{{mobs_text}}{% if skills_text %}<br>{{skills_text}}{% endif %}</p>
 {% if not changed %}<p class="ok-t">{{t('cd_same')}}</p>{% else %}<p class="muted">{{t('cd_stock')}}</p>{% endif %}
 {% if rows %}
 <table>
@@ -30736,6 +30740,7 @@ TPL_CLIENT_DATA = BASE.replace("__BODY__", """
 {% if more %}<p class="muted">{{more}}</p>{% endif %}
 {% endif %}
 {% if renamed %}<p class="muted">{{renamed}}</p>{% endif %}
+{% if swapped %}<p><b>⚠️ {{swapped}}</b></p>{% endif %}
 {% endif %}
 </div>
 <div class="card">
@@ -30758,12 +30763,12 @@ TPL_CLIENT_DATA = BASE.replace("__BODY__", """
 @_client_data_guard
 def client_data_home():
     error = ""
-    rows, more, renamed, changed = [], "", "", False
-    base_text = items_text = mobs_text = ""
+    rows, more, renamed, swapped, changed = [], "", "", "", False
+    base_text = items_text = mobs_text = skills_text = ""
     try:
         index, data, info = _client_data_base()
-        items, mobs = _client_data_world()
-        d = _cprotos.diff(index, data, items, mobs)
+        items, mobs, skills = _client_data_world()
+        d = _cprotos.diff(index, data, items, mobs, skills)
         changed = d["changed"]
         base_text = t("cd_base").format(version=info.get("client_version") or "?")
         items_text = t("cd_items").format(n=d["items"]["changed"], added=d["items"]["added_count"],
@@ -30777,6 +30782,18 @@ def client_data_home():
                     for v, f in sorted(d["mob_fields"].items())]
         listing += [(t("cd_kind_mob"), v, _client_data_name(mobs, v, "m"), [t("cd_new_row")])
                     for v in d["mobs"]["added"]]
+        sk = d.get("skills") or {}
+        if sk.get("available"):
+            skills_text = t("cd_skills").format(n=sk["changed"], added=sk["added_count"], total=sk["world_rows"])
+            listing += [(t("cd_kind_skill"), v, (skills.get(v) or ["", ""])[1], f)
+                        for v, f in sorted(d.get("skill_fields", {}).items())]
+            listing += [(t("cd_kind_skill"), v, (skills.get(v) or ["", ""])[1], [t("cd_new_row")])
+                        for v in sk.get("added", [])]
+            if sk.get("swapped"):
+                swapped = t("cd_skill_swapped").format(skills=", ".join(
+                    "%d: %s \u2192 %s" % (s["vnum"], s["client"], s["world"]) for s in sk["swapped"][:20]))
+        else:
+            skills_text = t("cd_skills_none")
         rows = [{"kind": k, "vnum": v, "name": n, "fields": ", ".join(f)} for k, v, n, f in listing[:CLIENT_DATA_LIST]]
         if len(listing) > CLIENT_DATA_LIST:
             more = t("cd_more").format(n=len(listing) - CLIENT_DATA_LIST)
@@ -30789,8 +30806,8 @@ def client_data_home():
         app.logger.warning("client data: %s", exc)
         error = t("cd_db_down")
     return render_template_string(TPL_CLIENT_DATA, error=error, rows=rows, more=more, renamed=renamed,
-                                  changed=changed, base_text=base_text, items_text=items_text,
-                                  mobs_text=mobs_text)
+                                  swapped=swapped, changed=changed, base_text=base_text, items_text=items_text,
+                                  mobs_text=mobs_text, skills_text=skills_text)
 
 
 @app.route("/client-data/download", methods=["POST"])
@@ -30829,18 +30846,21 @@ T.update({
               "paczki (pack\\gamedata). Zmiana w edytorze bazy danych - bonusy przedmiotu, wartości ataku, cena u "
               "NPC, poziom potwora - działa na serwerze po restarcie, a klient pokazuje stare wartości w opisie "
               "przedmiotu, w pytaniu o sprzedaż i na pasku celu, dopóki nie dostanie tych tabel z tego świata. "
-              "Ta strona buduje je z world.item_proto i world.mob_proto.",
+              "Ta strona buduje je z world.item_proto i world.mob_proto, a wartości umiejętności (mana, czas "
+              "odnowienia, czas trwania, efekt w opisie) z world.skill_proto.",
         "en": "The game client never asks the server what an item is: it reads the item and monster tables from its "
               "own pack (pack\\gamedata). A change in the database editor - an item's bonuses, its attack values, "
               "its NPC price, a monster's level - works on the server after a restart, and the client shows the "
               "old values in the item's tooltip, in the sell question and on the target board until it gets this "
-              "world's tables. This page builds them from world.item_proto and world.mob_proto.",
+              "world's tables. This page builds them from world.item_proto and world.mob_proto, and the skills' "
+              "numbers (mana, cooldown, duration, the effect in the tooltip) from world.skill_proto.",
         "de": "Der Spielclient fragt den Server nie, was ein Gegenstand ist: Er liest die Gegenstands- und "
               "Monstertabelle aus seinem eigenen Paket (pack\\gamedata). Eine Änderung im Datenbank-Editor - "
               "Boni, Angriffswerte, NPC-Preis, Monsterstufe - gilt nach einem Neustart auf dem Server, und der "
               "Client zeigt die alten Werte im Tooltip, bei der Verkaufsfrage und in der Zielanzeige, bis er die "
-              "Tabellen dieser Welt bekommt. Diese Seite baut sie aus world.item_proto und world.mob_proto.",
-        "tr": "Oyun istemcisi bir eşyanın ne olduğunu sunucuya asla sormaz: eşya ve canavar tablolarını kendi paketinden (pack\\gamedata) okur. Veritabanı editöründeki bir değişiklik - bonuslar, saldırı değerleri, NPC fiyatı, canavar seviyesi - yeniden başlatmadan sonra sunucuda geçerli olur; istemci ise bu dünyanın tablolarını alana kadar eşya açıklamasında, satış sorusunda ve hedef panelinde eski değerleri gösterir. Bu sayfa onları world.item_proto ve world.mob_proto'dan oluşturur."},
+              "Tabellen dieser Welt bekommt. Diese Seite baut sie aus world.item_proto und world.mob_proto und "
+              "die Werte der Fertigkeiten (Mana, Abklingzeit, Dauer, Effekt im Tooltip) aus world.skill_proto.",
+        "tr": "Oyun istemcisi bir eşyanın ne olduğunu sunucuya asla sormaz: eşya ve canavar tablolarını kendi paketinden (pack\\gamedata) okur. Veritabanı editöründeki bir değişiklik - bonuslar, saldırı değerleri, NPC fiyatı, canavar seviyesi - yeniden başlatmadan sonra sunucuda geçerli olur; istemci ise bu dünyanın tablolarını alana kadar eşya açıklamasında, satış sorusunda ve hedef panelinde eski değerleri gösterir. Bu sayfa onları world.item_proto ve world.mob_proto'dan, becerilerin değerlerini (mana, bekleme süresi, süre, açıklamadaki etki) ise world.skill_proto'dan oluşturur."},
     "cd_order": {
         "pl": "Kolejność: zmiany w edytorze, „Zastosuj” (restart serwera), potem synchronizacja klienta. "
               "Synchronizacja niczego nie zmienia na serwerze.",
@@ -30904,6 +30924,37 @@ T.update({
                       "tr": "Farklı alanlar"},
     "cd_kind_item": {"pl": "przedmiot", "en": "item", "de": "Gegenstand", "tr": "eşya"},
     "cd_kind_mob": {"pl": "potwór", "en": "monster", "de": "Monster", "tr": "canavar"},
+    "cd_kind_skill": {"pl": "umiejętność", "en": "skill", "de": "Fertigkeit", "tr": "beceri"},
+    "cd_skills": {"pl": "Umiejętności: {n} różni się od klienta, {added} nowych (w świecie {total}). Klient bierze "
+                        "z nich manę, czas odnowienia, czas trwania, zasięg, poziomy i efekt w opisie.",
+                  "en": "Skills: {n} differ from the client, {added} new (the world has {total}). The client takes "
+                        "their mana, cooldown, duration, range, levels and the effect in the tooltip.",
+                  "de": "Fertigkeiten: {n} weichen vom Client ab, {added} neu (die Welt hat {total}). Der Client "
+                        "übernimmt Mana, Abklingzeit, Dauer, Reichweite, Stufen und den Effekt im Tooltip.",
+                  "tr": "Beceriler: {n} istemciden farklı, {added} yeni (dünyada {total}). İstemci bunlardan mana, "
+                        "bekleme süresi, süre, menzil, seviyeler ve açıklamadaki etkiyi alır."},
+    "cd_skills_none": {"pl": "Umiejętności: świat nie ma tabeli world.skill_proto, którą czyta klient - "
+                             "klient zachowuje swoje wartości.",
+                       "en": "Skills: the world has no world.skill_proto the client reads - the client keeps "
+                             "its own values.",
+                       "de": "Fertigkeiten: Die Welt hat keine world.skill_proto, die der Client liest - der "
+                             "Client behält seine Werte.",
+                       "tr": "Beceriler: dünyada istemcinin okuduğu world.skill_proto yok - istemci kendi "
+                             "değerlerini korur."},
+    "cd_skill_swapped": {
+        "pl": "Te numery mają w świecie inną umiejętność niż w kliencie: {skills}. Synchronizacja przeniesie "
+              "jej wartości (mana, czas odnowienia, efekt), ale nazwa, ikona, opis i animacja zostaną "
+              "klienta - są w paczce językowej (locale/<język>/SkillDesc.txt), której ta strona nie zmienia.",
+        "en": "These numbers hold another skill in the world than in the client: {skills}. The sync carries its "
+              "values (mana, cooldown, effect), but the name, icon, description and motion stay the client's - "
+              "they are in the language pack (locale/<lang>/SkillDesc.txt), which this page does not change.",
+        "de": "Diese Nummern tragen in der Welt eine andere Fertigkeit als im Client: {skills}. Die "
+              "Synchronisierung übernimmt ihre Werte (Mana, Abklingzeit, Effekt), aber Name, Symbol, "
+              "Beschreibung und Animation bleiben die des Clients - sie liegen im Sprachpaket "
+              "(locale/<Sprache>/SkillDesc.txt), das diese Seite nicht ändert.",
+        "tr": "Bu numaralarda dünyada istemcidekinden farklı bir beceri var: {skills}. Eşitleme onun değerlerini "
+              "(mana, bekleme süresi, etki) taşır, ama isim, simge, açıklama ve animasyon istemcinin kalır - "
+              "bunlar bu sayfanın değiştirmediği dil paketindedir (locale/<dil>/SkillDesc.txt)."},
     "cd_new_row": {"pl": "nowy wiersz", "en": "a new row", "de": "neue Zeile", "tr": "yeni satır"},
     "cd_more": {"pl": "… i {n} kolejnych.", "en": "… and {n} more.", "de": "… und {n} weitere.",
                 "tr": "… ve {n} tane daha."},

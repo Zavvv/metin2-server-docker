@@ -2889,7 +2889,13 @@ def install(mod):
         try:
             world = getattr(mod, '_ws', None)
             if getattr(mod, 'ENGINE_MT2009', False) and world:
-                return jsonify({'ok': True, 'resting': len(world.resting_ids(mod, live))})
+                # Issue #150: with the count, the lines that say why the game
+                # holds what it holds (playerbot_world_settings.population_explain).
+                try:
+                    explain = world.population_explain(mod, live)
+                    return jsonify({'ok': True, 'resting': explain['counts'].get('resting', 0), 'why': explain['lines']})
+                except Exception:  # noqa: BLE001 - the plain count as before
+                    return jsonify({'ok': True, 'resting': len(world.resting_ids(mod, live))})
             rest_code = getattr(mod, "SESSION_LOGOUT_REST", 1)
             rest_ids = {int(r['pid']) for r in _q(mod, 'SELECT pid FROM log.playerbot_session WHERE rest_until > NOW() '
                                                 'AND logout_reason IN (%s,8) GROUP BY pid', (rest_code,))}
@@ -5611,6 +5617,7 @@ JS = r"""
    '<div class="m2p-kpi" data-k="shops"><i>'+W.shops+'</i><b>—</b><small></small></div>'+
    '<div class="m2p-kpi" data-k="bots"><i>'+W.bots+'</i><b>—</b><small></small></div>'+
    '<div class="m2p-kpi" data-k="pt"><i>'+W.pt+'</i><b>—</b><small></small></div></div>'+
+   '<div class="m2p-why" style="font-size:12px;opacity:.85;margin:6px 2px 0;line-height:1.45"></div>'+
    '<div class="m2p-wgrid">'+
    '<div><h4>'+W.act+'</h4><div class="m2p-bars" data-b="act"></div></div>'+
    '<div><h4>'+W.maps+'</h4><div class="m2p-bars" data-b="maps"></div></div>'+
@@ -5641,7 +5648,8 @@ JS = r"""
    if(FIGHT.test(a)) return T2('Walczy z potworem','Fighting a monster'); return a.replace(/\d+$/,'').trim()||W.other; }
   var REST_N=null;
   function loadResting(){ fetch('/m2p/api/resting',{credentials:'same-origin'}).then(function(r){ return r.ok?r.json():null; }).then(function(j){
-   if(j&&j.ok){ REST_N=j.resting; var rs=ws.querySelector('[data-k="bots"] small'); if(rs) rs.textContent=T2('Odpoczywa: '+fmtN(REST_N)+' botów','Resting: '+fmtN(REST_N)+' bots'); } }).catch(function(){}); }
+   if(j&&j.ok){ REST_N=j.resting; var rs=ws.querySelector('[data-k="bots"] small'); if(rs) rs.textContent=T2('Odpoczywa: '+fmtN(REST_N)+' botów','Resting: '+fmtN(REST_N)+' bots');
+    var why=ws.querySelector('.m2p-why'); if(why) why.innerHTML=(j.why||[]).map(function(l){ return '<div>'+esc(l)+'</div>'; }).join(''); } }).catch(function(){}); }
   loadResting(); setInterval(loadResting,60000);
   function worldStats(){
    var all=window.g_bots||[], cur=String(window.g_selectedMap||'');

@@ -1,0 +1,1143 @@
+# playerbot_intents: intent<TAB>pattern<TAB>slots<TAB>weight
+# pattern: normalised token, prefix ending in *, or two tokens; slots: comma list or -
+# lang tr; 10534 training utterances; top 60 per intent
+accept	anlast*	-	8.161
+accept	anlastik	-	8.128
+accept	ok	-	7.614
+accept	olur kk	-	6.581
+accept	peki*	-	6.465
+accept	aynen kabul	-	6.451
+accept	oke*	-	6.451
+accept	okey*	-	6.451
+accept	ayne*	-	6.344
+accept	aynen*	-	6.344
+accept	tamamd*	-	6.344
+accept	tamamdir	-	6.344
+accept	peki abi	-	6.304
+accept	tamam abi	-	6.304
+accept	aynen abi	-	6.133
+accept	he tamam	-	6.133
+accept	tamam kanka	-	6.133
+accept	aliyorum	-	6.041
+accept	kabul ettim	-	5.701
+accept	anlas*	-	5.595
+accept	dedig*	-	5.205
+accept	dedigi*	-	5.205
+accept	dedigin	-	5.205
+accept	yolday*	-	5.034
+accept	yoldayim	-	5.034
+accept	tamam geliyorum	-	4.694
+accept	anl*	-	4.548
+accept	anla*	-	4.548
+accept	he	-	4.523
+accept	uyar*	-	4.523
+accept	yold*	-	4.523
+accept	yolda*	-	4.523
+accept	tama*	-	4.291
+accept	tamam*	-	4.291
+accept	ayn*	-	4.238
+accept	olur abi	-	3.966
+accept	bekletme beni	-	3.935
+accept	aliyor*	-	3.92
+accept	simdi geliyorum	-	3.886
+accept	geliyom	-	3.866
+accept	tam*	-	3.864
+accept	uzat*	-	3.862
+accept	uzatm*	-	3.862
+accept	uzatma*	-	3.862
+accept	pek*	-	3.848
+accept	kab*	-	3.733
+accept	kabu*	-	3.733
+accept	kabul*	-	3.733
+accept	uya*	-	3.567
+accept	aldim*	-	3.527
+accept	aliyo*	-	3.527
+accept	aliy*	-	3.474
+accept	geliyo*	-	3.431
+accept	geliy*	-	3.369
+accept	uyg*	-	3.154
+accept	uygu*	-	3.154
+accept	uygun*	-	3.154
+accept	geliyorum	-	3.035
+accept	bekletme	-	3.016
+accept	uza*	-	2.887
+boss_help	yardim et	-	7.535
+boss_help	yardim eder	-	7.071
+boss_help	boss icin	-	6.971
+boss_help	keselim mi	-	6.945
+boss_help	metine yardim	-	6.89
+boss_help	el atar	-	6.604
+boss_help	ks	-	6.489
+boss_help	var yardim	-	6.489
+boss_help	el at	-	6.359
+boss_help	bossa*	-	6.264
+boss_help	bossu kesmeye	-	6.264
+boss_help	metin cok	-	6.102
+boss_help	yardim etsene	-	6.041
+boss_help	icin yardim	-	5.91
+boss_help	dals*	-	5.837
+boss_help	dalsa*	-	5.837
+boss_help	destek olur	-	5.759
+boss_help	kesek mi	-	5.759
+boss_help	sert*	-	5.759
+boss_help	yardimci olur	-	5.759
+boss_help	yardim lazim	-	5.677
+boss_help	artik boss	-	5.674
+boss_help	cikti beraber	-	5.674
+boss_help	cok sert	-	5.674
+boss_help	kesemem	-	5.674
+boss_help	bi el	-	5.673
+boss_help	boss tek	-	5.582
+boss_help	bossu beraber	-	5.582
+boss_help	boss cok	-	5.48
+boss_help	indirelim	-	5.48
+boss_help	var musaitsen	-	5.48
+boss_help	yardim etsen	-	5.48
+boss_help	boss kesek	-	5.368
+boss_help	bossuna	-	5.368
+boss_help	cikti yardim	-	5.368
+boss_help	gelebilir misin	-	5.368
+boss_help	kesmeye yardim	-	5.368
+boss_help	metine gel	-	5.368
+boss_help	metine gelsene	-	5.368
+boss_help	tek kesemiyom	-	5.368
+boss_help	kesemiyom	-	5.348
+boss_help	olur musun	-	5.305
+boss_help	boss dustu	-	5.241
+boss_help	bossa yardim	-	5.241
+boss_help	cikti gel	-	5.241
+boss_help	dalsak*	-	5.241
+boss_help	icin destek	-	5.241
+boss_help	koydeki metine	-	5.241
+boss_help	kuledeki boss	-	5.241
+boss_help	metine beraber	-	5.241
+boss_help	boss var	-	5.214
+boss_help	bossu keselim	-	5.214
+boss_help	kanka bossu	-	5.165
+boss_help	kesmeme	-	5.165
+boss_help	eder misin	-	5.125
+boss_help	beraber alalim	-	5.097
+boss_help	beraber dalsak	-	5.097
+boss_help	bi yardim	-	5.097
+boss_help	boss a	-	5.097
+boss_help	bossu alalim	-	5.097
+buy_request	satilik mi	-	7.052
+buy_request	duruyor mu	-	6.835
+buy_request	duruyosa	plus	6.306
+buy_request	alabilir miyim	-	6.09
+buy_request	alicam fiyat	-	6.09
+buy_request	mu sende	-	5.962
+buy_request	syh sende	-	5.962
+buy_request	<plus> varsa	plus	5.816
+buy_request	almak istiyorum	plus	5.816
+buy_request	bana sat	plus	5.816
+buy_request	satiliksa	-	5.816
+buy_request	sats*	-	5.816
+buy_request	satsa*	-	5.816
+buy_request	satsan*	-	5.816
+buy_request	satsana	-	5.816
+buy_request	varsa alayim	plus	5.816
+buy_request	bana ayir	plus	5.647
+buy_request	bana satar	-	5.647
+buy_request	kdp hala	-	5.647
+buy_request	satar misin	-	5.647
+buy_request	zehir duruyo	-	5.647
+buy_request	hala sende	plus	5.541
+buy_request	sende mi	plus	5.251
+buy_request	duruyo mu	-	5.099
+buy_request	<plus> hala	plus	4.991
+buy_request	satar*	-	4.863
+buy_request	fiyat yaz	-	4.718
+buy_request	yi bana	plus	4.594
+buy_request	almak*	plus	4.352
+buy_request	mi fiyati	plus	4.207
+buy_request	icin fiyat	-	3.875
+buy_request	mi kac	plus	3.87
+buy_request	alicam ama	-	3.701
+buy_request	birakirsan	-	3.701
+buy_request	ucuza birakirsan	-	3.701
+buy_request	kdp sende	-	3.638
+buy_request	ayir*	-	3.44
+buy_request	duruyor	-	3.4
+buy_request	sata*	plus	3.261
+buy_request	fiyat soyle	-	3.248
+buy_request	mi fiyat	-	3.248
+buy_request	satiy*	-	3.248
+buy_request	satiyo*	-	3.248
+buy_request	alicam*	-	3.194
+buy_request	ayi*	-	3.189
+buy_request	alica*	-	3.138
+buy_request	alic*	-	3.111
+buy_request	fiyati soyle	-	3.081
+buy_request	istiyosun	-	3.017
+buy_request	fiyat ?	-	2.959
+buy_request	duruy*	-	2.946
+buy_request	duruyo*	-	2.946
+buy_request	artik dolunay	plus	2.938
+buy_request	cok lazim	-	2.938
+buy_request	yang ?	plus	2.938
+buy_request	ucuza birak	plus	2.916
+buy_request	kac para	plus	2.855
+buy_request	alay*	-	2.755
+buy_request	alayi*	-	2.755
+buy_request	alayim*	-	2.755
+come_here	bulusa*	-	7.658
+come_here	bulusalim	-	7.492
+come_here	tarafina gel	-	7.071
+come_here	kuleye gelsene	-	7.013
+come_here	tarafina gelsene	-	6.625
+come_here	bulus*	-	6.559
+come_here	dagina gel	-	6.389
+come_here	orumcege gel	-	6.389
+come_here	orumcege gelsene	-	6.153
+come_here	koyda bulusalim	-	6.085
+come_here	pazara gel	-	6.085
+come_here	zindana gelsene	-	6.085
+come_here	pazar tarafina	-	6.012
+come_here	bana gel	-	5.849
+come_here	buraya gel	-	5.849
+come_here	koy gel	-	5.849
+come_here	koya gelsene	-	5.849
+come_here	pazara gelsene	-	5.849
+come_here	vahay*	-	5.849
+come_here	buz dagina	-	5.789
+come_here	dagina*	-	5.789
+come_here	gel abi	-	5.756
+come_here	gel seni	-	5.756
+come_here	nerdeysen	-	5.756
+come_here	tarafina	-	5.694
+come_here	dagina gelsene	-	5.655
+come_here	vaha gel	-	5.655
+come_here	vahaya*	-	5.655
+come_here	vaha tarafina	-	5.569
+come_here	bulusak	-	5.542
+come_here	de iki	-	5.542
+come_here	laf edelim	-	5.542
+come_here	zindana gel	-	5.517
+come_here	bulabilirsen	-	5.415
+come_here	daginda bekliyom	-	5.415
+come_here	gel acil	-	5.415
+come_here	gel buraya	-	5.415
+come_here	goruse*	-	5.415
+come_here	vadisinde bulusalim	-	5.415
+come_here	vaha ya	-	5.415
+come_here	kuleye gel	-	5.404
+come_here	bulusalim mi	-	5.271
+come_here	dk sana	-	5.271
+come_here	kaybolmazsin	-	5.271
+come_here	bana gelsene	-	5.102
+come_here	bekliyom gel	-	5.102
+come_here	ben burdayim	-	5.102
+come_here	beni bul	-	5.102
+come_here	bulabilecek	-	5.102
+come_here	bulabilecek misin	-	5.102
+come_here	bulusak mi	-	5.102
+come_here	bulusalim hemen	-	5.102
+come_here	buraya gelsene	-	5.102
+come_here	daginda bulusalim	-	5.102
+come_here	de bakalim	-	5.102
+come_here	de bulusalim	-	5.102
+come_here	gel metin	-	5.102
+come_here	gel yanima	-	5.102
+come_here	gelsene hadi	-	5.102
+come_here	girisine	-	5.102
+duel_challenge	pvp*	-	9.625
+duel_challenge	ws	-	8.444
+duel_challenge	due*	-	7.731
+duel_challenge	duel*	-	7.731
+duel_challenge	pvp yapalim	-	7.651
+duel_challenge	atak*	-	7.413
+duel_challenge	atalim mi	-	7.372
+duel_challenge	pvp atalim	-	7.115
+duel_challenge	atak mi	-	6.914
+duel_challenge	duell*	-	6.781
+duel_challenge	duello*	-	6.767
+duel_challenge	pvp var	-	6.745
+duel_challenge	ws atalim	-	6.745
+duel_challenge	atal*	-	6.623
+duel_challenge	atali*	-	6.623
+duel_challenge	atalim*	-	6.623
+duel_challenge	hadi pvp	-	6.588
+duel_challenge	pvpd*	-	6.544
+duel_challenge	pvpde*	-	6.544
+duel_challenge	<num> <num>	-	6.41
+duel_challenge	ws var	-	6.403
+duel_challenge	pvpy*	-	6.298
+duel_challenge	pvpye*	-	6.298
+duel_challenge	kapisa*	-	6.186
+duel_challenge	<num> yapalim	-	6.18
+duel_challenge	harbi pvp	-	6.18
+duel_challenge	kapisalim	-	6.14
+duel_challenge	duel atalim	-	6.048
+duel_challenge	pvp atak	-	6.048
+duel_challenge	savasi*	-	6.048
+duel_challenge	ws atak	-	6.048
+duel_challenge	gel pvp	-	5.975
+duel_challenge	ws yapalim	-	5.975
+duel_challenge	duelloya	-	5.897
+duel_challenge	kapisalim mi	-	5.897
+duel_challenge	kardes pvp	-	5.897
+duel_challenge	lonca savasi	-	5.897
+duel_challenge	var misin	-	5.876
+duel_challenge	<num> ?	-	5.812
+duel_challenge	duel atak	-	5.812
+duel_challenge	duello atalim	-	5.812
+duel_challenge	<num> atalim	-	5.72
+duel_challenge	<num> var	-	5.72
+duel_challenge	duello yapalim	-	5.72
+duel_challenge	gel ws	-	5.72
+duel_challenge	la pvp	-	5.72
+duel_challenge	mi la	-	5.72
+duel_challenge	<num> kapisalim	-	5.618
+duel_challenge	harbi ws	-	5.618
+duel_challenge	pvp kapisalim	-	5.618
+duel_challenge	pvp yapak	-	5.618
+duel_challenge	<num> atak	-	5.505
+duel_challenge	bi duello	-	5.505
+duel_challenge	bi ws	-	5.505
+duel_challenge	da kim	-	5.505
+duel_challenge	duel at	-	5.505
+duel_challenge	dueld*	-	5.505
+duel_challenge	duelde*	-	5.505
+duel_challenge	duello var	-	5.505
+duel_challenge	ezik deme	-	5.505
+greeting	selam bugun	-	5.925
+greeting	sonunda geldin	-	5.925
+greeting	geldin mi	-	5.812
+greeting	oyund*	-	5.812
+greeting	oyunda*	-	5.812
+greeting	abi bugun	-	5.54
+greeting	kanka selam	-	5.54
+greeting	selam usta	-	5.54
+greeting	selam yeni	-	5.54
+greeting	selaml*	-	5.54
+greeting	yeni misin	-	5.54
+greeting	merhaba abi	-	5.375
+greeting	abi hg	-	5.371
+greeting	gelmissin	-	5.371
+greeting	oyuna yeni	-	5.371
+greeting	selam selam	-	5.371
+greeting	selam uzun	-	5.371
+greeting	selamlar	-	5.371
+greeting	uzun zaman	-	5.371
+greeting	zaman oldu	-	5.371
+greeting	oyuna*	-	5.186
+greeting	hg abi	-	5.107
+greeting	hg	-	5.047
+greeting	hg kanka	-	4.713
+greeting	<num> koyun	-	4.586
+greeting	naber ?	-	4.586
+greeting	kadar ciddi	-	4.441
+greeting	selam ya	-	4.441
+greeting	seni gorunce	-	4.441
+greeting	abi naber	-	4.412
+greeting	geldin ?	-	4.315
+greeting	herkese	-	4.272
+greeting	mi burdasin	-	4.272
+greeting	selam bu	-	4.272
+greeting	selam vereyim	-	4.272
+greeting	yab*	-	4.272
+greeting	yaba*	-	4.272
+greeting	yaban*	-	4.272
+greeting	yabanc*	-	4.272
+greeting	yabanci	-	4.272
+greeting	merhaba naber	-	4.259
+greeting	selam dostum	-	4.202
+greeting	yeni mi	-	4.202
+greeting	naber abi	-	4.153
+greeting	selam naber	-	4.098
+greeting	koyun*	-	4.075
+greeting	mi geldin	-	4.028
+greeting	cevap*	-	3.979
+greeting	nasilsin ?	-	3.979
+greeting	sel*	-	3.935
+greeting	naber <num>	-	3.93
+greeting	sela*	-	3.927
+greeting	selam*	-	3.927
+greeting	naber ya	-	3.922
+greeting	selam kanka	-	3.91
+greeting	abi selam	-	3.866
+greeting	gelmis*	-	3.866
+greeting	selam <num>	-	3.866
+greeting	selam abi	-	3.769
+greeting	vereyim dedim	-	3.761
+guild_invite	lon*	-	12.187
+guild_invite	lonc*	-	12.187
+guild_invite	lonca*	-	12.187
+guild_invite	loncan*	-	7.931
+guild_invite	bizim loncaya	-	7.545
+guild_invite	loncay*	-	7.342
+guild_invite	loncaya	-	7.342
+guild_invite	loncaniz	-	7.086
+guild_invite	loncana	-	6.935
+guild_invite	seni loncaya	-	6.935
+guild_invite	senin lonca	-	6.935
+guild_invite	loncaya gel	-	6.88
+guild_invite	loncan nasil	-	6.822
+guild_invite	loncanizda yer	-	6.76
+guild_invite	loncaya gelsene	-	6.76
+guild_invite	loncam*	-	6.695
+guild_invite	akt*	-	6.626
+guild_invite	akti*	-	6.626
+guild_invite	aktif*	-	6.626
+guild_invite	lonca daveti	-	6.626
+guild_invite	beni loncana	-	6.472
+guild_invite	lonca nasil	-	6.472
+guild_invite	loncanin	-	6.472
+guild_invite	uye*	-	6.472
+guild_invite	bizim lonca	-	6.386
+guild_invite	bizimk*	-	6.386
+guild_invite	aktif mi	-	6.293
+guild_invite	lonca ariyorum	-	6.293
+guild_invite	hangi loncadasin	-	6.19
+guild_invite	lonca dolu	-	6.19
+guild_invite	loncadasin	-	6.19
+guild_invite	loncan ne	-	6.19
+guild_invite	loncanin adi	-	6.19
+guild_invite	loncaya al	-	6.19
+guild_invite	loncaya alalim	-	6.19
+guild_invite	bizim*	-	6.174
+guild_invite	aliyor musunuz	-	6.076
+guild_invite	gecs*	-	6.076
+guild_invite	gecse*	-	6.076
+guild_invite	kanka loncaya	-	6.076
+guild_invite	loncamiza	-	6.076
+guild_invite	loncan dolu	-	6.076
+guild_invite	loncaya davet	-	6.076
+guild_invite	musunuz ?	-	6.076
+guild_invite	yeni uye	-	6.076
+guild_invite	loncanizda	-	6.033
+guild_invite	loncan var	-	5.987
+guild_invite	gecsen*	-	5.949
+guild_invite	loncana al	-	5.949
+guild_invite	senin loncada	-	5.949
+guild_invite	uye aliyor	-	5.949
+guild_invite	adi ne	-	5.803
+guild_invite	baskan*	-	5.803
+guild_invite	beni loncaya	-	5.803
+guild_invite	bizimkine	-	5.803
+guild_invite	bugun loncaya	-	5.803
+guild_invite	gecsene	-	5.803
+guild_invite	loncana alir	-	5.803
+guild_invite	loncaniz nasil	-	5.803
+guild_invite	loncaya alayim	-	5.803
+haggle	son ne	-	7.339
+haggle	<price> vereyim	price	7.072
+haggle	<price> verim	price	6.874
+haggle	<price> versem	price	6.799
+haggle	ne olur	-	6.799
+haggle	biraz indirim	price	6.719
+haggle	<price> veriyim	price	6.538
+haggle	abi biraz	price	6.435
+haggle	icin indirim	-	6.32
+haggle	indirim yapar	-	6.32
+haggle	geldi <price>	price	6.046
+haggle	yaparsan	price	6.046
+haggle	indirim yap	-	5.987
+haggle	<price> teklif	price	5.875
+haggle	abi pazarlik	-	5.875
+haggle	abi son	-	5.875
+haggle	son fiyatini	price	5.875
+haggle	icin son	-	5.775
+haggle	indirim	-	5.681
+haggle	pazarlik var	-	5.264
+haggle	versem*	price	5.264
+haggle	indiri*	-	5.247
+haggle	yapar misin	-	5.221
+haggle	abi <price>	price	5.033
+haggle	pahali geldi	plus,price	4.989
+haggle	biraz pazarlik	-	4.947
+haggle	versem olur	price	4.928
+haggle	yap da	price	4.928
+haggle	eks*	price	4.777
+haggle	eksi*	price	4.777
+haggle	muhoya*	-	4.777
+haggle	kac olur	-	4.582
+haggle	pazarlik yapalim	price	4.582
+haggle	indir*	-	4.484
+haggle	vers*	price	4.475
+haggle	verse*	price	4.475
+haggle	ind*	-	4.463
+haggle	icin <price>	price	4.451
+haggle	indi*	-	4.44
+haggle	hatr*	price	4.266
+haggle	hatri*	price	4.266
+haggle	icin pazarlik	-	4.266
+haggle	kdp pahali	price	4.266
+haggle	verim*	price	4.165
+haggle	<plus> <price>	plus,price	4.123
+haggle	da alayim	price	4.123
+haggle	mu abi	price	4.123
+haggle	son fiyat	-	4.031
+haggle	kdp icin	price	3.998
+haggle	veriyi*	price	3.972
+haggle	veriyim	price	3.972
+haggle	yok mu	price	3.972
+haggle	fiyat kac	-	3.964
+haggle	<plus> alcam	plus,price	3.929
+haggle	param*	price	3.848
+haggle	olur mu	plus,price	3.764
+haggle	yapars*	price	3.755
+haggle	yapar*	-	3.712
+haggle	abi dolu	plus,price	3.587
+haggle	<price> olur	plus,price	3.416
+party_invite	partiy*	-	8.724
+party_invite	partiye	-	8.724
+party_invite	partin*	-	7.769
+party_invite	part*	-	7.404
+party_invite	partine	-	7.388
+party_invite	party*	-	7.054
+party_invite	partiye al	-	7.035
+party_invite	gru*	-	6.96
+party_invite	grub*	-	6.821
+party_invite	parti*	-	6.802
+party_invite	gruba*	-	6.663
+party_invite	pty*	-	6.592
+party_invite	ptye*	-	6.592
+party_invite	party ye	-	6.393
+party_invite	parti daveti	-	6.252
+party_invite	al partiye	-	6.201
+party_invite	beni partiye	-	6.147
+party_invite	davet at	-	6.09
+party_invite	parti at	-	6.03
+party_invite	partin varsa	-	5.966
+party_invite	partiye alir	-	5.966
+party_invite	kura*	-	5.898
+party_invite	partim*	-	5.898
+party_invite	partime	-	5.898
+party_invite	partiye gelsene	-	5.898
+party_invite	ekl*	-	5.826
+party_invite	gel party	-	5.826
+party_invite	kur da	-	5.826
+party_invite	partiye davet	-	5.826
+party_invite	selam beni	-	5.826
+party_invite	selam partiye	-	5.826
+party_invite	gel partiye	-	5.747
+party_invite	kural*	-	5.747
+party_invite	kurali*	-	5.747
+party_invite	kuralim	-	5.747
+party_invite	parti kur	-	5.747
+party_invite	party at	-	5.747
+party_invite	ekle*	-	5.663
+party_invite	selam party	-	5.663
+party_invite	parti atsana	-	5.57
+party_invite	partine al	-	5.57
+party_invite	beni partine	-	5.469
+party_invite	davet atsana	-	5.469
+party_invite	party kur	-	5.469
+party_invite	par*	-	5.368
+party_invite	beni party	-	5.357
+party_invite	gruba al	-	5.357
+party_invite	kurduy*	-	5.357
+party_invite	kurduysan	-	5.357
+party_invite	parti kurdum	-	5.357
+party_invite	parti var	-	5.357
+party_invite	partine geleyim	-	5.357
+party_invite	partiye alabilir	-	5.357
+party_invite	party kuralim	-	5.357
+party_invite	senin partiye	-	5.357
+party_invite	girey*	-	5.337
+party_invite	gireyi*	-	5.337
+party_invite	gireyim	-	5.337
+party_invite	abi parti	-	5.23
+party_invite	davet yolla	-	5.23
+pay_first	<price> yi	price	7.805
+pay_first	yangin*	-	7.787
+pay_first	once ver	plus	7.761
+pay_first	yangini	-	7.706
+pay_first	yollar*	price	7.618
+pay_first	yollarim	price	7.618
+pay_first	yi ver	plus,price	7.588
+pay_first	yi once	price	7.557
+pay_first	yi hemen	plus,price	7.524
+pay_first	yangi hemen	-	7.349
+pay_first	once at	price	7.311
+pay_first	gond*	price	7.169
+pay_first	gonde*	price	7.169
+pay_first	gonder*	price	7.169
+pay_first	yangi*	-	7.146
+pay_first	hemen vercem	price	7.143
+pay_first	ver yangi	plus	7.097
+pay_first	yolluyom	price	7.049
+pay_first	hemen atcam	plus	6.999
+pay_first	once <price>	price	6.999
+pay_first	yangi once	-	6.999
+pay_first	ani*	price	6.891
+pay_first	anin*	price	6.891
+pay_first	anind*	price	6.891
+pay_first	aninda*	price	6.891
+pay_first	yi sonra	price	6.832
+pay_first	gondercem	price	6.771
+pay_first	hemen yollarim	plus,price	6.771
+pay_first	ver <price>	plus,price	6.771
+pay_first	yi at	plus,price	6.771
+pay_first	de yangi	-	6.706
+pay_first	once yolla	price	6.706
+pay_first	ver hele	price	6.706
+pay_first	yi yolla	price	6.706
+pay_first	once gelsin	-	6.637
+pay_first	yangini hemen	plus	6.637
+pay_first	atcam*	plus	6.635
+pay_first	once gonder	plus,price	6.563
+pay_first	once yangi	-	6.563
+pay_first	paras*	-	6.563
+pay_first	parasi*	-	6.563
+pay_first	parasini	-	6.563
+pay_first	yangi sonra	-	6.563
+pay_first	hil*	price	6.483
+pay_first	hile*	price	6.483
+pay_first	once dolu	plus,price	6.483
+pay_first	at once	price	6.397
+pay_first	hemen yolluyom	plus,price	6.397
+pay_first	u once	plus	6.397
+pay_first	bi ver	price	6.303
+pay_first	de <price>	price	6.303
+pay_first	hemen gondercem	price	6.303
+pay_first	zehiri ver	-	6.303
+pay_first	at ben	price	6.201
+pay_first	gonder de	plus,price	6.201
+pay_first	hemen atarim	-	6.201
+pay_first	itemi ver	-	6.201
+pay_first	sonra atarim	-	6.201
+pay_first	sonra atcam	plus	6.201
+pay_first	sonra vercem	price	6.201
+price_question	kac eder	-	6.317
+price_question	kk eder	-	6.212
+price_question	eder ?	-	6.095
+price_question	ne eder	-	6.095
+price_question	kaca gidiyor	plus	5.89
+price_question	kadar ya	-	5.812
+price_question	eder ya	-	5.635
+price_question	degeri*	-	5.533
+price_question	dolunay ne	-	5.42
+price_question	kadar harbi	-	5.42
+price_question	kdp piyasa	-	5.42
+price_question	kadar eder	-	5.359
+price_question	almayi dusunuyom	-	5.294
+price_question	bed*	-	5.294
+price_question	beda*	-	5.294
+price_question	bedav*	-	5.294
+price_question	bedava*	-	5.294
+price_question	dolu fiyat	-	5.294
+price_question	dolu ne	-	5.294
+price_question	hancer ne	-	5.294
+price_question	piyasa nasil	-	5.294
+price_question	syh piyasa	-	5.294
+price_question	ucuza var	-	5.294
+price_question	kaca gidiyo	plus	5.219
+price_question	yang eder	-	5.217
+price_question	eder abi	plus	5.149
+price_question	gider sence	-	5.149
+price_question	eder sence	-	4.996
+price_question	kaca gider	plus	4.996
+price_question	bu dolunay	-	4.981
+price_question	dolunay fiyat	-	4.981
+price_question	kadar ediyor	-	4.981
+price_question	yay ne	-	4.981
+price_question	fiyati kac	-	4.864
+price_question	syh ne	-	4.848
+price_question	kdp ne	-	4.803
+price_question	syh fiyati	-	4.791
+price_question	zehir ne	-	4.791
+price_question	dege*	-	4.713
+price_question	deger*	-	4.713
+price_question	kdp fiyat	-	4.713
+price_question	muho kaca	-	4.536
+price_question	ona gore	-	4.536
+price_question	hancer kac	-	4.421
+price_question	ucuza mi	-	4.371
+price_question	hemen alabilirim	-	4.322
+price_question	senc*	-	4.236
+price_question	sence*	-	4.236
+price_question	dolunay kac	-	4.202
+price_question	hancerin	-	4.195
+price_question	iyi duruyo	-	4.195
+price_question	muho fiyati	-	4.195
+price_question	almayi*	-	4.117
+price_question	muho ucuza	-	4.117
+price_question	<plus> piyasa	plus	4.051
+price_question	kadar acaba	-	4.051
+price_question	kadar kk	-	4.051
+price_question	kilic ne	-	4.051
+price_question	muho fiyat	-	4.051
+price_question	pahaliysa	plus	4.051
+quest_help	gorev*	-	8.835
+quest_help	gorevd*	-	8.629
+quest_help	gorevde	-	8.269
+quest_help	npc*	-	8.251
+quest_help	gorev icin	-	8.056
+quest_help	bu gorevde	-	7.241
+quest_help	metin nerede	-	7.114
+quest_help	gorevdeki	-	7.045
+quest_help	sirad*	-	6.864
+quest_help	sirada*	-	6.864
+quest_help	nerdeydi	-	6.836
+quest_help	ne yapcaz	-	6.715
+quest_help	npc yi	-	6.649
+quest_help	gorevdeki metin	-	6.503
+quest_help	hangi koyde	-	6.503
+quest_help	ne yapmam	-	6.503
+quest_help	gitc*	-	6.463
+quest_help	gitce*	-	6.463
+quest_help	gitmem*	-	6.463
+quest_help	npc nerede	-	6.463
+quest_help	sirada ne	-	6.463
+quest_help	gorevde sirada	-	6.287
+quest_help	sonra ne	-	6.287
+quest_help	yi bulamadim	-	6.287
+quest_help	gereki*	-	6.238
+quest_help	metin hangi	-	6.238
+quest_help	bossu bulamadim	-	6.187
+quest_help	gorevde metin	-	6.187
+quest_help	yapmam lazim	-	6.187
+quest_help	bossu buldun	-	6.076
+quest_help	gitcem*	-	6.076
+quest_help	gorevi*	-	6.059
+quest_help	bulc*	-	6.016
+quest_help	bulca*	-	6.016
+quest_help	kesmem lazim	-	6.016
+quest_help	bu gorev	-	5.952
+quest_help	gitmem lazim	-	5.952
+quest_help	sonraki adim	-	5.952
+quest_help	gorev ne	-	5.885
+quest_help	gorevde simdi	-	5.885
+quest_help	icin hangi	-	5.885
+quest_help	gidiyoduk	-	5.812
+quest_help	gorevde ne	-	5.812
+quest_help	kesiyoz	-	5.812
+quest_help	simdi ne	-	5.737
+quest_help	adim neydi	-	5.734
+quest_help	boss nerdeydi	-	5.734
+quest_help	gerekiyor	-	5.734
+quest_help	hangi koydeydi	-	5.734
+quest_help	koydeydi	-	5.734
+quest_help	metin nerdeydi	-	5.734
+quest_help	npcy*	-	5.734
+quest_help	bulcam*	-	5.649
+quest_help	hangi bossu	-	5.649
+quest_help	hatirliyon	-	5.649
+quest_help	hatirliyon mu	-	5.649
+quest_help	kesiyoduk	-	5.649
+quest_help	mi gitmem	-	5.649
+quest_help	nerdeydi yaa	-	5.649
+quest_help	npc <num>	-	5.649
+refuse	istemi*	-	7.436
+refuse	yok kk	-	7.289
+refuse	almayacagim	-	7.058
+refuse	yok kanka	-	7.058
+refuse	istemiyorum	-	6.922
+refuse	yok abi	-	6.824
+refuse	almiyc*	-	6.767
+refuse	almiycam	-	6.767
+refuse	uym*	-	6.767
+refuse	uyma*	-	6.767
+refuse	pas geciyorum	-	6.585
+refuse	almiyorum	-	6.482
+refuse	bana uymaz	-	6.482
+refuse	bu teklif	-	6.482
+refuse	sefer pas	-	6.482
+refuse	uymaz*	-	6.482
+refuse	almiy*	-	6.426
+refuse	yok ya	-	6.426
+refuse	bana gore	-	6.367
+refuse	istemiyom	-	6.367
+refuse	yok sag	-	6.367
+refuse	gerek yok	-	6.29
+refuse	olmaz kanka	-	6.239
+refuse	almaya*	-	6.112
+refuse	pas*	-	6.112
+refuse	kalsin abi	-	6.092
+refuse	olmaz abi	-	6.092
+refuse	teklifini	-	6.092
+refuse	vermem*	-	6.092
+refuse	ben bunu	-	5.922
+refuse	edem*	-	5.922
+refuse	edeme*	-	5.922
+refuse	etmiyorum	-	5.922
+refuse	girmem*	-	5.922
+refuse	ikn*	-	5.922
+refuse	ikna*	-	5.922
+refuse	kabul etmiyorum	-	5.922
+refuse	lazim degil	-	5.922
+refuse	o fiyata	-	5.922
+refuse	yok bu	-	5.922
+refuse	yok dostum	-	5.922
+refuse	almayayim	-	5.581
+refuse	almiyo*	-	5.581
+refuse	istem*	-	5.555
+refuse	geciyorum	-	5.157
+refuse	ol ama	-	5.14
+refuse	almi*	-	5.081
+refuse	geciyi*	-	4.823
+refuse	geciyim	-	4.823
+refuse	teklifin	-	4.758
+refuse	istemem	-	4.724
+refuse	etmiy*	-	4.629
+refuse	etmiyo*	-	4.629
+refuse	isteme*	-	4.523
+refuse	alm*	-	4.504
+refuse	almay*	-	4.495
+refuse	olmaz*	-	4.465
+refuse	almam*	-	4.449
+refuse	tekl*	-	4.388
+refuse	tekli*	-	4.388
+sell_offer	satilik <price>	plus,price	7.647
+sell_offer	<price> ver	plus,price	7.4
+sell_offer	fiyat <price>	price	7.4
+sell_offer	bende <price>	price	7.131
+sell_offer	satilir <price>	plus,price	6.89
+sell_offer	da olur	-	6.716
+sell_offer	<plus> satilir	plus,price	6.581
+sell_offer	var elimde	plus,price	6.581
+sell_offer	ver yeter	price	6.581
+sell_offer	satilik fiyat	price	6.508
+sell_offer	satcam sana	price	6.428
+sell_offer	ucuza birakirim	plus,price	6.428
+sell_offer	var ucuza	price	6.342
+sell_offer	<plus> satilik	plus,price	6.231
+sell_offer	satcam*	price	6.155
+sell_offer	bende fiyat	price	6.146
+sell_offer	satilir fiyat	plus,price	6.146
+sell_offer	var fiyat	-	6.146
+sell_offer	birakirim	plus,price	6.075
+sell_offer	satilir	price	6.063
+sell_offer	bende sana	plus,price	6.033
+sell_offer	sana ucuza	plus,price	6.033
+sell_offer	zehir satilir	price	6.033
+sell_offer	<price> dusunuyom	price	5.905
+sell_offer	kilic var	price	5.905
+sell_offer	satay*	price	5.905
+sell_offer	satayi*	price	5.905
+sell_offer	satayim	price	5.905
+sell_offer	ya birakirim	plus,price	5.905
+sell_offer	<price> pazarlik	price	5.76
+sell_offer	bende takas	plus	5.76
+sell_offer	birakirim <price>	price	5.76
+sell_offer	neyse ona	-	5.76
+sell_offer	piyasa <price>	price	5.76
+sell_offer	satilik piyasa	-	5.76
+sell_offer	satilik sana	plus,price	5.76
+sell_offer	satilik ucuza	-	5.76
+sell_offer	zehir var	-	5.617
+sell_offer	<plus> satcam	plus,price	5.59
+sell_offer	bende piyasa	-	5.59
+sell_offer	birakayim	price	5.59
+sell_offer	dusund*	plus,price	5.59
+sell_offer	dusundum	plus,price	5.59
+sell_offer	ilgilenir	price	5.59
+sell_offer	ilgilenir misin	price	5.59
+sell_offer	kdp satcam	price	5.59
+sell_offer	muho satilir	price	5.59
+sell_offer	sana fiyat	plus	5.59
+sell_offer	satilir sana	plus,price	5.59
+sell_offer	satiyorum	plus,price	5.59
+sell_offer	ucuza <price>	price	5.59
+sell_offer	ucuza veririm	plus,price	5.59
+sell_offer	valla <price>	price	5.59
+sell_offer	sana <price>	plus,price	5.383
+sell_offer	dolunay var	price	5.329
+sell_offer	satc*	price	5.308
+sell_offer	satca*	price	5.308
+sell_offer	var <price>	plus,price	5.28
+sell_offer	muho bende	price	5.244
+sell_offer	muho var	price	5.15
+smalltalk	lag*	-	7.196
+smalltalk	exp nasil	-	7.002
+smalltalk	afk*	-	6.895
+smalltalk	lag var	-	6.708
+smalltalk	afk misin	-	6.437
+smalltalk	mi kesiyon	-	6.297
+smalltalk	napiyon	-	6.191
+smalltalk	nasil gidiyo	-	6.186
+smalltalk	kasabildin	-	6.01
+smalltalk	kasabildin mi	-	6.01
+smalltalk	exp iyi	-	6.008
+smalltalk	gidiyo exp	-	5.942
+smalltalk	bugun exp	-	5.87
+smalltalk	exp kasabildin	-	5.87
+smalltalk	iyi gidiyo	-	5.87
+smalltalk	kesiyosun ?	-	5.791
+smalltalk	misin hala	-	5.791
+smalltalk	yetiyo mu	-	5.791
+smalltalk	akiy*	-	5.706
+smalltalk	akiyo*	-	5.706
+smalltalk	gidiyo mu	-	5.706
+smalltalk	hizli mi	-	5.706
+smalltalk	abi exp	-	5.614
+smalltalk	exp guzel	-	5.614
+smalltalk	nasil gidiyor	-	5.538
+smalltalk	kanka nasil	-	5.513
+smalltalk	naber nasil	-	5.513
+smalltalk	iyi mi	-	5.432
+smalltalk	her sey	-	5.4
+smalltalk	kasili*	-	5.4
+smalltalk	kasiyon mu	-	5.4
+smalltalk	lag yoksa	-	5.4
+smalltalk	merhaba ne	-	5.4
+smalltalk	naber exp	-	5.4
+smalltalk	yapiyosun su	-	5.4
+smalltalk	kesiyon	-	5.339
+smalltalk	afk degilsin	-	5.274
+smalltalk	devam mi	-	5.274
+smalltalk	kasiyor musun	-	5.274
+smalltalk	nasil abi	-	5.274
+smalltalk	pot yetiyo	-	5.274
+smalltalk	sen napion	-	5.274
+smalltalk	yoksa exp	-	5.274
+smalltalk	kasab*	-	5.198
+smalltalk	kasabi*	-	5.198
+smalltalk	ne yapiyosun	-	5.134
+smalltalk	akiyo mu	-	5.129
+smalltalk	duruml*	-	5.129
+smalltalk	durumlar	-	5.129
+smalltalk	durumlar nasil	-	5.129
+smalltalk	expin*	-	5.129
+smalltalk	kasiliyo	-	5.129
+smalltalk	kasma nasil	-	5.129
+smalltalk	nasil iyi	-	5.129
+smalltalk	ne kasiyosun	-	5.129
+smalltalk	selam nasil	-	5.129
+smalltalk	sen napiosun	-	5.129
+smalltalk	yerinde mi	-	5.129
+smalltalk	ne yapiyon	-	4.978
+smalltalk	de kasmaya	-	4.961
+taunt	coc*	-	8.209
+taunt	cocu*	-	8.209
+taunt	cocuk*	-	8.209
+taunt	eziq*	-	7.566
+taunt	cayl*	-	7.065
+taunt	cayla*	-	7.065
+taunt	caylak*	-	7.065
+taunt	kesemedin	-	6.068
+taunt	noob gibi	-	6.068
+taunt	biraz hizlan	-	5.764
+taunt	cocuk kulede	-	5.764
+taunt	eziq seni	-	5.764
+taunt	caylak misin	-	5.672
+taunt	ezik metin	-	5.672
+taunt	caylak gibi	-	5.57
+taunt	cocuk <num>	-	5.57
+taunt	cocuk biraz	-	5.458
+taunt	cocuk xd	-	5.458
+taunt	eziq gibi	-	5.458
+taunt	gibi kaldin	-	5.458
+taunt	kulede bile	-	5.458
+taunt	vurusl*	-	5.458
+taunt	cay*	-	5.455
+taunt	ezik misin	-	5.331
+taunt	ezik xd	-	5.331
+taunt	ezik yine	-	5.331
+taunt	kulede kayboldun	-	5.331
+taunt	yatt*	-	5.331
+taunt	yatti*	-	5.331
+taunt	yattin*	-	5.331
+taunt	yayl*	-	5.331
+taunt	yayla*	-	5.331
+taunt	yere dustun	-	5.331
+taunt	yetisemedin	-	5.331
+taunt	noo*	-	5.219
+taunt	noob*	-	5.219
+taunt	bile kesemedin	-	5.186
+taunt	cocuk metin	-	5.186
+taunt	eziq yine	-	5.186
+taunt	hah*	-	5.186
+taunt	koyda bile	-	5.186
+taunt	vuram*	-	5.186
+taunt	yavas olma	-	5.186
+taunt	dustun*	-	5.122
+taunt	kadar yavas	-	5.033
+taunt	bossu bile	-	5.018
+taunt	gibi dolaniyon	-	5.018
+taunt	haha*	-	5.018
+taunt	kadar yavaslik	-	5.018
+taunt	kaldin orda	-	5.018
+taunt	kalk	-	5.018
+taunt	kalkanla	-	5.018
+taunt	koyde bile	-	5.018
+taunt	toparlan	-	5.018
+taunt	vuruslarin	-	5.018
+taunt	yavaslik	-	5.018
+taunt	yetisemiyon	-	5.018
+taunt	kulede de	-	4.97
+taunt	kacirdin	-	4.901
+taunt	ezi*	-	4.815
+thanks	buff icin	-	7.565
+thanks	yardim ettin	-	7.316
+thanks	tic*	-	7.181
+thanks	tica*	-	7.181
+thanks	ticar*	-	7.181
+thanks	ticare*	-	7.181
+thanks	yardimin	-	7.132
+thanks	icin sagol	-	7.081
+thanks	sago*	-	7.062
+thanks	sagol*	-	7.062
+thanks	ticaret	-	7.027
+thanks	cok sagol	-	6.747
+thanks	icin eyw	-	6.674
+thanks	icin tesekkur	-	6.596
+thanks	ticaret icin	-	6.554
+thanks	sagol ya	-	6.511
+thanks	takas icin	-	6.511
+thanks	tesekkur ederim	-	6.511
+thanks	adams*	-	6.466
+thanks	adamsi*	-	6.466
+thanks	adamsin	-	6.466
+thanks	yardim icin	-	6.466
+thanks	eyw*	-	6.289
+thanks	cok sag	-	6.265
+thanks	icin tesekkurler	plus	6.147
+thanks	yardimin icin	-	6.147
+thanks	eyw kanka	-	6.084
+thanks	verdin*	price	5.943
+thanks	yardimci oldun	-	5.943
+thanks	cok saol	-	5.864
+thanks	lazimd*	plus	5.864
+thanks	lazimdi	plus	5.864
+thanks	ol ya	-	5.864
+thanks	sagol kanka	-	5.864
+thanks	buff iyi	-	5.779
+thanks	cok yardimci	-	5.779
+thanks	isime yaradi	-	5.779
+thanks	iyi geldi	-	5.779
+thanks	kurtardin	-	5.779
+thanks	tam zamaninda	-	5.779
+thanks	yine yetistin	-	5.779
+thanks	zamaninda	-	5.779
+thanks	sagol buff	-	5.687
+thanks	tam lazimdi	plus	5.687
+thanks	ticaret de	-	5.687
+thanks	sao*	-	5.684
+thanks	saol*	-	5.684
+thanks	by	-	5.585
+thanks	cok tesekkur	-	5.585
+thanks	dokun*	-	5.585
+thanks	dokund*	-	5.585
+thanks	dokundu	-	5.585
+thanks	olmasa*	-	5.585
+thanks	super oldu	-	5.585
+thanks	tam aradigim	plus	5.585
+thanks	tesekkur kanka	-	5.585
+thanks	yardimin dokundu	-	5.585
+thanks	bast*	-	5.473
+thanks	basti*	-	5.473
+thanks	bastin*	-	5.473
+wait	bi saniye	-	7.509
+wait	beklesene	-	7.326
+wait	sabr*	-	7.167
+wait	bekler misin	-	6.948
+wait	sabre*	-	6.948
+wait	sabret*	-	6.948
+wait	dur bi	-	6.913
+wait	dur hele	-	6.877
+wait	az bekle	-	6.79
+wait	<num> dk	-	6.76
+wait	bir dk	-	6.428
+wait	dk sabret	-	6.37
+wait	bekle hemen	-	6.31
+wait	dur az	-	6.31
+wait	yazc*	-	6.31
+wait	yazca*	-	6.31
+wait	yazcam*	-	6.31
+wait	bekle kanka	-	6.246
+wait	halledip	-	6.246
+wait	iki dk	-	6.246
+wait	bakip gelcem	-	6.177
+wait	bekle biraz	-	6.177
+wait	donc*	-	6.104
+wait	donce*	-	6.104
+wait	doncem*	-	6.104
+wait	azc*	-	6.025
+wait	azci*	-	6.025
+wait	azcik*	-	6.025
+wait	bekle ya	-	5.94
+wait	dk bekler	-	5.94
+wait	dk dur	-	5.94
+wait	dk ya	-	5.94
+wait	hemen doncem	-	5.94
+wait	bi sen	-	5.848
+wait	dk bekle	-	5.788
+wait	bekle abi	-	5.746
+wait	bekle bi	-	5.746
+wait	bitiri*	-	5.746
+wait	dur da	-	5.746
+wait	hemen donuyom	-	5.746
+wait	isim var	-	5.746
+wait	bekle lutfen	-	5.633
+wait	bi dakika	-	5.633
+wait	biraz bekle	-	5.633
+wait	bitirip	-	5.633
+wait	saniye bekle	-	5.633
+wait	saniye dur	-	5.633
+wait	yazari*	-	5.633
+wait	yazarim	-	5.633
+wait	dur hemen	-	5.506
+wait	halledip gelcem	-	5.506
+wait	isimi halledip	-	5.506
+wait	sabri*	-	5.506
+wait	sabrin*	-	5.506
+wait	saniye*	-	5.451
+wait	bekle az	-	5.405
+wait	bekles*	-	5.404
+wait	bekle azcik	-	5.362
+wait	bekle hele	-	5.362
+wait	bekle pazar	-	5.362
+where_are_you	chd*	-	7.672
+where_are_you	chde*	-	7.672
+where_are_you	chdes*	-	7.529
+where_are_you	chdesi*	-	7.529
+where_are_you	chdesin	-	7.529
+where_are_you	hangi chdesin	-	7.529
+where_are_you	hangi haritadasin	-	7.529
+where_are_you	haritadasin	-	7.529
+where_are_you	kanal*	-	7.243
+where_are_you	kanald*	-	7.243
+where_are_you	map*	-	7.243
+where_are_you	hangi maptesin	-	7.106
+where_are_you	mapt*	-	7.106
+where_are_you	mapte*	-	7.106
+where_are_you	maptes*	-	7.106
+where_are_you	maptesin	-	7.106
+where_are_you	kanaldasin	-	7.03
+where_are_you	hangi ch	-	6.949
+where_are_you	hangi kanaldasin	-	6.949
+where_are_you	kanka hangi	-	6.949
+where_are_you	yakin misin	-	6.767
+where_are_you	yakininda	-	6.663
+where_are_you	haritadasin ?	-	6.418
+where_are_you	abi hangi	-	6.271
+where_are_you	yakininda misin	-	6.271
+where_are_you	kana*	-	6.144
+where_are_you	nerede takiliyorsun	-	6.1
+where_are_you	neredesin abi	-	6.1
+where_are_you	tarafinda misin	-	6.007
+where_are_you	yakini*	-	5.763
+where_are_you	yakin*	-	5.603
+where_are_you	saklan*	-	5.172
+where_are_you	yaki*	-	5.092
+where_are_you	zindanda misin	-	5.046
+where_are_you	hangi koydesin	-	5.001
+where_are_you	neredesin kanka	-	5.001
+where_are_you	neredesin	-	4.917
+where_are_you	koydes*	-	4.662
+where_are_you	misin su	-	4.662
+where_are_you	yoksa baska	-	4.662
+where_are_you	koydesin	-	4.491
+where_are_you	orumcek tarafinda	-	4.35
+where_are_you	pazarin	-	4.325
+where_are_you	yak*	-	4.243
+where_are_you	sakla*	-	4.149
+where_are_you	harit*	-	4.145
+where_are_you	harita*	-	4.145
+where_are_you	hang*	-	3.922
+where_are_you	hangi*	-	3.922
+where_are_you	hari*	-	3.908
+where_are_you	orumcekte misin	-	3.853
+where_are_you	sakl*	-	3.839
+where_are_you	misin abi	-	3.584
+where_are_you	takiliyorsun	-	3.584
+where_are_you	yine kayboldun	-	3.562
+where_are_you	misin yoksa	-	3.497
+where_are_you	nerdes*	-	3.467
+where_are_you	nerdesin	-	3.467
+where_are_you	kulede misin	-	3.413
+where_are_you	misin kanka	-	3.331

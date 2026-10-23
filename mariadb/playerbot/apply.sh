@@ -616,6 +616,15 @@ db_retry -e "UPDATE world.mob_proto SET gold_min = 15000, gold_max = 25000 WHERE
 # (tanaka_ears.quest), stacks to the 200 its row already says: the package
 # left ITEM_FLAG_STACKABLE off, so every ear took a cell. Idempotent.
 db_retry -e "UPDATE world.item_proto SET flag = flag | 4 WHERE vnum = 30202 AND (flag & 4) = 0;" || echo "[playerbot-migrate] WARNING: could not make Tanaka's ear stack" >&2
+# The Underground Ice Golem (1137) of the Grotto of Exile V1 resists every
+# melee weapon by 40 (the two-hander by 35) where the rest of its map
+# resists by 15 and 10, so a well-geared mental Warrior's plain blow stood
+# at about 800 (launcher report 93e26d91, issue #164): the package's row,
+# the same in the r40250 package. Tieru's variant B of 22 October: 25 and
+# 20; health, defence and DX stay. A world whose operator set the row by
+# hand keeps it: only the stock five values move. The client shows no
+# monster resistance, so only the server's table changes. Idempotent.
+db_retry -e "UPDATE world.mob_proto SET resist_sword = 25, resist_twohand = 20, resist_dagger = 25, resist_bell = 25, resist_fan = 25 WHERE vnum = 1137 AND resist_sword = 40 AND resist_twohand = 35 AND resist_dagger = 40 AND resist_bell = 40 AND resist_fan = 40;" || echo "[playerbot-migrate] WARNING: could not ease the Grotto of Exile golem" >&2
 # The skill books (type 17), the Forgetting Book (22) and Kamien Duchowy
 # (50513) stacked to the package's ten; the operator's two hundred (DUDU,
 # 26 September). PROTO_FROM_DB: the db core reads it at boot, and books of

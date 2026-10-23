@@ -17,6 +17,70 @@ every version here.
 
 ---
 
+## 2.2.119 — 2026-10-23
+
+Aktualizacja z klientem 2.0.123 (plik gry bez zmian):
+
+- Towarzysz walczy z konia bojowego obok właściciela, który jedzie konno, zamiast schodzić z konia i odwoływać go przy każdym ataku (zgłosił Ziółek).
+- Sklep Towarzysza: stoisko, które zostało bez towarów, nie blokuje już sklepu ani odprawienia Towarzysza, a po włączeniu sklepu Towarzysz mówi, czemu nic nie wystawia (zgłosił JavierWxw).
+- Okno kowala mówi na czacie, czemu magazyn nie pokrywa brakującego materiału (zgłosił Hiob).
+- Launcher nie pokazuje już „Serwer: ZATRZYMANY”, gdy świat działa (zgłosił Charlie).
+- Panel „Dlaczego tyle botów?” mówi też o botach, które dołączają później, i o tym, za ile minut rotacja dojdzie do celu.
+
+Dziękujemy Ziółkowi, JavierWxw, Hiobowi, Charliemu i wszystkim, którzy wysłali zgłoszenia!
+
+Zamknij grę, zaktualizuj serwer i launcher do 2.2.119, uruchom launcher ponownie, a następnie zaktualizuj klienta do 2.0.123. Wydanie chronione; postacie i ustawienia zostają zachowane. Błędy zgłaszaj z opisem i logami przez „Zgłoś błąd” w launcherze.
+
+## 2.2.118 — 2026-10-22
+
+Aktualizacja z klientem 2.0.122 (plik gry bez zmian):
+
+- Mniej lagów przy wielu botach: boty z dużą liczbą broni w torbie nie spowalniają już serwera przy każdym przeglądzie ekwipunku.
+- Boty powyżej 70 poziomu nie krążą już bez celu po Sohan: dostają swoje miejsca do polowania (zgłosił sosen).
+- Launcher pokazuje, co robi: przycisk „Szczegóły” pulsuje, gdy trwa start, aktualizacja albo inna czynność, a stan serwera mówi np. „URUCHAMIA SIĘ” zamiast „Zatrzymany”.
+- ItemShop ma przycisk „Wesprzyj projekt”: dobrowolne wsparcie, które nic nie daje w grze.
+
+Dziękujemy sosenowi i wszystkim, którzy wysłali zgłoszenia o lagach!
+
+Zamknij grę, zaktualizuj serwer i launcher do 2.2.118, uruchom launcher ponownie, a następnie zaktualizuj klienta do 2.0.122. Wydanie chronione; postacie i ustawienia zostają zachowane. Błędy zgłaszaj z opisem i logami przez „Zgłoś błąd” w launcherze.
+
+## 2.2.117 — 2026-10-22
+
+Aktualizacja z klientem 2.0.121 (plik gry bez zmian):
+
+- Ulepszanie z magazynu (pomysł Dekriego): w pierwszej i drugiej wiosce kowal sam bierze brakujące materiały z magazynu kolekcjonera, a okno ulepszania pokazuje, ile ich zostało w magazynie. Wystarczy raz po wejściu do gry otworzyć magazyn u Dozorcy.
+- Przetopy (pomysł Dekriego): gdy biżuteria ma już 3 przetopy, kolejny przetop tego samego rodzaju zawsze wchodzi i odnawia ich czas działania.
+- Kłódka na stronach ekwipunku (pomysł CosTeiiRa): Lewy Alt + Shift + klik na zakładkę strony blokuje ją przed „Scal i uporządkuj” - nic z niej nie wychodzi i nic do niej nie trafia.
+- Towarzysz (zgłosił javierwxw): po zamknięciu i ponownym otwarciu sklepu wystawia znowu zwrócony towar.
+- Towarzysz (zgłosił blasty): sam zakłada pierścienie i rękawice w sloty specjalne tylko wtedy, gdy dostał je od właściciela, a nie z dropu.
+
+Dziękujemy Dekriemu, CosTeiiRa, javierwxw i blasty za zgłoszenia i pomysły!
+
+Zamknij grę, zaktualizuj serwer i launcher do 2.2.117, uruchom launcher ponownie, a następnie zaktualizuj klienta do 2.0.121. Wydanie chronione; postacie i ustawienia zostają zachowane. Błędy zgłaszaj z opisem i logami przez „Zgłoś błąd” w launcherze.
+
+## 2.2.116 — 2026-10-22
+
+Aktualizacja z klientem 2.0.120 i nowym plikiem gry:
+
+- Rotacja botów (zgłosił _antycheat): gdy w grze jest za mało botów względem ustawionego celu, rotacja budzi te, którym odpoczynek kończy się najwcześniej, więc świat nie zostaje daleko pod celem. Panel pisze przy liczbie botów w grze, ile ma ich być teraz i za godzinę, ilu odpoczywa i kiedy wracają, a każde ustawienie rotacji ma krótki opis.
+- Towarzysz (zgłosił javierwxw): na `/towarzysz sklep` mówi, na co czeka jego sklep. Grając sam w obcej wiosce, wraca do swojej także wtedy, gdy jego wioskę obsługuje inny rdzeń serwera.
+- Tureckie szepty (Said): boty rozumieją szepty pisane po turecku, także z tureckimi literami.
+- Klient: ikony efektów nad paskiem są znowu gładkie, bronie 70 lvl (np. Złodziej Dusz) pokazują wbudowany bonus jako wbudowany, a Wiki ma poprawione miniaturki kilku potworów.
+- Czcionka (Kiciamol): przy pomniejszonym interfejsie tekst jest wyraźniejszy.
+- Auto Łowy: teleport nie przerywa sesji, a po błędzie sesji autologowanie wie, że gra została zamknięta.
+- Rynek i ekwipunek botów (Tyrion): boty odzyskują własne zwoje z lady przed kupnem cudzych, sprzedają bezwartościowe nadwyżki, nie trzymają towaru do ulepszania bez materiałów, a sklepy wygasłe w czasie gry na innym kanale wracają same.
+- Wieża Demonów (Tyrion): kowal na 6. piętrze bierze rzeczy z poziomu bota, najbliższy poziom najpierw.
+- Buffy szamana (pomysł Dripa): wsparcie szamana dla drużyny działa na członków w pobliżu, około 30 m, a nie na pół mapy; Leczenie działa na wybraną osobę albo na samego szamana.
+- Dane dla klienta gry (zgłosił Urtopy): zmienione w bazie wartości umiejętności (mana, odnowienie, czas działania, zasięg) trafiają do klienta razem z przedmiotami i potworami, a panel pokazuje, które umiejętności różnią się od klienta.
+- Boty 30–47 lvl (zgłosił sosen) nie tłoczą się już w Dolinie Orków i nie krążą po niej od miejsca do miejsca, gdy wszystkie potwory są zajęte.
+- Biolog: boty od 80 lvl robią misję z Certyfikatem Tugyisa i chodzą po niego do Krainy Gigantów.
+- Grota Wygnańców: Podziemny Lodowy Golem ma niższą odporność na broń białą, więc nie odstaje już tak bardzo od reszty mapy.
+- Nowe ustawienie (domyślnie wyłączone): limit długości walk PvP botów z przerwą po walce.
+
+Dziękujemy Kiciamolowi, Tyrionowi, Saidowi i Colide'owi oraz Dripowi, Urtopy'emu, sosenowi, _antycheat i javierwxw za zgłoszenia i pomysły!
+
+Zamknij grę, zaktualizuj serwer i launcher do 2.2.116, uruchom launcher ponownie, a następnie zaktualizuj klienta do 2.0.120. Wydanie chronione; postacie i ustawienia zostają zachowane. Błędy zgłaszaj z opisem i logami przez „Zgłoś błąd” w launcherze.
+
 ## 2.2.115 — 2026-10-22
 
 Aktualizacja z klientem 2.0.119 i nowym plikiem gry:

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""The game client's item and monster tables, built from this world's.
+"""The game client's item and monster tables, built from this world's, and
+its skill table (gamedata/SkillTable.txt) from world.skill_proto (issue #168,
+the section "The skill table" below).
 
     python3 client_protos.py build --base <dir with gamedata.index/.data> --out <dir>
                                    [--report <file.json>]
@@ -693,7 +695,7 @@ def fetch_world(conn):
         cur.close()
 
 
-def world_checksum(items, mobs):
+def world_checksum(items, mobs, skills=None):
     """A digest of what this reads from the world, to tell a stale build from a fresh one."""
     h = hashlib.sha256()
     for table, rows, cols in (("item", items, ITEM_COLUMNS), ("mob", mobs, MOB_COLUMNS)):
@@ -701,6 +703,10 @@ def world_checksum(items, mobs):
         for vnum in sorted(rows):
             row = rows[vnum]
             h.update(repr([row[c] for c in cols]).encode("utf-8", "replace"))
+    if skills is not None:
+        h.update(b"skill")
+        for vnum in sorted(skills):
+            h.update(repr(skills[vnum]).encode("utf-8", "replace"))
     return h.hexdigest()
 
 
@@ -865,6 +871,149 @@ def _field_counts(changed):
 
 
 # =============================================================================
+#  The skill table (Urtopy, Discord, 22 October; issue #168)
+# =============================================================================
+# A skill's numbers reach the client through gamedata/SkillTable.txt, in the
+# same gamedata pack as the two tables above and read for every language
+# (LoadLocaleData: "gamedata/SkillTable.txt", CPythonSkill::RegisterSkillTable).
+# It takes the mana cost, the cooldown, the duration and its upkeep, the
+# target range, the top level and the level limit, and the first effect's
+# formula the tooltip prints (OVERWRITE_SKILLPROTO_POLY). What a skill is -
+# its name, description, icon, weapon, flags and motion - is
+# locale/<lang>/SkillDesc.txt in the 91 MB locale pack, which this does not
+# rewrite: a world that puts another skill on a number (47 back to
+# ARROW_SHOWER) gets the new skill's numbers under the client's old name and
+# icon, and the report names those numbers ("swapped").
+#
+# A line is the server's skill_proto row in the client's 27 columns, the
+# columns world.sql and the published file share in this order; the third
+# point, its affect and szGrandMasterAddSPCostPoly have no column in the
+# client. A line whose values are the world's already is kept byte for byte,
+# so the stock client's file comes back unchanged from a world that agrees
+# with it.
+SKILL_TABLE = "gamedata/skilltable.txt"
+SKILL_COLUMNS = ("dwVnum", "szName", "bType", "bLevelStep", "bMaxLevel", "bLevelLimit", "szPointOn",
+                 "szPointPoly", "szSPCostPoly", "szDurationPoly", "szDurationSPCostPoly", "szCooldownPoly",
+                 "szMasterBonusPoly", "szAttackGradePoly", "setFlag", "setAffectFlag", "szPointOn2",
+                 "szPointPoly2", "szDurationPoly2", "setAffectFlag2", "prerequisiteSkillVnum",
+                 "prerequisiteSkillLevel", "eSkillType", "iMaxHit", "szSplashAroundDamageAdjustPoly",
+                 "dwTargetRange", "dwSplashRange")
+SKILL_FIELDS = 27          # PythonSkill.h TABLE_TOKEN_TYPE_MAX_NUM; a line of any other count is skipped
+# The columns the client acts on (RegisterSkillTable); the report names
+# those, the rest of a line is carried for the file's sake.
+SKILL_SHOWN = ("bMaxLevel", "bLevelLimit", "szPointPoly", "szSPCostPoly", "szDurationPoly",
+               "szDurationSPCostPoly", "szCooldownPoly", "dwTargetRange")
+
+
+def fetch_world_skills(conn):
+    """world.skill_proto as {vnum: [27 column texts]} in the client's order;
+    None where the world has no such table or lacks one of the columns, so a
+    build carries the client's own file instead."""
+    cur = conn.cursor()
+    try:
+        cur.execute("SELECT COLUMN_NAME FROM information_schema.COLUMNS "
+                    "WHERE TABLE_SCHEMA = 'world' AND TABLE_NAME = 'skill_proto'")
+        have = set()
+        for row in cur.fetchall():
+            name = row["COLUMN_NAME"] if isinstance(row, dict) else row[0]
+            if isinstance(name, bytes):
+                name = name.decode("ascii", "replace")
+            have.add(name)
+        if any(c not in have for c in SKILL_COLUMNS):
+            return None
+        # Sets and enums by their text, as the published file writes them.
+        cur.execute("SELECT %s FROM world.`skill_proto` ORDER BY `dwVnum`"
+                    % ", ".join("`%s`" % c for c in SKILL_COLUMNS))
+        rows = {}
+        for row in cur.fetchall():
+            if isinstance(row, dict):
+                row = [row[c] for c in SKILL_COLUMNS]
+            texts = [_skill_text(v) for v in row]
+            rows[int(texts[0])] = texts
+        return rows
+    finally:
+        cur.close()
+
+
+def _skill_text(value):
+    if value is None:
+        return ""
+    if isinstance(value, (bytes, bytearray)):
+        return bytes(value).decode("latin-1")
+    if isinstance(value, float):
+        return repr(value)
+    return str(value)
+
+
+_SKILL_SET = SKILL_COLUMNS.index("setFlag")
+
+
+def _same_skill_value(i, client, world):
+    # MariaDB prints a SET's members in the column's order; a hand-written
+    # line may name the same members in another and is the same line.
+    if i == _SKILL_SET:
+        return sorted(filter(None, client.split(","))) == sorted(filter(None, world.split(",")))
+    return client == world
+
+
+def merge_skill_table(text, skills):
+    """(file bytes, report, {vnum: changed column names}). The client's lines in
+    their order with the world's rows over them, then the world's new rows by
+    number; a line the world agrees with stays as it was."""
+    lines = bytes(text).split(b"\r\n")
+    seen = set()
+    changed = {}
+    swapped = []
+    unsafe = []
+    out = []
+    for raw in lines:
+        tokens = raw.split(b"\t")
+        if len(tokens) != SKILL_FIELDS or not tokens[0].strip().isdigit():
+            out.append(raw)
+            continue
+        vnum = int(tokens[0])
+        seen.add(vnum)
+        world = skills.get(vnum)
+        if world is None:
+            out.append(raw)
+            continue
+        client = [t.decode("latin-1") for t in tokens]
+        if any(("\t" in v or "\r" in v or "\n" in v) for v in world):
+            unsafe.append(vnum)
+            out.append(raw)
+            continue
+        fields = [SKILL_COLUMNS[i] for i in range(SKILL_FIELDS) if not _same_skill_value(i, client[i], world[i])]
+        if not fields:
+            out.append(raw)
+            continue
+        changed[vnum] = fields
+        if client[1] != world[1]:
+            swapped.append({"vnum": vnum, "client": client[1], "world": world[1]})
+        out.append("\t".join(world).encode("latin-1"))
+    added = sorted(v for v in skills if v not in seen
+                   and not any(("\t" in x or "\r" in x or "\n" in x) for x in skills[v]))
+    if added:
+        tail = out.pop() if out and out[-1] == b"" else None
+        out.extend("\t".join(skills[v]).encode("latin-1") for v in added)
+        out.append(tail if tail is not None else b"")
+    new = b"\r\n".join(out)
+    report = {
+        "rows": len(seen) + len(added),
+        "client_rows": len(seen),
+        "world_rows": len(skills),
+        "changed": len(changed),
+        "changed_vnums": sorted(changed),
+        "changed_fields": _field_counts(changed),
+        "added": added,
+        "added_count": len(added),
+        "client_only": sorted(v for v in seen if v not in skills),
+        "swapped": swapped,
+        "unsafe": unsafe,
+    }
+    return new, report, changed
+
+
+# =============================================================================
 #  The build
 # =============================================================================
 def sha256(data):
@@ -898,34 +1047,66 @@ def _base_tables(index_bytes, data_bytes, items, mobs):
     return version, entries, item_raw, mob_raw, base_items, base_mobs
 
 
-def diff(index_bytes, data_bytes, items, mobs):
-    """What a build would change, without writing anything: the two reports
-    and, per changed vnum, the fields (for the panel's page)."""
-    _v, _e, _ir, _mr, base_items, base_mobs = _base_tables(index_bytes, data_bytes, items, mobs)
+def _skill_entry(entries):
+    """The pack's skill table entry, or None when the pack carries none in a
+    type this writes."""
+    for e in entries:
+        if e.key() == SKILL_TABLE and e.type in (0, 2):
+            return e
+    return None
+
+
+def _merge_skills(entries, skills):
+    """(entry, client text, new text, report, changed) for a world's skills,
+    or a report saying why the client's file stays."""
+    if skills is None:
+        return None, None, None, {"available": False, "reason": "world"}, {}
+    entry = _skill_entry(entries)
+    if entry is None:
+        return None, None, None, {"available": False, "reason": "pack"}, {}
+    text = entry_data(entry)
+    new, report, changed = merge_skill_table(text, skills)
+    report["available"] = True
+    return entry, text, new, report, changed
+
+
+def diff(index_bytes, data_bytes, items, mobs, skills=None):
+    """What a build would change, without writing anything: the reports and,
+    per changed vnum, the fields (for the panel's page)."""
+    _v, entries, _ir, _mr, base_items, base_mobs = _base_tables(index_bytes, data_bytes, items, mobs)
     _rows, item_report, item_changed = merge_rows(base_items, items, item_row, ITEM_NAMES)
     _rows, mob_report, mob_changed = merge_rows(base_mobs, mobs, mob_row, MOB_NAMES)
-    return {"items": item_report, "mobs": mob_report, "item_fields": item_changed, "mob_fields": mob_changed,
-            "changed": bool(item_changed or mob_changed or item_report["added_count"] or mob_report["added_count"]),
-            "world": world_checksum(items, mobs)}
+    _e, _old, _new, skill_report, skill_changed = _merge_skills(entries, skills)
+    return {"items": item_report, "mobs": mob_report, "skills": skill_report,
+            "item_fields": item_changed, "mob_fields": mob_changed, "skill_fields": skill_changed,
+            "changed": bool(item_changed or mob_changed or item_report["added_count"] or mob_report["added_count"]
+                            or skill_changed or skill_report.get("added_count")),
+            "world": world_checksum(items, mobs, skills)}
 
 
-def build(index_bytes, data_bytes, items, mobs, native=None, clock=time.time):
+def build(index_bytes, data_bytes, items, mobs, native=None, clock=time.time, skills=None):
     """The client's gamedata pack with this world's tables: (index, data, report).
 
     Raises ProtoError when the pack is not the client's this knows, or the
     world's tables are not ones a client table can be made from; never returns
-    a pack it has not read back."""
+    a pack it has not read back. Without `skills` the pack's skill table is
+    carried as it is."""
     version, entries, item_raw, mob_raw, base_items, base_mobs = _base_tables(index_bytes, data_bytes, items, mobs)
     item_rows, item_report, _ = merge_rows(base_items, items, item_row, ITEM_NAMES)
     mob_rows, mob_report, _ = merge_rows(base_mobs, mobs, mob_row, MOB_NAMES)
     new_item_raw = encode_rows(item_rows, ITEM_STRUCT, ITEM_NAMES)
     new_mob_raw = encode_rows(mob_rows, MOB_STRUCT, MOB_NAMES)
+    skill_entry, skill_text, new_skill_text, skill_report, _ = _merge_skills(entries, skills)
 
     replaced = {}
     if new_item_raw != item_raw:
         replaced[ITEM_PROTO] = write_item_proto(new_item_raw, native)
     if new_mob_raw != mob_raw:
         replaced[MOB_PROTO] = write_mob_proto(new_mob_raw, native)
+    tables = {ITEM_PROTO: new_item_raw, MOB_PROTO: new_mob_raw}
+    if skill_entry is not None and new_skill_text != skill_text:
+        replaced[SKILL_TABLE] = new_skill_text
+        tables[SKILL_TABLE] = new_skill_text
     if replaced:
         out_entries = []
         for e in entries:
@@ -939,14 +1120,15 @@ def build(index_bytes, data_bytes, items, mobs, native=None, clock=time.time):
         out_index, out_data = write_pack(version, out_entries, native)
     else:
         out_index, out_data = bytes(index_bytes), bytes(data_bytes)
-    verify(out_index, out_data, entries, {ITEM_PROTO: new_item_raw, MOB_PROTO: new_mob_raw})
+    verify(out_index, out_data, entries, tables)
     report = {
         "format": FORMAT,
         "built_at": int(clock()),
         "changed": bool(replaced),
         "items": item_report,
         "mobs": mob_report,
-        "world": world_checksum(items, mobs),
+        "skills": skill_report,
+        "world": world_checksum(items, mobs, skills),
         "base": {"index_sha256": sha256(index_bytes), "data_sha256": sha256(data_bytes),
                  "sha256": pack_sha(index_bytes, data_bytes)},
         "out": {"index_sha256": sha256(out_index), "data_sha256": sha256(out_data),
@@ -970,7 +1152,12 @@ def verify(index_bytes, data_bytes, base_entries, tables):
         if e.key() in tables:
             raw = tables[e.key()]
             data = entry_data(e)
-            got = read_item_proto(data) if e.key() == ITEM_PROTO else read_mob_proto(data)
+            if e.key() == ITEM_PROTO:
+                got = read_item_proto(data)
+            elif e.key() == MOB_PROTO:
+                got = read_mob_proto(data)
+            else:
+                got = data
             if got != raw:
                 raise ProtoError("verify: %s does not read back as written" % e.name)
         elif e.blob != base[e.key()].blob:
@@ -978,7 +1165,7 @@ def verify(index_bytes, data_bytes, base_entries, tables):
     return True
 
 
-def build_files(base_dir, items, mobs, out_dir=None, native=None):
+def build_files(base_dir, items, mobs, out_dir=None, native=None, skills=None):
     """build() over <base_dir>/gamedata.index and .data; writes into out_dir when given."""
     paths = [os.path.join(base_dir, name) for name in PACK_FILES]
     for p in paths:
@@ -988,7 +1175,7 @@ def build_files(base_dir, items, mobs, out_dir=None, native=None):
         index_bytes = f.read()
     with open(paths[1], "rb") as f:
         data_bytes = f.read()
-    out_index, out_data, report = build(index_bytes, data_bytes, items, mobs, native)
+    out_index, out_data, report = build(index_bytes, data_bytes, items, mobs, native, skills=skills)
     if out_dir:
         os.makedirs(out_dir, exist_ok=True)
         for name, blob in zip(PACK_FILES, (out_index, out_data)):
@@ -1007,7 +1194,9 @@ README_PL = """Dane swiata dla klienta gry (Metin2 Singleplayer)
 
 Ten plik przygotowal panel serwera, na ktorym grasz. Zawiera tabele
 przedmiotow i potworow tego swiata (statystyki, bonusy, ceny u NPC, poziomy,
-polskie nazwy), zeby Twoj klient pokazywal to samo, co liczy serwer.
+polskie nazwy) i wartosci umiejetnosci (mana, czas odnowienia, czas
+trwania, efekt w opisie), zeby Twoj klient pokazywal to samo, co liczy
+serwer.
 
 Jak wgrac:
  1. Zamknij gre.
@@ -1035,7 +1224,8 @@ README_EN = """World data for the game client (Metin2 Singleplayer)
 ====================================================
 
 The panel of the server you play on made this file. It holds this world's
-item and monster tables (stats, bonuses, NPC prices, levels, Polish names), so
+item and monster tables (stats, bonuses, NPC prices, levels, Polish names) and
+its skills' numbers (mana, cooldown, duration, the effect in the tooltip), so
 that your client shows what the server counts.
 
 How to install:
@@ -1092,6 +1282,7 @@ def make_zip(out_index, out_data, report, base_info=None, world_label="", clock=
         "items_added": report["items"]["added_count"],
         "mobs_changed": report["mobs"]["changed"],
         "mobs_added": report["mobs"]["added_count"],
+        "skills_changed": (report.get("skills") or {}).get("changed", 0),
     }
     built = time.strftime("%Y-%m-%d %H:%M", time.localtime(manifest["built_at"]))
     fill = {"client_version": manifest["client_version"] or "?", "world": world_label or "-", "built": built}
@@ -1116,9 +1307,11 @@ def make_zip(out_index, out_data, report, base_info=None, world_label="", clock=
 # =============================================================================
 #  Command line (the launcher runs it in the panel container)
 # =============================================================================
-def load_world_json(path):
+def load_world_json(path, with_skills=False):
     """A world written as JSON - {"items": {vnum: row}, "mobs": {vnum: row}},
-    text columns as hex - for a build without a database (the tests)."""
+    text columns as hex, and optionally "skills": {vnum: [27 texts]} - for a
+    build without a database (the tests). with_skills adds the skills (None
+    when the file has none) as a third value."""
     with open(path, "r", encoding="utf-8") as f:
         doc = json.load(f)
     out = []
@@ -1131,10 +1324,15 @@ def load_world_json(path):
                     rec[col] = bytes.fromhex(rec[col])
             rows[int(vnum)] = rec
         out.append(rows)
-    return out[0], out[1]
+    if not with_skills:
+        return out[0], out[1]
+    skills = doc.get("skills")
+    if skills is not None:
+        skills = dict((int(v), [str(x) for x in row]) for v, row in skills.items())
+    return out[0], out[1], skills
 
 
-def dump_world_json(items, mobs):
+def dump_world_json(items, mobs, skills=None):
     def plain(rows):
         doc = {}
         for vnum, row in rows.items():
@@ -1143,7 +1341,10 @@ def dump_world_json(items, mobs):
                 rec[col] = value.hex() if isinstance(value, (bytes, bytearray)) else value
             doc[str(vnum)] = rec
         return doc
-    return json.dumps({"items": plain(items), "mobs": plain(mobs)}, sort_keys=True)
+    doc = {"items": plain(items), "mobs": plain(mobs)}
+    if skills is not None:
+        doc["skills"] = dict((str(v), list(row)) for v, row in skills.items())
+    return json.dumps(doc, sort_keys=True)
 
 
 def _env_connection():
@@ -1157,7 +1358,7 @@ def _env_connection():
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="The client's gamedata pack with this world's item and monster tables.")
+    parser = argparse.ArgumentParser(description="The client's gamedata pack with this world's item and monster tables and its skills' numbers.")
     sub = parser.add_subparsers(dest="cmd")
     b = sub.add_parser("build")
     b.add_argument("--base", required=True)
@@ -1184,14 +1385,15 @@ def main(argv=None):
             parser.print_help()
             return 2
         if args.world_json:
-            items, mobs = load_world_json(args.world_json)
+            items, mobs, skills = load_world_json(args.world_json, with_skills=True)
         else:
             conn = _env_connection()
             try:
                 items, mobs = fetch_world(conn)
+                skills = fetch_world_skills(conn)
             finally:
                 conn.close()
-        out_index, out_data, report = build_files(args.base, items, mobs, args.out)
+        out_index, out_data, report = build_files(args.base, items, mobs, args.out, skills=skills)
         report["ok"] = True
         text = json.dumps(report, indent=2, sort_keys=True)
         if args.report:
@@ -1200,6 +1402,8 @@ def main(argv=None):
         print(json.dumps({"ok": True, "changed": report["changed"], "out": report["out"],
                           "items_changed": report["items"]["changed"], "mobs_changed": report["mobs"]["changed"],
                           "items_added": report["items"]["added_count"], "mobs_added": report["mobs"]["added_count"],
+                          "skills_changed": report["skills"].get("changed", 0),
+                          "skills_swapped": [s["vnum"] for s in report["skills"].get("swapped", [])],
                           "world": report["world"]}))
         return 0
     except ProtoError as exc:

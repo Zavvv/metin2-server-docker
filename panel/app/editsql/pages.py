@@ -63,18 +63,35 @@ def effect_html(db_name, table_name):
     html = ('<div class="esq-note %s"><b>%s</b> %s%s</div>'
             % (klass, render._esc(T("Efekt w grze:", "Effect in the game:")), render._esc(text), link))
     if table_name in CLIENT_TABLES.get(db_name, ()):
-        html += client_note_html()
+        html += client_note_html(table_name)
     return html
 
 
-# The game client reads these two from its own pack/gamedata, never from the
-# server (launcher report 7b1bc872 and Kordyl13, 7 October): the panel's
-# /client-data builds the client's copy from them (client_protos.py). Only the
-# mt2009 line has a world database, so only there do these pages exist.
-CLIENT_TABLES = {"world": ("item_proto", "mob_proto")}
+# The game client reads these from its own pack/gamedata, never from the
+# server (launcher report 7b1bc872 and Kordyl13, 7 October; the skills' numbers
+# since issue #168): the panel's /client-data builds the client's copy from
+# them (client_protos.py). Only the mt2009 line has a world database, so only
+# there do these pages exist.
+CLIENT_TABLES = {"world": ("item_proto", "mob_proto", "skill_proto")}
 
 
-def client_note_html():
+def client_note_html(table_name=""):
+    if table_name == "skill_proto":
+        return ('<div class="esq-note esq-note-warn"><b>%s</b> %s <a href="/client-data">%s</a></div>'
+                % (render._esc(T("Klient gry:", "The game client:")),
+                   render._esc(T("klient ma własną kopię wartości umiejętności (pack\\gamedata, SkillTable.txt) "
+                                 "i pokaże zmianę - manę, czas odnowienia, czas trwania, zasięg, efekt w opisie - "
+                                 "dopiero po synchronizacji: w launcherze OTWÓRZ PANEL WWW → „Synchronizuj dane "
+                                 "przedmiotów z klientem”, a dla znajomego albo klienta na VPS paczka do pobrania. "
+                                 "Nazwa, ikona, opis i animacja umiejętności są w paczce językowej klienta i "
+                                 "synchronizacja ich nie zmienia.",
+                                 "the client keeps its own copy of the skills' numbers (pack\\gamedata, "
+                                 "SkillTable.txt) and shows the change - the mana, cooldown, duration, range, the "
+                                 "effect in the tooltip - only after a sync: in the launcher OPEN WEB PANEL → "
+                                 "“Synchronize item data to the client”, and for a friend or a client on a VPS a "
+                                 "package to download. A skill's name, icon, description and motion are in the "
+                                 "client's language pack, which the sync does not change.")),
+                   render._esc(T("Dane dla klienta", "Client data"))))
     return ('<div class="esq-note esq-note-warn"><b>%s</b> %s <a href="/client-data">%s</a></div>'
             % (render._esc(T("Klient gry:", "The game client:")),
                render._esc(T("klient ma własną kopię tej tabeli (pack\\gamedata) i pokaże zmianę - opis "
