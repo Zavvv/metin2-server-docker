@@ -30,11 +30,15 @@ foreach ($property in $properties) {
 if (($values.Values | Measure-Object -Sum).Sum -ne 100) {
     throw 'Le percentuali della Clam devono sommare esattamente 100.'
 }
+if ($config.PSObject.Properties.Name -notcontains 'diagnostic_chat' -or $config.diagnostic_chat -isnot [bool]) {
+    throw 'diagnostic_chat deve essere un valore booleano.'
+}
 
 $stoneEnd = $values.stone_percent
 $emptyEnd = $stoneEnd + $values.empty_percent
 $whiteEnd = $emptyEnd + $values.white_pearl_percent
 $blueEnd = $whiteEnd + $values.blue_pearl_percent
+$diagnosticLine = if ($config.diagnostic_chat) { '            syschat("[Clam custom active]")' } else { $null }
 
 $questExpected = @(
     '-- Clam item 27987: the protected game core owns the native opening odds.'
@@ -44,6 +48,7 @@ $questExpected = @(
     '        when 27987.use begin'
     '            local r = number(1, 100)'
     '            item.remove(1)'
+    $diagnosticLine
     ''
     "            if r <= $stoneEnd then"
     '                syschat(get_lctext("You find a simple Piece of Stone in the Clam."))'
@@ -101,4 +106,4 @@ if ($matches.Count -ne 1 -or ($questNames | Where-Object { $_ -eq 'clam_opening'
     throw 'Il Dockerfile non compila la quest clam_opening. Esegui: powershell -ExecutionPolicy Bypass -File scripts\sync-clam-opening.ps1 -Mode Apply'
 }
 
-Write-Output "Clam opening verificato: pietra=$($values.stone_percent)% vuota=$($values.empty_percent)% bianca=$($values.white_pearl_percent)% blu=$($values.blue_pearl_percent)% rosso-sangue=$($values.blood_red_pearl_percent)%"
+Write-Output "Clam opening verificato: pietra=$($values.stone_percent)% vuota=$($values.empty_percent)% bianca=$($values.white_pearl_percent)% blu=$($values.blue_pearl_percent)% rosso-sangue=$($values.blood_red_pearl_percent)% diagnostica=$($config.diagnostic_chat)"

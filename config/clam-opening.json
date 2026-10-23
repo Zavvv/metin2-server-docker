@@ -1,5 +1,6 @@
 {
   "schema_version": 1,
+  "diagnostic_chat": true,
   "stone_percent": 50,
   "empty_percent": 16,
   "white_pearl_percent": 12,

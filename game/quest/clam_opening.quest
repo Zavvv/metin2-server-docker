@@ -5,6 +5,7 @@ quest clam_opening begin
         when 27987.use begin
             local r = number(1, 100)
             item.remove(1)
+            syschat("[Clam custom active]")
 
             if r <= 50 then
                 syschat(get_lctext("You find a simple Piece of Stone in the Clam."))
