@@ -3,3 +3,4 @@ set -eu
 
 # Never publish a Dockerfile that lost the local Dragon Soul refining policy.
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/sync-dragon-soul-refine.ps1 -Mode Verify
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/sync-clam-opening.ps1 -Mode Verify
