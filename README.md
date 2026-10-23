@@ -123,7 +123,7 @@ volumi persistenti.
 
 ## Ultima importazione analizzata
 
-- Archivio: `metin2-server-protected-update-2.2.119.zip`
-- Versione: `2.2.119`
+- Archivio: `metin2-server-protected-update-2.2.120.zip`
+- Versione: `2.2.120`
 - Tipo: release protetta 2.x
 - Mapping applicato: `linux-port/docker/` → radice del branch

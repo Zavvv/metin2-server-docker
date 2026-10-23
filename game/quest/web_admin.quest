@@ -120,11 +120,18 @@ quest web_admin begin
 			-- change itself, which for a character who IS in game is
 			-- the worse of the two answers. 3 leaves margin.
 			--
-			-- The cost is one small indexed SELECT per online player
-			-- every 3 seconds, which is nothing on the singleplayer
-			-- server this package is for. Raise the interval if you run
-			-- this with hundreds of players; the only thing that gets
-			-- worse is how long the panel waits.
+			-- Every character has this timer, every bot included: the
+			-- panels queue LEVEL, WARP, SPEED and RENAME for a bot by its
+			-- name as 'pending' (the classic panel's /action, Seban's
+			-- player actions and rename), and nothing but this timer
+			-- carries them out on the bot. What a tick costs is not the
+			-- database any more: the queue is read once a second for the
+			-- whole core (__wa_rows below), not once a tick for every
+			-- character - with ~900 bots that was ~330 SELECTs a second,
+			-- 38% of every statement the database ran, each a round trip
+			-- on the core's main thread (the measurement of 23 October,
+			-- docs/codex-audits/db-write-1023, R1). A tick with no row
+			-- for its character is a Lua call and a few string compares.
 			loop_timer("wa_pc_tick", 3)
 
 			-- The core-wide sweep. On a patched core this is already
@@ -206,10 +213,28 @@ quest web_admin begin
 			-- below retires anything nobody claims within thirty
 			-- seconds, so the pending set cannot grow past what one
 			-- admin can queue in that time.
-			local rows = wa_query("SELECT id, player_name, cmd, arg1, arg2 FROM player.web_admin_queue WHERE status='pending' ORDER BY id ASC LIMIT 10")
-			if type(rows) ~= "table" then
-				return
+			--
+			-- Read once a second for the whole core and kept in a global
+			-- of the core's one Lua state: the first tick of a new second
+			-- asks the database, every other tick of that second - of
+			-- every character - reads the copy (R1 of db-write-1023:
+			-- ~330 SELECTs a second with ~900 bots became one). A copy at
+			-- most a second old is safe: a row is still only ever acted
+			-- on after the stamp below wins it, and a row the copy lacks
+			-- is in the next second's. The latency it adds, under a
+			-- second, keeps the panel's seven seconds out of reach: three
+			-- for the tick, one for the copy.
+			local wa_now = get_time()
+			if __wa_rows == nil or __wa_rows_at ~= wa_now then
+				__wa_rows_at = wa_now
+				local fresh = wa_query("SELECT id, player_name, cmd, arg1, arg2 FROM player.web_admin_queue WHERE status='pending' ORDER BY id ASC LIMIT 10")
+				if type(fresh) == "table" then
+					__wa_rows = fresh
+				else
+					__wa_rows = {}
+				end
 			end
+			local rows = __wa_rows
 			local count = table.getn(rows)
 			if count == 0 then
 				return
@@ -230,7 +255,11 @@ quest web_admin begin
 						-- skip the row — that is the protection against
 						-- injection through this table.
 						local qid = tonumber(r.id)
-						if qid ~= nil and r.player_name == me then
+						if qid ~= nil and r.player_name == me and r.wa_tried ~= true then
+							-- The copy is the core's, so the row is marked
+							-- tried before the stamp: this character's next
+							-- tick in the same second does not stamp it again.
+							r.wa_tried = true
 							local cmd = r.cmd
 							local arg1 = r.arg1
 							local arg2 = r.arg2

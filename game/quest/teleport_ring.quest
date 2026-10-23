@@ -1,89 +1,152 @@
 -- Pierscien Teleportacji (70058) is the Teleporter in the pocket. The package
 -- drops the ring (mob_drop_item.txt, special_item_group.txt) and ships no quest
 -- that answers its use, so using one did nothing ("nie dziala pierscien
--- teleportacji", 14 September). The list of destinations, the level floor and
--- the fee are the Teleporter's own (quest/npc/teleporter/map_warp.quest): the
--- frontier from a city, the two villages from anywhere else, dearer outside a
--- city. The ring is not used up. Bots never come through here - they recall
+-- teleportacji", 14 September). The level floor of 11 and the fee are the
+-- Teleporter's own (quest/npc/teleporter/map_warp.quest): a fifth of the level
+-- in thousands, at least a thousand, half as much again outside a first or a
+-- second village, three times for the places past 60, nothing on a war map.
+-- The ring is not used up. Bots never come through here - they recall
 -- home with it through TransitionPlayerBotMap, not through UseItem.
+--
+-- Since 23 October (Piciu713's proposal of 5 October, "Rozszerzenie
+-- pierscienia teleportu", taken into the package at blipu's request) the ring
+-- reaches every place from every map, on four pages with Back and Next:
+--   1 the kingdom's own villages and guild map, Orc Valley, the desert, Sohan;
+--   2 the dungeons a player walks into from the world: the kingdom's own easy
+--     Monkey Dungeon, the medium and hard ones, Spider Dungeon V1;
+--   3 the rest of the world: Hwang, the Snakefield pass, the Land of Giants;
+--   4 from 60, as at the Teleporter: Doyyumhwaji, the Demon Tower, the Ghost
+--     Forest, the Red Forest - three fares.
+-- Pages 2 and 3 take no condition the game itself does not: every one of their
+-- maps is entered by a warp NPC (char.cpp FuncCheckWarp asks the empire and
+-- nothing else) - V1 by 10016 in the desert, 108 and 109 by 10074/10076 in the
+-- desert, the easy dungeon by its kingdom's own gate, Hwang by 10013 in Orc
+-- Valley, the pass by 10108 in the desert and the Land of Giants by 10032 on
+-- the pass. What does ask is left out: V2 (71, Chuk-Sal wants a pass or the
+-- premium) and the Grotto of Exile (72/73, a Bloodstone from 75). The landing
+-- is each map's Town.txt point (pc.teleport, GetRecallPositionByEmpire), the
+-- point the gates themselves send to, open ground on every one of them.
 quest teleport_ring begin
     state start begin
+        function t(pl, en)
+            if pc.getf("playerbot_lang", "en") == 1 then
+                return playerbot_quest_text ~= nil and playerbot_quest_text(en) or en
+            end
+            return pl
+        end
+
+        -- A map index the empire has no entry for (nil) is left out of a page
+        -- rather than becoming a hole in the list select_table numbers.
+        function add_maps(list, maps)
+            for i = 1, table.getn(maps) do
+                if maps[i] ~= nil then
+                    table.insert(list, maps[i])
+                end
+            end
+            return list
+        end
+
         function data()
+            local easy_monkey_maps = {5, 25, 45}
+            local easy_monkey = easy_monkey_maps[pc.get_empire()]
             return {
-                low_level = {64, 61, get_player_map3_index(), 63},
-                high_level = {66, 67, 68, 62},
-                outside_city = {get_player_map1_index(), get_player_map2_index()},
+                teleport_ring.add_maps({}, {get_player_map1_index(), get_player_map2_index(), get_player_map3_index(), 64, 63, 61}),
+                teleport_ring.add_maps({}, {easy_monkey, 108, 109, 104}),
+                {65, 69, 70},
+                {62, 66, 67, 68},
             }
         end
 
-        function get_teleport_list(page)
-            local available_teleports = teleport_ring.data()
-            local is_in_any_city = is_player_in_any_m1() or is_player_in_any_m2()
-            local map_list
-            if is_in_any_city then
-                if page == 1 then
-                    map_list = available_teleports.low_level
-                else
-                    map_list = available_teleports.high_level
-                end
-            else
-                map_list = available_teleports.outside_city
-            end
-
-            local options = {}
-            for i, map_index in pairs(map_list) do
-                table.insert(options, translate.general.map_names[map_index])
-            end
-
-            if is_in_any_city and pc.get_level() >= 60 and page == 1 then
-                table.insert(options, translate.map_warp.next)
+        function page_title(page)
+            if page == 1 then
+                return teleport_ring.t("Miasta i podstawowe mapy", "Cities and main maps")
             elseif page == 2 then
-                table.insert(options, translate.map_warp.previous)
+                return teleport_ring.t("Lochy", "Dungeons")
+            elseif page == 3 then
+                return teleport_ring.t("Pozostale tereny", "Other areas")
             end
-
-            table.insert(options, translate.general.cancel)
-            local cancel_index = table.getn(options)
-            return options, map_list, cancel_index
+            return teleport_ring.t("Od 60 poziomu", "From level 60")
         end
 
-        -- The second page opens at 60, and a player under it is told what it
+        -- 104's name in the package's table is the dungeon's own, Kuahklo Dong,
+        -- in every language; the ring says which dungeon it is beside it.
+        function map_name(map_index)
+            local name = translate.general.map_names[map_index]
+            if map_index == 104 then
+                name = name .. " (" .. teleport_ring.t("Loch Pajakow V1", "Spider Dungeon V1") .. ")"
+            end
+            return name
+        end
+
+        function page_count()
+            if pc.get_level() >= 60 then
+                return 4
+            end
+            return 3
+        end
+
+        function get_teleport_list(page)
+            local map_list = teleport_ring.data()[page]
+            local options = {}
+            for i = 1, table.getn(map_list) do
+                table.insert(options, teleport_ring.map_name(map_list[i]))
+            end
+
+            local previous_index = 0
+            local next_index = 0
+            if page > 1 then
+                table.insert(options, translate.map_warp.previous)
+                previous_index = table.getn(options)
+            end
+            if page < teleport_ring.page_count() then
+                table.insert(options, translate.map_warp.next)
+                next_index = table.getn(options)
+            end
+            table.insert(options, translate.general.cancel)
+            local cancel_index = table.getn(options)
+            return options, map_list, cancel_index, previous_index, next_index
+        end
+
+        -- The fourth page opens at 60, and a player under it is told what it
         -- holds, as at the Teleporter (map_warp.quest's high_level_hint;
-        -- report cf152e0c, a character of 55 that missed Doyyumhwaji).
+        -- report cf152e0c, a character of 55 that missed Doyyumhwaji). Every
+        -- page is open from every map now, so the hint is too.
         function high_level_hint(current_page)
             if current_page ~= 1 or pc.get_level() >= 60 then
                 return
             end
-            if not (is_player_in_any_m1() or is_player_in_any_m2()) then
-                return
-            end
-            local high_level = teleport_ring.data().high_level
+            local high_level = teleport_ring.data()[4]
             local names = {}
             for i = 1, table.getn(high_level) do
-                table.insert(names, translate.general.map_names[high_level[i]])
+                table.insert(names, teleport_ring.map_name(high_level[i]))
             end
             say_split(translate.map_warp.high_level)
             say_split(table.concat(names, ", "), say_reward)
         end
 
-        function process_teleport_list(current_page, page_count, base_price)
-            local price = base_price * (current_page == 1 and 1 or 3)
-            say_title(item_name(70058))
-            say_split(translate.map_warp.talk2)
-            say_reward(string.format(translate.map_warp.price, parse_number(price)))
-            teleport_ring.high_level_hint(current_page)
-            local select_list, map_list, cancel_index = teleport_ring.get_teleport_list(current_page)
-            local x = select_table(select_list)
-            if x == cancel_index then
-                return -1, 0
-            end
-            if page_count > 1 and x == cancel_index - 1 then
-                local next_page = 2
-                if current_page == 2 then
-                    next_page = 1
+        function process_teleport_list(current_page, base_price)
+            while true do
+                local price = base_price * (current_page == 4 and 3 or 1)
+                say_title(item_name(70058))
+                say(string.format(teleport_ring.t("Strona %d z %d: %s", "Page %d of %d: %s"),
+                    current_page, teleport_ring.page_count(), teleport_ring.page_title(current_page)))
+                say_split(translate.map_warp.talk2)
+                say_reward(string.format(translate.map_warp.price, parse_number(price)))
+                teleport_ring.high_level_hint(current_page)
+                local select_list, map_list, cancel_index, previous_index, next_index = teleport_ring.get_teleport_list(current_page)
+                local x = select_table(select_list)
+                if x == cancel_index then
+                    return -1, 0
+                elseif x == previous_index then
+                    current_page = current_page - 1
+                elseif x == next_index then
+                    current_page = current_page + 1
+                elseif map_list[x] ~= nil then
+                    return map_list[x], price
+                else
+                    return -1, 0
                 end
-                return teleport_ring.process_teleport_list(next_page, page_count, base_price)
             end
-            return map_list[x], price
         end
 
         function check(price, player_level)
@@ -137,16 +200,13 @@ quest teleport_ring begin
                 return
             end
 
-            local page_count = 1
-            if is_in_any_city and player_level >= 60 then
-                page_count = 2
-            end
-            local map_index, price = teleport_ring.process_teleport_list(1, page_count, base_price)
+            local map_index, price = teleport_ring.process_teleport_list(1, base_price)
             if map_index > 0 then
                 if not teleport_ring.check(price, player_level) then
                     return
                 end
                 pc.change_money(-price)
+                sys_log(0, string.format("QUEST_ITEM: teleport_ring to map=%d price=%d name=%s", map_index, price, pc.get_name()))
                 if map_index == 66 then
                     pc.warp(5900*100, 1114*100)
                 else

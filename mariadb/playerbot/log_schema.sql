@@ -201,7 +201,8 @@ CREATE TABLE IF NOT EXISTS `item_meta_log` (
   `what` varchar(50) NOT NULL DEFAULT '',
   `value` varchar(255) DEFAULT NULL,
   `vnum` int(10) unsigned NOT NULL DEFAULT 0,
-  KEY `itemid_idx` (`itemid`)
+  KEY `itemid_idx` (`itemid`),
+  KEY `time_idx` (`time`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `request_info_log` (

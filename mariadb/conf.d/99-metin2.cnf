@@ -50,3 +50,15 @@ innodb_flush_log_at_trx_commit = 2
 # a page change many times between two writes of it, at 416 MB more on the
 # disk. MariaDB 11.8 resizes the log of an existing world at its next start.
 innodb_log_file_size = 512M
+
+# A page written out takes the dirty pages beside it in the same extent along
+# (the default, 1): one long write instead of several short ones, which is
+# what a spinning disk wants. On an SSD it only writes pages early that would
+# have changed again before their own turn, and the game's hottest tables
+# (player.item, player.quest, the logs) change all the time (the database
+# audit of 23 October, at 900 bots: 60 MB a minute). The worlds this suite runs
+# on - a PC with an SSD, a VPS - are SSDs, and the measured world ran with 1
+# on Docker Desktop's virtual disk, so it is said here, not left to MariaDB. The
+# doublewrite buffer stays on: it is a third of the bytes written, and it is
+# what keeps a page whole when the machine loses power in the middle of it.
+innodb_flush_neighbors = 0

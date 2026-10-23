@@ -716,6 +716,13 @@ db_retry -e "ALTER TABLE player.playerbot_guild ADD COLUMN IF NOT EXISTS last_wa
 db_retry -e "CREATE TABLE IF NOT EXISTS player.playerbot_channel_pin (pid INT UNSIGNED NOT NULL PRIMARY KEY, pinned_at DATETIME NOT NULL) ENGINE=InnoDB;"
 db_retry -e "INSERT IGNORE INTO player.playerbot_channel_pin (pid, pinned_at) SELECT owner, NOW() FROM player.ikashop_offlineshop;" 2>/dev/null \
     || echo "playerbot-migrate: could not pin the shop keepers to the first channel" >&2
+# The offline shops' notifications by owner (the db core's load reads a
+# character's with WHERE owner = X ORDER BY datetime; the audit of 23 October).
+ikashop_notifications=$(db -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='player' AND table_name='ikashop_notification';" 2>/dev/null || echo 0)
+if [ "$ikashop_notifications" = "1" ]; then
+    db_retry -e "ALTER TABLE player.ikashop_notification WAIT 30 ADD INDEX IF NOT EXISTS owner_datetime (owner, datetime);" \
+        || echo "[playerbot-migrate] WARNING: could not index player.ikashop_notification by owner; the db core reads it as before" >&2
+fi
 pitch_done=$(db -e "SELECT COUNT(*) FROM player.playerbot_migrations WHERE name = 'pitch_on_guard_2052';" 2>/dev/null || echo x)
 case "$pitch_done" in
     0) pitch_near=1700; pitch_far=1700 ;;
@@ -1362,6 +1369,115 @@ SQL
 else
     echo "[playerbot-migrate] WARNING: log retention could not be set up; log.log keeps growing:" >&2
     grep -v 'ssl-verify-server-cert' /tmp/playerbot-retention.err | head -3 >&2 || true
+fi
+# log.item_meta_log's history kept M2_DB_ITEM_META_KEEP_DAYS days (7; 0 keeps
+# everything). mt2009's engine writes it (r40250's does not, and the step says
+# nothing where the table is absent).
+#
+# The engine wrote a SOCKET_WEAR row for every minute of wear of every worn
+# Dragon Stone, a bot's too, and nothing ever deleted one: 99 million rows and
+# 8.9 GB on the test world, ~7.5 million rows and 0.75 GB a day with ~900 bots,
+# and an index of 2.5 GB, bigger than the buffer pool, that a fifth of the
+# InnoDB pages written went to (the measurement of 23 October,
+# docs/codex-audits/db-write-1023, R2). No panel and no export reads it. A
+# bot's minute of wear is no row any more (playerbotify, bot_db_writes.py);
+# what a person's stones, the rods and the bonus changes still write is kept
+# this many days by the database's event scheduler, as log.log's above.
+#
+# The package made the table with no index on its time, and a delete by time
+# on 99 million rows without one is a scan of the whole table at every run. So
+# a table without time_idx is set aside once, at a start, under a name that
+# says up to when it runs - item_meta_log_until_<yyyymmdd> - and a fresh table
+# of the same columns, with time_idx, takes its name in the same RENAME (the
+# game, if it runs, writes on into the new one); the event drops the set-aside
+# history once its last day is older than the days kept, which gives its disk
+# back. A new world's table has time_idx from the start (port/logschemify.py).
+meta_keep_days=${M2_DB_ITEM_META_KEEP_DAYS:-7}
+case "$meta_keep_days" in
+    ''|*[!0-9]*)
+        echo "[playerbot-migrate] WARNING: M2_DB_ITEM_META_KEEP_DAYS must be a whole number of days (0 keeps everything); using 7" >&2
+        meta_keep_days=7
+        ;;
+esac
+meta_table=
+if [ -n "${M2_DB_ROOT_PASSWORD:-}" ]; then
+    meta_table=$(root_db -e "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'log' AND TABLE_NAME = 'item_meta_log' AND TABLE_TYPE = 'BASE TABLE';" </dev/null 2>/dev/null || echo x)
+fi
+if [ -z "${M2_DB_ROOT_PASSWORD:-}" ]; then
+    echo "[playerbot-migrate] item_meta_log retention: no root password, so log.item_meta_log's history is not trimmed"
+elif [ "$meta_table" = 0 ]; then
+    :
+elif [ "$meta_table" != 1 ]; then
+    echo "[playerbot-migrate] WARNING: could not read whether log.item_meta_log exists; its retention is not set up" >&2
+elif [ "$meta_keep_days" -eq 0 ]; then
+    root_db -e "DROP EVENT IF EXISTS log.playerbot_item_meta_retention;" </dev/null 2>/dev/null || true
+    echo "[playerbot-migrate] item_meta_log retention: M2_DB_ITEM_META_KEEP_DAYS=0, log.item_meta_log keeps all of its history"
+else
+    meta_indexed=$(root_db -e "SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = 'log' AND TABLE_NAME = 'item_meta_log' AND SEQ_IN_INDEX = 1 AND COLUMN_NAME = 'time';" </dev/null 2>/dev/null || echo x)
+    if [ "$meta_indexed" = 0 ]; then
+        meta_old=item_meta_log_until_$(date +%Y%m%d)
+        meta_old_there=$(root_db -e "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'log' AND TABLE_NAME = '$meta_old';" </dev/null 2>/dev/null || echo x)
+        if [ "$meta_old_there" = 0 ] && root_db -e "SET SESSION lock_wait_timeout = 30;
+                DROP TABLE IF EXISTS log.item_meta_log_fresh;
+                CREATE TABLE log.item_meta_log_fresh LIKE log.item_meta_log;
+                ALTER TABLE log.item_meta_log_fresh ADD INDEX time_idx (time);
+                RENAME TABLE log.item_meta_log TO log.$meta_old, log.item_meta_log_fresh TO log.item_meta_log;" </dev/null 2>/tmp/playerbot-meta-swap.err; then
+            echo "[playerbot-migrate] item_meta_log retention: the history without a time index set aside as log.$meta_old (dropped once it is $meta_keep_days day(s) old); log.item_meta_log starts again with time_idx"
+        elif [ "$meta_old_there" = 1 ] && root_db -e "SET SESSION lock_wait_timeout = 30; ALTER TABLE log.item_meta_log ADD INDEX IF NOT EXISTS time_idx (time);" </dev/null 2>/tmp/playerbot-meta-swap.err; then
+            echo "[playerbot-migrate] item_meta_log retention: log.item_meta_log given time_idx in place (log.$meta_old is already there)"
+        else
+            echo "[playerbot-migrate] WARNING: could not give log.item_meta_log a time index; its rows are not trimmed:" >&2
+            grep -v 'ssl-verify-server-cert' /tmp/playerbot-meta-swap.err 2>/dev/null | head -3 >&2 || true
+        fi
+    fi
+    if root_db <<SQL 2>/tmp/playerbot-meta-retention.err; then
+DROP PROCEDURE IF EXISTS log.playerbot_item_meta_retention;
+DELIMITER //
+CREATE PROCEDURE log.playerbot_item_meta_retention(IN keep_days INT, IN batch INT, IN max_rows INT)
+BEGIN
+    DECLARE cut DATETIME;
+    DECLARE n INT DEFAULT 0;
+    DECLARE total INT DEFAULT 0;
+    DECLARE indexed INT DEFAULT 0;
+    IF keep_days > 0 AND GET_LOCK('playerbot_item_meta_retention', 0) = 1 THEN
+        SET cut = NOW() - INTERVAL keep_days DAY;
+        SELECT COUNT(*) INTO indexed FROM information_schema.STATISTICS
+         WHERE TABLE_SCHEMA = 'log' AND TABLE_NAME = 'item_meta_log'
+           AND SEQ_IN_INDEX = 1 AND COLUMN_NAME = 'time';
+        -- Never a delete by time without the index: that is a scan of the
+        -- whole table at every run.
+        IF indexed > 0 THEN
+            REPEAT
+                DELETE FROM log.item_meta_log WHERE time < cut LIMIT batch;
+                SET n = ROW_COUNT();
+                SET total = total + n;
+                IF n > 0 THEN DO SLEEP(0.05); END IF;
+            UNTIL n < batch OR total >= max_rows END REPEAT;
+        END IF;
+        aside: FOR t IN (SELECT TABLE_NAME AS name FROM information_schema.TABLES
+                          WHERE TABLE_SCHEMA = 'log' AND TABLE_NAME REGEXP '^item_meta_log_until_[0-9]{8}$'
+                            AND STR_TO_DATE(SUBSTRING(TABLE_NAME, 21), '%Y%m%d') < CURDATE() - INTERVAL keep_days DAY) DO
+            SET @playerbot_item_meta_drop = CONCAT('DROP TABLE IF EXISTS log.', t.name);
+            PREPARE drop_aside FROM @playerbot_item_meta_drop;
+            EXECUTE drop_aside;
+            DEALLOCATE PREPARE drop_aside;
+        END FOR aside;
+        DO RELEASE_LOCK('playerbot_item_meta_retention');
+    END IF;
+END//
+DELIMITER ;
+CREATE OR REPLACE EVENT log.playerbot_item_meta_retention
+    ON SCHEDULE EVERY 10 MINUTE STARTS CURRENT_TIMESTAMP + INTERVAL 6 MINUTE
+    ON COMPLETION PRESERVE ENABLE
+    COMMENT 'log.item_meta_log keeps M2_DB_ITEM_META_KEEP_DAYS days (playerbot-migrate)'
+    DO CALL log.playerbot_item_meta_retention($meta_keep_days, 5000, 500000);
+SET GLOBAL event_scheduler = ON;
+SQL
+        echo "[playerbot-migrate] item_meta_log retention: log.item_meta_log keeps $meta_keep_days day(s) of history; older rows go every ten minutes"
+    else
+        echo "[playerbot-migrate] WARNING: item_meta_log retention could not be set up; log.item_meta_log keeps growing:" >&2
+        grep -v 'ssl-verify-server-cert' /tmp/playerbot-meta-retention.err | head -3 >&2 || true
+    fi
 fi
 # The Hexagonal Chest event (Kiciamol, 14 October): the chests 55000-55020 as
 # copies of 50037 in world.item_proto (mt2009 only; the file ships with that
@@ -2501,6 +2617,26 @@ case "${pool_first:-}${pool_last:-}" in
         echo "[playerbot-migrate] companion pool: $pool_count identities in PID $pool_first..$pool_last, $pool_free never used"
         ;;
 esac
+# A bot reads no offline-shop notification: the ones of the bots' ledger go.
+if [ "${ikashop_notifications:-0}" = "1" ]; then
+    notifications_cleared=0
+    notifications_round=0
+    while [ "$notifications_round" -lt 500 ]; do
+        notifications_round=$((notifications_round + 1))
+        n=$(db_retry -e "DELETE FROM player.ikashop_notification WHERE owner IN (SELECT pid FROM common.playerbot_seed_state) LIMIT 20000; SELECT ROW_COUNT();" 2>/dev/null || echo x)
+        n=$(printf '%s' "$n" | tr -d '[:space:]')
+        case "$n" in
+            ''|*[!0-9]*)
+                echo "[playerbot-migrate] WARNING: could not remove the bots' offline-shop notifications" >&2
+                break ;;
+        esac
+        [ "$n" -gt 0 ] || break
+        notifications_cleared=$((notifications_cleared + n))
+    done
+    if [ "$notifications_cleared" -gt 0 ]; then
+        echo "[playerbot-migrate] offline shops: $notifications_cleared notification(s) of bots removed (no bot reads one)"
+    fi
+fi
 
 # The seed creates its durable ledger and adopts verified existing identities.
 # Snapshot only after that and the post-check, never from a temporary empty
